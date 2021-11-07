@@ -2,28 +2,18 @@
 @section('tittle','Data Upacaraku')
 
 @push('css')
-    <!-- BS Stepper -->
-    <link rel="stylesheet" href="{{asset('base-tempalte/plugins/bs-stepper/css/bs-stepper.min.css')}}">
 
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/daterangepicker/daterangepicker.css')}}">
-    <!-- iCheck for checkboxes and radio inputs -->
-    <link rel="stylesheet" href="{{asset('base-template/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-    <!-- Bootstrap Color Picker -->
-    <link rel="stylesheet" href="{{asset('base-template/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
-    <!-- Bootstrap4 Duallistbox -->
-    <link rel="stylesheet" href="{{asset('base-template/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css')}}">
     <!-- BS Stepper -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/bs-stepper/css/bs-stepper.min.css')}}">
     <!-- dropzonejs -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/dropzone/min/dropzone.min.css')}}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('base-template/dist/css/adminlte.min.css')}}">
 
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/daterangepicker/daterangepicker.css')}}">
@@ -67,7 +57,12 @@
                     <div class="bs-stepper">
                         <div class="bs-stepper-header" role="tablist">
                         <!-- your steps here -->
-
+                            <div class="step" data-target="#logins-part">
+                                <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="logins-part-trigger">
+                                    <span class="bs-stepper-circle">1</span>
+                                    <span class="bs-stepper-label">Jenis Upacara</span>
+                                </button>
+                            </div>
 
                             <div class="line"></div>
                             <div class="step" data-target="#information-part">
@@ -254,9 +249,6 @@
                                             <div class="input-group">
                                                 <input name="lat" id="lat" style="margin-left: 5px" type="text" aria-label="First name" class="form-control" placeholder="Lat" readonly="readonly">
                                                 <input name="lng" id="lng" style="margin-left: 5px" type="text" aria-label="Last name" class="form-control" placeholder="Lang" readonly="readonly">
-                                                <button type="button" class="btn btn-default ml-2" data-toggle="modal" data-target="#modal-xl">
-                                                    <i class="fas fa-map-marked"></i>
-                                                </button>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -279,11 +271,74 @@
 
                                 </div>
 
+                                <div class="card tab-content collapsed-card" id="v-pills-tabContent">
+                                    <div class="card-header my-auto">
+                                        <h3 class="card-title my-auto">Rentetan Upacara</h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-4">
+                                                <h4 class="text-center mb-3">AWAL</h4>
+                                                <ul>
+                                                    <li>Ngraga Tirta Suci</li>
+                                                    <li>Persiapan Pemangku</li>
+                                                    <li>Matur Pakeling</li>
+                                                    <li>Ngelukat Banten</li>
+                                                    <li>Maprayascita</li>
+                                                    <li>Mablyaka</li>
+                                                    <li>Ngudang Dewa</li>
+                                                    <li>Ngelinggihang Dewa/Batara Ring Purwa Daksina</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-12 col-sm-4">
+                                                <h4 class="text-center mb-3">PUNCAK</h4>
+                                                <ul>
+                                                    <li>Ngaturang Ayaban Ring Batara</li>
+                                                    <li>Ngaturang Banten Suci</li>
+                                                    <li>Puja Astawa ke Luhur</li>
+                                                    <li>Ngelukat Caru</li>
+                                                    <li>Ngayab Caru</li>
+                                                    <li>Ngaturang Pesucian</li>
+                                                    <li>Ngayab ke Sowang-Sowang Pelinggih</li>
+                                                    <li>Matur Sembah</li>
+                                                    <li>Ngaturang Ayaban ke Surya Saksi</li>
+                                                </ul>
+
+                                            </div>
+                                            <div class="col-12 col-sm-4">
+                                                <h4 class="text-center mb-3">AKHIR</h4>
+                                                <ul>
+                                                    <li>Ngewaliang Linggih Batara Sami</li>
+                                                    <li>Ngaturang Pengaksama Ring Batara Sami</li>
+                                                    <li>Ngeruwak Caru</li>
+                                                    <li>Ngelukat Banten</li>
+                                                    <li>Maprayascita</li>
+                                                    <li>Mablyaka</li>
+                                                    <li>Ngudang Dewa</li>
+                                                    <li>Ngelinggihang Dewa/Batara Ring Purwa Daksina</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <button class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
                                     <button type="submit" class="btn btn-primary float-sm-right" onclick="stepper.next()">Simpan</button>
                                 </div>
+
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -292,7 +347,6 @@
           <!-- /.card -->
         </div>
       </div>
-
 
 
       <div class="modal fade" id="modal-xl">
@@ -351,8 +405,6 @@
     <script src="{{asset('base-template/plugins/bs-stepper/js/bs-stepper.min.js')}}"></script>
     <!-- dropzonejs -->
     <script src="{{asset('base-template/plugins/dropzone/min/dropzone.min.js')}}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{asset('base-template/dist/js/adminlte.min.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('base-template/dist/js/demo.js')}}"></script>
 

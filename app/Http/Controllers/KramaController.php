@@ -29,7 +29,7 @@ class KramaController extends Controller
 
     public function dataUpacaraDetail(Request $request)
     {
-        return view('pages.krama.manajemen-upacara.data-upacaraku-show2');
+        return view('pages.krama.manajemen-upacara.data-upacaraku-detail');
     }
 
 }
