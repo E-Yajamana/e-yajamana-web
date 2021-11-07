@@ -2,7 +2,7 @@
 @section('tittle','Data Detail Upacaraku')
 
 @push('css')
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 @endpush
 
 @section('content')
@@ -187,51 +187,80 @@
                         </div>
 
                         <div class="card-body">
-                            <table class="table table-hover">
-                                <tbody>
-                                  <tr data-widget="expandable-table" aria-expanded="true">
-                                    <td>
-                                        219
-                                        <i class="expandable-table-caret fas fa-caret-right fa-fw float-lg-right"></i>
-                                    </td>
-                                  </tr>
-                                  <tr class="expandable-body">
-                                    <td>
-                                      <div class="p-0" style="">
-                                        <table class="table table-hover">
-                                          <tbody>
-                                            <tr data-widget="expandable-table" aria-expanded="false">
-                                              <td>
-                                                <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
-                                                219-1
-                                              </td>
-                                            </tr>
-                                            <tr class="expandable-body d-none">
-                                              <td>
-                                                <div class="p-0" style="display: none;">
-                                                  <table class="table table-hover">
-                                                    <tbody>
-                                                      <tr>
-                                                        <td>219-1-1</td>
-                                                      </tr>
-                                                      <tr>
-                                                        <td>219-1-2</td>
-                                                      </tr>
-                                                      <tr>
-                                                        <td>219-1-3</td>
-                                                      </tr>
-                                                    </tbody>
-                                                  </table>
-                                                </div>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                            <div class="card collapsed-card">
+                                <div class="card-header" aria-expanded="false">
+                                    <div class="user-block">
+                                        <img class="img-circle mt-1" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
+                                        <span class="username"><a href="#">Sulinggih I Wayan Nabe</a></span>
+                                        <span class="description">
+                                            <div class="bg-danger btn-sm text-center p-1 mt-1" style="border-radius: 5px; width:90px;">Menunggu</div>
+                                        </span>
+                                    </div>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                            <i class="fas fa-caret-down float-lg-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="display: none;">
+                                  Start creating your amazing application!
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer" style="display: none;">
+                                  Footer
+                                </div>
+                                <!-- /.card-footer-->
+                            </div>
+
+                            <div class="card collapsed-card">
+                                <div class="card-header" aria-expanded="false">
+                                    <div class="row">
+                                        <div class="col-1">
+                                            <img class="direct-chat-img" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}"  alt="Message User Image">
+                                        </div>
+                                        <div class="col-10">
+                                            Sulinggih I Wayan Nabe
+                                            <div class="bg-danger btn-sm text-center" style="border-radius: 5px; width:90px;">Menunggu</div>
+                                        </div>
+                                        <div class="col-1">
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                    <i class="fas fa-caret-down"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="card-body" style="display: none;">
+                                  Start creating your amazing application!
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer" style="display: none;">
+                                  Footer
+                                </div>
+                                <!-- /.card-footer-->
+                            </div>
+
+                            <div class="card collapsed-card">
+                                <div class="card-header" aria-expanded="false">
+                                  <h3 class="card-title">Title</h3>
+                                  <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fas fa-caret-down"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                                <div class="card-body" style="display: none;">
+                                  Start creating your amazing application!
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer" style="display: none;">
+                                  Footer
+                                </div>
+                                <!-- /.card-footer-->
+                            </div>
+
                         </div>
 
                     </div>
