@@ -44,5 +44,7 @@ Route::prefix('krama')->group(function () {
     Route::get('data-upacara2', [KramaController::class, 'dataUpacaraShow2'])->name('krama.data-upacara2');
     Route::get('data-upacara/detail', [KramaController::class, 'dataUpacaraDetail'])->name('krama.data-upacara.detail');
     Route::get('data-upacara/create', [KramaController::class, 'dataUpacaraCreate'])->name('krama.data-upacara.create');
+    Route::get('reservasi', [KramaController::class, 'reservasi'])->name('krama.reservasi.create');
+
 
 });

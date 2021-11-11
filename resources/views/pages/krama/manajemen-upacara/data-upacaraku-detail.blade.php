@@ -3,6 +3,11 @@
 
 @push('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+
 @endpush
 
 @section('content')
@@ -176,8 +181,9 @@
                         </div>
                     </div>
 
-                    <div class="card tab-content">
+                    <div class="card tab-content card-primary card-outline">
                         <div class="card-header my-auto">
+
                             <label class="card-title my-auto">Reservasi Upacara</label>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -187,13 +193,14 @@
                         </div>
 
                         <div class="card-body">
-                            <div class="card collapsed-card">
+
+                            <div class="card shadow collapsed-card">
                                 <div class="card-header" aria-expanded="false">
                                     <div class="user-block">
                                         <img class="img-circle mt-1" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
-                                        <span class="username"><a href="#">Sulinggih I Wayan Nabe</a></span>
+                                        <span class="username"><a class="ml-2" href="#">Sulinggih I Wayan Nabe</a></span>
                                         <span class="description">
-                                            <div class="bg-danger btn-sm text-center p-1 mt-1" style="border-radius: 5px; width:90px;">Menunggu</div>
+                                            <div class="bg-danger btn-sm text-center p-1 mt-1 ml-2" style="border-radius: 5px; width:90px; ">Ditolak</div>
                                         </span>
                                     </div>
                                     <div class="card-tools">
@@ -203,69 +210,178 @@
                                     </div>
                                 </div>
                                 <div class="card-body" style="display: none;">
-                                  Start creating your amazing application!
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer" style="display: none;">
-                                  Footer
-                                </div>
-                                <!-- /.card-footer-->
-                            </div>
-
-                            <div class="card collapsed-card">
-                                <div class="card-header" aria-expanded="false">
-                                    <div class="row">
-                                        <div class="col-1">
-                                            <img class="direct-chat-img" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}"  alt="Message User Image">
-                                        </div>
-                                        <div class="col-10">
-                                            Sulinggih I Wayan Nabe
-                                            <div class="bg-danger btn-sm text-center" style="border-radius: 5px; width:90px;">Menunggu</div>
-                                        </div>
-                                        <div class="col-1">
-                                            <div class="card-tools">
-                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fas fa-caret-down"></i>
-                                                </button>
-                                            </div>
+                                    <div class="callout callout-danger container-fluid">
+                                        <div>
+                                            <p>
+                                                <i class="fas fa-info"></i>
+                                                <strong class="ml-1">
+                                                    Tanggal Tangkil :
+                                                </strong>
+                                                 Kamis, 11 November 2021
+                                            </p>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="card-body" style="display: none;">
-                                  Start creating your amazing application!
+                                    <table id="example2" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Tahapan</th>
+                                                <th class="text-md-center">Upacara Mulai</th>
+                                                <th class="text-md-center">Upacara Selesai</th>
+                                                <th class="text-md-center">Tindakan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Ngaraga Tirta Suci</td>
+                                                <td class="text-md-center">
+                                                    <div>Senin, 8 November 2021</div>
+                                                    <div>10.00 WITA</div>
+                                                </td>
+                                                <td class="text-md-center">
+                                                    <div>
+                                                        <div>Senin, 8 November 2021</div>
+                                                        <div>13.00 WITA</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-md-center">
+                                                    <a href="##" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Maprayascita</td>
+                                                <td class="text-md-center">
+                                                    <div>Selasa, 9 November 2021</div>
+                                                    <div>10.00 WITA</div>
+                                                </td>
+                                                <td class="text-md-center">
+                                                    <div>
+                                                        <div>Selasa, 9 November 2021</div>
+                                                        <div>13.00 WITA</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-md-center">
+                                                    <a href="##" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer" style="display: none;">
-                                  Footer
+                                    <button type="button" class="btn btn btn-primary btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
                                 </div>
                                 <!-- /.card-footer-->
                             </div>
 
-                            <div class="card collapsed-card">
-                                <div class="card-header" aria-expanded="false">
-                                  <h3 class="card-title">Title</h3>
-                                  <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fas fa-caret-down"></i>
-                                    </button>
-                                  </div>
+
+                            <div class="card card-widget shadow collapsed-card">
+                                <div class="card-header">
+                                    <div class="user-block">
+                                        <img class="img-circle mt-1 mr-2" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
+                                        <span class="username">
+                                            <a class="ml-1" href="#">Sulinggih I Nengah Suparwa</a>
+                                        </span>
+                                        <span class="description">
+                                            <div class="bg-info btn-sm text-center p-1 mt-1 ml-1" style="border-radius: 5px; width:90px;">Menunggu</div>
+                                        </span>
+                                    </div>
+                                    <!-- /.user-block -->
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-caret-down float-lg-right"></i>
+                                        </button>
+                                    </div>
+                                  <!-- /.card-tools -->
                                 </div>
-                                <div class="card-body" style="display: none;">
-                                  Start creating your amazing application!
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <div class="callout callout-danger container-fluid">
+                                        <div>
+                                            <p>
+                                                <i class="fas fa-info"></i>
+                                                <strong class="ml-1">
+                                                    Tanggal Tangkil :
+                                                </strong>
+                                                 Tanggal Tangkil Belum ditentukan
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <table id="example2" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Tahapan</th>
+                                                <th class="text-md-center">Upacara Mulai</th>
+                                                <th class="text-md-center">Upacara Selesai</th>
+                                                <th class="text-md-center">Tindakan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>Ngaraga Tirta Suci</td>
+                                                <td class="text-md-center">
+                                                    <div>Senin, 8 November 2021</div>
+                                                    <div>10.00 WITA</div>
+                                                </td>
+                                                <td class="text-md-center">
+                                                    <div>
+                                                        <div>Senin, 8 November 2021</div>
+                                                        <div>13.00 WITA</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-md-center">
+                                                    <a href="##" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Maprayascita</td>
+                                                <td class="text-md-center">
+                                                    <div>Selasa, 9 November 2021</div>
+                                                    <div>10.00 WITA</div>
+                                                </td>
+                                                <td class="text-md-center">
+                                                    <div>
+                                                        <div>Selasa, 9 November 2021</div>
+                                                        <div>13.00 WITA</div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-md-center">
+                                                    <a href="##" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer" style="display: none;">
-                                  Footer
+                                <!-- /.card-footer -->
+                                <div class="card-footer">
+                                    <button type="button" class="btn btn btn-primary btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
                                 </div>
-                                <!-- /.card-footer-->
+                                <!-- /.card-footer -->
                             </div>
 
                         </div>
 
+                        <div class="card-footer">
+                            <button type="button" class="btn btn btn-primary btn-sm float-lg-right center" data-toggle="modal" data-target="#modal-default">Tambah Reservasi</button>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                    <div class="container-fluid mt-2">
+                        <div class="row">
+                            <div class="col-md-12 mb-4">
+                                <a href="#" class="btn btn-secondary">Kembali</a>
+                                <input type="submit" value="Hapus Upacaraku" class="btn btn-danger float-right ml-2">
+                                <input type="submit" value="Edit Data Upacaraku" class="btn btn-info float-right mr-2">
+                            </div>
+                        </div>
+
                     </div>
 
-                    <!-- /.card -->
                 </div>
                 <!-- /.col -->
             </div>
@@ -282,6 +398,15 @@
 
 
 @push('js')
+
+    <!-- Bootstrabase-template-->
+    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- DataTablbase-template Plugins -->
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){

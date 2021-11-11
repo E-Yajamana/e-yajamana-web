@@ -32,4 +32,10 @@ class KramaController extends Controller
         return view('pages.krama.manajemen-upacara.data-upacaraku-detail');
     }
 
+
+    public function reservasi(Request $request)
+    {
+        return view('pages.krama.reservasi.create');
+    }
+
 }

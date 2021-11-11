@@ -242,7 +242,7 @@
                                             <div class="row justify-content-center">
                                                 <label for="exampleInputPassword1" class="justify-content-center align-items-center">Pemetaan Lokasi Upacara</label>
                                             </div>
-                                            <img src="http://127.0.0.1:8000/base-template/dist/img/photo2.png" class="img-fluid pad img-thumbnail" alt="Responsive image">
+                                            <img src="http://127.0.0.1:8000/base-template/dist/img/maps.png" class="img-fluid pad img-thumbnail" alt="Responsive image">
                                         </div>
                                         <div class="form-group">
                                             <label>Pemetaan Lokasi Upacara</label>
@@ -343,7 +343,7 @@
                     </div>
                 </div>
                 <!-- /.card-body -->
-          </div>
+            </div>
           <!-- /.card -->
         </div>
       </div>

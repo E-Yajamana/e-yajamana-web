@@ -67,7 +67,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('admin.master-data.kabupaten.show')}}" class="nav-link">
+                            <a id="side-kabupaten" href="{{route('krama.data-upacara.create')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Tambah Upacaraku</p>
                             </a>
