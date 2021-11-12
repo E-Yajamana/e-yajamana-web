@@ -13,7 +13,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-                <li id="side-pengaturan-akun" class="user-panel nav-item">
+                <li  class="user-panel nav-item">
                     <a href="#" class="nav-link mb-2">
                         <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
                         <p>
@@ -23,13 +23,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.verify.show')}}" class="nav-link">
+                            <a  href="{{route('admin.verify.show')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Profile</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.verify.show')}}" class="nav-link">
+                            <a  href="{{route('admin.verify.show')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Logout</p>
                             </a>

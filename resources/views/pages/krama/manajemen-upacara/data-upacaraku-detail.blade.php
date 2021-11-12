@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+
+     <!-- embedd library jquery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 @endpush
 
 @section('content')
@@ -90,7 +102,8 @@
                                         <div class="row justify-content-center">
                                             <label for="exampleInputPassword1" class="justify-content-center align-items-center">Pemetaan Lokasi Upacara</label>
                                         </div>
-                                        <img src="http://127.0.0.1:8000/base-template/dist/img/maps.png" class="img-fluid pad img-thumbnail" alt="Responsive image">
+                                        {{-- <img src="http://127.0.0.1:8000/base-template/dist/img/maps.png" class="img-fluid pad img-thumbnail" alt="Responsive image" style="object-fit: cover"> --}}
+                                        <div id="gmaps" style="height: 450px;"></div>
                                     </div>
                                     <div class="form-group">
                                         <label>Pemetaan Lokasi Upacara</label>
@@ -200,7 +213,7 @@
                                         <img class="img-circle mt-1" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
                                         <span class="username"><a class="ml-2" href="#">Sulinggih I Wayan Nabe</a></span>
                                         <span class="description">
-                                            <div class="bg-danger btn-sm text-center p-1 mt-1 ml-2" style="border-radius: 5px; width:90px; ">Ditolak</div>
+                                            <div class="bg-success btn-sm text-center p-1 mt-1 ml-2" style="border-radius: 5px; width:90px; ">Disetujui</div>
                                         </span>
                                     </div>
                                     <div class="card-tools">
@@ -407,11 +420,33 @@
     <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <!-- jQuery -->
+    <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
+
 
     <script type="text/javascript">
         $(document).ready(function(){
             $('#side-upacara').addClass('menu-open');
             $('#side-kabupaten').addClass('active');
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+                $('#side-upacara').addClass('menu-open');
+                $('#side-kabupaten').addClass('active');
+
+                var mymap = L.map('gmaps').setView([-8.617683234549416, 115.16708493639123], 15);
+
+                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                attribution: 'Adalah API Favoritku',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                tileSize: 512,
+                zoomOffset: -1,
+                accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
+            }).addTo(mymap);
+
         });
     </script>
 

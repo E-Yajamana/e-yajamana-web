@@ -82,7 +82,7 @@
                     <div class="row justify-content-center">
                         <label for="exampleInputPassword1" class="justify-content-center align-items-center">SK-Kesulinggihan:</label>
                     </div>
-                    <img src="{{asset('base-template/dist/img/photo2.png')}}" class="img-fluid pad img-thumbnail" alt="Responsive image">
+                    <img src="{{asset('base-template/dist/img/photo2.png')}}" class="img-fluid pad img-thumbnail" alt="Responsive image" style="width: 100%">
                 </div>
                 {{-- <form class="form-group" method="POST" action="#">
                     @csrf
