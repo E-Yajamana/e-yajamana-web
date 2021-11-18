@@ -382,9 +382,6 @@
     <!-- BS-Stepper -->
     <script src="{{asset('base-template/plugins/bs-stepper/js/bs-stepper.min.js')}}"></script>
 
-    <!-- jQuery -->
-    <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
-    <!-- Bootstrap 4 -->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- Select2 -->
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
@@ -401,8 +398,6 @@
     <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
     <!-- Bootstrap Switch -->
     <script src="{{asset('base-template/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
-    <!-- BS-Stepper -->
-    <script src="{{asset('base-template/plugins/bs-stepper/js/bs-stepper.min.js')}}"></script>
     <!-- dropzonejs -->
     <script src="{{asset('base-template/plugins/dropzone/min/dropzone.min.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
@@ -444,5 +439,7 @@
             $('#reservation').daterangepicker();
         });
     </script>
+
+
 
 @endpush
