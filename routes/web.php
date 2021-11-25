@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('1');
+    return view('pages/krama/reservasi/reser');
 });
 
 

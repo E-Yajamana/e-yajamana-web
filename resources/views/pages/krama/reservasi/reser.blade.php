@@ -23,6 +23,9 @@
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
 
 @endpush
 
@@ -56,38 +59,44 @@
                     <div class="bs-stepper">
                         <div class="card card-default">
                             <div class="card-header">
-                                <label class="card-title">Form Pencarian Reservasi</label>
+                                <h3 class="card-title">Form Pencarian Reservasi</h3>
                             </div>
                             <div class="card-body p-0">
-                                <div class="bs-stepper-header" role="tablist">
-                                <!-- your steps here -->
-                                    <div class="step" data-target="#logins-part">
-                                        <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="logins-part-trigger">
-                                            <span class="bs-stepper-circle">1</span>
-                                            <span class="bs-stepper-label">Pencarian</span>
-                                        </button>
-                                    </div>
+                                <div class="bs-stepper">
+                                    <div class="bs-stepper-header" role="tablist">
+                                    <!-- your steps here -->
+                                        <div class="step" data-target="#logins-part">
+                                            <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="logins-part-trigger">
+                                                <span class="bs-stepper-circle">1</span>
+                                                <span class="bs-stepper-label">Pencarian</span>
+                                            </button>
+                                        </div>
 
-                                    <div class="line"></div>
-                                    <div class="step" data-target="#information-part">
-                                        <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
-                                            <span class="bs-stepper-circle">2</span>
-                                            <span class="bs-stepper-label">Pilih Tahapan</span>
-                                        </button>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="step" data-target="#next-part">
-                                        <button type="button" class="step-trigger" role="tab" aria-controls="next-part"
-                                        id="next-part-trigger">
-                                        <span class="bs-stepper-circle">3</span>
-                                        <span class="bs-stepper-label">Rangkuman</span>
-                                        </button>
+                                        <div class="line"></div>
+                                        <div class="step" data-target="#information-part">
+                                            <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
+                                                <span class="bs-stepper-circle">2</span>
+                                                <span class="bs-stepper-label">Pilih Tahapan</span>
+                                            </button>
+                                        </div>
+                                        <div class="line"></div>
+                                        <div class="step" data-target="#next-part">
+                                            <button type="button" class="step-trigger" role="tab" aria-controls="next-part"
+                                            id="next-part-trigger">
+                                            <span class="bs-stepper-circle">3</span>
+                                            <span class="bs-stepper-label">Rangkuman</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- /.card-body -->
                         </div>
+
                         <div class="bs-stepper-content p-0">
+
                             <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+
                                 <div class="card tab-content">
                                     <!-- /.card-header -->
                                     <div class="card-header">
@@ -100,6 +109,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="card tab-content">
                                     <!-- /.card-header -->
                                     <div class="card-header">
@@ -216,8 +226,12 @@
                                                 <button type="button" class="btn btn btn-primary btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
                                             </div>
                                             <!-- /.card-footer-->
-                                        </div>
 
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
+                                            <button type="submit" class="btn btn-primary float-sm-right" onclick="stepper.next()">Selanjutnya</button>
+                                        </div>
 
                                     </div>
 
@@ -226,6 +240,9 @@
                             </div>
 
                             <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
+                                <div class="card">
+
+                                </div>
                             </div>
 
 
@@ -233,8 +250,8 @@
 
                             </div>
 
-
                         </div>
+
                     </div>
 
                 </div>
