@@ -65,12 +65,12 @@
                                 <div class="bs-stepper">
                                     <div class="bs-stepper-header" role="tablist">
                                     <!-- your steps here -->
-                                        <div class="step" data-target="#logins-part">
+                                        {{-- <div class="step" data-target="#logins-part">
                                             <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="logins-part-trigger">
                                                 <span class="bs-stepper-circle">1</span>
                                                 <span class="bs-stepper-label">Pencarian</span>
                                             </button>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="line"></div>
                                         <div class="step" data-target="#information-part">
@@ -95,7 +95,7 @@
 
                         <div class="bs-stepper-content p-0">
 
-                            <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+                            {{-- <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
 
                                 <div class="card tab-content">
                                     <!-- /.card-header -->
@@ -237,13 +237,62 @@
 
                                 </div>
 
-                            </div>
+                            </div> --}}
 
                             <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
-                                <div class="card">
+                                {{-- Start Card View Pemilihan Sulinggih dan Upacara yang akan di Reservasi --}}
+                                <div class="card card-default">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="card tab-content mb-0 m-4">
+                                                <!-- /.card-header -->
+                                                <div class="card-header">
+                                                    <div class="card-body box-profile align-content-center">
+                                                        <div class="text-center">
+                                                          <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
+                                                        </div>
+                                                        <h3 class="text-center bold mb-0 mt-3 ">Sulinggih Sumerta</h3>
+                                                        <p class="text-center mb-1 mt-1">sumerta@gmail.com</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="align-content-center">
+                                                <i class="fas fa-chevron-right text-center"></i>
+                                                <i class="fas fa-chevron-right text-center"></i>
+                                            </div>
 
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="card tab-content mb-0 m-4">
+                                                <!-- /.card-header -->
+                                                <div class="card-header">
+                                                    <div class="card-body box-profile align-content-center">
+                                                        <div class="text-center">
+                                                          <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
+                                                        </div>
+                                                        <h3 class="text-center bold mb-0 mt-3 ">Mepandes I Putu Alex</h3>
+                                                        <p class="text-center mb-1 mt-1">Manusa Yadnya</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                {{-- End Card View Pemilihan Sulinggih dan Upacara yang akan di Reservasi --}}
+
+                                <div class="card tab-content card-primary card-outline">
+                                    <div class="card-header my-auto">
+                                        <label class="card-title my-auto">Rentetan Upacara</label>
+                                    </div>
+                                    <div class="card-body">
+
+                                    </div>
+                                </div>
+
                             </div>
+                            {{-- End Steper Bagian Steper 2 (Pilih Tahapan) --}}
 
 
                             <div id="next-part" class="content" role="tabpanel" aria-labelledby="next-part-trigger">
