@@ -15,8 +15,6 @@
     <!-- dropzonejs -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/dropzone/min/dropzone.min.css')}}">
 
-    <!-- daterange picker -->
-    <link rel="stylesheet" href="{{asset('base-template/plugins/daterangepicker/daterangepicker.css')}}">
 
 
     <!-- Make sure you put this AFTER Leaflet's CSS -->
