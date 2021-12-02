@@ -67,7 +67,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('krama.data-upacara.create')}}" class="nav-link">
+                            <a id="side-tambah-upacara" href="{{route('krama.data-upacara.create')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Tambah Upacaraku</p>
                             </a>
@@ -75,7 +75,41 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('admin.master-data.kabupaten.show')}}" class="nav-link">
+                            <a id="side-kabupaten" href="#" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Riwayat Upacaraku</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li id="side-upacara" class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Manajemen Reservasi
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-kabupaten" href="{{route('krama.data-upacara')}}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Data Upacaraku</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-tambah-upacara" href="{{route('krama.data-upacara.create')}}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Tambah Upacaraku</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-kabupaten" href="#" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Riwayat Upacaraku</p>
                             </a>
