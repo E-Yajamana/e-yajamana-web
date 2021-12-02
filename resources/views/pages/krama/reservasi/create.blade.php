@@ -14,15 +14,15 @@
     <!-- dropzonejs -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/dropzone/min/dropzone.min.css')}}">
 
-    <!-- daterange picker -->
-    <link rel="stylesheet" href="{{asset('base-template/plugins/daterangepicker/daterangepicker.css')}}">
-
 
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
 
 @endpush
 
@@ -56,38 +56,45 @@
                     <div class="bs-stepper">
                         <div class="card card-default">
                             <div class="card-header">
-                                <label class="card-title">Form Pencarian Reservasi</label>
+                                <h3 class="card-title">Form Pencarian Reservasi</h3>
                             </div>
                             <div class="card-body p-0">
-                                <div class="bs-stepper-header" role="tablist">
-                                <!-- your steps here -->
-                                    <div class="step" data-target="#logins-part">
-                                        <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="logins-part-trigger">
-                                            <span class="bs-stepper-circle">1</span>
-                                            <span class="bs-stepper-label">Pencarian</span>
-                                        </button>
-                                    </div>
+                                <div class="bs-stepper">
+                                    <div class="bs-stepper-header" role="tablist">
+                                    <!-- your steps here -->
+                                        <div class="step" data-target="#logins-part">
+                                            <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="logins-part-trigger">
+                                                <span class="bs-stepper-circle">1</span>
+                                                <span class="bs-stepper-label">Pencarian</span>
+                                            </button>
+                                        </div>
 
-                                    <div class="line"></div>
-                                    <div class="step" data-target="#information-part">
-                                        <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
-                                            <span class="bs-stepper-circle">2</span>
-                                            <span class="bs-stepper-label">Pilih Tahapan</span>
-                                        </button>
-                                    </div>
-                                    <div class="line"></div>
-                                    <div class="step" data-target="#next-part">
-                                        <button type="button" class="step-trigger" role="tab" aria-controls="next-part"
-                                        id="next-part-trigger">
-                                        <span class="bs-stepper-circle">3</span>
-                                        <span class="bs-stepper-label">Rangkuman</span>
-                                        </button>
+                                        <div class="line"></div>
+                                        <div class="step" data-target="#information-part">
+                                            <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
+                                                <span class="bs-stepper-circle">2</span>
+                                                <span class="bs-stepper-label">Pilih Tahapan</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="line"></div>
+                                        <div class="step" data-target="#next-part">
+                                            <button type="button" class="step-trigger" role="tab" aria-controls="next-part"
+                                            id="next-part-trigger">
+                                            <span class="bs-stepper-circle">3</span>
+                                            <span class="bs-stepper-label">Rangkuman</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- /.card-body -->
                         </div>
+
                         <div class="bs-stepper-content p-0">
+
                             <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+
                                 <div class="card tab-content">
                                     <!-- /.card-header -->
                                     <div class="card-header">
@@ -100,6 +107,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="card tab-content">
                                     <!-- /.card-header -->
                                     <div class="card-header">
@@ -146,12 +154,12 @@
                                                 <!-- /.user-block -->
                                                 <div class="card-tools">
                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                        <i class="fas fa-minus"></i>
+                                                        <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
                                                 <!-- /.card-tools -->
                                             </div>
-                                            <div class="card-body" style="display: none;">
+                                            <div class="card-body">
                                                 <div class="callout callout-danger container-fluid">
                                                     <div>
                                                         <p>
@@ -216,8 +224,12 @@
                                                 <button type="button" class="btn btn btn-primary btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
                                             </div>
                                             <!-- /.card-footer-->
-                                        </div>
 
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
+                                            <button type="submit" class="btn btn-primary float-sm-right" onclick="stepper.next()">Selanjutnya</button>
+                                        </div>
 
                                     </div>
 
@@ -226,15 +238,579 @@
                             </div>
 
                             <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
+
+                                <div class="card card-default col-12">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-4">
+                                            <div class="card tab-content mb-0 m-4">
+                                                <!-- /.card-header -->
+                                                <div class="card-header">
+                                                    <div class="card-body box-profile align-content-center">
+                                                        <div class="text-center">
+                                                          <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
+                                                        </div>
+                                                        <h3 class="text-center bold mb-0 mt-3 ">Sulinggih Sumerta</h3>
+                                                        <p class="text-center mb-1 mt-1">sumerta@gmail.com</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-4 d-flex align-items-center">
+                                            <div class="col-12 text-center">
+                                                <i class="fas fa-chevron-right"></i>
+                                                <i class="fas fa-chevron-right"></i>
+                                                <i class="fas fa-chevron-right"></i>
+                                                <i class="fas fa-chevron-right"></i>
+                                                <i class="fas fa-chevron-right"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-4">
+                                            <div class="card tab-content mb-0 m-4">
+                                                <!-- /.card-header -->
+                                                <div class="card-header">
+                                                    <div class="card-body box-profile align-content-center">
+                                                        <div class="text-center">
+                                                          <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
+                                                        </div>
+                                                        <h3 class="text-center bold mb-0 mt-3 ">Mepandes I Putu Alex</h3>
+                                                        <p class="text-center mb-1 mt-1">Manusa Yadnya</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card tab-content card-primary card-outline">
+                                    <div class="card-header my-auto">
+                                        <label class="card-title my-auto">Rentetan Upacara</label>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-4">
+                                                <h4 class="text-center mb-3"> Awal </h4>
+                                                <div class="card shadow collapsed-card mb-3">
+                                                    <div class="card-header" aria-expanded="false">
+                                                        <!-- checkbox -->
+                                                        <div  class="icheck-primary d-inline ml-2">
+                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngraga Tirta Suci</label>
+                                                        </div>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                <i class="fas fa-caret-down float-lg-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body ml-3" style="display: none;">
+                                                        <div class="callout callout-danger container-fluid">
+                                                            <div>
+                                                                <p>
+                                                                    <i class="fas fa-info"></i>
+                                                                    <strong class="ml-1"> Informasi : </strong>
+                                                                    Harap di isi Jadwal Rentetan Upacara
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="far fa-calendar-alt"></i>
+                                                                    </span>
+                                                                </div>
+                                                              <input type="text" class="form-control float-right" id="reservation">
+                                                            </div>
+                                                            <!-- /.input group -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="card shadow collapsed-card mb-3">
+                                                    <div class="card-header" aria-expanded="false">
+                                                        <!-- checkbox -->
+                                                        <div  class="icheck-primary d-inline ml-2">
+                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Persiapan Pemangku</label>
+                                                        </div>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                <i class="fas fa-caret-down float-lg-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body ml-3" style="display: none;">
+                                                        <div class="callout callout-danger container-fluid">
+                                                            <div>
+                                                                <p>
+                                                                    <i class="fas fa-info"></i>
+                                                                    <strong class="ml-1"> Informasi : </strong>
+                                                                    Harap di isi Jadwal Rentetan Upacara
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="far fa-calendar-alt"></i>
+                                                                    </span>
+                                                                </div>
+                                                              <input type="text" class="form-control float-right" id="reservation">
+                                                            </div>
+                                                            <!-- /.input group -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card shadow collapsed-card mb-3">
+                                                    <div class="card-header" aria-expanded="false">
+                                                        <!-- checkbox -->
+                                                        <div  class="icheck-primary d-inline ml-2">
+                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Matur Pakeling</label>
+                                                        </div>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                <i class="fas fa-caret-down float-lg-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body ml-3" style="display: none;">
+                                                        <div class="callout callout-danger container-fluid">
+                                                            <div>
+                                                                <p>
+                                                                    <i class="fas fa-info"></i>
+                                                                    <strong class="ml-1"> Informasi : </strong>
+                                                                    Harap di isi Jadwal Rentetan Upacara
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="far fa-calendar-alt"></i>
+                                                                    </span>
+                                                                </div>
+                                                              <input type="text" class="form-control float-right" id="reservation">
+                                                            </div>
+                                                            <!-- /.input group -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-12 col-sm-4">
+                                                <h4 class="text-center mb-3"> Puncak </h4>
+                                                <div class="card shadow collapsed-card mb-3">
+                                                    <div class="card-header" aria-expanded="false">
+                                                        <!-- checkbox -->
+                                                        <div  class="icheck-primary d-inline ml-2">
+                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngaturang Ayaban Ring Batara</label>
+                                                        </div>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                <i class="fas fa-caret-down float-lg-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body ml-3" style="display: none;">
+                                                        <div class="callout callout-danger container-fluid">
+                                                            <div>
+                                                                <p>
+                                                                    <i class="fas fa-info"></i>
+                                                                    <strong class="ml-1"> Informasi : </strong>
+                                                                    Harap di isi Jadwal Rentetan Upacara
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="far fa-calendar-alt"></i>
+                                                                    </span>
+                                                                </div>
+                                                              <input type="text" class="form-control float-right" id="reservation">
+                                                            </div>
+                                                            <!-- /.input group -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="card shadow collapsed-card mb-3">
+                                                    <div class="card-header" aria-expanded="false">
+                                                        <!-- checkbox -->
+                                                        <div  class="icheck-primary d-inline ml-2">
+                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngaturang Banten Suci</label>
+                                                        </div>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                <i class="fas fa-caret-down float-lg-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body ml-3" style="display: none;">
+                                                        <div class="callout callout-danger container-fluid">
+                                                            <div>
+                                                                <p>
+                                                                    <i class="fas fa-info"></i>
+                                                                    <strong class="ml-1"> Informasi : </strong>
+                                                                    Harap di isi Jadwal Rentetan Upacara
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="far fa-calendar-alt"></i>
+                                                                    </span>
+                                                                </div>
+                                                              <input type="text" class="form-control float-right" id="reservation">
+                                                            </div>
+                                                            <!-- /.input group -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card shadow collapsed-card mb-3">
+                                                    <div class="card-header" aria-expanded="false">
+                                                        <!-- checkbox -->
+                                                        <div  class="icheck-primary d-inline ml-2">
+                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngewaliang Linggih Batara Sami</label>
+                                                        </div>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                <i class="fas fa-caret-down float-lg-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body ml-3" style="display: none;">
+                                                        <div class="callout callout-danger container-fluid">
+                                                            <div>
+                                                                <p>
+                                                                    <i class="fas fa-info"></i>
+                                                                    <strong class="ml-1"> Informasi : </strong>
+                                                                    Harap di isi Jadwal Rentetan Upacara
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="far fa-calendar-alt"></i>
+                                                                    </span>
+                                                                </div>
+                                                              <input type="text" class="form-control float-right" id="reservation">
+                                                            </div>
+                                                            <!-- /.input group -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-12 col-sm-4">
+                                                <h4 class="text-center mb-3"> Akhir </h4>
+                                                <div class="card shadow collapsed-card mb-3">
+                                                    <div class="card-header" aria-expanded="false">
+                                                        <!-- checkbox -->
+                                                        <div  class="icheck-primary d-inline ml-2">
+                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngaturang Pengaksama Ring Batara Sami</label>
+                                                        </div>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                <i class="fas fa-caret-down float-lg-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body ml-3" style="display: none;">
+                                                        <div class="callout callout-danger container-fluid">
+                                                            <div>
+                                                                <p>
+                                                                    <i class="fas fa-info"></i>
+                                                                    <strong class="ml-1"> Informasi : </strong>
+                                                                    Harap di isi Jadwal Rentetan Upacara
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="far fa-calendar-alt"></i>
+                                                                    </span>
+                                                                </div>
+                                                              <input type="text" class="form-control float-right" id="reservation">
+                                                            </div>
+                                                            <!-- /.input group -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="card shadow collapsed-card mb-3">
+                                                    <div class="card-header" aria-expanded="false">
+                                                        <!-- checkbox -->
+                                                        <div  class="icheck-primary d-inline ml-2">
+                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngeruwak Caru</label>
+                                                        </div>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                <i class="fas fa-caret-down float-lg-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body ml-3" style="display: none;">
+                                                        <div class="callout callout-danger container-fluid">
+                                                            <div>
+                                                                <p>
+                                                                    <i class="fas fa-info"></i>
+                                                                    <strong class="ml-1"> Informasi : </strong>
+                                                                    Harap di isi Jadwal Rentetan Upacara
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="far fa-calendar-alt"></i>
+                                                                    </span>
+                                                                </div>
+                                                              <input type="text" class="form-control float-right" id="reservation">
+                                                            </div>
+                                                            <!-- /.input group -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card shadow collapsed-card mb-3">
+                                                    <div class="card-header" aria-expanded="false">
+                                                        <!-- checkbox -->
+                                                        <div  class="icheck-primary d-inline ml-2">
+                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngelukat Banten</label>
+                                                        </div>
+                                                        <div class="card-tools">
+                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                <i class="fas fa-caret-down float-lg-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body ml-3" style="display: none;">
+                                                        <div class="callout callout-danger container-fluid">
+                                                            <div>
+                                                                <p>
+                                                                    <i class="fas fa-info"></i>
+                                                                    <strong class="ml-1"> Informasi : </strong>
+                                                                    Harap di isi Jadwal Rentetan Upacara
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                            <div class="input-group">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text">
+                                                                        <i class="far fa-calendar-alt"></i>
+                                                                    </span>
+                                                                </div>
+                                                              <input type="text" class="form-control float-right" id="reservation">
+                                                            </div>
+                                                            <!-- /.input group -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <button type="button" class="btn btn btn-primary btn-sm float-lg-right center" data-toggle="modal" data-target="#modal-default"   onclick="stepper.next()">Selanjutnya</button>
+                                    </div>
+
+                                </div>
+
                             </div>
 
 
                             <div id="next-part" class="content" role="tabpanel" aria-labelledby="next-part-trigger">
+                                <div class="card card-default">
+                                    <div class="card-body box-profile align-content-center">
+                                        <div class="text-center">
+                                          <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
+                                        </div>
+                                        <h3 class="text-center bold mb-0 mt-3">Mepandes I Putu Alex</h3>
+                                        <p class="text-center mb-1 mt-1">Manusa Yadnya</p>
+                                    </div>
+                                </div>
+
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <label class="card-title">Pemuput Upacara</label>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body box-profile align-content-center">
+                                        <div class="text-center mb-2">
+                                            <img class="profile-user-img img-fluid img-circle"  src="http://127.0.0.1:8000/base-template/dist/img/user2-160x160.jpg" alt="User profile picture">
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>Nama Pemuput Upacara</label>
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="Manusa Yadnya" disabled="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Nomer Handphone</label>
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="Manusa Yadnya" disabled="">
+                                                </div>
+
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label>Alamat</label>
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="Manusa Yadnya" disabled="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Status</label>
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="Manusa Yadnya" disabled="">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="card card-default">
+                                    <div class="card-header">
+                                        <label class="card-title">Rententan Upacara yang di Reservasi</label>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card shadow mb-3">
+                                            <div class="card-header" aria-expanded="false">
+                                                <label class="form-check-label ml-3" for="todoCheck1">
+                                                    <strong> Ngraga Tirta Suci</strong>
+                                                </label>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                        <i class="fas fa-caret-down float-lg-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="card-body ml-3">
+                                                <div class="form-group">
+                                                    <p>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</p>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="far fa-calendar-alt"></i>
+                                                            </span>
+                                                        </div>
+                                                      <input disabled type="text" class="form-control float-right" id="reservation">
+                                                    </div>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card shadow mb-3">
+                                            <div class="card-header" aria-expanded="false">
+                                                <label class="form-check-label ml-3" for="todoCheck1">
+                                                    <strong> Ngraga Tirta Suci</strong>
+                                                </label>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                        <i class="fas fa-caret-down float-lg-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="card-body ml-3">
+                                                <div class="form-group">
+                                                    <p>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</p>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="far fa-calendar-alt"></i>
+                                                            </span>
+                                                        </div>
+                                                      <input disabled type="text" class="form-control float-right" id="reservation2">
+                                                    </div>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card shadow mb-3">
+                                            <div class="card-header" aria-expanded="false">
+                                                <label class="form-check-label ml-3" for="todoCheck1">
+                                                    <strong> Ngraga Tirta Suci</strong>
+                                                </label>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                        <i class="fas fa-caret-down float-lg-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="card-body ml-3">
+                                                <div class="form-group">
+                                                    <p>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</p>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">
+                                                                <i class="far fa-calendar-alt"></i>
+                                                            </span>
+                                                        </div>
+                                                      <input disabled type="text" class="form-control float-right" id="reservation3">
+                                                    </div>
+                                                    <!-- /.input group -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <button type="button" class="btn btn btn-primary btn-sm float-lg-right center" data-toggle="modal" data-target="#modal-default"   onclick="stepper.next()">Buat Reservasi</button>
+                                    </div>
+
+                                </div>
 
                             </div>
 
-
                         </div>
+
                     </div>
 
                 </div>
@@ -273,6 +849,8 @@
 
     <!-- date-range-picker -->
     <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <!-- daterangepicker -->
+    <script src="{{('base-template/plugins/moment/moment.min.js')}}"></script>
 
 
     <script type="text/javascript">
@@ -297,6 +875,15 @@
             window.stepper = new Stepper(document.querySelector('.bs-stepper'))
         })
 
+    </script>
+
+    <script>
+        $(function () {
+            //Date range picker
+            $('#reservation').daterangepicker();
+            $('#reservation2').daterangepicker();
+            $('#reservation3').daterangepicker();
+        });
     </script>
 
 

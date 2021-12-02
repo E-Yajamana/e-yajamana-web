@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('pages/krama/reservasi/reser');
+    return view('pages/auth/login');
 });
 
 
@@ -34,6 +34,10 @@ Route::prefix('admin')->group(function () {
     Route::get('pengaturan-akun/verifikasi/detail/id', [AdminController::class, 'verifikasiDetail'])->name('admin.verify.detail');
     Route::get('data-akun', [AdminController::class, 'dataAkunShow'])->name('admin.data-akun.show');
     Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
+
+    // Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
+
+
 
 });
 
