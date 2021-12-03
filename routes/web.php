@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KramaController;
+use App\Http\Controllers\SulinggihController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +18,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('pages/auth/login');
+    return view('pages/auth/register/krama-bali');
 });
+
+
+Route::prefix('auth')->group(function () {
+    Route::get('login', [AuthController::class, 'login'])->name('auth.login');
+    Route::get('register', [AuthController::class, 'registerHome'])->name('auth.register.home');
+    Route::get('register/krama', [AuthController::class, 'registerKrama'])->name('auth.register.krama');
+
+});
+
+
 
 
 Route::prefix('admin')->group(function () {
@@ -37,8 +49,6 @@ Route::prefix('admin')->group(function () {
 
     // Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
 
-
-
 });
 
 
@@ -51,5 +61,15 @@ Route::prefix('krama')->group(function () {
     Route::get('reservasi', [KramaController::class, 'reservasi'])->name('krama.reservasi.create');
 
 
+});
+
+
+
+Route::prefix('sulinggih')->group(function () {
+    Route::get('', [SulinggihController::class, 'index'])->name('sulinggih.dashboard');
+    Route::get('reservasi', [SulinggihController::class, 'dataReservasi'])->name('sulinggih.reservasi');
 
 });
+
+
+
