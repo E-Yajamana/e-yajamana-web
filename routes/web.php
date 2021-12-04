@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
-    Route::get('register', [AuthController::class, 'registerHome'])->name('auth.register.home');
+    Route::get('register', [AuthController::class, 'registerLanding'])->name('auth.register.home');
     Route::get('register/krama', [AuthController::class, 'registerKrama'])->name('auth.register.krama');
 
 });

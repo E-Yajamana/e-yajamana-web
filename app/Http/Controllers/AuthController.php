@@ -11,9 +11,9 @@ class AuthController extends Controller
         return view('pages.auth.login2');
     }
 
-    public function registerHome(Request $request)
+    public function registerLanding(Request $request)
     {
-        return view('pages.auth.register.home');
+        return view('pages.auth.register.landing');
     }
 
     public function registerKrama(Request $request)
