@@ -6,7 +6,7 @@
     <div class="container p-lg-4">
         <div class="card card-primary p-lg-2">
             <div class="card-header bg-white text-center">
-                <img class="rounded mx-auto d-block" src="{{ asset('base-template/dist/img/logo-01.png') }}" alt="sipandu logo" width="100" height="100">
+                <img class="rounded mx-auto d-block" src="{{asset('base-template/dist/img/logo-01.png') }}" alt="sipandu logo" width="100" height="100">
                 <p class="login-box-msg mb-0 pb-0 px-0 fw-bold h4 mt-2 mb-1"> Selamat Datang di Pendaftaran Akun</p>
                 <a href="" class="text-decoration-none h2 fw-bold mb-2">E-Yajamana</a>
             </div>

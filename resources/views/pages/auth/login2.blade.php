@@ -85,7 +85,7 @@
 
                         </div>
                         <div class="text-center mt-4 mb-2">
-                            <a class="nav-link link-dark">E-Yajamana 2021 | All Right Reserved &copy </a>
+                            <a class="nav-link link-dark">E-Yajamana 2021 | All Right Reserved &copy</a>
                         </div>
                     </div>
                 </div>

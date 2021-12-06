@@ -27,6 +27,11 @@ Route::prefix('auth')->group(function () {
     Route::get('register', [AuthController::class, 'registerLanding'])->name('auth.register.home');
     Route::get('register/krama', [AuthController::class, 'registerKrama'])->name('auth.register.krama');
 
+    Route::get('lupa-password', [AuthController::class, 'lupaPasswordLanding'])->name('auth.lupa-password.lading');
+    Route::get('lupa-password/verify-otp', [AuthController::class, 'verifyOTP'])->name('auth.lupa-password.verify-otp');
+    Route::get('lupa-password/reset-password', [AuthController::class, 'resetPassword'])->name('auth.lupa-password.reset-password');
+
+
 });
 
 
@@ -46,8 +51,6 @@ Route::prefix('admin')->group(function () {
     Route::get('pengaturan-akun/verifikasi/detail/id', [AdminController::class, 'verifikasiDetail'])->name('admin.verify.detail');
     Route::get('data-akun', [AdminController::class, 'dataAkunShow'])->name('admin.data-akun.show');
     Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
-
-    // Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
 
 });
 
