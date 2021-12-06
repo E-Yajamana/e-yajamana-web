@@ -38,10 +38,17 @@ class KramaController extends Controller
     //     return view('pages.krama.reservasi.create-back-up');
     // }
 
-    public function reservasi(Request $request)
+    public function showReservasi(Request $request)
+    {
+        return view('pages.krama.reservasi.show');
+    }
+
+    public function createReservasi(Request $request)
     {
         return view('pages.krama.reservasi.create');
     }
+
+
 
 
 }

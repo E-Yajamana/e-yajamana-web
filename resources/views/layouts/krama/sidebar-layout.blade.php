@@ -51,7 +51,7 @@
                 <li class="nav-header font-weight-bold">MENU UTAMA</li>
                 <li id="side-upacara" class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
+                        <i class="fa bi-brightness-high-fill nav-icon"></i>
                         <p>
                             Manajemen Upacara
                             <i class="fas fa-angle-left right"></i>
@@ -73,88 +73,58 @@
                             </a>
                         </li>
                     </ul>
-                    <ul class="nav nav-treeview">
+                    {{-- <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
                             <a id="side-kabupaten" href="#" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Riwayat Upacaraku</p>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </li>
 
-                <li id="side-upacara" class="nav-item">
+                <li id="side-reservasi" class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
+                        <i class="fas fa-calendar-alt nav-icon"></i>
+                        <p >
                             Manajemen Reservasi
-                            <i class="fas fa-angle-left right"></i>
+                            <i class="fas fa-angle-left right ml-lg-4"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('krama.data-upacara')}}" class="nav-link">
+                            <a id="side-data-reservasi" href="{{route('krama.data-upacara')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Data Upacaraku</p>
+                            <p>Data Reservasi</p>
                             </a>
                         </li>
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-tambah-upacara" href="{{route('krama.data-upacara.create')}}" class="nav-link">
+                            <a id="side-tambah-reservasi" href="{{route('krama.data-upacara.create')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Tambah Upacaraku</p>
+                            <p>Tambah Reservasi</p>
                             </a>
                         </li>
                     </ul>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
+                        {{-- <li class="nav-item ml-3">
                             <a id="side-kabupaten" href="#" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Riwayat Upacaraku</p>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
 
-
-                {{-- <li class="nav-header font-weight-bold">MASTER DATA</li>
-                <li id="side-master-data" class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-database"></i>
-                        <p>
-                            Master Data
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
+                <li class="nav-item">
+                    <a href="pages/gallery.html" class="nav-link">
+                        <i class="far bi-geo-alt-fill nav-icon"></i>
+                        <p>Lokasi Pemuput Karya</p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('admin.master-data.kabupaten.show')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Kabupaten</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a id="side-kecamatan" href="{{route('admin.master-data.kecamatan.show')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Kecamatan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a id="side-desa" href="{{route('admin.master-data.desa.show')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Desa Dinas</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a id="side-upacara" href="{{route('admin.master-data.upacara.show')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Upacara</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li> --}}
+                </li>
             </ul>
+
         </nav>
         <!-- /.sidebar-menu -->
     </div>

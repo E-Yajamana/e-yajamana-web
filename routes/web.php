@@ -34,9 +34,6 @@ Route::prefix('auth')->group(function () {
 
 });
 
-
-
-
 Route::prefix('admin')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
@@ -61,11 +58,11 @@ Route::prefix('krama')->group(function () {
     Route::get('data-upacara2', [KramaController::class, 'dataUpacaraShow2'])->name('krama.data-upacara2');
     Route::get('data-upacara/detail', [KramaController::class, 'dataUpacaraDetail'])->name('krama.data-upacara.detail');
     Route::get('data-upacara/create', [KramaController::class, 'dataUpacaraCreate'])->name('krama.data-upacara.create');
-    Route::get('reservasi', [KramaController::class, 'reservasi'])->name('krama.reservasi.create');
 
+    Route::get('reservasi', [KramaController::class, 'showReservasi'])->name('krama.reservasi.show');
+    Route::get('reservasi/create', [KramaController::class, 'createReservasi'])->name('krama.reservasi.create');
 
 });
-
 
 
 Route::prefix('sulinggih')->group(function () {
