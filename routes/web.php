@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KramaController;
 use App\Http\Controllers\SulinggihController;
+use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,5 +72,16 @@ Route::prefix('sulinggih')->group(function () {
 
 });
 
+
+Route::prefix('wilayah')->group(function () {
+    Route::get('provinsi', [WilayahController::class, 'provinsi'])->name('wilayah.provinsi');
+    Route::get('kabupaten', [WilayahController::class, 'kabupaten'])->name('wilayah.kabupaten');
+    Route::get('kecamatan', [WilayahController::class, 'kecamatan'])->name('wilayah.kecamatan');
+    Route::get('desa', [WilayahController::class, 'desa'])->name('wilayah.desa');
+
+    Route::get('test', [WilayahController::class, 'test'])->name('wilayah.test');
+
+
+});
 
 

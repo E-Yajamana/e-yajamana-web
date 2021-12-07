@@ -77,7 +77,14 @@
                     <div class="col-md-9">
                         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
                             <div class="card-header my-auto">
-                                <h3 class="card-title my-auto">Preview List Data Upacara</h3>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h3 class="card-title my-auto">Preview List Data Upacara</h3>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-primary float-right" type="button"  data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus"></i> Tambah</button>
+                                    </div>
+                                </div>
                             </div>
 
                             {{-- Start Data Table Sulinggih --}}
@@ -272,7 +279,7 @@
 
                         </div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
     </div>

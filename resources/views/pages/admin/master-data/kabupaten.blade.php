@@ -37,9 +37,9 @@
                                 <div class="col-6">
                                     <h3 class="card-title">Data Kabupaten Sistem E-Yajamana</h3>
                                 </div>
-                                <div class="col-6">
+                                {{-- <div class="col-6">
                                     <button class="btn btn-primary float-right" type="button"  data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus"></i> Tambah</button>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -51,11 +51,11 @@
                                         <th>Kode Kabupaten</th>
                                         <th>Nama Kabupaten</th>
                                         <th>Nama Provinsi</th>
-                                        <th>Action</th>
+                                        {{-- <th>Action</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    {{-- <tr>
                                         <td>1</td>
                                         <td>KB01</td>
                                         <td>Badung</td>
@@ -87,8 +87,19 @@
                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                             <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
+                                    {{-- {{ $i=0}} --}}
+                                    @foreach ($result['kabupaten'] as $data)
                                     <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$data['id']}}</td>
+                                        <td>{{$data['name']}}</td>
+                                        <td>{{$result['name']}}</td>
+                                    </tr>
+
+                                        {{-- {{$i+=$i++}} --}}
+                                    @endforeach
+                                    {{-- <tr>
                                         <td>4</td>
                                         <td>KB04</td>
                                         <td>Buleleng</td>
@@ -98,7 +109,7 @@
                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                             <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -106,7 +117,7 @@
                                         <th>Kode Kabupaten</th>
                                         <th>Nama Kabupaten</th>
                                         <th>Nama Provinsi</th>
-                                        <th>Action</th>
+                                        {{-- <th>Action</th> --}}
                                     </tr>
                                 </tfoot>
                             </table>

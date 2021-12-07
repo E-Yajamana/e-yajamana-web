@@ -55,7 +55,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    {{-- <tr>
                                         <td>1</td>
                                         <td>KC01</td>
                                         <td>Kuta Utara</td>
@@ -109,7 +109,7 @@
                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                             <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
                                     <tr>
                                         <td>6</td>
                                         <td>KC06</td>
