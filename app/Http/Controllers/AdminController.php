@@ -44,6 +44,8 @@ class AdminController extends Controller
                 'listKecamatan' => $wilayahHelper->kecamatan($data['id'])
             ];
         }
+
+        // dd($payload);
         return view('pages.admin.master-data.kecamatan', compact('payload'));
     }
 

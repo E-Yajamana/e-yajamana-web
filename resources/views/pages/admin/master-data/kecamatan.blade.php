@@ -51,7 +51,6 @@
                                         <th>Kode Kecamatan</th>
                                         <th>Nama Kecamatan</th>
                                         <th>Nama Kabupaten</th>
-                                        <th>Tindakan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -110,17 +109,16 @@
                                             <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr> --}}
-                                    <tr>
-                                        <td>6</td>
-                                        <td>KC06</td>
-                                        <td>Payangan</td>
-                                        <td>Gianyar</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
+                                    @foreach ($payload as $data)
+                                        @foreach ($data['listKecamatan'] as $listkecamatan)
+                                            <tr>
+                                                <td>{{$loop->iteration}}</td>
+                                                <td>{{$listkecamatan['id']}}</td>
+                                                <td>{{$listkecamatan['name']}}</td>
+                                                <td>{{$data['namaKabupaten']}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -128,7 +126,6 @@
                                         <th>Kode Kecamatan</th>
                                         <th>Nama Kecamatan</th>
                                         <th>Nama Kabupaten</th>
-                                        <th>Tindakan</th>
                                     </tr>
                                 </tfoot>
                             </table>
