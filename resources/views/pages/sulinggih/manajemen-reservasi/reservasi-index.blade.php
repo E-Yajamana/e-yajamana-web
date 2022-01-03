@@ -13,7 +13,7 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>List Data Reservasi Krama</h1>
+                    <h1>List Data Reservasi Upacara Masuk</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -36,14 +36,13 @@
             <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
                 <div class="card-body p-0">
                     <div class="table-responsive mailbox-messages p-2">
-                        <table id="example2" class="table table-striped table-hover mx-auto table-responsive-sm">
+                        <table id="example2" class="table table-bordered table-hover mx-auto table-responsive-sm">
                             <thead >
                                 <tr>
                                     <th>No</th>
                                     <th>Penyelenggara </th>
                                     <th>Jenis Upacara</th>
                                     <th>Tahapan Reservasi</th>
-                                    <th>Status</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
@@ -52,9 +51,9 @@
                                     <td>1</td>
                                     <td>Krama Dalung</td>
                                     <td>Piodalan Ring Pura</td>
-                                    <td>14-Desember-2021 - 16-Desember-2021</td>
                                     <td>
-                                        <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:70px;">Pending</div>
+                                        <li >Wangun Bale Petak </li>
+                                        <li >Melaspas Wewangunan </li>
                                     </td>
                                     <td>
                                         <a href="" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
@@ -68,9 +67,6 @@
                                     <td>Piodalan Ring Pura</td>
                                     <td>14-Desember-2021 - 16-Desember-2021</td>
                                     <td>
-                                        <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:70px;">Pending</div>
-                                    </td>
-                                    <td>
                                         <a href="" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
@@ -83,7 +79,6 @@
                                     <th>Penyelenggara </th>
                                     <th>Jenis Upacara</th>
                                     <th>Tanggal Mulai - Tanggal Selesai</th>
-                                    <th>Status</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </tfoot>
