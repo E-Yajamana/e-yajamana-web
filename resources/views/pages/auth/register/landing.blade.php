@@ -17,39 +17,49 @@
 
                 <div class="row justify-content-center p-2">
                     <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
-                        <div class="card p-2 shadow cursor" role="button">
-                            <label class="text-center m-0 p-1">KRAMA BALI</label>
-                            <img src="{{asset('base-template/dist/img/jenis-user/kramabali.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9 " alt="white sample"/>
-                            {{-- <button class="btn btn-outline-primary " style="opacity:80%" onclick="stepper.next()">KRAMA BALI</button> --}}
-                        </div>
+                        <a href="{{route('auth.register.krama')}}">
+                            <div class="card p-2 shadow cursor" role="button">
+                                <label class="text-center m-0 p-1 text-dark">KRAMA BALI</label>
+                                <img src="{{asset('base-template/dist/img/jenis-user/kramabali.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9 " alt="white sample"/>
+                                {{-- <button class="btn btn-outline-primary " style="opacity:80%" onclick="stepper.next()">KRAMA BALI</button> --}}
+                            </div>
+                        </a>
                     </div>
                     <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
-                        <div class="card p-2 shadow cursor" role="button">
-                            <label class="text-center m-0 p-1">SULINGGIH</label>
-                            <img src="{{asset('base-template/dist/img/jenis-user/sulinggih.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
-                            {{-- <button class="btn btn-outline-primary" style="opacity:80%" onclick="stepper.next()">SANG SULINGGIH</button> --}}
-                        </div>
+                        <a href="{{route('auth.register.krama')}}">
+                            <div class="card p-2 shadow cursor" role="button">
+                                <label class="text-center m-0 p-1 text-dark">SULINGGIH</label>
+                                <img src="{{asset('base-template/dist/img/jenis-user/sulinggih.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
+                                {{-- <button class="btn btn-outline-primary" style="opacity:80%" onclick="stepper.next()">SANG SULINGGIH</button> --}}
+                            </div>
+                        </a>
                     </div>
                     <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
-                        <div class="card p-2 shadow cursor" role="button">
-                            <label class="text-center m-0 p-1">SANGGAR</label>
-                            <img src="{{asset('base-template/dist/img/jenis-user/sanggar.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
-                            {{-- <button class="btn btn-outline-primary" style="opacity:80%" onclick="stepper.next()">SANGGAR BALI</button> --}}
-                        </div>
+                        <a href="{{route('auth.register.krama')}}">
+                            <div class="card p-2 shadow cursor" role="button">
+                                <label class="text-center m-0 p-1 text-dark">SANGGAR</label>
+                                <img src="{{asset('base-template/dist/img/jenis-user/sanggar.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
+                                {{-- <button class="btn btn-outline-primary" style="opacity:80%" onclick="stepper.next()">SANGGAR BALI</button> --}}
+                            </div>
+                        </a>
                     </div>
                     <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
-                        <div class="card p-2 shadow cursor" role="button">
-                            <label class="text-center m-0 p-1">PEMANGKU</label>
-                            <img src="{{asset('base-template/dist/img/jenis-user/serati.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
-                            {{-- <button class="btn btn-outline-primary" style="opacity:80%" onclick="stepper.next()">SERATI</button> --}}
-                        </div>
+                        <a href="{{route('auth.register.krama')}}">
+                            <div class="card p-2 shadow cursor" role="button">
+                                <label class="text-center m-0 p-1 text-dark">PEMANGKU</label>
+                                <img src="{{asset('base-template/dist/img/jenis-user/serati.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
+                                {{-- <button class="btn btn-outline-primary" style="opacity:80%" onclick="stepper.next()">SERATI</button> --}}
+                            </div>
+                        </a>
                     </div>
                     <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
-                        <div class="card p-2 shadow cursor" role="button">
-                            <label class="text-center m-0 p-1">SERATI</label>
-                            <img src="{{asset('base-template/dist/img/jenis-user/serati.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
-                            {{-- <button class="btn btn-outline-primary" style="opacity:80%" onclick="stepper.next()">SERATI</button> --}}
-                        </div>
+                        <a href="{{route('auth.register.krama')}}">
+                            <div class="card p-2 shadow cursor" role="button">
+                                <label class="text-center m-0 p-1 text-dark">SERATI</label>
+                                <img src="{{asset('base-template/dist/img/jenis-user/serati.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
+                                {{-- <button class="btn btn-outline-primary" style="opacity:80%" onclick="stepper.next()">SERATI</button> --}}
+                            </div>
+                        </a>
                     </div>
                 </div>
 

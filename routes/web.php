@@ -32,7 +32,6 @@ Route::prefix('auth')->group(function () {
     Route::get('lupa-password/verify-otp', [AuthController::class, 'verifyOTP'])->name('auth.lupa-password.verify-otp');
     Route::get('lupa-password/reset-password', [AuthController::class, 'resetPassword'])->name('auth.lupa-password.reset-password');
 
-
 });
 
 Route::prefix('admin')->group(function () {
@@ -68,7 +67,10 @@ Route::prefix('krama')->group(function () {
 
 Route::prefix('sulinggih')->group(function () {
     Route::get('', [SulinggihController::class, 'index'])->name('sulinggih.dashboard');
-    Route::get('reservasi', [SulinggihController::class, 'dataReservasi'])->name('sulinggih.reservasi');
+    Route::prefix('manajemen-reservasi')->group(function () {
+        Route::get('index', [SulinggihController::class, 'dataReservasi'])->name('sulinggih.manajemen-reservasi.index');
+        Route::get('riwayat', [SulinggihController::class, 'riwayatReservasi'])->name('sulinggih.manajemen-reservasi.riwayat');
+    });
 
 });
 
@@ -78,10 +80,7 @@ Route::prefix('wilayah')->group(function () {
     Route::get('kabupaten', [WilayahController::class, 'kabupaten'])->name('wilayah.kabupaten');
     Route::get('kecamatan', [WilayahController::class, 'kecamatan'])->name('wilayah.kecamatan');
     Route::get('desa', [WilayahController::class, 'desa'])->name('wilayah.desa');
-
     Route::get('test', [WilayahController::class, 'test'])->name('wilayah.test');
-
-
 });
 
 

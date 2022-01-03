@@ -25,7 +25,7 @@
                                 dimasukan sebelumnya
                             </p>
                         </div>
-                        <form action="#" method="POST" class="px-4 mb-2">
+                        <form action="{{route('auth.lupa-password.reset-password')}}" method="" class="px-4 mb-2">
                             @csrf
                             <div class="col-md">
                                 <div class="form-group">

@@ -533,7 +533,7 @@
                                                         <!-- checkbox -->
                                                         <div  class="icheck-primary d-inline ml-2">
                                                             <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1"  style="overflow: hidden; text-overflow:ellipsis">Ngaturang Pengaksama Ring Batara Sami</label>
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngeruwak Caru</label>
                                                         </div>
                                                         <div class="card-tools">
                                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">

@@ -25,33 +25,43 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
                             <a id="side-konfirmasi-sulinggih" href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="far fa-circle nav-icon mr-1"></i>
                                 <p>Profile</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
                             <a id="side-konfirmasi-sulinggih" href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="far fa-circle nav-icon mr-1"></i>
                                 <p>Logout</p>
                             </a>
                         </li>
                     </ul>
                 </li>
 
+                 <!-- SidebarSearch Form -->
+                 <div class="form-inline m-0 mt-3">
+                    <div class="input-group" data-widget="sidebar-search">
+                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                        </button>
+                    </div>
+                    </div>
+                </div>
 
-
-                <li class="nav-header font-weight-bold" >DASHBOARD</li>
+                <li class="nav-header font-weight-bold pl-2" >DASHBOARD</li>
                 <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <a href="pages/gallery.html" class="nav-link p-2">
+                        <i class="nav-icon mr-1 fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
 
-                <li class="nav-header font-weight-bold">MENU UTAMA</li>
+                <li class="nav-header font-weight-bold pl-2">MENU UTAMA</li>
                 <li id="side-upacara" class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fa bi-brightness-high-fill nav-icon"></i>
+                    <a href="#" class="nav-link p-2">
+                        <i class="fa bi-brightness-high-fill nav-icon mr-1"></i>
                         <p>
                             Manajemen Upacara
                             <i class="fas fa-angle-left right"></i>
@@ -59,24 +69,24 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('krama.data-upacara')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <a id="side-kabupaten" href="{{route('krama.data-upacara')}}" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Data Upacaraku</p>
                             </a>
                         </li>
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-tambah-upacara" href="{{route('krama.data-upacara.create')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <a id="side-tambah-upacara" href="{{route('krama.data-upacara.create')}}" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Tambah Upacaraku</p>
                             </a>
                         </li>
                     </ul>
                     {{-- <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="#" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <a id="side-kabupaten" href="#" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Riwayat Upacaraku</p>
                             </a>
                         </li>
@@ -84,8 +94,8 @@
                 </li>
 
                 <li id="side-reservasi" class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-calendar-alt nav-icon"></i>
+                    <a href="#" class="nav-link p-2">
+                        <i class="fas fa-calendar-alt nav-icon mr-1"></i>
                         <p >
                             Manajemen Reservasi
                             <i class="fas fa-angle-left right ml-lg-4"></i>
@@ -93,23 +103,23 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-data-reservasi" href="{{route('krama.data-upacara')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <a id="side-data-reservasi" href="{{route('krama.data-upacara')}}" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Data Reservasi</p>
                             </a>
                         </li>
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-tambah-reservasi" href="{{route('krama.data-upacara.create')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
+                            <a id="side-tambah-reservasi" href="{{route('krama.data-upacara.create')}}" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Tambah Reservasi</p>
                             </a>
                         </li>
                     </ul>
                     <ul class="nav nav-treeview">
                         {{-- <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="#" class="nav-link">
+                            <a id="side-kabupaten" href="#" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Riwayat Upacaraku</p>
                             </a>
@@ -118,8 +128,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
-                        <i class="far bi-geo-alt-fill nav-icon"></i>
+                    <a href="pages/gallery.html" class="nav-link p-2">
+                        <i class="far bi-geo-alt-fill nav-icon mr-1"></i>
                         <p>Lokasi Pemuput Karya</p>
                     </a>
                 </li>
