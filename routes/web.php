@@ -73,6 +73,15 @@ Route::prefix('sulinggih')->group(function () {
         Route::get('riwayat', [SulinggihController::class, 'riwayatReservasi'])->name('sulinggih.manajemen-reservasi.riwayat');
     });
 
+    Route::prefix('manajemen-muput-upacara')->group(function () {
+        Route::get('index', [SulinggihController::class, 'indexMuputUpacara'])->name('sulinggih.muput-upacara.index');
+        Route::get('konfimasi-tangkil', [SulinggihController::class, 'konfrimasiTanggalTangkil'])->name('sulinggih.muput-upacara.konfirmasi.tangkil');
+        Route::get('konfimasi-muput', [SulinggihController::class, 'konfrimasiMuput'])->name('sulinggih.muput-upacara.konfirmasi.upacara');
+
+
+    });
+
+
 });
 
 

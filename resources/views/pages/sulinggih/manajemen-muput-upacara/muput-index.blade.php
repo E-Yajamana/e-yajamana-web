@@ -13,7 +13,7 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Reservasi Masuk</h1>
+                    <h1>Data Muput Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -27,6 +27,32 @@
     </section>
 
     <div class="container-fluid">
+        <div class="card card-primary card-outline tab-content">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-6 my-2">
+                        <h3 class="card-title">Filter Data Muput Upacara</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-7">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Proses Tangkil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Muput</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Selesai</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Batal</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
                 <h3 class="card-title my-auto">List Data Reservasi Krama</h3>
@@ -42,8 +68,8 @@
                                     <th>No</th>
                                     <th>Penyelenggara </th>
                                     <th>Jenis Upacara</th>
-                                    <th>Lokasi Upacara</th>
                                     <th>Tahapan Reservasi</th>
+                                    <th>Status</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
@@ -52,32 +78,37 @@
                                     <td>1</td>
                                     <td>Krama Dalung</td>
                                     <td>Piodalan Ring Pura</td>
-                                    <td>Kuta Utara, Dalung</td>
                                     <td>
-                                        <li >Wangun Bale Petak  </li>
-                                        <li >Melaspas Wewangunan </li>
-                                        <li >Wangun Bale Petak</li>
-                                        <li >Melaspas Wewangunan </li>
+                                        <li >Wangun Bale Petak  : 12 Dec 2021  : 09.00</li>
+                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
+                                        <li >Wangun Bale Petak : 12 Dec 2021  : 09.00</li>
+                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
+                                    </td>
+                                    <td>
+                                        <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:90px;">Proses Tangkil</div>
                                     </td>
                                     <td>
                                         <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                         <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>2</td>
+                                    <td>1</td>
                                     <td>Krama Dalung</td>
-                                    <td>Kuta Utara, Dalung</td>
                                     <td>Piodalan Ring Pura</td>
                                     <td>
-                                        <li >Wangun Bale Petak</li>
-                                        <li >Melaspas Wewangunan </li>
-                                        <li >Wangun Bale Petak</li>
+                                        <li >Wangun Bale Petak  : 12 Dec 2021  : 09.00</li>
+                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
+                                        <li >Wangun Bale Petak : 12 Dec 2021  : 09.00</li>
+                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
+                                    </td>
+                                    <td>
+                                        <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:90px;">Proses Muput</div>
                                     </td>
                                     <td>
                                         <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                         <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
@@ -87,8 +118,8 @@
                                     <th>No</th>
                                     <th>Penyelenggara </th>
                                     <th>Jenis Upacara</th>
-                                    <th>Lokasi Upacara</th>
-                                    <th>Tanggal Mulai - Tanggal Selesai</th>
+                                    <th>Tahapan Reservasi</th>
+                                    <th>Status</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </tfoot>
@@ -98,11 +129,13 @@
             </div>
             {{-- End Data Table Sulinggih --}}
 
-
         </div>
     </div>
-@endsection
 
+
+
+
+@endsection
 
 @push('js')
 
@@ -143,8 +176,8 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#side-manajemen-reservasi').addClass('menu-open');
-            $('#side-manajemen-reservasi-index').addClass('active');
+            $('#side-manajemen-muput-upacara').addClass('menu-open');
+            $('#side-manajemen-muput-upacara-index').addClass('active');
         });
     </script>
 

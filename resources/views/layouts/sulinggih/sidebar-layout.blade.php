@@ -59,17 +59,45 @@
 
                 <li class="nav-header font-weight-bold pl-2">MENU UTAMA</li>
 
-                <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link p-2">
-                        <i class="fa  bi-brightness-alt-high nav-icon"></i>
-                        <p>Jadwal Muput Upacara</p>
-
+                <li id="" class="nav-item">
+                    <a href="#" class="nav-link p-2">
+                        <i class="fa fa-calendar-alt nav-icon"></i>
+                        <p>Jadwal Muput <span class="ml-4 badge badge-primary right">2</span></p>
                     </a>
+                </li>
+
+
+                <li id="side-manajemen-muput-upacara" class="nav-item">
+                    <a href="#" class="nav-link p-2">
+                        <i class="fa bi-brightness-alt-high nav-icon"></i>
+                        <p>Muput Upacara </p>
+                        <i class="fas fa-angle-left right"></i>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-manajemen-muput-upacara-index" href="{{route('sulinggih.muput-upacara.index')}}" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Data Muput Upacara</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-manajemen-muput-upacara-konfirmasi-tangkil" href="{{route('sulinggih.muput-upacara.konfirmasi.tangkil')}}" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon"></i>
+                                <p>Konfirmasi Tangkil <span class="badge badge-primary right">2</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-manajemen-muput-upacara-konfirmasi-muput-upacara" href="{{route('sulinggih.muput-upacara.konfirmasi.upacara')}}" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Konfirmasi Muput  <span class="badge badge-primary right">2</span></p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li id="side-manajemen-reservasi" class="nav-item">
                     <a href="#" class="nav-link p-2">
-                        <i class="fa fa-user-cog nav-icon mr-1"></i>
+                        <i class="fa fa-book-open nav-icon mr-1"></i>
                         <p>
                             Manajemen Reservasi
                             <i class="fas fa-angle-left right"></i>

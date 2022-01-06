@@ -13,7 +13,7 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Reservasi Masuk</h1>
+                    <h1>Data Tangkil Krama</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -40,55 +40,48 @@
                             <thead >
                                 <tr>
                                     <th>No</th>
-                                    <th>Penyelenggara </th>
-                                    <th>Jenis Upacara</th>
-                                    <th>Lokasi Upacara</th>
-                                    <th>Tahapan Reservasi</th>
+                                    <th>Nama Tahapan</th>
+                                    <th>Nama Upacara</th>
+                                    <th>Penyelenggara</th>
+                                    <th>Tanggal Mulai - Selesai</th>
+                                    <th>Waktu Mulai - Selesai</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>Krama Dalung</td>
                                     <td>Piodalan Ring Pura</td>
-                                    <td>Kuta Utara, Dalung</td>
-                                    <td>
-                                        <li >Wangun Bale Petak  </li>
-                                        <li >Melaspas Wewangunan </li>
-                                        <li >Wangun Bale Petak</li>
-                                        <li >Melaspas Wewangunan </li>
-                                    </td>
+                                    <td>Piodalan Ring Pura Desa  Dalung</td>
+                                    <td>Krama Dalung</td>
+                                    <td>14 Dec 2021 - 15 Dec 2021</td>
+                                    <td>09:00 - 11.00</td>
                                     <td>
                                         <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td>Krama Dalung</td>
-                                    <td>Kuta Utara, Dalung</td>
                                     <td>Piodalan Ring Pura</td>
-                                    <td>
-                                        <li >Wangun Bale Petak</li>
-                                        <li >Melaspas Wewangunan </li>
-                                        <li >Wangun Bale Petak</li>
-                                    </td>
+                                    <td>Piodalan Ring Pura Desa  Dalung</td>
+                                    <td>Krama Dalung</td>
+                                    <td>14 Dec 2021 - 15 Dec 2021</td>
+                                    <td>09:00 - 11.00</td>
                                     <td>
                                         <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Penyelenggara </th>
-                                    <th>Jenis Upacara</th>
-                                    <th>Lokasi Upacara</th>
-                                    <th>Tanggal Mulai - Tanggal Selesai</th>
+                                    <th>Nama Tahapan</th>
+                                    <th>Penyelenggara</th>
+                                    <th>Nama Upacara</th>
+                                    <th>Tanggal Mulai - Selesai</th>
+                                    <th>Waktu Mulai - Selesai</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </tfoot>
@@ -98,11 +91,13 @@
             </div>
             {{-- End Data Table Sulinggih --}}
 
-
         </div>
     </div>
-@endsection
 
+
+
+
+@endsection
 
 @push('js')
 
@@ -143,8 +138,8 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#side-manajemen-reservasi').addClass('menu-open');
-            $('#side-manajemen-reservasi-index').addClass('active');
+            $('#side-manajemen-muput-upacara').addClass('menu-open');
+            $('#side-manajemen-muput-upacara-konfirmasi-muput-upacara').addClass('active');
         });
     </script>
 

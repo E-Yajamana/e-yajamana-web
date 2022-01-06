@@ -40,8 +40,8 @@
                 <div class="col-7">
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Diterima</a></li>
                         <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Diterima</a></li>
                         <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Ditolak</a></li>
                     </ul>
                 </div>
