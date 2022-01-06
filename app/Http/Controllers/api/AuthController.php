@@ -34,7 +34,7 @@ class AuthController extends Controller
             try{
                 if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
                     $user = Auth::user();
-                    $krama = $user->Krama;
+                    $krama = $user->Krama()->first();
                     $token = $user->createToken('e-yajamana')->plainTextToken;
                 }else{
                     return response()->json([
