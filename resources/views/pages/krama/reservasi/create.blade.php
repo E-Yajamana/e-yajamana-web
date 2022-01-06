@@ -855,8 +855,8 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-                $('#side-upacara').addClass('menu-open');
-                $('#side-kabupaten').addClass('active');
+                $('#side-reservasi').addClass('menu-open');
+                $('#side-tambah-reservasi').addClass('active');
 
                 var mymap = L.map('gmaps').setView([-8.617683234549416, 115.16708493639123], 15);
 

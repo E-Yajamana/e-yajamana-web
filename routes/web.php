@@ -69,6 +69,7 @@ Route::prefix('sulinggih')->group(function () {
     Route::get('', [SulinggihController::class, 'index'])->name('sulinggih.dashboard');
     Route::prefix('manajemen-reservasi')->group(function () {
         Route::get('index', [SulinggihController::class, 'dataReservasi'])->name('sulinggih.manajemen-reservasi.index');
+        Route::get('detail', [SulinggihController::class, 'detailReservasi'])->name('sulinggih.manajemen-reservasi.detail');
         Route::get('riwayat', [SulinggihController::class, 'riwayatReservasi'])->name('sulinggih.manajemen-reservasi.riwayat');
     });
 

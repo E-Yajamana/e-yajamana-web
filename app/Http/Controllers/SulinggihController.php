@@ -16,6 +16,11 @@ class SulinggihController extends Controller
         return view('pages.sulinggih.manajemen-reservasi.reservasi-index');
     }
 
+    public function detailReservasi(Request $request)
+    {
+        return view('pages.sulinggih.manajemen-reservasi.reservasi-detail');
+    }
+
 
     public function riwayatReservasi(Request $request)
     {

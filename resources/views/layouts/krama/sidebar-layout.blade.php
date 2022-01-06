@@ -103,7 +103,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-data-reservasi" href="{{route('krama.data-upacara')}}" class="nav-link p-2">
+                            <a id="side-data-reservasi" href="{{route('krama.reservasi.show')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Data Reservasi</p>
                             </a>
@@ -111,7 +111,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-tambah-reservasi" href="{{route('krama.data-upacara.create')}}" class="nav-link p-2">
+                            <a id="side-tambah-reservasi" href="{{route('krama.reservasi.create')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Tambah Reservasi</p>
                             </a>

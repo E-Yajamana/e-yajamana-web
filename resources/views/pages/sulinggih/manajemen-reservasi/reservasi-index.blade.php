@@ -13,7 +13,7 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>List Data Reservasi Upacara Masuk</h1>
+                    <h1>Data Reservasi Masuk</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -29,7 +29,7 @@
     <div class="container-fluid">
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
-                <h3 class="card-title my-auto">Preview List Data Reservasi Krama</h3>
+                <h3 class="card-title my-auto">List Data Reservasi Krama</h3>
             </div>
 
             {{-- Start Data Table Sulinggih --}}
@@ -42,6 +42,7 @@
                                     <th>No</th>
                                     <th>Penyelenggara </th>
                                     <th>Jenis Upacara</th>
+                                    <th>Lokasi Upacara</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
@@ -51,12 +52,15 @@
                                     <td>1</td>
                                     <td>Krama Dalung</td>
                                     <td>Piodalan Ring Pura</td>
+                                    <td>Kuta Utara, Dalung</td>
                                     <td>
-                                        <li >Wangun Bale Petak </li>
+                                        <li >Wangun Bale Petak  </li>
+                                        <li >Melaspas Wewangunan </li>
+                                        <li >Wangun Bale Petak</li>
                                         <li >Melaspas Wewangunan </li>
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                     </td>
@@ -64,10 +68,15 @@
                                 <tr>
                                     <td>2</td>
                                     <td>Krama Dalung</td>
+                                    <td>Kuta Utara, Dalung</td>
                                     <td>Piodalan Ring Pura</td>
-                                    <td>14-Desember-2021 - 16-Desember-2021</td>
                                     <td>
-                                        <a href="" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <li >Wangun Bale Petak</li>
+                                        <li >Melaspas Wewangunan </li>
+                                        <li >Wangun Bale Petak</li>
+                                    </td>
+                                    <td>
+                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                     </td>
@@ -78,6 +87,7 @@
                                     <th>No</th>
                                     <th>Penyelenggara </th>
                                     <th>Jenis Upacara</th>
+                                    <th>Lokasi Upacara</th>
                                     <th>Tanggal Mulai - Tanggal Selesai</th>
                                     <th>Tindakan</th>
                                 </tr>

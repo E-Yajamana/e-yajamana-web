@@ -26,6 +26,32 @@
         <!-- /.container-fluid -->
     </section>
 
+    <div class="card card-primary card-outline tab-content">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-6 my-2">
+                    <h3 class="card-title">Filter Reservasi</h3>
+                </div>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <div class="row">
+                <div class="col-7">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Diterima</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Ditolak</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
     <div class="container-fluid">
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
@@ -59,9 +85,9 @@
                                         <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:70px;">Pending</div>
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                        <a href="" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+                                        {{-- <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a> --}}
                                     </td>
                                 </tr>
                                 <tr>
@@ -74,9 +100,9 @@
                                         <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:70px;">Pending</div>
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                        <a href="" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+                                        {{-- <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a> --}}
                                     </td>
                                 </tr>
                                 <tr>
@@ -88,9 +114,9 @@
                                         <div class=" bg-danger btn-sm text-center" style="border-radius: 5px; width:70px;">Ditolak</div>
                                     </td>
                                     <td>
-                                        <a href="" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a onclick="" href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                        <a href="" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+                                        {{-- <a onclick="" href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a> --}}
                                     </td>
                                 </tr>
                             </tbody>
