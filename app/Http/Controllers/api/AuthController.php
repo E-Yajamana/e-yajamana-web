@@ -34,7 +34,7 @@ class AuthController extends Controller
             try{
                 if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
                     $user = Auth::user();
-                    $krama = $user->Krama;
+                    $krama = $user->Krama()->first();
                     $token = $user->createToken('e-yajamana')->plainTextToken;
                 }else{
                     return response()->json([
@@ -63,5 +63,13 @@ class AuthController extends Controller
                 ]
             ],200);
         // END
+    }
+
+    public function unauthorized(){
+        return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized request detected',
+                'data' => (Object)[],
+        ],401);
     }
 }
