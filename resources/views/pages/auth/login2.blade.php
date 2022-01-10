@@ -79,7 +79,7 @@
                                 </p>
                                 <p class="mb-1">
                                     Lupa password ?
-                                    <a href="#" class="text-decoration-none link-primary">PULIHKAN DI SINI</a>
+                                    <a href="{{route('auth.lupa-password.lading')}}" class="text-decoration-none link-primary">PULIHKAN DI SINI</a>
                                 </p>
                             </div>
 

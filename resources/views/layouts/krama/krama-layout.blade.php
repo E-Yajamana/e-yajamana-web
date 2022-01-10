@@ -6,13 +6,17 @@
     <title>E-Yajamana | @yield('tittle') </title>
 
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+
     <style type="text/css">
         body {
             font-family: Nunito !important;
         }
     </style>
 
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{asset('base-template/dist/css/bootstrap-icons.css')}}">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/fontawesome-free/css/all.min.css')}}">

@@ -21,7 +21,6 @@ class AuthController extends Controller
         return view('pages.auth.register.krama-bali');
     }
 
-
     public function lupaPasswordLanding(Request $request)
     {
         return view('pages.auth.lupa-password.landing');

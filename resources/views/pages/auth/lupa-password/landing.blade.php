@@ -22,7 +22,7 @@
                                 dengan akun E-Yajamana anda
                             </p>
                         </div>
-                        <form action="#" method="POST" class="px-4 mb-2">
+                        <form action="{{route('auth.lupa-password.verify-otp')}}" method="" class="px-4 mb-2">
                             @csrf
                             <div class="col-md">
                                 <div class="form-group mb-">

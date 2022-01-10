@@ -13,7 +13,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-                <li  class="user-panel nav-item">
+                <li class="user-panel nav-item ">
                     <a href="#" class="nav-link mb-2">
                         <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
                         <p>
@@ -37,75 +37,113 @@
                     </ul>
                 </li>
 
-                <li class="nav-header font-weight-bold" >DASHBOARD</li>
+                <!-- SidebarSearch Form -->
+                <div class="form-inline m-0 mt-3">
+                    <div class="input-group" data-widget="sidebar-search">
+                    <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                        </button>
+                    </div>
+                    </div>
+                </div>
+
+                <li class="nav-header font-weight-bold pl-2">DASHBOARD</li>
                 <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                    <a href="pages/gallery.html" class="nav-link p-2">
+                        <i class="mr-1 nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-header font-weight-bold">MENU UTAMA</li>
 
-                <li id="side-pengaturan-akun" class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user-cog"></i>
-                        <p>
-                            Reseravasi
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
+                <li class="nav-header font-weight-bold pl-2">MENU UTAMA</li>
+
+                <li id="" class="nav-item">
+                    <a href="#" class="nav-link p-2">
+                        <i class="fa fa-calendar-alt nav-icon"></i>
+                        <p>Jadwal Muput <span class="ml-4 badge badge-primary right">2</span></p>
+                    </a>
+                </li>
+
+
+                <li id="side-manajemen-muput-upacara" class="nav-item">
+                    <a href="#" class="nav-link p-2">
+                        <i class="fa bi-brightness-alt-high nav-icon"></i>
+                        <p>Muput Upacara </p>
+                        <i class="fas fa-angle-left right"></i>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.verify.show')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Konfirmasi Sulinggih</p>
+                            <a id="side-manajemen-muput-upacara-index" href="{{route('sulinggih.muput-upacara.index')}}" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Data Muput Upacara</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-manajemen-muput-upacara-konfirmasi-tangkil" href="{{route('sulinggih.muput-upacara.konfirmasi.tangkil')}}" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon"></i>
+                                <p>Konfirmasi Tangkil <span class="badge badge-primary right">2</span></p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-manajemen-muput-upacara-konfirmasi-muput-upacara" href="{{route('sulinggih.muput-upacara.konfirmasi.upacara')}}" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Konfirmasi Muput  <span class="badge badge-primary right">2</span></p>
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <li class="nav-header font-weight-bold">MASTER DATA</li>
-                <li id="side-master-data" class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-database"></i>
+                <li id="side-manajemen-reservasi" class="nav-item">
+                    <a href="#" class="nav-link p-2">
+                        <i class="fa fa-book-open nav-icon mr-1"></i>
                         <p>
-                            Master Data
+                            Manajemen Reservasi
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('admin.master-data.kabupaten.show')}}" class="nav-link">
+                            <a id="side-manajemen-reservasi-index" href="{{route('sulinggih.manajemen-reservasi.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Kabupaten</p>
+                            <p>Reservasi Masuk</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-kecamatan" href="{{route('admin.master-data.kecamatan.show')}}" class="nav-link">
+                            <a id="side-manajemen-reservasi-riwayat" href="{{route('sulinggih.manajemen-reservasi.riwayat')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Kecamatan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a id="side-desa" href="{{route('admin.master-data.desa.show')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Desa Dinas</p>
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item ml-3">
-                            <a href="pages/charts/uplot.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Desa Adat</p>
-                            </a>
-                        </li> --}}
-                        <li class="nav-item ml-3">
-                            <a id="side-upacara" href="{{route('admin.master-data.upacara.show')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Upacara</p>
+                            <p>Riwayat Reservasi</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-header font-weight-bold pl-2">LAPORAN</li>
+                <li id="side-laporan" class="nav-item">
+                    <a href="#" class="nav-link p-2 ">
+                        <i class="fa fa-file-alt nav-icon mr-1"></i>
+                        <p>
+                            Laporan Sistem
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-laporan-buku" href="" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Lap. Buku</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-laporan-peminjaman" href="" class="nav-link p-2">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Lap. Peminjaman</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
