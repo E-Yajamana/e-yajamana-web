@@ -8,10 +8,7 @@ use App\Http\Controllers\WilayahController;
 
 class AdminController extends Controller
 {
-    public function index(Request $request)
-    {
-        return view('pages.admin.dashboard');
-    }
+
 
 
     // Bagian Master Data
@@ -67,7 +64,10 @@ class AdminController extends Controller
     }
 
 
-
+    public function upacaraCreate(Request $request)
+    {
+        return view('pages.admin.master-data.upacara.create');
+    }
 
 
     public function verifikasiShow(Request $request)

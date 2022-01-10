@@ -53,10 +53,14 @@ class DatabaseSeeder extends Seeder
                 'desc' => 'Upacara Manusa Yadnya Potong Gigi'
             ]
         ]);
-        
+
         Schema::enableForeignKeyConstraints();
-        
+
         $this->call(TbUserTableSeeder::class);
         $this->call(TbUpacaraTableSeeder::class);
+        // \App\Models\User::factory(10)->create();
+        $this->call([
+            UserSeeder::class,
+        ]);
     }
 }

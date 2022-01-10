@@ -82,7 +82,7 @@
                                         <h3 class="card-title my-auto">Preview List Data Upacara</h3>
                                     </div>
                                     <div class="col-6">
-                                        <button class="btn btn-primary float-right" type="button"  data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus"></i> Tambah</button>
+                                        <a class="btn btn-primary float-right" href="{{route('admin.master-data.upacara.create')}}"><i class="fa fa-plus"></i> Tambah</a>
                                     </div>
                                 </div>
                             </div>

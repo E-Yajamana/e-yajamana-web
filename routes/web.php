@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KramaController;
 use App\Http\Controllers\SulinggihController;
+use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
+use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
+use App\Http\Controllers\web\auth\AuthController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,7 +26,15 @@ Route::get('/', function () {
 
 
 Route::prefix('auth')->group(function () {
+
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
+    Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+
+
+    Route::get('register', [AuthController::class, 'registerLanding'])->name('auth.register.home');
+
     Route::get('register', [AuthController::class, 'registerLanding'])->name('auth.register.home');
     Route::get('register/krama', [AuthController::class, 'registerKrama'])->name('auth.register.krama');
 
@@ -35,7 +45,17 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::prefix('admin')->group(function () {
-    Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::prefix('master-data')->group(function () {
+        Route::get('upacara', [MasterDataUpacaraController::class, 'index'])->name('admin.master-data.index');
+
+    });
+});
+
+
+
+
+Route::prefix('admin')->group(function () {
     Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
 
     Route::get('master-data/kabupaten', [AdminController::class, 'kabupatenShow'])->name('admin.master-data.kabupaten.show');
@@ -43,6 +63,7 @@ Route::prefix('admin')->group(function () {
     Route::get('master-data/desa', [AdminController::class, 'desaShow'])->name('admin.master-data.desa.show');
     Route::get('master-data/upacara', [AdminController::class, 'upacaraShow'])->name('admin.master-data.upacara.show');
     Route::get('master-data/upacara/detail/id', [AdminController::class, 'upacaraDetail'])->name('admin.master-data.upacara.detail');
+    Route::get('master-data/upacara/create', [AdminController::class, 'upacaraCreate'])->name('admin.master-data.upacara.create');
 
     Route::get('pengaturan-akun/verifikasi', [AdminController::class, 'verifikasiShow'])->name('admin.verify.show');
     Route::get('pengaturan-akun/verifikasi/detail/id', [AdminController::class, 'verifikasiDetail'])->name('admin.verify.detail');
@@ -77,7 +98,6 @@ Route::prefix('sulinggih')->group(function () {
         Route::get('index', [SulinggihController::class, 'indexMuputUpacara'])->name('sulinggih.muput-upacara.index');
         Route::get('konfimasi-tangkil', [SulinggihController::class, 'konfrimasiTanggalTangkil'])->name('sulinggih.muput-upacara.konfirmasi.tangkil');
         Route::get('konfimasi-muput', [SulinggihController::class, 'konfrimasiMuput'])->name('sulinggih.muput-upacara.konfirmasi.upacara');
-
 
     });
 

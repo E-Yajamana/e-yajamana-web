@@ -29,7 +29,7 @@
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a  href="{{route('admin.verify.show')}}" class="nav-link">
+                            <a  href="{{route('auth.logout')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Logout</p>
                             </a>
@@ -52,38 +52,6 @@
                             Data Akun User
                         </p>
                     </a>
-                    {{-- <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a href="pages/charts/chartjs.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Data Sulinggih</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a href="pages/charts/flot.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Data Pemangku</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a href="pages/charts/inline.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Data Sanggar</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a href="pages/charts/uplot.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Data Serati</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a href="pages/charts/uplot.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Data Krama</p>
-                            </a>
-                        </li>
-                    </ul> --}}
                 </li>
 
                 <li id="side-pengaturan-akun" class="nav-item">
