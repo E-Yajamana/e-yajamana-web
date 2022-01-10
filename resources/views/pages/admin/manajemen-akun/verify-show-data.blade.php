@@ -53,6 +53,8 @@
                                         <td>29 June 2021</td>
                                         <td>
                                             <a href="{{route('admin.verify.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{route('admin.verify.detail')}}" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                            <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -62,6 +64,8 @@
                                         <td>12 Januari 2021</td>
                                         <td>
                                             <a href="{{route('admin.verify.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{route('admin.verify.detail')}}" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                            <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -71,6 +75,8 @@
                                         <td>04 September 2021</td>
                                         <td>
                                             <a href="{{route('admin.verify.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{route('admin.verify.detail')}}" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                            <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>

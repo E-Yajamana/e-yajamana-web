@@ -64,4 +64,12 @@ class AuthController extends Controller
             ],200);
         // END
     }
+
+    public function unauthorized(){
+        return response()->json([
+                'status' => 401,
+                'message' => 'Unauthorized request detected',
+                'data' => (Object)[],
+        ],401);
+    }
 }

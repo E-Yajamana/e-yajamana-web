@@ -34,10 +34,4 @@ class WilayahController extends Controller
         $json_file = json_decode($string, true);
         return $json_file;
     }
-
-
-
-
-
-
 }

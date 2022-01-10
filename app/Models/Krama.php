@@ -22,4 +22,8 @@ class Krama extends Model
     public function User(){
         return $this->belongsTo(User::class,'id_user','id_user');
     }
+
+    public function Upacaraku(){
+        return $this->hasMany(Upacaraku::class,'id_krama','id_krama');
+    }
 }

@@ -533,7 +533,7 @@
                                                         <!-- checkbox -->
                                                         <div  class="icheck-primary d-inline ml-2">
                                                             <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1"  style="overflow: hidden; text-overflow:ellipsis">Ngaturang Pengaksama Ring Batara Sami</label>
+                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngeruwak Caru</label>
                                                         </div>
                                                         <div class="card-tools">
                                                             <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -855,8 +855,8 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-                $('#side-upacara').addClass('menu-open');
-                $('#side-kabupaten').addClass('active');
+                $('#side-reservasi').addClass('menu-open');
+                $('#side-tambah-reservasi').addClass('active');
 
                 var mymap = L.map('gmaps').setView([-8.617683234549416, 115.16708493639123], 15);
 
