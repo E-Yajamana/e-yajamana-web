@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(TbUserTableSeeder::class);
         $this->call(TbUpacaraTableSeeder::class);
-        $this->call(TbUserTableSeeder::class);
         $this->call(TbKramaTableSeeder::class);
         $this->call(TbGriyaRumahTableSeeder::class);
         $this->call(TbProvinsiBaruTableSeeder::class);

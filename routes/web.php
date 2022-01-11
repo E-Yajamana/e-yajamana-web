@@ -47,7 +47,8 @@ Route::prefix('auth')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::prefix('master-data')->group(function () {
-        Route::get('upacara', [MasterDataUpacaraController::class, 'index'])->name('admin.master-data.index');
+        Route::get('upacara', [MasterDataUpacaraController::class, 'indexDataUpacara'])->name('admin.master-data.upacara.index');
+        Route::get('upacara/create', [MasterDataUpacaraController::class, 'createDataUpacara'])->name('admin.master-data.upacara.create');
 
     });
 });
@@ -61,9 +62,8 @@ Route::prefix('admin')->group(function () {
     Route::get('master-data/kabupaten', [AdminController::class, 'kabupatenShow'])->name('admin.master-data.kabupaten.show');
     Route::get('master-data/kecamatan', [AdminController::class, 'kecamatanShow'])->name('admin.master-data.kecamatan.show');
     Route::get('master-data/desa', [AdminController::class, 'desaShow'])->name('admin.master-data.desa.show');
-    Route::get('master-data/upacara', [AdminController::class, 'upacaraShow'])->name('admin.master-data.upacara.show');
+    // Route::get('master-data/upacara', [AdminController::class, 'upacaraShow'])->name('admin.master-data.upacara.show');
     Route::get('master-data/upacara/detail/id', [AdminController::class, 'upacaraDetail'])->name('admin.master-data.upacara.detail');
-    Route::get('master-data/upacara/create', [AdminController::class, 'upacaraCreate'])->name('admin.master-data.upacara.create');
 
     Route::get('pengaturan-akun/verifikasi', [AdminController::class, 'verifikasiShow'])->name('admin.verify.show');
     Route::get('pengaturan-akun/verifikasi/detail/id', [AdminController::class, 'verifikasiDetail'])->name('admin.verify.detail');

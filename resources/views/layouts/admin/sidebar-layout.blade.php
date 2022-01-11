@@ -100,14 +100,8 @@
                             <p>Desa Dinas</p>
                             </a>
                         </li>
-                        {{-- <li class="nav-item ml-3">
-                            <a href="pages/charts/uplot.html" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Desa Adat</p>
-                            </a>
-                        </li> --}}
                         <li class="nav-item ml-3">
-                            <a id="side-upacara" href="{{route('admin.master-data.upacara.show')}}" class="nav-link">
+                            <a id="side-upacara" href="{{route('admin.master-data.upacara.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Upacara</p>
                             </a>

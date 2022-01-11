@@ -9,8 +9,6 @@ use App\Http\Controllers\WilayahController;
 class AdminController extends Controller
 {
 
-
-
     // Bagian Master Data
     public function kabupatenShow(Request $request)
     {
@@ -55,7 +53,7 @@ class AdminController extends Controller
 
     public function upacaraShow(Request $request)
     {
-        return view('pages.admin.master-data.upacara.show');
+        return view('pages.admin.master-data.upacara.index');
     }
 
     public function upacaraDetail(Request $request)
@@ -63,11 +61,6 @@ class AdminController extends Controller
         return view('pages.admin.master-data.upacara.detail');
     }
 
-
-    public function upacaraCreate(Request $request)
-    {
-        return view('pages.admin.master-data.upacara.create');
-    }
 
 
     public function verifikasiShow(Request $request)

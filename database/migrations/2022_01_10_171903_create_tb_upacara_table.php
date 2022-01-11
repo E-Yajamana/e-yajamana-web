@@ -16,7 +16,7 @@ class CreateTbUpacaraTable extends Migration
         Schema::create('tb_upacara', function (Blueprint $table) {
             $table->integer('id_upacara', true);
             $table->string('nama_upacara', 100);
-            $table->enum('katagori_upacara', ['Dewa Yadnya', 'Ptira Yadnya', 'Manusa Yadnya', 'Rsi Yadnya', 'Bhuta Yadnya']);
+            $table->enum('katagori_upacara', ['Dewa Yadnya', 'Pitra Yadnya', 'Manusa Yadnya', 'Rsi Yadnya', 'Bhuta Yadnya']);
             $table->text('deskripsi_upacara');
             $table->string('image', 100)->nullable();
             $table->timestamps();
