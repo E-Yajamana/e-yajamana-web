@@ -49,6 +49,7 @@ Route::prefix('admin')->group(function () {
     Route::prefix('master-data')->group(function () {
         Route::get('upacara', [MasterDataUpacaraController::class, 'indexDataUpacara'])->name('admin.master-data.upacara.index');
         Route::get('upacara/create', [MasterDataUpacaraController::class, 'createDataUpacara'])->name('admin.master-data.upacara.create');
+        Route::post('upacara/store', [MasterDataUpacaraController::class, 'storeDataUpacara'])->name('admin.master-data.upacara.store');
 
     });
 });

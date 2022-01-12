@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TbDetailReservasiTableSeeder extends Seeder
 {
@@ -14,14 +15,14 @@ class TbDetailReservasiTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
-        \DB::table('tb_detail_reservasi')->delete();
-        
-        \DB::table('tb_detail_reservasi')->insert(array (
-            0 => 
+
+        DB::table('tb_detail_reservasi')->delete();
+
+        DB::table('tb_detail_reservasi')->insert(array (
+            0 =>
             array (
-                'id_detail_reservasi' => 1,
+                'id' => 1,
                 'id_reservasi' => 9,
                 'id_tahapan_upacara' => 2,
                 'waktu_mulai' => '05:00:00',
@@ -30,9 +31,9 @@ class TbDetailReservasiTableSeeder extends Seeder
                 'tanggal_selesai' => '2021-10-21',
                 'status' => NULL,
             ),
-            1 => 
+            1 =>
             array (
-                'id_detail_reservasi' => 2,
+                'id' => 2,
                 'id_reservasi' => 9,
                 'id_tahapan_upacara' => 1,
                 'waktu_mulai' => '10:01:23',
@@ -41,9 +42,9 @@ class TbDetailReservasiTableSeeder extends Seeder
                 'tanggal_selesai' => '2021-10-21',
                 'status' => NULL,
             ),
-            2 => 
+            2 =>
             array (
-                'id_detail_reservasi' => 3,
+                'id' => 3,
                 'id_reservasi' => 10,
                 'id_tahapan_upacara' => 3,
                 'waktu_mulai' => '15:00:00',
@@ -52,9 +53,9 @@ class TbDetailReservasiTableSeeder extends Seeder
                 'tanggal_selesai' => '2021-10-21',
                 'status' => NULL,
             ),
-            3 => 
+            3 =>
             array (
-                'id_detail_reservasi' => 5,
+                'id' => 5,
                 'id_reservasi' => 11,
                 'id_tahapan_upacara' => 5,
                 'waktu_mulai' => '06:00:07',
@@ -63,9 +64,9 @@ class TbDetailReservasiTableSeeder extends Seeder
                 'tanggal_selesai' => '2021-10-15',
                 'status' => NULL,
             ),
-            4 => 
+            4 =>
             array (
-                'id_detail_reservasi' => 6,
+                'id' => 6,
                 'id_reservasi' => 11,
                 'id_tahapan_upacara' => 6,
                 'waktu_mulai' => '10:00:00',
@@ -75,7 +76,7 @@ class TbDetailReservasiTableSeeder extends Seeder
                 'status' => NULL,
             ),
         ));
-        
-        
+
+
     }
 }

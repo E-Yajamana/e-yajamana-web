@@ -20,4 +20,9 @@ class MasterDataUpacaraController extends Controller
         return view('pages.admin.master-data.upacara.master-upacara-create');
     }
 
+    public function storeDataUpacara(Request $request)
+    {
+        dd($request->all());
+    }
+
 }

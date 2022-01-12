@@ -22,7 +22,7 @@ class TbUpacarakuTableSeeder extends Seeder
         DB::table('tb_upacaraku')->insert(array (
             0 =>
             array (
-                'id_upacaraku' => 1,
+                'id' => 1,
                 'id_upacara' => 1,
                 'id_krama' => 1,
                 'nama_upacara' => 'Mepandes Alin',
@@ -34,7 +34,7 @@ class TbUpacarakuTableSeeder extends Seeder
             ),
             1 =>
             array (
-                'id_upacaraku' => 2,
+                'id' => 2,
                 'id_upacara' => 2,
                 'id_krama' => 2,
                 'nama_upacara' => 'Ngenteg Linggih',

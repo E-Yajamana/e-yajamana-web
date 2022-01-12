@@ -14,7 +14,7 @@ class CreateTbReservasiTable extends Migration
     public function up()
     {
         Schema::create('tb_reservasi', function (Blueprint $table) {
-            $table->integer('id_reservasi', true);
+            $table->integer('id', true);
             $table->integer('id_relasi')->nullable()->index('id_relasi');
             $table->integer('id_upacaraku')->nullable()->index('id_upacaraku');
             $table->enum('tipe', ['sulinggih_pemangku', 'sangar'])->nullable();

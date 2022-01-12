@@ -14,7 +14,7 @@ class CreateTbSulinggihTable extends Migration
     public function up()
     {
         Schema::create('tb_sulinggih', function (Blueprint $table) {
-            $table->integer('id_sulinggih', true);
+            $table->integer('id', true);
             $table->integer('id_griya')->nullable()->index('id_griya');
             $table->integer('id_user')->nullable()->index('tb_sulinggih_ibfk_1');
             $table->integer('nabe')->nullable()->index('nabe');
@@ -23,7 +23,8 @@ class CreateTbSulinggihTable extends Migration
             $table->date('tgl_diksha')->nullable();
             $table->enum('status_konfirmasi_akun', ['terkonfirmasi', 'reject'])->nullable();
             $table->string('sk_kesulinggihan')->nullable();
-            $table->string('image')->nullable();
+            $table->enum('jenis_kelamin', ['laki laki', 'perempuan'])->nullable();
+            $table->date('tanggal_lahir')->nullable();
             $table->timestamps();
         });
     }

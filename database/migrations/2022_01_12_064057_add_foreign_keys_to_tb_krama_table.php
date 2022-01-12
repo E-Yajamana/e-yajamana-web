@@ -14,7 +14,7 @@ class AddForeignKeysToTbKramaTable extends Migration
     public function up()
     {
         Schema::table('tb_krama', function (Blueprint $table) {
-            $table->foreign(['id_user'], 'tb_krama_ibfk_1')->references(['id_user'])->on('tb_user');
+            $table->foreign(['id_user'], 'tb_krama_ibfk_1')->references(['id'])->on('tb_user');
         });
     }
 

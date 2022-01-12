@@ -14,8 +14,8 @@ class AddForeignKeysToTbGriyaRumahTable extends Migration
     public function up()
     {
         Schema::table('tb_griya_rumah', function (Blueprint $table) {
-            $table->foreign(['id_desa_adat'], 'tb_griya_rumah_ibfk_1')->references(['desadat_id'])->on('tb_desaadat');
             $table->foreign(['id_desa'], 'tb_griya_rumah_ibfk_2')->references(['id_desa'])->on('tb_desa');
+            $table->foreign(['id_desa_adat'], 'tb_griya_rumah_ibfk_1')->references(['desadat_id'])->on('tb_desaadat');
         });
     }
 
@@ -27,8 +27,8 @@ class AddForeignKeysToTbGriyaRumahTable extends Migration
     public function down()
     {
         Schema::table('tb_griya_rumah', function (Blueprint $table) {
-            $table->dropForeign('tb_griya_rumah_ibfk_1');
             $table->dropForeign('tb_griya_rumah_ibfk_2');
+            $table->dropForeign('tb_griya_rumah_ibfk_1');
         });
     }
 }

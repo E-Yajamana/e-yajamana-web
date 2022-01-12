@@ -22,7 +22,7 @@ class TbSulinggihTableSeeder extends Seeder
         DB::table('tb_sulinggih')->insert(array (
             0 =>
             array (
-                'id_sulinggih' => 1,
+                'id' => 1,
                 'id_griya' => 1,
                 'id_user' => 3,
                 'nabe' => 1,
@@ -31,11 +31,10 @@ class TbSulinggihTableSeeder extends Seeder
                 'tgl_diksha' => '2021-10-18',
                 'status_konfirmasi_akun' => 'terkonfirmasi',
                 'sk_kesulinggihan' => 'image/sk-sulinggih',
-                'image' => 'image/profile',
             ),
             1 =>
             array (
-                'id_sulinggih' => 2,
+                'id' => 2,
                 'id_griya' => 2,
                 'id_user' => 5,
                 'nabe' => 1,
@@ -44,7 +43,6 @@ class TbSulinggihTableSeeder extends Seeder
                 'tgl_diksha' => '2021-10-19',
                 'status_konfirmasi_akun' => 'terkonfirmasi',
                 'sk_kesulinggihan' => 'image/sk-sulinggih',
-                'image' => 'image/profile',
             ),
         ));
 

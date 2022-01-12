@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TbSanggarTableSeeder extends Seeder
 {
@@ -14,22 +15,20 @@ class TbSanggarTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
-        \DB::table('tb_sanggar')->delete();
-        
-        \DB::table('tb_sanggar')->insert(array (
-            0 => 
+
+        DB::table('tb_sanggar')->delete();
+
+        DB::table('tb_sanggar')->insert(array (
+            0 =>
             array (
-                'id_sanggar' => 4,
+                'id' => 4,
                 'id_user' => 8,
                 'nama_sanggar' => 'Sanggar Singo Sari',
                 'alamat_sanggar' => 'Dalung Permai',
-                'lat' => '018232`',
-                'lng' => '012309',
             ),
         ));
-        
-        
+
+
     }
 }

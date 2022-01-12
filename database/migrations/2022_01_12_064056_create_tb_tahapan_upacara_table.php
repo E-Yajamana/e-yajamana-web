@@ -14,7 +14,7 @@ class CreateTbTahapanUpacaraTable extends Migration
     public function up()
     {
         Schema::create('tb_tahapan_upacara', function (Blueprint $table) {
-            $table->integer('id_tahapan_upacara', true);
+            $table->integer('id', true);
             $table->integer('id_upacara')->index('tb_tahapan_upacara_ibfk_1');
             $table->string('nama_tahapan', 100);
             $table->text('deskripsi_tahapan');

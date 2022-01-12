@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddForeignKeysToTbSeratiTable extends Migration
+class AddForeignKeysToTbSanggarTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddForeignKeysToTbSeratiTable extends Migration
      */
     public function up()
     {
-        Schema::table('tb_serati', function (Blueprint $table) {
-            $table->foreign(['id_user'], 'tb_serati_ibfk_1')->references(['id_user'])->on('tb_user');
+        Schema::table('tb_sanggar', function (Blueprint $table) {
+            $table->foreign(['id_user'], 'tb_sanggar_ibfk_1')->references(['id'])->on('tb_user');
         });
     }
 
@@ -25,8 +25,8 @@ class AddForeignKeysToTbSeratiTable extends Migration
      */
     public function down()
     {
-        Schema::table('tb_serati', function (Blueprint $table) {
-            $table->dropForeign('tb_serati_ibfk_1');
+        Schema::table('tb_sanggar', function (Blueprint $table) {
+            $table->dropForeign('tb_sanggar_ibfk_1');
         });
     }
 }

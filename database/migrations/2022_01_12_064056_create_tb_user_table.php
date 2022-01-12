@@ -14,10 +14,11 @@ class CreateTbUserTable extends Migration
     public function up()
     {
         Schema::create('tb_user', function (Blueprint $table) {
-            $table->integer('id_user', true);
+            $table->integer('id', true);
             $table->string('email', 100);
             $table->string('password');
             $table->string('nomor_telepon', 15);
+            $table->string('user_profile', 200)->nullable();
             $table->enum('role', ['admin', 'sulinggih', 'sanggar', 'pemangku', 'serati', 'krama_bali']);
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class TbKramaTableSeeder extends Seeder
 {
@@ -14,23 +15,23 @@ class TbKramaTableSeeder extends Seeder
      */
     public function run()
     {
-        
 
-        \DB::table('tb_krama')->delete();
-        
-        \DB::table('tb_krama')->insert(array (
-            0 => 
+
+        DB::table('tb_krama')->delete();
+
+        DB::table('tb_krama')->insert(array (
+            0 =>
             array (
-                'id_krama' => 1,
+                'id' => 1,
                 'id_user' => 1,
                 'nama_krama' => 'krama-alin',
                 'alamat_krama' => 'Jalan raya padonan no25',
                 'jenis_kelamin' => 'laki-laki',
                 'tanggal_lahir' => '2021-10-12',
             ),
-            1 => 
+            1 =>
             array (
-                'id_krama' => 2,
+                'id' => 2,
                 'id_user' => 7,
                 'nama_krama' => 'krama-rismawan',
                 'alamat_krama' => 'Jalan raya dalung permai no25',
@@ -38,7 +39,7 @@ class TbKramaTableSeeder extends Seeder
                 'tanggal_lahir' => '2021-10-07',
             ),
         ));
-        
-        
+
+
     }
 }

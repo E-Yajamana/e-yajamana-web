@@ -35,7 +35,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form>
+                <form method="POST" action="{{route('admin.master-data.upacara.store')}}">
+                    @csrf
                     <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
                             <h3 class="card-title my-auto">Form Tambah Data Upacara</h3>
@@ -82,20 +83,56 @@
                                 @enderror
                             </div>
                             <div id="button-remove" class="row justify-content-end mr-1">
-                                <button  class="btn mx-1 btn-primary" onclick="view()">Buat Tahapan Upacara</button>
+                                <button type="button" class="btn mx-1 btn-primary" onclick="view()">Buat Tahapan Upacara</button>
                                 <button type="submit" class=" mx-1 btn btn-primary">Simpan Upacara</button>
                             </div>
 
-
                             <div id="tahapan-upacara" class="d-none">
-                                <div class="card-header p-0 mt-4">
+                                <div class="card-header p-0 mt-4 mb-2">
                                     <h3 class="card-title my-auto">Form Tambah Tahapana Upacara</h3>
                                 </div>
                                 <div class="card-body">
+                                    <table class="table" id="multiForm">
+                                        <thead>
+                                            <th>Nama Tahapan</th>
+                                            <th>Deskripsi Tahapan</th>
+                                            <th>Status Tahapan</th>
+                                            <th>Gambar Tahapan</th>
+                                            <th>Tindakan</th>
+                                        </thead>
+                                        <tr>
+                                            <td>
+                                                <input type="text" name="nama_tahapan[]" class="form-control" placeholder="Masukan Tahapan"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="desc_tahapan[]" placeholder="Masukan" class="form-control"/>
+                                            </td>
+                                            <td>
+                                                <select name="status[]" class="form-control select2bs4  @error('peminjam') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
+                                                    <option disabled selected>Pilih Status Tahapan</option>
+                                                    <option value="awal">Awal</option>
+                                                    <option value="puncak">Puncak</option>
+                                                    <option value="akhir">Akhir</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <div class="custom-file">
+                                                    <input type="file" class="custom-file-input @error('file') is-invalid @enderror" name="image[]" id="customFile">
+                                                    <label class="custom-file-label " for="customFile">Foto Upacara</label>
+                                                </div>                                            </td>
+                                            <td>
+                                                <input type="button" name="add" value="Tambah" id="addRemoveIp" class="btn btn-outline-dark">
+                                            </td>
+                                        </tr>
 
+                                    </table>
+                                    <div class="row justify-content-end mr-2 mt-4">
+                                        <button type="button" class=" mx-1 btn btn-info">Kembali</button>
+                                        <button type="submit" class=" mx-1 btn btn-primary">Buat Upacara</button>
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -113,10 +150,9 @@
 
     <script>
         $(document).ready(function(){
-
             $("#button-remove").click(function(){
                 $("#tahapan-upacara").removeClass("d-none");
-                $("button").addClass("d-none");
+                $("#button-remove").addClass("d-none");
             });
         });
     </script>
@@ -142,5 +178,19 @@
         });
 
     </script>
+
+    <script>
+        var i = 0;
+        $("#addRemoveIp").click(function () {
+            ++i;
+            $("#multiForm").append('<tr><td><input type="text" name="nama_tahapan[]" class="form-control" placeholder="Masukan Tahapan"/></td><td><input type="text" name="desc_tahapan[]" placeholder="Masukan" class="form-control"/></td><td><select name="status[]" class="form-control select2bs4" style="width: 100%;" aria-placeholder="Pilihlah Program Studi"><option disabled selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input type="file" class="custom-file-input" name="image[]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
+        });
+
+        $(document).on('click', '.remove-item', function () {
+            $(this).parents('tr').remove();
+        });
+
+    </script>
+
 
 @endpush

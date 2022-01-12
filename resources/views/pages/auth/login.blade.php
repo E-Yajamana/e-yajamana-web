@@ -24,12 +24,12 @@
         <div class="d-flex w-auto  align-self-center px-lg-5">
             <div class="row justify-content-center p-4">
                 <div id="screen1" class="col-12 col-sm-6 p-0" >
-                    <div class=" float-right w-75 card card-primary m-0 ml-4">
+                    <div class="card card-primary m-0 ml-4" >
                         <img id="splash" class="rounded" src="{{asset('base-template/dist/img/login-sulinggih.jpg')}}" alt="Product Image">
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 p-0" >
-                    <div class=" w-75 mr-4 card card-primary mb-0" style="height: 634px">
+                    <div class="mr-4 card card-primary mb-0" style="height: 634px">
                         <div class="card-header bg-white text-center">
                             <img class="rounded mx-auto d-block" src="{{ asset('base-template/dist/img/logo-01.png') }}" alt="sipandu logo" width="100" height="100">
                             <p class="login-box-msg mb-0 pb-0 px-0 fw-bold h6 mt-2 mb-1"> Selamat Datang di Sistem</p>

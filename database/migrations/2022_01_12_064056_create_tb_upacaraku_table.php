@@ -14,7 +14,7 @@ class CreateTbUpacarakuTable extends Migration
     public function up()
     {
         Schema::create('tb_upacaraku', function (Blueprint $table) {
-            $table->integer('id_upacaraku', true);
+            $table->integer('id', true);
             $table->integer('id_upacara')->nullable()->index('id_upacara');
             $table->integer('id_krama')->nullable()->index('id_krama');
             $table->string('nama_upacara')->nullable();
@@ -23,6 +23,8 @@ class CreateTbUpacarakuTable extends Migration
             $table->date('tanggal_selesai')->nullable();
             $table->text('desc')->nullable();
             $table->enum('status', ['pending', 'proses tangkil', 'proses muput', 'selesai', 'batal'])->nullable();
+            $table->decimal('lat', 20, 18)->nullable();
+            $table->decimal('lng', 21, 18)->nullable();
             $table->timestamps();
         });
     }

@@ -14,12 +14,12 @@ class CreateTbSeratiTable extends Migration
     public function up()
     {
         Schema::create('tb_serati', function (Blueprint $table) {
-            $table->integer('id_serati', true);
+            $table->integer('id', true);
             $table->integer('id_user')->nullable()->index('id_user');
             $table->string('nama_serati', 50)->nullable();
             $table->string('alamat_serati', 100)->nullable();
-            $table->string('lat')->nullable();
-            $table->string('lng')->nullable();
+            $table->decimal('lat', 20, 18)->nullable();
+            $table->decimal('lng', 21, 18)->nullable();
             $table->timestamps();
         });
     }

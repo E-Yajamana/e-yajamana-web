@@ -14,9 +14,9 @@ class AddForeignKeysToTbSulinggihTable extends Migration
     public function up()
     {
         Schema::table('tb_sulinggih', function (Blueprint $table) {
-            $table->foreign(['id_user'], 'tb_sulinggih_ibfk_1')->references(['id_user'])->on('tb_user');
-            $table->foreign(['nabe'], 'tb_sulinggih_ibfk_3')->references(['id_sulinggih'])->on('tb_sulinggih');
-            $table->foreign(['id_griya'], 'tb_sulinggih_ibfk_2')->references(['id_griya'])->on('tb_griya_rumah');
+            $table->foreign(['id_griya'], 'tb_sulinggih_ibfk_2')->references(['id'])->on('tb_griya_rumah');
+            $table->foreign(['id_user'], 'tb_sulinggih_ibfk_1')->references(['id'])->on('tb_user');
+            $table->foreign(['nabe'], 'tb_sulinggih_ibfk_3')->references(['id'])->on('tb_sulinggih');
         });
     }
 
@@ -28,9 +28,9 @@ class AddForeignKeysToTbSulinggihTable extends Migration
     public function down()
     {
         Schema::table('tb_sulinggih', function (Blueprint $table) {
+            $table->dropForeign('tb_sulinggih_ibfk_2');
             $table->dropForeign('tb_sulinggih_ibfk_1');
             $table->dropForeign('tb_sulinggih_ibfk_3');
-            $table->dropForeign('tb_sulinggih_ibfk_2');
         });
     }
 }
