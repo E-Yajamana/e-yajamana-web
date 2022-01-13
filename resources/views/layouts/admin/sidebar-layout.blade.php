@@ -23,7 +23,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a  href="{{route('admin.verify.show')}}" class="nav-link">
+                            <a  href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Profile</p>
                             </a>
@@ -64,7 +64,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.verify.show')}}" class="nav-link">
+                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Konfirmasi Sulinggih</p>
                             </a>

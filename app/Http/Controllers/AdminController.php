@@ -26,12 +26,6 @@ class AdminController extends Controller
     }
 
 
-
-    public function verifikasiShow(Request $request)
-    {
-        return view('pages.admin.manajemen-akun.verify-show-data');
-    }
-
     public function verifikasiDetail(Request $request)
     {
         return view('pages.admin.manajemen-akun.verify-detail');

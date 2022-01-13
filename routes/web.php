@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KramaController;
 use App\Http\Controllers\SulinggihController;
 use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
+use App\Http\Controllers\web\admin\manajemen_akun\ManajemenAkunController;
 use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
 use App\Http\Controllers\web\admin\masterdata\MasterDataWilayahController;
 use App\Http\Controllers\web\auth\AuthController;
@@ -58,6 +59,16 @@ Route::prefix('admin')->group(function () {
         Route::get('kabupaten', [MasterDataWilayahController::class, 'indexKabupaten'])->name('admin.master-data.kabupaten.index');
 
     });
+
+    Route::prefix('manajemen-akun')->group(function () {
+        Route::get('pengaturan-akun/verifikasi', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
+        Route::get('pengaturan-akun/verifikasi/detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.verifikasi.detail');
+
+        Route::get('data-akun', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
+        Route::get('data-akun/detail/{id?}', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
+
+    });
+
 });
 
 
@@ -68,8 +79,6 @@ Route::prefix('admin')->group(function () {
 
     Route::get('master-data/upacara/detail/id', [AdminController::class, 'upacaraDetail'])->name('admin.master-data.upacara.detail');
 
-    Route::get('pengaturan-akun/verifikasi', [AdminController::class, 'verifikasiShow'])->name('admin.verify.show');
-    Route::get('pengaturan-akun/verifikasi/detail/id', [AdminController::class, 'verifikasiDetail'])->name('admin.verify.detail');
     Route::get('data-akun', [AdminController::class, 'dataAkunShow'])->name('admin.data-akun.show');
     Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
 

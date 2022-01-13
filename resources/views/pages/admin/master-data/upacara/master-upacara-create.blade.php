@@ -1,12 +1,7 @@
 @extends('layouts.admin.admin-layout')
-@section('tittle','Data Upacara')
+@section('tittle','Tambah Data Upacara')
 
 @push('css')
-    <!-- DataTables -->
-    {{-- <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('base-template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}"> --}}
-    <!-- Select2 -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
@@ -97,20 +92,26 @@
                                 <button type="submit" class=" mx-1 btn btn-primary">Simpan Upacara</button>
                             </div>
 
-                            <div id="tahapan-upacara" class="d-none">
+                            <div id="tahapan-upacara" class="">
                                 <div class="card-header p-0 mt-4 mb-2">
                                     <h3 class="card-title my-auto">Form Tambah Tahapana Upacara</h3>
                                 </div>
                                 <div class="card-body p-2">
-                                    <table class="table" id="multiForm">
+                                    <table class="table" >
                                         <thead>
                                             <th>Nama Tahapan</th>
                                             <th>Deskripsi Tahapan</th>
                                             <th>Status Tahapan</th>
                                             <th>Foto Tahapan</th>
                                             <th>Tindakan</th>
-
                                         </thead>
+                                        <tbody id="multiForm">
+                                            {{-- @if (Session::has('dataTahapan'))
+                                                <h3 class="card-title my-auto"></h3>
+                                            @endif --}}
+                                            <tr><td><input type="text" name="dataTahapan[0][nama_tahapan]" class="form-control " placeholder="Masukan Nama Tahapan"/></td><td><input type="text" name="dataTahapan[0][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select name="dataTahapan[0][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled value="" selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input type="file" class="custom-file-input" name="dataTahapan[0][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>
+                                            {{dd(old('dataTahapan[0][nama_tahapan]'))}}
+                                        </tbody>
                                     </table>
                                     <div class="row mt-3">
                                         <div class="col-6">
@@ -166,7 +167,7 @@
             $("#buatTahapan").click(function(){
                 $("#tahapan-upacara").removeClass("d-none");
                 $("#button-remove").addClass("d-none");
-                $("#multiForm").append('<tr><td><input required type="text" name="dataTahapan[0][nama_tahapan]" class="form-control" placeholder="Masukan Nama Tahapan"/></td><td><input required type="text" name="dataTahapan[0][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select required name="dataTahapan[0][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled value="" selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input required type="file" class="custom-file-input" name="dataTahapan[0][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
+                $("#multiForm").append('<tr><td><input type="text" name="dataTahapan[0][nama_tahapan]" class="form-control " placeholder="Masukan Nama Tahapan"/></td><td><input type="text" name="dataTahapan[0][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select name="dataTahapan[0][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled value="" selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input type="file" class="custom-file-input" name="dataTahapan[0][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
             });
         });
     </script>
@@ -175,23 +176,12 @@
         var i = 0;
         $("#addRemoveIp").click(function () {
             ++i;
-            $("#multiForm").append('<tr><td><input required type="text" name="dataTahapan['+i+'][nama_tahapan]" class="form-control" placeholder="Masukan Nama Tahapan"/></td><td><input required type="text" name="dataTahapan['+i+'][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select required name="dataTahapan['+i+'][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input required type="file" class="custom-file-input" name="dataTahapan['+i+'][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
+            $("#multiForm").append('<tr><td><input  type="text" name="dataTahapan['+i+'][nama_tahapan]" class="form-control" placeholder="Masukan Nama Tahapan"/></td><td><input  type="text" name="dataTahapan['+i+'][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select  name="dataTahapan['+i+'][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input  type="file" class="custom-file-input" name="dataTahapan['+i+'][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
         });
         $(document).on('click', '.remove-item', function () {
             $(this).parents('tr').remove();
         });
 
     </script>
-
-
-
-
-
-
-
-
-
-
-
 
 @endpush

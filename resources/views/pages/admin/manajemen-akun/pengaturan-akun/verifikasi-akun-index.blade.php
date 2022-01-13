@@ -46,39 +46,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>I Wayan Sutama</td>
-                                        <td>Ida Begawan Agre Segening</td>
-                                        <td>29 June 2021</td>
-                                        <td>
-                                            <a href="{{route('admin.verify.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="{{route('admin.verify.detail')}}" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                            <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>I Wayan Darma</td>
-                                        <td>Ida Cri Bhagawan Sabda Murti</td>
-                                        <td>12 Januari 2021</td>
-                                        <td>
-                                            <a href="{{route('admin.verify.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="{{route('admin.verify.detail')}}" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                            <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>I Gede Adi Catra</td>
-                                        <td>Ida Bujangga Rsi Adi Guru</td>
-                                        <td>04 September 2021</td>
-                                        <td>
-                                            <a href="{{route('admin.verify.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="{{route('admin.verify.detail')}}" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                            <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                        </td>
-                                    </tr>
+                                    @foreach ($dataSulinggih as $data)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$data->nama_walaka}}</td>
+                                            <td>{{$data->nama_sulinggih}}</td>
+                                            <td>{{date('d-M-Y',strtotime($data->created_at))}}</td>
+                                            <td>
+                                                <a href="{{route('admin.manajemen-akun.verifikasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>

@@ -21,7 +21,7 @@ class CreateTbSulinggihTable extends Migration
             $table->string('nama_walaka', 100)->nullable();
             $table->string('nama_sulinggih', 100)->nullable();
             $table->date('tgl_diksha')->nullable();
-            $table->enum('status_konfirmasi_akun', ['terkonfirmasi', 'reject'])->nullable();
+            $table->enum('status_konfirmasi_akun', ['terkonfirmasi', 'reject','pending'])->nullable();
             $table->string('sk_kesulinggihan')->nullable();
             $table->enum('jenis_kelamin', ['laki laki', 'perempuan'])->nullable();
             $table->date('tanggal_lahir')->nullable();
