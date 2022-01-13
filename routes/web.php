@@ -66,10 +66,6 @@ Route::prefix('admin')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
 
-    // Route::get('master-data/kabupaten', [AdminController::class, 'kabupatenShow'])->name('admin.master-data.kabupaten.show');
-    // Route::get('master-data/kecamatan', [AdminController::class, 'kecamatanShow'])->name('admin.master-data.kecamatan.show');
-    // Route::get('master-data/desa', [AdminController::class, 'desaShow'])->name('admin.master-data.desa.show');
-    // Route::get('master-data/upacara', [AdminController::class, 'upacaraShow'])->name('admin.master-data.upacara.show');
     Route::get('master-data/upacara/detail/id', [AdminController::class, 'upacaraDetail'])->name('admin.master-data.upacara.detail');
 
     Route::get('pengaturan-akun/verifikasi', [AdminController::class, 'verifikasiShow'])->name('admin.verify.show');
