@@ -83,21 +83,27 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('admin.master-data.kabupaten.show')}}" class="nav-link">
+                            <a id="side-kabupaten" href="{{route('admin.master-data.kabupaten.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Kabupaten</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-kecamatan" href="{{route('admin.master-data.kecamatan.show')}}" class="nav-link">
+                            <a id="side-kecamatan" href="{{route('admin.master-data.kecamatan.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Kecamatan</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-desa" href="{{route('admin.master-data.desa.show')}}" class="nav-link">
+                            <a id="side-desa" href="{{route('admin.master-data.desa.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Desa Dinas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-desa-adat" href="{{route('admin.master-data.desa-adat.index')}}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Desa Adat</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">

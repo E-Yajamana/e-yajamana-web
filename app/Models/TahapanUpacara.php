@@ -17,4 +17,9 @@ class TahapanUpacara extends Model
         'desc_tahapan',
         'status_upacara'
     ];
+
+    public function Upacara(){
+        return $this->belongsTo(Upacara::class,'id_upacara','id');
+    }
+
 }

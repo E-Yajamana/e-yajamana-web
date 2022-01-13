@@ -37,9 +37,6 @@
                                 <div class="col-6">
                                     <h3 class="card-title">Data Desa Sistem E-Yajamana</h3>
                                 </div>
-                                <div class="col-6">
-                                    <button class="btn btn-primary float-right" type="button"  data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus"></i> Tambah</button>
-                                </div>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -51,76 +48,23 @@
                                         <th>Kode Desa</th>
                                         <th>Nama Desa</th>
                                         <th>Nama Kecamatan</th>
-                                        <th>Tindakan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>KC01</td>
-                                        <td>Kerobokan Kelod</td>
-                                        <td>Kuta Utara</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>KC02</td>
-                                        <td>Kerobokan Kaja</td>
-                                        <td>Kuta Utara</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>KC03</td>
-                                        <td>Dauh Puri</td>
-                                        <td>Denpasar Barat</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>KC04</td>
-                                        <td>Kesiman</td>
-                                        <td>Denpasar Timur</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>KC05</td>
-                                        <td>Lodtunduh</td>
-                                        <td>Ubud</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>KC06</td>
-                                        <td>Melinggih</td>
-                                        <td>Payangan</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
+                                    <?php $i=1; ?>
+                                    @foreach ($dataDesa as $data)
+                                        @foreach ($data->Kecamatan as $kecamatan)
+                                            @foreach ($kecamatan->Desa as $desa)
+                                                <tr>
+                                                    <td>{{$i}}</td>
+                                                    <td>{{$desa->id_desa}}</td>
+                                                    <td>{{$desa->name}}</td>
+                                                    <td>{{$kecamatan->name}}</td>
+                                                </tr>
+                                                <?php $i++; ?>
+                                            @endforeach
+                                        @endforeach
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -128,7 +72,6 @@
                                         <th>Kode Desa</th>
                                         <th>Nama Desa</th>
                                         <th>Nama Kecamatan</th>
-                                        <th>Tindakan</th>
                                     </tr>
                                 </tfoot>
                             </table>

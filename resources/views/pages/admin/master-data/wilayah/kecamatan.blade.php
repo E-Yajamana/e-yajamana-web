@@ -37,9 +37,6 @@
                                 <div class="col-6">
                                     <h3 class="card-title">Data Kecamatan Sistem E-Yajamana</h3>
                                 </div>
-                                <div class="col-6">
-                                    <button class="btn btn-primary float-right" type="button"  data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus"></i> Tambah</button>
-                                </div>
                             </div>
                         </div>
                         <!-- /.card-header -->
@@ -54,69 +51,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- <tr>
-                                        <td>1</td>
-                                        <td>KC01</td>
-                                        <td>Kuta Utara</td>
-                                        <td>Badung</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>KC02</td>
-                                        <td>Kuta Selatan</td>
-                                        <td>Badung</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>KC03</td>
-                                        <td>Denpasar Barat</td>
-                                        <td>Denpasar</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>KC04</td>
-                                        <td>Denpasar Timur</td>
-                                        <td>Denpasar</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>KC05</td>
-                                        <td>Ubud</td>
-                                        <td>Gianyar</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr> --}}
-                                    @foreach ($payload as $data)
-                                        @foreach ($data['listKecamatan'] as $listkecamatan)
+                                    <?php $i=1; ?>
+                                    @foreach ($dataKecamatan as $data)
+                                        @foreach ($data->Kecamatan as $index =>$kecamatan)
                                             <tr>
-                                                <td>{{$loop->iteration}}</td>
-                                                <td>{{$listkecamatan['id']}}</td>
-                                                <td>{{$listkecamatan['name']}}</td>
-                                                <td>{{$data['namaKabupaten']}}</td>
+                                                <td>{{$i}}</td>
+                                                <td>{{$kecamatan->id_kecamatan}}</td>
+                                                <td>{{$kecamatan->name}}</td>
+                                                <td>{{$data->name}}</td>
                                             </tr>
+                                            <?php $i++; ?>
                                         @endforeach
                                     @endforeach
                                 </tbody>

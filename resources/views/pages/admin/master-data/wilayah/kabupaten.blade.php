@@ -51,65 +51,17 @@
                                         <th>Kode Kabupaten</th>
                                         <th>Nama Kabupaten</th>
                                         <th>Nama Provinsi</th>
-                                        {{-- <th>Action</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- <tr>
-                                        <td>1</td>
-                                        <td>KB01</td>
-                                        <td>Badung</td>
-                                        <td>Bali</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>KB02</td>
-                                        <td>Denpasar</td>
-                                        <td>Bali</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>KB03</td>
-                                        <td>Gianyar</td>
-                                        <td>Bali</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr> --}}
-                                    {{-- {{ $i=0}} --}}
-                                    @foreach ($result['kabupaten'] as $data)
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$data['id']}}</td>
-                                        <td>{{$data['name']}}</td>
-                                        <td>{{$result['name']}}</td>
-                                    </tr>
-
-                                        {{-- {{$i+=$i++}} --}}
+                                    @foreach ($dataKabupaten as $data)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td>{{$data->id_kabupaten}}</td>
+                                            <td>{{$data->name}}</td>
+                                            <td>{{$data->Provinsi->name}}</td>
+                                        </tr>
                                     @endforeach
-                                    {{-- <tr>
-                                        <td>4</td>
-                                        <td>KB04</td>
-                                        <td>Buleleng</td>
-                                        <td>Bali</td>
-                                        <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr> --}}
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -117,7 +69,6 @@
                                         <th>Kode Kabupaten</th>
                                         <th>Nama Kabupaten</th>
                                         <th>Nama Provinsi</th>
-                                        {{-- <th>Action</th> --}}
                                     </tr>
                                 </tfoot>
                             </table>

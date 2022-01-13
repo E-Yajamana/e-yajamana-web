@@ -18,5 +18,8 @@ class Upacara extends Model
         'image',
     ];
 
+    public function TahapanUpacara(){
+        return $this->hasMany(TahapanUpacara::class,'id_upacara','id');
+    }
 
 }
