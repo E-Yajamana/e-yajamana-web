@@ -10,10 +10,13 @@ class Upacara extends Model
     use HasFactory;
 
     protected $table = 'tb_upacara';
-    
+
     protected $fillable = [
         'nama_upacara',
-        'kategori',
-        'desc'
+        'katagori_upacara',
+        'deskripsi_upacara',
+        'image',
     ];
+
+
 }

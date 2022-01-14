@@ -22,7 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'email',
         'password',
-        'notlpn',
+        'nomor_telepon',
         'role'
     ];
 
@@ -48,5 +48,5 @@ class User extends Authenticatable
     public function Krama(){
         return $this->hasOne(Krama::class,'id_user','id');
     }
-    
+
 }

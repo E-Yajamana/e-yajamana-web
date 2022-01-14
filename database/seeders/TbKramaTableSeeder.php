@@ -23,11 +23,9 @@ class TbKramaTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'id_user' => 5,
+                'id_user' => 1,
                 'nama_krama' => 'krama-alin',
                 'alamat_krama' => 'Jalan raya padonan no25',
-                'lat' => '-8.785502',
-                'lng' => '115.199806',
                 'jenis_kelamin' => 'laki-laki',
                 'tanggal_lahir' => '2021-10-12',
             ),
@@ -37,8 +35,6 @@ class TbKramaTableSeeder extends Seeder
                 'id_user' => 7,
                 'nama_krama' => 'krama-rismawan',
                 'alamat_krama' => 'Jalan raya dalung permai no25',
-                'lat' => '-8.785502',
-                'lng' => '115.199806',
                 'jenis_kelamin' => 'laki-laki',
                 'tanggal_lahir' => '2021-10-07',
             ),
