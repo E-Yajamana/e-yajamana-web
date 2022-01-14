@@ -8,6 +8,7 @@ use App\Http\Controllers\web\admin\manajemen_akun\ManajemenAkunController;
 use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
 use App\Http\Controllers\web\admin\masterdata\MasterDataWilayahController;
 use App\Http\Controllers\web\auth\AuthController;
+use App\Http\Controllers\web\auth\RegisterController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,12 +34,15 @@ Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
     Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
+    Route::prefix('register')->group(function () {
+        Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
+        Route::get('{akun?}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
+
+    });
 
 
-    Route::get('register', [AuthController::class, 'registerLanding'])->name('auth.register.home');
 
-    Route::get('register', [AuthController::class, 'registerLanding'])->name('auth.register.home');
-    Route::get('register/krama', [AuthController::class, 'registerKrama'])->name('auth.register.krama');
+
 
     Route::get('lupa-password', [AuthController::class, 'lupaPasswordLanding'])->name('auth.lupa-password.lading');
     Route::get('lupa-password/verify-otp', [AuthController::class, 'verifyOTP'])->name('auth.lupa-password.verify-otp');
@@ -64,8 +68,8 @@ Route::prefix('admin')->group(function () {
         Route::get('pengaturan-akun/verifikasi', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
         Route::get('pengaturan-akun/verifikasi/detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.verifikasi.detail');
 
-        Route::get('data-akun', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
-        Route::get('data-akun/detail/{id?}', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
+        Route::get('data-akun', [ManajemenAkunController::class, 'dataAkunIndex'])->name('admin.manajemen-akun.data-akun.index');
+        Route::get('data-akun/detail/{id?}', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.data-akun.detail');
 
     });
 

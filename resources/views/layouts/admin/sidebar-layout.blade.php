@@ -46,7 +46,7 @@
                 </li>
                 <li class="nav-header font-weight-bold">MANAJEMEN AKUN</li>
                 <li id="side-data-akun" class="nav-item">
-                    <a href="{{route('admin.data-akun.show')}}" class="nav-link">
+                    <a href="{{route('admin.manajemen-akun.data-akun.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Data Akun User
@@ -67,6 +67,22 @@
                             <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Konfirmasi Sulinggih</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Konfirmasi Pemangku</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Konfirmasi Sanggar</p>
                             </a>
                         </li>
                     </ul>

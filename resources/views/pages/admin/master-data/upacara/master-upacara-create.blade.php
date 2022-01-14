@@ -92,7 +92,7 @@
                                 <button type="submit" class=" mx-1 btn btn-primary">Simpan Upacara</button>
                             </div>
 
-                            <div id="tahapan-upacara" class="">
+                            <div id="tahapan-upacara" class="d-none">
                                 <div class="card-header p-0 mt-4 mb-2">
                                     <h3 class="card-title my-auto">Form Tambah Tahapana Upacara</h3>
                                 </div>
@@ -109,8 +109,7 @@
                                             {{-- @if (Session::has('dataTahapan'))
                                                 <h3 class="card-title my-auto"></h3>
                                             @endif --}}
-                                            <tr><td><input type="text" name="dataTahapan[0][nama_tahapan]" class="form-control " placeholder="Masukan Nama Tahapan"/></td><td><input type="text" name="dataTahapan[0][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select name="dataTahapan[0][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled value="" selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input type="file" class="custom-file-input" name="dataTahapan[0][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>
-                                            {{dd(old('dataTahapan[0][nama_tahapan]'))}}
+                                            {{-- {{dd(old('dataTahapan[0][nama_tahapan]'))}} --}}
                                         </tbody>
                                     </table>
                                     <div class="row mt-3">

@@ -35,11 +35,8 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Katagori Akun</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
+                                <div class="row">
+                                    <h3 class="card-title">Katagori Akun</h3>
                                 </div>
                             </div>
 
@@ -78,7 +75,14 @@
                     <div class="col-md-9">
                         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
                             <div class="card-header my-auto">
-                                <h3 class="card-title my-auto">Preview List Data Akun</h3>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h3 class="card-title my-auto">Preview List Data Akun</h3>
+                                    </div>
+                                    <div class="col-6">
+                                        <a class="btn btn-primary float-right" href=""><i class="fa fa-plus"></i> Tambah</a>
+                                    </div>
+                                </div>
                             </div>
 
                             {{-- Start Data Table Sulinggih --}}
