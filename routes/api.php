@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\krama\KramaDashboardController;
 use App\Http\Controllers\api\krama\KramaProfileController;
+use App\Http\Controllers\api\krama\KramaUpacaraController;
 use App\Http\Controllers\api\location\LocationController;
 use App\Http\Controllers\api\yadnya\YadnyaController;
 use Illuminate\Http\Request;
@@ -61,6 +62,16 @@ Route::middleware('auth:sanctum')->group(function(){
             // KRAMA PROFILE FRAGMENT
                 Route::get('profile',[KramaProfileController::class,'index']);
             // END
+            
+            // KRAMA UPCARA
+                Route::prefix('upacara')->group(function(){
+                    Route::post('create',[KramaUpacaraController::class,'store']);
+                });
+            // END
         });
+    // END
+
+    // LOGOUT
+        Route::post('logout',[AuthController::class,'logoutUser']);
     // END
 });

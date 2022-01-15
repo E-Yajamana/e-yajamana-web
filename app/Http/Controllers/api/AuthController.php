@@ -4,12 +4,14 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Mockery\CountValidator\Exact;
 use PDOException;
 
 class AuthController extends Controller
@@ -61,6 +63,45 @@ class AuthController extends Controller
                     'user' => $user,
                     'krama' => $krama
                 ]
+            ],200);
+        // END
+    }
+
+    public function logoutUser(Request $request){
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'id_user' => 'required',
+            ]);
+            
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'Validation Error',
+                        'data' => (Object)[],
+                ],400);
+            }
+        // END
+        
+        // MAIN LOGIC
+            try{
+                if(!Auth::user()->currentAccessToken()->delete()){
+                    throw new Exception("UNKNOWN ERROR");
+                }
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+        
+        // RETURN
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil melakukan logout',
+                    'data' => (Object)[],
             ],200);
         // END
     }
