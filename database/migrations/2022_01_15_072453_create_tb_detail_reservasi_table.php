@@ -15,8 +15,8 @@ class CreateTbDetailReservasiTable extends Migration
     {
         Schema::create('tb_detail_reservasi', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_reservasi')->nullable()->index('id_resevarsi');
-            $table->integer('id_tahapan_upacara')->nullable()->index('id_tahapan_upacara');
+            $table->integer('id_reservasi')->index('id_resevarsi');
+            $table->integer('id_tahapan_upacara')->index('id_tahapan_upacara');
             $table->time('waktu_mulai')->nullable();
             $table->time('waktu_selesai')->nullable();
             $table->date('tanggal_mulai')->nullable();

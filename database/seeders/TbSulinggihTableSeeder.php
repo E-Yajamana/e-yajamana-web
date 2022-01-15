@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TbSulinggihTableSeeder extends Seeder
 {
@@ -15,12 +14,12 @@ class TbSulinggihTableSeeder extends Seeder
      */
     public function run()
     {
+        
 
-
-        DB::table('tb_sulinggih')->delete();
-
-        DB::table('tb_sulinggih')->insert(array (
-            0 =>
+        \DB::table('tb_sulinggih')->delete();
+        
+        \DB::table('tb_sulinggih')->insert(array (
+            0 => 
             array (
                 'id' => 1,
                 'id_griya' => 1,
@@ -28,11 +27,19 @@ class TbSulinggihTableSeeder extends Seeder
                 'nabe' => 1,
                 'nama_walaka' => 'i wayan boy',
                 'nama_sulinggih' => 'sulinggih boy',
-                'tgl_diksha' => '2021-10-18',
-                'status_konfirmasi_akun' => 'terkonfirmasi',
+                'nama_pasangan' => 'i wayan girl',
+                'tempat_lahir' => 'singaraja',
+                'tanggal_lahir' => '2022-01-13',
+                'jenis_kelamin' => 'laki-laki',
+                'pekerjaan' => 'petani',
+                'pendidikan' => 'MAGISTER',
+                'tanggal_diksha' => '2021-10-18',
                 'sk_kesulinggihan' => 'image/sk-sulinggih',
+                'status_konfirmasi_akun' => 'pending',
+                'created_at' => '2022-01-13 23:41:40',
+                'updated_at' => '2022-01-13 23:41:42',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'id_griya' => 2,
@@ -40,12 +47,20 @@ class TbSulinggihTableSeeder extends Seeder
                 'nabe' => 1,
                 'nama_walaka' => 'i wayan dima',
                 'nama_sulinggih' => 'sulinggih dima',
-                'tgl_diksha' => '2021-10-19',
-                'status_konfirmasi_akun' => 'terkonfirmasi',
+                'nama_pasangan' => 'cowok ni men',
+                'tempat_lahir' => 'badung',
+                'tanggal_lahir' => '2022-01-13',
+                'jenis_kelamin' => 'perempuan',
+                'pekerjaan' => 'Dokter Umum',
+                'pendidikan' => 'Doktor',
+                'tanggal_diksha' => '2021-10-19',
                 'sk_kesulinggihan' => 'image/sk-sulinggih',
+                'status_konfirmasi_akun' => 'pending',
+                'created_at' => '2022-01-13 23:41:44',
+                'updated_at' => '2022-01-13 23:41:46',
             ),
         ));
-
-
+        
+        
     }
 }
