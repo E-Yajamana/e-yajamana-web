@@ -29,7 +29,6 @@ Route::get('/', function () {
     return view('pages/auth/register/krama-bali');
 });
 
-
 Route::prefix('auth')->group(function () {
 
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
