@@ -24,6 +24,6 @@ class Upacaraku extends Model
     ];
 
     public function Upacara(){
-        return $this->belongsTo(Upacara::class,'id_upacara','id_upacara');
+        return $this->belongsTo(Upacara::class,'id_upacara','id');
     }
 }
