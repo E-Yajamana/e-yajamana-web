@@ -11,7 +11,7 @@
         <thead style="background: linear-gradient(to bottom, #ffffff 44%, #0000cc 200%);">
             <tr>
                 <th style="text-align: center;">
-                    <img src="\logo-01.png" alt="" style="width:50px;height:50px;">
+                    <img src="{{ asset('logo-01.png') }}" alt="" style="width:50px;height:50px;">
                     <p style="margin: 0px;">
                         E-YAJAMANA <br>
                         <small style="font-size: 8px;font-style:normal;">SISTEM RESERVASI PEMUPUT KARYA</small>
