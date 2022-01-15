@@ -20,6 +20,7 @@ class CreateTbUserTable extends Migration
             $table->string('nomor_telepon', 15);
             $table->string('user_profile', 200)->nullable();
             $table->enum('role', ['admin', 'sulinggih', 'sanggar', 'pemangku', 'serati', 'krama_bali']);
+            $table->text('json_token_lupa_password')->nullable();
             $table->timestamps();
         });
     }

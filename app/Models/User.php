@@ -23,7 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'nomor_telepon',
-        'role'
+        'user_profile',
+        'role',
+        'json_token_lupa_password'
     ];
 
     /**

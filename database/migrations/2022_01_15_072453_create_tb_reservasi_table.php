@@ -15,8 +15,8 @@ class CreateTbReservasiTable extends Migration
     {
         Schema::create('tb_reservasi', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_relasi')->nullable()->index('id_relasi');
-            $table->integer('id_upacaraku')->nullable()->index('id_upacaraku');
+            $table->integer('id_relasi')->index('id_relasi');
+            $table->integer('id_upacaraku')->index('id_upacaraku');
             $table->enum('tipe', ['sulinggih_pemangku', 'sangar'])->nullable();
             $table->enum('status', ['batal', 'sedang berlangsung', 'selesai', 'in progress'])->nullable();
             $table->date('tgl_tangkil')->nullable();
