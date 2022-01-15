@@ -13,15 +13,10 @@ class Krama extends Model
 
     protected $fillable = [
         'id_user',
-        'id_desa',
-        'id_desa_adat',
         'nama_krama',
         'alamat_krama',
         'jenis_kelamin',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'lat',
-        'lng'
+        'tanggal_lahir'
     ];
 
     public function User(){

@@ -25,13 +25,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('test',function(){
-    return view('layouts.email.lupa-password');
-});
-
 Route::get('/', function () {
     return view('pages/auth/register/krama-bali');
 });
+
 
 Route::prefix('auth')->group(function () {
 
@@ -41,9 +38,9 @@ Route::prefix('auth')->group(function () {
 
     Route::prefix('register')->group(function () {
         Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
-        Route::get('{akun}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
+        Route::get('{akun?}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
 
-        Route::post('krama', [RegisterController::class, 'storeRegisKrama'])->name('auth.register.akun.krama.store');
+        Route::post('krama', [RegisterController::class, 'regisKrama'])->name('auth.register.akun.krama');
 
     });
 

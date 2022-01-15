@@ -25,8 +25,6 @@ use Illuminate\Support\Facades\Route;
 // AUTH
     Route::post('login',[AuthController::class,'loginUser']);
 
-    Route::post('request/email/token',[AuthController::class,'lupaPassword']);
-
     Route::get('unathorized',[AuthController::class,'unauthorized'])->name('api.unathorized');
 // END
 
