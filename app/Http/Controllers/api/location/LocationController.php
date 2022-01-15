@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api\location;
 
 use App\Http\Controllers\Controller;
 use App\Models\Desa;
-use App\Models\Desaadat;
+use App\Models\DesaAdat;
 use App\Models\KabupatenBaru;
 use App\Models\Kecamatan;
 use App\Models\ProvinsiBaru;
@@ -166,9 +166,10 @@ class LocationController extends Controller
         // MAIN LOGIC
             try{
                 
-                $desaadats = Desaadat::get(['desadat_id','desadat_nama']);
+                $desaadats = DesaAdat::get(['desadat_id','desadat_nama']);
                 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',
