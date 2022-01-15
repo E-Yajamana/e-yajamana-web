@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AjaxWilayahDropdown;
 use App\Http\Controllers\KramaController;
 use App\Http\Controllers\SulinggihController;
 use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
@@ -37,6 +38,8 @@ Route::prefix('auth')->group(function () {
     Route::prefix('register')->group(function () {
         Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
         Route::get('{akun?}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
+
+        Route::post('krama', [RegisterController::class, 'regisKrama'])->name('auth.register.akun.krama');
 
     });
 
@@ -118,6 +121,12 @@ Route::prefix('sulinggih')->group(function () {
     });
 
 
+});
+
+Route::prefix('ajax')->group(function () {
+    Route::get('kabupaten/{id?}', [AjaxWilayahDropdown::class, 'getKabupaten']);
+    Route::get('kecamatan/{id}', [AjaxWilayahDropdown::class, 'getKecamatan']);
+    Route::get('desa/{id}', [AjaxWilayahDropdown::class, 'getDesaDinas']);
 });
 
 

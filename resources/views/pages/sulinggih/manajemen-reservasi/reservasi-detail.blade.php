@@ -228,12 +228,12 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-                $('#side-upacara').addClass('menu-open');
-                $('#side-kabupaten').addClass('active');
+            $('#side-upacara').addClass('menu-open');
+            $('#side-kabupaten').addClass('active');
 
-                var mymap = L.map('gmaps').setView([-8.617683234549416, 115.16708493639123], 15);
+            var mymap = L.map('gmaps').setView([-8.617683234549416, 115.16708493639123], 15);
 
-                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                 attribution: 'Adalah API Favoritku',
                 maxZoom: 18,
                 id: 'mapbox/streets-v11',

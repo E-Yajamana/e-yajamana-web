@@ -53,6 +53,8 @@
 
     <script src="{{asset('base-template\dist\js\sweetalert2.all.min.js')}}"></script>
 
+
+
     <script>
         @if(Session::has('status'))
             Swal.fire({

@@ -5,17 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="{{ asset('images/sipandu-logo.ico') }}">
     <title>E-Yajamana | @yield('tittle')</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/fontawesome-free/css/all.min.css')}}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{asset('base-template/dist/css/adminlte.min.css')}}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+
+    <script src="{{asset('base-template\dist\js\sweetalert2.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('base-template\dist\css\sweetalert2.min.css')}}">
 
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset('base-template/plugins/fontawesome-free/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{asset('base-template/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('base-template/dist/css/adminlte.min.css')}}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
-    <style>
-        html, body {
-            font-family: 'Nunito', sans-serif;
-            font-weight: 300;
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            font-family: Nunito !important;
         }
     </style>
     @stack('css')
@@ -37,6 +43,8 @@
 @stack('js')
 
 <script src="{{asset('base-template\dist\js\sweetalert2.all.min.js')}}"></script>
+<!-- AdminLTE App -->
+<script src="{{asset('base-template/dist/js/adminlte.js')}}"></script>
 
 <script>
     @if(Session::has('status'))

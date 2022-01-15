@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\web\auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\DesaAdat;
+use App\Models\Kabupaten;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,7 +35,9 @@ class RegisterController extends Controller
         // MAIN LOGIC
             if($request->akun == 'krama')
             {
-                return view('pages.auth.register.krama-bali');
+                $dataKabupaten = Kabupaten::where('id_provinsi',51)->get();
+                $dataDesaAdat = DesaAdat::all();
+                return view('pages.auth.register.krama-bali',compact(['dataKabupaten','dataDesaAdat']));
             }elseif($request->akun == 'sulinggih')
             {
                 dd('sulinggih');
@@ -41,7 +45,11 @@ class RegisterController extends Controller
 
         // END LOGIC
 
+    }
 
+    public function regisKrama(Request $request)
+    {
+        dd($request->all());
     }
 
 
