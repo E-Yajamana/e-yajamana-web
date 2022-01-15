@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AjaxWilayahDropdown;
+use App\Http\Controllers\api\location\LocationController;
 use App\Http\Controllers\KramaController;
 use App\Http\Controllers\SulinggihController;
 use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
@@ -124,9 +125,9 @@ Route::prefix('sulinggih')->group(function () {
 });
 
 Route::prefix('ajax')->group(function () {
-    Route::get('kabupaten/{id?}', [AjaxWilayahDropdown::class, 'getKabupaten']);
-    Route::get('kecamatan/{id}', [AjaxWilayahDropdown::class, 'getKecamatan']);
-    Route::get('desa/{id}', [AjaxWilayahDropdown::class, 'getDesaDinas']);
+    Route::get('kabupaten/{id?}', [LocationController::class, 'getKabupaten']);
+    Route::get('kecamatan/{id}', [LocationController::class, 'getKecamatan']);
+    Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);
 });
 
 
