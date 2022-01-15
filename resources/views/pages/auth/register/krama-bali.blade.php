@@ -40,9 +40,9 @@
                                             <span class="fas fa-envelope"></span>
                                         </div>
                                     </div>
-                                    @error('kondisi')
+                                    @error('email')
                                         <div class="invalid-feedback text-start">
-                                            {{$errors->first('kondisi') }}
+                                            {{$errors->first('email') }}
                                         </div>
                                     @enderror
                                 </div>
@@ -50,15 +50,15 @@
                             <div class="form-group">
                                 <label>Nomor HP <span class="text-danger">*</span></label>
                                 <div class="input-group mb-3">
-                                    <input type="number" name="email" autocomplete="off" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Masukan Nomor HP">
+                                    <input type="number" name="nomor_telepon" autocomplete="off" class="form-control @error('nomor_telepon') is-invalid @enderror" value="{{ old('nomor_telepon') }}" placeholder="Masukan Nomor HP">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-phone-alt"></span>
                                         </div>
                                     </div>
-                                    @error('kondisi')
+                                    @error('nomor_telepon')
                                         <div class="invalid-feedback text-start">
-                                            {{$errors->first('kondisi') }}
+                                            {{$errors->first('nomor_telepon') }}
                                         </div>
                                     @enderror
                                 </div>
@@ -72,38 +72,23 @@
                                             <span class="fas fa-user"></span>
                                         </div>
                                     </div>
-                                    @error('kondisi')
+                                    @error('nama')
                                         <div class="invalid-feedback text-start">
-                                            {{$errors->first('kondisi') }}
+                                            {{$errors->first('nama') }}
                                         </div>
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="form-group">
-                                <label>Jenis Kelamin <span class="text-danger">*</span></label>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="nama" autocomplete="off" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" placeholder="Masukan Nama lengkap">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
-                                        </div>
-                                    </div>
-                                    @error('kondisi')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('kondisi') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Tempat Lahir <span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <input type="text" name="nama" autocomplete="off" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" placeholder="Masukan Nama lengkap">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
-                                        </div>
-                                    </div>
+                                    <label>Tempat Lahir <span class="text-danger">*</span></label>
+                                    <select id="tempat_lahir" name="tempat_lahir" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
+                                        <option value="0" disabled selected>Pilih Lokasi Tempat Lahir</option>
+                                        @foreach ($dataKabupaten as $data)
+                                            <option value="{{$data->name}}">{{$data->name}}</option>
+                                        @endforeach
+                                    </select>
                                     @error('kondisi')
                                         <div class="invalid-feedback text-start">
                                             {{$errors->first('kondisi') }}
@@ -114,12 +99,7 @@
                             <div class="form-group">
                                 <label>Tanggal Lahir <span class="text-danger">*</span></label>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="nama" autocomplete="off" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" placeholder="Masukan Nama lengkap">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
-                                        </div>
-                                    </div>
+                                    <input type="date" name="nama" autocomplete="off" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" placeholder="Masukan Nama lengkap">
                                     @error('kondisi')
                                         <div class="invalid-feedback text-start">
                                             {{$errors->first('kondisi') }}
@@ -127,7 +107,21 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                                <label>Jenis Kelamin <span class="text-danger">*</span></label>
+                                <div class="input-group mb-3">
+                                    <select name="penerbit" class="form-control select2bs4  @error('penerbit') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
+                                        <option disabled selected value="Bali">Laki-Laki</option>
+                                        <option value="laki-laki">Laki-Laki</option>
+                                        <option value="perempuan">Perempuan</option>
+                                    </select>
+                                    @error('kondisi')
+                                        <div class="invalid-feedback text-start">
+                                            {{$errors->first('kondisi') }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="form-group">
@@ -165,7 +159,6 @@
                             <div class="form-group">
                                 <label>Provinsi <span class="text-danger">*</span></label>
                                 <select disabled name="penerbit" class="form-control select2bs4  @error('penerbit') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
-                                    {{-- <option disabled selected value="0">Pilihlah Provinsi</option> --}}
                                     <option disabled selected value="Bali">BALI</option>
                                 </select>
                                 @error('penerbit')
@@ -178,7 +171,7 @@
                                 <label>Kabupaten/Kota <span class="text-danger">*</span></label>
                                 <select id="kabupaten" name="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Kabupaten</option>
-                                    @foreach ($dataKabupaten as $data)
+                                    @foreach ($dataKabupaten->where('id_provinsi',51) as $data)
                                         <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
                                     @endforeach
                                 </select>

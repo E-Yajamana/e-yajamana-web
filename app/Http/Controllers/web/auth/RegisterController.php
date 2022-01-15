@@ -35,7 +35,7 @@ class RegisterController extends Controller
         // MAIN LOGIC
             if($request->akun == 'krama')
             {
-                $dataKabupaten = Kabupaten::where('id_provinsi',51)->get();
+                $dataKabupaten = Kabupaten::all();
                 $dataDesaAdat = DesaAdat::all();
                 return view('pages.auth.register.krama-bali',compact(['dataKabupaten','dataDesaAdat']));
             }elseif($request->akun == 'sulinggih')
