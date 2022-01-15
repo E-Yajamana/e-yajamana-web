@@ -113,4 +113,41 @@ class AuthController extends Controller
                 'data' => (Object)[],
         ],401);
     }
+
+    public function lupaPassword(Request $request){
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'email' => 'required|email',
+            ]);
+            
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'Validation error',
+                        'data' => (Object)[],
+                ],400);
+            }
+        // END
+        
+        // MAIN LOGIC
+            try{
+                
+                $user = User::where('email',$request->email)->firstOrFail();
+
+                $digits = 5;
+                $random_token = rand(pow(10, $digits-1), pow(10, $digits)-1);
+
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+        
+        // RETURN
+        
+        // END
+    }
 }

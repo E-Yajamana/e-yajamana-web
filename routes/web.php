@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('test',function(){
+    return view('layouts.email.lupa-password');
+});
+
 Route::get('/', function () {
     return view('pages/auth/register/krama-bali');
 });
