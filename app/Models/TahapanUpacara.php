@@ -14,7 +14,13 @@ class TahapanUpacara extends Model
     protected $fillable = [
         'id_upacara',
         'nama_tahapan',
-        'desc_tahapan',
-        'status_upacara'
+        'deskripsi_tahapan',
+        'status_tahapan',
+        'image'
     ];
+
+    public function Upacara(){
+        return $this->belongsTo(Upacara::class,'id_upacara','id');
+    }
+
 }

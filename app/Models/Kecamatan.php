@@ -1,45 +1,27 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class TbKecamatan
- * 
- * @property string $id_kecamatan
- * @property string|null $id_kabupaten
- * @property string|null $name
- * 
- * @property TbKabupatenBaru|null $tb_kabupaten_baru
- * @property Collection|TbDesa[] $tb_desas
- *
- * @package App\Models
- */
 class Kecamatan extends Model
 {
-	protected $table = 'tb_kecamatan';
-	protected $primaryKey = 'id_kecamatan';
-	public $incrementing = false;
-	public $timestamps = false;
+    use HasFactory;
 
-	protected $fillable = [
-		'id_kabupaten',
-		'name'
-	];
+    protected $table = 'tb_kecamatan';
 
-	public function tb_kabupaten_baru()
-	{
-		return $this->belongsTo(TbKabupatenBaru::class, 'id_kabupaten');
-	}
+    protected $fillable = [
+        'id_kecamatan',
+        'id_kabupaten',
+        'name',
+    ];
 
-	public function tb_desas()
-	{
-		return $this->hasMany(TbDesa::class, 'id_kecamatan');
-	}
+    public function Kabupaten(){
+        return $this->belongsTo(Kabupaten::class,'id_kabupaten','id_kabupaten');
+    }
+
+    public function Desa(){
+        return $this->hasMany(Desa::class,'id_kecamatan','id_kecamatan');
+    }
 }

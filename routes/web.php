@@ -1,11 +1,15 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AjaxWilayahDropdown;
 use App\Http\Controllers\KramaController;
 use App\Http\Controllers\SulinggihController;
 use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
+use App\Http\Controllers\web\admin\manajemen_akun\ManajemenAkunController;
 use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
+use App\Http\Controllers\web\admin\masterdata\MasterDataWilayahController;
 use App\Http\Controllers\web\auth\AuthController;
+use App\Http\Controllers\web\auth\RegisterController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,12 +35,17 @@ Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
     Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
+    Route::prefix('register')->group(function () {
+        Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
+        Route::get('{akun?}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
+
+        Route::post('krama', [RegisterController::class, 'regisKrama'])->name('auth.register.akun.krama');
+
+    });
 
 
-    Route::get('register', [AuthController::class, 'registerLanding'])->name('auth.register.home');
 
-    Route::get('register', [AuthController::class, 'registerLanding'])->name('auth.register.home');
-    Route::get('register/krama', [AuthController::class, 'registerKrama'])->name('auth.register.krama');
+
 
     Route::get('lupa-password', [AuthController::class, 'lupaPasswordLanding'])->name('auth.lupa-password.lading');
     Route::get('lupa-password/verify-otp', [AuthController::class, 'verifyOTP'])->name('auth.lupa-password.verify-otp');
@@ -51,7 +60,22 @@ Route::prefix('admin')->group(function () {
         Route::get('upacara/create', [MasterDataUpacaraController::class, 'createDataUpacara'])->name('admin.master-data.upacara.create');
         Route::post('upacara/store', [MasterDataUpacaraController::class, 'storeDataUpacara'])->name('admin.master-data.upacara.store');
 
+        Route::get('desa', [MasterDataWilayahController::class, 'indexDesaDinas'])->name('admin.master-data.desa.index');
+        Route::get('desa-adat', [MasterDataWilayahController::class, 'indexDesaAdat'])->name('admin.master-data.desa-adat.index');
+        Route::get('kecamatan', [MasterDataWilayahController::class, 'indexKecamatan'])->name('admin.master-data.kecamatan.index');
+        Route::get('kabupaten', [MasterDataWilayahController::class, 'indexKabupaten'])->name('admin.master-data.kabupaten.index');
+
     });
+
+    Route::prefix('manajemen-akun')->group(function () {
+        Route::get('pengaturan-akun/verifikasi', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
+        Route::get('pengaturan-akun/verifikasi/detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.verifikasi.detail');
+
+        Route::get('data-akun', [ManajemenAkunController::class, 'dataAkunIndex'])->name('admin.manajemen-akun.data-akun.index');
+        Route::get('data-akun/detail/{id?}', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.data-akun.detail');
+
+    });
+
 });
 
 
@@ -60,14 +84,8 @@ Route::prefix('admin')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('profile', [AdminController::class, 'profile'])->name('admin.profile');
 
-    Route::get('master-data/kabupaten', [AdminController::class, 'kabupatenShow'])->name('admin.master-data.kabupaten.show');
-    Route::get('master-data/kecamatan', [AdminController::class, 'kecamatanShow'])->name('admin.master-data.kecamatan.show');
-    Route::get('master-data/desa', [AdminController::class, 'desaShow'])->name('admin.master-data.desa.show');
-    // Route::get('master-data/upacara', [AdminController::class, 'upacaraShow'])->name('admin.master-data.upacara.show');
     Route::get('master-data/upacara/detail/id', [AdminController::class, 'upacaraDetail'])->name('admin.master-data.upacara.detail');
 
-    Route::get('pengaturan-akun/verifikasi', [AdminController::class, 'verifikasiShow'])->name('admin.verify.show');
-    Route::get('pengaturan-akun/verifikasi/detail/id', [AdminController::class, 'verifikasiDetail'])->name('admin.verify.detail');
     Route::get('data-akun', [AdminController::class, 'dataAkunShow'])->name('admin.data-akun.show');
     Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
 
@@ -103,6 +121,12 @@ Route::prefix('sulinggih')->group(function () {
     });
 
 
+});
+
+Route::prefix('ajax')->group(function () {
+    Route::get('kabupaten/{id?}', [AjaxWilayahDropdown::class, 'getKabupaten']);
+    Route::get('kecamatan/{id}', [AjaxWilayahDropdown::class, 'getKecamatan']);
+    Route::get('desa/{id}', [AjaxWilayahDropdown::class, 'getDesaDinas']);
 });
 
 

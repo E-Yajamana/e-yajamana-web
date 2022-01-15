@@ -23,7 +23,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a  href="{{route('admin.verify.show')}}" class="nav-link">
+                            <a  href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Profile</p>
                             </a>
@@ -46,7 +46,7 @@
                 </li>
                 <li class="nav-header font-weight-bold">MANAJEMEN AKUN</li>
                 <li id="side-data-akun" class="nav-item">
-                    <a href="{{route('admin.data-akun.show')}}" class="nav-link">
+                    <a href="{{route('admin.manajemen-akun.data-akun.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Data Akun User
@@ -64,9 +64,25 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.verify.show')}}" class="nav-link">
+                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Konfirmasi Sulinggih</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Konfirmasi Pemangku</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Konfirmasi Sanggar</p>
                             </a>
                         </li>
                     </ul>
@@ -83,21 +99,27 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('admin.master-data.kabupaten.show')}}" class="nav-link">
+                            <a id="side-kabupaten" href="{{route('admin.master-data.kabupaten.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Kabupaten</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-kecamatan" href="{{route('admin.master-data.kecamatan.show')}}" class="nav-link">
+                            <a id="side-kecamatan" href="{{route('admin.master-data.kecamatan.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Kecamatan</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-desa" href="{{route('admin.master-data.desa.show')}}" class="nav-link">
+                            <a id="side-desa" href="{{route('admin.master-data.desa.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Desa Dinas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-desa-adat" href="{{route('admin.master-data.desa-adat.index')}}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Desa Adat</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
