@@ -52,7 +52,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
         });
     // END
-    
+
     // KRAMA
         Route::prefix('krama')->group(function(){
             // KRAMA HOME FRAGMENT
@@ -62,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function(){
             // KRAMA PROFILE FRAGMENT
                 Route::get('profile',[KramaProfileController::class,'index']);
             // END
-            
+
             // KRAMA UPCARA
                 Route::prefix('upacara')->group(function(){
                     Route::post('create',[KramaUpacaraController::class,'store']);

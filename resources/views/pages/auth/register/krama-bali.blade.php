@@ -182,39 +182,33 @@
                                         <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
                                     @endforeach
                                 </select>
-                                @error('kondisi')
+                                @error('kabupaten')
                                     <div class="invalid-feedback text-start">
-                                        {{$errors->first('kondisi') }}
+                                        {{$errors->first('kabupaten') }}
                                     </div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <div class="form-group">
                                     <label>Kecamatan <span class="text-danger">*</span></label>
-                                    <select id="kecamatan" name="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
-                                        <option value="0" disabled selected>Pilih Desa Adat</option>
-                                        @foreach ($dataDesaAdat as $data)
-                                            <option value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
-                                        @endforeach
+                                    <select id="kecamatan" name="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                        <option value="0" disabled selected>Pilih Kecamatan</option>
                                     </select>
-                                    @error('kondisi')
+                                    @error('kecamatan')
                                         <div class="invalid-feedback text-start">
-                                            {{$errors->first('kondisi') }}
+                                            {{$errors->first('kecamatan') }}
                                         </div>
                                     @enderror
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Desa  <span class="text-danger">*</span></label>
-                                <select id="desa" name="kabupaten" class="form-control select2bs4 @error('kabupaten') is-invalid @enderror" style="width: 100%;">
-                                    <option value="0" disabled selected>Pilih Desa Adat</option>
-                                    @foreach ($dataDesaAdat as $data)
-                                        <option value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
-                                    @endforeach
+                                <label>Desa Dinas<span class="text-danger">*</span></label>
+                                <select id="desa_dinas" name="desa_dinas" class="form-control select2bs4 @error('desa_dinas') is-invalid @enderror" style="width: 100%;">
+                                    <option value="0" disabled selected>Pilih Desa Dinas</option>
                                 </select>
-                                @error('kondisi')
+                                @error('desa_dinas')
                                     <div class="invalid-feedback text-start">
-                                        {{$errors->first('kondisi') }}
+                                        {{$errors->first('desa_dinas') }}
                                     </div>
                                 @enderror
                             </div>
@@ -400,15 +394,63 @@
             var kabupatenID = $(this).val();
             if(kabupatenID){
                 $.ajax({
-                       url: '/getCourse/'+categoryID,
+                       url: '/ajax/kecamatan/'+kabupatenID,
                        type: "GET",
                        data : {"_token":"{{ csrf_token() }}"},
                        dataType: "json",
-                    })
-            }
+                       success:function(dataKecamatan)
+                        {
+                            console.log(kabupatenID);
+                            console.log(dataKecamatan.data.kecamatans);
 
-            console.log(kabupatenID);
+                            if(dataKecamatan.data.kecamatans){
+                                $('#kecamatan').empty();
+                                $('#kecamatan').append('<option value="0" disabled selected>Pilih Kecamatan</option>');
+                                $.each(dataKecamatan.data.kecamatans, function(key, data){
+                                    $('#kecamatan').append('<option value="'+ data.id_kecamatan +'">' + data.name+ '</option>');
+                                });
+                            }else{
+                                $('#course').empty();
+                            }
+                        }
+                    })
+            }else{
+                $('#course').empty();
+            }
         })
+
+        $('#kecamatan').on('change', function() {
+            var kecamatanID = $(this).val();
+            if(kecamatanID){
+                $.ajax({
+                       url: '/ajax/desa/'+kecamatanID,
+                       type: "GET",
+                       data : {"_token":"{{ csrf_token() }}"},
+                       dataType: "json",
+                       success:function(dataDesa)
+                        {
+                            console.log(kecamatanID);
+                            console.log(dataDesa.data.desas);
+
+                            if(dataDesa.data.desas){
+                                $('#desa_dinas').empty();
+                                $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
+                                $.each(dataDesa.data.desas, function(key, data){
+                                    $('#desa_dinas').append('<option value="'+ data.id_desa +'">' + data.name+ '</option>');
+                                });
+                            }else{
+                                $('#course').empty();
+                            }
+                        }
+                    })
+            }else{
+                $('#course').empty();
+            }
+        })
+
+
+
+
     </script>
     <!-- Fungsi Ajax Get Data  -->
 
