@@ -134,18 +134,11 @@ class AuthController extends Controller
             try{
                 
                 $user = User::where('email',$request->email)->firstOrFail();
-                
+
                 $digits = 5;
                 $random_token = rand(pow(10, $digits-1), pow(10, $digits)-1);
 
-                $data = [
-                    'random_token' => $random_token,
-                ];
-
-                Mail::to($user->email)->send(new LupaPasswordMail($data));
-
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',
