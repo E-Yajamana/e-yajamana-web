@@ -79,14 +79,6 @@ class AuthController extends Controller
         ]);
     }
 
-
-
-
-    public function registerLanding(Request $request)
-    {
-        return view('pages.auth.register.landing');
-    }
-
     public function registerKrama(Request $request)
     {
         return view('pages.auth.register.krama-bali');

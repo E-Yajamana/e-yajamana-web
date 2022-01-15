@@ -23,7 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'nomor_telepon',
-        'role'
+        'user_profile',
+        'role',
+        'json_token_lupa_password'
     ];
 
     /**
@@ -47,6 +49,10 @@ class User extends Authenticatable
 
     public function Krama(){
         return $this->hasOne(Krama::class,'id_user','id');
+    }
+
+    public function Sulinggih(){
+        return $this->hasOne(Sulinggih::class,'id_user','id');
     }
 
 }

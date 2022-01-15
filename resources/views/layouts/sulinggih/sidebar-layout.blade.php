@@ -23,13 +23,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a  href="{{route('admin.verify.show')}}" class="nav-link">
+                            <a  href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Profile</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a  href="{{route('admin.verify.show')}}" class="nav-link">
+                            <a  href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Logout</p>
                             </a>
