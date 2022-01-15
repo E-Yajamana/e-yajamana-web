@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\LupaPasswordMail;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -11,7 +12,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Mockery\CountValidator\Exact;
+use Illuminate\Support\Facades\Mail;
 use PDOException;
 
 class AuthController extends Controller
@@ -133,11 +134,18 @@ class AuthController extends Controller
             try{
                 
                 $user = User::where('email',$request->email)->firstOrFail();
-
+                
                 $digits = 5;
                 $random_token = rand(pow(10, $digits-1), pow(10, $digits)-1);
 
+                $data = [
+                    'random_token' => $random_token,
+                ];
+
+                Mail::to($user->email)->send(new LupaPasswordMail($data));
+
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',
@@ -147,7 +155,11 @@ class AuthController extends Controller
         // END
         
         // RETURN
-        
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil mengirim email',
+                    'data' => (Object)[],
+            ],200);
         // END
     }
 }
