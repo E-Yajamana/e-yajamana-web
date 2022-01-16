@@ -123,6 +123,12 @@
                             </a>
                         </li>
                         <li class="nav-item ml-3">
+                            <a id="side-griya" href="{{route('admin.master-data.griya.index')}}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Lokasi Griya</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
                             <a id="side-upacara" href="{{route('admin.master-data.upacara.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Upacara</p>

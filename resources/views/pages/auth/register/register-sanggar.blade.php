@@ -1,5 +1,5 @@
 @extends('pages.auth.layout.master')
-@section('tittle','Register AkunKrama')
+@section('tittle','Register Akun Sanggar')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -22,14 +22,30 @@
             <div class="card-header bg-white text-center">
                 <img class="rounded mx-auto d-block" src="{{ asset('base-template/dist/img/logo-01.png') }}" alt="sipandu logo" width="100" height="100">
                 <a href="" class="text-decoration-none h4 fw-bold mb-1">E-Yajamana</a>
-                <p class="mt-1 fs-5 mb-1">Form Pendaftaran Akun Krama Bali </p>
+                <p class="mt-1 fs-5 mb-1">Form Pendaftaran Akun Sanggar </p>
                 <p class="text-center mb-2">Silahkan lengkapi data di bawah ini</p>
 
             </div>
             <div class="card-body">
-                <form action="{{route('auth.register.akun.krama.store')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('auth.register.akun.sanggar.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row px-lg-4">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>SK Tanda Usaha</label>
+                                <div class="input-group mb-2">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input @error('foto_upacara') is-invalid @enderror" name="foto_upacara" id="customFile">
+                                        <label class="custom-file-label " for="customFile">Foto Kegiatan Upacara</label>
+                                    </div>
+                                </div>
+                                @error('foto_upacara')
+                                    <div class="invalid-feedback text-start">
+                                        {{ $errors->first('foto_upacara') }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="col-12 col-md-6">
                             <div class="form-group">
                                 <label>E-Mail <span class="text-danger">*</span></label>
@@ -64,67 +80,6 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>Nama <span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <input type="text" name="nama" autocomplete="off" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" placeholder="Masukan Nama lengkap">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
-                                        </div>
-                                    </div>
-                                    @error('nama')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('nama') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <label>Tempat Lahir <span class="text-danger">*</span></label>
-                                    <select id="tempat_lahir" name="tempat_lahir" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
-                                        <option value="0" disabled selected>Pilih Lokasi Tempat Lahir</option>
-                                        @foreach ($dataKabupaten as $data)
-                                            <option value="{{$data->name}}">{{$data->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('tempat_lahir')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('tempat_lahir') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Tanggal Lahir <span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <input type="date" name="tanggal_lahir" id="tangalLahir" name="nama" autocomplete="off" class="form-control @error('tanggal_lahir') is-invalid @enderror" value="{{ old('tanggal_lahir') }}" placeholder="dd-mm-yyyy" placeholder="dd-mm-yyyy" value=""min="1997-01-01" max="2030-12-31">
-                                    @error('tanggal_lahir')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('tanggal_lahir') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Jenis Kelamin <span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <select name="jenis_kelamin" class="form-control select2bs4  @error('jenis_kelamin') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
-                                        <option disabled selected value="Bali">Laki-Laki</option>
-                                        <option value="laki-laki">Laki-Laki</option>
-                                        <option value="perempuan">Perempuan</option>
-                                    </select>
-                                    @error('jenis_kelamin')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('jenis_kelamin') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="form-group">
                                 <label>Password <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="password" name="password" autocomplete="off" class="form-control @error('password') is-invalid @enderror" placeholder="Masukan Password">
@@ -140,22 +95,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>Konfirmasi Password <span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <input type="password" name="password_confirmation" autocomplete="off" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Masukan Kembali Password">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-lock"></span>
-                                        </div>
-                                    </div>
-                                    @error('password_confirmation')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('password_confirmation') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
+
                             <div class="form-group">
                                 <label>Provinsi <span class="text-danger">*</span></label>
                                 <select disabled class="form-control select2bs4  @error('penerbit') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
@@ -181,6 +121,57 @@
                                     </div>
                                 @enderror
                             </div>
+
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label>Nama Sanggar<span class="text-danger">*</span></label>
+                                <div class="input-group mb-3">
+                                    <input type="text" name="nama" autocomplete="off" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" placeholder="Masukan Nama lengkap">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                    @error('nama')
+                                        <div class="invalid-feedback text-start">
+                                            {{$errors->first('nama') }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Nama Pengelola Sanggar<span class="text-danger">*</span></label>
+                                <div class="input-group mb-3">
+                                    <input type="text" name="nama" autocomplete="off" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" placeholder="Masukan Nama lengkap">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-user"></span>
+                                        </div>
+                                    </div>
+                                    @error('nama')
+                                        <div class="invalid-feedback text-start">
+                                            {{$errors->first('nama') }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Konfirmasi Password <span class="text-danger">*</span></label>
+                                <div class="input-group mb-3">
+                                    <input type="password" name="password_confirmation" autocomplete="off" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Masukan Kembali Password">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text">
+                                            <span class="fas fa-lock"></span>
+                                        </div>
+                                    </div>
+                                    @error('password_confirmation')
+                                        <div class="invalid-feedback text-start">
+                                            {{$errors->first('password_confirmation') }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="form-group">
                                     <label>Kecamatan <span class="text-danger">*</span></label>
@@ -205,6 +196,7 @@
                                     </div>
                                 @enderror
                             </div>
+
                         </div>
                         <div class="col-12">
                             <div class="form-group">
@@ -253,6 +245,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row d-flex justify-content-end mt-1 p-lg-4">
                         <div class="col-5 col-sm-8">
                             <p> Sudah memiliki akun? Klik
@@ -325,8 +318,6 @@
             }
 
             var curLocation = [0, 0];
-            // use below if you have a model
-            // var curLocation = [@Model.Location.Latitude, @Model.Location.Longitude];
 
             if (curLocation[0] == 0 && curLocation[1] == 0) {
                 curLocation = [-8.4517916, 115.1970086];

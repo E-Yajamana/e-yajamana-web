@@ -21,6 +21,7 @@ class RegisterController extends Controller
         return view('pages.auth.register.register-index');
     }
 
+    // FUNGSI MENENTUKAN FORM BLADE USER
     public function regisFormAkun(Request $request)
     {
         // SECURITY
@@ -29,7 +30,7 @@ class RegisterController extends Controller
             ]);
 
             if($validator->fails()){
-                return redirect()->back()->with([
+                return redirect()->route('auth.register.index')->with([
                     'status' => 'fail',
                     'icon' => 'error',
                     'title' => 'Gagal Registrasi',
@@ -38,40 +39,70 @@ class RegisterController extends Controller
             }
         // END
 
-        // MAIN LOGIC
-            if($request->akun == 'krama')
-            {
+        // MAIN LOGIC & RETURN
+            if($request->akun == 'krama'){
                 $dataKabupaten = Kabupaten::all();
                 $dataDesaAdat = DesaAdat::all();
-                return view('pages.auth.register.krama-bali',compact(['dataKabupaten','dataDesaAdat']));
-            }elseif($request->akun == 'sulinggih')
-            {
-                dd('sulinggih');
+                return view('pages.auth.register.register-krama-bali',compact(['dataKabupaten','dataDesaAdat']));
+            }elseif($request->akun == 'sulinggih'  || $request->akun == 'pemangku'){
+                $dataKabupaten = Kabupaten::all();
+                return view('pages.auth.register.register-pemuput-karya',compact('dataKabupaten'))->with(['role'=> $request->akun]);
+            }elseif($request->akun == 'sanggar'){
+                $dataKabupaten = Kabupaten::all();
+                $dataDesaAdat = DesaAdat::all();
+                return view('pages.auth.register.register-sanggar',compact(['dataKabupaten','dataDesaAdat']));
+            }elseif($request->akun == 'serati'){
+                $dataKabupaten = Kabupaten::all();
+                $dataDesaAdat = DesaAdat::all();
+                return view('pages.auth.register.register-serati',compact(['dataKabupaten','dataDesaAdat']));
+            }else{
+                return redirect()->route('auth.register.index')->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Registrasi',
+                    'message' => 'Gagal melakukan registrasi akun, pilihlah jenis user sesuai dengan user yang disediakan!'
+                ]);
             }
-
-        // END LOGIC
+        // END LOGIC & RETURN
 
     }
+    // END FUNGSI MENENTUKAN FORM BLADE USER
 
+
+
+    // FUNGSI STORE AKUN KRAMA
     public function storeRegisKrama(Request $request)
     {
-
-        dd($request->all());
         // SECURITY
             $validator = Validator::make($request->all(),[
-                'email' => 'required',
-                'nomor_telepon' => 'required',
-                'nama' => 'required',
+                'email' => 'required|email|unique:tb_user,email|min:5|max:100',
+                'nomor_telepon' => 'required|unique:tb_user,nomor_telepon',
+                'nama' => 'required|regex:/^[a-z,. 0-9]+$/i',
                 'tempat_lahir' => 'required',
                 'tanggal_lahir' => 'required',
                 'jenis_kelamin' => 'required',
-                'password' => 'required',
-                'password_confirmation' => 'required',
+                'password' => 'required|confirmedS',
                 'desa_dinas' => 'required',
                 'desa_adat' => 'required',
                 'alamat' => 'required',
                 'lat' => 'required',
                 'lng' => 'required',
+            ],
+            [
+                'nama_upacara.required' => "Nama upacara wajib diisi",
+                'nama_upacara.regex' => "Format nama upacara tidak sesuai",
+                'nama_upacara.min' => "Nama upacara minimal berjumlah 5 karakter",
+                'nama_upacara.max' => "Nama upacara maksimal berjumlah 50 karakter",
+                'nama_upacara.unique' => "Nama Upacara sudah pernah dibuat sebelumnya",
+                'katagori.required' => "Katagori upacara wajib diisi",
+                'katagori.in' => "Katagori Upacara tidak sesuai ",
+                'foto_upacara.required' => "Gambar upacara wajib diisi",
+                'foto_upacara.image' => "Gambar harus berupa foto",
+                'foto_upacara.mimes' => "Format gambar harus jpeg, png atau jpg",
+                'foto_upacara.size' => "Gambar maksimal berukuran 2.5 Mb",
+                'deskripsi_upacara.required' => "Deskripsi upacara wajib diisi",
+                'deskripsi_upacara.min' => "Deskripsi upacara minimal berjumlah 5 karakter",
+                'deskripsi_upacara.max' => "Deskripsi upacara maksimal berjumlah 50 karakter",
             ]);
 
             if($validator->fails()){
@@ -92,7 +123,7 @@ class RegisterController extends Controller
                     'password' =>Hash::make($request->password),
                     'nomor_telepon' =>$request->nomor_telepon,
                     'role' =>'krama_bali',
-                ])->Krama()->save([
+                ])->Krama()->create([
                     'id_desa' => $request->desa_dinas,
                     'id_desa_adat' => $request->desa_adat,
                     'nama_krama' => $request->nama,
@@ -115,8 +146,23 @@ class RegisterController extends Controller
             }
         // END LOGIC
 
+        // RETURN
+            return redirect()->route('auth.login')->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Akun Berhasil Dibuat',
+                'message' => 'Akun berhasil dibuat, gunakan email dan password untuk masuk kedalam sistem',
+            ]);
+        //END
+    }
+    // END STORE AKUN KRAMA
+
+
+    public function storeRegisSanngar(Request $request)
+    {
 
     }
+
 
 
 }

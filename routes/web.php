@@ -7,6 +7,7 @@ use App\Http\Controllers\KramaController;
 use App\Http\Controllers\SulinggihController;
 use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
 use App\Http\Controllers\web\admin\manajemen_akun\ManajemenAkunController;
+use App\Http\Controllers\web\admin\masterData\MasteDataGriyaController;
 use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
 use App\Http\Controllers\web\admin\masterdata\MasterDataWilayahController;
 use App\Http\Controllers\web\auth\AuthController;
@@ -27,7 +28,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('auth')->group(function () {
-
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
     Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -37,12 +37,9 @@ Route::prefix('auth')->group(function () {
         Route::get('{akun}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
 
         Route::post('krama', [RegisterController::class, 'storeRegisKrama'])->name('auth.register.akun.krama.store');
+        Route::post('sanggar', [RegisterController::class, 'storeRegisSanngar'])->name('auth.register.akun.sanggar.store');
 
     });
-
-
-
-
 
     Route::get('lupa-password', [AuthController::class, 'lupaPasswordLanding'])->name('auth.lupa-password.lading');
     Route::get('lupa-password/verify-otp', [AuthController::class, 'verifyOTP'])->name('auth.lupa-password.verify-otp');
@@ -56,6 +53,14 @@ Route::prefix('admin')->group(function () {
         Route::get('upacara', [MasterDataUpacaraController::class, 'indexDataUpacara'])->name('admin.master-data.upacara.index');
         Route::get('upacara/create', [MasterDataUpacaraController::class, 'createDataUpacara'])->name('admin.master-data.upacara.create');
         Route::post('upacara/store', [MasterDataUpacaraController::class, 'storeDataUpacara'])->name('admin.master-data.upacara.store');
+
+        Route::prefix('griya')->group(function () {
+            Route::get('index', [MasteDataGriyaController::class, 'indexDataGriya'])->name('admin.master-data.griya.index');
+            Route::get('create', [MasteDataGriyaController::class, 'createDataGriya'])->name('admin.master-data.griya.create');
+            Route::post('store', [MasteDataGriyaController::class, 'storeDataGriya'])->name('admin.master-data.griya.store');
+            Route::get('detail/{id}', [MasteDataGriyaController::class, 'detailDataGriya'])->name('admin.master-data.griya.detail');
+            Route::get('edit/{id}', [MasteDataGriyaController::class, 'detailDataGriya'])->name('admin.master-data.griya.edit');
+        });
 
         Route::get('desa', [MasterDataWilayahController::class, 'indexDesaDinas'])->name('admin.master-data.desa.index');
         Route::get('desa-adat', [MasterDataWilayahController::class, 'indexDesaAdat'])->name('admin.master-data.desa-adat.index');

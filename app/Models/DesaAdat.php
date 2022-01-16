@@ -120,8 +120,8 @@ class DesaAdat extends Model
 		'password_temp'
 	];
 
-	public function tb_griya_rumahs()
+	public function GriyaRumah()
 	{
-		return $this->hasMany(TbGriyaRumah::class, 'id_desa_adat');
+		return $this->hasMany(GriyaRumah::class, 'id_desa_adat','desadat_id');
 	}
 }

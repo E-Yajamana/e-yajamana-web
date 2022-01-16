@@ -35,7 +35,7 @@ class KabupatenBaru extends Model
 
 	public function tb_provinsi_baru()
 	{
-		return $this->belongsTo(TbProvinsiBaru::class, 'id_provinsi');
+		return $this->belongsTo(Provinsi::class, 'id_provinsi');
 	}
 
 	public function tb_kecamatans()
