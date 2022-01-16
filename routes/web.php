@@ -58,8 +58,10 @@ Route::prefix('admin')->group(function () {
             Route::get('index', [MasteDataGriyaController::class, 'indexDataGriya'])->name('admin.master-data.griya.index');
             Route::get('create', [MasteDataGriyaController::class, 'createDataGriya'])->name('admin.master-data.griya.create');
             Route::post('store', [MasteDataGriyaController::class, 'storeDataGriya'])->name('admin.master-data.griya.store');
+            Route::put('update', [MasteDataGriyaController::class, 'updateDataGriya'])->name('admin.master-data.griya.update');
+            Route::delete('delete', [MasteDataGriyaController::class, 'deleteDataGriya'])->name('admin.master-data.griya.delete');
             Route::get('detail/{id}', [MasteDataGriyaController::class, 'detailDataGriya'])->name('admin.master-data.griya.detail');
-            Route::get('edit/{id}', [MasteDataGriyaController::class, 'detailDataGriya'])->name('admin.master-data.griya.edit');
+            Route::get('edit/{id}', [MasteDataGriyaController::class, 'editDataGriya'])->name('admin.master-data.griya.edit');
         });
 
         Route::get('desa', [MasterDataWilayahController::class, 'indexDesaDinas'])->name('admin.master-data.desa.index');
@@ -129,15 +131,6 @@ Route::prefix('ajax')->group(function () {
     Route::get('kabupaten/{id?}', [LocationController::class, 'getKabupaten']);
     Route::get('kecamatan/{id}', [LocationController::class, 'getKecamatan']);
     Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);
-});
-
-
-Route::prefix('wilayah')->group(function () {
-    Route::get('provinsi', [WilayahController::class, 'provinsi'])->name('wilayah.provinsi');
-    Route::get('kabupaten', [WilayahController::class, 'kabupaten'])->name('wilayah.kabupaten');
-    Route::get('kecamatan', [WilayahController::class, 'kecamatan'])->name('wilayah.kecamatan');
-    Route::get('desa', [WilayahController::class, 'desa'])->name('wilayah.desa');
-    Route::get('test', [WilayahController::class, 'test'])->name('wilayah.test');
 });
 
 

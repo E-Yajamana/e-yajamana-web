@@ -21,13 +21,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tambah Data Lokasi Griya</h1>
+                    <h1>Edit Data {{$dataGriya->nama_griya_rumah}}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item"><a href="#">Data Griya</a></li>
-                        <li class="breadcrumb-item active">Tambah</li>
+                        <li class="breadcrumb-item active">Edit</li>
                     </ol>
                 </div>
             </div>
@@ -37,16 +37,18 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form method="POST" action="{{route('admin.master-data.griya.store')}}" enctype="multipart/form-data">
+                <form method="POST" action="{{route('admin.master-data.griya.update')}}" enctype="multipart/form-data">
+                    @method('PUT')
                     @csrf
                     <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
                             <h3 class="card-title my-auto">Form Tambah Data Upacara</h3>
                         </div>
+                        <input class="d-none" hidden name="id" value="{{$dataGriya->id}}">
                         <div class="card-body p-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nama Griya <span class="text-danger">*</span></label>
-                                <input type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{old('lng')}}">
+                                <input type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{$dataGriya->nama_griya_rumah}}">
                                 @error('nama_griya')
                                     <div class="invalid-feedback text-start">
                                         {{ $errors->first('nama_griya') }}
@@ -66,10 +68,14 @@
                             </div> --}}
                             <div class="form-group">
                                 <label>Kabupaten/Kota <span class="text-danger">*</span></label>
-                                <select name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
+                                <select id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Kabupaten</option>
                                     @foreach ($dataKabupaten->where('id_provinsi',51) as $data)
-                                        <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                        @if ($dataGriya->Desa->Kecamatan->Kabupaten->id_kabupaten == $data->id_kabupaten)
+                                            <option selected value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                        @else
+                                            <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 @error('kabupaten')
@@ -83,6 +89,14 @@
                                     <label>Kecamatan <span class="text-danger">*</span></label>
                                     <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
                                         <option value="0" disabled selected>Pilih Kecamatan</option>
+                                        <option selected value="{{$dataGriya->Desa->Kecamatan->id_kecamatan}}">{{$dataGriya->Desa->Kecamatan->name}}</option>
+                                        @foreach ($dataKecamatan->where('id_kabupaten',$dataGriya->Desa->Kecamatan->Kabupaten->id_kabupaten) as $data)
+                                            @if ($data->id_kabupaten == $dataGriya->Desa->Kecamatan->Kabupaten->id_kabupaten)
+                                                <option selected value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                            @else
+                                                <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                            @endif
+                                        @endforeach
                                     </select>
                                     @error('kecamatan')
                                         <div class="invalid-feedback text-start">
@@ -95,6 +109,13 @@
                                 <label>Desa Dinas<span class="text-danger">*</span></label>
                                 <select id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Desa Dinas</option>
+                                    @foreach ($dataDesa->where('id_kecamatan',$dataGriya->Desa->Kecamatan->id_kecamatan) as $data)
+                                        @if ($data->id_desa == $dataGriya->Desa->id_desa)
+                                            <option selected value="{{$data->id_desa}}">{{$data->name}}</option>
+                                        @else
+                                            <option value="{{$data->id_desa}}">{{$data->name}}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                                 @error('id_desa')
                                     <div class="invalid-feedback text-start">
@@ -107,7 +128,11 @@
                                 <select id="id_desa_adat" name="id_desa_adat" class="form-control select2bs4 @error('id_desa_adat') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Desa Adat</option>
                                     @foreach ($dataDesaAdat as $data)
-                                        <option value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
+                                        @if ($dataGriya->id_desa_adat == $data->desadat_id)
+                                            <option selected value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
+                                        @else
+                                            <option value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 @error('id_desa_adat')
@@ -118,7 +143,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Alamat Lengkap Griya <span class="text-danger">*</span></label>
-                                <textarea name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya" value="{{ old('alamat_griya') }}" ></textarea>
+                                <textarea name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya" value="" >{{ $dataGriya->alamat_griya_rumah }}</textarea>
                                 @error('alamat_griya')
                                     <div class="invalid-feedback text-start">
                                         {{$errors->first('alamat_griya') }}
@@ -128,13 +153,13 @@
                             <div class="form-group">
                                 <label>Pemetaan Lokasi Griya</label>
                                 <div class="input-group mb-3">
-                                    <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" readonly="readonly" value="{{old('lat')}}">
+                                    <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" readonly="readonly" value="{{ $dataGriya->lat }}">
                                     @error('lat')
                                         <div class="invalid-feedback text-start">
                                             {{ $errors->first('lat') }}
                                         </div>
                                     @enderror
-                                    <input name="lng" id="lng" type="text" aria-label="Last name" class="form-control ml1" placeholder="Lang  @error('lng') is-invalid @enderror" readonly="readonly" value="{{old('lng')}}">
+                                    <input name="lng" id="lng" type="text" aria-label="Last name" class="form-control ml1" placeholder="Lang  @error('lng') is-invalid @enderror" readonly="readonly" value="{{ $dataGriya->lng}}">
                                     @error('lng')
                                         <div class="invalid-feedback text-start">
                                             {{ $errors->first('lng') }}
@@ -145,11 +170,11 @@
                                     </button>
                                     </div>
                                 </div>
-                                <div id="button-remove" class="row justify-content-end mt-lg-4">
-                                    <button type="submit" class=" mx-1 btn btn-primary">Simpan Data Griya</button>
+                                <div class="form-group mt-lg-4 mb-2">
+                                    <a href="{{route('admin.master-data.griya.index')}}" class="btn btn-secondary">Kembali</a>
+                                    <button type="submit" class="btn btn-primary float-sm-right">Simpan Data</button>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </form>
@@ -225,6 +250,7 @@
 
                             if(dataKecamatan.data.kecamatans){
                                 $('#kecamatan').empty();
+                                $('#desa_dinas').empty();
                                 $('#kecamatan').append('<option value="0" disabled selected>Pilih Kecamatan</option>');
                                 $.each(dataKecamatan.data.kecamatans, function(key, data){
                                     $('#kecamatan').append('<option value="'+ data.id_kecamatan +'">' + data.name+ '</option>');
@@ -294,7 +320,7 @@
                }, 100);
            }
 
-           var curLocation = [0, 0];
+           var curLocation = [<?=$dataGriya->lat ?>, <?=$dataGriya->lng ?>];
 
            if (curLocation[0] == 0 && curLocation[1] == 0) {
                curLocation = [-8.4517916, 115.1970086];
@@ -325,7 +351,6 @@
 
        })
 
-   </script>
-   <!-- Maps Pemetaan  -->
+    </script>
 
 @endpush

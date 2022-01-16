@@ -68,13 +68,14 @@
                                 @enderror
                             </div>
                             <div class="form-group mt-lg-5 mb-2">
-                                <a href="{{route('admin.master-data.griya.index')}}" class="btn btn-secondary">Sebelumnya</button>
-                                <a href="{{route('admin.master-data.griya.edit')}}" type="submit" class="btn btn-primary float-sm-right">Edit Data</button>
+                                <a href="{{route('admin.master-data.griya.index')}}" class="btn btn-secondary">Kembali</a>
+                                <a href="{{route('admin.master-data.griya.edit',$dataGriya->id)}}" class="btn btn-primary float-sm-right">Edit Data</a>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
+
                 <div class="col-12 col-sm-6">
                     <div class="card tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
@@ -110,7 +111,7 @@
             $('#side-griya').addClass('active');
         });
     </script>
-    
+
     <script type="text/javascript">
         $(document).ready(function(){
             var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 10);

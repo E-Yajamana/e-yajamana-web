@@ -63,9 +63,14 @@
                                             <td>{{$data->DesaAdat->desadat_nama}}</td>
                                             <td>
                                                 <a href="{{route('admin.master-data.griya.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                <a href="{{route('admin.master-data.griya.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                             </td>
+                                            <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.griya.delete')}}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                            </form>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -102,6 +107,28 @@
     <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+
+    <script type="text/javascript">
+        function deleteData(index){
+            Swal.fire({
+                title: 'Peringatan',
+                text : 'Apakah anda yakin akan menghapus Data Griya tersebut?',
+                icon:'warning',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: `Hapus`,
+                denyButtonText: `Batal`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#delete-'+index).submit();
+                    } else if (result.isDenied) {
+
+                    }
+                })
+            }
+    </script>
 
     <!-- Page specific script -->
     <script>
