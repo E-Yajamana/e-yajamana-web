@@ -44,7 +44,6 @@
     <!-- jQuery -->
     <script src="{{url('base-template/plugins/jquery/jquery.min.js')}}"></script>
     <script src="{{url('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <script src="{{url('base-template/dist/js/adminlte.js')}}"></script>
 
     <!-- overlayScrollbars -->
     <script src="{{asset('base-template/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>

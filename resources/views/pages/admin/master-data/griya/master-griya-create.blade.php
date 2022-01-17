@@ -46,7 +46,7 @@
                         <div class="card-body p-4">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nama Griya <span class="text-danger">*</span></label>
-                                <input type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{old('lng')}}">
+                                <input type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{old('nama_griya')}}">
                                 @error('nama_griya')
                                     <div class="invalid-feedback text-start">
                                         {{ $errors->first('nama_griya') }}
@@ -168,7 +168,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="gmaps" style="height: 600px"></div>
+                    <div id="gmaps" style="height: 500px"></div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>

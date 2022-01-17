@@ -16,10 +16,12 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
+     // INDEX VIEW REGISTER AWAL
     public function regisIndex(Request $request)
     {
         return view('pages.auth.register.register-index');
     }
+    // INDEX VIEW REGISTER AWAL
 
     // FUNGSI MENENTUKAN FORM BLADE USER
     public function regisFormAkun(Request $request)
@@ -76,33 +78,55 @@ class RegisterController extends Controller
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'email' => 'required|email|unique:tb_user,email|min:5|max:100',
-                'nomor_telepon' => 'required|unique:tb_user,nomor_telepon',
-                'nama' => 'required|regex:/^[a-z,. 0-9]+$/i',
-                'tempat_lahir' => 'required',
-                'tanggal_lahir' => 'required',
-                'jenis_kelamin' => 'required',
-                'password' => 'required|confirmedS',
-                'desa_dinas' => 'required',
-                'desa_adat' => 'required',
-                'alamat' => 'required',
-                'lat' => 'required',
-                'lng' => 'required',
+                'nomor_telepon' => 'required|unique:tb_user,nomor_telepon|numeric|digits_between:11,15',
+                'nama' => 'required|regex:/^[a-z,. 0-9]+$/i|min:5|max:50',
+                'tempat_lahir' => 'required|exists:tb_kabupaten_baru,name',
+                'tanggal_lahir' => 'required|date',
+                'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+                'password' => 'required|confirmed',
+                'desa_dinas' => 'required|exists:tb_desa,id_desa',
+                'desa_adat' => 'required|exists:tb_desaadat,desadat_id',
+                'alamat' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
+                'lat' => 'required|numeric|regex:/^[0-9.-]+$/i',
+                'lng' => 'required|numeric|regex:/^[0-9.-]+$/i',
             ],
             [
-                'nama_upacara.required' => "Nama upacara wajib diisi",
-                'nama_upacara.regex' => "Format nama upacara tidak sesuai",
-                'nama_upacara.min' => "Nama upacara minimal berjumlah 5 karakter",
-                'nama_upacara.max' => "Nama upacara maksimal berjumlah 50 karakter",
-                'nama_upacara.unique' => "Nama Upacara sudah pernah dibuat sebelumnya",
-                'katagori.required' => "Katagori upacara wajib diisi",
-                'katagori.in' => "Katagori Upacara tidak sesuai ",
-                'foto_upacara.required' => "Gambar upacara wajib diisi",
-                'foto_upacara.image' => "Gambar harus berupa foto",
-                'foto_upacara.mimes' => "Format gambar harus jpeg, png atau jpg",
-                'foto_upacara.size' => "Gambar maksimal berukuran 2.5 Mb",
-                'deskripsi_upacara.required' => "Deskripsi upacara wajib diisi",
-                'deskripsi_upacara.min' => "Deskripsi upacara minimal berjumlah 5 karakter",
-                'deskripsi_upacara.max' => "Deskripsi upacara maksimal berjumlah 50 karakter",
+                'email.required' => "Email wajib diisi",
+                'email.regex' => "Format Email tidak sesuai",
+                'email.unique' => "Email sudah pernah dibuat sebelumnya",
+                'email.min' => "Email minimal berjumlah 5 karakter",
+                'email.max' => "Email maksimal berjumlah 100 karakter",
+                'nomor_telepon.required' => "Nomor Telepon wajib diisi",
+                'nomor_telepon.unique' => "Nomor Telepon sudah pernah dibuat sebelumnya",
+                'nomor_telepon.numeric' => "Nomor Telepon harus berupa angka",
+                'nomor_telepon.digits_between' => "Nomor Telepon disii dengan 11 sampai dengan 15 angka",
+                'nama.required' => "Nama wajib diisi",
+                'nama.regex' => "Format nama tidak sesuai",
+                'nama.min' => "Nama minimal berjumlah 5 karakter",
+                'nama.max' => "Nama maksimal berjumlah 50 karakter",
+                'tempat_lahir.required' => "Tempat Lahir wajib diisi",
+                'tempat_lahir.exists' => "Data tempat lahir tidak sesuai",
+                'tanggal_lahir.required' => "Tanggal lahir wajib diisi",
+                'tanggal_lahir.date' => "Format Tanggal lahir salah",
+                'jenis_kelamin.required' => "Jenis Kelamin wajib diisi",
+                'jenis_kelamin.in' => "Jenis Kelamin tidak sesuai",
+                'desa_dinas.required' => "Lokasi Desa wajib diisi",
+                'desa_dinas.exists' => "Lokasi Desa tidak sesuai",
+                'desa_adat.required' => "Lokasi Desa Adat wajib diisi",
+                'desa_adat.exists' => "Lokasi Desa Adat tidak sesuai",
+                'password.required' => "Password wajib diisi",
+                'password.confirmed' => "Password yang anda masukan tidak sesuai",
+                'alamat.required' => "Alamat Lengkap wajib diisi",
+                'alamat.regex' => "Format Alamat Lengkap tidak sesuai",
+                'alamat.min' => "Alamat Lengkap minimal berjumlah 3 karakter",
+                'alamat.max' => "Alamat Lengkap maksimal berjumlah 100 karakter",
+                'lat.required' => "Latitude griya wajib diisi",
+                'lat.numeric' => "Latitude harus berupa angka",
+                'lat.regex' => "Format koordinat Latitude griya tidak sesuai",
+                'lng.required' => "Longitude griya wajib diisi",
+                'lng.numeric' => "Longitude harus berupa angka",
+                'lng.regex' => "Format koordinat Longitude griya tidak sesuai",
+
             ]);
 
             if($validator->fails()){

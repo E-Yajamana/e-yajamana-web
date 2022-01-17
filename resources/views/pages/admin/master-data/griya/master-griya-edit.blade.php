@@ -193,7 +193,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="gmaps" style="height: 600px"></div>
+                    <div id="gmaps" style="height: 500px"></div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>

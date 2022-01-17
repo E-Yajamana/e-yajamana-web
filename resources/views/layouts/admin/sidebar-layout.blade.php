@@ -66,23 +66,7 @@
                         <li class="nav-item ml-3">
                             <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Konfirmasi Sulinggih</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Konfirmasi Pemangku</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Konfirmasi Sanggar</p>
+                                <p>Konfirmasi Akun</p>
                             </a>
                         </li>
                     </ul>
