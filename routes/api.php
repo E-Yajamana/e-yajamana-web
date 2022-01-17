@@ -25,9 +25,13 @@ use Illuminate\Support\Facades\Route;
 // AUTH
     Route::post('login',[AuthController::class,'loginUser']);
 
-    Route::post('request/email/token',[AuthController::class,'lupaPassword']);
-
     Route::get('unathorized',[AuthController::class,'unauthorized'])->name('api.unathorized');
+
+    // LUPA PASSWORD
+        Route::post('request/email/token',[AuthController::class,'lupaPassword']);
+        Route::post('check/email/token',[AuthController::class,'checkToken']);
+        Route::post('create/new/password',[AuthController::class,'createNewPassword']);
+    // END
 // END
 
 // SACTUM MIDDLEWARE

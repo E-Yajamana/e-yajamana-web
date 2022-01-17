@@ -11,6 +11,8 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use PDOException;
@@ -133,19 +135,51 @@ class AuthController extends Controller
         // MAIN LOGIC
             try{
                 
+                // CARI EMAIL
                 $user = User::where('email',$request->email)->firstOrFail();
-                
+
+                // BUAT UNIQUE TOKEN
                 $digits = 5;
                 $random_token = rand(pow(10, $digits-1), pow(10, $digits)-1);
 
+                // BUAT DATA KE EMAIL VIEW
                 $data = [
                     'random_token' => $random_token,
                 ];
 
+                // KIRIM KE EMAIL PENGGUNA
                 Mail::to($user->email)->send(new LupaPasswordMail($data));
 
-            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return $err;
+                // BUAT JSON
+                $json_value = [
+                            'token' => $random_token,
+                            'generated_at' => date('y-m-d H:i:s'),
+                            'verified' => false
+                        ];
+                
+                // JSON WRAPPER
+                $json_wrapper = [];
+
+                // TAMBAH ATAU BUAT JSON
+                if(json_decode($user->json_token_lupa_password) == null){
+                    $json_wrapper[] = $json_value;
+                }else{
+                    $json_wrapper = json_decode($user->json_token_lupa_password);
+                    $json_wrapper[] = $json_value;
+                }
+                
+                // UPDATE MODEL
+                $user->update([
+                    'json_token_lupa_password' => $json_wrapper,
+                ]);
+
+            }catch(ModelNotFoundException $err){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'E-Mail tidak ditemukan',
+                        'data' => (Object)[],
+                ],400);
+            }catch(PDOException | QueryException | \Throwable | \Exception $err) {
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',
@@ -158,6 +192,129 @@ class AuthController extends Controller
             return response()->json([
                     'status' => 200,
                     'message' => 'Berhasil mengirim email',
+                    'data' => (Object)[],
+            ],200);
+        // END
+    }
+
+    public function checkToken(Request $request){
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'token' => 'required|numeric',
+                'email' => 'required|email',
+            ]);
+            
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'Validation Error',
+                        'data' => (Object)[],
+                ],400);
+            }
+        // END
+        
+        // MAIN LOGIC
+            try{
+
+                $user = User::where('email',$request->email)->firstOrFail();
+                
+                $arrayOfToken = json_decode($user->json_token_lupa_password);
+                
+                $successCheckToken = false;
+
+                foreach ($arrayOfToken as $index => $value) {
+                    if($value->token == $request->token){
+                        $arrayOfToken[$index]->verified =  true;
+                        $successCheckToken = true;
+                        break;
+                    }
+                }
+
+                if($successCheckToken){
+                    $user->update([
+                        'json_token_lupa_password' => json_encode($arrayOfToken)
+                    ]);
+                }else{
+                    throw new Exception("GAGAL CHECK TOKEN");
+                }
+
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+        
+        // RETURN
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil check kode',
+                    'data' => (Object)[],
+            ],200);
+        // END
+    }
+
+    public function createNewPassword(Request $request){
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'email' => 'required|email',
+                'password' => 'required',
+                'token' => 'required|numeric',
+            ]);
+            
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'Validation error',
+                        'data' => (Object)[],
+                ],400);
+            }
+        // END
+        
+        // MAIN LOGIC
+            try{
+                DB::beginTransaction();
+
+                $user = User::where('email',$request->email)->firstOrFail();
+
+                $json_wrapper = json_decode($user->json_token_lupa_password);
+
+                $isTokenExists = false;
+
+                foreach ($json_wrapper as $index => $value) {
+                    if($value->token == $request->token){
+                        $isTokenExists = true;
+                        $user->update([
+                            'password' => Hash::make($request->password),
+                            'json_token_lupa_password' => ""
+                        ]);
+
+                        break;
+                    }
+                }
+
+                if(!$isTokenExists){
+                    throw new Exception("TOKEN TIDAK DITEMUKAN");
+                }
+
+                DB::commit();
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                DB::rollBack();
+                return $err;
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+        
+        // RETURN
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil memperbaharui password anda',
                     'data' => (Object)[],
             ],200);
         // END
