@@ -71,6 +71,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
             // KRAMA UPCARA
                 Route::prefix('upacara')->group(function(){
+                    Route::post('show',[KramaUpacaraController::class,'index']);
                     Route::post('create',[KramaUpacaraController::class,'store']);
                 });
             // END

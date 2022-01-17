@@ -239,6 +239,7 @@ class AuthController extends Controller
                 }
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',
@@ -254,6 +255,65 @@ class AuthController extends Controller
                     'data' => (Object)[
                         'email' => $user->email,
                     ],
+            ],200);
+        // END
+    }
+
+    public function createNewPassword(Request $request){
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'email' => 'required|email',
+                'token' => 'required',
+                'password' => 'required',
+            ]);
+            
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'Validation error',
+                        'data' => (Object)[],
+                ],400);
+            }
+        // END
+        
+        // MAIN LOGIC
+            try{
+                
+                $user = User::where('email',$request->email)->firstOrFail();
+                
+                $json_wrapper = json_decode($user->json_token_lupa_password);
+
+                $isTokenExistsVerified = false;
+
+                foreach ($json_wrapper as $key => $value) {
+                    if($value->token == $request->token && $value->verified == true){
+                        $isTokenExistsVerified = true;
+                        break;
+                    }
+                }
+
+                if(!$isTokenExistsVerified){
+                    throw new Exception("TOKEN TIDAK DITEMUKAN");
+                }
+
+                $user->update([
+                    'password' => Hash::make($request->password),
+                ]);
+
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+        
+        // RETURN
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil memperbaharui password',
+                    'data' => (Object)[],
             ],200);
         // END
     }
