@@ -17,14 +17,11 @@ class Sulinggih extends Model
         'nabe',
         'nama_walaka',
         'nama_sulinggih',
-        'nama_pasangan',
-        'tempat_lahir',
-        'jenis_kelamin',
-        'pekerjaan',
-        'pendidikan',
-        'tanggal_diksha',
-        'sk_kesulinggihan',
+        'tgl_diksha',
         'status_konfirmasi_akun',
+        'sk_kesulinggihan',
+        'jenis_kelamin',
+        'tanggal_lahir',
     ];
 
     public function User(){

@@ -118,6 +118,7 @@ class AuthController extends Controller
     }
 
     public function lupaPassword(Request $request){
+        
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'email' => 'required|email',
@@ -138,13 +139,12 @@ class AuthController extends Controller
                 // CARI EMAIL
                 $user = User::where('email',$request->email)->firstOrFail();
 
-                // BUAT UNIQUE TOKEN
                 $digits = 5;
                 $random_token = rand(pow(10, $digits-1), pow(10, $digits)-1);
 
                 // BUAT DATA KE EMAIL VIEW
                 $data = [
-                    'random_token' => $random_token,
+                    'token' => $random_token,
                 ];
 
                 // KIRIM KE EMAIL PENGGUNA
@@ -250,72 +250,10 @@ class AuthController extends Controller
         // RETURN
             return response()->json([
                     'status' => 200,
-                    'message' => 'Berhasil check kode',
-                    'data' => (Object)[],
-            ],200);
-        // END
-    }
-
-    public function createNewPassword(Request $request){
-        // SECURITY
-            $validator = Validator::make($request->all(),[
-                'email' => 'required|email',
-                'password' => 'required',
-                'token' => 'required|numeric',
-            ]);
-            
-            if($validator->fails()){
-                return response()->json([
-                        'status' => 400,
-                        'message' => 'Validation error',
-                        'data' => (Object)[],
-                ],400);
-            }
-        // END
-        
-        // MAIN LOGIC
-            try{
-                DB::beginTransaction();
-
-                $user = User::where('email',$request->email)->firstOrFail();
-
-                $json_wrapper = json_decode($user->json_token_lupa_password);
-
-                $isTokenExists = false;
-
-                foreach ($json_wrapper as $index => $value) {
-                    if($value->token == $request->token){
-                        $isTokenExists = true;
-                        $user->update([
-                            'password' => Hash::make($request->password),
-                            'json_token_lupa_password' => ""
-                        ]);
-
-                        break;
-                    }
-                }
-
-                if(!$isTokenExists){
-                    throw new Exception("TOKEN TIDAK DITEMUKAN");
-                }
-
-                DB::commit();
-            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                DB::rollBack();
-                return $err;
-                return response()->json([
-                        'status' => 500,
-                        'message' => 'Internal server error',
-                        'data' => (Object)[],
-                ],500);
-            }
-        // END
-        
-        // RETURN
-            return response()->json([
-                    'status' => 200,
-                    'message' => 'Berhasil memperbaharui password anda',
-                    'data' => (Object)[],
+                    'message' => 'Berhasil mengirim email',
+                    'data' => (Object)[
+                        'email' => $user->email,
+                    ],
             ],200);
         // END
     }
