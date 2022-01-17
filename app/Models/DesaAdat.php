@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TbDesaadat
- *
+ * 
  * @property int $desadat_id
  * @property int|null $desadat_jenis_id
  * @property string|null $desadat_nama
@@ -52,7 +52,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $password_temp
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- *
+ * 
  * @property Collection|TbGriyaRumah[] $tb_griya_rumahs
  *
  * @package App\Models

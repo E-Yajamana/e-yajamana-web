@@ -7,7 +7,7 @@
     <title>LUPA PASSWORD</title>
 </head>
 <body>
-    <table style="min-width:400px;">
+    <table style="width:100%;">
         <thead style="background: linear-gradient(to bottom, #ffffff 44%, #0000cc 200%);">
             <tr>
                 <th style="text-align: center;">

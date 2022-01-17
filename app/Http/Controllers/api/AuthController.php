@@ -116,6 +116,7 @@ class AuthController extends Controller
     }
 
     public function lupaPassword(Request $request){
+        
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'email' => 'required|email',
@@ -157,7 +158,9 @@ class AuthController extends Controller
             return response()->json([
                     'status' => 200,
                     'message' => 'Berhasil mengirim email',
-                    'data' => (Object)[],
+                    'data' => (Object)[
+                        'email' => $user->email,
+                    ],
             ],200);
         // END
     }
