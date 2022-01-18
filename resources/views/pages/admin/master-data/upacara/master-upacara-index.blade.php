@@ -106,7 +106,7 @@
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.master-data.upacara.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                             <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
@@ -137,7 +137,7 @@
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.master-data.upacara.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                             <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
@@ -168,7 +168,7 @@
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$data->nama_upacara}}</td>
                                                     <td>
-                                                        <a href="{{route('admin.master-data.upacara.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -199,7 +199,7 @@
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.master-data.upacara.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                             <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
@@ -230,7 +230,7 @@
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.master-data.upacara.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                             <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>

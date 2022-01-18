@@ -42,7 +42,8 @@
     </div>
 
     <!-- jQuery -->
-    <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{url('base-template/plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{url('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- overlayScrollbars -->
     <script src="{{asset('base-template/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
