@@ -27,7 +27,7 @@
 
             </div>
             <div class="card-body">
-                <form action="{{route('auth.register.akun.krama')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('auth.register.akun.krama.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row px-lg-4">
                         <div class="col-12 col-md-6">
