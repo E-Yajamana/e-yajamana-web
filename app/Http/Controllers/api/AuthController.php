@@ -297,6 +297,7 @@ class AuthController extends Controller
 
                 $user->update([
                     'password' => Hash::make($request->password),
+                    'json_token_lupa_password' => ''
                 ]);
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
