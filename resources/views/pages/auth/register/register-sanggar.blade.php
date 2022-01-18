@@ -35,13 +35,13 @@
                                 <label>SK Tanda Usaha</label>
                                 <div class="input-group mb-2">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input @error('foto_upacara') is-invalid @enderror" name="foto_upacara" id="customFile">
+                                        <input type="file" class="custom-file-input @error('file') is-invalid @enderror" name="file" id="customFile" value="{{old('file')}}">
                                         <label class="custom-file-label " for="customFile">Foto Kegiatan Upacara</label>
                                     </div>
                                 </div>
-                                @error('foto_upacara')
+                                @error('file')
                                     <div class="invalid-feedback text-start">
-                                        {{ $errors->first('foto_upacara') }}
+                                        {{ $errors->first('file') }}
                                     </div>
                                 @enderror
                             </div>
@@ -111,8 +111,15 @@
                                 <label>Kabupaten/Kota <span class="text-danger">*</span></label>
                                 <select id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Kabupaten</option>
+                                    @php
+                                        $kabupaten = old('kabupaten')
+                                    @endphp
                                     @foreach ($dataKabupaten->where('id_provinsi',51) as $data)
-                                        <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                        @if ($kabupaten == $data->id_kabupaten)
+                                            <option value="{{$data->id_kabupaten}}" selected>{{$data->name}}</option>
+                                        @else
+                                            <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 @error('kabupaten')
@@ -121,21 +128,20 @@
                                     </div>
                                 @enderror
                             </div>
-
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="form-group">
                                 <label>Nama Sanggar<span class="text-danger">*</span></label>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="nama" autocomplete="off" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" placeholder="Masukan Nama lengkap">
+                                    <input type="text" name="nama_sanggar" autocomplete="off" class="form-control @error('nama_sanggar') is-invalid @enderror" value="{{ old('nama_sanggar') }}" placeholder="Masukan Nama Sanggar">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-user"></span>
                                         </div>
                                     </div>
-                                    @error('nama')
+                                    @error('nama_sanggar')
                                         <div class="invalid-feedback text-start">
-                                            {{$errors->first('nama') }}
+                                            {{$errors->first('nama_sanggar') }}
                                         </div>
                                     @enderror
                                 </div>
@@ -143,15 +149,15 @@
                             <div class="form-group">
                                 <label>Nama Pengelola Sanggar<span class="text-danger">*</span></label>
                                 <div class="input-group mb-3">
-                                    <input type="text" name="nama" autocomplete="off" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" placeholder="Masukan Nama lengkap">
+                                    <input type="text" name="nama_pengelola" autocomplete="off" class="form-control @error('nama_pengelola') is-invalid @enderror" value="{{ old('nama_pengelola') }}" placeholder="Masukan Nama Pengelola Sanggar">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-user"></span>
                                         </div>
                                     </div>
-                                    @error('nama')
+                                    @error('nama_pengelola')
                                         <div class="invalid-feedback text-start">
-                                            {{$errors->first('nama') }}
+                                            {{$errors->first('nama_pengelola') }}
                                         </div>
                                     @enderror
                                 </div>
@@ -216,7 +222,7 @@
 
                             <div class="form-group">
                                 <label>Alamat Lengkap</label>
-                                <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" rows="3" placeholder="Masukan Deskripsi Buku"></textarea>
+                                <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" rows="3" placeholder="Masukan Deskripsi Buku">{{old('alamat')}}</textarea>
                                 @error('alamat')
                                     <div class="invalid-feedback text-start">
                                         {{ $errors->first('alamat') }}
@@ -226,13 +232,13 @@
                             <div class="form-group">
                                 <label>Pemetaan Lokasi Upacara</label>
                                 <div class="input-group mb-3">
-                                    <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" readonly="readonly">
+                                    <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" value="{{old('lat')}}" readonly="readonly">
                                     @error('lat')
                                         <div class="invalid-feedback text-start">
                                             {{ $errors->first('lat') }}
                                         </div>
                                     @enderror
-                                    <input name="lng" id="lng" type="text" aria-label="Last name" class="form-control ml1" placeholder="Lang  @error('lng') is-invalid @enderror" readonly="readonly">
+                                    <input name="lng" id="lng" type="text" aria-label="Last name" class="form-control ml1" placeholder="Lang  @error('lng') is-invalid @enderror" value="{{old('lat')}}" readonly="readonly">
                                     @error('lng')
                                         <div class="invalid-feedback text-start">
                                             {{ $errors->first('lng') }}
@@ -253,7 +259,7 @@
                             </p>
                         </div>
                         <div class="col-7 col-sm-4">
-                            <button type="submit" class="btn btn-primary btn-block">Daftarkan Akun</button>
+                            <button type="submit" class="btn btn-primary btn-block">Buat Akun</button>
                         </div>
                     </div>
                 </form>
@@ -274,7 +280,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="gmaps" style="height: 600px"></div>
+                    <div id="gmaps" style="height: 500px"></div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>

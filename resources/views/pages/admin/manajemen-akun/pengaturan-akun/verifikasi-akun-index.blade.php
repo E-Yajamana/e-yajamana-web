@@ -94,7 +94,7 @@
                                                         <td>{{$data->nama_sulinggih}}</td>
                                                         <td>{{date('d-M-Y',strtotime($data->created_at))}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('admin.manajemen-akun.data-akun.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                             <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
@@ -107,7 +107,7 @@
                                                             @csrf
                                                             @method('PUT')
                                                             <input type="hidden" name="id" value="{{$data->id}}">
-                                                            <input type="hidden" name="text_penolakan" id="text_penolakan" value="">
+                                                            <input type="hidden" name="text_penolakan" id={{"text_penolakan".$data->id}} value="">
                                                         </form>
                                                     </tr>
                                                 @endforeach
@@ -133,14 +133,14 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataPemangku as $data )
+                                                @foreach ($dataPemangku as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_walaka}}</td>
                                                         <td>{{$data->pekerjaan}}</td>
                                                         <td>{{date('d-M-Y',strtotime($data->created_at))}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('admin.manajemen-akun.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                             <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
@@ -153,7 +153,7 @@
                                                             @csrf
                                                             @method('PUT')
                                                             <input type="hidden" name="id" value="{{$data->id}}">
-                                                            <input type="hidden" name="text_penolakan" id="text_penolakan" value="">
+                                                            <input type="hidden" id={{"text_penolakan".$data->id}} value="" name="text_penolakan">
                                                         </form>
                                                     </tr>
                                                 @endforeach
@@ -186,7 +186,7 @@
                                                         <td>{{$data->nama_pengelola}}</td>
                                                         <td>{{date('d-M-Y',strtotime($data->created_at))}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('admin.manajemen-akun.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a onclick="verifikasiSanggar({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                             <a onclick="tolakSanggar({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
@@ -199,7 +199,7 @@
                                                             @csrf
                                                             @method('PUT')
                                                             <input type="hidden" name="id" value="{{$data->id}}">
-                                                            <input type="hidden" name="text_penolakan" id="text_penolakan" value="">
+                                                            <input type="hidden" name="text_penolakan" id={{"text_penolakan".$data->id}} value="">
                                                         </form>
                                                     </tr>
                                                 @endforeach
@@ -287,7 +287,7 @@
                 },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $("#text_penolakan").val(data);
+                        $("#text_penolakan"+index).val(data);
                         $('#tolakPemuput-'+index).submit();
                     } else if (result.isDenied) {
 
@@ -315,7 +315,7 @@
                 },
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $("#text_penolakan").val(data);
+                        $("#text_penolakan"+index).val(data);
                         $('#tolakSanggar-'+index).submit();
                     } else if (result.isDenied) {
 

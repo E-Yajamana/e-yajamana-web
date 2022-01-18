@@ -111,7 +111,7 @@ class ManajemenAkunController extends Controller
     }
     // UPDATE TERIMA VERIFIKASI DATA SANGGAR
 
-    // UPDATE TOLAK VERIFIKASI DATA SANGGAR
+    // UPDATE TOLAK VERIFIKASI DATA PEMUPUT KARYA
     public function updateStatusTolakAkunPemuputKarya(Request $request)
     {
         // SECURITY
@@ -205,9 +205,7 @@ class ManajemenAkunController extends Controller
     }
     // UPDATE TOLAK VERIFIKASI DATA SANGGAR
 
-
-
-
+    // DETAIL DATA VERIFIKASI AKUN
     public function detailVerifikasi(Request $request)
     {
         // SECURITY
@@ -243,6 +241,8 @@ class ManajemenAkunController extends Controller
         // END RETURN
 
     }
+    // DETAIL DATA VERIFIKASI AKUN
+
 
     public function dataAkunIndex(Request $request)
     {

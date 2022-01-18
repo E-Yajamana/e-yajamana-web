@@ -5,31 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sulinggih extends Model
+class Serati extends Model
 {
     use HasFactory;
 
-    protected $table = 'tb_sulinggih';
+    protected $table = 'tb_serati';
 
     protected $fillable = [
-        'id_griya',
         'id_user',
-        'nabe',
-        'nama_walaka',
-        'nama_sulinggih',
-        'nama_pasangan',
-        'tempat_lahir',
+        'id_desa',
+        'id_desa_adat',
+        'nama_serati',
+        'alamat_serati',
         'jenis_kelamin',
-        'pekerjaan',
+        'tempat_lahir',
         'tanggal_lahir',
-        'pendidikan',
-        'tanggal_diksha',
-        'sk_kesulinggihan',
-        'status_konfirmasi_akun',
+        'lat',
+        'lng'
     ];
 
     public function User(){
         return $this->belongsTo(User::class,'id_user','id');
     }
+
 
 }

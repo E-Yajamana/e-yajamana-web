@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Upacara;
 use App\ImageHelper;
 use App\Models\TahapanUpacara;
+use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -15,18 +16,23 @@ use PDOException;
 
 class MasterDataUpacaraController extends Controller
 {
+
+    // INDEX VIEW DATA UPACARA
     public function indexDataUpacara(Request $request)
     {
         $dataUpacara = Upacara::all();
         return view('pages.admin.master-data.upacara.master-upacara-index',compact(['dataUpacara']));
     }
+    // INDEX VIEW DATA UPACARA
 
-
+    // CREATE DATA UPACARA
     public function createDataUpacara(Request $request)
     {
         return view('pages.admin.master-data.upacara.master-upacara-create');
     }
+    // CREATE DATA UPACARA
 
+    // STORE DATA UPACARA
     public function storeDataUpacara(Request $request)
     {
 
@@ -99,7 +105,6 @@ class MasterDataUpacaraController extends Controller
 
         }else{
             // SECURITY
-                // dd($request->dataTahapan);
                 $validator = Validator::make($request->all(),[
                     'nama_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|unique:tb_upacara,nama_upacara|min:5|max:50',
                     'katagori' => 'required|in:Dewa Yadnya,Pitra Yadnya,Manusa Yadnya,Rsi Yadnya,Bhuta Yadnya',
@@ -133,7 +138,6 @@ class MasterDataUpacaraController extends Controller
                     return redirect()->back()->with([
                         'status' => 'fail',
                         'icon' => 'error',
-                        'dataTahapan' => $request->dataTahapan,
                         'title' => 'Gagal Menambahkan Data Upacara',
                         'message' => 'Gagal menambahkan data upacara ke dalam sistem,harap kembali memeriksa form input anda'
                     ])->withInput($request->all())->withErrors($validator->errors());
@@ -154,12 +158,13 @@ class MasterDataUpacaraController extends Controller
 
                 foreach($request->dataTahapan as $data)
                 {
-                    $filename =  ImageHelper::moveImage($data['foto_tahapan'],$folder);
+                    $folder = 'app/admin/master-data/upacara/tahapan';
+                    $filenameTahapan =  ImageHelper::moveImage($data['foto_tahapan'],$folder);
                     $upacara->TahapanUpacara()->create([
                         'nama_tahapan' => $data['nama_tahapan'],
                         'deskripsi_tahapan' => $data['desc_tahapan'],
                         'status_upacara' => $data['status'],
-                        'image' => $filename,
+                        'image' => $filenameTahapan,
                     ]);
                 }
                 DB::commit();
@@ -177,5 +182,45 @@ class MasterDataUpacaraController extends Controller
         }
 
     }
+    // STORE DATA UPACARA
+
+    // DETAIL DATA UPACARA
+    public function detailDataUpacara(Request $request)
+    {
+         // SECURITY
+            $validator = Validator::make(['id' =>$request->id],[
+                'id' => 'required|exists:tb_upacara,id',
+            ]);
+
+            if($validator->fails()){
+                return redirect()->route('admin.master-data.upacara.detail')->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Data Upacara Tidak Ditemukan !',
+                    'message' => 'Data griya tidak ditemukan, pilihlah data dengan benar !',
+                ]);
+            }
+        // END SECURITY
+
+        // MAIN LOGIC
+            try{
+                $dataUpacara = Upacara::with(['TahapanUpacara'])->findOrFail($request->id);;
+            }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
+                return \redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Sistem Gagal Menemukan Data Griya !',
+                    'message' => 'sistem gagal menemukan Data Griya, mohon untuk menghubungi developer sistem !',
+                ]);
+            }
+        // END MAIN LOGIC
+
+        // RETURN
+            return view('pages.admin.master-data.upacara.master-upacara-detail', compact(['dataUpacara']));
+        // END RETURN
+    }
+    // DETAIL DATA UPACARA
+
+
 
 }

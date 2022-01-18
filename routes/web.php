@@ -37,8 +37,10 @@ Route::prefix('auth')->group(function () {
         Route::get('{akun}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
 
         Route::post('krama', [RegisterController::class, 'storeRegisKrama'])->name('auth.register.akun.krama.store');
+        Route::post('serati', [RegisterController::class, 'storeRegisSerati'])->name('auth.register.akun.serati.store');
         Route::post('sanggar', [RegisterController::class, 'storeRegisSanngar'])->name('auth.register.akun.sanggar.store');
-
+        Route::post('sulinggih', [RegisterController::class, 'storeRegisSulinggih'])->name('auth.register.akun.sulinggih.store');
+        Route::post('pemangku', [RegisterController::class, 'storeRegisPemangku'])->name('auth.register.akun.pemangku.store');
     });
 
     Route::get('lupa-password', [AuthController::class, 'lupaPasswordLanding'])->name('auth.lupa-password.lading');
@@ -56,6 +58,7 @@ Route::prefix('admin')->group(function () {
             Route::get('index', [MasterDataUpacaraController::class, 'indexDataUpacara'])->name('admin.master-data.upacara.index');
             Route::get('create', [MasterDataUpacaraController::class, 'createDataUpacara'])->name('admin.master-data.upacara.create');
             Route::post('store', [MasterDataUpacaraController::class, 'storeDataUpacara'])->name('admin.master-data.upacara.store');
+            Route::get('detail/{id}', [MasterDataUpacaraController::class, 'detailDataUpacara'])->name('admin.master-data.upacara.detail');
         });
 
         Route::prefix('griya')->group(function () {
@@ -84,15 +87,13 @@ Route::prefix('admin')->group(function () {
             Route::put('pemuput-karya/tolak', [ManajemenAkunController::class, 'updateStatusTolakAkunPemuputKarya'])->name('admin.manajemen-akun.verifikasi.pemuput-karya.tolak');
             Route::put('pemuput-karya/terima', [ManajemenAkunController::class, 'updateStatusAkunPemuputKarya'])->name('admin.manajemen-akun.verifikasi.pemuput-karya');
 
-
-
-            Route::get('verifikasi/detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.verifikasi.detail');
+            Route::get('detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.verifikasi.detail');
         });
 
-
-        Route::get('data-akun', [ManajemenAkunController::class, 'dataAkunIndex'])->name('admin.manajemen-akun.data-akun.index');
-        Route::get('data-akun/detail/{id?}', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.data-akun.detail');
-
+        Route::prefix('data-akun')->group(function () {
+            Route::get('index', [ManajemenAkunController::class, 'dataAkunIndex'])->name('admin.manajemen-akun.data-akun.index');
+            Route::get('data-akun/detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.data-akun.detail');
+        });
     });
 
 });
@@ -102,7 +103,7 @@ Route::prefix('admin')->group(function () {
 
 Route::prefix('admin')->group(function () {
 
-    Route::get('master-data/upacara/detail/id', [AdminController::class, 'upacaraDetail'])->name('admin.master-data.upacara.detail');
+    // Route::get('master-data/upacara/detail/id', [AdminController::class, 'upacaraDetail'])->name('admin.master-data.upacara.detail');
 
     Route::get('data-akun', [AdminController::class, 'dataAkunShow'])->name('admin.data-akun.show');
     Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
@@ -142,6 +143,8 @@ Route::prefix('sulinggih')->group(function () {
 });
 
 Route::prefix('ajax')->group(function () {
+    Route::post('add/griya', [MasteDataGriyaController::class, 'ajaxStoreDataGriya'])->name('ajax.post');
+    Route::get('get/griya', [MasteDataGriyaController::class, 'ajaxGetDataGriya'])->name('ajax.get');
     Route::get('kabupaten/{id?}', [LocationController::class, 'getKabupaten']);
     Route::get('kecamatan/{id}', [LocationController::class, 'getKecamatan']);
     Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);

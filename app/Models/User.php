@@ -59,4 +59,8 @@ class User extends Authenticatable
         return $this->hasOne(Sulinggih::class,'id_user','id');
     }
 
+    public function Serati(){
+        return $this->hasOne(Serati::class,'id_user','id');
+    }
+
 }

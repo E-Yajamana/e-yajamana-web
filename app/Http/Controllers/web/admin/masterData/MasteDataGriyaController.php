@@ -315,4 +315,38 @@ class MasteDataGriyaController extends Controller
     }
     // END DELETE INPUT DATABASE LOKASI GRIYA
 
+
+
+    // AJAX INPUT DATABASE LOKASI GRIYA
+    public function ajaxStoreDataGriya(Request $request)
+    {
+        $dataGriya = GriyaRumah::create([
+            'id_desa' => $request->id_desa,
+            'id_desa_adat' => $request->id_desa_adat,
+            'nama_griya_rumah' =>$request->nama_griya,
+            'alamat_griya_rumah' =>$request->alamat_griya,
+            'lat' =>$request->lat,
+            'lng' =>$request->lng,
+        ]);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil mengambil data griya',
+            'data' => $dataGriya
+        ],200);
+    }
+    // AJAX STORE DATABASE LOKASI GRIYA
+
+    // GET AJAX DATA GIRYA
+    public function ajaxGetDataGriya(Request $request)
+    {
+        $dataGriya = GriyaRumah::all();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil mengambil data griya',
+            'data' => $dataGriya
+        ],200);
+    }
+    // GET AJAX DATA GRIYA
+
 }
