@@ -85,8 +85,16 @@
                                     <label>Tempat Lahir <span class="text-danger">*</span></label>
                                     <select id="tempat_lahir" name="tempat_lahir" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
                                         <option value="0" disabled selected>Pilih Lokasi Tempat Lahir</option>
+                                        @php
+                                            $kabupaten = old('tempat_lahir')
+                                        @endphp
                                         @foreach ($dataKabupaten as $data)
-                                            <option value="{{$data->name}}">{{$data->name}}</option>
+                                            @if ($kabupaten == $data->name)
+                                                <option value="{{$data->name}}" selected>{{$data->name}}</option>
+                                            @else
+                                                <option value="{{$data->name}}">{{$data->name}}</option>
+                                            @endif
+
                                         @endforeach
                                     </select>
                                     @error('kondisi')
@@ -107,13 +115,17 @@
                                     @enderror
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label>Tanggal Lahir <span class="text-danger">*</span></label>
                                 <div class="input-group mb-3">
-                                    <select name="penerbit" class="form-control select2bs4  @error('penerbit') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
-                                        <option disabled selected value="Bali">Laki-Laki</option>
-                                        <option value="laki-laki">Laki-Laki</option>
-                                        <option value="perempuan">Perempuan</option>
+                                    <select name="jenis_kelamin" value="{{ old('jenis_kelamin') }}"  class="form-control select2bs4 @error('jenis_kelamin') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
+                                        <option disabled selected value="Bali">Pilih Jenis Kelamin</option>
+                                        @php
+                                            $genre = old('jenis_kelamin')
+                                        @endphp
+                                        <option @if ($genre=='laki-laki') selected @endif value="laki-laki">Laki-Laki</option>
+                                        <option @if ($genre=='perempuan') selected @endif value="perempuan">Perempuan</option>
                                     </select>
                                     @error('kondisi')
                                         <div class="invalid-feedback text-start">
@@ -172,8 +184,15 @@
                                 <label>Kabupaten/Kota <span class="text-danger">*</span></label>
                                 <select id="kabupaten" name="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Kabupaten</option>
-                                    @foreach ($dataKabupaten as $data)
-                                        <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                    @php
+                                        $kabupaten = old('kabupaten')
+                                    @endphp
+                                    @foreach ($dataKabupaten->where('id_provinsi',51) as $data)
+                                        @if ($kabupaten == $data->id_kabupaten)
+                                            <option value="{{$data->id_kabupaten}}" selected>{{$data->name}}</option>
+                                        @else
+                                            <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 @error('kabupaten')
@@ -212,8 +231,15 @@
                                 <label>Desa Adat <span class="text-danger">*</span></label>
                                 <select id="desa_adat" name="desa_adat" class="form-control select2bs4 @error('desa_adat') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Desa Adat</option>
+                                    @php
+                                        $desaadat = old('desa_adat')
+                                    @endphp
                                     @foreach ($dataDesaAdat as $data)
-                                        <option value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
+                                        @if ($desaadat == $data->desadat_id)
+                                            <option selected value="{{$data->desadat_id}}" selected>{{$data->desadat_nama}}</option>
+                                        @else
+                                            <option value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 @error('desa_adat')
@@ -225,8 +251,8 @@
 
                             <div class="form-group">
                                 <label>Alamat Lengkap</label>
-                                <textarea  name="deskripsi_buku" class="form-control @error('deskripsi_buku') is-invalid @enderror" rows="3" placeholder="Masukan Deskripsi Buku"></textarea>
-                                @error('deskripsi_buku')
+                                <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" rows="3" placeholder="Masukan Deskripsi Buku">{{old('alamat')}}</textarea>
+                                @error('alamat')
                                     <div class="invalid-feedback text-start">
                                         {{ $errors->first('deskripsi_buku') }}
                                     </div>
@@ -235,14 +261,14 @@
                             <div class="form-group">
                                 <label>Pemetaan Lokasi Upacara</label>
                                 <div class="input-group mb-3">
-                                    <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1" placeholder="Lat" readonly="readonly">
-                                    @error('deskripsi_buku')
+                                    <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" value="{{old('lat')}}" readonly="readonly">
+                                    @error('lat')
                                         <div class="invalid-feedback text-start">
                                             {{ $errors->first('deskripsi_buku') }}
                                         </div>
                                     @enderror
-                                    <input name="lng" id="lng" type="text" aria-label="Last name" class="form-control ml1" placeholder="Lang" readonly="readonly">
-                                    @error('deskripsi_buku')
+                                    <input name="lng" id="lng" type="text" aria-label="Last name" class="form-control ml1" placeholder="Lang  @error('lng') is-invalid @enderror" value="{{old('lat')}}" readonly="readonly">
+                                    @error('lng')
                                         <div class="invalid-feedback text-start">
                                             {{ $errors->first('deskripsi_buku') }}
                                         </div>
@@ -254,6 +280,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row d-flex justify-content-end mt-1 p-lg-4">
                         <div class="col-5 col-sm-8">
                             <p> Sudah memiliki akun? Klik
@@ -282,7 +309,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="gmaps" style="height: 600px"></div>
+                    <div id="gmaps" style="height: 500px"></div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
@@ -295,6 +322,10 @@
 @endsection
 
 @push('js')
+    <script>
+
+    </script>
+
     <!-- Select2 -->
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
@@ -324,8 +355,6 @@
             }
 
             var curLocation = [0, 0];
-            // use below if you have a model
-            // var curLocation = [@Model.Location.Latitude, @Model.Location.Longitude];
 
             if (curLocation[0] == 0 && curLocation[1] == 0) {
                 curLocation = [-8.4517916, 115.1970086];

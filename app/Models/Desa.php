@@ -18,6 +18,11 @@ class Desa extends Model
     ];
 
     public function Kecamatan(){
-        return $this->belongsTo(Kecamatan::class,'id_kecamatan','id_desa');
+        return $this->belongsTo(Kecamatan::class,'id_kecamatan','id_kecamatan');
     }
+
+    public function GriyaRumah()
+	{
+		return $this->hasMany(Desa::class, 'id_desa','id_desa');
+	}
 }

@@ -20,9 +20,9 @@
 
 @section('content')
 
-    <div class="container align-items-center" style="height: 100vh">
-        <div class="d-flex w-auto  align-self-center px-lg-5">
-            <div class="row justify-content-center p-4 mt-lg-5">
+    <div class="container" style="height: 100vh">
+        <div class="px-lg-3">
+            <div class="row justify-content-center mt-lg-4">
                 <div id="screen1" class="col-12 col-sm-6 p-0" >
                     <div class="card card-primary m-0 ml-4" >
                         <img id="splash" class="rounded" src="{{asset('base-template/dist/img/login-sulinggih.jpg')}}" alt="Product Image">

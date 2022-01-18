@@ -66,23 +66,7 @@
                         <li class="nav-item ml-3">
                             <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Konfirmasi Sulinggih</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Konfirmasi Pemangku</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Konfirmasi Sanggar</p>
+                                <p>Konfirmasi Akun</p>
                             </a>
                         </li>
                     </ul>
@@ -120,6 +104,12 @@
                             <a id="side-desa-adat" href="{{route('admin.master-data.desa-adat.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Desa Adat</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-griya" href="{{route('admin.master-data.griya.index')}}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Lokasi Griya</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
