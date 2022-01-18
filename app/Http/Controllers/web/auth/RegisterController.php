@@ -412,7 +412,6 @@ class RegisterController extends Controller
     // STORE AKUN SULINGGIH
     public function storeRegisSulinggih(Request $request)
     {
-        dd($request->all());
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'nama_walaka' => 'required|regex:/^[a-z,. 0-9, -]+$/i|min:5|max:50',
