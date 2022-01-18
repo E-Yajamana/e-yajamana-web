@@ -26,6 +26,12 @@ use Illuminate\Support\Facades\Route;
     Route::post('login',[AuthController::class,'loginUser']);
 
     Route::get('unathorized',[AuthController::class,'unauthorized'])->name('api.unathorized');
+
+    // LUPA PASSWORD
+        Route::post('request/email/token',[AuthController::class,'lupaPassword']);
+        Route::post('check/email/token',[AuthController::class,'checkToken']);
+        Route::post('create/new/password',[AuthController::class,'createNewPassword']);
+    // END
 // END
 
 // SACTUM MIDDLEWARE
@@ -65,6 +71,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
             // KRAMA UPCARA
                 Route::prefix('upacara')->group(function(){
+                    Route::post('show',[KramaUpacaraController::class,'index']);
                     Route::post('create',[KramaUpacaraController::class,'store']);
                 });
             // END

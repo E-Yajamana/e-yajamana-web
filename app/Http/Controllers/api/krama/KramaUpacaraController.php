@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use PDOException;
+use Illuminate\Support\Facades\Input;
+use Symfony\Component\Console\Input\Input as InputInput;
 
 class KramaUpacaraController extends Controller
 {
@@ -19,9 +21,55 @@ class KramaUpacaraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'nama' => 'nullable|string',
+                'status' => 'nullable|string',
+            ]);
+            
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'Validation error',
+                        'data' => (Object)[],
+                ],400);
+            }
+        // END
+        
+        // MAIN LOGIC
+            try{
+                $upacarakus = Upacaraku::query();
+
+                if($request->nama != null || $request->nama != ""){
+                    $upacarakus->where('nama_upacara','LIKE','%'.$request->nama.'%');
+                }
+
+                if($request->status != null || $request->status != ""){
+                    $upacarakus->where('status',$request->status);
+                }
+
+                $upacarakus = $upacarakus->get();
+
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+        
+        // RETURN
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil mendapatkan data upacara',
+                    'data' => [
+                        'upacarakus' => $upacarakus,
+                    ],
+            ],200);
+        // END
     }
 
     /**
@@ -76,6 +124,7 @@ class KramaUpacaraController extends Controller
                     'lokasi' => $request->lokasi,
                     'lat' => $request->lat,
                     'lng' => $request->lng,
+                    'status' => 'proses',
                     'tanggal_mulai' => $request->tanggal_mulai,
                     'tanggal_selesai' => $request->tangal_selesa,
                     'desc' => $request->desc,
@@ -83,7 +132,6 @@ class KramaUpacaraController extends Controller
 
                 DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return $err;
                 DB::rollBack();
                 return response()->json([
                         'status' => 500,

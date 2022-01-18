@@ -15,8 +15,8 @@ class CreateTbUpacarakuTable extends Migration
     {
         Schema::create('tb_upacaraku', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_upacara')->index('id_upacara');
-            $table->integer('id_krama')->index('id_krama');
+            $table->integer('id_upacara')->nullable()->index('id_upacara');
+            $table->integer('id_krama')->nullable()->index('id_krama');
             $table->string('nama_upacara')->nullable();
             $table->string('lokasi')->nullable();
             $table->date('tanggal_mulai')->nullable();

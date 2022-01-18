@@ -26,6 +26,9 @@ class Sulinggih extends Model
         'tanggal_diksha',
         'sk_kesulinggihan',
         'status_konfirmasi_akun',
+        'sk_kesulinggihan',
+        'jenis_kelamin',
+        'tanggal_lahir',
     ];
 
     public function User(){
