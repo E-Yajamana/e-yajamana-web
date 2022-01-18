@@ -27,6 +27,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+
+
 Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
