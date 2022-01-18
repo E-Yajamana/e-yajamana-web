@@ -239,7 +239,6 @@ class AuthController extends Controller
                 }
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',
@@ -284,7 +283,7 @@ class AuthController extends Controller
                 $json_wrapper = json_decode($user->json_token_lupa_password);
 
                 $isTokenExistsVerified = false;
-
+                
                 foreach ($json_wrapper as $key => $value) {
                     if($value->token == $request->token && $value->verified == true){
                         $isTokenExistsVerified = true;
