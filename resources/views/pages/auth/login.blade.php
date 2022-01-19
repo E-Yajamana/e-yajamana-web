@@ -75,7 +75,7 @@
                             <div class="text-center mt-1">
                                 <p class="mb-1">
                                     Belum memiliki akun ?
-                                    <a href="{{route('auth.register.home')}}" class="text-decoration-none link-primary">DAFTAR DI SINI</a>
+                                    <a href="{{ route('auth.register.index') }}" class="text-decoration-none link-primary">DAFTAR DI SINI</a>
                                 </p>
                                 <p class="mb-1">
                                     Lupa password ?

@@ -75,7 +75,7 @@ class AuthController extends Controller
             $validator = Validator::make($request->all(),[
                 'id_user' => 'required',
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -84,7 +84,7 @@ class AuthController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
                 if(!Auth::user()->currentAccessToken()->delete()){
@@ -99,7 +99,7 @@ class AuthController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,
