@@ -40,7 +40,7 @@ class KramaUpacaraController extends Controller
         
         // MAIN LOGIC
             try{
-                $upacarakus = Upacaraku::query();
+                $upacarakus = Upacaraku::query()->with(['Upacara'])->whereHas('Upacara');
 
                 if($request->nama != null || $request->nama != ""){
                     $upacarakus->where('nama_upacara','LIKE','%'.$request->nama.'%');

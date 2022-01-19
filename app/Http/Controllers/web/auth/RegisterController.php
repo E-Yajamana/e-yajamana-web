@@ -635,9 +635,4 @@ class RegisterController extends Controller
         // END LOGIC
     }
     // STORE AKUN PEMANGKU
-
-
-
-
-
 }

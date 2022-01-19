@@ -14,10 +14,13 @@ class Upacaraku extends Model
     protected $fillable = [
         'id_upacara',
         'id_krama',
+        'id_desa',
+        'id_desa_adat',
         'nama_upacara',
         'lokasi',
         'lat',
         'lng',
+        'status',
         'tanggal_mulai',
         'tanggal_selesai',
         'desc',
