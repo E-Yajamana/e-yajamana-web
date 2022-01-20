@@ -374,7 +374,7 @@ class RegisterController extends Controller
                     'email' => $request->email,
                     'password' =>Hash::make($request->password),
                     'nomor_telepon' =>$request->nomor_telepon,
-                    'role' =>'sulinggih',
+                    'role' =>'serati',
                 ])->Serati()->create([
                     'nama_serati' => $request->nama,
                     'alamat_serati' => $request->alamat,

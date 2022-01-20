@@ -12,6 +12,9 @@ use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
 use App\Http\Controllers\web\admin\masterdata\MasterDataWilayahController;
 use App\Http\Controllers\web\auth\AuthController;
 use App\Http\Controllers\web\auth\RegisterController;
+use App\Http\Controllers\web\GetImageController;
+use App\Http\Controllers\web\pemuput_karya\dashboard\PemuputDashboardController;
+use App\Http\Controllers\web\pemuput_karya\manajemen_reservasi\ReservasiMasukController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +62,13 @@ Route::prefix('admin')->group(function () {
             Route::get('create', [MasterDataUpacaraController::class, 'createDataUpacara'])->name('admin.master-data.upacara.create');
             Route::post('store', [MasterDataUpacaraController::class, 'storeDataUpacara'])->name('admin.master-data.upacara.store');
             Route::get('detail/{id}', [MasterDataUpacaraController::class, 'detailDataUpacara'])->name('admin.master-data.upacara.detail');
+            Route::get('edit/{id}', [MasterDataUpacaraController::class, 'editDataUpacara'])->name('admin.master-data.upacara.edit');
+            Route::put('update', [MasterDataUpacaraController::class, 'updateUpacara'])->name('admin.master-data.upacara.update');
+            Route::delete('delete', [MasterDataUpacaraController::class, 'deleteUpacara'])->name('admin.master-data.upacara.delete');
+
+            // Route::put('updateTahapan', [MasterDataUpacaraController::class, 'update'])->name('admin.master-data.upacara.tahapan.update');
+            Route::delete('tahapan/delete', [MasterDataUpacaraController::class, 'deleteTahapanUpacara'])->name('admin.master-data.upacara.tahapan.delete');
+
         });
 
         Route::prefix('griya')->group(function () {
@@ -99,8 +109,6 @@ Route::prefix('admin')->group(function () {
 });
 
 
-
-
 Route::prefix('admin')->group(function () {
 
     // Route::get('master-data/upacara/detail/id', [AdminController::class, 'upacaraDetail'])->name('admin.master-data.upacara.detail');
@@ -112,7 +120,9 @@ Route::prefix('admin')->group(function () {
 
 
 Route::prefix('krama')->group(function () {
-    Route::get('', [KramaController::class, 'index'])->name('krama.dashboard');
+    Route::get('dashboard', [KramaController::class, 'index'])->name('krama.dashboard');
+
+
     Route::get('data-upacara', [KramaController::class, 'dataUpacaraShow'])->name('krama.data-upacara');
     Route::get('data-upacara2', [KramaController::class, 'dataUpacaraShow2'])->name('krama.data-upacara2');
     Route::get('data-upacara/detail', [KramaController::class, 'dataUpacaraDetail'])->name('krama.data-upacara.detail');
@@ -122,6 +132,28 @@ Route::prefix('krama')->group(function () {
     Route::get('reservasi/create', [KramaController::class, 'createReservasi'])->name('krama.reservasi.create');
 
 });
+
+// PEMUPUT KARYA (SULINGGIH & PEMANGKU)
+Route::prefix('pemuput-karya')->group(function () {
+    Route::get('dashboard', [PemuputDashboardController::class, 'index'])->name('pemuput-karya.dashboard');
+
+    Route::prefix('manajemen-reservasi')->group(function () {
+        Route::prefix('reservasi-masuk')->group(function () {
+            Route::get('index', [ReservasiMasukController::class, 'index'])->name('pemuput-karya.manajemen-reservasi.index');
+            Route::get('detail', [ReservasiMasukController::class, 'detailReservasi'])->name('pemuput-karya.manajemen-reservasi.detail');
+
+            Route::get('riwayat', [ReservasiMasukController::class, 'riwayatReservasi'])->name('pemuput-karya.manajemen-reservasi.riwayat');
+        });
+    });
+
+    Route::prefix('muput-upacara')->group(function () {
+        Route::get('index', [SulinggihController::class, 'indexMuputUpacara'])->name('sulinggih.muput-upacara.index');
+        Route::get('konfimasi-tangkil', [SulinggihController::class, 'konfrimasiTanggalTangkil'])->name('sulinggih.muput-upacara.konfirmasi.tangkil');
+        Route::get('konfimasi-muput', [SulinggihController::class, 'konfrimasiMuput'])->name('sulinggih.muput-upacara.konfirmasi.upacara');
+    });
+
+});
+// PEMUPUT KARYA (SULINGGIH & PEMANGKU)
 
 
 Route::prefix('sulinggih')->group(function () {
@@ -138,9 +170,14 @@ Route::prefix('sulinggih')->group(function () {
         Route::get('konfimasi-muput', [SulinggihController::class, 'konfrimasiMuput'])->name('sulinggih.muput-upacara.konfirmasi.upacara');
 
     });
+});
 
+
+Route::prefix('get-image')->group(function () {
+    Route::get('upacara/{id}', [GetImageController::class, 'getImageUpacara'])->name('get-image.upacara');
 
 });
+
 
 Route::prefix('ajax')->group(function () {
     Route::post('add/griya', [MasteDataGriyaController::class, 'ajaxStoreDataGriya'])->name('ajax.post');

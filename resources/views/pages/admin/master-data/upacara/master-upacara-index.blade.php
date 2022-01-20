@@ -97,6 +97,7 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Upacara</th>
+                                                    <th>Jumlah Tahapan</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
@@ -105,10 +106,16 @@
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
+                                                        <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
                                                             <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -128,6 +135,7 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Upacara</th>
+                                                    <th>Jumlah Tahapan</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
@@ -136,10 +144,16 @@
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
+                                                        <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
                                                             <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -159,6 +173,7 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Upacara</th>
+                                                    <th>Jumlah Tahapan</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
@@ -167,10 +182,16 @@
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$data->nama_upacara}}</td>
+                                                    <td>{{count($data->TahapanUpacara)}}</td>
                                                     <td>
                                                         <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                        <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -190,6 +211,7 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Upacara</th>
+                                                    <th>Jumlah Tahapan</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
@@ -198,11 +220,17 @@
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
+                                                        <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
                                                             <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
+                                                        <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                                        </form>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -221,6 +249,7 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Upacara</th>
+                                                    <th>Jumlah Tahapan</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
@@ -229,11 +258,17 @@
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
+                                                        <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
                                                             <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
+                                                        <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                                        </form>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -254,14 +289,27 @@
 
 @push('js')
 
-    <script src="{{ asset('base-template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{ asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('base-template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script type="text/javascript">
+        function deleteData(index){
+            Swal.fire({
+                title: 'Peringatan',
+                text : 'Apakah anda yakin akan menghapus Data Upacara tersebut?',
+                icon:'warning',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: `Hapus`,
+                denyButtonText: `Batal`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#delete-'+index).submit();
+                    } else if (result.isDenied) {
 
-    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+                    }
+                })
+            }
+    </script>
 
 
     <script type="text/javascript">
@@ -368,5 +416,18 @@
 
         });
     </script>
+
+    {{-- Library Start --}}
+        <script src="{{ asset('base-template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+        <script src="{{ asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('base-template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+
+        <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    {{-- Library Start --}}
+
+
 
 @endpush

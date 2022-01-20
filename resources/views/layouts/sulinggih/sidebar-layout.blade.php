@@ -105,13 +105,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-reservasi-index" href="{{route('sulinggih.manajemen-reservasi.index')}}" class="nav-link p-2">
+                            <a id="side-manajemen-reservasi-index" href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Reservasi Masuk</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-reservasi-riwayat" href="{{route('sulinggih.manajemen-reservasi.riwayat')}}" class="nav-link p-2">
+                            <a id="side-manajemen-reservasi-riwayat" href="{{route('pemuput-karya.manajemen-reservasi.riwayat')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Riwayat Reservasi</p>
                             </a>

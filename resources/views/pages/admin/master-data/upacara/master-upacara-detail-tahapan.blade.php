@@ -75,7 +75,7 @@
                                 <div class="col-12 col-sm-4">
                                     <h4 class="text-center mb-3">AWAL</h4>
                                     <ul>
-                                        @foreach ($dataUpacara->TahapanUpacara as $data)
+                                        @foreach ($dataUpacara->TahapanUpacara->where('status_tahapan','awal') as $data)
                                             <li>{{$data->nama_tahapan}}</li>
                                         @endforeach
                                     </ul>
