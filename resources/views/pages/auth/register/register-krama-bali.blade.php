@@ -249,7 +249,7 @@
 
                             <div class="form-group">
                                 <label>Alamat Lengkap</label>
-                                <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" rows="3" placeholder="Masukan Deskripsi Buku">{{old('alamat')}}</textarea>
+                                <textarea name="alamat" class="form-control @error('alamat') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap">{{old('alamat')}}</textarea>
                                 @error('alamat')
                                     <div class="invalid-feedback text-start">
                                         {{ $errors->first('alamat') }}
@@ -320,9 +320,6 @@
 @endsection
 
 @push('js')
-    <script>
-
-    </script>
 
     <!-- Select2 -->
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>

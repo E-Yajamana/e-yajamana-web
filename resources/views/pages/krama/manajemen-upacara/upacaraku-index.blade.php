@@ -38,7 +38,7 @@
                                     <h3 class="card-title">Filter Upacaraku</h3>
                                 </div>
                                 <div class="col-6">
-                                    <a class="btn btn-primary float-right" type="button" href="{{route('krama.data-upacara.create')}}"> <i class="fa fa-plus"></i> Tambah Upacaraku</a>
+                                    <a class="btn btn-primary float-right" type="button" href="{{route('krama.manajemen-upacara.upacaraku.create')}}"> <i class="fa fa-plus"></i> Tambah Upacaraku</a>
                                 </div>
                             </div>
                         </div>

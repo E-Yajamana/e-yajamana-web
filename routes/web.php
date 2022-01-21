@@ -10,9 +10,12 @@ use App\Http\Controllers\web\admin\manajemen_akun\ManajemenAkunController;
 use App\Http\Controllers\web\admin\masterData\MasteDataGriyaController;
 use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
 use App\Http\Controllers\web\admin\masterdata\MasterDataWilayahController;
+use App\Http\Controllers\web\AjaxController;
 use App\Http\Controllers\web\auth\AuthController;
 use App\Http\Controllers\web\auth\RegisterController;
 use App\Http\Controllers\web\GetImageController;
+use App\Http\Controllers\web\krama\dashboard\KramaDashboardController;
+use App\Http\Controllers\web\krama\manajemen_upacaraku\KramaUpacarakuController;
 use App\Http\Controllers\web\pemuput_karya\dashboard\PemuputDashboardController;
 use App\Http\Controllers\web\pemuput_karya\manajemen_reservasi\ReservasiMasukController;
 use App\Http\Controllers\WilayahController;
@@ -29,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+//
 Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
@@ -52,11 +55,13 @@ Route::prefix('auth')->group(function () {
 
 });
 
+// ROUTE ADMIN
 Route::prefix('admin')->group(function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
+    // MASTER DATA ADMIN
     Route::prefix('master-data')->group(function () {
-
+        // MASTER DATA UPACARA ADMIN
         Route::prefix('upacara')->group(function () {
             Route::get('index', [MasterDataUpacaraController::class, 'indexDataUpacara'])->name('admin.master-data.upacara.index');
             Route::get('create', [MasterDataUpacaraController::class, 'createDataUpacara'])->name('admin.master-data.upacara.create');
@@ -70,7 +75,9 @@ Route::prefix('admin')->group(function () {
             Route::delete('tahapan/delete', [MasterDataUpacaraController::class, 'deleteTahapanUpacara'])->name('admin.master-data.upacara.tahapan.delete');
 
         });
+        // MASTER DATA UPACARA ADMIN
 
+        // MASTER DATA GRIYA
         Route::prefix('griya')->group(function () {
             Route::get('index', [MasteDataGriyaController::class, 'indexDataGriya'])->name('admin.master-data.griya.index');
             Route::get('create', [MasteDataGriyaController::class, 'createDataGriya'])->name('admin.master-data.griya.create');
@@ -80,16 +87,23 @@ Route::prefix('admin')->group(function () {
             Route::put('update', [MasteDataGriyaController::class, 'updateDataGriya'])->name('admin.master-data.griya.update');
             Route::delete('delete', [MasteDataGriyaController::class, 'deleteDataGriya'])->name('admin.master-data.griya.delete');
         });
+        // MASTER DATA GRIYA
 
+         // MASTER DATA WILAYAH SISTEM
         Route::prefix('wilayah')->group(function () {
             Route::get('desa', [MasterDataWilayahController::class, 'indexDesaDinas'])->name('admin.master-data.desa.index');
             Route::get('desa-adat', [MasterDataWilayahController::class, 'indexDesaAdat'])->name('admin.master-data.desa-adat.index');
             Route::get('kecamatan', [MasterDataWilayahController::class, 'indexKecamatan'])->name('admin.master-data.kecamatan.index');
             Route::get('kabupaten', [MasterDataWilayahController::class, 'indexKabupaten'])->name('admin.master-data.kabupaten.index');
         });
-    });
+         // MASTER DATA WILAYAH SISTEM
 
+    });
+    // MASTER DATA ADMIN
+
+    // MANAJEMEN AKUN
     Route::prefix('manajemen-akun')->group(function () {
+        // VERIFIKASI DATA AKUN
         Route::prefix('verifikasi')->group(function () {
             Route::get('index', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
             Route::put('sanggar/terima', [ManajemenAkunController::class, 'updateStatusAkunSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar');
@@ -99,39 +113,32 @@ Route::prefix('admin')->group(function () {
 
             Route::get('detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.verifikasi.detail');
         });
+        // VERIFIKASI DATA AKUN
 
         Route::prefix('data-akun')->group(function () {
             Route::get('index', [ManajemenAkunController::class, 'dataAkunIndex'])->name('admin.manajemen-akun.data-akun.index');
             Route::get('data-akun/detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.data-akun.detail');
+
+            Route::get('data-akun', [AdminController::class, 'dataAkunShow'])->name('admin.data-akun.show');
+            Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
         });
+    });
+    // MANAJEMEN AKUN
+});
+// ROUTE ADMIN
+
+Route::prefix('krama')->group(function () {
+    Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
+
+    Route::prefix('manajemen-upacara')->group(function () {
+        Route::get('index', [KramaUpacarakuController::class, 'indexUpacaraku'])->name('krama.manajemen-upacara.upacaraku.index');
+        Route::get('create', [KramaUpacarakuController::class, 'createUpacaraku'])->name('krama.manajemen-upacara.upacaraku.create');
+        Route::post('store', [KramaUpacarakuController::class, 'storeUpacaraku'])->name('krama.manajemen-upacara.upacaraku.store');
+
     });
 
 });
 
-
-Route::prefix('admin')->group(function () {
-
-    // Route::get('master-data/upacara/detail/id', [AdminController::class, 'upacaraDetail'])->name('admin.master-data.upacara.detail');
-
-    Route::get('data-akun', [AdminController::class, 'dataAkunShow'])->name('admin.data-akun.show');
-    Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
-
-});
-
-
-Route::prefix('krama')->group(function () {
-    Route::get('dashboard', [KramaController::class, 'index'])->name('krama.dashboard');
-
-
-    Route::get('data-upacara', [KramaController::class, 'dataUpacaraShow'])->name('krama.data-upacara');
-    Route::get('data-upacara2', [KramaController::class, 'dataUpacaraShow2'])->name('krama.data-upacara2');
-    Route::get('data-upacara/detail', [KramaController::class, 'dataUpacaraDetail'])->name('krama.data-upacara.detail');
-    Route::get('data-upacara/create', [KramaController::class, 'dataUpacaraCreate'])->name('krama.data-upacara.create');
-
-    Route::get('reservasi', [KramaController::class, 'showReservasi'])->name('krama.reservasi.show');
-    Route::get('reservasi/create', [KramaController::class, 'createReservasi'])->name('krama.reservasi.create');
-
-});
 
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
 Route::prefix('pemuput-karya')->group(function () {
@@ -172,14 +179,29 @@ Route::prefix('sulinggih')->group(function () {
     });
 });
 
+Route::prefix('krama')->group(function () {
+    // Route::get('dashboard', [KramaController::class, 'index'])->name('krama.dashboard');
+
+
+    Route::get('data-upacara', [KramaController::class, 'dataUpacaraShow'])->name('krama.data-upacara');
+    Route::get('data-upacara/detail', [KramaController::class, 'dataUpacaraDetail'])->name('krama.data-upacara.detail');
+
+    Route::get('reservasi', [KramaController::class, 'showReservasi'])->name('krama.reservasi.show');
+    Route::get('reservasi/create', [KramaController::class, 'createReservasi'])->name('krama.reservasi.create');
+
+});
+
+
 
 Route::prefix('get-image')->group(function () {
     Route::get('upacara/{id}', [GetImageController::class, 'getImageUpacara'])->name('get-image.upacara');
 
 });
 
-
 Route::prefix('ajax')->group(function () {
+    Route::get('get/jenis-yadnya/{jenis?}', [AjaxController::class, 'jenisYadnya'])->name('ajax.get.jenis-yadnya');
+    Route::get('get/tahapan/upacara/{id?}', [AjaxController::class, 'getTahapanUpacara'])->name('ajax.get.tahapan-upacara');
+
     Route::post('add/griya', [MasteDataGriyaController::class, 'ajaxStoreDataGriya'])->name('ajax.post');
     Route::get('get/griya', [MasteDataGriyaController::class, 'ajaxGetDataGriya'])->name('ajax.get');
     Route::get('kabupaten/{id?}', [LocationController::class, 'getKabupaten']);

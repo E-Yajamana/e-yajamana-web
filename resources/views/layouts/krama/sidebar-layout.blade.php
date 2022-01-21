@@ -69,7 +69,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('krama.data-upacara')}}" class="nav-link p-2">
+                            <a id="side-kabupaten" href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Data Upacaraku</p>
                             </a>
@@ -77,20 +77,12 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-tambah-upacara" href="{{route('krama.data-upacara.create')}}" class="nav-link p-2">
+                            <a id="side-tambah-upacara" href="{{route('krama.manajemen-upacara.upacaraku.create')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Tambah Upacaraku</p>
                             </a>
                         </li>
                     </ul>
-                    {{-- <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="#" class="nav-link p-2">
-                            <i class="far fa-circle nav-icon mr-1"></i>
-                            <p>Riwayat Upacaraku</p>
-                            </a>
-                        </li>
-                    </ul> --}}
                 </li>
 
                 <li id="side-reservasi" class="nav-item">
