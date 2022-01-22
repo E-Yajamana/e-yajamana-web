@@ -78,25 +78,5 @@ class AuthController extends Controller
             'message' => 'Berhasil melakukan logout !',
         ]);
     }
-
-    public function registerKrama(Request $request)
-    {
-        return view('pages.auth.register.krama-bali');
-    }
-
-    public function lupaPasswordLanding(Request $request)
-    {
-        return view('pages.auth.lupa-password.landing');
-    }
-
-    public function verifyOTP(Request $request)
-    {
-        return view('pages.auth.lupa-password.verify-otp');
-    }
-
-    public function resetPassword(Request $request)
-    {
-        return view('pages.auth.lupa-password.reset-password');
-    }
 }
 

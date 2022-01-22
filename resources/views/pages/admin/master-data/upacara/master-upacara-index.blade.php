@@ -47,27 +47,27 @@
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
                                         <a id="sulinggih-tabs" href="#sulinggih-table" class="nav-link active" data-toggle="pill" role="tab" aria-controls="sulinggih-table" aria-selected="true">
-                                            Dewa Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('katagori_upacara','Dewa Yadnya'))}}</span>
+                                            Dewa Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('kategori_upacara','Dewa Yadnya'))}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a id="pemangku-tabs"  href="#pemangku-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="pemangku-table" aria-selected="false">
-                                            Pitra Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('katagori_upacara','Pitra Yadnya'))}}</span>
+                                            Pitra Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('kategori_upacara','Pitra Yadnya'))}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a id="sanggar-tabs" href="#sanggar-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="sanggar-table" aria-selected="false">
-                                            Manusa Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('katagori_upacara','Manusa Yadnya'))}}</span>
+                                            Manusa Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('kategori_upacara','Manusa Yadnya'))}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="serati-tabs" data-toggle="pill" href="#serati-table" role="tab" aria-controls="serati-table" aria-selected="false">
-                                            Rsi Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('katagori_upacara','Rsi Yadnya'))}}</span>
+                                            Rsi Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('kategori_upacara','Rsi Yadnya'))}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a id="krama-tabs" href="#krama-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="krama-table" aria-selected="false">
-                                            Bhuta Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('katagori_upacara','Bhuta Yadnya'))}}</span>
+                                            Bhuta Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('kategori_upacara','Bhuta Yadnya'))}}</span>
                                         </a>
                                     </li>
                                   </ul>
@@ -102,7 +102,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUpacara->where('katagori_upacara','Dewa Yadnya') as $data)
+                                                @foreach ($dataUpacara->where('kategori_upacara','Dewa Yadnya') as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
@@ -140,7 +140,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUpacara->where('katagori_upacara','Pitra Yadnya') as $data)
+                                                @foreach ($dataUpacara->where('kategori_upacara','Pitra Yadnya') as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
@@ -178,7 +178,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUpacara->where('katagori_upacara','Manusa Yadnya') as $data)
+                                                @foreach ($dataUpacara->where('kategori_upacara','Manusa Yadnya') as $data)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$data->nama_upacara}}</td>
@@ -216,7 +216,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUpacara->where('katagori_upacara','Rsi Yadnya') as $data)
+                                                @foreach ($dataUpacara->where('kategori_upacara','Rsi Yadnya') as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
@@ -254,7 +254,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUpacara->where('katagori_upacara','Bhuta Yadnya') as $data)
+                                                @foreach ($dataUpacara->where('kategori_upacara','Bhuta Yadnya') as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>

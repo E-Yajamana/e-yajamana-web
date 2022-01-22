@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Auth;
 use PDOException;
 use Prophecy\Call\Call;
 
@@ -21,7 +22,8 @@ class KramaUpacarakuController extends Controller
     // INDEX UPACARAKU
     public function indexUpacaraku(Request $request)
     {
-        return view('pages.krama.manajemen-upacara.upacaraku-index');
+        $dataUpacaraku = Upacaraku::with('Upacara')->where('id_krama',Auth::user()->Krama->id)->get();
+        return view('pages.krama.manajemen-upacara.upacaraku-index', compact('dataUpacaraku'));
     }
     // INDEX UPACARAKU
 
@@ -37,7 +39,6 @@ class KramaUpacarakuController extends Controller
     // STORE UPACARAKU
     public function storeUpacaraku(Request $request)
     {
-        // dd($request->all());
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'id_upacara' => 'required|exists:tb_upacara,id',
@@ -129,5 +130,13 @@ class KramaUpacarakuController extends Controller
 
 
     }
+
+    // DETAIL UPACARAKU
+    public function detailUpacaraku(Request $request)
+    {
+        return view('pages.krama.manajemen-upacara.upacaraku-detail');
+    }
+    // DETAIL UPACARAKU
+
 
 }

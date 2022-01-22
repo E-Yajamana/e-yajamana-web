@@ -71,8 +71,13 @@ Route::prefix('admin')->group(function () {
             Route::put('update', [MasterDataUpacaraController::class, 'updateUpacara'])->name('admin.master-data.upacara.update');
             Route::delete('delete', [MasterDataUpacaraController::class, 'deleteUpacara'])->name('admin.master-data.upacara.delete');
 
-            // Route::put('updateTahapan', [MasterDataUpacaraController::class, 'update'])->name('admin.master-data.upacara.tahapan.update');
-            Route::delete('tahapan/delete', [MasterDataUpacaraController::class, 'deleteTahapanUpacara'])->name('admin.master-data.upacara.tahapan.delete');
+
+            Route::prefix('tahapan-upacara')->group(function () {
+                Route::post('store', [MasterDataUpacaraController::class, 'storeTahapanUpacara'])->name('admin.master-data.upacara.tahapan.store');
+                Route::put('update', [MasterDataUpacaraController::class, 'updateTahapanUpacara'])->name('admin.master-data.upacara.tahapan.update');
+                Route::delete('delete', [MasterDataUpacaraController::class, 'deleteTahapanUpacara'])->name('admin.master-data.upacara.tahapan.delete');
+                Route::get('detail/{id}', [MasterDataUpacaraController::class, 'detailTahapanUpacara'])->name('admin.master-data.upacara.tahapan.detail');
+            });
 
         });
         // MASTER DATA UPACARA ADMIN
@@ -134,6 +139,7 @@ Route::prefix('krama')->group(function () {
         Route::get('index', [KramaUpacarakuController::class, 'indexUpacaraku'])->name('krama.manajemen-upacara.upacaraku.index');
         Route::get('create', [KramaUpacarakuController::class, 'createUpacaraku'])->name('krama.manajemen-upacara.upacaraku.create');
         Route::post('store', [KramaUpacarakuController::class, 'storeUpacaraku'])->name('krama.manajemen-upacara.upacaraku.store');
+        Route::post('detail/{id}', [KramaUpacarakuController::class, 'detailUpacaraku'])->name('krama.manajemen-upacara.upacaraku.detail');
 
     });
 
@@ -195,6 +201,7 @@ Route::prefix('krama')->group(function () {
 
 Route::prefix('get-image')->group(function () {
     Route::get('upacara/{id}', [GetImageController::class, 'getImageUpacara'])->name('get-image.upacara');
+    Route::get('tahapan-upacara/{id}', [GetImageController::class, 'getImageTahapanUpacara'])->name('get-image.tahapan-upacara');
 
 });
 

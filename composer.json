@@ -10,9 +10,9 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.65",
         "laravel/sanctum": "^2.13",
-        "laravel/tinker": "^2.5",
-        "orangehill/iseed": "^3.0",
-        "livewire/livewire": "^2.8"
+        "laravel/tinker": "^2.7",
+        "livewire/livewire": "^2.8",
+        "orangehill/iseed": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

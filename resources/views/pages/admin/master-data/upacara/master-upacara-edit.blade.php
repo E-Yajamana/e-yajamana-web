@@ -56,11 +56,11 @@
                                 <label>Kategori Upacara <span class="text-danger">*</span></label>
                                 <select id="kategori_upacara" name="kategori_upacara" class="form-control select2bs4 kategori_upacara @error('kategori_upacara') is-invalid @enderror" style="width: 100%;">
                                     <option disabled selected>Pilih Katagori Upacara</option>
-                                    <option @if ($dataUpacara->katagori_upacara == 'Dewa Yadnya') selected @endif value="Dewa Yadnya" >Dewa Yadnya</option>
-                                    <option @if ($dataUpacara->katagori_upacara == 'Pitra Yadnya') selected @endif value="Pitra Yadnya" >Pitra Yadnya</option>
-                                    <option @if ($dataUpacara->katagori_upacara == 'Manusa Yadnya') selected @endif value="Manusa Yadnya" >Manusa Yadnya</option>
-                                    <option @if ($dataUpacara->katagori_upacara == 'Rsi Yadnya') selected @endif value="Rsi Yadnya" >Rsi Yadnya</option>
-                                    <option @if ($dataUpacara->katagori_upacara == 'Bhuta Yadnya') selected @endif value="Bhuta Yadnya" >Bhuta Yadnya</option>
+                                    <option @if ($dataUpacara->kategori_upacara == 'Dewa Yadnya') selected @endif value="Dewa Yadnya" >Dewa Yadnya</option>
+                                    <option @if ($dataUpacara->kategori_upacara == 'Pitra Yadnya') selected @endif value="Pitra Yadnya" >Pitra Yadnya</option>
+                                    <option @if ($dataUpacara->kategori_upacara == 'Manusa Yadnya') selected @endif value="Manusa Yadnya" >Manusa Yadnya</option>
+                                    <option @if ($dataUpacara->kategori_upacara == 'Rsi Yadnya') selected @endif value="Rsi Yadnya" >Rsi Yadnya</option>
+                                    <option @if ($dataUpacara->kategori_upacara == 'Bhuta Yadnya') selected @endif value="Bhuta Yadnya" >Bhuta Yadnya</option>
                                 </select>
                                 @error('kategori_upacara')
                                     <div class="invalid-feedback text-start">
@@ -96,7 +96,14 @@
                 </form>
                 <div class="card">
                     <div class="card-header my-auto">
-                        <h3 class="card-title my-auto">Data Tahapan Upacara</h3>
+                        <div class="row">
+                            <div class="col-6">
+                                <h3 class="card-title my-auto">Rentetan Upacara</h3>
+                            </div>
+                            <div class="col-6">
+                                <a data-toggle="modal" data-target="#exampleModal" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Tambah</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <table id="example2" class="table table-bordered table-hover ">
@@ -115,11 +122,11 @@
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$data->nama_tahapan}}</td>
-                                        <td style="width: 30%;">{{$data->deskripsi_tahapan}}</td>
+                                        <td style="width: 25%;">{{$data->deskripsi_tahapan}}</td>
                                         <td>{{$data->status_tahapan}}</td>
-                                        <td style="width: 20%;height: 20%" ><img src="{{route('get-image.upacara',$data->id)}}" class="img-fluid pad img-thumbnail"  alt="Responsive image"></td>
+                                        <td style="width: 20%;height: 10%" ><img style="width: 100%;height: 150px" src="{{route('get-image.tahapan-upacara',$data->id)}}" class="img-fluid pad img-thumbnail"  alt="Responsive image"></td>
                                         <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{route('admin.master-data.upacara.tahapan.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                             <button type="button" onclick="editTahapan({{$data->id}},'{{$data->nama_tahapan}}','{{$data->deskripsi_tahapan}}','{{$data->status_tahapan}}','{{$data->image}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
                                             <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                         </td>
@@ -154,21 +161,21 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="formUpdateTahapan"  method="POST" enctype="multipart/form-data">
+                    <form id="formUpdateTahapan"  action="{{route('admin.master-data.upacara.tahapan.update')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <input id="id_tahapan" value="" type="hidden" class="d-none">
+                        <input id="id_tahapan" name="id" value="" type="hidden" class="d-none">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Griya <span class="text-danger">*</span></label>
-                            <input id="nama_griya" type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{old('nama_griya')}}">
-                            @error('nama_griya')
+                            <label for="exampleInputEmail1">Nama Tahpan Upacara<span class="text-danger">*</span></label>
+                            <input id="nama_tahapan" type="text" name="nama_tahapan" class="form-control @error('nama_tahapan') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{old('nama_tahapan')}}">
+                            @error('nama_tahapan')
                                 <div class="invalid-feedback text-start">
-                                    {{ $errors->first('nama_griya') }}
+                                    {{ $errors->first('nama_tahapan') }}
                                 </div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Status Upacara <span class="text-danger">*</span></label>
+                            <label>Status Tahapan Upacara <span class="text-danger">*</span></label>
                             <select id="status" name="status" class="form-control  @error('status') is-invalid @enderror" style="width: 100%;">
                                 <option disabled selected>Pilih Status Tahapan</option>
                                 <option value="awal" >Awal</option>
@@ -196,7 +203,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label>Deskripsi Tahapan <span class="text-danger">*</span></label>
+                            <label>Deskripsi Tahapan Upacara<span class="text-danger">*</span></label>
                             <textarea name="deskripsi" id="deskripsi" class="form-control  @error('deskripsi') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya" value="{{ old('deskripsi') }}" ></textarea>
                             @error('deskripsi')
                                 <div class="invalid-feedback text-start">
@@ -204,15 +211,88 @@
                                 </div>
                             @enderror
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Ubah Tahapan</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                    <button onclick="updateTahapan()" type="button" class="btn btn-primary" data-dismiss="modal">Ubah Tahapan</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Form Tambah Tahapan Upacara</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{route('admin.master-data.upacara.tahapan.store')}}" enctype="multipart/form-data">
+                        @csrf
+                        <input class="d-none" type="hidden" name="id_upacara" value="{{$dataUpacara->id}}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Nama Tahapan Upacara <span class="text-danger">*</span></label>
+                            <input id="nama_tahapan" type="text" name="nama_tahapan" class="form-control @error('nama_tahapan') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Tahapan" value="{{old('nama_tahapan')}}">
+                            @error('nama_tahapan')
+                                <div class="invalid-feedback text-start">
+                                    {{ $errors->first('nama_tahapan') }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Status Upacara <span class="text-danger">*</span></label>
+                            <select id="status" name="status" class="form-control  @error('status') is-invalid @enderror" style="width: 100%;">
+                                <option disabled selected>Pilih Status Tahapan</option>
+                                @php
+                                    $status = old('status')
+                                @endphp
+                                <option @if ($status == 'awal') selected @endif  value="awal" >Awal</option>
+                                <option @if ($status == 'puncak') selected @endif value="puncak" >Puncak</option>
+                                <option @if ($status == 'akhir') selected @endif value="akhir" >Akhir</option>
+                            </select>
+                            @error('status')
+                                <div class="invalid-feedback text-start">
+                                    {{$errors->first('status') }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Foto Tahapan Upacara</label>
+                            <div class="input-group mb-2">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input @error('file') is-invalid @enderror" name="file" id="customFile" value="{{old('file')}}" >
+                                    <label class="custom-file-label " for="customFile">Masukan Foto Tahapan</label>
+                                </div>
+                            </div>
+                            @error('file')
+                                <div class="invalid-feedback text-start">
+                                    {{ $errors->first('file') }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Deskripsi Tahapan <span class="text-danger">*</span></label>
+                            <textarea name="deskripsi" id="deskripsi" class="form-control  @error('deskripsi') is-invalid @enderror" rows="3" placeholder="Masukan Deskripsi Tahapan" value="{{ old('deskripsi') }}" >{{ old('deskripsi') }}</textarea>
+                            @error('deskripsi')
+                                <div class="invalid-feedback text-start">
+                                    {{$errors->first('deskripsi') }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Buat Tahapan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @endsection
 
@@ -225,7 +305,7 @@
 
         function editTahapan(id,nama,desc,status,image){
             $("#id_tahapan").val(id);
-            $("#nama_griya").val(nama);
+            $("#nama_tahapan").val(nama);
             $("#status").val(status);
             $("#deskripsi").val(desc);
             $("#myModal").modal();
@@ -250,6 +330,11 @@
                     }
                 })
             }
+
+    </script>
+
+    <script>
+
 
     </script>
 

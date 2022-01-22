@@ -296,7 +296,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <button class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
+                                        <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
                                         <button id="submitToRangkuman" type="button" class="btn btn-primary float-sm-right" onclick="stepper.next()">Selanjutnya</button>
                                     </div>
                                 </form>

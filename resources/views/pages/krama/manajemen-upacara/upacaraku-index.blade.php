@@ -5,6 +5,9 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+
 @endpush
 
 @section('content')
@@ -47,11 +50,6 @@
                             <div class="row">
                                 <div class="col-7">
                                     <ul class="nav nav-pills">
-                                        {{-- <li class="nav-item">
-                                            <div class="nav-link">
-                                                <strong>Status</strong>
-                                            </div>
-                                        </li> --}}
                                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Tangkil</a></li>
@@ -61,7 +59,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-5">
-                                    <select class="form-control select2" style="width: 100%;" aria-placeholder="ada">
+                                    <select class="form-control select2bs4" style="width: 100%;" aria-placeholder="ada">
                                         <option >Jenis Yadnya</option>
                                         <option>Dewa Yadnya</option>
                                         <option>Pitra Yadnya</option>
@@ -98,34 +96,24 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mepandes Putu Alex</td>
-                                                <td>Manusa Yadnya</td>
-                                                <td>
-                                                    <span class="bg-success btn-sm" style="border-radius: 5px; width:70px;">Berhasil</span>
-                                                </td>
-                                                <td>27 Juni 2021 - 30 Juni 2021</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Atma Wedana Gianyar</td>
-                                                <td>Pitra Yadnya</td>
-                                                <td>
-                                                    <div class="bg-danger btn-sm text-center" style="border-radius: 5px; width:70px;">Batal</div>
-                                                </td>
-                                                <td>01 Juni 2021 - 20 Juni 2021</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
+                                            @foreach ($dataUpacaraku as $data)
+                                                <tr>
+                                                    <td>{{$loop->iteration}}</td>
+                                                    <td>{{$data->nama_upacara}}</td>
+                                                    <td>{{$data->Upacara->kategori_upacara}}</td>
+                                                    <td>
+                                                        <span @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm" @elseif ($data->status == 'proses muput' OR  $data->status == 'proses tangkil') class="bg-info btn-sm"
+                                                        @else class="bg-danger btn-sm"
+                                                        @endif style="border-radius: 5px; width:70px;">{{$data->status}}</span>
+                                                    </td>
+                                                    <td>27 Juni 2021 - 30 Juni 2021</td>
+                                                    <td>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -142,50 +130,6 @@
                             </div>
                         </div>
 
-                        {{-- Start Data Table In Proses --}}
-                        <div class="tab-pane fade show" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
-                            <div class="card-body p-0">
-                                <div class="table-responsive mailbox-messages p-2">
-                                    <table id="example2" class="table table-striped table-hover mx-auto table-responsive-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Upacara</th>
-                                                <th>Jenis Upacara</th>
-                                                <th>Status Upacara</th>
-                                                <th>Tanggal Upacara</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mepandes Putu Alex</td>
-                                                <td>Manusa Yadnya</td>
-                                                <td>Proses</td>
-                                                <td>27 Juni 2021 - 30 Juni 2021</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Upacara</th>
-                                                <th>Jenis Upacara</th>
-                                                <th>Status Upacara</th>
-                                                <th>Tanggal Upacara</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- Start Data Table In Sulinggih --}}
 
                     </div>
 
@@ -210,10 +154,12 @@
     <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 
     <!-- Page specific script -->
     <script>
-
         $(function () {
             $('#example2').DataTable({
                 "paging": true,
@@ -243,6 +189,14 @@
         $(document).ready(function(){
             $('#side-upacara').addClass('menu-open');
             $('#side-kabupaten').addClass('active');
+
+            $('#mySelect2').select2('data');
+            $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
         });
     </script>
 

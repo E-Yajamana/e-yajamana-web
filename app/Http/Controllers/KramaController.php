@@ -12,12 +12,6 @@ class KramaController extends Controller
     }
 
 
-
-    public function dataUpacaraDetail(Request $request)
-    {
-        return view('pages.krama.manajemen-upacara.data-upacaraku-detail');
-    }
-
     public function showReservasi(Request $request)
     {
         return view('pages.krama.reservasi.show');
