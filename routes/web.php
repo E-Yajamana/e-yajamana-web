@@ -71,7 +71,6 @@ Route::prefix('admin')->group(function () {
             Route::put('update', [MasterDataUpacaraController::class, 'updateUpacara'])->name('admin.master-data.upacara.update');
             Route::delete('delete', [MasterDataUpacaraController::class, 'deleteUpacara'])->name('admin.master-data.upacara.delete');
 
-
             Route::prefix('tahapan-upacara')->group(function () {
                 Route::post('store', [MasterDataUpacaraController::class, 'storeTahapanUpacara'])->name('admin.master-data.upacara.tahapan.store');
                 Route::put('update', [MasterDataUpacaraController::class, 'updateTahapanUpacara'])->name('admin.master-data.upacara.tahapan.update');
