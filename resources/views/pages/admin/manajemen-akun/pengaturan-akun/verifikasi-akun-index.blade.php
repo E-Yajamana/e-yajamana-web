@@ -94,7 +94,7 @@
                                                         <td>{{$data->nama_sulinggih}}</td>
                                                         <td>{{date('d-M-Y',strtotime($data->created_at))}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.manajemen-akun.data-akun.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                             <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
@@ -137,10 +137,10 @@
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_walaka}}</td>
-                                                        <td>{{$data->pekerjaan}}</td>
+                                                        <td>{{$data->User->nomor_telepon}}</td>
                                                         <td>{{date('d-M-Y',strtotime($data->created_at))}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.manajemen-akun.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                             <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
@@ -186,7 +186,7 @@
                                                         <td>{{$data->nama_pengelola}}</td>
                                                         <td>{{date('d-M-Y',strtotime($data->created_at))}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.manajemen-akun.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('admin.manajemen-akun.verifikasi.detail.sanggar',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a onclick="verifikasiSanggar({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                             <a onclick="tolakSanggar({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>

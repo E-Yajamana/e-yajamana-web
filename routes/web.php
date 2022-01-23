@@ -114,8 +114,9 @@ Route::prefix('admin')->group(function () {
             Route::put('sanggar/tolak', [ManajemenAkunController::class, 'updateStatusTolakAkunSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar.tolak');
             Route::put('pemuput-karya/tolak', [ManajemenAkunController::class, 'updateStatusTolakAkunPemuputKarya'])->name('admin.manajemen-akun.verifikasi.pemuput-karya.tolak');
             Route::put('pemuput-karya/terima', [ManajemenAkunController::class, 'updateStatusAkunPemuputKarya'])->name('admin.manajemen-akun.verifikasi.pemuput-karya');
+            Route::get('sanggar/detail/{id?}', [ManajemenAkunController::class, 'detailDataVerifikasiSanggar'])->name('admin.manajemen-akun.verifikasi.detail.sanggar');
+            Route::get('pemuput-karya/detail/{id?}', [ManajemenAkunController::class, 'detailDataVerifikasiPemuputKarya'])->name('admin.manajemen-akun.verifikasi.detail.pemuput-karya');
 
-            Route::get('detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.verifikasi.detail');
         });
         // VERIFIKASI DATA AKUN
 
