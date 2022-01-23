@@ -28,4 +28,8 @@ class Sanggar extends Model
         return $this->belongsTo(User::class,'id_user','id');
     }
 
+    public function Desa(){
+        return $this->belongsTo(Desa::class,'id_desa','id_desa');
+    }
+
 }

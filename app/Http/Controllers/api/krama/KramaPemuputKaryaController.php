@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\krama;
 
 use App\Http\Controllers\Controller;
+use App\Models\GriyaRumah;
 use App\Models\Sanggar;
 use App\Models\Sulinggih;
 use Doctrine\DBAL\Query\QueryException;
@@ -38,32 +39,50 @@ class KramaPemuputKaryaController extends Controller
         // MAIN LOGIC
             try{
                 
-                $sulinggihs = Sulinggih::query();
+                $griyaRumahs = GriyaRumah::query()->with(['Sulinggih'])->whereHas('Sulinggih');
+                $sanggars = Sanggar::query();
+                
+                if($request->status != null && $request->status != ""){
+                    if($request->status == 'sanggar' ){
+                        $griyaRumahs->where('id',-1);
+                    }else{
+                        $sanggars->where('id',-1);
 
-                if($request->status != null || $request->status != ""){
-                    $sulinggihs->where('status',$request->status);
+                        $sulinggihQuery = function($sulinggihQuery) use ($request) {
+                            $sulinggihQuery->where('status',$request->status);
+                        };
+
+                        $griyaRumahs->with([
+                            'Sulinggih' => $sulinggihQuery
+                        ])
+                        ->whereHas('Sulinggih',$sulinggihQuery);
+                    }
                 }
 
-                if($request->id_kecamatan != null || $request->id_kecamatan != ""){
+                if($request->id_kecamatan != null && $request->id_kecamatan != 0){
+                    // QUERY DESA
                     $desaQuery = function($desaQuery) use ($request) {
-                                    $desaQuery->where('id_kecamatan',$request->id_kecamatan)
-                                                ->whereHas('Kecamatan');
+                        $desaQuery->with([
+                            'Kecamatan' => function($kecamatanQuery) use ($request) {
+                                $kecamatanQuery->where('id_kecamatan',$request->id_kecamatan);
+                            }
+                        ])
+                        ->whereHas('Kecamatan',function($kecamatanQuery) use ($request) {
+                            $kecamatanQuery->where('id_kecamatan',$request->id_kecamatan);
+                        });
                     };
 
-                    $griyaRumahQuery = function($griyaRumahQuery) use ($desaQuery){
-                                    $griyaRumahQuery->with(['Desa' => $desaQuery])
-                                                    ->whereHas('Desa',$desaQuery);
-                    };
-
-                    $sulinggihs->with([
-                        'GriyaRumah' => $griyaRumahQuery
-                    ])->whereHas('GriyaRumah',$griyaRumahQuery);
+                    $griyaRumahs->with([
+                        'Desa' => $desaQuery,
+                    ])->whereHas('Desa',$desaQuery);
 
                 }else{
-                    $sulinggihs->with(['GriyaRumah'])->whereHas('GriyaRumah');
+                    $griyaRumahs->with(['Desa'])->whereHas('Desa');
+                    $sanggars->with(['Desa'])->whereHas('Desa');
                 }
 
-                $sulinggihs = $sulinggihs->get();
+                $sanggars = $sanggars->get();
+                $griyaRumahs = $griyaRumahs->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
                 return response()->json([
@@ -79,7 +98,8 @@ class KramaPemuputKaryaController extends Controller
                     'status' => 200,
                     'message' => 'Berhasil mengambil data pemuput  karya',
                     'data' => [
-                        'markereyajamanas' => $sulinggihs
+                        'griya_rumahs' => $griyaRumahs,
+                        'sanggars' => $sanggars
                     ],
             ],200);
         // END

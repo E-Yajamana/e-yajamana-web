@@ -29,4 +29,8 @@ class GriyaRumah extends Model
         return $this->belongsTo(Desa::class,'id_desa','id_desa');
     }
 
+    public function Sulinggih(){
+        return $this->hasMany(Sulinggih::class,'id_griya','id');
+    }
+
 }
