@@ -188,4 +188,46 @@ class LocationController extends Controller
             ],200);
         // END
     }
+
+    public function getKecamatanByProvinsiId($id_provinsi){
+        // SECURITY
+            $validator = Validator::make(['id_provinsi' => $id_provinsi],[
+                'id_provinsi' => 'required|numeric'
+            ]);
+            
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'Validation error',
+                        'data' => (Object)[],
+                ],400);
+            }
+        // END
+        
+        // MAIN LOGIC
+            try{
+
+                $kecamatans = Kecamatan::whereHas('Kabupaten',function($kabupatenQuery) use ($id_provinsi) {
+                                                $kabupatenQuery->where('id_provinsi',$id_provinsi);
+                                            })->get();
+
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+        
+        // RETURN
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil mengambil data kecamatan berdasarkan id',
+                    'data' => [
+                        'kecamatans' => $kecamatans
+                    ],
+            ],200);
+        // END
+    }
 }

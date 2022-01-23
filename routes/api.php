@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\krama\KramaDashboardController;
+use App\Http\Controllers\api\krama\KramaPemuputKaryaController;
 use App\Http\Controllers\api\krama\KramaProfileController;
 use App\Http\Controllers\api\krama\KramaUpacaraController;
 use App\Http\Controllers\api\location\LocationController;
@@ -47,6 +48,8 @@ Route::middleware('auth:sanctum')->group(function(){
                     Route::get('kecamatan/{id_kabupaten}',[LocationController::class,'getKecamatan']);
                     Route::get('desadinas/{id_kecamatan}',[LocationController::class,'getDesaDinas']);
                     Route::get('desaadat',[LocationController::class,'getDesaAdat']);
+
+                    Route::get('kecamatanbyprovinsi/{id_provinsi}',[LocationController::class,'getKecamatanByProvinsiId']);
                 });
             // END
 
@@ -55,6 +58,12 @@ Route::middleware('auth:sanctum')->group(function(){
                     Route::get('jenis/{jenis_yadnya}',[YadnyaController::class,'getUpacara']);
                 });
             /// END
+
+            // PEMUPUT  KARYA
+                Route::prefix('pemuput')->group(function(){
+                    Route::post('show',[KramaPemuputKaryaController::class,'index']);
+                });
+            // END
 
         });
     // END
@@ -73,6 +82,7 @@ Route::middleware('auth:sanctum')->group(function(){
                 Route::prefix('upacara')->group(function(){
                     Route::post('show',[KramaUpacaraController::class,'index']);
                     Route::post('create',[KramaUpacaraController::class,'store']);
+                    Route::get('detail/{id_upacara?}',[KramaUpacaraController::class,'show']);
                 });
             // END
         });

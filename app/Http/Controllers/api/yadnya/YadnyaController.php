@@ -30,9 +30,10 @@ class YadnyaController extends Controller
         // MAIN LOGIC
             try{
 
-                $upacaras = Upacara::where('katagori_upacara',$jenis_yadnya)->get();
+                $upacaras = Upacara::where('kategori_upacara',$jenis_yadnya)->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',

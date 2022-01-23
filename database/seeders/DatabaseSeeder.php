@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Schema::disableForeignKeyConstraints();
+
         Upacaraku::truncate();
         Krama::truncate();
 
@@ -40,10 +41,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TbSeratiTableSeeder::class);
         $this->call(TbReservasiTableSeeder::class);
         $this->call(TbDetailReservasiTableSeeder::class);
-
+        $this->call(TbGambarTableSeeder::class);
 
         Schema::enableForeignKeyConstraints();
-
-
     }
 }

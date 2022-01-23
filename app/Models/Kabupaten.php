@@ -10,6 +10,7 @@ class Kabupaten extends Model
     use HasFactory;
 
     protected $table = 'tb_kabupaten_baru';
+    protected $primaryKey = 'id_kabupaten';
 
     protected $fillable = [
         'id_kabupaten',

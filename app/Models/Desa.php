@@ -9,6 +9,7 @@ class Desa extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_desa';
     protected $table = 'tb_desa';
 
     protected $fillable = [

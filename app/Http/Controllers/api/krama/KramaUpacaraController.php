@@ -26,7 +26,7 @@ class KramaUpacaraController extends Controller
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'nama' => 'nullable|string',
-                'status' => 'nullable|string',
+                'status' => 'nullable|string'
             ]);
             
             if($validator->fails()){
@@ -93,6 +93,8 @@ class KramaUpacaraController extends Controller
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'id_upacara' => 'required',
+                'id_desa' => 'required',
+                'id_desa_adat' => 'required',
                 'nama_upacara' => 'required',
                 'lokasi' => 'required',
                 'lat' => 'required',
@@ -120,11 +122,13 @@ class KramaUpacaraController extends Controller
                 Upacaraku::create([
                     'id_upacara' => $request->id_upacara,
                     'id_krama' => $user->krama->id,
+                    'id_desa' => $request->id_desa,
+                    'id_desa_adat' => $request->id_desa_adat,
                     'nama_upacara' => $request->nama_upacara,
                     'lokasi' => $request->lokasi,
                     'lat' => $request->lat,
                     'lng' => $request->lng,
-                    'status' => 'proses',
+                    'status' => 'pending',
                     'tanggal_mulai' => $request->tanggal_mulai,
                     'tanggal_selesai' => $request->tangal_selesa,
                     'desc' => $request->desc,
@@ -132,6 +136,7 @@ class KramaUpacaraController extends Controller
 
                 DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 DB::rollBack();
                 return response()->json([
                         'status' => 500,
@@ -156,9 +161,68 @@ class KramaUpacaraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id_upacara)
     {
-        //
+        // SECURITY
+            $validator = Validator::make(['id_upacara' => $id_upacara],[
+                'id_upacara' => 'required',
+            ]);
+            
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'Validation error',
+                        'data' => (Object)[],
+                ],400);
+            }
+        // END
+        
+        // MAIN LOGIC
+            try{
+                $upacara = Upacaraku::with([
+                    'Upacara' => function($upacaraQuery){
+                        $upacaraQuery->with(['TahapanUpacara']);
+                    },
+                    'Desa' => function($desaQuery){
+                        $desaQuery->with(['Kecamatan' => function($kecamatanQuery){
+                            $kecamatanQuery->with(['Kabupaten' => function($provinsiQuery){
+                                $provinsiQuery->with('Provinsi');
+                            }]);
+                        }]);
+                    },
+                    'DesaAdat',
+                    'Reservasi' => function($reservasiQuery){
+                        $reservasiQuery->with([
+                            'Sulinggih',
+                            'DetailReservasi' => function($detailReservasiQuery){
+                                $detailReservasiQuery->with(['TahapanUpacara']);
+                            }
+                        ]);
+                    }
+                    ])
+                    ->whereHas('Upacara')
+                    ->whereHas('Desa')
+                    ->whereHas('DesaAdat')
+                    ->findOrFail($id_upacara);
+
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+        
+        // RETURN
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil mengambil data upacara',
+                    'data' => [
+                        'upacaraku' => $upacara
+                    ],
+            ],200);
+        // END
     }
 
     /**

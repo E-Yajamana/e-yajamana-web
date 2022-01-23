@@ -12,10 +12,11 @@ class Upacaraku extends Model
     protected $table = 'tb_upacaraku';
 
     protected $fillable = [
-        'id_upacara',
+        'id',
         'id_krama',
         'id_desa',
         'id_desa_adat',
+        'id_upacara',
         'nama_upacara',
         'lokasi',
         'lat',
@@ -28,5 +29,17 @@ class Upacaraku extends Model
 
     public function Upacara(){
         return $this->belongsTo(Upacara::class,'id_upacara','id');
+    }
+
+    public function Desa(){
+        return $this->belongsTo(Desa::class,'id_desa','id_desa');
+    }
+
+    public function DesaAdat(){
+        return $this->belongsTo(DesaAdat::class,'id_desa_adat','desadat_id');
+    }
+
+    public function Reservasi(){
+        return $this->hasMany(Reservasi::class,'id_upacaraku','id');
     }
 }

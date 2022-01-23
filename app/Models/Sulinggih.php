@@ -32,4 +32,7 @@ class Sulinggih extends Model
         return $this->belongsTo(User::class,'id_user','id');
     }
 
+    public function GriyaRumah(){
+        return $this->belongsTo(GriyaRumah::class,'id_griya','id');
+    }
 }
