@@ -15,7 +15,8 @@ use App\Http\Controllers\web\auth\AuthController;
 use App\Http\Controllers\web\auth\RegisterController;
 use App\Http\Controllers\web\GetImageController;
 use App\Http\Controllers\web\krama\dashboard\KramaDashboardController;
-use App\Http\Controllers\web\krama\manajemen_upacaraku\KramaUpacarakuController;
+use App\Http\Controllers\web\krama\reservasi\KramaReservasiController;
+use App\Http\Controllers\web\krama\upacaraku\KramaUpacarakuController;
 use App\Http\Controllers\web\pemuput_karya\dashboard\PemuputDashboardController;
 use App\Http\Controllers\web\pemuput_karya\manajemen_reservasi\ReservasiMasukController;
 use App\Http\Controllers\WilayahController;
@@ -31,6 +32,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::get('/', function () {
+    return view('pages.auth.login');
+});
 
 //
 Route::prefix('auth')->group(function () {
@@ -56,7 +62,7 @@ Route::prefix('auth')->group(function () {
 });
 
 // ROUTE ADMIN
-Route::prefix('admin')->group(function () {
+Route::group(['prefix'=>'admin','middleware'=>'cek:admin'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     // MASTER DATA ADMIN
@@ -93,14 +99,14 @@ Route::prefix('admin')->group(function () {
         });
         // MASTER DATA GRIYA
 
-         // MASTER DATA WILAYAH SISTEM
+        // MASTER DATA WILAYAH SISTEM
         Route::prefix('wilayah')->group(function () {
             Route::get('desa', [MasterDataWilayahController::class, 'indexDesaDinas'])->name('admin.master-data.desa.index');
             Route::get('desa-adat', [MasterDataWilayahController::class, 'indexDesaAdat'])->name('admin.master-data.desa-adat.index');
             Route::get('kecamatan', [MasterDataWilayahController::class, 'indexKecamatan'])->name('admin.master-data.kecamatan.index');
             Route::get('kabupaten', [MasterDataWilayahController::class, 'indexKabupaten'])->name('admin.master-data.kabupaten.index');
         });
-         // MASTER DATA WILAYAH SISTEM
+        // MASTER DATA WILAYAH SISTEM
 
     });
     // MASTER DATA ADMIN
@@ -120,6 +126,7 @@ Route::prefix('admin')->group(function () {
         });
         // VERIFIKASI DATA AKUN
 
+        // DATA AKUN USER
         Route::prefix('data-akun')->group(function () {
             Route::get('index', [ManajemenAkunController::class, 'dataAkunIndex'])->name('admin.manajemen-akun.data-akun.index');
             Route::get('data-akun/detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.data-akun.detail');
@@ -127,27 +134,33 @@ Route::prefix('admin')->group(function () {
             Route::get('data-akun', [AdminController::class, 'dataAkunShow'])->name('admin.data-akun.show');
             Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
         });
+        // DATA AKUN USER
     });
     // MANAJEMEN AKUN
 });
 // ROUTE ADMIN
 
-Route::prefix('krama')->group(function () {
+Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
 
     Route::prefix('manajemen-upacara')->group(function () {
         Route::get('index', [KramaUpacarakuController::class, 'indexUpacaraku'])->name('krama.manajemen-upacara.upacaraku.index');
         Route::get('create', [KramaUpacarakuController::class, 'createUpacaraku'])->name('krama.manajemen-upacara.upacaraku.create');
         Route::post('store', [KramaUpacarakuController::class, 'storeUpacaraku'])->name('krama.manajemen-upacara.upacaraku.store');
-        Route::post('detail/{id}', [KramaUpacarakuController::class, 'detailUpacaraku'])->name('krama.manajemen-upacara.upacaraku.detail');
+        Route::get('detail/{id}', [KramaUpacarakuController::class, 'detailUpacaraku'])->name('krama.manajemen-upacara.upacaraku.detail');
 
+    });
+
+    Route::prefix('manajemen-reservasi')->group(function () {
+        Route::get('index', [KramaReservasiController::class, 'indexReservasi'])->name('krama.manajemen-reservasi.index');
+        Route::get('create/{id}', [KramaReservasiController::class, 'createReservasi'])->name('krama.manajemen-reservasi.create');
     });
 
 });
 
 
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
-Route::prefix('pemuput-karya')->group(function () {
+Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function ()  {
     Route::get('dashboard', [PemuputDashboardController::class, 'index'])->name('pemuput-karya.dashboard');
 
     Route::prefix('manajemen-reservasi')->group(function () {
@@ -169,34 +182,21 @@ Route::prefix('pemuput-karya')->group(function () {
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
 
 
-Route::prefix('sulinggih')->group(function () {
-    Route::get('', [SulinggihController::class, 'index'])->name('sulinggih.dashboard');
-    Route::prefix('manajemen-reservasi')->group(function () {
-        Route::get('index', [SulinggihController::class, 'dataReservasi'])->name('sulinggih.manajemen-reservasi.index');
-        Route::get('detail', [SulinggihController::class, 'detailReservasi'])->name('sulinggih.manajemen-reservasi.detail');
-        Route::get('riwayat', [SulinggihController::class, 'riwayatReservasi'])->name('sulinggih.manajemen-reservasi.riwayat');
-    });
+// Route::prefix('sulinggih')->group(function () {
+//     Route::get('', [SulinggihController::class, 'index'])->name('sulinggih.dashboard');
+//     Route::prefix('manajemen-reservasi')->group(function () {
+//         Route::get('index', [SulinggihController::class, 'dataReservasi'])->name('sulinggih.manajemen-reservasi.index');
+//         Route::get('detail', [SulinggihController::class, 'detailReservasi'])->name('sulinggih.manajemen-reservasi.detail');
+//         Route::get('riwayat', [SulinggihController::class, 'riwayatReservasi'])->name('sulinggih.manajemen-reservasi.riwayat');
+//     });
 
-    Route::prefix('manajemen-muput-upacara')->group(function () {
-        Route::get('index', [SulinggihController::class, 'indexMuputUpacara'])->name('sulinggih.muput-upacara.index');
-        Route::get('konfimasi-tangkil', [SulinggihController::class, 'konfrimasiTanggalTangkil'])->name('sulinggih.muput-upacara.konfirmasi.tangkil');
-        Route::get('konfimasi-muput', [SulinggihController::class, 'konfrimasiMuput'])->name('sulinggih.muput-upacara.konfirmasi.upacara');
+//     Route::prefix('manajemen-muput-upacara')->group(function () {
+//         Route::get('index', [SulinggihController::class, 'indexMuputUpacara'])->name('sulinggih.muput-upacara.index');
+//         Route::get('konfimasi-tangkil', [SulinggihController::class, 'konfrimasiTanggalTangkil'])->name('sulinggih.muput-upacara.konfirmasi.tangkil');
+//         Route::get('konfimasi-muput', [SulinggihController::class, 'konfrimasiMuput'])->name('sulinggih.muput-upacara.konfirmasi.upacara');
 
-    });
-});
-
-Route::prefix('krama')->group(function () {
-    // Route::get('dashboard', [KramaController::class, 'index'])->name('krama.dashboard');
-
-
-    Route::get('data-upacara', [KramaController::class, 'dataUpacaraShow'])->name('krama.data-upacara');
-    Route::get('data-upacara/detail', [KramaController::class, 'dataUpacaraDetail'])->name('krama.data-upacara.detail');
-
-    Route::get('reservasi', [KramaController::class, 'showReservasi'])->name('krama.reservasi.show');
-    Route::get('reservasi/create', [KramaController::class, 'createReservasi'])->name('krama.reservasi.create');
-
-});
-
+//     });
+// });
 
 
 Route::prefix('get-image')->group(function () {

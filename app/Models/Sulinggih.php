@@ -92,7 +92,7 @@ class Sulinggih extends Model
 
 	public function Reservasi()
 	{
-		return $this->hasMany(Reservasi::class, 'id_relasi');
+		return $this->hasMany(Reservasi::class, 'id_relasi','id');
 	}
 
 }

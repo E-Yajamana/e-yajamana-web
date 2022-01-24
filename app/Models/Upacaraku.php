@@ -60,10 +60,10 @@ class Upacaraku extends Model
 		'id_desa',
 		'id_desa_adat',
 		'nama_upacara',
-		'lokasi',
+		'alamat_upacaraku',
 		'tanggal_mulai',
 		'tanggal_selesai',
-		'desc',
+		'deskripsi_upacaraku',
 		'status',
 		'lat',
 		'lng'
@@ -81,16 +81,16 @@ class Upacaraku extends Model
 
 	public function Desa()
 	{
-		return $this->belongsTo(Desa::class, 'id_desa');
+		return $this->belongsTo(Desa::class, 'id_desa','id_desa');
 	}
 
 	public function DesaAdat()
 	{
-		return $this->belongsTo(DesaAdat::class, 'id_desa_adat');
+		return $this->belongsTo(DesaAdat::class, 'id_desa_adat','desadat_id');
 	}
 
-	// public function Reservasi()
-	// {
-	// 	return $this->hasMany(TbReservasi::class, 'id_upacaraku');
-	// }
+	public function Reservasi()
+	{
+		return $this->hasMany(Reservasi::class, 'id_upacaraku','id');
+	}
 }

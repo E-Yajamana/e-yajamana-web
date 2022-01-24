@@ -20,7 +20,7 @@
 
 @section('content')
 
-    <div class="container mt-5" style="height: 100vh">
+    <div class="container mt-2" style="height: 100vh">
         <div class="px-lg-3">
             <div class="row justify-content-center mt-lg-4">
                 <div id="screen1" class="col-12 col-sm-6 p-0" >
@@ -94,3 +94,16 @@
 
     </div>
 @endsection
+
+@push('js')
+    <script>
+        function myFunction() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+@endpush

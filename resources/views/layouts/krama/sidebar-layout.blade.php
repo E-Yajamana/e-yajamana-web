@@ -30,7 +30,7 @@
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="#" class="nav-link">
+                            <a id="side-konfirmasi-sulinggih" href="{{route('auth.logout')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon mr-1"></i>
                                 <p>Logout</p>
                             </a>
@@ -95,7 +95,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-data-reservasi" href="{{route('krama.reservasi.show')}}" class="nav-link p-2">
+                            <a id="side-data-reservasi" href="{{route('krama.manajemen-reservasi.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Data Reservasi</p>
                             </a>
@@ -103,19 +103,11 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-tambah-reservasi" href="{{route('krama.reservasi.create')}}" class="nav-link p-2">
+                            <a id="side-tambah-reservasi" href="#" class="nav-link p-2">
                             <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Tambah Reservasi</p>
                             </a>
                         </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        {{-- <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="#" class="nav-link p-2">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Riwayat Upacaraku</p>
-                            </a>
-                        </li> --}}
                     </ul>
                 </li>
 

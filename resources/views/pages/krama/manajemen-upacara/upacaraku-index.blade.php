@@ -106,9 +106,9 @@
                                                         @else class="bg-danger btn-sm"
                                                         @endif style="border-radius: 5px; width:70px;">{{$data->status}}</span>
                                                     </td>
-                                                    <td>27 Juni 2021 - 30 Juni 2021</td>
+                                                    <td>{{date('d-M-Y',strtotime($data->tanggal_mulai))}} - {{date('d-M-Y',strtotime($data->tanggal_selesai))}} </td>
                                                     <td>
-                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>

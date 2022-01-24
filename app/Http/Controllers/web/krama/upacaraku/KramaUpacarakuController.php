@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\web\krama\manajemen_upacaraku;
+namespace App\Http\Controllers\web\krama\upacaraku;
 
 use App\Http\Controllers\Controller;
 use App\Models\DesaAdat;
@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use PDOException;
 use Prophecy\Call\Call;
-
 class KramaUpacarakuController extends Controller
 {
     // INDEX UPACARAKU
@@ -95,14 +95,14 @@ class KramaUpacarakuController extends Controller
                 DB::beginTransaction();
                 Upacaraku::create([
                     'id_upacara'=>$request->id_upacara,
-                    'id_krama'=>1,
+                    'id_krama'=>Auth::user()->Krama->id,
                     'id_desa'=>$request->id_desa,
                     'id_desa_adat'=>$request->id_desa_adat,
                     'nama_upacara'=>$request->nama_upacara,
-                    'lokasi'=>$request->lokasi,
+                    'alamat_upacaraku'=>$request->lokasi,
                     'tanggal_mulai'=>$request->start_date,
                     'tanggal_selesai'=>$request->end_date,
-                    'desc'=>$request->deskripsi_upacara,
+                    'deskripsi_upacaraku'=>$request->deskripsi_upacara,
                     'status'=> 'pending',
                     'lat'=>$request->lat,
                     'lng'=>$request->lng,
@@ -134,9 +134,8 @@ class KramaUpacarakuController extends Controller
     // DETAIL UPACARAKU
     public function detailUpacaraku(Request $request)
     {
-        return view('pages.krama.manajemen-upacara.upacaraku-detail');
+        $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi','Desa','DesaAdat'])->findOrFail($request->id);
+        return view('pages.krama.manajemen-upacara.upacaraku-detail',compact('dataUpacaraku'));
     }
     // DETAIL UPACARAKU
-
-
 }

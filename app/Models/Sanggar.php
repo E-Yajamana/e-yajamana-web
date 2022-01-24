@@ -72,4 +72,10 @@ class Sanggar extends Model
 	{
 		return $this->belongsTo(DesaAdat::class, 'id_desa_adat','desadat_id');
 	}
+
+    public function Reservasi()
+	{
+		return $this->hasMany(Reservasi::class, 'id_relasi','id');
+	}
+
 }

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\web\auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Krama;
+use App\Models\Sanggar;
+use App\Models\Serati;
+use App\Models\Sulinggih;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +17,12 @@ use Illuminate\Database\QueryException;
 use PDOException;
 class AuthController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+
     public function login(Request $request)
     {
         return view('pages.auth.login');
@@ -43,13 +54,24 @@ class AuthController extends Controller
         // MAIN LOGIC
             try{
                 if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-                    return redirect()->route('admin.dashboard')->with([
-                        'login' => 'success',
-                        'iconLog' => 'success',
-                        'titleLog' => 'Anda berhasil Login ke sistem',
-                    ]);
+                    switch(Auth::user()->role){
+                        case 'krama_bali':
+                            return redirect(route('krama.dashboard'));
+                        case 'admin':
+                            return redirect(route('admin.dashboard'));
+                        case 'sulinggih':
+                            return redirect(route('pemuput-karya.dashboard'));
+                        default:
+                            Auth::user()->logout;
+                            return redirect()->back()->with([
+                                'status' => 'fail',
+                                'icon' => 'error',
+                                'title' => 'Gagal Login',
+                                'message' => 'Pengguna Tidak dapat digunakan!'
+                            ])->withInput($request->all());
+                    }
                 }else{
-                    return redirect()->back()->with([
+                    return redirect()->route('auth.login')->with([
                         'status' => 'fail',
                         'icon' => 'error',
                         'title' => 'Gagal Login',
