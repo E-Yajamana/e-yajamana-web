@@ -40,7 +40,10 @@ class KramaUpacaraController extends Controller
         
         // MAIN LOGIC
             try{
-                $upacarakus = Upacaraku::query()->with(['Upacara'])->whereHas('Upacara');
+
+                $user = Auth::user();
+
+                $upacarakus = Upacaraku::query()->with(['Upacara'])->whereHas('Upacara')->where('id_krama',$user->Krama->id);
 
                 if($request->nama != null || $request->nama != ""){
                     $upacarakus->where('nama_upacara','LIKE','%'.$request->nama.'%');
