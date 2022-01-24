@@ -74,8 +74,6 @@
                                     </div>
                                 @enderror
                             </div>
-
-
                             <div class="form-group">
                                 <label>Deskripsi Upacara <span class="text-danger">*</span></label>
                                 <textarea name="deskripsi_upacara" class="form-control  @error('deskripsi_upacara') is-invalid @enderror" rows="3" placeholder="Masukan Deskripsi Upacara" value="{{ old('deskripsi_upacara') }}" ></textarea>

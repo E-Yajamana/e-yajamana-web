@@ -20,7 +20,7 @@
 
 @section('content')
 
-    <div class="container" style="height: 100vh">
+    <div class="container mt-2" style="height: 100vh">
         <div class="px-lg-3">
             <div class="row justify-content-center mt-lg-4">
                 <div id="screen1" class="col-12 col-sm-6 p-0" >
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 p-0" >
-                    <div class="mr-4 card card-primary mb-0" style="height: 634px">
+                    <div class="card card-primary mb-0" style="height: 634px">
                         <div class="card-header bg-white text-center">
                             <img class="rounded mx-auto d-block" src="{{ asset('base-template/dist/img/logo-01.png') }}" alt="sipandu logo" width="100" height="100">
                             <p class="login-box-msg mb-0 pb-0 px-0 fw-bold h6 mt-2 mb-1"> Selamat Datang di Sistem</p>
@@ -75,7 +75,7 @@
                             <div class="text-center mt-1">
                                 <p class="mb-1">
                                     Belum memiliki akun ?
-                                    <a href="{{ route('auth.register.index') }}" class="text-decoration-none link-primary">DAFTAR DI SINI</a>
+                                    <a href="{{route('auth.register.index')}}" class="text-decoration-none link-primary">DAFTAR DI SINI</a>
                                 </p>
                                 <p class="mb-1">
                                     Lupa password ?
@@ -96,18 +96,14 @@
 @endsection
 
 @push('js')
-
-<script>
-    function myFunction() {
-        var x = document.getElementById("password");
-        if (x.type === "password") {
-            x.type = "text";
-        } else {
-            x.type = "password";
+    <script>
+        function myFunction() {
+            var x = document.getElementById("password");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
         }
-    }
-</script>
-
-
-
+    </script>
 @endpush

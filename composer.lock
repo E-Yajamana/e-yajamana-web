@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "28c3bcacabb7ada77a30f51fb68b7156",
+    "content-hash": "cebcaefb8f0597ceee22ae16ad83db3a",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6652,6 +6652,10 @@
                 "laravel",
                 "reliese"
             ],
+            "support": {
+                "issues": "https://github.com/reliese/laravel/issues",
+                "source": "https://github.com/reliese/laravel"
+            },
             "time": "2021-12-13T09:02:01+00:00"
         },
         {

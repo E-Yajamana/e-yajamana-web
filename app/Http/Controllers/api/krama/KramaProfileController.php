@@ -16,12 +16,12 @@ class KramaProfileController extends Controller
             try{
                 $user = Auth::user();
                 $krama = $user->Krama()->first();
-                
+
                 $total_upacara = $krama->Upacaraku()->count();
                 $total_upacara_proses = 10;
                 $total_upacara_selesai = 0;
                 $total_reservasi = 2 ;
-                
+
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
                 return response()->json([
@@ -31,7 +31,7 @@ class KramaProfileController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,

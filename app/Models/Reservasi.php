@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id_upacaraku
  * @property string|null $tipe
  * @property string|null $status
- * @property Carbon|null $tgl_tangkil
+ * @property Carbon|null $tanggal_tangkil
  * @property string|null $desc
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -40,7 +40,7 @@ class Reservasi extends Model
 	];
 
 	protected $dates = [
-		'tgl_tangkil'
+		'tanggal_tangkil'
 	];
 
 	protected $fillable = [
@@ -48,27 +48,32 @@ class Reservasi extends Model
 		'id_upacaraku',
 		'tipe',
 		'status',
-		'tgl_tangkil',
+		'tanggal_tangkil',
 		'desc'
 	];
 
+    public function Sanggar()
+	{
+		return $this->belongsTo(Sanggar::class, 'id_relasi','id');
+	}
+
 	public function Sulinggih()
 	{
-		return $this->belongsTo(Sulinggih::class, 'id_relasi');
+		return $this->belongsTo(Sulinggih::class, 'id_relasi','id');
 	}
 
 	public function Upacaraku()
 	{
-		return $this->belongsTo(Upacaraku::class, 'id_upacaraku');
+		return $this->belongsTo(Upacaraku::class, 'id_upacaraku','id');
 	}
 
 	public function DetailReservasi()
 	{
-		return $this->hasMany(DetailReservasi::class, 'id_reservasi');
+		return $this->hasMany(DetailReservasi::class, 'id_reservasi','id');
 	}
 
-	public function Gambars()
-	{
-		return $this->hasMany(Gambar::class, 'id_reservarsi');
-	}
+	// public function tb_gambars()
+	// {
+	// 	return $this->hasMany(TbGambar::class, 'id_reservarsi');
+	// }
 }
