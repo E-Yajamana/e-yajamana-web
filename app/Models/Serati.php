@@ -20,6 +20,8 @@ class Serati extends Model
         'jenis_kelamin',
         'tempat_lahir',
         'tanggal_lahir',
+        'status_konfirmasi_akun',
+        'keterangan_konfirmasi_akun',
         'lat',
         'lng'
     ];

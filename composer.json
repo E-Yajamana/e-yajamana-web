@@ -10,9 +10,9 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.65",
         "laravel/sanctum": "^2.13",
-        "laravel/tinker": "^2.5",
-        "orangehill/iseed": "^3.0",
-        "livewire/livewire": "^2.8"
+        "laravel/tinker": "^2.7",
+        "livewire/livewire": "^2.8",
+        "orangehill/iseed": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -21,7 +21,8 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
+        "phpunit/phpunit": "^9.5.10",
+        "reliese/laravel": "^1.1"
     },
     "autoload": {
         "psr-4": {

@@ -118,12 +118,12 @@ class AuthController extends Controller
     }
 
     public function lupaPassword(Request $request){
-        
+
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'email' => 'required|email',
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -132,10 +132,10 @@ class AuthController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
-                
+
                 // CARI EMAIL
                 $user = User::where('email',$request->email)->firstOrFail();
 
@@ -156,7 +156,7 @@ class AuthController extends Controller
                             'generated_at' => date('y-m-d H:i:s'),
                             'verified' => false
                         ];
-                
+
                 // JSON WRAPPER
                 $json_wrapper = [];
 
@@ -167,7 +167,7 @@ class AuthController extends Controller
                     $json_wrapper = json_decode($user->json_token_lupa_password);
                     $json_wrapper[] = $json_value;
                 }
-                
+
                 // UPDATE MODEL
                 $user->update([
                     'json_token_lupa_password' => $json_wrapper,
@@ -187,7 +187,7 @@ class AuthController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,
@@ -203,7 +203,7 @@ class AuthController extends Controller
                 'token' => 'required|numeric',
                 'email' => 'required|email',
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -212,14 +212,14 @@ class AuthController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
 
                 $user = User::where('email',$request->email)->firstOrFail();
-                
+
                 $arrayOfToken = json_decode($user->json_token_lupa_password);
-                
+
                 $successCheckToken = false;
 
                 foreach ($arrayOfToken as $index => $value) {
@@ -246,7 +246,7 @@ class AuthController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,
@@ -265,7 +265,7 @@ class AuthController extends Controller
                 'token' => 'required',
                 'password' => 'required',
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -274,16 +274,16 @@ class AuthController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
-                
+
                 $user = User::where('email',$request->email)->firstOrFail();
-                
+
                 $json_wrapper = json_decode($user->json_token_lupa_password);
 
                 $isTokenExistsVerified = false;
-                
+
                 foreach ($json_wrapper as $key => $value) {
                     if($value->token == $request->token && $value->verified == true){
                         $isTokenExistsVerified = true;
@@ -297,6 +297,7 @@ class AuthController extends Controller
 
                 $user->update([
                     'password' => Hash::make($request->password),
+                    'json_token_lupa_password' => ''
                 ]);
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
@@ -307,7 +308,7 @@ class AuthController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,

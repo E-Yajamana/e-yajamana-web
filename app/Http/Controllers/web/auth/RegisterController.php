@@ -20,6 +20,12 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+
      // INDEX VIEW REGISTER AWAL
     public function regisIndex(Request $request)
     {
@@ -374,7 +380,7 @@ class RegisterController extends Controller
                     'email' => $request->email,
                     'password' =>Hash::make($request->password),
                     'nomor_telepon' =>$request->nomor_telepon,
-                    'role' =>'sulinggih',
+                    'role' =>'serati',
                 ])->Serati()->create([
                     'nama_serati' => $request->nama,
                     'alamat_serati' => $request->alamat,
@@ -412,7 +418,6 @@ class RegisterController extends Controller
     // STORE AKUN SULINGGIH
     public function storeRegisSulinggih(Request $request)
     {
-        dd($request->all());
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'nama_walaka' => 'required|regex:/^[a-z,. 0-9, -]+$/i|min:5|max:50',

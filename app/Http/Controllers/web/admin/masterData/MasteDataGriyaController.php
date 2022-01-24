@@ -8,6 +8,7 @@ use App\Models\DesaAdat;
 use App\Models\GriyaRumah;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
+use App\Models\Sulinggih;
 use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -292,26 +293,36 @@ class MasteDataGriyaController extends Controller
 
         // MAIN LOGIC
             try{
-                GriyaRumah::findOrFail($request->id)->delete();
+                $useGriya = Sulinggih::where('id_griya',$request->id)->count();
+                if($useGriya == 0){
+                    GriyaRumah::findOrFail($request->id)->delete();
+                    // RETURN
+                        return redirect()->back()->with([
+                            'status' => 'success',
+                            'icon' => 'success',
+                            'title' => 'Berhasil Menghapus Data Lokasi Griya',
+                            'message' => 'Data Griya berhasil terhapus dari sistem'
+                        ]);
+                    // END RETURN
+                }else{
+                    // RETURN
+                        return redirect()->back()->with([
+                            'status' => 'fail',
+                            'icon' => 'error',
+                            'tittle' => 'Hapus Data Gagal!',
+                            'message' => 'Hapus data gagal, Data Griya Masih berstatus aktif '
+                        ]);
+                    // END RETURN
+                }
             }catch(ModelNotFoundException $err){
                 return redirect()->back()->with([
-                    'status' => 'success',
-                    'icon' => 'success',
+                    'status' => 'fail',
+                    'icon' => 'error',
                     'tittle' => 'Hapus Data Gagal!',
                     'message' => 'Hapus data gagal, mohon hubungi developer untuk lebih lanjut!!'
                 ]);
             }
         // END LOGIC
-
-        // RETURN
-            return redirect()->back()->with([
-                'status' => 'success',
-                'icon' => 'success',
-                'title' => 'Berhasil Menghapus Data Lokasi Griya',
-                'message' => 'Data Griya berhasil terhapus dari sistem'
-            ]);
-        // END RETURN
-
     }
     // END DELETE INPUT DATABASE LOKASI GRIYA
 

@@ -28,7 +28,7 @@ class KramaUpacaraController extends Controller
                 'nama' => 'nullable|string',
                 'status' => 'nullable|string',
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -37,7 +37,7 @@ class KramaUpacaraController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
                 $upacarakus = Upacaraku::query();
@@ -60,7 +60,7 @@ class KramaUpacaraController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,
@@ -101,7 +101,7 @@ class KramaUpacaraController extends Controller
                 'tanggal_selesai' => 'required',
                 'desc' => 'required',
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -110,13 +110,13 @@ class KramaUpacaraController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
                 DB::beginTransaction();
 
                 $user = Auth::user();
-                
+
                 Upacaraku::create([
                     'id_upacara' => $request->id_upacara,
                     'id_krama' => $user->krama->id,
@@ -140,7 +140,7 @@ class KramaUpacaraController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,

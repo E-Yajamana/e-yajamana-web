@@ -18,7 +18,7 @@ class KramaDashboardController extends Controller
                 $user = Auth::user();
                 $krama = $user->Krama()->first();
                 $upacarakus = $krama->Upacaraku()->with(['Upacara'])->get();
-                
+
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
                 return response()->json([
                         'status' => 500,
@@ -26,9 +26,9 @@ class KramaDashboardController extends Controller
                         'data' => (Object)[],
                 ],500);
             }
-            
+
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,

@@ -47,27 +47,27 @@
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
                                         <a id="sulinggih-tabs" href="#sulinggih-table" class="nav-link active" data-toggle="pill" role="tab" aria-controls="sulinggih-table" aria-selected="true">
-                                            Dewa Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('katagori_upacara','Dewa Yadnya'))}}</span>
+                                            Dewa Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('kategori_upacara','Dewa Yadnya'))}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a id="pemangku-tabs"  href="#pemangku-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="pemangku-table" aria-selected="false">
-                                            Pitra Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('katagori_upacara','Pitra Yadnya'))}}</span>
+                                            Pitra Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('kategori_upacara','Pitra Yadnya'))}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a id="sanggar-tabs" href="#sanggar-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="sanggar-table" aria-selected="false">
-                                            Manusa Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('katagori_upacara','Manusa Yadnya'))}}</span>
+                                            Manusa Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('kategori_upacara','Manusa Yadnya'))}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="serati-tabs" data-toggle="pill" href="#serati-table" role="tab" aria-controls="serati-table" aria-selected="false">
-                                            Rsi Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('katagori_upacara','Rsi Yadnya'))}}</span>
+                                            Rsi Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('kategori_upacara','Rsi Yadnya'))}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a id="krama-tabs" href="#krama-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="krama-table" aria-selected="false">
-                                            Bhuta Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('katagori_upacara','Bhuta Yadnya'))}}</span>
+                                            Bhuta Yadnya <span class="badge bg-warning float-right">{{count($dataUpacara->where('kategori_upacara','Bhuta Yadnya'))}}</span>
                                         </a>
                                     </li>
                                   </ul>
@@ -97,18 +97,25 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Upacara</th>
+                                                    <th>Jumlah Tahapan</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUpacara->where('katagori_upacara','Dewa Yadnya') as $data)
+                                                @foreach ($dataUpacara->where('kategori_upacara','Dewa Yadnya') as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
+                                                        <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
                                                             <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -128,18 +135,25 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Upacara</th>
+                                                    <th>Jumlah Tahapan</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUpacara->where('katagori_upacara','Pitra Yadnya') as $data)
+                                                @foreach ($dataUpacara->where('kategori_upacara','Pitra Yadnya') as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
+                                                        <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
                                                             <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -159,18 +173,25 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Upacara</th>
+                                                    <th>Jumlah Tahapan</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUpacara->where('katagori_upacara','Manusa Yadnya') as $data)
+                                                @foreach ($dataUpacara->where('kategori_upacara','Manusa Yadnya') as $data)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$data->nama_upacara}}</td>
+                                                    <td>{{count($data->TahapanUpacara)}}</td>
                                                     <td>
                                                         <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                        <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                                        </form>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -190,19 +211,26 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Upacara</th>
+                                                    <th>Jumlah Tahapan</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUpacara->where('katagori_upacara','Rsi Yadnya') as $data)
+                                                @foreach ($dataUpacara->where('kategori_upacara','Rsi Yadnya') as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
+                                                        <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
                                                             <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
+                                                        <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                                        </form>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -221,19 +249,26 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Upacara</th>
+                                                    <th>Jumlah Tahapan</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUpacara->where('katagori_upacara','Bhuta Yadnya') as $data)
+                                                @foreach ($dataUpacara->where('kategori_upacara','Bhuta Yadnya') as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_upacara}}</td>
+                                                        <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
                                                             <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
+                                                        <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <input type="hidden" class="d-none" name="id" value="{{$data->id}}">
+                                                        </form>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -254,14 +289,27 @@
 
 @push('js')
 
-    <script src="{{ asset('base-template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{ asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('base-template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script type="text/javascript">
+        function deleteData(index){
+            Swal.fire({
+                title: 'Peringatan',
+                text : 'Apakah anda yakin akan menghapus Data Upacara tersebut?',
+                icon:'warning',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: `Hapus`,
+                denyButtonText: `Batal`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#delete-'+index).submit();
+                    } else if (result.isDenied) {
 
-    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+                    }
+                })
+            }
+    </script>
 
 
     <script type="text/javascript">
@@ -368,5 +416,18 @@
 
         });
     </script>
+
+    {{-- Library Start --}}
+        <script src="{{ asset('base-template/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+        <script src="{{ asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('base-template/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+
+        <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    {{-- Library Start --}}
+
+
 
 @endpush

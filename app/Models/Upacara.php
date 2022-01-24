@@ -13,7 +13,7 @@ class Upacara extends Model
 
     protected $fillable = [
         'nama_upacara',
-        'katagori_upacara',
+        'kategori_upacara',
         'deskripsi_upacara',
         'image',
     ];
