@@ -170,7 +170,7 @@ class KramaUpacaraController extends Controller
             $validator = Validator::make(['id_upacara' => $id_upacara],[
                 'id_upacara' => 'required',
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -179,7 +179,7 @@ class KramaUpacaraController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
                 $upacara = Upacaraku::with([
@@ -216,7 +216,7 @@ class KramaUpacaraController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,

@@ -154,6 +154,7 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
     Route::prefix('manajemen-reservasi')->group(function () {
         Route::get('index', [KramaReservasiController::class, 'indexReservasi'])->name('krama.manajemen-reservasi.index');
         Route::get('create/{id}', [KramaReservasiController::class, 'createReservasi'])->name('krama.manajemen-reservasi.create');
+        Route::post('store', [KramaReservasiController::class, 'storeReservasi'])->name('krama.manajemen-reservasi.store');
     });
 
 });

@@ -36,8 +36,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Tambah Upacaraku</li>
+                        <li class="breadcrumb-item"><a href="#">E-Yajamana</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{$dataUpacaraku->nama_upacara}}</a></li>
+                        <li class="breadcrumb-item active">Tambah Reservasi</li>
                     </ol>
                 </div>
             </div>
@@ -68,9 +69,8 @@
                                                 <span class="bs-stepper-label">Pencarian</span>
                                             </button>
                                         </div>
-
                                         <div class="line"></div>
-                                        <div class="step" data-target="#information-part">
+                                        <div class="step active" data-target="#information-part">
                                             <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
                                                 <span class="bs-stepper-circle">2</span>
                                                 <span class="bs-stepper-label">Pilih Tahapan</span>
@@ -92,568 +92,218 @@
                         </div>
 
                         <div class="bs-stepper-content p-0">
-
-                            <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
-
-                                <div class="card tab-content">
-                                    <!-- /.card-header -->
-                                    <div class="card-header">
-                                        <div class="card-body box-profile align-content-center">
-                                            <div class="text-center">
-                                              <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
-                                            </div>
-                                            <h3 class="text-center bold mb-0 mt-3 ">Mepandes I Putu Alex</h3>
-                                            <p class="text-center mb-1 mt-1">Manusa Yadnya</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card tab-content">
-                                    <!-- /.card-header -->
-                                    <div class="card-header">
-                                        <label class="card-title">Maps Lokasi Pemuput E-Yajamana</label>
-                                    </div>
-                                    <div class="card-body">
-                                        <div id="gmaps" style="height: 450px;"></div>
-                                    </div>
-                                </div>
-
-                                <div class="card card-outline tab-content">
-                                    <div class="card-header">
-                                        <label class="card-title">List Pemuput Karya</label>
-                                        <div class="ml-4 card-tools float-lg-right">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-8"></div>
-                                            <div class="col-4 mb-1">
-                                                <select class="form-control select2" style="width: 100%;" aria-placeholder="ada">
-                                                    <option>Semua</option>
-                                                    <option>Terdekat</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="card shadow collapsed-card mt-3">
-                                            <div class="card-header">
-                                                <div class="user-block">
-                                                    <img class="img-circle" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
-                                                    <span class="username"><a class="ml-2" href="#">I Wayan Sulinggih Nabe</a></span>
-                                                    <span class="description">
-                                                        <div class="ml-2 ">
-                                                            (Pemangku) - iwayansulinggih@gmail.com
-                                                        </div>
-                                                    </span>
+                            <!-- TAHAPAN AWAL -->
+                                <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+                                    <div class="card tab-content">
+                                        <!-- /.card-header -->
+                                        <div class="card-header">
+                                            <div class="card-body box-profile align-content-center">
+                                                <div class="text-center">
+                                                <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
                                                 </div>
-                                                <!-- /.user-block -->
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                                <!-- /.card-tools -->
+                                                <h3 class="text-center bold mb-0 mt-3 ">{{$dataUpacaraku->nama_upacara}}</h3>
+                                                <p class="text-center mb-1 mt-1">{{$dataUpacaraku->Upacara->kategori_upacara}}</p>
                                             </div>
-                                            <div class="card-body">
-                                                <div class="callout callout-danger container-fluid">
-                                                    <div>
-                                                        <p>
-                                                            <i class="fas fa-info"></i>
-                                                            <strong class="ml-1">
-                                                                Tanggal Tangkil :
-                                                            </strong>
-                                                             Kamis, 11 November 2021
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <table id="example2" class="table table-bordered table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>No</th>
-                                                            <th>Nama Tahapan</th>
-                                                            <th class="text-md-center">Upacara Mulai</th>
-                                                            <th class="text-md-center">Upacara Selesai</th>
-                                                            <th class="text-md-center">Tindakan</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Ngaraga Tirta Suci</td>
-                                                            <td class="text-md-center">
-                                                                <div>Senin, 8 November 2021</div>
-                                                                <div>10.00 WITA</div>
-                                                            </td>
-                                                            <td class="text-md-center">
-                                                                <div>
-                                                                    <div>Senin, 8 November 2021</div>
-                                                                    <div>13.00 WITA</div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-md-center">
-                                                                <a href="##" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>Maprayascita</td>
-                                                            <td class="text-md-center">
-                                                                <div>Selasa, 9 November 2021</div>
-                                                                <div>10.00 WITA</div>
-                                                            </td>
-                                                            <td class="text-md-center">
-                                                                <div>
-                                                                    <div>Selasa, 9 November 2021</div>
-                                                                    <div>13.00 WITA</div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-md-center">
-                                                                <a href="##" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <!-- /.card-body -->
-                                            <div class="card-footer" style="display: none;">
-                                                <button type="button" class="btn btn btn-primary btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
-                                            </div>
-                                            <!-- /.card-footer-->
-
                                         </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
-                                            <button type="submit" class="btn btn-primary float-sm-right" onclick="stepper.next()">Selanjutnya</button>
-                                        </div>
-
                                     </div>
 
+                                    <div class="card tab-content">
+                                        <!-- /.card-header -->
+                                        <div class="card-header">
+                                            <label class="card-title">Maps Lokasi Pemuput E-Yajamana</label>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="gmaps" style="height: 450px;"></div>
+                                        </div>
+                                    </div>
+                                    {{-- <div class="card-footer">
+                                        <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
+                                        <button type="button" class="btn btn btn-primary btn-sm float-lg-right center" data-toggle="modal" data-target="#modal-default"   onclick="stepper.next()">Selanjutnya</button>
+                                    </div> --}}
                                 </div>
-
-                            </div>
+                            <!-- TAHAPAN AWAL -->
 
                             <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
-
-                                <div class="card card-default col-12">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-4">
-                                            <div class="card tab-content mb-0 m-4">
-                                                <!-- /.card-header -->
-                                                <div class="card-header">
-                                                    <div class="card-body box-profile align-content-center">
-                                                        <div class="text-center">
-                                                          <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
-                                                        </div>
-                                                        <h3 class="text-center bold mb-0 mt-3 ">Sulinggih Sumerta</h3>
-                                                        <p class="text-center mb-1 mt-1">sumerta@gmail.com</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-4 d-flex align-items-center">
-                                            <div class="col-12 text-center">
-                                                <i class="fas fa-chevron-right"></i>
-                                                <i class="fas fa-chevron-right"></i>
-                                                <i class="fas fa-chevron-right"></i>
-                                                <i class="fas fa-chevron-right"></i>
-                                                <i class="fas fa-chevron-right"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-sm-4">
-                                            <div class="card tab-content mb-0 m-4">
-                                                <!-- /.card-header -->
-                                                <div class="card-header">
-                                                    <div class="card-body box-profile align-content-center">
-                                                        <div class="text-center">
-                                                          <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
-                                                        </div>
-                                                        <h3 class="text-center bold mb-0 mt-3 ">Mepandes I Putu Alex</h3>
-                                                        <p class="text-center mb-1 mt-1">Manusa Yadnya</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card tab-content card-primary card-outline">
-                                    <div class="card-header my-auto">
-                                        <label class="card-title my-auto">Rentetan Upacara</label>
-                                    </div>
-
-                                    <div class="card-body">
+                                <form action="{{route('krama.manajemen-reservasi.store')}}" method="POST">
+                                    @csrf
+                                    <div class="card card-default col-12">
                                         <div class="row">
                                             <div class="col-12 col-sm-4">
-                                                <h4 class="text-center mb-3"> Awal </h4>
-                                                <div class="card shadow collapsed-card mb-3">
-                                                    <div class="card-header" aria-expanded="false">
-                                                        <!-- checkbox -->
-                                                        <div  class="icheck-primary d-inline ml-2">
-                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngraga Tirta Suci</label>
-                                                        </div>
-                                                        <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                                <i class="fas fa-caret-down float-lg-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body ml-3" style="display: none;">
-                                                        <div class="callout callout-danger container-fluid">
-                                                            <div>
-                                                                <p>
-                                                                    <i class="fas fa-info"></i>
-                                                                    <strong class="ml-1"> Informasi : </strong>
-                                                                    Harap di isi Jadwal Rentetan Upacara
-                                                                </p>
+                                                <div class="card tab-content mb-0 m-4">
+                                                    <!-- /.card-header -->
+                                                    <div class="card-header">
+                                                        <div class="card-body box-profile align-content-center">
+                                                            <div class="text-center">
+                                                            <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
                                                             </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">
-                                                                        <i class="far fa-calendar-alt"></i>
-                                                                    </span>
-                                                                </div>
-                                                              <input type="text" class="form-control float-right" id="reservation">
-                                                            </div>
-                                                            <!-- /.input group -->
+                                                            <h3 id="dua_nama_sulinggih" class="text-center bold mb-0 mt-3 ">Sulinggih Sumerta</h3>
+                                                            <p id="dua_email_sulinggih" class="text-center mb-1 mt-1">sumerta@gmail.com</p>
                                                         </div>
                                                     </div>
                                                 </div>
-
-
-                                                <div class="card shadow collapsed-card mb-3">
-                                                    <div class="card-header" aria-expanded="false">
-                                                        <!-- checkbox -->
-                                                        <div  class="icheck-primary d-inline ml-2">
-                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1">Persiapan Pemangku</label>
-                                                        </div>
-                                                        <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                                <i class="fas fa-caret-down float-lg-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body ml-3" style="display: none;">
-                                                        <div class="callout callout-danger container-fluid">
-                                                            <div>
-                                                                <p>
-                                                                    <i class="fas fa-info"></i>
-                                                                    <strong class="ml-1"> Informasi : </strong>
-                                                                    Harap di isi Jadwal Rentetan Upacara
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">
-                                                                        <i class="far fa-calendar-alt"></i>
-                                                                    </span>
-                                                                </div>
-                                                              <input type="text" class="form-control float-right" id="reservation">
-                                                            </div>
-                                                            <!-- /.input group -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="card shadow collapsed-card mb-3">
-                                                    <div class="card-header" aria-expanded="false">
-                                                        <!-- checkbox -->
-                                                        <div  class="icheck-primary d-inline ml-2">
-                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1">Matur Pakeling</label>
-                                                        </div>
-                                                        <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                                <i class="fas fa-caret-down float-lg-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body ml-3" style="display: none;">
-                                                        <div class="callout callout-danger container-fluid">
-                                                            <div>
-                                                                <p>
-                                                                    <i class="fas fa-info"></i>
-                                                                    <strong class="ml-1"> Informasi : </strong>
-                                                                    Harap di isi Jadwal Rentetan Upacara
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">
-                                                                        <i class="far fa-calendar-alt"></i>
-                                                                    </span>
-                                                                </div>
-                                                              <input type="text" class="form-control float-right" id="reservation">
-                                                            </div>
-                                                            <!-- /.input group -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                             </div>
-
-                                            <div class="col-12 col-sm-4">
-                                                <h4 class="text-center mb-3"> Puncak </h4>
-                                                <div class="card shadow collapsed-card mb-3">
-                                                    <div class="card-header" aria-expanded="false">
-                                                        <!-- checkbox -->
-                                                        <div  class="icheck-primary d-inline ml-2">
-                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1" >Ngaturang Ayaban Ring Batara</label>
-                                                        </div>
-                                                        <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                                <i class="fas fa-caret-down float-lg-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body ml-3" style="display: none;">
-                                                        <div class="callout callout-danger container-fluid">
-                                                            <div>
-                                                                <p>
-                                                                    <i class="fas fa-info"></i>
-                                                                    <strong class="ml-1"> Informasi : </strong>
-                                                                    Harap di isi Jadwal Rentetan Upacara
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">
-                                                                        <i class="far fa-calendar-alt"></i>
-                                                                    </span>
-                                                                </div>
-                                                              <input type="text" class="form-control float-right" id="reservation">
-                                                            </div>
-                                                            <!-- /.input group -->
-                                                        </div>
-                                                    </div>
+                                            <div class="col-12 col-sm-4 d-flex align-items-center">
+                                                <div class="col-12 text-center">
+                                                    <i class="fas fa-chevron-right"></i>
+                                                    <i class="fas fa-chevron-right"></i>
+                                                    <i class="fas fa-chevron-right"></i>
+                                                    <i class="fas fa-chevron-right"></i>
+                                                    <i class="fas fa-chevron-right"></i>
                                                 </div>
-
-
-                                                <div class="card shadow collapsed-card mb-3">
-                                                    <div class="card-header" aria-expanded="false">
-                                                        <!-- checkbox -->
-                                                        <div  class="icheck-primary d-inline ml-2">
-                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngaturang Banten Suci</label>
-                                                        </div>
-                                                        <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                                <i class="fas fa-caret-down float-lg-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body ml-3" style="display: none;">
-                                                        <div class="callout callout-danger container-fluid">
-                                                            <div>
-                                                                <p>
-                                                                    <i class="fas fa-info"></i>
-                                                                    <strong class="ml-1"> Informasi : </strong>
-                                                                    Harap di isi Jadwal Rentetan Upacara
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">
-                                                                        <i class="far fa-calendar-alt"></i>
-                                                                    </span>
-                                                                </div>
-                                                              <input type="text" class="form-control float-right" id="reservation">
-                                                            </div>
-                                                            <!-- /.input group -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="card shadow collapsed-card mb-3">
-                                                    <div class="card-header" aria-expanded="false">
-                                                        <!-- checkbox -->
-                                                        <div  class="icheck-primary d-inline ml-2">
-                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngewaliang Linggih Batara Sami</label>
-                                                        </div>
-                                                        <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                                <i class="fas fa-caret-down float-lg-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body ml-3" style="display: none;">
-                                                        <div class="callout callout-danger container-fluid">
-                                                            <div>
-                                                                <p>
-                                                                    <i class="fas fa-info"></i>
-                                                                    <strong class="ml-1"> Informasi : </strong>
-                                                                    Harap di isi Jadwal Rentetan Upacara
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">
-                                                                        <i class="far fa-calendar-alt"></i>
-                                                                    </span>
-                                                                </div>
-                                                              <input type="text" class="form-control float-right" id="reservation">
-                                                            </div>
-                                                            <!-- /.input group -->
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                             </div>
-
                                             <div class="col-12 col-sm-4">
-                                                <h4 class="text-center mb-3"> Akhir </h4>
-                                                <div class="card shadow collapsed-card mb-3">
-                                                    <div class="card-header" aria-expanded="false">
-                                                        <!-- checkbox -->
-                                                        <div  class="icheck-primary d-inline ml-2">
-                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngeruwak Caru</label>
-                                                        </div>
-                                                        <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                                <i class="fas fa-caret-down float-lg-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body ml-3" style="display: none;">
-                                                        <div class="callout callout-danger container-fluid">
-                                                            <div>
-                                                                <p>
-                                                                    <i class="fas fa-info"></i>
-                                                                    <strong class="ml-1"> Informasi : </strong>
-                                                                    Harap di isi Jadwal Rentetan Upacara
-                                                                </p>
+                                                <div class="card tab-content mb-0 m-4">
+                                                    <!-- /.card-header -->
+                                                    <div class="card-header">
+                                                        <div class="card-body box-profile align-content-center">
+                                                            <div class="text-center">
+                                                            <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
                                                             </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">
-                                                                        <i class="far fa-calendar-alt"></i>
-                                                                    </span>
-                                                                </div>
-                                                              <input type="text" class="form-control float-right" id="reservation">
-                                                            </div>
-                                                            <!-- /.input group -->
+                                                            <h3 class="text-center bold mb-0 mt-3 ">{{$dataUpacaraku->nama_upacara}}</h3>
+                                                            <p class="text-center mb-1 mt-1">{{$dataUpacaraku->Upacara->kategori_upacara}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card tab-content card-primary card-outline">
+                                        <div class="card-header my-auto">
+                                            <label class="card-title my-auto">Rentetan Upacara</label>
+                                        </div>
 
-
-                                                <div class="card shadow collapsed-card mb-3">
-                                                    <div class="card-header" aria-expanded="false">
-                                                        <!-- checkbox -->
-                                                        <div  class="icheck-primary d-inline ml-2">
-                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngeruwak Caru</label>
-                                                        </div>
-                                                        <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                                <i class="fas fa-caret-down float-lg-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body ml-3" style="display: none;">
-                                                        <div class="callout callout-danger container-fluid">
-                                                            <div>
-                                                                <p>
-                                                                    <i class="fas fa-info"></i>
-                                                                    <strong class="ml-1"> Informasi : </strong>
-                                                                    Harap di isi Jadwal Rentetan Upacara
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">
-                                                                        <i class="far fa-calendar-alt"></i>
-                                                                    </span>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12 col-sm-4">
+                                                    <h4 class="text-center mb-3"> Awal </h4>
+                                                    @foreach ($dataUpacaraku->Upacara->TahapanUpacara->where('status_tahapan','awal') as $data)
+                                                        <div id="card{{$data->id}}" class="card shadow collapsed-card mb-3">
+                                                            <div class="card-header" aria-expanded="false">
+                                                                <!-- checkbox -->
+                                                                <div  class="icheck-primary d-inline ml-2">
+                                                                    <input onclick="showDate({{$data->id}})" type="checkbox" name="id[]" value="{{$data->id}}" id="check{{$data->id}}">
+                                                                    <label class="form-check-label ml-3" for="todoCheck1">{{$data->nama_tahapan}}</label>
                                                                 </div>
-                                                              <input type="text" class="form-control float-right" id="reservation">
                                                             </div>
-                                                            <!-- /.input group -->
+                                                            <div id="body{{$data->id}}" class="card-body ml-3" style="display: none;">
+                                                                <div class="callout callout-danger container-fluid">
+                                                                    <div>
+                                                                        <p><i class="fas fa-info"></i>
+                                                                            <strong class="ml-1"> Informasi : </strong>
+                                                                            Harap di isi Jadwal Rentetan Upacara
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group" id="inputDate-{{$data->id}}">
+                                                                    {{-- <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">
+                                                                                <i class="far fa-calendar-alt"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <input name="daterange[]" type="text" class="form-control float-right" id="reservation{{$data->id}}">
+                                                                    </div> --}}
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @endforeach
                                                 </div>
 
-                                                <div class="card shadow collapsed-card mb-3">
-                                                    <div class="card-header" aria-expanded="false">
-                                                        <!-- checkbox -->
-                                                        <div  class="icheck-primary d-inline ml-2">
-                                                            <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                                            <label class="form-check-label ml-3" for="todoCheck1">Ngelukat Banten</label>
-                                                        </div>
-                                                        <div class="card-tools">
-                                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                                <i class="fas fa-caret-down float-lg-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body ml-3" style="display: none;">
-                                                        <div class="callout callout-danger container-fluid">
-                                                            <div>
-                                                                <p>
-                                                                    <i class="fas fa-info"></i>
-                                                                    <strong class="ml-1"> Informasi : </strong>
-                                                                    Harap di isi Jadwal Rentetan Upacara
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text">
-                                                                        <i class="far fa-calendar-alt"></i>
-                                                                    </span>
+                                                <div class="col-12 col-sm-4">
+                                                    <h4 class="text-center mb-3"> Puncak </h4>
+                                                    @foreach ($dataUpacaraku->Upacara->TahapanUpacara->where('status_tahapan','puncak') as $data)
+                                                        <div class="card shadow collapsed-card mb-3">
+                                                            <div class="card-header" aria-expanded="false">
+                                                                <!-- checkbox -->
+                                                                <div  class="icheck-primary d-inline ml-2">
+                                                                    <input type="checkbox" value="" name="id[]" id="todoCheck1">
+                                                                    <label class="form-check-label ml-3" for="todoCheck1" >{{$data->nama_tahapan}}</label>
                                                                 </div>
-                                                              <input type="text" class="form-control float-right" id="reservation">
+                                                                <div class="card-tools">
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                        <i class="fas fa-caret-down float-lg-right"></i>
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                            <!-- /.input group -->
+                                                            <div class="card-body ml-3" style="display: none;">
+                                                                <div class="callout callout-danger container-fluid">
+                                                                    <div>
+                                                                        <p>
+                                                                            <i class="fas fa-info"></i>
+                                                                            <strong class="ml-1"> Informasi : </strong>
+                                                                            Harap di isi Jadwal Rentetan Upacara
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">
+                                                                                <i class="far fa-calendar-alt"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    <input type="text" name="daterange[]" class="form-control float-right" id="reservation{{$data->id}}">
+                                                                    </div>
+                                                                    <!-- /.input group -->
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @endforeach
                                                 </div>
 
+                                                <div class="col-12 col-sm-4">
+                                                    <h4 class="text-center mb-3"> Akhir </h4>
+                                                    @foreach ($dataUpacaraku->Upacara->TahapanUpacara->where('status_tahapan','akhir') as $data)
+                                                        <div class="card shadow collapsed-card mb-3">
+                                                            <div class="card-header" aria-expanded="false">
+                                                                <!-- checkbox -->
+                                                                <div  class="icheck-primary d-inline ml-2">
+                                                                    <input type="checkbox" value="" name="id[]" id="todoCheck1">
+                                                                    <label class="form-check-label ml-3" for="todoCheck1">{{$data->nama_tahapan}}</label>
+                                                                </div>
+                                                                <div class="card-tools">
+                                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                                        <i class="fas fa-caret-down float-lg-right"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-body ml-3" style="display: none;">
+                                                                <div class="callout callout-danger container-fluid">
+                                                                    <div>
+                                                                        <p>
+                                                                            <i class="fas fa-info"></i>
+                                                                            <strong class="ml-1"> Informasi : </strong>
+                                                                            Harap di isi Jadwal Rentetan Upacara
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text">
+                                                                                <i class="far fa-calendar-alt"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <input id="reservation{{$data->id}}" type="text" name="daterange[]"  class="form-control float-right">
+                                                                    </div>
+                                                                    <!-- /.input group -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
                                             </div>
                                         </div>
 
+                                        <div class="card-footer">
+                                            <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
+                                            <button type="submit" class="btn btn btn-primary btn-sm float-lg-right center" onclick="stepper.next()">Selanjutnya</button>
+                                        </div>
                                     </div>
-
-                                    <div class="card-footer">
-                                        <button type="button" class="btn btn btn-primary btn-sm float-lg-right center" data-toggle="modal" data-target="#modal-default"   onclick="stepper.next()">Selanjutnya</button>
-                                    </div>
-
-                                </div>
-
+                                </form>
                             </div>
 
 
@@ -802,6 +452,7 @@
                                     </div>
 
                                     <div class="card-footer">
+                                        <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
                                         <button type="button" class="btn btn btn-primary btn-sm float-lg-right center" data-toggle="modal" data-target="#modal-default"   onclick="stepper.next()">Buat Reservasi</button>
                                     </div>
 
@@ -818,6 +469,67 @@
 
         </div>
     </section>
+
+    <!-- MODAL DETAIL POPUP USER -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="card-body box-profile align-content-center">
+                        <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
+                        </div>
+                        <h3 class="text-center bold mb-0 mt-3" id="nama_griya"></h3>
+                        <p class="text-center mb-1 mt-1" id="alamat"></p>
+                    </div>
+                </div>
+                <div class="modal-body" id="dataSulinggih">
+                    {{-- <div class="card shadow collapsed-card mt-3">
+                        <div class="card-header">
+                            <div class="user-block">
+                                <img class="img-circle" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
+                                <span class="username"><a class="ml-2" href="#">I Wayan Sulinggih Nabe</a></span>
+                                <span class="description">
+                                    <div class="ml-2 ">
+                                        (Pemangku) - iwayansulinggih@gmail.com
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row ">
+                                <div class="col-7 d-flex justify-content-center align-items-center mb-2">
+                                    <span style="font-size:80%" >Tanggal Diksha   :</span>
+                                </div>
+                                <div class="col-5">
+                                    <span style="font-size:80%" >12 Jul 2021</span>
+                                </div>
+                                <div class="col-7 d-flex justify-content-center align-items-center mb-2">
+                                    <span style="font-size:80%" >Nomor Telepon :</span>
+                                </div>
+                                <div class="col-5">
+                                    <span style="font-size:80%" >08124625324</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer" style="display: none;">
+                            <button type="button" class="btn btn btn-primary btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Reservasi</button>
+                        </div>
+                    </div> --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                    <button type="button" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
 @endsection
@@ -850,17 +562,49 @@
     <!-- date-range-picker -->
     <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <!-- daterangepicker -->
-    <script src="{{('base-template/plugins/moment/moment.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
 
+    <script src="http://www.datejs.com/build/date.js" type="text/javascript"></script>
+@endpush
+
+@push('js')
+
+
+    <script>
+
+
+    </script>
 
     <script type="text/javascript">
+        let dataPemuputKarya;
+        function getPemuput(id,nama,tlpn,alamat,gender,tgldiksha){
+            $("#myModal").modal('hide');
+            let idSulinggih = id;
+            stepper.next()
+        };
+
+        function showDate(id) {
+            var checkBox = document.getElementById("check"+id);
+            var text = document.getElementById("body"+id);
+            if (checkBox.checked == true){
+                text.style.display = "block";
+                $("#card"+id).removeClass("collapsed-card");
+                $("#inputDate-"+id).append("<label>Tanggal/Waktu Mulai - Selesai Rentetan Upacara :</label><div class='input-group'><div class='input-group-prepend'><span class='input-group-text'><i class='far fa-calendar-alt'></i></span></div><input name='daterange[]' type='text' class='form-control float-right' id='reservation"+id+"'></div>");
+                $('#reservation'+id).daterangepicker();
+            } else {
+                $("#inputDate-"+id).empty();
+                $("#card"+id).addClass("collapsed-card");
+                text.style.display = "none";
+            }
+        }
+
         $(document).ready(function(){
-                $('#side-reservasi').addClass('menu-open');
-                $('#side-tambah-reservasi').addClass('active');
+            $('#side-reservasi').addClass('menu-open');
+            $('#side-tambah-reservasi').addClass('active');
 
-                var mymap = L.map('gmaps').setView([-8.617683234549416, 115.16708493639123], 15);
+            let mymap = L.map('gmaps').setView([-8.5108504, 115.1005634], 10);
 
-                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                 attribution: 'Adalah API Favoritku',
                 maxZoom: 18,
                 id: 'mapbox/streets-v11',
@@ -868,6 +612,77 @@
                 zoomOffset: -1,
                 accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
             }).addTo(mymap);
+
+            function createMarkerSanggar(lat,lng,namaSanggar){
+                var icMarker = L.icon({
+                    iconUrl: "{{asset('base-template/dist/img/marker/sanggar.png')}}",
+                    iconSize: [36, 40],
+                    iconAnchor: [8 , 40],
+                    popupAnchor: [12, -28],
+                });
+
+                var marker = new L.marker([lat, lng],{
+                    icon: icMarker,
+                }).bindPopup().addTo(mymap);
+
+                var namaSanggar = namaSanggar;
+                marker.bindPopup(namaSanggar);
+                marker.on('click', function() {
+                    marker.openPopup();
+                    $("#myModal").modal();
+                });
+            }
+
+            function createMarkerPemuputKarya(lat,lng,namaGriya,alamat,dataSulinggih){
+                var icMarker = L.icon({
+                    iconUrl: "{{asset('base-template/dist/img/marker/griya.png')}}",
+                    iconSize: [36, 40],
+                    iconAnchor: [8 , 40],
+                    popupAnchor: [12, -28],
+                });
+
+                var marker = new L.marker([lat, lng],{
+                    icon: icMarker,
+                }).bindPopup().addTo(mymap);
+
+                var data = namaGriya
+                marker.bindPopup(data);
+                marker.on('click', function() {
+                    marker.openPopup();
+                    $("#myModal").modal();
+                    $("#nama_griya").html(namaGriya);
+                    $("#alamat").html("Lokasi : "+alamat);
+                    $("#dataSulinggih").empty();
+                    dataSulinggih.forEach(data =>{
+                        var mydate = new Date(data.tanggal_diksha);
+                        console.log(data);
+                        console.log(data);
+                        var str = mydate.toString("d-MMM-yyyy");
+                        $("#dataSulinggih").append("<div class='card shadow collapsed-card mt-3'><div class='card-header'><div class='user-block'><img class='img-circle' src='{{asset('base-template/dist/img/user1-128x128.jpg')}}' alt='User Image'><span class='username'><a class='ml-2' href='#'> "+data.nama_sulinggih+"</a></span><span class='description'><div class='ml-2 '> "+data.user.email+"</div></span></div><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body'><div class='row '><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Tanggal Diksha   :</span></div><div class='col-5'><span style='font-size:80%' >"+str+" </span></div><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Nomor Telepon :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user.nomor_telepon+"</span></div></div></div><div class='card-footer' style='display: none;'><button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getPemuput("+data.id+",'"+data.nama_sulinggih+"','"+data.user.nomor_telepon+"','"+alamat+"','"+data.jenis_kelamin+"','"+data.tanggal_diksha+"')\">Reservasi</button></div></div>");
+                    });
+                });
+            }
+
+
+            let dataSanggar = {!! json_encode($dataSanggar) !!}
+            dataPemuputKarya = {!! json_encode($dataPemuputKarya) !!}
+            let dataUpacaraku = {!! json_encode($dataUpacaraku) !!}
+            // console.log(dataUpacaraku.upacara.tahapan_upacara);
+            // console.log(dataPemuputKarya.sulinggih);
+            // console.log(dataSanggar);
+
+            dataPemuputKarya.forEach(element => {
+                createMarkerPemuputKarya(element.lat,element.lng,element.nama_griya_rumah,element.alamat_griya_rumah,element.sulinggih);
+            });
+
+            dataSanggar.forEach(element => {
+                createMarkerSanggar(element.lat,element.lng,element.nama_sanggar);
+            });
+
+            // dataUpacaraku.upacara.tahapan_upacara.forEach(element => {
+            //     $('#reservation'+element.id).daterangepicker();
+            // });
+
 
         });
 
@@ -880,9 +695,11 @@
     <script>
         $(function () {
             //Date range picker
+            // let dataUpacaraku = {!! json_encode($dataUpacaraku) !!}
+            // console.log(dataUpacaraku.upacar);
+            $('.form-control float-right').daterangepicker();
             $('#reservation').daterangepicker();
-            $('#reservation2').daterangepicker();
-            $('#reservation3').daterangepicker();
+            // $('#reservation3').daterangepicker();
         });
     </script>
 
