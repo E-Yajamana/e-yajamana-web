@@ -4,24 +4,14 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\krama\KramaDashboardController;
 use App\Http\Controllers\api\krama\KramaPemuputKaryaController;
 use App\Http\Controllers\api\krama\KramaProfileController;
+use App\Http\Controllers\api\krama\KramaReservasiController;
 use App\Http\Controllers\api\krama\KramaUpacaraController;
 use App\Http\Controllers\api\location\LocationController;
+use App\Http\Controllers\api\sulinggih\SulinggihDashboardController;
+use App\Http\Controllers\api\sulinggih\SulinggihReservasiController;
 use App\Http\Controllers\api\yadnya\YadnyaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-
 
 // AUTH
     Route::post('login',[AuthController::class,'loginUser']);
@@ -69,7 +59,7 @@ Route::middleware('auth:sanctum')->group(function(){
     // END
 
     // KRAMA
-        Route::prefix('krama')->group(function(){
+        Route::prefix('krama')->middleware(['ability:role:krama_bali'])->group(function(){
             // KRAMA HOME FRAGMENT
                 Route::get('home',[KramaDashboardController::class,'index']);
             // END
@@ -84,6 +74,24 @@ Route::middleware('auth:sanctum')->group(function(){
                     Route::post('create',[KramaUpacaraController::class,'store']);
                     Route::get('detail/{id_upacara?}',[KramaUpacaraController::class,'show']);
                 });
+            // END
+
+            // KRAMA RESERVASI
+                Route::prefix('reservasi')->group(function(){
+                    Route::post('store',[KramaReservasiController::class,'store']);
+                });
+            // END
+        });
+    // END
+
+    // SULINGGIH
+        Route::prefix('sulinggih')->middleware(['ability:role:sulinggih'])->group(function(){
+            // SULINGGIH HOME FRAGMENT
+                Route::get('home',[SulinggihDashboardController::class,'index']);
+            // END
+
+            // SULINGGIH RESERVASI FRAGMENT
+                Route::post('reservasi',[SulinggihReservasiController::class,'index']);
             // END
         });
     // END

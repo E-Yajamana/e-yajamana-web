@@ -80,9 +80,25 @@ class KramaUpacaraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                ''
+            ]);
+            
+            if($validator->fails()){
+            
+            }
+        // END
+        
+        // MAIN LOGIC
+        
+        // END
+        
+        // RETURN
+        
+        // END
     }
 
     /**
