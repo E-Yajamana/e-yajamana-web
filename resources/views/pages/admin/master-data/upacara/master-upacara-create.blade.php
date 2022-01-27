@@ -28,7 +28,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form method="POST" action="{{route('admin.master-data.upacara.store')}}" enctype="multipart/form-data">
+                <form method="POST" action="{{route('admin.master-data.upacara.store')}}" enctype="multipart/form-data" id="formMasterUpacara">
                     @csrf
                     <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
@@ -118,7 +118,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -131,10 +130,82 @@
 @endsection
 
 @push('js')
+
+    <script>
+        $(document).ready(function(){
+            $("#buatTahapan").click(function(){
+                $("#tahapan-upacara").removeClass("d-none");
+                $("#button-remove").addClass("d-none");
+                $("#multiForm").append("<tr><td><input type='text' name='dataTahapan[0][nama_tahapan]' class='form-control ' placeholder='Masukan Nama Tahapan'/></td><td><input type='text' name='dataTahapan[0][desc_tahapan]' placeholder='Masukan Deskripsi Tahapan' class='form-control'/></td><td><select name='dataTahapan[0][status]' class='form-control select2bs4' style='width: 100%;' ><option disabled value='' selected>Pilih Status Tahapan</option> <option value='awal'>Awal</option> <option value='puncak'>Puncak</option><option value='akhir'>Akhir</option></select></td><td><div class='custom-file'> <input type='file' class='custom-file-input' name='dataTahapan[0][foto_tahapan]' id='customFile'><label class='custom-file-label ' for='customFile'>Foto Upacara</label></div></td><td><button type='button' class='remove-item btn btn-danger '>Hapus</button></td></tr>");
+            });
+
+            var i = 0;
+            $("#addRemoveIp").click(function () {
+                ++i;
+                $("#multiForm").append('<tr><td><input  type="text" name="dataTahapan['+i+'][nama_tahapan]" class="form-control" placeholder="Masukan Nama Tahapan"/></td><td><input  type="text" name="dataTahapan['+i+'][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select  name="dataTahapan['+i+'][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input  type="file" class="custom-file-input" name="dataTahapan['+i+'][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
+            });
+            $(document).on('click', '.remove-item', function () {
+                $(this).parents('tr').remove();
+            });
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $.validator.setDefaults({
+                submitHandler: function () {
+                    alert("Form successful submitted!");
+                }
+            });
+            $('#formMasterUpacara').validate({
+                rules: {
+                'dataTahapan[*][desc_tahapan]': {
+                    required: true,
+                    email: true,
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                terms: {
+                    required: true
+                },
+                },
+                messages: {
+                email: {
+                    required: "Please enter a email address",
+                    email: "Please enter a valid email address"
+                },
+                password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 5 characters long"
+                },
+                terms: "Please accept our terms"
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+                }
+            });
+        });
+    </script>
+
+@endpush
+
+@push('js')
+    <!-- jquery-validation -->
+    <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
     <!-- Select2 -->
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
-
 
     <script type="text/javascript">
         $('#mySelect2').select2('data');
@@ -154,29 +225,5 @@
         $(function () {
             bsCustomFileInput.init();
         });
-
     </script>
-
-    <script>
-        $(document).ready(function(){
-            $("#buatTahapan").click(function(){
-                $("#tahapan-upacara").removeClass("d-none");
-                $("#button-remove").addClass("d-none");
-                $("#multiForm").append('<tr><td><input type="text" name="dataTahapan[0][nama_tahapan]" class="form-control " placeholder="Masukan Nama Tahapan"/></td><td><input type="text" name="dataTahapan[0][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select name="dataTahapan[0][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled value="" selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input type="file" class="custom-file-input" name="dataTahapan[0][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
-            });
-        });
-    </script>
-
-    <script>
-        var i = 0;
-        $("#addRemoveIp").click(function () {
-            ++i;
-            $("#multiForm").append('<tr><td><input  type="text" name="dataTahapan['+i+'][nama_tahapan]" class="form-control" placeholder="Masukan Nama Tahapan"/></td><td><input  type="text" name="dataTahapan['+i+'][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select  name="dataTahapan['+i+'][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input  type="file" class="custom-file-input" name="dataTahapan['+i+'][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
-        });
-        $(document).on('click', '.remove-item', function () {
-            $(this).parents('tr').remove();
-        });
-
-    </script>
-
 @endpush

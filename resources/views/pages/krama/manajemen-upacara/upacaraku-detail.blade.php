@@ -221,7 +221,7 @@
                                             <label class="card-title my-auto">Reservasi Upacara</label>
                                         </div>
                                         <div class="col-6">
-                                            <a class="btn-sm btn-primary float-right" href="#"><i class="fa fa-plus"></i> Tambah Reservasi</a>
+                                            <a class="btn-sm btn-primary float-right" href="{{route('krama.manajemen-reservasi.create',$dataUpacaraku->id)}}"><i class="fa fa-plus"></i> Tambah Reservasi</a>
                                         </div>
                                     </div>
                                 </div>
@@ -230,9 +230,9 @@
                                         <div class="card-header" aria-expanded="false">
                                             <div class="user-block">
                                                 <img class="img-circle mt-1" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
-                                                <span class="username"><a class="ml-2" href="#">Sulinggih I Wayan Nabe</a></span>
+                                                <span class="username"><a class="ml-2" href="#">{{$data->Sulinggih->nama_sulinggih}}</a></span>
                                                 <span class="description">
-                                                    <div class="bg-success btn-sm text-center p-1 mt-1 ml-2" style="border-radius: 5px; width:90px; ">Disetujui</div>
+                                                    <div class="bg-info btn-sm text-center p-1 mt-1 ml-2" style="border-radius: 5px; width:90px; ">{{$data->status}}</div>
                                                 </span>
                                             </div>
                                             <div class="card-tools">
@@ -242,17 +242,30 @@
                                             </div>
                                         </div>
                                         <div class="card-body" style="display: none;">
-                                            <div class="callout callout-danger container-fluid">
-                                                <div>
-                                                    <p>
-                                                        <i class="fas fa-info"></i>
-                                                        <strong class="ml-1">
-                                                            Tanggal Tangkil :
-                                                        </strong>
-                                                        Kamis, 11 November 2021
-                                                    </p>
+                                            {{-- START VIEW TANGGAL TANGKIL --}}
+                                            @if ($data->tanggal_tangkil != null)
+                                                <div class="callout callout-danger container-fluid">
+                                                    <div>
+                                                        <p>
+                                                            <i class="fas fa-info"></i>
+                                                            <strong class="ml-1">Tanggal Tangkil :</strong>
+                                                            {{$data->tanggal_tangkil}}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @else
+                                                <div class="callout callout-danger container-fluid">
+                                                    <div>
+                                                        <p>
+                                                            <i class="fas fa-info"></i>
+                                                            <strong class="ml-1">Tanggal Tangkil :</strong>
+                                                            Belum ditentukan
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            {{-- END VIEW TANGGAL TANGKIL --}}
+
                                             <table id="example2" class="table table-bordered table-hover">
                                                 <thead>
                                                     <tr>
@@ -260,145 +273,38 @@
                                                         <th>Nama Tahapan</th>
                                                         <th class="text-md-center">Upacara Mulai</th>
                                                         <th class="text-md-center">Upacara Selesai</th>
+                                                        <th class="text-md-center">Status</th>
                                                         <th class="text-md-center">Tindakan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Ngaraga Tirta Suci</td>
-                                                        <td class="text-md-center">
-                                                            <div>Senin, 8 November 2021</div>
-                                                            <div>10.00 WITA</div>
-                                                        </td>
-                                                        <td class="text-md-center">
-                                                            <div>
-                                                                <div>Senin, 8 November 2021</div>
-                                                                <div>13.00 WITA</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-md-center">
-                                                            <a href="##" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>Maprayascita</td>
-                                                        <td class="text-md-center">
-                                                            <div>Selasa, 9 November 2021</div>
-                                                            <div>10.00 WITA</div>
-                                                        </td>
-                                                        <td class="text-md-center">
-                                                            <div>
-                                                                <div>Selasa, 9 November 2021</div>
-                                                                <div>13.00 WITA</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-md-center">
-                                                            <a href="##" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                        </td>
-                                                    </tr>
+                                                    @foreach ($data->DetailReservasi as $data)
+                                                        <tr>
+                                                            <td>{{$loop->iteration}}</td>
+                                                            <td>{{$data->TahapanUpacara->nama_tahapan}}</td>
+                                                            <td class="text-md-center">
+                                                                <div>{{date('d-M-Y - h:i:s',strtotime($data->tanggal_mulai))}}</div>
+                                                            </td>
+                                                            <td class="text-md-center">
+                                                                <div>{{date('d-M-Y h:i:s',strtotime($data->tanggal_selesai))}}</div>
+                                                            </td>
+                                                            <td class="text-md-center">
+                                                                <div class="bg-success btn-sm text-center p-1 mt-1 m-0" style="border-radius: 5px; width:80px; ">{{$data->status}}</div>
+                                                            </td>
+                                                            <td class="text-md-center">
+                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
                                         <!-- /.card-body -->
-                                        <div class="card-footer" style="display: none;">
+                                        {{-- <div class="card-footer" style="display: none;">
                                             <button type="button" class="btn btn btn-primary btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
-                                        </div>
+                                        </div> --}}
                                         <!-- /.card-footer-->
                                     </div>
-
-
-                                    <div class="card card-widget shadow collapsed-card">
-                                        <div class="card-header">
-                                            <div class="user-block">
-                                                <img class="img-circle mt-1 mr-2" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
-                                                <span class="username">
-                                                    <a class="ml-1" href="#">Sulinggih I Nengah Suparwa</a>
-                                                </span>
-                                                <span class="description">
-                                                    <div class="bg-info btn-sm text-center p-1 mt-1 ml-1" style="border-radius: 5px; width:90px;">Menunggu</div>
-                                                </span>
-                                            </div>
-                                            <!-- /.user-block -->
-                                            <div class="card-tools">
-                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                    <i class="fas fa-caret-down float-lg-right"></i>
-                                                </button>
-                                            </div>
-                                        <!-- /.card-tools -->
-                                        </div>
-                                        <!-- /.card-header -->
-                                        <div class="card-body">
-                                            <div class="callout callout-danger container-fluid">
-                                                <div>
-                                                    <p>
-                                                        <i class="fas fa-info"></i>
-                                                        <strong class="ml-1">
-                                                            Tanggal Tangkil :
-                                                        </strong>
-                                                        Tanggal Tangkil Belum ditentukan
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <table id="example2" class="table table-bordered table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>No</th>
-                                                        <th>Nama Tahapan</th>
-                                                        <th class="text-md-center">Upacara Mulai</th>
-                                                        <th class="text-md-center">Upacara Selesai</th>
-                                                        <th class="text-md-center">Tindakan</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Ngaraga Tirta Suci</td>
-                                                        <td class="text-md-center">
-                                                            <div>Senin, 8 November 2021</div>
-                                                            <div>10.00 WITA</div>
-                                                        </td>
-                                                        <td class="text-md-center">
-                                                            <div>
-                                                                <div>Senin, 8 November 2021</div>
-                                                                <div>13.00 WITA</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-md-center">
-                                                            <a href="##" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>Maprayascita</td>
-                                                        <td class="text-md-center">
-                                                            <div>Selasa, 9 November 2021</div>
-                                                            <div>10.00 WITA</div>
-                                                        </td>
-                                                        <td class="text-md-center">
-                                                            <div>
-                                                                <div>Selasa, 9 November 2021</div>
-                                                                <div>13.00 WITA</div>
-                                                            </div>
-                                                        </td>
-                                                        <td class="text-md-center">
-                                                            <a href="##" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <!-- /.card-footer -->
-                                        <div class="card-footer">
-                                            <button type="button" class="btn btn btn-primary btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
-                                        </div>
-                                        <!-- /.card-footer -->
-                                    </div>
-
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="btn btn btn-primary btn-sm float-lg-right center" data-toggle="modal" data-target="#modal-default">Tambah Reservasi</button>
                                 </div>
                             </div>
                         @endforeach

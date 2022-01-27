@@ -29,7 +29,7 @@
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a  href="#" class="nav-link">
+                            <a  href="{{route('auth.logout')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Logout</p>
                             </a>
@@ -107,7 +107,7 @@
                         <li class="nav-item ml-3">
                             <a id="side-manajemen-reservasi-index" href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Reservasi Masuk</p>
+                            <p>Reservasi Masuk</p> <span class="ml-4 badge badge-primary right">@yield('count')</span></p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TbReservasi
- * 
+ *
  * @property int $id
  * @property int $id_relasi
  * @property int $id_upacaraku
@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $desc
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
+ *
  * @property TbSulinggih $tb_sulinggih
  * @property TbUpacaraku $tb_upacaraku
  * @property Collection|TbDetailReservasi[] $tb_detail_reservasis

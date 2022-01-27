@@ -62,7 +62,6 @@
                                     <span class="bs-stepper-label">Jenis Upacara</span>
                                 </button>
                             </div>
-
                             <div class="line"></div>
                             <div class="step" data-target="#information-part">
                                 <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
@@ -79,6 +78,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="bs-stepper-content">
                             <!-- your steps content here -->
                             <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">

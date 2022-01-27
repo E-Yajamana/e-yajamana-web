@@ -43,44 +43,31 @@
                                     <th>Penyelenggara </th>
                                     <th>Jenis Upacara</th>
                                     <th>Lokasi Upacara</th>
+                                    <th>Tanggal Upacara</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Krama Dalung</td>
-                                    <td>Piodalan Ring Pura</td>
-                                    <td>Kuta Utara, Dalung</td>
-                                    <td>
-                                        <li >Wangun Bale Petak  </li>
-                                        <li >Melaspas Wewangunan </li>
-                                        <li >Wangun Bale Petak</li>
-                                        <li >Melaspas Wewangunan </li>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('pemuput-karya.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Krama Dalung</td>
-                                    <td>Kuta Utara, Dalung</td>
-                                    <td>Piodalan Ring Pura</td>
-                                    <td>
-                                        <li >Wangun Bale Petak</li>
-                                        <li >Melaspas Wewangunan </li>
-                                        <li >Wangun Bale Petak</li>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('pemuput-karya.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                    </td>
-                                </tr>
+                                @foreach ($dataReservasi as $data)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$data->Upacaraku->Krama->nama_krama}}</td>
+                                        <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
+                                        <td>{{$data->Upacaraku->alamat_upacaraku}}</td>
+                                        <td>{{date('d-M-Y',strtotime($data->Upacaraku->tanggal_mulai))}} - {{date('d-M-Y',strtotime($data->Upacaraku->tanggal_selesai))}}</td>
+                                        <td>
+                                            @foreach ($data->DetailReservasi as $dataDetail)
+                                                <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            <a href="{{route('pemuput-karya.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                            <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -88,7 +75,8 @@
                                     <th>Penyelenggara </th>
                                     <th>Jenis Upacara</th>
                                     <th>Lokasi Upacara</th>
-                                    <th>Tanggal Mulai - Tanggal Selesai</th>
+                                    <th>Tanggal Upacara</th>
+                                    <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </tfoot>
