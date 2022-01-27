@@ -339,43 +339,7 @@
                     </div>
                 </div>
                 <div class="modal-body" id="dataSulinggih">
-                    {{-- <div class="card shadow collapsed-card mt-3">
-                        <div class="card-header">
-                            <div class="user-block">
-                                <img class="img-circle" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
-                                <span class="username"><a class="ml-2" href="#">I Wayan Sulinggih Nabe</a></span>
-                                <span class="description">
-                                    <div class="ml-2 ">
-                                        (Pemangku) - iwayansulinggih@gmail.com
-                                    </div>
-                                </span>
-                            </div>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row ">
-                                <div class="col-7 d-flex justify-content-center align-items-center mb-2">
-                                    <span style="font-size:80%" >Tanggal Diksha   :</span>
-                                </div>
-                                <div class="col-5">
-                                    <span style="font-size:80%" >12 Jul 2021</span>
-                                </div>
-                                <div class="col-7 d-flex justify-content-center align-items-center mb-2">
-                                    <span style="font-size:80%" >Nomor Telepon :</span>
-                                </div>
-                                <div class="col-5">
-                                    <span style="font-size:80%" >08124625324</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer" style="display: none;">
-                            <button type="button" class="btn btn btn-primary btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Reservasi</button>
-                        </div>
-                    </div> --}}
+                    {{-- Data Sulinggih --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>

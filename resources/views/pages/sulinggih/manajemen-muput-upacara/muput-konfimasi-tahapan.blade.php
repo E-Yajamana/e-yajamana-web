@@ -57,7 +57,7 @@
                                     <td>14 Dec 2021 - 15 Dec 2021</td>
                                     <td>09:00 - 11.00</td>
                                     <td>
-                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                     </td>
                                 </tr>
@@ -69,7 +69,7 @@
                                     <td>14 Dec 2021 - 15 Dec 2021</td>
                                     <td>09:00 - 11.00</td>
                                     <td>
-                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                     </td>
                                 </tr>

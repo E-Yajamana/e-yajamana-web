@@ -164,8 +164,8 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Tahapan</th>
-                                                <th>Tanggal Mulai - Selesai</th>
-                                                <th>Waktu Mulai - Selesai</th>
+                                                <th>Waktu Mulai Tahapan</th>
+                                                <th>Waktu Selesai Tahapan</th>
                                                 <th>Tentukan Status</th>
                                             </tr>
                                         </thead>
@@ -175,8 +175,8 @@
                                                     <td>{{$loop->iteration}}</td>
                                                     <input type="hidden" class="d-none" name="id_tahapan" value="{{$data->id}}">
                                                     <td>{{$data->TahapanUpacara->nama_tahapan}}</td>
-                                                    <td>{{date('d-M-Y',strtotime($data->tanggal_mulai))}} - {{date('d-M-Y',strtotime($data->tanggal_selesai))}}</td>
-                                                    <td>{{date('h:i:s',strtotime($data->tanggal_mulai))}} - {{date('h:i:s',strtotime($data->tanggal_selesai))}}</td>
+                                                    <td>{{date('d-M-Y | h:i:s',strtotime($data->tanggal_mulai))}}</td>
+                                                    <td>{{date('d-M-Y | h:i:s',strtotime($data->tanggal_selesai))}}</td>
                                                     <td>
                                                         <div class="form-group">
                                                             <select name="status[] " class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true">
@@ -195,8 +195,8 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Tahapan</th>
-                                                <th>Tanggal Mulai - Selesai</th>
-                                                <th>Waktu Mulai - Selesai</th>
+                                                <th>Waktu Mulai Tahapan</th>
+                                                <th>Waktu Selesai Tahapan</th>
                                                 <th>Tentukan Status</th>
                                             </tr>
                                         </tfoot>

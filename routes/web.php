@@ -170,6 +170,8 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function
             Route::get('detail/{id}', [ReservasiMasukController::class, 'detailReservasi'])->name('pemuput-karya.manajemen-reservasi.detail');
             Route::put('verifikasi', [ReservasiMasukController::class, 'verifikasiReservasi'])->name('pemuput-karya.manajemen-reservasi.verifikasi');
 
+            Route::put('verifikasi-all/{status}', [ReservasiMasukController::class, 'allVerifikasiReservasi'])->name('pemuput-karya.manajemen-reservasi.all-verifikasi');
+
             Route::get('riwayat', [ReservasiMasukController::class, 'riwayatReservasi'])->name('pemuput-karya.manajemen-reservasi.riwayat');
         });
     });

@@ -88,7 +88,7 @@
                                         <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:90px;">Proses Tangkil</div>
                                     </td>
                                     <td>
-                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                         <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                     </td>
@@ -107,7 +107,7 @@
                                         <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:90px;">Proses Muput</div>
                                     </td>
                                     <td>
-                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                         <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                     </td>

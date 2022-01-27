@@ -5,8 +5,10 @@ namespace App\Http\Controllers\web\pemuput_karya\manajemen_reservasi;
 use App\Http\Controllers\Controller;
 use App\Models\DetailReservasi;
 use App\Models\Reservasi;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use ErrorException;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -74,6 +76,69 @@ class ReservasiMasukController extends Controller
         return view('pages.pemuput-karya.manajemen-reservasi.pemuput-reservasi-riwayat');
     }
     // DETAIL RESERVASI MASUK
+
+    // ALL VERIFIKASI RESERVASI
+    public function allVerifikasiReservasi(Request $request)
+    {
+
+        if($request->status == 'diterima'){
+            // SECURITY
+                $validator = Validator::make($request->all(),[
+                    'id_tahapan_reservasi' => 'required|exists:tb_detail_reservasi,id',
+                    'id_reservasi' => 'required|exists:tb_reservasi,id',
+                    'tanggal_tangkil' => 'required',
+                ]);
+                if($validator->fails()){
+                    return redirect()->back()->with([
+                        'status' => 'fail',
+                        'icon' => 'error',
+                        'title' => 'Gagal Memperbarui Status',
+                        'message' => 'Gagal memperbarui status ke sistem, Hubungi Developer untuk lebih lanjut'
+                    ]);
+                }
+            // END SECURITY
+
+            // MAIN LOGIC
+                try{
+                    DB::beginTransaction();
+                    $tanggal_tangkil = new Carbon($request->tanggal_tangkil);
+                    Reservasi::findOrFail($request->id_reservasi)->update(['tanggal_tangkil'=>$tanggal_tangkil->format('Y-m-d h:i:s'),'status'=>'proses tangkil']);
+                    DetailReservasi::whereIn('id',$request->id_tahapan_reservasi)->update(['status'=>$request->status]);
+                }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
+                    return redirect()->back()->with([
+                        'status' => 'fail',
+                        'icon' => 'error',
+                        'title' => 'Gagal Memperbarui Status',
+                        'message' => 'Gagal memperbarui status ke sistem, Hubungi Developer untuk lebih lanjut'
+                    ]);
+                }
+                DB::commit();
+            // END MAIN LOGIC
+
+            // RETURN
+                return redirect()->back()->with([
+                    'status' => 'success',
+                    'icon' => 'success',
+                    'title' => 'Berhasil Memperbarui Status Reservasi',
+                    'message' => 'Berhasil Memperbarui Status Reservasi, Data terbaru dapat dilihat pada menu data muput upacara',
+                ]);
+            // END RETURN
+
+        }elseif($request->status == 'ditolak'){
+            DetailReservasi::whereIn('id',$request->id_tahapan)->update(['status'=>$request->status]);
+        }else{
+            return redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Gagal Memperbarui Status',
+                'message' => 'Gagal memperbarui status ke sistem, Hubungi Developer untuk lebih lanjut'
+            ]);
+        }
+
+
+
+    }
+    // ALL VERIFIKASI RESERVASI
 
     // VERIFIKASI RESERVASI
     public function verifikasiReservasi(Request $request)
