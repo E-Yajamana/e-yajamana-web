@@ -5,6 +5,10 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
+
 @endpush
 
 
@@ -43,44 +47,32 @@
                                     <th>Penyelenggara </th>
                                     <th>Jenis Upacara</th>
                                     <th>Lokasi Upacara</th>
+                                    <th>Tanggal Upacara</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Krama Dalung</td>
-                                    <td>Piodalan Ring Pura</td>
-                                    <td>Kuta Utara, Dalung</td>
-                                    <td>
-                                        <li >Wangun Bale Petak  </li>
-                                        <li >Melaspas Wewangunan </li>
-                                        <li >Wangun Bale Petak</li>
-                                        <li >Melaspas Wewangunan </li>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('pemuput-karya.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Krama Dalung</td>
-                                    <td>Kuta Utara, Dalung</td>
-                                    <td>Piodalan Ring Pura</td>
-                                    <td>
-                                        <li >Wangun Bale Petak</li>
-                                        <li >Melaspas Wewangunan </li>
-                                        <li >Wangun Bale Petak</li>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('pemuput-karya.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                    </td>
-                                </tr>
+                                @foreach ($dataReservasi as $data)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$data->Upacaraku->Krama->nama_krama}}</td>
+                                        <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
+                                        <td>{{$data->Upacaraku->alamat_upacaraku}}</td>
+                                        <td>{{date('d-M-Y',strtotime($data->Upacaraku->tanggal_mulai))}} - {{date('d-M-Y',strtotime($data->Upacaraku->tanggal_selesai))}}</td>
+                                        <td>
+                                            @foreach ($data->DetailReservasi as $dataDetail)
+                                                <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
+                                                <input type="hidden"  name="id_tahapan_reservasi_{{$data->id}}[]" value="{{$dataDetail->id}}" >
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            <a href="{{route('pemuput-karya.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a onclick="konfirmasiReservasi({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                            <a onclick="tolakReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -88,23 +80,100 @@
                                     <th>Penyelenggara </th>
                                     <th>Jenis Upacara</th>
                                     <th>Lokasi Upacara</th>
-                                    <th>Tanggal Mulai - Tanggal Selesai</th>
+                                    <th>Tanggal Upacara</th>
+                                    <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </tfoot>
                         </table>
+
+                        <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
+                        <div class="modal fade" id="modalKonfirmasi" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Form Verifikasi Reservasi</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="{{route('pemuput-karya.manajemen-reservasi.all-verifikasi','diterima')}}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="modal-body">
+                                            <input class="d-none" name="id_reservasi" id="idReservasi" value="" type="hidden">
+                                            <div id="id_tahapan">
+                                                {{-- Data Tahapan --}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Tentukan Tanggal Tangkil:</label>
+                                                <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                                    <input name="tanggal_tangkil" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime" />
+                                                    <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                </div>
+                                              </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MODAL BATAL RESERVASI SEMUA DATA -->
+                        <div class="modal fade" id="modalBatalReservasi" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Form Verifikasi Reservasi</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="{{route('pemuput-karya.manajemen-reservasi.all-verifikasi','ditolak')}}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="modal-body">
+                                            <input class="d-none" name="id_reservasi" id="idReservasiBatal" value="" type="hidden">
+                                            <div id="id_tahapan_batal">
+                                                {{-- Data Tahapan --}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Alasan Penolakan</label>
+                                                <textarea name="alasan_penolakan" class="form-control @error('alasan_penolakan') is-invalid @enderror" rows="4" placeholder="Masukan Alasan Penolakan Reservasi">{{old('alasan_penolakan')}}</textarea>
+                                                @error('alasan_penolakan')
+                                                    <div class="invalid-feedback text-start">
+                                                        {{ $errors->first('alasan_penolakan') }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-            {{-- End Data Table Sulinggih --}}
-
-
         </div>
     </div>
 @endsection
 
 
 @push('js')
+    <!-- date-range-picker -->
+    <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <!-- daterangepicker -->
+    <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
 
     <!-- Bootstrabase-template-->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -114,6 +183,9 @@
     <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
 
     <script>
         $(function () {
@@ -140,13 +212,47 @@
             });
         });
     </script>
+@endpush
+
+@push('js')
+    <script type="text/javascript">
+        //FUNGSI KONFIRMASI RESERVASI
+        function konfirmasiReservasi(idReservasi){
+            $("#modalKonfirmasi").modal();
+            $("#idReservasi").val(idReservasi);
+            var dataTahapan =  document.getElementsByName('id_tahapan_reservasi_'+idReservasi+'[]');
+            for (var i = 0; i < dataTahapan.length; i++) {
+                $("#id_tahapan").append("<input class='d-none' name='id_tahapan_reservasi[]' id='idReservasi' value='"+dataTahapan[i].value+"' type='hidden'>")
+            }
+        }
+
+        //FUNGSI BATAL RESERVASI
+        function tolakReservasi(idReservasi){
+            $("#modalBatalReservasi").modal();
+            $("#idReservasiBatal").val(idReservasi);
+            var dataTahapan =  document.getElementsByName('id_tahapan_reservasi_'+idReservasi+'[]');
+            for (var i = 0; i < dataTahapan.length; i++) {
+                $("#id_tahapan_batal").append("<input class='d-none' name='id_tahapan_reservasi[]' id='idReservasi' value='"+dataTahapan[i].value+"' type='hidden'>")
+            }
+
+        }
+
+    </script>
 
     <script type="text/javascript">
         $(document).ready(function(){
             $('#side-manajemen-reservasi').addClass('menu-open');
             $('#side-manajemen-reservasi-index').addClass('active');
         });
+
+        $('#reservationdate').datetimepicker({
+            format: 'L'
+        });
+
+        $('#reservationdatetime').datetimepicker({
+            icons: {
+            time: 'far fa-clock'
+            }
+        });
     </script>
-
-
 @endpush

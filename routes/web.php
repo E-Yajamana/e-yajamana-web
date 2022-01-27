@@ -154,6 +154,7 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
     Route::prefix('manajemen-reservasi')->group(function () {
         Route::get('index', [KramaReservasiController::class, 'indexReservasi'])->name('krama.manajemen-reservasi.index');
         Route::get('create/{id}', [KramaReservasiController::class, 'createReservasi'])->name('krama.manajemen-reservasi.create');
+        Route::post('store', [KramaReservasiController::class, 'storeReservasi'])->name('krama.manajemen-reservasi.store');
     });
 
 });
@@ -166,7 +167,10 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function
     Route::prefix('manajemen-reservasi')->group(function () {
         Route::prefix('reservasi-masuk')->group(function () {
             Route::get('index', [ReservasiMasukController::class, 'index'])->name('pemuput-karya.manajemen-reservasi.index');
-            Route::get('detail', [ReservasiMasukController::class, 'detailReservasi'])->name('pemuput-karya.manajemen-reservasi.detail');
+            Route::get('detail/{id}', [ReservasiMasukController::class, 'detailReservasi'])->name('pemuput-karya.manajemen-reservasi.detail');
+            Route::put('verifikasi', [ReservasiMasukController::class, 'verifikasiReservasi'])->name('pemuput-karya.manajemen-reservasi.verifikasi');
+
+            Route::put('verifikasi-all/{status}', [ReservasiMasukController::class, 'allVerifikasiReservasi'])->name('pemuput-karya.manajemen-reservasi.all-verifikasi');
 
             Route::get('riwayat', [ReservasiMasukController::class, 'riwayatReservasi'])->name('pemuput-karya.manajemen-reservasi.riwayat');
         });

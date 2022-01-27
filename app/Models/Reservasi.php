@@ -13,7 +13,7 @@ use DateTimeInterface;
 
 /**
  * Class TbReservasi
- * 
+ *
  * @property int $id
  * @property int $id_relasi
  * @property int $id_upacaraku
@@ -23,7 +23,7 @@ use DateTimeInterface;
  * @property string|null $desc
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
+ *
  * @property TbSulinggih $tb_sulinggih
  * @property TbUpacaraku $tb_upacaraku
  * @property Collection|TbDetailReservasi[] $tb_detail_reservasis

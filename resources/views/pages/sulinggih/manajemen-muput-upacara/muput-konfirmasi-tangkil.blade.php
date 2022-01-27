@@ -58,7 +58,7 @@
                                         <li >Melaspas Wewangunan </li>
                                     </td>
                                     <td>
-                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
                                         <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
                                         <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-check"></i></a>
                                     </td>
@@ -73,7 +73,7 @@
                                         <li >Wangun Bale Petak</li>
                                     </td>
                                     <td>
-                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
                                         <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
                                         <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-check"></i></a>
                                     </td>

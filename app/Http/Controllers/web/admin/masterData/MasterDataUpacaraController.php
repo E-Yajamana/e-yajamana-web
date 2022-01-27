@@ -37,7 +37,7 @@ class MasterDataUpacaraController extends Controller
     // STORE DATA UPACARA
     public function storeDataUpacara(Request $request)
     {
-
+        // dd($request->all());
         if($request->dataTahapan == null)
         {
             // SECURITY

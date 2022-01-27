@@ -333,12 +333,6 @@
 
     </script>
 
-    <script>
-
-
-    </script>
-
-
     <!-- Data Table Atribut -->
     <script>
         $(function () {
@@ -365,7 +359,21 @@
             });
         });
     </script>
-    <!-- Data Table Atribut -->
+@endpush
+
+@push('js')
+    <!-- Fungsi Boostrap & Library  -->
+    <script type="text/javascript">
+        $('#side-master-data').addClass('menu-open');
+        $('#side-upacara').addClass('active');
+
+
+        $(function () {
+            bsCustomFileInput.init();
+        });
+
+    </script>
+    <!-- Fungsi Boostrap & Library  -->
 
     <!-- Bootstrabase-template-->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -378,26 +386,4 @@
     <!-- Select2 -->
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
-
-    <!-- Fungsi Boostrap & Library  -->
-    <script type="text/javascript">
-        $('#side-master-data').addClass('menu-open');
-        $('#side-upacara').addClass('active');
-
-        $('#mySelect2').select2('data');
-
-        $('.select2').select2()
-
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        })
-
-        $(function () {
-            bsCustomFileInput.init();
-        });
-
-    </script>
-    <!-- Fungsi Boostrap & Library  -->
-
 @endpush

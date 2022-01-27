@@ -25,7 +25,6 @@
     <script src="{{asset('base-template\dist\js\sweetalert2.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('base-template\dist\css\sweetalert2.min.css')}}">
 
-
     @stack('css')
 
 </head>
@@ -52,7 +51,20 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <script src="{{asset('base-template\dist\js\sweetalert2.all.min.js')}}"></script>
+
     @stack('js')
+
+    <script>
+        @if(Session::has('status'))
+            Swal.fire({
+                icon:  @if(Session::has('icon')){!! '"'.Session::get('icon').'"' !!} @else 'question' @endif,
+                title: @if(Session::has('title')){!! '"'.Session::get('title').'"' !!} @else 'Oppss...'@endif,
+                text: @if(Session::has('message')){!! '"'.Session::get('message').'"' !!} @else 'Oppss...'@endif,
+            });
+        @endif
+    </script>
+
 
 </body>
 </html>
