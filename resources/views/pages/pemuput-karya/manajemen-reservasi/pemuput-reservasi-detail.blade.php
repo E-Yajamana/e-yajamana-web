@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
     integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
     crossorigin=""/>
@@ -17,9 +20,6 @@
     crossorigin=""></script>
 
 @endpush
-
-
-
 
 @section('content')
 
@@ -159,6 +159,8 @@
                                 <form action="{{route('pemuput-karya.manajemen-reservasi.verifikasi')}}" method="POST" id="inputdata">
                                     @csrf
                                     @method('put')
+                                    <input class="d-none" name="id_reservasi" id="idReservasi" value="{{$dataReservasi->id}}" type="hidden">
+                                    <input class="d-none" name="status_reservasi" id="statusReservasi" value="{{$dataReservasi->id}}" type="hidden">
                                     <table id="" class="table table-bordered table-hover mx-auto table-responsive-sm">
                                         <thead >
                                             <tr>
@@ -173,19 +175,18 @@
                                             @foreach ($dataReservasi->DetailReservasi as $data)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
-                                                    <input type="hidden" class="d-none" name="id_tahapan" value="{{$data->id}}">
                                                     <td>{{$data->TahapanUpacara->nama_tahapan}}</td>
-                                                    <td>{{date('d-M-Y | h:i:s',strtotime($data->tanggal_mulai))}}</td>
-                                                    <td>{{date('d-M-Y | h:i:s',strtotime($data->tanggal_selesai))}}</td>
+                                                    <td>{{date('d-M-Y : h:i',strtotime($data->tanggal_mulai))}}</td>
+                                                    <td>{{date('d-M-Y : h:i',strtotime($data->tanggal_selesai))}}</td>
                                                     <td>
                                                         <div class="form-group">
-                                                            <select name="status[] " class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                                                <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @endif value="pending">Pending</option>
-                                                                <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @endif value="diterima">Terima Tahapan</option>
-                                                                <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @endif value="ditolak">Tolak Tahapan</option>
+                                                            <select name="status[]" class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true" id="status">
+                                                                <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
+                                                                <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @else value="diterima" @endif >Setujui</option>
+                                                                <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
                                                             </select>
                                                         </div>
-                                                        <input value="{{$data->id}}" type="hidden" class="d-none" name="id[]">
+                                                        <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
                                                         <input id="text_penolakan-{{$data->id}}" type="hidden" class="form-control" name="alasan_penolakan[]" value="" placeholder="Masukan alasan penolakan" >
                                                     </td>
                                                 </tr>
@@ -201,6 +202,37 @@
                                             </tr>
                                         </tfoot>
                                     </table>
+                                    <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
+                                    <div class="modal fade" id="modalKonfirmasi" role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Form Verifikasi Reservasi</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="id_tahapan">
+                                                        {{-- Data Tahapan --}}
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Tentukan Tanggal Tangkil:</label>
+                                                        <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                                            <input name="tanggal_tangkil" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime" />
+                                                            <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+                                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                                                    <button onclick="inputData()" type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-md-12 my-2">
                                             <a href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
@@ -221,8 +253,6 @@
 @endsection
 
 @push('js')
-    <!-- Bootstrabase-template-->
-    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- DataTablbase-template Plugins -->
     <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -236,6 +266,18 @@
     <!-- jquery-validation -->
     <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
+
+    <!-- date-range-picker -->
+    <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <!-- daterangepicker -->
+    <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
+
+    <!-- Bootstrabase-template-->
+    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
 
     <script type="text/javascript">
         $(document).ready(function(){
@@ -273,6 +315,16 @@
 
     <!-- Fungsi Form Input  -->
     <script type="text/javascript">
+        $('#reservationdate').datetimepicker({
+            format: 'L'
+        });
+
+        $('#reservationdatetime').datetimepicker({
+            icons: {
+            time: 'far fa-clock'
+            }
+        });
+
         $('#mySelect2').select2('data');
 
         $('.select2').select2()
@@ -288,11 +340,63 @@
 @push('js')
 
     <script type="text/javascript">
+        // DEKLARASI DATA RESERVASI
+        let data_reservasi;
+        let dataDatabase=[];
+        data_reservasi = {!! json_encode($dataReservasi) !!}
+        $.each(data_reservasi.detail_reservasi, function(key, data){
+            dataDatabase.push(data.status);
+        });
 
-         $(function () {
+        // DEKLARASI DATA RESERVASI
+        function inputData(){
+            $("#inputdata")[0].submit();
+        }
+
+        // VALIDASI SEDERHANA DARI PENENTUAN STATUS TAHAPAN
+        function validasiInputStatus(data){
+            // console.log(data);
+            if(JSON.stringify(data)==JSON.stringify(dataDatabase)){
+                Swal.fire({
+                    icon:  'warning',
+                    title: 'Warning',
+                    text: 'Tidak terdapat perubahan apapun yang dilakukan !',
+                });
+            }else if(data.indexOf("diterima") !== -1){
+                if(data_reservasi.tanggal_tangkil == null){
+                    $("#modalKonfirmasi").modal();
+                    $("#statusReservasi").val('proses tangkil');
+                }else{
+                    $("#statusReservasi").val('proses tangkil');
+                    $("#inputdata")[0].submit();
+                }
+            }else if(data.indexOf("ditolak") !== -1){
+                if(data.every((val,u,arr)=>val === arr[0]) == true){
+                    $("#statusReservasi").val('batal');
+                    $("#inputdata")[0].submit();
+                }else{
+                    $("#statusReservasi").val('pending');
+                    $("#inputdata")[0].submit();
+                }
+            }else if (data.indexOf("pending") !== -1){
+                if(data.every((val,u,arr)=>val === arr[0]) == true){
+                    $("#statusReservasi").val('pending');
+                    $("#inputdata")[0].submit();
+                }
+            }
+        };
+        // VALIDASI SEDERHANA DARI PENENTUAN STATUS TAHAPAN
+
+        // ADD FUNCTION VALIDASI ALASAN PENOLAKAN
+        $(function () {
             $.validator.setDefaults({
                 submitHandler: function () {
-                    $("#inputdata")[0].submit();
+                    let status=[];
+                    $('select[name="status[]"] option:selected').each(function() {
+                        status.push($(this).val());
+                    });
+                    console.log(status)
+                    validasiInputStatus(status);
                 }
             });
             $('#inputdata').validate({
@@ -319,7 +423,9 @@
                 }
             });
         });
-        // ADD FUNCTION VALIDATE FORM INPUT
+        // ADD FUNCTION VALIDASI ALASAN PENOLAKAN
+
+        // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
         $('select').change(function(){
             var id = $(this).find(':selected').data('id');
             var jenis = $(this).find(':selected').val();
@@ -330,9 +436,8 @@
                 text.type = "hidden";
             }
         });
-
+        // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
     </script>
-
 
     <script type="text/javascript">
         let dataReservasi;

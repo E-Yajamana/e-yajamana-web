@@ -2,12 +2,14 @@
 @section('tittle','Reservasi Krama Masuk')
 
 @push('css')
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
-
 
 @endpush
 
@@ -145,11 +147,6 @@
                                             <div class="form-group">
                                                 <label>Alasan Penolakan</label>
                                                 <textarea name="alasan_penolakan" class="form-control @error('alasan_penolakan') is-invalid @enderror" rows="4" placeholder="Masukan Alasan Penolakan Reservasi">{{old('alasan_penolakan')}}</textarea>
-                                                @error('alasan_penolakan')
-                                                    <div class="invalid-feedback text-start">
-                                                        {{ $errors->first('alasan_penolakan') }}
-                                                    </div>
-                                                @enderror
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -170,6 +167,21 @@
 
 
 @push('js')
+
+    <!-- DataTablbase-template Plugins -->
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+
+    <!-- jquery-validation -->
+    <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
+
     <!-- date-range-picker -->
     <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <!-- daterangepicker -->
@@ -177,15 +189,17 @@
 
     <!-- Bootstrabase-template-->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- DataTablbase-template Plugins -->
-    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#side-manajemen-reservasi').addClass('menu-open');
+            $('#side-manajemen-reservasi-index').addClass('active');
+        });
+    </script>
 
     <script>
         $(function () {
@@ -212,6 +226,31 @@
             });
         });
     </script>
+
+
+    <!-- Fungsi Form Input  -->
+    <script type="text/javascript">
+        $('#reservationdate').datetimepicker({
+            format: 'L'
+        });
+
+        $('#reservationdatetime').datetimepicker({
+            icons: {
+            time: 'far fa-clock'
+            }
+        });
+
+        $('#mySelect2').select2('data');
+
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    </script>
+    <!-- Fungsi Form Input  -->
+
 @endpush
 
 @push('js')
@@ -239,20 +278,5 @@
 
     </script>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#side-manajemen-reservasi').addClass('menu-open');
-            $('#side-manajemen-reservasi-index').addClass('active');
-        });
 
-        $('#reservationdate').datetimepicker({
-            format: 'L'
-        });
-
-        $('#reservationdatetime').datetimepicker({
-            icons: {
-            time: 'far fa-clock'
-            }
-        });
-    </script>
 @endpush

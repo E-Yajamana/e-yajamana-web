@@ -46,6 +46,7 @@ class DetailReservasi extends Model
 		'id_tahapan_upacara',
 		'tanggal_mulai',
 		'tanggal_selesai',
+		'keterangan',
 		'status'
 	];
 

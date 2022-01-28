@@ -49,7 +49,7 @@ class Reservasi extends Model
 		'tipe',
 		'status',
 		'tanggal_tangkil',
-		'desc'
+		'keterangan'
 	];
 
     public function Sanggar()

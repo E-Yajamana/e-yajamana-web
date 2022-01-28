@@ -75,12 +75,6 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-muput-upacara-index" href="{{route('sulinggih.muput-upacara.index')}}" class="nav-link p-2">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Data Muput Upacara</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
                             <a id="side-manajemen-muput-upacara-konfirmasi-tangkil" href="{{route('sulinggih.muput-upacara.konfirmasi.tangkil')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                                 <p>Konfirmasi Tangkil <span class="badge badge-primary right">2</span></p>
@@ -111,7 +105,7 @@
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-reservasi-riwayat" href="{{route('pemuput-karya.manajemen-reservasi.riwayat')}}" class="nav-link p-2">
+                            <a id="side-manajemen-reservasi-riwayat" href="{{route('sulinggih.muput-upacara.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Riwayat Reservasi</p>
                             </a>
