@@ -120,7 +120,7 @@ class KramaUpacaraController extends Controller
                 'lng' => 'required',
                 'tanggal_mulai' => 'required',
                 'tanggal_selesai' => 'required',
-                'desc' => 'required',
+                'deskripsi_upacaraku' => 'required',
             ]);
 
             if($validator->fails()){
@@ -149,8 +149,8 @@ class KramaUpacaraController extends Controller
                     'lng' => $request->lng,
                     'status' => 'pending',
                     'tanggal_mulai' => $request->tanggal_mulai,
-                    'tanggal_selesai' => $request->tangal_selesa,
-                    'desc' => $request->desc,
+                    'tanggal_selesai' => $request->tanggal_selesai,
+                    'deskripsi_upacaraku' => $request->deskripsi_upacaraku,
                 ]);
 
                 DB::commit();

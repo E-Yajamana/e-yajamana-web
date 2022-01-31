@@ -91,7 +91,10 @@ Route::middleware('auth:sanctum')->group(function(){
             // END
 
             // SULINGGIH RESERVASI FRAGMENT
-                Route::post('reservasi',[SulinggihReservasiController::class,'index']);
+                Route::prefix('reservasi')->group(function(){
+                    Route::post('show',[SulinggihReservasiController::class,'index']);
+                    Route::post('detail/{id_reservasi?}',[SulinggihReservasiController::class,'show']);
+                });
             // END
         });
     // END
