@@ -64,7 +64,7 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->Upacaraku->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                                             <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}" class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         </td>

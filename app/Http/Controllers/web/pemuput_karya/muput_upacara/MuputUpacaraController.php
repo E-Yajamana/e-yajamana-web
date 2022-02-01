@@ -11,6 +11,7 @@ use App\Models\Upacaraku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Doctrine\DBAL\Query\QueryException;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use PDOException;
 
@@ -50,7 +51,35 @@ class MuputUpacaraController extends Controller
     // DETAIL KONFIRMASI TANGKIL
     public function detailKonfirmasiTangkil(Request $request)
     {
-        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmais-tangkil-detail');
+        // SECURITY
+            $validator = Validator::make(['id' =>$request->id],[
+                'id' => 'required|exists:tb_reservasi,id',
+            ]);
+
+            if($validator->fails()){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Reservasi Tidak Ditemukan !',
+                    'message' => 'Reservasi tidak ditemukan, pilihlah data dengan benar !',
+                ]);
+            }
+        // END SECURITY
+
+        // MAIN LOGIC
+            try{
+                $dataReservasi = Reservasi::with(['Upacaraku','DetailReservasi'])->whereHas('DetailReservasi')->findOrFail($request->id);
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
+                return \redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Internal server error  !',
+                    'message' => 'Internal server error , mohon untuk menghubungi developer sistem !',
+                ]);
+            }
+        // END LOGIC
+
+        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-tangkil-detail',compact('dataReservasi'));
     }
     // DETAIL KONFIRMASI TANGKIL
 
