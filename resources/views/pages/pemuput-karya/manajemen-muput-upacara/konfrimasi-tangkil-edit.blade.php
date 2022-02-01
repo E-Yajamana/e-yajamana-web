@@ -156,7 +156,7 @@
                         <div class="card-header my-auto">
                             <div class="row">
                                 <div class="col-6">
-                                    <label class="card-title my-auto">Reservasi Upakara</label>
+                                    <label class="card-title my-auto">Reservasi Upakara Lainnya</label>
                                 </div>
                             </div>
                         </div>

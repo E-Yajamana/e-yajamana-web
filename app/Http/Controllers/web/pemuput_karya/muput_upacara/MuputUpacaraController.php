@@ -57,6 +57,11 @@ class MuputUpacaraController extends Controller
     // EDIT KONFIRMASI TANGKIL
     public function editKonfirmasiTangkil(Request $request)
     {
+
+        // $queryDetailReservasi = function($queryDetailReservasi){
+        //     $queryDetailReservasi->with(['DetailReservasi'])->whereHas('DetailReservasi');
+        // }
+
         $dataUpacara = Upacaraku::query()->with(['Reservasi','Upacara','Krama'])->whereHas('Reservasi');
         $queryReservasi =function ($queryReservasi){
             $queryReservasi->with(['Sulinggih','DetailReservasi'=> function ($queryDetailReservasi){

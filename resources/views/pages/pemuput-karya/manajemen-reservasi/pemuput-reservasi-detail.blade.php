@@ -437,6 +437,7 @@
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
     </script>
 
+    <!-- VIEW MAP DATABASE -->
     <script type="text/javascript">
         let dataReservasi;
 
@@ -464,6 +465,8 @@
 
         });
     </script>
+    <!-- VIEW MAP DATABASE -->
+
 
 
 @endpush
