@@ -2,11 +2,20 @@
 @section('tittle','Reservasi Krama Masuk')
 
 @push('css')
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
+    <style>
+        .ui-datepicker {
+            width: 100px; /*what ever width you want*/
+        }
+    </style>
 
 
 @endpush
@@ -34,6 +43,42 @@
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
                 <h3 class="card-title my-auto">List Data Reservasi Krama</h3>
+                <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
+                <div class="modal fade" id="modalKonfirmasi" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Form Verifikasi Reservasi</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{route('pemuput-karya.manajemen-reservasi.all-verifikasi','diterima')}}" method="POST" id="konfirmasiData">
+                                @csrf
+                                @method('PUT')
+                                <div class="modal-body">
+                                    <input class="d-none" name="id_reservasi" id="idReservasi" value="" type="hidden">
+                                    <div id="id_tahapan">
+                                        {{-- Data Tahapan --}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tentukan Tanggal Tangkil:</label>
+                                        <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                            <input name="tanggal_tangkil" value="20/02/2021" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime" />
+                                            <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {{-- Start Data Table Sulinggih --}}
@@ -68,7 +113,7 @@
                                         </td>
                                         <td>
                                             <a href="{{route('pemuput-karya.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a onclick="konfirmasiReservasi({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                            <a onclick="konfirmasiReservasi({{$data->id}},'{{$data->tanggal_tangkil}}')" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                             <a onclick="tolakReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                         </td>
                                     </tr>
@@ -86,43 +131,6 @@
                                 </tr>
                             </tfoot>
                         </table>
-
-                        <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
-                        <div class="modal fade" id="modalKonfirmasi" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Form Verifikasi Reservasi</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <form action="{{route('pemuput-karya.manajemen-reservasi.all-verifikasi','diterima')}}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="modal-body">
-                                            <input class="d-none" name="id_reservasi" id="idReservasi" value="" type="hidden">
-                                            <div id="id_tahapan">
-                                                {{-- Data Tahapan --}}
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Tentukan Tanggal Tangkil:</label>
-                                                <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                                    <input name="tanggal_tangkil" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime" />
-                                                    <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                    </div>
-                                                </div>
-                                              </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
 
                         <!-- MODAL BATAL RESERVASI SEMUA DATA -->
                         <div class="modal fade" id="modalBatalReservasi" role="dialog">
@@ -145,11 +153,6 @@
                                             <div class="form-group">
                                                 <label>Alasan Penolakan</label>
                                                 <textarea name="alasan_penolakan" class="form-control @error('alasan_penolakan') is-invalid @enderror" rows="4" placeholder="Masukan Alasan Penolakan Reservasi">{{old('alasan_penolakan')}}</textarea>
-                                                @error('alasan_penolakan')
-                                                    <div class="invalid-feedback text-start">
-                                                        {{ $errors->first('alasan_penolakan') }}
-                                                    </div>
-                                                @enderror
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -168,8 +171,21 @@
     </div>
 @endsection
 
-
 @push('js')
+    <!-- DataTablbase-template Plugins -->
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+
+    <!-- jquery-validation -->
+    <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
+
     <!-- date-range-picker -->
     <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <!-- daterangepicker -->
@@ -177,15 +193,17 @@
 
     <!-- Bootstrabase-template-->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- DataTablbase-template Plugins -->
-    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#side-manajemen-reservasi').addClass('menu-open');
+            $('#side-manajemen-reservasi-index').addClass('active');
+        });
+    </script>
 
     <script>
         $(function () {
@@ -212,17 +230,84 @@
             });
         });
     </script>
+
+
+    <!-- Fungsi Form Input  -->
+    <script type="text/javascript">
+        $('#reservationdate').datetimepicker({
+            format: 'L'
+        });
+
+        $('#reservationdatetime').datetimepicker({
+            icons: {
+                time: 'far fa-clock'
+            }
+        });
+
+        $('#mySelect2').select2('data');
+
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    </script>
+    <!-- Fungsi Form Input  -->
 @endpush
 
 @push('js')
     <script type="text/javascript">
+
         //FUNGSI KONFIRMASI RESERVASI
-        function konfirmasiReservasi(idReservasi){
-            $("#modalKonfirmasi").modal();
-            $("#idReservasi").val(idReservasi);
-            var dataTahapan =  document.getElementsByName('id_tahapan_reservasi_'+idReservasi+'[]');
-            for (var i = 0; i < dataTahapan.length; i++) {
-                $("#id_tahapan").append("<input class='d-none' name='id_tahapan_reservasi[]' id='idReservasi' value='"+dataTahapan[i].value+"' type='hidden'>")
+        function konfirmasiReservasi(idReservasi,tgl){
+            if(tgl==''){
+                Swal.fire({
+                    title: 'Pemberitahuan',
+                    text : 'Apakah anda ingin menerima semua reservasi tersebut?',
+                    icon:'question',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: `Terima`,
+                    denyButtonText: `Batal`,
+                    confirmButtonColor: '#3085d6',
+                    denyButtonColor: '#d33',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#modalKonfirmasi").modal();
+                        $("#idReservasi").val(idReservasi);
+                        var dataTahapan =  document.getElementsByName('id_tahapan_reservasi_'+idReservasi+'[]');
+                        for (var i = 0; i < dataTahapan.length; i++) {
+                            $("#id_tahapan").append("<input class='d-none' name='id_tahapan_reservasi[]' id='idReservasi' value='"+dataTahapan[i].value+"' type='hidden'>")
+                        }
+                    } else if (result.isDenied) {
+
+                    }
+                })
+
+            }else{
+                $("#idReservasi").val(idReservasi);
+                var dataTahapan =  document.getElementsByName('id_tahapan_reservasi_'+idReservasi+'[]');
+                for (var i = 0; i < dataTahapan.length; i++) {
+                    $("#id_tahapan").append("<input class='d-none' name='id_tahapan_reservasi[]' id='idReservasi' value='"+dataTahapan[i].value+"' type='hidden'>")
+                }
+                Swal.fire({
+                    title: 'Pemberitahuan',
+                    text : 'Apakah anda ingin menerima semua reservasi tersebut?',
+                    icon:'question',
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: `Terima`,
+                    denyButtonText: `Batal`,
+                    confirmButtonColor: '#3085d6',
+                    denyButtonColor: '#d33',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#konfirmasiData").submit();
+                    } else if (result.isDenied) {
+
+                    }
+                })
             }
         }
 
@@ -234,25 +319,8 @@
             for (var i = 0; i < dataTahapan.length; i++) {
                 $("#id_tahapan_batal").append("<input class='d-none' name='id_tahapan_reservasi[]' id='idReservasi' value='"+dataTahapan[i].value+"' type='hidden'>")
             }
-
         }
-
     </script>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#side-manajemen-reservasi').addClass('menu-open');
-            $('#side-manajemen-reservasi-index').addClass('active');
-        });
 
-        $('#reservationdate').datetimepicker({
-            format: 'L'
-        });
-
-        $('#reservationdatetime').datetimepicker({
-            icons: {
-            time: 'far fa-clock'
-            }
-        });
-    </script>
 @endpush

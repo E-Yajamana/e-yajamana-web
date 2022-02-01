@@ -46,7 +46,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Katagori Upacara <span class="text-danger">*</span></label>
-                                <select name="katagori" class="form-control select2bs4  @error('katagori') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
+                                <select name="katagori" class=" select2bs4  @error('katagori') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
                                     <option disabled selected>Pilih Katagori Upacara</option>
                                     <option value="Dewa Yadnya" >Dewa Yadnya</option>
                                     <option value="Pitra Yadnya" >Pitra Yadnya</option>
@@ -102,10 +102,6 @@
                                             <th>Tindakan</th>
                                         </thead>
                                         <tbody id="multiForm">
-                                            {{-- @if (Session::has('dataTahapan'))
-                                                <h3 class="card-title my-auto"></h3>
-                                            @endif --}}
-                                            {{-- {{dd(old('dataTahapan[0][nama_tahapan]'))}} --}}
                                         </tbody>
                                     </table>
                                     <div class="row mt-3">
@@ -136,14 +132,30 @@
             $("#buatTahapan").click(function(){
                 $("#tahapan-upacara").removeClass("d-none");
                 $("#button-remove").addClass("d-none");
-                $("#multiForm").append("<tr><td><input type='text' name='dataTahapan[0][nama_tahapan]' class='form-control ' placeholder='Masukan Nama Tahapan'/></td><td><input type='text' name='dataTahapan[0][desc_tahapan]' placeholder='Masukan Deskripsi Tahapan' class='form-control'/></td><td><select name='dataTahapan[0][status]' class='form-control select2bs4' style='width: 100%;' ><option disabled value='' selected>Pilih Status Tahapan</option> <option value='awal'>Awal</option> <option value='puncak'>Puncak</option><option value='akhir'>Akhir</option></select></td><td><div class='custom-file'> <input type='file' class='custom-file-input' name='dataTahapan[0][foto_tahapan]' id='customFile'><label class='custom-file-label ' for='customFile'>Foto Upacara</label></div></td><td><button type='button' class='remove-item btn btn-danger '>Hapus</button></td></tr>");
+                $("#multiForm").append("<tr><td><input type='text' name='dataTahapan[0][nama_tahapan]' class='form-control ' placeholder='Masukan Nama Tahapan'/></td><td><input type='text' name='dataTahapan[0][desc_tahapan]' placeholder='Masukan Deskripsi Tahapan' class='form-control'/></td><td><select name='dataTahapan[0][status]' class='form-control select2bs4' style='width: 100%;' ><option disabled value='' selected>Pilih Status Tahapan</option> <option value='awal'>Awal</option> <option value='puncak'>Puncak</option><option value='akhir'>Akhir</option></select></td><td><div class='custom-file'> <input type='file' class='custom-file-input form-control' name='dataTahapan[0][foto_tahapan]' id='customFile'><label class='custom-file-label ' for='customFile'>Foto Upacara</label></div></td><td><button type='button' class='remove-item btn btn-danger '>Hapus</button></td></tr>");
+
+                $(".form-control").each(function () {
+                    $(this).rules('add', {
+                        required: true
+                    });
+                });
             });
 
             var i = 0;
             $("#addRemoveIp").click(function () {
                 ++i;
-                $("#multiForm").append('<tr><td><input  type="text" name="dataTahapan['+i+'][nama_tahapan]" class="form-control" placeholder="Masukan Nama Tahapan"/></td><td><input  type="text" name="dataTahapan['+i+'][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select  name="dataTahapan['+i+'][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input  type="file" class="custom-file-input" name="dataTahapan['+i+'][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
+                $("#multiForm").append('<tr><td><input  type="text" name="dataTahapan['+i+'][nama_tahapan]" class="form-control" placeholder="Masukan Nama Tahapan"/></td><td><input  type="text" name="dataTahapan['+i+'][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select  name="dataTahapan['+i+'][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input  type="file" class="custom-file-input form-control" name="dataTahapan['+i+'][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
+
+                $(".form-control").each(function () {
+                    $(this).rules('add', {
+                        required: true
+                    });
+                });
+
+
             });
+
+
             $(document).on('click', '.remove-item', function () {
                 $(this).parents('tr').remove();
             });
@@ -154,12 +166,12 @@
         $(function () {
             $.validator.setDefaults({
                 submitHandler: function () {
-                    alert("Form successful submitted!");
+                    $("#formMasterUpacara")[0].submit();
                 }
             });
             $('#formMasterUpacara').validate({
                 rules: {
-                'dataTahapan[*][desc_tahapan]': {
+                'dataTahapan[][desc_tahapan]': {
                     required: true,
                     email: true,
                 },

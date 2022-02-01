@@ -19,6 +19,7 @@ use App\Http\Controllers\web\krama\reservasi\KramaReservasiController;
 use App\Http\Controllers\web\krama\upacaraku\KramaUpacarakuController;
 use App\Http\Controllers\web\pemuput_karya\dashboard\PemuputDashboardController;
 use App\Http\Controllers\web\pemuput_karya\manajemen_reservasi\ReservasiMasukController;
+use App\Http\Controllers\web\pemuput_karya\muput_upacara\MuputUpacaraController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -169,7 +170,6 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function
             Route::get('index', [ReservasiMasukController::class, 'index'])->name('pemuput-karya.manajemen-reservasi.index');
             Route::get('detail/{id}', [ReservasiMasukController::class, 'detailReservasi'])->name('pemuput-karya.manajemen-reservasi.detail');
             Route::put('verifikasi', [ReservasiMasukController::class, 'verifikasiReservasi'])->name('pemuput-karya.manajemen-reservasi.verifikasi');
-
             Route::put('verifikasi-all/{status}', [ReservasiMasukController::class, 'allVerifikasiReservasi'])->name('pemuput-karya.manajemen-reservasi.all-verifikasi');
 
             Route::get('riwayat', [ReservasiMasukController::class, 'riwayatReservasi'])->name('pemuput-karya.manajemen-reservasi.riwayat');
@@ -177,8 +177,13 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function
     });
 
     Route::prefix('muput-upacara')->group(function () {
+        Route::get('konfimasi-tangkil/index', [MuputUpacaraController::class, 'indexKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.index');
+        Route::get('konfimasi-tangkil/detail/{id}', [MuputUpacaraController::class, 'detailKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail');
+        Route::get('konfimasi-tangkil/edit/{id}', [MuputUpacaraController::class, 'editKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit');
+
+        // Route::get('konfimasi-tangkil/index', [MuputUpacaraController::class, 'indexKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.index');
+
         Route::get('index', [SulinggihController::class, 'indexMuputUpacara'])->name('sulinggih.muput-upacara.index');
-        Route::get('konfimasi-tangkil', [SulinggihController::class, 'konfrimasiTanggalTangkil'])->name('sulinggih.muput-upacara.konfirmasi.tangkil');
         Route::get('konfimasi-muput', [SulinggihController::class, 'konfrimasiMuput'])->name('sulinggih.muput-upacara.konfirmasi.upacara');
     });
 

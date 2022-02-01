@@ -26,7 +26,7 @@ class KramaPemuputKaryaController extends Controller
                 'status' => 'nullable|in:sulinggih,pemangku,sanggar',
                 'id_kecamatan' => 'nullable|numeric'
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -35,13 +35,14 @@ class KramaPemuputKaryaController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
+
+                $griyaRumahs = GriyaRumah::query()->with(['Sulinggih'])->whereHas('Sulinggih');
                 
-                $griyaRumahs = GriyaRumah::query();
                 $sanggars = Sanggar::query();
-                
+
                 if($request->status != null && $request->status != ""){
                     if($request->status == 'sanggar' ){
                         $griyaRumahs->where('id',-1);

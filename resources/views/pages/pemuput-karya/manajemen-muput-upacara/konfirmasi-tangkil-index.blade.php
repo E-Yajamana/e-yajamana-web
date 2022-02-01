@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 @endpush
 
+@section('countTangkil')
+    {{-- {{$dataReservasi->where('tanggal')}}
+    <span class="badge badge-primary right">{{count($count)}}</span> --}}
+@endsection
 
 @section('content')
     <section class="content-header">
@@ -40,51 +44,40 @@
                             <thead >
                                 <tr>
                                     <th>No</th>
-                                    <th>Penyelenggara </th>
+                                    <th>Nama Krama </th>
                                     <th>Jenis Upacara</th>
+                                    <th>Waktu Tangkil</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Krama Dalung</td>
-                                    <td>Piodalan Ring Pura</td>
-                                    <td>
-                                        <li >Wangun Bale Petak  </li>
-                                        <li >Melaspas Wewangunan </li>
-                                        <li >Wangun Bale Petak</li>
-                                        <li >Melaspas Wewangunan </li>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
-                                        <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-check"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Krama Dalung</td>
-                                    <td>Piodalan Ring Pura</td>
-                                    <td>
-                                        <li >Wangun Bale Petak</li>
-                                        <li >Melaspas Wewangunan </li>
-                                        <li >Wangun Bale Petak</li>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
-                                        <a href="#" class="btn btn-warning btn-sm"><i class="fas fa-check"></i></a>
-                                    </td>
-                                </tr>
+                                @foreach ($dataReservasi as $data)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td>{{$data->Upacaraku->Krama->nama_krama}}</td>
+                                        <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
+                                        <td>{{date('d-M-Y | h:i',strtotime($data->tanggal_tangkil))}}</td>
+                                        <td>
+                                            @foreach ($data->DetailReservasi as $dataDetail)
+                                                <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->Upacaraku->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}" class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Penyelenggara </th>
+                                    <th>Nama Krama </th>
                                     <th>Jenis Upacara</th>
-                                    <th>Tanggal Mulai - Tanggal Selesai</th>
+                                    <th>Waktu Tangkil</th>
+                                    <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </tfoot>
@@ -93,13 +86,8 @@
                 </div>
             </div>
             {{-- End Data Table Sulinggih --}}
-
         </div>
     </div>
-
-
-
-
 @endsection
 
 @push('js')

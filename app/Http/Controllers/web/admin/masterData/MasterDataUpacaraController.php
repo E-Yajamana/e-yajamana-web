@@ -37,7 +37,6 @@ class MasterDataUpacaraController extends Controller
     // STORE DATA UPACARA
     public function storeDataUpacara(Request $request)
     {
-        // dd($request->all());
         if($request->dataTahapan == null)
         {
             // SECURITY
@@ -113,10 +112,10 @@ class MasterDataUpacaraController extends Controller
                 'foto_upacara' => 'required|image|mimes:png,jpg,jpeg|max:2500',
                 'deskripsi_upacara' => 'required|min:8|max:1000',
 
-                'dataTahapan.*.nama_tahapan' => 'required|min:5|max:50',
-                'dataTahapan.*.desc_tahapan' => 'required|min:8|max:1000',
-                'dataTahapan.*.status' => 'required|in:awal,puncak,akhir',
-                'dataTahapan.*.foto_tahapan' => 'required|image|mimes:png,jpg,jpeg|max:2500',
+                'dataTahapan.*.nama_tahapan' => 'required',
+                'dataTahapan.*.desc_tahapan' => 'required',
+                'dataTahapan.*.status' => 'required',
+                'dataTahapan.*.foto_tahapan' => 'required',
 
             ],
             [
@@ -497,7 +496,7 @@ class MasterDataUpacaraController extends Controller
                 if($request->file == null){
                     DB::beginTransaction();
                     TahapanUpacara::findOrFail($request->id)->update([
-                        'nama_upacara' => $request->nama_upacara,
+                        'nama_tahapan' => $request->nama_tahapan,
                         'status_tahapan' =>$request->status,
                         'deskripsi_tahapan' =>$request->deskripsi,
                     ]);

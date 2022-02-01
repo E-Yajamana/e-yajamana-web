@@ -63,7 +63,7 @@
                                             <td>{{$data->DesaAdat->desadat_nama}}</td>
                                             <td>
                                                 <a href="{{route('admin.master-data.griya.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                {{-- <a href="{{route('admin.master-data.griya.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a> --}}
+                                                <a href="{{route('admin.master-data.griya.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                 <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                             </td>
                                             <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.griya.delete')}}" method="post">
@@ -110,7 +110,6 @@
 
     <script type="text/javascript">
         function deleteData(index){
-            $('#delete-'+index).submit();
             Swal.fire({
                 title: 'Peringatan',
                 text : 'Apakah anda yakin akan menghapus Data Griya tersebut?',
@@ -121,14 +120,14 @@
                 denyButtonText: `Batal`,
                 confirmButtonColor: '#3085d6',
                 denyButtonColor: '#d33',
-                }).then((result) => {
-                    if (result.isConfirmed) {
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#delete-'+index).submit();
+                } else if (result.isDenied) {
 
-                    } else if (result.isDenied) {
-
-                    }
-                })
-            }
+                }
+            })
+        }
     </script>
 
     <!-- Page specific script -->
