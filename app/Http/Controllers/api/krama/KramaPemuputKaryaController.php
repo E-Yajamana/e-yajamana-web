@@ -40,16 +40,21 @@ class KramaPemuputKaryaController extends Controller
             try{
 
                 $griyaRumahs = GriyaRumah::query()->with(['Sulinggih'])->whereHas('Sulinggih');
+                
                 $sanggars = Sanggar::query();
 
                 if($request->status != null && $request->status != ""){
                     if($request->status == 'sanggar' ){
                         $griyaRumahs->where('id',-1);
+                        $sanggars->with(['User'])->whereHas('User');
                     }else{
                         $sanggars->where('id',-1);
 
                         $sulinggihQuery = function($sulinggihQuery) use ($request) {
-                            $sulinggihQuery->where('status',$request->status);
+                            $sulinggihQuery
+                                ->with(['User'])
+                                ->whereHas('User')
+                                ->where('status',$request->status);
                         };
 
                         $griyaRumahs->with([
@@ -57,6 +62,18 @@ class KramaPemuputKaryaController extends Controller
                         ])
                         ->whereHas('Sulinggih',$sulinggihQuery);
                     }
+                }else{
+                        $sanggars->with(['User'])->whereHas('User');
+                        $sulinggihQuery = function($sulinggihQuery) use ($request) {
+                            $sulinggihQuery
+                                ->with(['User'])
+                                ->whereHas('User');
+                        };
+
+                        $griyaRumahs->with([
+                            'Sulinggih' => $sulinggihQuery
+                        ])
+                        ->whereHas('Sulinggih',$sulinggihQuery);
                 }
 
                 if($request->id_kecamatan != null && $request->id_kecamatan != 0){
@@ -75,6 +92,7 @@ class KramaPemuputKaryaController extends Controller
                     $griyaRumahs->with([
                         'Desa' => $desaQuery,
                     ])->whereHas('Desa',$desaQuery);
+
 
                 }else{
                     $griyaRumahs->with(['Desa'])->whereHas('Desa');

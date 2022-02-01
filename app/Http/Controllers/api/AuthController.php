@@ -39,8 +39,26 @@ class AuthController extends Controller
             try{
                 if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
                     $user = Auth::user();
-                    $krama = $user->Krama()->first();
-                    $token = $user->createToken('e-yajamana')->plainTextToken;
+
+                    // MENENTUKAN USER
+                    $krama = null;
+                    $sulinggih = null;
+                    switch ($user->role) {
+                        case 'krama_bali':
+                            $krama = $user->Krama()->firstOrFail();
+                            $token = $user->createToken('e-yajamana',['role:krama_bali'])->plainTextToken;
+                            break;
+
+                        case 'sulinggih':
+                            $sulinggih = $user->Sulinggih()->with(['GriyaRumah'])->whereHas('GriyaRumah')->firstOrFail();
+                            $token = $user->createToken('e-yajamana',['role:sulinggih'])->plainTextToken;
+                            break;
+
+                        default:
+                            throw new Exception("Role tidak ditemukan");
+                            break;
+                    }
+
                 }else{
                     return response()->json([
                         'status' => 401,
@@ -49,6 +67,7 @@ class AuthController extends Controller
                     ],401);
                 }
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 return response()->json([
                     'status' => 500,
                     'message' => 'Internal Server Error',
@@ -64,7 +83,8 @@ class AuthController extends Controller
                 'data' => (Object)[
                     'token' => $token,
                     'user' => $user,
-                    'krama' => $krama
+                    'krama' => $krama,
+                    'sulinggih' => $sulinggih
                 ]
             ],200);
         // END
