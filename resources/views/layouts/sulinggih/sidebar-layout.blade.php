@@ -75,9 +75,9 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-muput-upacara-konfirmasi-tangkil" href="{{route('sulinggih.muput-upacara.konfirmasi.tangkil')}}" class="nav-link p-2">
+                            <a id="side-manajemen-muput-upacara-konfirmasi-tangkil" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
-                                <p>Konfirmasi Tangkil <span class="badge badge-primary right">2</span></p>
+                                <p>Konfirmasi Tangkil @yield('countTangkil')</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">

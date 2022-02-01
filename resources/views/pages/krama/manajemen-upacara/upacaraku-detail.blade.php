@@ -16,8 +16,7 @@
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
 
-
-     <!-- embedd library jquery -->
+    <!-- embedd library jquery -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 @endpush
@@ -112,11 +111,11 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label>Desa Adat</label>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="Manusa Yadnya" disabled="">
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataUpacaraku->DesaAdat->desadat_nama}}" disabled="">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Desa Dinas</label>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="Manusa Yadnya" disabled="">
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataUpacaraku->Desa->name}}" disabled="">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Alamat Lengkap Upacara</label>
@@ -232,7 +231,7 @@
                                                 <img class="img-circle mt-1" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
                                                 <span class="username"><a class="ml-2" href="#">{{$data->Sulinggih->nama_sulinggih}}</a></span>
                                                 <span class="description">
-                                                    <div class="bg-info btn-sm text-center p-1 mt-1 ml-2" style="border-radius: 5px; width:90px; ">{{$data->status}}</div>
+                                                    <div @if ($data->status == 'pending') class="bg-secondary btn-sm text-center p-1 mt-1 ml-2" @elseif ($data->status == 'proses tangkil' || $data->status == 'proses muput')  class="bg-info btn-sm text-center p-1 mt-1 ml-2" @elseif ($data->status == 'batal') class="bg-danger btn-sm text-center p-1 mt-1 ml-2"  @elseif ($data->status == 'selesai') class="bg-success btn-sm text-center p-1 mt-1 ml-2" @else class="bg-info btn-sm text-center p-1 mt-1 ml-2"  @endif style="border-radius: 5px; width:120px; ">{{ucfirst($data->status)}}</div>
                                                 </span>
                                             </div>
                                             <div class="card-tools">
@@ -288,8 +287,8 @@
                                                             <td class="text-md-center">
                                                                 <div>{{date('d-M-Y h:i:s',strtotime($data->tanggal_selesai))}}</div>
                                                             </td>
-                                                            <td class="text-md-center">
-                                                                <div class="bg-success btn-sm text-center p-1 mt-1 m-0" style="border-radius: 5px; width:80px; ">{{$data->status}}</div>
+                                                            <td class="d-flex justify-content-center">
+                                                                <div class="bg-success btn-sm text-center" style="border-radius: 5px; width:80px; ">{{$data->status}}</div>
                                                             </td>
                                                             <td class="text-md-center">
                                                                 <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>

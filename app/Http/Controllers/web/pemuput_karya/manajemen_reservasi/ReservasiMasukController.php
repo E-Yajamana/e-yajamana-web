@@ -147,13 +147,11 @@ class ReservasiMasukController extends Controller
     // ALL VERIFIKASI RESERVASI
     public function allVerifikasiReservasi(Request $request)
     {
-
         if($request->status == 'diterima'){
             // SECURITY
                 $validator = Validator::make($request->all(),[
                     'id_tahapan_reservasi' => 'required|exists:tb_detail_reservasi,id',
                     'id_reservasi' => 'required|exists:tb_reservasi,id',
-                    'tanggal_tangkil' => 'required',
                 ]);
                 if($validator->fails()){
                     return redirect()->back()->with([
@@ -167,10 +165,18 @@ class ReservasiMasukController extends Controller
 
             // MAIN LOGIC
                 try{
-                    DB::beginTransaction();
-                    $tanggal_tangkil = new Carbon($request->tanggal_tangkil);
-                    Reservasi::findOrFail($request->id_reservasi)->update(['tanggal_tangkil'=>$tanggal_tangkil->format('Y-m-d h:i:s'),'status'=>'proses tangkil']);
-                    DetailReservasi::whereIn('id',$request->id_tahapan_reservasi)->update(['status'=>$request->status]);
+                    if($request->tanggal_tangkil != null){
+                        DB::beginTransaction();
+                        $tanggal_tangkil = new Carbon($request->tanggal_tangkil);
+                        Reservasi::findOrFail($request->id_reservasi)->update(['tanggal_tangkil'=>$tanggal_tangkil->format('Y-m-d h:i:s'),'status'=>'proses tangkil']);
+                        DetailReservasi::whereIn('id',$request->id_tahapan_reservasi)->update(['status'=>$request->status]);
+                        DB::commit();
+                    }else{
+                        DB::beginTransaction();
+                        Reservasi::findOrFail($request->id_reservasi)->update(['status'=>'proses tangkil']);
+                        DetailReservasi::whereIn('id',$request->id_tahapan_reservasi)->update(['status'=>$request->status]);
+                        DB::commit();
+                    }
                 }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                     return redirect()->back()->with([
                         'status' => 'fail',

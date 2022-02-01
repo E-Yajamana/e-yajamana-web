@@ -110,7 +110,6 @@
 
     <script type="text/javascript">
         function deleteData(index){
-            $('#delete-'+index).submit();
             Swal.fire({
                 title: 'Peringatan',
                 text : 'Apakah anda yakin akan menghapus Data Griya tersebut?',
@@ -121,14 +120,14 @@
                 denyButtonText: `Batal`,
                 confirmButtonColor: '#3085d6',
                 denyButtonColor: '#d33',
-                }).then((result) => {
-                    if (result.isConfirmed) {
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#delete-'+index).submit();
+                } else if (result.isDenied) {
 
-                    } else if (result.isDenied) {
-
-                    }
-                })
-            }
+                }
+            })
+        }
     </script>
 
     <!-- Page specific script -->
