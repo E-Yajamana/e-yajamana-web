@@ -159,7 +159,7 @@
                                     @method('put')
                                     <input class="d-none" name="id_reservasi" id="idReservasi" value="{{$dataReservasi->id}}" type="hidden">
                                     <input class="d-none" name="status_reservasi" id="statusReservasi" value="{{$dataReservasi->id}}" type="hidden">
-                                    <table id="" class="table table-bordered table-responsive-sm table-hover">
+                                    <table id="" class="table  table-hover">
                                         <thead >
                                             <tr>
                                                 <th>No</th>
@@ -181,7 +181,7 @@
                                                             <select name="status[]" class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true" id="status">
                                                                 <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
                                                                 <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @else value="diterima" @endif >Setujui</option>
-                                                                <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
+                                                                <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') onselect="myFunction()" value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
                                                             </select>
                                                         </div>
                                                         <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
@@ -338,14 +338,26 @@
 @push('js')
 
     <script type="text/javascript">
+
         // DEKLARASI DATA RESERVASI
         let data_reservasi;
         let dataDatabase=[];
         data_reservasi = {!! json_encode($dataReservasi) !!}
+        setDataTolak();
         $.each(data_reservasi.detail_reservasi, function(key, data){
             dataDatabase.push(data.status);
         });
 
+        function setDataTolak(){
+            $.each(data_reservasi.detail_reservasi, function(key, data){
+                if(data.status == 'ditolak'){
+                    var text = document.getElementById("text_penolakan-"+data.id);
+                    text.type = "text";
+                    text.value= data.keterangan;
+                }
+            });
+
+        }
         // DEKLARASI DATA RESERVASI
         function inputData(){
             $("#inputdata")[0].submit();
@@ -429,15 +441,15 @@
             var jenis = $(this).find(':selected').val();
             var text = document.getElementById("text_penolakan-"+id);
             if(jenis=='ditolak'){
-                text.type = "text";
+                setDataTolak();
             }else{
+                text.value="";
                 text.type = "hidden";
             }
         });
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
     </script>
 
-    <!-- VIEW MAP DATABASE -->
     <script type="text/javascript">
         let dataReservasi;
 
@@ -465,8 +477,6 @@
 
         });
     </script>
-    <!-- VIEW MAP DATABASE -->
-
 
 
 @endpush
