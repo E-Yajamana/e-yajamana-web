@@ -36,7 +36,7 @@ class GriyaRumah extends Model
 	protected $casts = [
 		'lat' => 'float',
 		'lng' => 'float',
-		'id_desa_adat' => 'int'
+		'id_banjar_dinas' => 'int'
 	];
 
 	protected $fillable = [
@@ -44,18 +44,12 @@ class GriyaRumah extends Model
 		'alamat_griya_rumah',
 		'lat',
 		'lng',
-		'id_desa_adat',
-		'id_desa'
+		'id_banjar_dinas'
 	];
 
-	public function DesaAdat()
+	public function BanjarDinas()
 	{
-		return $this->belongsTo(DesaAdat::class, 'id_desa_adat','desadat_id');
-	}
-
-	public function Desa()
-	{
-		return $this->belongsTo(Desa::class, 'id_desa','id_desa');
+		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas');
 	}
 
 	public function Sulinggih()

@@ -9,14 +9,14 @@ class Provinsi extends Model
 {
     use HasFactory;
 
-    protected $table = 'tb_provinsi_baru';
+    protected $table = 'tb_m_provinsi';
 
     protected $fillable = [
-        'name',
+        'name'
     ];
 
     public function Kabupaten(){
-        return $this->hasMany(Kabupaten::class,'id_provinsi','id_provinsi');
+        return $this->hasMany(Kabupaten::class,'provinsi_id','id');
     }
 
 }
