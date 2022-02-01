@@ -67,6 +67,7 @@ class AuthController extends Controller
                     ],401);
                 }
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 return response()->json([
                     'status' => 500,
                     'message' => 'Internal Server Error',

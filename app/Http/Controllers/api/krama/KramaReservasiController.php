@@ -54,7 +54,9 @@ class KramaReservasiController extends Controller
                 return response()->json([
                         'status' => 400,
                         'message' => 'Validataion error',
-                        'data' => (Object)[],
+                        'data' => [
+                            'errors' => $validator->errors()
+                        ],
                 ],400);
             }
         // END
