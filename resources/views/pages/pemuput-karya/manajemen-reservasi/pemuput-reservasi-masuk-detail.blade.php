@@ -234,9 +234,9 @@
                                     <div class="row">
                                         <div class="col-md-12 my-2">
                                             <a href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
-                                            <button type="submit" class="btn btn-primary float-right ml-2">Simpan Data</button>
-                                            <div class="btn btn-secondary m-1 float-right " align-self="end">Setujui Semua</div>
-                                            <div class="btn btn-danger m-1 float-right " align-self="end">Tolak Semua</div>
+                                            <button type="submit" class="btn btn-primary float-right m-1">Simpan Data</button>
+                                            <button onclick="" class="btn btn-secondary m-1 float-right " align-self="end">Setujui Semua</button>
+                                            <button onclick="" class="btn btn-danger m-1 float-right " align-self="end">Tolak Semua</button>
                                         </div>
                                     </div>
                                 </form>
