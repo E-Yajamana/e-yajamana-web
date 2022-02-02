@@ -86,18 +86,18 @@ class KramaUpacaraController extends Controller
             $validator = Validator::make($request->all(),[
                 ''
             ]);
-            
+
             if($validator->fails()){
-            
+
             }
         // END
-        
+
         // MAIN LOGIC
-        
+
         // END
-        
+
         // RETURN
-        
+
         // END
     }
 

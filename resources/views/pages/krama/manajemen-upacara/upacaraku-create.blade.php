@@ -62,6 +62,7 @@
                                     <span class="bs-stepper-label">Jenis Upacara</span>
                                 </button>
                             </div>
+
                             <div class="line"></div>
                             <div class="step" data-target="#information-part">
                                 <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
@@ -78,7 +79,6 @@
                                 </button>
                             </div>
                         </div>
-
                         <div class="bs-stepper-content">
                             <!-- your steps content here -->
                             <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
@@ -186,11 +186,11 @@
                                                     @php
                                                         $kabupaten = old('kabupaten')
                                                     @endphp
-                                                    @foreach ($dataKabupaten->where('id_provinsi',51) as $data)
-                                                        @if ($kabupaten == $data->id_kabupaten)
-                                                            <option value="{{$data->id_kabupaten}}" selected>{{$data->name}}</option>
+                                                    @foreach ($dataKabupaten->where('provinsi_id',51) as $data)
+                                                        @if ($kabupaten == $data->id)
+                                                            <option value="{{$data->id}}" selected>{{$data->name}}</option>
                                                         @else
-                                                            <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                                            <option value="{{$data->id}}">{{$data->name}}</option>
                                                         @endif
                                                     @endforeach
                                                 </select>
@@ -296,7 +296,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
+                                        <button class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
                                         <button id="submitToRangkuman" type="button" class="btn btn-primary float-sm-right" onclick="stepper.next()">Selanjutnya</button>
                                     </div>
                                 </form>
@@ -471,13 +471,10 @@
 
 
     <script language="javascript" type="text/javascript">
-
         let jenis_upacara,nama_upacara,kabupaten,kecamatan,desa_dinas,desa_adat,alamat,deskripsi,daterange;
-
         $('#submit').click(function(){
             $('#submitData').submit();
         })
-
         $('#submitToRangkuman').click(function(){
             setDataToRangkuman();
             var jenisUpacara = $("#jenis_upacara").val()
@@ -510,7 +507,6 @@
                 $('#akhir').empty();
             }
         });
-
         function setDataToRangkuman()
         {
             // GET DATA IN FORM
@@ -523,7 +519,6 @@
             alamat = $("#alamat").val()
             deskripsi = $("#deskripsi").val()
             daterange = $("#daterange").val()
-
             // SET STEPPER TO RANGKUMAN
             $("#view_jenis_yadnya").val(jenisYadnya)
             $("#view_jenis_upacara").val(jenis_upacara)
@@ -536,7 +531,6 @@
             $("#view_alamat").val(alamat)
             $("#view_desc").val(deskripsi)
         }
-
     </script>
 
 
@@ -566,31 +560,26 @@
                 }
             })
         }
-
         $('#dewaYadnya').click(function(){
             jenisYadnya =  $("#dewaYadnya").val();
             $("#jenis_yadnya").val(jenisYadnya);
             getJenisYadnya(jenisYadnya);
         })
-
         $('#pitraYadnya').click(function(){
             jenisYadnya =  $("#pitraYadnya").val();
             $("#jenis_yadnya").val(jenisYadnya);
             getJenisYadnya(jenisYadnya);
         })
-
         $('#rsiYadnya').click(function(){
             jenisYadnya =  $("#rsiYadnya").val();
             $("#jenis_yadnya").val(jenisYadnya);
             getJenisYadnya(jenisYadnya);
         })
-
         $('#manusaYadnya').click(function(){
             jenisYadnya =  $("#manusaYadnya").val();
             $("#jenis_yadnya").val(jenisYadnya);
             getJenisYadnya(jenisYadnya);
         })
-
         $('#bhutaYadnya').click(function(){
             jenisYadnya =  $("#bhutaYadnya").val();
             $("#jenis_yadnya").val(jenisYadnya);
@@ -604,7 +593,6 @@
         $(document).ready(function() {
             //--------------START Deklarasi awal seperti icon pembuatan map-------------//
            var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 10);
-
            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                attribution: 'Maps E-Yajamana',
                maxZoom: 18,
@@ -614,25 +602,19 @@
                zoomOffset: -1,
                accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
            }).addTo(mymap);
-
-
            document.getElementById("modalMap").onclick = function () {
                document.getElementById('modal-xl').style.display = 'block';
                setTimeout(function() {
                    mymap.invalidateSize();
                }, 100);
            }
-
            var curLocation = [0, 0];
-
            if (curLocation[0] == 0 && curLocation[1] == 0) {
                curLocation = [-8.4517916, 115.1970086];
            }
-
            var marker = new L.marker(curLocation, {
                draggable: 'true'
            });
-
            marker.on('dragend', function(event) {
                 var position = marker.getLatLng();
                 marker.setLatLng(position, {
@@ -643,7 +625,6 @@
                 $("#view_lat").val(position.lat);
                 $("#view_lng").val(position.lng);
            });
-
            $("#Latitude, #Longitude").change(function() {
                var position = [parseInt($("#Latitude").val()), parseInt($("#Longitude").val())];
                marker.setLatLng(position, {
@@ -651,11 +632,8 @@
                }).bindPopup(position).update();
                mymap.panTo(position);
            });
-
            mymap.addLayer(marker);
-
        })
-
     </script>
     <!-- Maps Pemetaan  -->
 
@@ -673,12 +651,11 @@
                     {
                         console.log(kabupatenID);
                         console.log(dataKecamatan.data.kecamatans);
-
                         if(dataKecamatan.data.kecamatans){
                             $('#kecamatan').empty();
                             $('#kecamatan').append('<option value="0" disabled selected>Pilih Kecamatan</option>');
                             $.each(dataKecamatan.data.kecamatans, function(key, data){
-                                $('#kecamatan').append('<option value="'+ data.id_kecamatan +'">' + data.name+ '</option>');
+                                $('#kecamatan').append('<option value="'+ data.id +'">' + data.name+ '</option>');
                             });
                         }else{
                             $('#kecamatan').empty();
@@ -689,7 +666,6 @@
                 $('#course').empty();
             }
         })
-
         $('#kecamatan').on('change', function() {
             var kecamatanID = $(this).val();
             if(kecamatanID){
@@ -702,12 +678,11 @@
                     {
                         console.log(kecamatanID);
                         console.log(dataDesa.data.desas);
-
                         if(dataDesa.data.desas){
                             $('#desa_dinas').empty();
                             $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
                             $.each(dataDesa.data.desas, function(key, data){
-                                $('#desa_dinas').append('<option value="'+ data.id_desa +'">' + data.name+ '</option>');
+                                $('#desa_dinas').append('<option value="'+ data.id +'">' + data.name+ '</option>');
                             });
                         }else{
                             $('#course').empty();
@@ -757,14 +732,11 @@
             $('#reservation').daterangepicker();
         });
         $('#mySelect2').select2('data');
-
         $('.select2').select2()
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
-
         document.addEventListener('DOMContentLoaded', function () {
             window.stepper = new Stepper(document.querySelector('.bs-stepper'))
         })

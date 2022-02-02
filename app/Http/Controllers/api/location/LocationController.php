@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\location;
 use App\Http\Controllers\Controller;
 use App\Models\Desa;
 use App\Models\DesaAdat;
+use App\Models\DesaDinas;
 use App\Models\KabupatenBaru;
 use App\Models\Kecamatan;
 use App\Models\ProvinsiBaru;
@@ -100,7 +101,7 @@ class LocationController extends Controller
         // MAIN LOGIC
             try{
 
-                $kecamatans = Kecamatan::where('id_kabupaten',$id_kabupaten)->get();
+                $kecamatans = Kecamatan::where('kabupaten_id',$id_kabupaten)->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
                 return response()->json([
@@ -140,7 +141,7 @@ class LocationController extends Controller
         // MAIN LOGIC
             try{
 
-                $desas = Desa::where('id_kecamatan',$id_kecamatan)->get();
+                $desas = DesaDinas::where('kecamatan_id',$id_kecamatan)->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
                 return response()->json([
@@ -194,7 +195,7 @@ class LocationController extends Controller
             $validator = Validator::make(['id_provinsi' => $id_provinsi],[
                 'id_provinsi' => 'required|numeric'
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -203,7 +204,7 @@ class LocationController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
 
@@ -219,7 +220,7 @@ class LocationController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,

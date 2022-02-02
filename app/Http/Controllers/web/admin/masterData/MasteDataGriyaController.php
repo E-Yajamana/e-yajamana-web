@@ -5,6 +5,7 @@ namespace App\Http\Controllers\web\admin\masterData;
 use App\Http\Controllers\Controller;
 use App\Models\Desa;
 use App\Models\DesaAdat;
+use App\Models\DesaDinas;
 use App\Models\GriyaRumah;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
@@ -176,7 +177,7 @@ class MasteDataGriyaController extends Controller
                 $dataGriya = GriyaRumah::with(['DesaAdat','Desa'])->findOrFail($request->id);
                 $dataKabupaten = Kabupaten::all();
                 $dataKecamatan = Kecamatan::all();
-                $dataDesa = Desa::all();
+                $dataDesa = DesaDinas::all();
                 $dataDesaAdat = DesaAdat::all();
                 return view('pages.admin.master-data.griya.master-griya-edit',compact('dataGriya','dataKabupaten','dataDesaAdat','dataKecamatan','dataDesa'));
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
