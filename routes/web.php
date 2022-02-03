@@ -218,6 +218,8 @@ Route::prefix('ajax')->group(function () {
     Route::get('get/jenis-yadnya/{jenis?}', [AjaxController::class, 'jenisYadnya'])->name('ajax.get.jenis-yadnya');
     Route::get('get/tahapan/upacara/{id?}', [AjaxController::class, 'getTahapanUpacara'])->name('ajax.get.tahapan-upacara');
 
+    Route::get('get/data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
+
     Route::post('add/griya', [MasteDataGriyaController::class, 'ajaxStoreDataGriya'])->name('ajax.post');
     Route::get('get/griya', [MasteDataGriyaController::class, 'ajaxGetDataGriya'])->name('ajax.get');
     Route::get('kabupaten/{id?}', [LocationController::class, 'getKabupaten']);

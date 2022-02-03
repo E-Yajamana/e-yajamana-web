@@ -90,7 +90,7 @@ class Upacaraku extends Model
 		return $this->belongsTo(Upacara::class, 'id_upacara','id');
 	}
 
-	
+
 	public function BanjarDinas()
 	{
 		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas');

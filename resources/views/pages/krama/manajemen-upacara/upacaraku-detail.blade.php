@@ -110,16 +110,17 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label>Desa Adat</label>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataUpacaraku->DesaAdat->desadat_nama}}" disabled="">
+                                                    <label>Banjar Dinas</label>
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataUpacaraku->BanjarDinas->nama_banjar_dinas}}" disabled="">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Desa Dinas</label>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataUpacaraku->Desa->name}}" disabled="">
+                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{Str::ucfirst( Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->name))}}" disabled="">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Alamat Lengkap Upacara</label>
-                                                    <textarea disabled name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="4" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->alamat_upacaraku}}, Desa {{Str::ucfirst(Str::lower($dataUpacaraku->Desa->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataUpacaraku->Desa->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataUpacaraku->Desa->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataUpacaraku->Desa->Kecamatan->Kabupaten->Provinsi->name))}} </textarea>
+                                                    <textarea disabled name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="4" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->alamat_upacaraku}}, Desa {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->Provinsi->name))}} </textarea>
+                                                     
                                                     @error('alamat_griya')
                                                         <div class="invalid-feedback text-start">
                                                             {{$errors->first('alamat_griya') }}
@@ -212,19 +213,19 @@
                             </div>
                         </div>
                     @else
-                        @foreach ($dataUpacaraku->Reservasi as $data)
-                            <div class="card">
-                                <div class="card-header my-auto">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label class="card-title my-auto">Reservasi Upacara</label>
-                                        </div>
-                                        <div class="col-6">
-                                            <a class="btn-sm btn-primary float-right" href="{{route('krama.manajemen-reservasi.create',$dataUpacaraku->id)}}"><i class="fa fa-plus"></i> Tambah Reservasi</a>
-                                        </div>
+                        <div class="card">
+                            <div class="card-header my-auto">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="card-title my-auto">Reservasi Upacara</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <a class="btn-sm btn-primary float-right" href="{{route('krama.manajemen-reservasi.create',$dataUpacaraku->id)}}"><i class="fa fa-plus"></i> Tambah Reservasi</a>
                                     </div>
                                 </div>
-                                <div class="card-body">
+                            </div>
+                            <div class="card-body">
+                                @foreach ($dataUpacaraku->Reservasi as $data)
                                     <div class="card shadow collapsed-card">
                                         <div class="card-header" aria-expanded="false">
                                             <div class="user-block">
@@ -299,14 +300,14 @@
                                             </table>
                                         </div>
                                         <!-- /.card-body -->
-                                        {{-- <div class="card-footer" style="display: none;">
-                                            <button type="button" class="btn btn btn-primary btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
-                                        </div> --}}
+                                        <div class="card-footer" style="display: none;">
+                                            <button type="button" class="btn btn btn-infox btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
+                                        </div>
                                         <!-- /.card-footer-->
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
-                        @endforeach
+                        </div>
                     @endif
                     <!-- /.card -->
                     <div class="container-fluid mt-2">
@@ -327,9 +328,6 @@
         </div>
     <!-- /.container-fluid -->
     </section>
-
-
-
 
 @endsection
 

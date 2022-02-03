@@ -281,8 +281,8 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#side-manajemen-muput-upacara').addClass('menu-open');
-            $('#side-manajemen-muput-upacara-konfirmasi-tangkil').addClass('active');
+            $('#side-manajemen-reservasi').addClass('menu-open');
+            $('#side-manajemen-reservasi-index').addClass('active');
         });
     </script>
 
@@ -380,6 +380,7 @@
             }
         };
         // VALIDASI SEDERHANA DARI PENENTUAN STATUS TAHAPAN
+
         // ADD FUNCTION VALIDASI ALASAN PENOLAKAN
         $(function () {
             $.validator.setDefaults({
@@ -417,15 +418,38 @@
             });
         });
         // ADD FUNCTION VALIDASI ALASAN PENOLAKAN
+
+        // FUNGSI GET DATA ALASAN DIDATABASE
+        getAlasanPenolakan();
+        function getAlasanPenolakan(){
+            console.log(data_reservasi)
+            $.each(data_reservasi.detail_reservasi, function(key, data){
+                if(data.keterangan != null){
+                    var text = document.getElementById("text_penolakan-"+data.id);
+                    text.type = "text";
+                    text.value = data.keterangan;
+                }else{
+                    var text = document.getElementById("text_penolakan-"+data.id);
+                    text.type = "hidden";
+                    text.value = "";
+                }
+
+            });
+        }
+        // FUNGSI GET DATA ALASAN DIDATABASE
+
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
         $('select').change(function(){
             var id = $(this).find(':selected').data('id');
+            console.log(id);
             var jenis = $(this).find(':selected').val();
             var text = document.getElementById("text_penolakan-"+id);
             if(jenis=='ditolak'){
+                getAlasanPenolakan();
                 text.type = "text";
             }else{
                 text.type = "hidden";
+                text.value = "";
             }
         });
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI

@@ -134,8 +134,8 @@ class KramaUpacarakuController extends Controller
     // DETAIL UPACARAKU
     public function detailUpacaraku(Request $request)
     {
-        $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi','Desa','DesaAdat'])->findOrFail($request->id);
-        return view('pages.krama.manajemen-upacara.upacaraku-detail2',compact('dataUpacaraku'));
+        $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi','BanjarDinas'])->findOrFail($request->id);
+        return view('pages.krama.manajemen-upacara.upacaraku-detail',compact('dataUpacaraku'));
     }
     // DETAIL UPACARAKU
 }
