@@ -112,11 +112,21 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label>Nama Upacara</label>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataUpacara->nama_upacara}}">
+                                                    <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataUpacara->nama_upacara}}">
+                                                    @error('data_upacara[0][nama_upacara]')
+                                                        <div class="invalid-feedback text-start">
+                                                            {{ $errors->first('data_upacara[0][nama_upacara]') }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Deskripsi Upacara</label>
-                                                    <textarea class="form-control" rows="3" placeholder="Masukan Deskripsi Upacara ...">{{$dataUpacara->deskripsi_upacaraku}}</textarea>
+                                                    <textarea class="form-control @error('data_upacara[0][deskripsi_upacara]') is-invalid @enderror" rows="3" name="data_upacara[0][deskripsi_upacara]">{{$dataUpacara->deskripsi_upacaraku}}</textarea>
+                                                    @error('data_upacara[0][deskripsi_upacara]')
+                                                        <div class="invalid-feedback text-start">
+                                                            {{ $errors->first('data_upacara[0][deskripsi_upacara]') }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Tanggal Mulai - Tanggal Selesai Upacara</label>
@@ -126,7 +136,12 @@
                                                                 <i class="far fa-calendar-alt"></i>
                                                             </span>
                                                         </div>
-                                                        <input name='daterange[]' id="reservationtime" type='text' class='form-control float-right' value=''>
+                                                        <input name="data_upacara[0][daterange]" id="reservationtime" type='text' class='form-control float-right' value=''>
+                                                        @error('data_upacara[0][daterange]')
+                                                            <div class="invalid-feedback text-start">
+                                                                {{ $errors->first('data_upacara[0][daterange]') }}
+                                                            </div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -190,7 +205,7 @@
                                                                                         <i class='far fa-calendar-alt'></i>
                                                                                     </span>
                                                                                 </div>
-                                                                                <input name='daterange[]' id="reservationtime-{{$dataReservasi->id}}" type='text' class='form-control float-right' value=''>
+                                                                                <input name='reservasi[]' id="reservationtime-{{$dataReservasi->id}}" type='text' class='form-control float-right' value=''>
                                                                             </div>
                                                                         </td>
                                                                         <td class='d-flex justify-content-center'>
@@ -362,7 +377,8 @@
                 $("#showDataReservasi").append("<div class='card shadow mb-4 card-info card-outline '><div class='card-header' aria-expanded='false'><div class='user-block'><img class='img-circle' src='{{asset('base-template/dist/img/user1-128x128.jpg')}}' alt='User Image'><span class='username'><a class='ml-2' href='#'>"+element.sulinggih.nama_sulinggih+"</a> | "+element.status.toUpperCase()+"</span><span class='description'><label class='ml-2'>Tanggal Tangkil : "+ tanggalTangkil+" </label></span></div></div><div class='card-body'><table  class='table'><thead><tr><th>No</th><th>Nama Tahapan</th><th class='text-md-center'>Waktu Mulai - Selesai</th><th class='text-md-center'>Status</th></tr></thead><tbody id='data-"+element.id+"'></tbody>" );
                 element.detail_reservasi.forEach(data => {
                     i++
-                    $("#data-"+element.id).append("<tr><td>"+i+"</td><td style='width: 40%'>"+data.tahapan_upacara.nama_tahapan+"</td><td class='text-md-center'><div class='input-group'><div class='input-group-prepend'><span class='input-group-text'><i class='far fa-calendar-alt'></i></span></div><input name='daterange[]' id='reservationtime-"+data.id+"' type='text' class='form-control float-right' value=''></div></td><td class='d-flex justify-content-center'><div class='bg-info btn-sm text-center' style='border-radius: 5px; width:80px; '>"+data.status+"</div></td></tr></table></div></div>");
+                    $("#data-"+element.id).append("<tr><td>"+i+"</td><td style='width: 40%'>"+data.tahapan_upacara.nama_tahapan+"</td><td class='text-md-center'><div class='input-group'><div class='input-group-prepend'><span class='input-group-text'><i class='far fa-calendar-alt'></i></span></div><input name='daterange[]' id='reservationtime-"+data.id+"' type='text' class='form-control float-right' value=''></div> <div id='keterangan_penolakan'> </div></td><td class='d-flex justify-content-center'><div class='bg-info btn-sm text-center' style='border-radius: 5px; width:80px;'>"+data.status+"</div></td></tr></table></div></div>");
+                    // <input id='text_penolakan-{{$dataReservasi->id}}' type='text' class='mt-3 form-control' name='alasan_penolakan_sulinggih[]' value='' placeholder='Masukan alasan penolakan' >
                     setDataRangeTahapan(data.id,data.tanggal_mulai,data.tanggal_selesai);
                 })
             }
@@ -406,15 +422,13 @@
         });
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
 
-        // FUNGSI GET DATA ALASAN DIDATABASE
-
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
         $('select').change(function(){
             var id = $(this).find(':selected').data('id');
             var jenis = $(this).find(':selected').val();
             var text = document.getElementById("text_penolakan-"+id);
             if(jenis=='ditolak'){
-                // getAlasanPenolakan();
+                getAlasanPenolakan();
                 text.type = "text";
             }else{
                 text.type = "hidden";
