@@ -70,14 +70,15 @@
                                 <label>Kabupaten/Kota <span class="text-danger">*</span></label>
                                 <select id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Kabupaten</option>
-                                    @foreach ($dataKabupaten->where('id_provinsi',51) as $data)
-                                        @if ($dataGriya->Desa->Kecamatan->Kabupaten->id_kabupaten == $data->id_kabupaten)
+                                    @foreach ($dataKabupaten->where('provinsi_id',51) as $data)
+                                        @if ($dataGriya->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->id == $data->id)
                                             <option selected value="{{$data->id_kabupaten}}">{{$data->name}}</option>
                                         @else
                                             <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
                                         @endif
                                     @endforeach
                                 </select>
+                                {{-- <p class="m-1 text-sm">(Pilih Desa Dinas terlebih dahulu)</p> --}}
                                 @error('kabupaten')
                                     <div class="invalid-feedback text-start">
                                         {{$errors->first('kabupaten') }}
@@ -89,15 +90,16 @@
                                     <label>Kecamatan <span class="text-danger">*</span></label>
                                     <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
                                         <option value="0" disabled selected>Pilih Kecamatan</option>
-                                        <option selected value="{{$dataGriya->Desa->Kecamatan->id_kecamatan}}">{{$dataGriya->Desa->Kecamatan->name}}</option>
-                                        @foreach ($dataKecamatan->where('id_kabupaten',$dataGriya->Desa->Kecamatan->Kabupaten->id_kabupaten) as $data)
-                                            @if ($data->id_kabupaten == $dataGriya->Desa->Kecamatan->Kabupaten->id_kabupaten)
-                                                <option selected value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                        <option selected value="{{$dataGriya->BanjarDinas->DesaDinas->Kecamatan->id}}">{{$dataGriya->BanjarDinas->DesaDinas->Kecamatan->name}}</option>
+                                        @foreach ($dataKecamatan->where('kabupaten_id',$dataGriya->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->id) as $data)
+                                            @if ($data->id == $dataGriya->BanjarDinas->DesaDinas->Kecamatan->id)
+                                                <option selected value="{{$data->id}}">{{$data->name}}</option>
                                             @else
-                                                <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                                <option value="{{$data->id}}">{{$data->name}}</option>
                                             @endif
                                         @endforeach
                                     </select>
+                                    <p class="m-1 text-sm">(Pilih Kabupaten terlebih dahulu)</p>
                                     @error('kecamatan')
                                         <div class="invalid-feedback text-start">
                                             {{$errors->first('kecamatan') }}
@@ -109,14 +111,15 @@
                                 <label>Desa Dinas<span class="text-danger">*</span></label>
                                 <select id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Desa Dinas</option>
-                                    @foreach ($dataDesa->where('id_kecamatan',$dataGriya->Desa->Kecamatan->id_kecamatan) as $data)
-                                        @if ($data->id_desa == $dataGriya->Desa->id_desa)
-                                            <option selected value="{{$data->id_desa}}">{{$data->name}}</option>
+                                    @foreach ($dataDesa->where('kecamatan_id',$dataGriya->BanjarDinas->DesaDinas->Kecamatan->id) as $data)
+                                        @if ($data->id == $dataGriya->BanjarDinas->DesaDinas->id)
+                                            <option selected value="{{$data->id}}">{{$data->name}}</option>
                                         @else
-                                            <option value="{{$data->id_desa}}">{{$data->name}}</option>
+                                            <option value="{{$data->id}}">{{$data->name}}</option>
                                         @endif
                                     @endforeach
                                 </select>
+                                <p class="m-1 text-sm">(Pilih Kecamatan terlebih dahulu)</p>
                                 @error('id_desa')
                                     <div class="invalid-feedback text-start">
                                         {{$errors->first('id_desa') }}
@@ -124,20 +127,21 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Desa Adat <span class="text-danger">*</span></label>
-                                <select id="id_desa_adat" name="id_desa_adat" class="form-control select2bs4 @error('id_desa_adat') is-invalid @enderror" style="width: 100%;">
-                                    <option value="0" disabled selected>Pilih Desa Adat</option>
-                                    @foreach ($dataDesaAdat as $data)
-                                        @if ($dataGriya->id_desa_adat == $data->desadat_id)
-                                            <option selected value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
+                                <label>Banjar Dinas <span class="text-danger">*</span></label>
+                                <select id="id_banjar_dinas" name="id_banjar_dinas" class="form-control select2bs4 @error('id_banjar_dinas') is-invalid @enderror" style="width: 100%;">
+                                    <option value="0" disabled selected>Pilih Banjar Dinas</option>
+                                    @foreach ($dataBanjarDinas->where('id',$dataGriya->BanjarDinas->id) as $data)
+                                        @if ($data->id == $dataGriya->BanjarDinas->id)
+                                            <option selected value="{{$data->id}}">{{$data->nama_banjar_dinas}}</option>
                                         @else
-                                            <option value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
+                                            <option value="{{$data->id}}">{{$data->nama_banjar_dinas}}</option>
                                         @endif
                                     @endforeach
                                 </select>
-                                @error('id_desa_adat')
+                                <p class="m-1 text-sm">(Pilih Desa Dinas terlebih dahulu)</p>
+                                @error('id_banjar_dinas')
                                     <div class="invalid-feedback text-start">
-                                        {{$errors->first('desa_adat') }}
+                                        {{$errors->first('id_banjar_dinas') }}
                                     </div>
                                 @enderror
                             </div>
@@ -209,6 +213,8 @@
     <!-- Select2 -->
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+    <!-- Ajax Get Data Wilayah -->
+    <script src="{{asset('base-template/dist/js/pages/ajax-get-wilayah.js')}}"></script>
 
     <!-- Fungsi Boostrap & Library  -->
     <script type="text/javascript">

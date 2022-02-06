@@ -57,7 +57,7 @@
                                     @foreach ($dataKabupaten as $data)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$data->id_kabupaten}}</td>
+                                            <td>{{$data->id}}</td>
                                             <td>{{$data->name}}</td>
                                             <td>{{$data->Provinsi->name}}</td>
                                         </tr>

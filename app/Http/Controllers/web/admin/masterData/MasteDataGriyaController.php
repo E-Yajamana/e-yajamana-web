@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\web\admin\masterData;
 
 use App\Http\Controllers\Controller;
-use App\Models\Desa;
-use App\Models\DesaAdat;
 use App\Models\DesaDinas;
+use App\Models\BanjarDinas;
 use App\Models\GriyaRumah;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
@@ -23,7 +22,7 @@ class MasteDataGriyaController extends Controller
     // INDEX VIEW DATA LOKASI GRIYA
     public function indexDataGriya(Request $request)
     {
-        $dataGriya = GriyaRumah::all();
+        $dataGriya = GriyaRumah::with('BanjarDinas')->get();
         return view('pages.admin.master-data.griya.master-griya-index',compact('dataGriya'));
     }
     // INDEX VIEW DATA LOKASI GRIYA
@@ -32,8 +31,7 @@ class MasteDataGriyaController extends Controller
     public function createDataGriya(Request $request)
     {
         $dataKabupaten = Kabupaten::all();
-        $dataDesaAdat = DesaAdat::all();
-        return view('pages.admin.master-data.griya.master-griya-create',compact(['dataKabupaten','dataDesaAdat']));
+        return view('pages.admin.master-data.griya.master-griya-create',compact(['dataKabupaten']));
     }
     // CREATE VIEW DATABASE LOKASI GRIYA
 
@@ -44,8 +42,7 @@ class MasteDataGriyaController extends Controller
             $validator = Validator::make($request->all(),[
                 'nama_griya' => "required|unique:tb_griya_rumah,nama_griya_rumah|regex:/^[a-z ,.'-]+$/i|min:3|max:50",
                 'alamat_griya' => "required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100",
-                'id_desa' =>'required|exists:tb_desa,id_desa',
-                'id_desa_adat'=>'required|exists:tb_desaadat,desadat_id',
+                'id_banjar_dinas' =>'required|exists:tb_m_banjar_dinas,id',
                 'lat' => 'required|numeric|regex:/^[0-9.-]+$/i',
                 'lng' => 'required|numeric|regex:/^[0-9.-]+$/i',
             ],
@@ -59,10 +56,8 @@ class MasteDataGriyaController extends Controller
                 'alamat_griya.regex' => "Format nama griya tidak sesuai",
                 'alamat_griya.min' => "Nama griya minimal berjumlah 3 karakter",
                 'alamat_griya.max' => "Nama griya maksimal berjumlah 100 karakter",
-                'id_desa.required' => "Lokasi Desa wajib diisi",
-                'id_desa.exists' => "Lokasi Desa tidak sesuai",
-                'id_desa_adat.required' => "Lokasi Desa Adat wajib diisi",
-                'id_desa_adat.exists' => "Lokasi Desa Adat tidak sesuai",
+                'id_banjar_dinas.required' => "Lokasi Banjar Dinas wajib diisi",
+                'id_banjar_dinas.exists' => "Lokasi Banjar Dinas tidak sesuai",
                 'lat.required' => "Latitude griya wajib diisi",
                 'lat.numeric' => "Latitude harus berupa angka",
                 'lat.regex' => "Format koordinat Latitude griya tidak sesuai",
@@ -75,19 +70,17 @@ class MasteDataGriyaController extends Controller
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Gagal Registrasi',
-                    'message' => 'Gagal melakukan registrasi akun, silakan periksa kembali form input anda!'
+                    'title' => 'Gagal Input Database',
+                    'message' => 'Gagal melakukan Input data Griya, silakan periksa kembali form input anda!'
                 ])->withInput($request->all())->withErrors($validator->errors());
             }
         // END
 
         // MAIN LOGIC
             try{
-
                 DB::beginTransaction();
                 GriyaRumah::create([
-                    'id_desa' => $request->id_desa,
-                    'id_desa_adat' => $request->id_desa_adat,
+                    'id_banjar_dinas' => $request->id_banjar_dinas,
                     'nama_griya_rumah' =>$request->nama_griya,
                     'alamat_griya_rumah' =>$request->alamat_griya,
                     'lat' =>$request->lat,
@@ -139,7 +132,7 @@ class MasteDataGriyaController extends Controller
 
         // MAIN LOGIC & RETURN
             try{
-                $dataGriya = GriyaRumah::with(['DesaAdat','Desa'])->findOrFail($request->id);;
+                $dataGriya = GriyaRumah::with(['BanjarDinas'])->findOrFail($request->id);;
                 return view('pages.admin.master-data.griya.master-griya-detail',compact('dataGriya'));
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
@@ -174,12 +167,12 @@ class MasteDataGriyaController extends Controller
 
         // MAIN LOGIC & RETURN
             try{
-                $dataGriya = GriyaRumah::with(['DesaAdat','Desa'])->findOrFail($request->id);
+                $dataGriya = GriyaRumah::with(['BanjarDinas'])->findOrFail($request->id);
                 $dataKabupaten = Kabupaten::all();
                 $dataKecamatan = Kecamatan::all();
                 $dataDesa = DesaDinas::all();
-                $dataDesaAdat = DesaAdat::all();
-                return view('pages.admin.master-data.griya.master-griya-edit',compact('dataGriya','dataKabupaten','dataDesaAdat','dataKecamatan','dataDesa'));
+                $dataBanjarDinas = BanjarDinas::all();
+                return view('pages.admin.master-data.griya.master-griya-edit',compact('dataGriya','dataKabupaten','dataBanjarDinas','dataKecamatan','dataDesa'));
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return redirect()->back()->with([
                     'status' => 'fail',
@@ -201,8 +194,7 @@ class MasteDataGriyaController extends Controller
                 'id' =>'required|exists:tb_griya_rumah,id',
                 'nama_griya' => "required|regex:/^[a-z ,.'-]+$/i|min:3|max:50",
                 'alamat_griya' => "required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100",
-                'id_desa' =>'required|exists:tb_desa,id_desa',
-                'id_desa_adat'=>'required|exists:tb_desaadat,desadat_id',
+                'id_banjar_dinas'=>'required|exists:tb_m_banjar_dinas,id',
                 'lat' => 'required|numeric|regex:/^[0-9.-]+$/i',
                 'lng' => 'required|numeric|regex:/^[0-9.-]+$/i',
             ],
@@ -218,10 +210,8 @@ class MasteDataGriyaController extends Controller
                 'alamat_griya.regex' => "Format nama griya tidak sesuai",
                 'alamat_griya.min' => "Nama griya minimal berjumlah 3 karakter",
                 'alamat_griya.max' => "Nama griya maksimal berjumlah 100 karakter",
-                'id_desa.required' => "Lokasi Desa wajib diisi",
-                'id_desa.exists' => "Lokasi Desa tidak sesuai",
-                'id_desa_adat.required' => "Lokasi Desa Adat wajib diisi",
-                'id_desa_adat.exists' => "Lokasi Desa Adat tidak sesuai",
+                'id_banjar_dinas_adat.required' => "Lokasi Banjar Dinas wajib diisi",
+                'id_banjar_dinas_adat.exists' => "Lokasi Banjar Dinas tidak sesuai",
                 'lat.required' => "Latitude griya wajib diisi",
                 'lat.numeric' => "Latitude harus berupa angka",
                 'lat.regex' => "Format koordinat Latitude griya tidak sesuai",
@@ -234,8 +224,8 @@ class MasteDataGriyaController extends Controller
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Gagal Registrasi',
-                    'message' => 'Gagal melakukan registrasi akun, silakan periksa kembali form input anda!'
+                    'title' => 'Gagal Update Data Griya',
+                    'message' => 'Gagal melakukan update data Griya, silakan periksa kembali form input anda!'
                 ])->withInput($request->all())->withErrors($validator->errors());
             }
         // END
@@ -244,8 +234,7 @@ class MasteDataGriyaController extends Controller
             try{
                 DB::beginTransaction();
                 GriyaRumah::findOrFail($request->id)->update([
-                    'id_desa' => $request->id_desa,
-                    'id_desa_adat' => $request->id_desa_adat,
+                    'id_banjar_dinas' => $request->id_banjar_dinas,
                     'nama_griya_rumah' =>$request->nama_griya,
                     'alamat_griya_rumah' =>$request->alamat_griya,
                     'lat' =>$request->lat,

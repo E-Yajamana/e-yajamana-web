@@ -65,7 +65,7 @@
                                         </td>
                                         <td>
                                             <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a onclick="testing('{{$data->tanggal_tangkil}}')"  class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a onclick="cekTanggalTangkil('{{$data->tanggal_tangkil}}')"  class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         </td>
                                     </tr>
@@ -141,7 +141,8 @@
 
 @push('js')
     <script type="text/javascript">
-        function testing(tanggal_tangkil){
+    
+        function cekTanggalTangkil(tanggal_tangkil){
             if(moment(tanggal_tangkil).format('MM-DD-YYYY') == moment().format('MM-DD-YYYY')){
                 location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}";
             }else{

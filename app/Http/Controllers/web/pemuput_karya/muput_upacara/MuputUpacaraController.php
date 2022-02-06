@@ -87,27 +87,26 @@ class MuputUpacaraController extends Controller
     public function editKonfirmasiTangkil(Request $request)
     {
 
-        // $queryDetailReservasi = function($queryDetailReservasi){
-        //     $queryDetailReservasi->with(['DetailReservasi'])->whereHas('DetailReservasi');
-        // }
+        $queryDetailReservasi = function ($queryDetailReservasi){
+            $queryDetailReservasi->with(['Sulinggih','DetailReservasi'=>function($queryTahapanUpacara){
+                $queryTahapanUpacara->with(['TahapanUpacara'])->whereHas('TahapanUpacara');
+            }])->whereHas('DetailReservasi');
+        };
 
         $dataUpacara = Upacaraku::query()->with(['Reservasi','Upacara','Krama'])->whereHas('Reservasi');
-        $queryReservasi =function ($queryReservasi){
-            $queryReservasi->with(['Sulinggih','DetailReservasi'=> function ($queryDetailReservasi){
-                $queryDetailReservasi->with('TahapanUpacara')->where('status','diterima');
-            }])->where('status','proses tangkil');
-        };
-        $dataUpacara->with(['Reservasi'=>$queryReservasi])->whereHas('Reservasi',$queryReservasi);
+        $dataUpacara->with(['Reservasi'=>$queryDetailReservasi])->whereHas('Reservasi',$queryDetailReservasi);
         $dataUpacara = $dataUpacara->findOrFail($request->id);
-        // dd($dataUpacara);
 
-        return view('pages.pemuput-karya.manajemen-muput-upacara.konfrimasi-tangkil-edit',compact('dataUpacara'));
+        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-tangkil-edit',compact('dataUpacara'));
     }
     // EDIT KONFIRMASI TANGKIL
 
-
-
-
+    // UPDATE KONFIRMASI TANGIL
+    public function updateKonfirmasiTangkil(Request $request)
+    {
+        dd($request->all());
+    }
+    // UPDATE KONFIRMASI TANGIL
 
 
 }

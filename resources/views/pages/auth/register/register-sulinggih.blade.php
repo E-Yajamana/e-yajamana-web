@@ -337,6 +337,7 @@
                                             <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
                                         @endforeach
                                     </select>
+
                                     @error('kabupaten')
                                         <div class="invalid-feedback text-start">
                                             {{$errors->first('kabupaten') }}

@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class TbMBanjarDina
- * 
+ *
  * @property int $id
  * @property int|null $desa_adat_id
  * @property string|null $desa_dinas_id
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * 
+ *
  * @property TbMDesaAdat|null $tb_m_desa_adat
  * @property TbMDesaDina|null $tb_m_desa_dina
  * @property Collection|TbGriyaRumah[] $tb_griya_rumahs
@@ -62,7 +62,7 @@ class BanjarDinas extends Model
 
 	public function GriyaRumah()
 	{
-		return $this->hasMany(GriyaRumah::class, 'id_banjar_dinas');
+		return $this->hasMany(GriyaRumah::class, 'id_banjar_dinas','id');
 	}
 
 	public function KramaMipilDesaAdat()

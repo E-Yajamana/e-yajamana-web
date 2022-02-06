@@ -42,14 +42,14 @@ class GriyaRumah extends Model
 	protected $fillable = [
 		'nama_griya_rumah',
 		'alamat_griya_rumah',
+		'id_banjar_dinas',
 		'lat',
 		'lng',
-		'id_banjar_dinas'
 	];
 
 	public function BanjarDinas()
 	{
-		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas');
+		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas','id');
 	}
 
 	public function Sulinggih()

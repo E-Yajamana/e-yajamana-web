@@ -56,7 +56,7 @@
                                         @foreach ($data->Kecamatan as $index =>$kecamatan)
                                             <tr>
                                                 <td>{{$i}}</td>
-                                                <td>{{$kecamatan->id_kecamatan}}</td>
+                                                <td>{{$kecamatan->id}}</td>
                                                 <td>{{$kecamatan->name}}</td>
                                                 <td>{{$data->name}}</td>
                                             </tr>

@@ -235,10 +235,10 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 my-2">
-                                            <a href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
-                                            <button type="submit" class="btn btn-primary float-right ml-2">Simpan Data</button>
-                                            <div class="btn btn-secondary m-1 float-right " align-self="end">Setujui Semua</div>
-                                            <div class="btn btn-danger m-1 float-right " align-self="end">Tolak Semua</div>
+                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}" class="btn btn-secondary">Kembali</a>
+                                            <button type="submit" class="btn btn-primary float-right" align-self="end">Simpan Data</button>
+                                            <button class="btn btn-secondary float-right " align-self="end">Setujui Semua</button>
+                                            <button class="btn btn-danger float-right " align-self="end">Tolak Semua</button>
                                         </div>
                                     </div>
                                 </form>

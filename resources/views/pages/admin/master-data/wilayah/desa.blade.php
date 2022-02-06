@@ -54,10 +54,10 @@
                                     <?php $i=1; ?>
                                     @foreach ($dataDesa as $data)
                                         @foreach ($data->Kecamatan as $kecamatan)
-                                            @foreach ($kecamatan->Desa as $desa)
+                                            @foreach ($kecamatan->DesaDinas as $desa)
                                                 <tr>
                                                     <td>{{$i}}</td>
-                                                    <td>{{$desa->id_desa}}</td>
+                                                    <td>{{$desa->id}}</td>
                                                     <td>{{$desa->name}}</td>
                                                     <td>{{$kecamatan->name}}</td>
                                                 </tr>

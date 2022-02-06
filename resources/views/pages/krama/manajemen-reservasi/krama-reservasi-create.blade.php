@@ -121,7 +121,7 @@
                                             <div id="gmaps" style="height: 450px;"></div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             <!-- TAHAPAN AWAL -->
 
@@ -408,7 +408,7 @@
 
 <script>
 
-    
+
   </script>
 
     {{-- VALIDATE FORM --}}
@@ -528,7 +528,7 @@
                             alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
                             alert('View: ' + info.view.type);
                         }
-                        
+
                     });
                     calendar.render();
 
@@ -540,7 +540,7 @@
         // FUNCTION GET DATA PEMUPUT YANG DIPILIH
         function getPemuput(id,nama,tlpn,alamat,gender,tgldiksha,email){
             $("#myModal").modal('hide');
-            $("#judulKalender").text('Jadwal Muput'+nama);
+            $("#judulKalender").text('Jadwal Muput '+nama);
             // gaskan(id);
             stepper.next()
             showJadwal(id)
