@@ -94,4 +94,16 @@ class Penduduk extends Model
 		'ayah_kandung_id',
 		'ibu_kandung_id'
 	];
+
+	public function User(){
+		return $this->hasMany(User::class,'id_penduduk','id');
+	}
+
+	public function AyahKandung(){
+		return $this->belongsTo(Penduduk::class,'ayah_kandung_id','id');
+	}
+
+	public function IbuKandung(){
+		return $this->belongsTo(Penduduk::class,'ibu_kandung_id','id');
+	}
 }
