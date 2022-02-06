@@ -16,7 +16,8 @@ class KramaDashboardController extends Controller
         // MAIN LOGIC
             try{
                 $user = Auth::user();
-                $krama = $user->Krama()->first();
+                $krama = $user->Krama()->firstOrFail();
+                $penduduk = $user->Penduduk()->firstOrFail();
                 $upacarakus = $krama->Upacaraku()->with(['Upacara'])->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
@@ -36,6 +37,7 @@ class KramaDashboardController extends Controller
                     'data' => [
                         "user" => $user,
                         "krama" => $krama,
+                        "penduduk" => $penduduk,
                         "upacarakus" => $upacarakus
                     ],
             ],200);

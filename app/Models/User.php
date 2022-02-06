@@ -51,6 +51,10 @@ class User extends Authenticatable
         return $this->hasOne(Krama::class,'id_user','id');
     }
 
+    public function Penduduk(){
+        return $this->belongsTo(Penduduk::class,'id_penduduk','id');
+    }
+
     public function Sanggar(){
         return $this->hasOne(Sanggar::class,'id_user','id');
     }

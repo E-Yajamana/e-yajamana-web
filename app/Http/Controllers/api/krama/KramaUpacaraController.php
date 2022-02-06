@@ -225,6 +225,7 @@ class KramaUpacaraController extends Controller
                     ->findOrFail($id_upacara);
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',

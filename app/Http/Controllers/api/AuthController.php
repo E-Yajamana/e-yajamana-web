@@ -43,9 +43,13 @@ class AuthController extends Controller
                     // MENENTUKAN USER
                     $krama = null;
                     $sulinggih = null;
+                    $penduduk = null;
+                    
                     switch ($user->role) {
                         case 'krama_bali':
                             $krama = $user->Krama()->firstOrFail();
+                            $penduduk = $user->Penduduk()->firstOrFail();
+
                             $token = $user->createToken('e-yajamana',['role:krama_bali'])->plainTextToken;
                             break;
 
@@ -67,7 +71,6 @@ class AuthController extends Controller
                     ],401);
                 }
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return $err;
                 return response()->json([
                     'status' => 500,
                     'message' => 'Internal Server Error',
@@ -83,6 +86,7 @@ class AuthController extends Controller
                 'data' => (Object)[
                     'token' => $token,
                     'user' => $user,
+                    'penduduk' => $penduduk,
                     'krama' => $krama,
                     'sulinggih' => $sulinggih
                 ]
