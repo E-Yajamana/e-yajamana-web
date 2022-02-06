@@ -55,7 +55,7 @@
                                 @foreach ($dataReservasi as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$data->Upacaraku->Krama->nama_krama}}</td>
+                                        <td>{{$data->Upacaraku->Krama->User->Penduduk}}</td>
                                         <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
                                         <td>{{date('d-M-Y | h:i',strtotime($data->tanggal_tangkil))}}</td>
                                         <td>
@@ -141,7 +141,7 @@
 
 @push('js')
     <script type="text/javascript">
-    
+
         function cekTanggalTangkil(tanggal_tangkil){
             if(moment(tanggal_tangkil).format('MM-DD-YYYY') == moment().format('MM-DD-YYYY')){
                 location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}";

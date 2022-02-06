@@ -80,18 +80,16 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <div class="form-group">
-                                    <label>Kecamatan <span class="text-danger">*</span></label>
-                                    <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
-                                        <option value="0" disabled selected>Pilih Kecamatan</option>
-                                    </select>
-                                    <p class="m-1 text-sm">(Pilih Kabupaten terlebih dahulu)</p>
-                                    @error('kecamatan')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('kecamatan') }}
-                                        </div>
-                                    @enderror
-                                </div>
+                                <label>Kecamatan <span class="text-danger">*</span></label>
+                                <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                    <option value="0" disabled selected>Pilih Kecamatan</option>
+                                </select>
+                                <p class="m-1 text-sm">(Pilih Kabupaten terlebih dahulu)</p>
+                                @error('kecamatan')
+                                    <div class="invalid-feedback text-start">
+                                        {{$errors->first('kecamatan') }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label>Desa Dinas<span class="text-danger">*</span></label>

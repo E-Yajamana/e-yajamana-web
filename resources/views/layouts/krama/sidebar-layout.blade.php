@@ -5,7 +5,6 @@
         <img src="{{asset('base-template/dist/img/logo-01.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light fw-bold">E-Yajamana</span>
     </a>
-
     <!-- Sidebar -->
     <div class="sidebar">
     <!-- Sidebar user panel (optional) -->

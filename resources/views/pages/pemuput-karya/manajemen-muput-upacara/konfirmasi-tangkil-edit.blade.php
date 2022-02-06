@@ -318,9 +318,9 @@
 @push('js')
     <script type="text/javascript">
         let dataUpacara,tanggalTangkil ;
-        var idUser = {{ (Auth::user()->Sulinggih->id) }}
+        let idUser = {{ (Auth::user()->Sulinggih->id) }}
         dataUpacara = {!! json_encode($dataUpacara) !!}
-        console.log(dataUpacara)
+        // console.log(dataUpacara)
 
         $('#reservationtime').daterangepicker({
             timePicker: true,
@@ -369,32 +369,48 @@
         });
         // SET UP CALENDER
 
-        // FUNGSI GET DATA ALASAN DIDATABASE
-        // getAlasanPenolakan();
-        // function getAlasanPenolakan(){
-        //     console.log(dataUpacara)
-        //     $.each(dataUpacara.reservasi, function(key, dataReservasiJS){
-        //         $.each(dataReservasiJS.detail_reservasi, function(key, data){
+        /// FUNGSI GET DATA ALASAN DIDATABASE
+        getAlasanPenolakan();
+        function getAlasanPenolakan(){
+            $.each(dataUpacara.reservasi, function(key, data){
+                if(data.id_relasi == idUser){
+                    $.each(data.detail_reservasi, function(key, dataDetailReservasi){
+                        console.log(dataDetailReservasi)
+                        if(dataDetailReservasi.keterangan != null){
+                            var text = document.getElementById("text_penolakan-"+dataDetailReservasi.id);
+                            text.type = "text";
+                            text.value = dataDetailReservasi.keterangan;
+                        }else{
+                            var text = document.getElementById("text_penolakan-"+dataDetailReservasi.id);
+                            text.type = "hidden";
+                            text.value = "";
+                        }
+                    });
+                }
+            })
 
-        //             if(data.keterangan != null){
-        //                 var text = document.getElementById("text_penolakan-"+data.id);
-        //                 text.type = "text";
-        //                 text.value = data.keterangan;
-        //             }else{
-        //                 var text = document.getElementById("text_penolakan-"+data.id);
-        //                 text.type = "hidden";
-        //                 text.value = "";
-        //             }
+        }
 
-        //         });
-        //     })
-        // }
+        // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
+        $('select').change(function(){
+            var id = $(this).find(':selected').data('id');
+            var jenis = $(this).find(':selected').val();
+            var text = document.getElementById("text_penolakan-"+id);
+            if(jenis=='ditolak'){
+                getAlasanPenolakan();
+                text.type = "text";
+            }else{
+                text.type = "hidden";
+                text.value = "";
+            }
+        });
+        // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
+
         // FUNGSI GET DATA ALASAN DIDATABASE
 
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
         $('select').change(function(){
             var id = $(this).find(':selected').data('id');
-            console.log(id);
             var jenis = $(this).find(':selected').val();
             var text = document.getElementById("text_penolakan-"+id);
             if(jenis=='ditolak'){

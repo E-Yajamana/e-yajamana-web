@@ -38,27 +38,24 @@
                                     <h3 class="card-title">Filter Reservasi</h3>
                                 </div>
                                 <div class="col-6">
-                                    <a class="btn btn-primary float-right" type="button" href="{{route('krama.manajemen-reservasi.create')}}"> <i class="fa fa-plus"></i> Tambah Reservasi</a>
+                                    <a class="btn btn-primary float-right" type="button" href="#"> <i class="fa fa-plus"></i> Tambah Reservasi</a>
                                 </div>
                             </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-7">
+                                <div class="col-8">
                                     <ul class="nav nav-pills">
-                                        {{-- <li class="nav-item">
-                                            <div class="nav-link">
-                                                <strong>Status</strong>
-                                            </div>
-                                        </li> --}}
                                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Tangkil</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Muput</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Selesai</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Batal</a></li>
                                     </ul>
                                 </div>
-                                <div class="col-5">
+                                <div class="col-4">
                                     <select class="form-control select2" style="width: 100%;" aria-placeholder="ada">
                                         <option >Jenis Yadnya</option>
                                         <option>Dewa Yadnya</option>
@@ -84,46 +81,30 @@
                         <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
                             <div class="card-body p-0">
                                 <div class="table-responsive mailbox-messages p-2">
-                                    <table id="example2" class="table table-striped table-hover mx-auto table-responsive-sm">
+                                    <table id="example2" class="table mx-auto table-responsive-sm">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Nama Upacara</th>
-                                                <th>Jenis Upacara</th>
-                                                <th>Status Upacara</th>
-                                                <th>Tanggal Upacara</th>
-                                                <th>Action</th>
+                                                <th>Nama Upakara</th>
+                                                <th>Pemuput Upakara</th>
+                                                <th>Tahapan Reservasi</th>
+                                                <th>Status</th>
+                                                <th>Tindakan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mepandes Putu Alex</td>
-                                                <td>Manusa Yadnya</td>
-                                                <td>
-                                                    <span class="bg-success btn-sm" style="border-radius: 5px; width:70px;">Berhasil</span>
-                                                </td>
-                                                <td>27 Juni 2021 - 30 Juni 2021</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Atma Wedana Gianyar</td>
-                                                <td>Pitra Yadnya</td>
-                                                <td>
-                                                    <div class="bg-danger btn-sm text-center" style="border-radius: 5px; width:70px;">Batal</div>
-                                                </td>
-                                                <td>01 Juni 2021 - 20 Juni 2021</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
+                                            @foreach ($dataReservasi as $data)
+                                                <tr>
+                                                    <td >{{$data->nama_upacara}}</td>
+                                                    <td>
+                                                        @foreach ($data->Reservasi as $dataReservasi)
+                                                            <li>
+                                                                {{$dataReservasi->tipe}}
+                                                            </li>
+                                                        @endforeach
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                         <tfoot>
                                             <tr>

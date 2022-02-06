@@ -28,9 +28,6 @@
 
 @endpush
 
-
-
-
 @section('content')
 
     <section class="content-header">
