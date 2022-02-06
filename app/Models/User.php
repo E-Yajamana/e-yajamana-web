@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'tb_user';
+    protected $table = 'tb_user_eyajamana';
 
     /**
      * The attributes that are mass assignable.
@@ -49,6 +49,10 @@ class User extends Authenticatable
 
     public function Krama(){
         return $this->hasOne(Krama::class,'id_user','id');
+    }
+
+    public function Penduduk(){
+        return $this->belongsTo(Penduduk::class,'id_penduduk','id');
     }
 
     public function Sanggar(){

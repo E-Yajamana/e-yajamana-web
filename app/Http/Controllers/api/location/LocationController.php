@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\api\location;
 
 use App\Http\Controllers\Controller;
+use App\Models\BanjarDinas;
 use App\Models\Desa;
 use App\Models\DesaAdat;
+use App\Models\DesaDinas;
+use App\Models\Kabupaten;
 use App\Models\KabupatenBaru;
 use App\Models\Kecamatan;
 use App\Models\ProvinsiBaru;
@@ -44,8 +47,8 @@ class LocationController extends Controller
 
     public function getKabupaten($id_provinsi){
         // VALIDATION
-            $validator = Validator::make(['id_provinsi' => $id_provinsi],[
-                'id_provinsi' => 'required|numeric'
+            $validator = Validator::make(['provinsi_id' => $id_provinsi],[
+                'provinsi_id' => 'required|numeric'
             ]);
 
             if($validator->fails()){
@@ -59,9 +62,7 @@ class LocationController extends Controller
 
         // MAIN LOGIC
             try{
-
-                $kabupatens = KabupatenBaru::where('id_provinsi',$id_provinsi)->get();
-
+                $kabupatens = Kabupaten::where('provinsi_id',$id_provinsi)->get();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
                 return response()->json([
                         'status' => 500,
@@ -100,7 +101,7 @@ class LocationController extends Controller
         // MAIN LOGIC
             try{
 
-                $kecamatans = Kecamatan::where('id_kabupaten',$id_kabupaten)->get();
+                $kecamatans = Kecamatan::where('kabupaten_id',$id_kabupaten)->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
                 return response()->json([
@@ -140,7 +141,7 @@ class LocationController extends Controller
         // MAIN LOGIC
             try{
 
-                $desas = Desa::where('id_kecamatan',$id_kecamatan)->get();
+                $desas = DesaDinas::where('kecamatan_id',$id_kecamatan)->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
                 return response()->json([
@@ -157,6 +158,44 @@ class LocationController extends Controller
                     'message' => 'Berhasil mengambil data desa',
                     'data' => [
                         'desas' => $desas
+                    ],
+            ],200);
+        // END
+    }
+
+    public function getBanjarDinas($id_desa_dinas){
+        // SECURITY
+            $validator = Validator::make(['id_desa_dinas' => $id_desa_dinas],[
+                'id_desa_dinas' => 'required|exists:tb_m_desa_dinas,id',
+            ]);
+
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'Validation Error',
+                        'data' => (Object)[],
+                ],400);
+            }
+        // END
+
+        // MAIN LOGIC
+            try{
+                $banjarDinas = BanjarDinas::where('desa_dinas_id',$id_desa_dinas)->get();
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal Server Error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+
+        // RETURN
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil mengambil data desa',
+                    'data' => [
+                        'banjar' => $banjarDinas
                     ],
             ],200);
         // END
@@ -194,7 +233,7 @@ class LocationController extends Controller
             $validator = Validator::make(['id_provinsi' => $id_provinsi],[
                 'id_provinsi' => 'required|numeric'
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -203,7 +242,7 @@ class LocationController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
 
@@ -219,7 +258,7 @@ class LocationController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,

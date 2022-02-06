@@ -60,7 +60,7 @@
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$data->nama_griya_rumah}}</td>
                                             <td>{{$data->alamat_griya_rumah}}</td>
-                                            <td>{{$data->DesaAdat->desadat_nama}}</td>
+                                            <td>{{$data->BanjarDinas->nama_banjar_dinas}}</td>
                                             <td>
                                                 <a href="{{route('admin.master-data.griya.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                 <a href="{{route('admin.master-data.griya.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>

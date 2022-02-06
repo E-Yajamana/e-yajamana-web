@@ -14,6 +14,8 @@
     <!-- dropzonejs -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/dropzone/min/dropzone.min.css')}}">
 
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/fullcalendar/main.css')}}">
 
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
@@ -25,9 +27,6 @@
     crossorigin=""/>
 
 @endpush
-
-
-
 
 @section('content')
 
@@ -119,6 +118,7 @@
                                             <div id="gmaps" style="height: 450px;"></div>
                                         </div>
                                     </div>
+
                                 </div>
                             <!-- TAHAPAN AWAL -->
 
@@ -160,13 +160,21 @@
                                                                 </div>
                                                                 <h3 class="text-center bold mb-0 mt-3 ">{{$dataUpacaraku->nama_upacara}}</h3>
                                                                 <p class="text-center mb-1 mt-1">{{$dataUpacaraku->Upacara->kategori_upacara}}</p>
-
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <label class="card-title"  id="judulKalender">Jadwal Muput </label>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id='calendar'></div>
+                                            </div>
+                                        </div>
+
                                         <div class="card tab-content card-primary card-outline">
                                             <div class="card-header my-auto">
                                                 <label class="card-title my-auto">Rentetan Upacara</label>
@@ -378,6 +386,9 @@
     <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
 
     <script src="http://www.datejs.com/build/date.js" type="text/javascript"></script>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="{{asset('base-template/plugins/fullcalendar/main.js')}}"></script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -385,13 +396,18 @@
         })
 
         $('#side-reservasi').addClass('menu-open');
-
-
+        $('#side-tambah-reservasi').addClass('active');
 
     </script>
 @endpush
 
 @push('js')
+
+<script>
+
+
+  </script>
+
     {{-- VALIDATE FORM --}}
     <script type="text/javascript">
 
@@ -470,13 +486,64 @@
     <script type="text/javascript">
         let dataPemuputKarya,dataSanggar,dataUpacaraku;
 
+        function showJadwal(id){
+            $.ajax({
+                url: "{{route('ajax.get.data-tangkil')}}"+"/"+id,
+                type: "GET",
+                dataType: "json",
+                success:function(dataTangkil){
+                    console.log(dataTangkil.data);
+                    var evetArray = [];
+                    var dataArray = {};
+                    var dataDetailArray = {};
+                    $.each(dataTangkil.data, function(key, data){
+                        console.log(data);
+                        dataArray.title = "Tangkil "+data.upacaraku.nama_upacara,
+                        dataArray.start = data.tanggal_tangkil,
+                        dataArray.allDay = false
+                        evetArray.push({...dataArray});
+                        $.each(data.detail_reservasi, function(key, data){
+                            dataDetailArray.title = "Muput "+data.tahapan_upacara.nama_tahapan,
+                            dataDetailArray.start = data.tanggal_mulai,
+                            dataDetailArray.end = data.tanggal_selesai,
+                            dataDetailArray.allDay = true
+                            evetArray.push({...dataDetailArray});
+                        })
+                    });
+
+                    var calendarEl = document.getElementById('calendar');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        events: evetArray,
+                        headerToolbar: {
+                            left: 'prev,next,today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                        },
+                        height: 520,
+                        eventClick: function(info) {
+                            alert('Event: ' + info.event.title);
+                            alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                            alert('View: ' + info.view.type);
+                        }
+
+                    });
+                    calendar.render();
+
+                }
+            })
+
+        }
+
         // FUNCTION GET DATA PEMUPUT YANG DIPILIH
         function getPemuput(id,nama,tlpn,alamat,gender,tgldiksha,email){
             $("#myModal").modal('hide');
+            $("#judulKalender").text('Jadwal Muput '+nama);
+            // gaskan(id);
             stepper.next()
+            showJadwal(id)
             $("#in_nama_sulinggih").html(nama);
             $("#in_email_sulinggih").html(email);
-            $("#dataPemuput").append("<div class='card-header'><label class='card-title'>Pemuput Upacara</label><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse' title='Collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body box-profile align-content-center'><div class='text-center mb-2'><img class='profile-user-img img-fluid img-circle'  src='{{route('get-image.upacara',1)}}' alt='User profile picture'></div><div class='row mt-3'><div class='col-6'><input value='"+id+"' type='hidden' name='id_relasi' class='d-none'><input value='sulinggih_pemangku' name='tipe' type='hidden' class='d-none'><div class='form-group'><label>Nama Pemuput Upacara</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama+"' disabled=''></div><div class='form-group'><label>Nomer Handphone</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+tlpn+"' disabled=''></div><div class='form-group'><label>Email</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+email+"' disabled=''></div></div><div class='col-6'><div class='form-group'><label>Tanggal diDiksha</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+tgldiksha+"' disabled=''></div><div class='form-group'><label>Jenis Kelamin</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+gender+"' disabled=''></div><div class='form-group'><label>Alamat Lengkap Pemuput</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+alamat+"' disabled></div></div></div></div>");
+            $("#dataPemuput").append("<div class='card-header'><label class='card-title'>Pemuput Upacara</label><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse' title='Collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body box-profile align-content-center'><div class='text-center mb-2'><img class='profile-user-img img-fluid img-circle'  src='{{route('get-image.upacara',1)}}' alt='User profile picture'></div><div class='row mt-3'><div class='col-6'><input value='"+id+"' type='hidden' name='id_relasi' class='d-none'><input value='sulinggih_pemangku' name='tipe' type='hidden' class='d-none'><div class='form-group'><label>Nama Pemuput Upacara</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama+"' disabled=''></div><div class='form-group'><label>Nomer Handphone</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+tlpn+"' disabled=''></div><div class='form-group'><label>Email</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+email+"' disabled=''></div></div><div class='col-6'><div class='form-group'><label>Tanggal diDiksha</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+moment(tgldiksha).format('D-MMM-Y')+"' disabled=''></div><div class='form-group'><label>Jenis Kelamin</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+gender+"' disabled=''></div><div class='form-group'><label>Alamat Lengkap Pemuput</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+alamat+"' disabled></div></div></div></div>");
         };
         // FUNCTION GET DATA PEMUPUT YANG DIPILIH
 

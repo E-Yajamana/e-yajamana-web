@@ -86,18 +86,18 @@ class KramaUpacaraController extends Controller
             $validator = Validator::make($request->all(),[
                 ''
             ]);
-            
+
             if($validator->fails()){
-            
+
             }
         // END
-        
+
         // MAIN LOGIC
-        
+
         // END
-        
+
         // RETURN
-        
+
         // END
     }
 
@@ -225,6 +225,7 @@ class KramaUpacaraController extends Controller
                     ->findOrFail($id_upacara);
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',

@@ -62,6 +62,7 @@
                                     <span class="bs-stepper-label">Jenis Upacara</span>
                                 </button>
                             </div>
+
                             <div class="line"></div>
                             <div class="step" data-target="#information-part">
                                 <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
@@ -78,9 +79,8 @@
                                 </button>
                             </div>
                         </div>
-
                         <div class="bs-stepper-content">
-                            <!-- your steps content here -->
+                            <!-- STEPPER 1 PILIH YADNYA -->
                             <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
                                 <div class="row justify-content-center">
                                     <div class="col-4" data-category="1" data-sort="white sample">
@@ -115,7 +115,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- STEPPER 1 PILIH YADNYA -->
 
+                            <!-- STEPPER 2 INPUT DATA FORM -->
                             <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
                                 <form id="submitData" action="{{route('krama.manajemen-upacara.upacaraku.store')}}" method="POST">
                                     @csrf
@@ -143,7 +145,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Nama Upacara <span class="text-danger">*</span></label>
-                                        <div class="input-group mb-3">
+                                        <div class="input-group">
                                             <input type="text" id="nama_upacara" name="nama_upacara" autocomplete="off" class="form-control @error('nama_upacara') is-invalid @enderror" value="{{ old('nama_upacara') }}" placeholder="Masukan Nama Upacara">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
@@ -172,28 +174,27 @@
                                                 </div>
                                             @enderror
                                         </div>
-                                        <input type="hidden" class="d-none" id="start_date" name="start_date">
-                                        <input type="hidden" class="d-none" id="end_date" name="end_date">
-                                        <!-- /.input group -->
                                     </div>
-                                    {{-- Mengambil Data Lokasi --}}
+
+                                    <!-- AJAX LOKASI SEARCH  -->
                                     <div class="row">
                                         <div class="col-12 col-md-6">
                                             <div class="form-group">
                                                 <label>Kabupaten/Kota <span class="text-danger">*</span></label>
-                                                <select id="kabupaten" name="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
+                                                <select name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
                                                     <option value="0" disabled selected>Pilih Kabupaten</option>
                                                     @php
                                                         $kabupaten = old('kabupaten')
                                                     @endphp
-                                                    @foreach ($dataKabupaten->where('id_provinsi',51) as $data)
-                                                        @if ($kabupaten == $data->id_kabupaten)
-                                                            <option value="{{$data->id_kabupaten}}" selected>{{$data->name}}</option>
+                                                    @foreach ($dataKabupaten->where('provinsi_id',51) as $data)
+                                                        @if ($kabupaten == $data->id)
+                                                            <option value="{{$data->id}}" selected>{{$data->name}}</option>
                                                         @else
-                                                            <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                                            <option value="{{$data->id}}">{{$data->name}}</option>
                                                         @endif
                                                     @endforeach
                                                 </select>
+                                                <p class="m-1 text-sm">(Pilih List Kabupaten Bali)</p>
                                                 @error('kabupaten')
                                                     <div class="invalid-feedback text-start">
                                                         {{$errors->first('kabupaten') }}
@@ -203,9 +204,10 @@
                                             <div class="form-group">
                                                 <div class="form-group">
                                                     <label>Kecamatan <span class="text-danger">*</span></label>
-                                                    <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                                    <select id="kecamatan" name="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
                                                         <option value="0" disabled selected>Pilih Kecamatan</option>
                                                     </select>
+                                                    <p class="m-1 text-sm">(Pilih Kabupaten terlebih dahulu )</p>
                                                     @error('kecamatan')
                                                         <div class="invalid-feedback text-start">
                                                             {{$errors->first('kecamatan') }}
@@ -220,6 +222,7 @@
                                                 <select id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
                                                     <option value="0" disabled selected>Pilih Desa Dinas</option>
                                                 </select>
+                                                <p class="m-1 text-sm">(Pilih Kecamatan terlebih dahulu)</p>
                                                 @error('id_desa')
                                                     <div class="invalid-feedback text-start">
                                                         {{$errors->first('id_desa') }}
@@ -227,29 +230,20 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <label>Desa Adat <span class="text-danger">*</span></label>
-                                                <select id="desa_adat" name="id_desa_adat" class="form-control select2bs4 @error('id_desa_adat') is-invalid @enderror" style="width: 100%;">
-                                                    <option value="0" disabled selected>Pilih Desa Adat</option>
-                                                    @php
-                                                        $desaadat = old('id_desa_adat')
-                                                    @endphp
-                                                    @foreach ($dataDesaAdat as $data)
-                                                        @if ($desaadat == $data->desadat_id)
-                                                            <option selected value="{{$data->desadat_id}}" selected>{{$data->desadat_nama}}</option>
-                                                        @else
-                                                            <option value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
-                                                        @endif
-                                                    @endforeach
+                                                <label>Banjar Dinas <span class="text-danger">*</span></label>
+                                                <select id="id_banjar_dinas" name="id_banjar_dinas" class="form-control select2bs4 @error('id_banjar_dinas') is-invalid @enderror" style="width: 100%;">
+                                                    <option value="0" disabled selected>Pilih Banjar Dinas</option>
                                                 </select>
-                                                @error('id_desa_adat')
+                                                <p class="m-1 text-sm">(Pilih Desa Dinas terlebih dahulu)</p>
+                                                @error('id_banjar_dinas')
                                                     <div class="invalid-feedback text-start">
-                                                        {{$errors->first('id_desa_adat') }}
+                                                        {{$errors->first('id_banjar_dinas') }}
                                                     </div>
                                                 @enderror
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- Mengambil Data Lokasi --}}
+                                    <!-- AJAX LOKASI SEARCH  -->
 
                                     <div class="form-group">
                                         <label>Alamat Lengkap Lokasi Upacara</label>
@@ -297,12 +291,13 @@
 
                                     <div class="form-group">
                                         <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
-                                        <button id="submitToRangkuman" type="button" class="btn btn-primary float-sm-right" onclick="stepper.next()">Selanjutnya</button>
+                                        <button id="submitToRangkuman" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>
                                     </div>
                                 </form>
                             </div>
+                            <!-- STEPPER 2 INPUT DATA FORM -->
 
-                            {{-- Batas Pengambilan Data --}}
+                            <!-- STEPPER 3 RANGKUMAN DATA -->
                             <div id="next-part" class="content" role="tabpanel" aria-labelledby="next-part-trigger">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Jenis Yadnya </label>
@@ -417,9 +412,11 @@
                                 </div>
                                 <div class="form-group">
                                     <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
-                                    <button type="button" id="submit" class="btn btn-primary float-sm-right" onclick="stepper.next()">Simpan</button>
+                                    <button type="button" id="submit" class="btn btn-primary float-sm-right" >Simpan</button>
                                 </div>
                             </div>
+                             <!-- STEPPER 3 RANGKUMAN DATA -->
+
                         </div>
                     </div>
                 </div>
@@ -448,38 +445,189 @@
             </div>
         </div>
     </div>
-
 @endsection
 
+@push('js')
+    <!-- BS-Stepper -->
+    <script src="{{asset('base-template/plugins/bs-stepper/js/bs-stepper.min.js')}}"></script>
+
+    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
+    <!-- Bootstrap4 Duallistbox -->
+    <script src="{{asset('base-template/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
+    <!-- InputMask -->
+    <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/inputmask/jquery.inputmask.min.js')}}"></script>
+    <!-- date-range-picker -->
+    <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <!-- bootstrap color picker -->
+    <script src="{{asset('base-template/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+    <!-- Bootstrap Switch -->
+    <script src="{{asset('base-template/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+
+    <!-- jquery-validation -->
+    <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
+
+
+    <!-- dropzonejs -->
+    <script src="{{asset('base-template/plugins/dropzone/min/dropzone.min.js')}}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{asset('base-template/dist/js/demo.js')}}"></script>
+    <!-- date-range-picker -->
+    <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <!-- ajax-get-wilayah -->
+    <script src="{{asset('base-template/dist/js/pages/ajax-get-wilayah.js')}}"></script>
+
+    <!-- Set Up Library -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#side-upacara').addClass('menu-open');
+            $('#side-tambah-upacara').addClass('active');
+        });
+
+        $('#daterange').daterangepicker({
+            timePicker: true,
+            locale: {
+                format: 'DD/MM/YYYY',
+            },
+            drops: "up",
+        });
+
+        $('#mySelect2').select2('data');
+        $('.select2').select2()
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+        document.addEventListener('DOMContentLoaded', function () {
+            window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+        })
+    </script>
+@endpush
 
 @push('js')
 
-
-    {{-- PARSE DATA START TO DATE --}}
-    <script>
-        $(function() {
-            $('input[name="daterange"]').daterangepicker({
-                opens: 'right'
-            },function(start, end, label) {
-                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-                $("#start_date").val(start.format('YYYY-MM-DD'));
-                $("#end_date").val(end.format('YYYY-MM-DD'));
-            });
-        });
-    </script>
-    {{-- PARSE DATA START TO DATE --}}
-
-
     <script language="javascript" type="text/javascript">
-
         let jenis_upacara,nama_upacara,kabupaten,kecamatan,desa_dinas,desa_adat,alamat,deskripsi,daterange;
+
+        // VALIDASI FORM INPUT DATA
+        $('#submitData').validate({
+            rules: {
+                id_upacara: {
+                    required: true,
+                    number: true
+                },
+                nama_upacara: {
+                    required: true,
+                    minlength: 3
+                },
+                daterange: {
+                    required: true,
+                },
+                kabupaten: {
+                    required: true,
+                    number: true
+                },
+                kecamatan: {
+                    required: true,
+                    number: true
+                },
+                id_desa: {
+                    required: true,
+                    number: true
+                },
+                id_banjar_dinas: {
+                    required: true,
+                    number: true
+                },
+                lokasi: {
+                    required: true,
+                    minlength: 3
+                },
+                lng: {
+                    required: true,
+                    number: true
+                },
+                deskripsi_upacara: {
+                    required: true,
+                },
+            },
+            messages: {
+                nama_upacara: {
+                    required: "Nama Upacara Wajib diisi",
+                    minlength: "Nama Upacara minimal berjumlah 3 karakter"
+                },
+                id_upacara: {
+                    required: "Jenis Upacara Wajib diisi",
+                    number: "Format Jenis Upacara haru benar!"
+                },
+                daterange: {
+                    required: "Tanggal Mulai - Selesai Upacara Wajib diisi",
+                },
+                kabupaten: {
+                    required: "Kolom Kabupaten Wajib diisi",
+                    number: "Format Kolom Kabupaten haru benar!"
+                },
+                kecamatan: {
+                    required: "Kolom Kecamatan Wajib diisi",
+                    number: "Format Kolom Kecamatan haru benar!"
+                },
+                id_desa: {
+                    required: "Kolom Desa Dinas Wajib diisi",
+                    number: "Format Kolom Desa Dinas haru benar!"
+                },
+                id_banjar_dinas: {
+                    required: "Kolom Banjar Dinas Wajib diisi",
+                    number: "Format Kolom Banjar Dinas haru benar!"
+                },
+                lokasi: {
+                    required: "Alamat Lengkap Wajib diisi",
+                    minlength: "Alamat Lengkap minimal berjumlah 3 karakter"
+                },
+                lng: {
+                    required: "Pemetaan Lokasi Upakara Wajib diisi!",
+                },
+                deskripsi_upacara: {
+                    required: "Deskripsi Upacara Wajib diisi",
+                    minlength: "Deskripsi Upacara minimal berjumlah 3 karakter"
+                },
+
+            },
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass('ml-1 invalid-feedback text-start');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+
 
         $('#submit').click(function(){
             $('#submitData').submit();
         })
 
         $('#submitToRangkuman').click(function(){
-            setDataToRangkuman();
+            var form = $("#submitData");
+            if(form.valid()==true){
+                stepper.next();
+                setDataToRangkuman();
+            }
+
+        });
+
+        function setDataToRangkuman()
+        {
+            // stepper.next();
+            // AJAX GET DATA TAHAPAN TO RANGKUMAN
             var jenisUpacara = $("#jenis_upacara").val()
             if(jenisUpacara){
                 $.ajax({
@@ -509,10 +657,7 @@
                 $('#puncak').empty();
                 $('#akhir').empty();
             }
-        });
 
-        function setDataToRangkuman()
-        {
             // GET DATA IN FORM
             jenis_upacara = $("#jenis_upacara option:selected").text()
             nama_upacara = $("#nama_upacara").val()
@@ -523,7 +668,6 @@
             alamat = $("#alamat").val()
             deskripsi = $("#deskripsi").val()
             daterange = $("#daterange").val()
-
             // SET STEPPER TO RANGKUMAN
             $("#view_jenis_yadnya").val(jenisYadnya)
             $("#view_jenis_upacara").val(jenis_upacara)
@@ -536,7 +680,6 @@
             $("#view_alamat").val(alamat)
             $("#view_desc").val(deskripsi)
         }
-
     </script>
 
 
@@ -566,31 +709,26 @@
                 }
             })
         }
-
         $('#dewaYadnya').click(function(){
             jenisYadnya =  $("#dewaYadnya").val();
             $("#jenis_yadnya").val(jenisYadnya);
             getJenisYadnya(jenisYadnya);
         })
-
         $('#pitraYadnya').click(function(){
             jenisYadnya =  $("#pitraYadnya").val();
             $("#jenis_yadnya").val(jenisYadnya);
             getJenisYadnya(jenisYadnya);
         })
-
         $('#rsiYadnya').click(function(){
             jenisYadnya =  $("#rsiYadnya").val();
             $("#jenis_yadnya").val(jenisYadnya);
             getJenisYadnya(jenisYadnya);
         })
-
         $('#manusaYadnya').click(function(){
             jenisYadnya =  $("#manusaYadnya").val();
             $("#jenis_yadnya").val(jenisYadnya);
             getJenisYadnya(jenisYadnya);
         })
-
         $('#bhutaYadnya').click(function(){
             jenisYadnya =  $("#bhutaYadnya").val();
             $("#jenis_yadnya").val(jenisYadnya);
@@ -604,7 +742,6 @@
         $(document).ready(function() {
             //--------------START Deklarasi awal seperti icon pembuatan map-------------//
            var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 10);
-
            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                attribution: 'Maps E-Yajamana',
                maxZoom: 18,
@@ -614,25 +751,19 @@
                zoomOffset: -1,
                accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
            }).addTo(mymap);
-
-
            document.getElementById("modalMap").onclick = function () {
                document.getElementById('modal-xl').style.display = 'block';
                setTimeout(function() {
                    mymap.invalidateSize();
                }, 100);
            }
-
            var curLocation = [0, 0];
-
            if (curLocation[0] == 0 && curLocation[1] == 0) {
                curLocation = [-8.4517916, 115.1970086];
            }
-
            var marker = new L.marker(curLocation, {
                draggable: 'true'
            });
-
            marker.on('dragend', function(event) {
                 var position = marker.getLatLng();
                 marker.setLatLng(position, {
@@ -643,7 +774,6 @@
                 $("#view_lat").val(position.lat);
                 $("#view_lng").val(position.lng);
            });
-
            $("#Latitude, #Longitude").change(function() {
                var position = [parseInt($("#Latitude").val()), parseInt($("#Longitude").val())];
                marker.setLatLng(position, {
@@ -651,123 +781,8 @@
                }).bindPopup(position).update();
                mymap.panTo(position);
            });
-
            mymap.addLayer(marker);
-
        })
-
     </script>
     <!-- Maps Pemetaan  -->
-
-    <!-- Fungsi Ajax Get Data Wilayah -->
-    <script language="javascript" type="text/javascript">
-        $('#kabupaten').on('change', function() {
-            var kabupatenID = $(this).val();
-            if(kabupatenID){
-                $.ajax({
-                    url: '/ajax/kecamatan/'+kabupatenID,
-                    type: "GET",
-                    data : {"_token":"{{ csrf_token() }}"},
-                    dataType: "json",
-                    success:function(dataKecamatan)
-                    {
-                        console.log(kabupatenID);
-                        console.log(dataKecamatan.data.kecamatans);
-
-                        if(dataKecamatan.data.kecamatans){
-                            $('#kecamatan').empty();
-                            $('#kecamatan').append('<option value="0" disabled selected>Pilih Kecamatan</option>');
-                            $.each(dataKecamatan.data.kecamatans, function(key, data){
-                                $('#kecamatan').append('<option value="'+ data.id_kecamatan +'">' + data.name+ '</option>');
-                            });
-                        }else{
-                            $('#kecamatan').empty();
-                        }
-                    }
-                })
-            }else{
-                $('#course').empty();
-            }
-        })
-
-        $('#kecamatan').on('change', function() {
-            var kecamatanID = $(this).val();
-            if(kecamatanID){
-                $.ajax({
-                    url: '/ajax/desa/'+kecamatanID,
-                    type: "GET",
-                    data : {"_token":"{{ csrf_token() }}"},
-                    dataType: "json",
-                    success:function(dataDesa)
-                    {
-                        console.log(kecamatanID);
-                        console.log(dataDesa.data.desas);
-
-                        if(dataDesa.data.desas){
-                            $('#desa_dinas').empty();
-                            $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
-                            $.each(dataDesa.data.desas, function(key, data){
-                                $('#desa_dinas').append('<option value="'+ data.id_desa +'">' + data.name+ '</option>');
-                            });
-                        }else{
-                            $('#course').empty();
-                        }
-                    }
-                })
-            }else{
-                $('#course').empty();
-            }
-        })
-    </script>
-    <!-- Fungsi Ajax Get Data Wilayah -->
-
-    <!-- Push Library -->
-        <!-- BS-Stepper -->
-        <script src="{{asset('base-template/plugins/bs-stepper/js/bs-stepper.min.js')}}"></script>
-
-        <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-        <!-- Select2 -->
-        <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
-        <!-- Bootstrap4 Duallistbox -->
-        <script src="{{asset('base-template/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js')}}"></script>
-        <!-- InputMask -->
-        <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
-        <script src="{{asset('base-template/plugins/inputmask/jquery.inputmask.min.js')}}"></script>
-        <!-- date-range-picker -->
-        <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
-        <!-- bootstrap color picker -->
-        <script src="{{asset('base-template/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
-        <!-- Tempusdominus Bootstrap 4 -->
-        <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-        <!-- Bootstrap Switch -->
-        <script src="{{asset('base-template/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
-        <!-- dropzonejs -->
-        <script src="{{asset('base-template/plugins/dropzone/min/dropzone.min.js')}}"></script>
-        <!-- AdminLTE for demo purposes -->
-        <script src="{{asset('base-template/dist/js/demo.js')}}"></script>
-        <!-- date-range-picker -->
-        <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <!-- Push Library -->
-
-    <!-- Set Up Library -->
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#side-upacara').addClass('menu-open');
-            $('#side-tambah-upacara').addClass('active');
-            $('#reservation').daterangepicker();
-        });
-        $('#mySelect2').select2('data');
-
-        $('.select2').select2()
-
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        })
-
-        document.addEventListener('DOMContentLoaded', function () {
-            window.stepper = new Stepper(document.querySelector('.bs-stepper'))
-        })
-    </script>
-
 @endpush

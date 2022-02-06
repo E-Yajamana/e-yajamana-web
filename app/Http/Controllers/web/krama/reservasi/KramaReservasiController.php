@@ -23,7 +23,8 @@ class KramaReservasiController extends Controller
     // INDEX RESERVASI KRAMA
     public function indexReservasi(Request $request)
     {
-        return view('pages.krama.manajemen-reservasi.krama-reservasi-index');
+        $dataReservasi = Upacaraku::with('Reservasi')->whereHas('Reservasi')->get();
+        return view('pages.krama.manajemen-reservasi.krama-reservasi-index',compact('dataReservasi'));
     }
     // INDEX RESERVASI KRAMA
 
@@ -148,6 +149,9 @@ class KramaReservasiController extends Controller
 
     }
     // STORE RESERVASI KRAMA
+
+
+
 
 
 }

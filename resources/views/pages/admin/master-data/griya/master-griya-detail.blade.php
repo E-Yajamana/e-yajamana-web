@@ -51,7 +51,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Desa Adat</label>
-                                <input disabled type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{$dataGriya->DesaAdat->desadat_nama}}">
+                                <input disabled type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{$dataGriya->BanjarDinas->DesaAdat->desadat_nama}}">
                                 @error('nama_griya')
                                     <div class="invalid-feedback text-start">
                                         {{ $errors->first('nama_griya') }}
@@ -59,8 +59,8 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Alamat Lengkap Griya <span class="text-danger">*</span></label>
-                                <textarea disabled name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="5" placeholder="Masukan Alamat Lengkap Griya" >{{$dataGriya->alamat_griya_rumah}}, Desa {{Str::ucfirst(Str::lower($dataGriya->Desa->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataGriya->Desa->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataGriya->Desa->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataGriya->Desa->Kecamatan->Kabupaten->Provinsi->name))}} </textarea>
+                                <label>Alamat Lengkap Griya</label>
+                                <textarea disabled name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="5" placeholder="Masukan Alamat Lengkap Griya" >{{$dataGriya->alamat_griya_rumah}}, Desa {{Str::ucfirst(Str::lower($dataGriya->BanjarDinas->DesaDinas->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataGriya->BanjarDinas->DesaDinas->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataGriya->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataGriya->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->Provinsi->name))}} </textarea>
                                 @error('alamat_griya')
                                     <div class="invalid-feedback text-start">
                                         {{$errors->first('alamat_griya') }}

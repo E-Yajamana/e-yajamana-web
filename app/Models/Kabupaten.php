@@ -9,21 +9,19 @@ class Kabupaten extends Model
 {
     use HasFactory;
 
-    protected $table = 'tb_kabupaten_baru';
-    protected $primaryKey = 'id_kabupaten';
+    protected $table = 'tb_m_kabupaten';
 
     protected $fillable = [
-        'id_kabupaten',
-        'id_provinsi',
+        'provinsi_id',
         'name',
     ];
 
     public function Provinsi(){
-        return $this->belongsTo(Provinsi::class,'id_provinsi','id_provinsi');
+        return $this->belongsTo(Provinsi::class,'provinsi_id','id');
     }
 
     public function Kecamatan(){
-        return $this->hasMany(Kecamatan::class,'id_kabupaten','id_kabupaten');
+        return $this->hasMany(Kecamatan::class,'kabupaten_id','id');
     }
 
 

@@ -55,7 +55,7 @@
                                 @foreach ($dataReservasi as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$data->Upacaraku->Krama->nama_krama}}</td>
+                                        <td>{{$data->Upacaraku->Krama->User->Penduduk}}</td>
                                         <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
                                         <td>{{date('d-M-Y | h:i',strtotime($data->tanggal_tangkil))}}</td>
                                         <td>
@@ -64,8 +64,8 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->Upacaraku->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}" class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a onclick="cekTanggalTangkil('{{$data->tanggal_tangkil}}')"  class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         </td>
                                     </tr>
@@ -91,7 +91,6 @@
 @endsection
 
 @push('js')
-
     <!-- Bootstrabase-template-->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- DataTablbase-template Plugins -->
@@ -100,6 +99,9 @@
     <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+
+    <!-- daterangepicker -->
+    <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
 
     <script>
         $(function () {
@@ -135,4 +137,22 @@
     </script>
 
 
+@endpush
+
+@push('js')
+    <script type="text/javascript">
+
+        function cekTanggalTangkil(tanggal_tangkil){
+            if(moment(tanggal_tangkil).format('MM-DD-YYYY') == moment().format('MM-DD-YYYY')){
+                location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}";
+            }else{
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Pemberitahuan',
+                    text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('MM-DD-YYYY') ,
+                });
+            }
+            console.log(moment().format('MM-DD-YYYY'));
+        }
+    </script>
 @endpush

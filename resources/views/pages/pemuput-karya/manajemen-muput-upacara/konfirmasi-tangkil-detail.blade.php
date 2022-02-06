@@ -147,6 +147,8 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div class="col-12">
                     <div class="card tab-content">
                         <div class="card-header my-auto">
@@ -159,7 +161,7 @@
                                     @method('put')
                                     <input class="d-none" name="id_reservasi" id="idReservasi" value="{{$dataReservasi->id}}" type="hidden">
                                     <input class="d-none" name="status_reservasi" id="statusReservasi" value="{{$dataReservasi->id}}" type="hidden">
-                                    <table id="" class="table table-bordered table-responsive-sm table-hover">
+                                    <table id="" class="table table-bordered table-hover mx-auto table-responsive-sm">
                                         <thead >
                                             <tr>
                                                 <th>No</th>
@@ -233,10 +235,10 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 my-2">
-                                            <a href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
-                                            <button type="submit" class="btn btn-primary float-right ml-2">Simpan Data</button>
-                                            <div class="btn btn-secondary m-1 float-right " align-self="end">Setujui Semua</div>
-                                            <div class="btn btn-danger m-1 float-right " align-self="end">Tolak Semua</div>
+                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}" class="btn btn-secondary">Kembali</a>
+                                            <button type="submit" class="btn btn-primary float-right" align-self="end">Simpan Data</button>
+                                            <button class="btn btn-secondary float-right " align-self="end">Setujui Semua</button>
+                                            <button class="btn btn-danger float-right " align-self="end">Tolak Semua</button>
                                         </div>
                                     </div>
                                 </form>
@@ -316,17 +318,13 @@
         $('#reservationdate').datetimepicker({
             format: 'L'
         });
-
         $('#reservationdatetime').datetimepicker({
             icons: {
             time: 'far fa-clock'
             }
         });
-
         $('#mySelect2').select2('data');
-
         $('.select2').select2()
-
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'
@@ -345,12 +343,10 @@
         $.each(data_reservasi.detail_reservasi, function(key, data){
             dataDatabase.push(data.status);
         });
-
         // DEKLARASI DATA RESERVASI
         function inputData(){
             $("#inputdata")[0].submit();
         }
-
         // VALIDASI SEDERHANA DARI PENENTUAN STATUS TAHAPAN
         function validasiInputStatus(data){
             // console.log(data);
@@ -423,15 +419,37 @@
         });
         // ADD FUNCTION VALIDASI ALASAN PENOLAKAN
 
+        // FUNGSI GET DATA ALASAN DIDATABASE
+        getAlasanPenolakan();
+        function getAlasanPenolakan(){
+            console.log(data_reservasi)
+            $.each(data_reservasi.detail_reservasi, function(key, data){
+                if(data.keterangan != null){
+                    var text = document.getElementById("text_penolakan-"+data.id);
+                    text.type = "text";
+                    text.value = data.keterangan;
+                }else{
+                    var text = document.getElementById("text_penolakan-"+data.id);
+                    text.type = "hidden";
+                    text.value = "";
+                }
+
+            });
+        }
+        // FUNGSI GET DATA ALASAN DIDATABASE
+
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
         $('select').change(function(){
             var id = $(this).find(':selected').data('id');
+            console.log(id);
             var jenis = $(this).find(':selected').val();
             var text = document.getElementById("text_penolakan-"+id);
             if(jenis=='ditolak'){
+                getAlasanPenolakan();
                 text.type = "text";
             }else{
                 text.type = "hidden";
+                text.value = "";
             }
         });
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI
@@ -439,13 +457,10 @@
 
     <script type="text/javascript">
         let dataReservasi;
-
         $(document).ready(function(){
             $('#side-upacara').addClass('menu-open');
             $('#side-kabupaten').addClass('active');
-
             var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 10);
-
             L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                 attribution: 'Adalah API Favoritku',
                 maxZoom: 18,
@@ -454,18 +469,13 @@
                 zoomOffset: -1,
                 accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
             }).addTo(mymap);
-
             dataReservasi = {!! json_encode($dataReservasi) !!}
-
             var marker = new L.marker([dataReservasi.upacaraku.lat,dataReservasi.upacaraku.lng ]).bindPopup(dataReservasi.upacaraku.alamat_upacaraku).addTo(mymap);
             marker.on('click', function() {
                 marker.openPopup();
             });
-
         });
     </script>
 
 
 @endpush
-
-

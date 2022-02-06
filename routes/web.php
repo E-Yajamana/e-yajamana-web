@@ -160,7 +160,6 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
 
 });
 
-
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
 Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function ()  {
     Route::get('dashboard', [PemuputDashboardController::class, 'index'])->name('pemuput-karya.dashboard');
@@ -180,6 +179,7 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function
         Route::get('konfimasi-tangkil/index', [MuputUpacaraController::class, 'indexKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.index');
         Route::get('konfimasi-tangkil/detail/{id}', [MuputUpacaraController::class, 'detailKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail');
         Route::get('konfimasi-tangkil/edit/{id}', [MuputUpacaraController::class, 'editKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit');
+        Route::put('konfimasi-tangkil/update', [MuputUpacaraController::class, 'updateKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.update');
 
         // Route::get('konfimasi-tangkil/index', [MuputUpacaraController::class, 'indexKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.index');
 
@@ -189,24 +189,6 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function
 
 });
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
-
-
-// Route::prefix('sulinggih')->group(function () {
-//     Route::get('', [SulinggihController::class, 'index'])->name('sulinggih.dashboard');
-//     Route::prefix('manajemen-reservasi')->group(function () {
-//         Route::get('index', [SulinggihController::class, 'dataReservasi'])->name('sulinggih.manajemen-reservasi.index');
-//         Route::get('detail', [SulinggihController::class, 'detailReservasi'])->name('sulinggih.manajemen-reservasi.detail');
-//         Route::get('riwayat', [SulinggihController::class, 'riwayatReservasi'])->name('sulinggih.manajemen-reservasi.riwayat');
-//     });
-
-//     Route::prefix('manajemen-muput-upacara')->group(function () {
-//         Route::get('index', [SulinggihController::class, 'indexMuputUpacara'])->name('sulinggih.muput-upacara.index');
-//         Route::get('konfimasi-tangkil', [SulinggihController::class, 'konfrimasiTanggalTangkil'])->name('sulinggih.muput-upacara.konfirmasi.tangkil');
-//         Route::get('konfimasi-muput', [SulinggihController::class, 'konfrimasiMuput'])->name('sulinggih.muput-upacara.konfirmasi.upacara');
-
-//     });
-// });
-
 
 Route::prefix('get-image')->group(function () {
     Route::get('upacara/{id}', [GetImageController::class, 'getImageUpacara'])->name('get-image.upacara');
@@ -218,11 +200,15 @@ Route::prefix('ajax')->group(function () {
     Route::get('get/jenis-yadnya/{jenis?}', [AjaxController::class, 'jenisYadnya'])->name('ajax.get.jenis-yadnya');
     Route::get('get/tahapan/upacara/{id?}', [AjaxController::class, 'getTahapanUpacara'])->name('ajax.get.tahapan-upacara');
 
+    Route::get('get/data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
+
     Route::post('add/griya', [MasteDataGriyaController::class, 'ajaxStoreDataGriya'])->name('ajax.post');
     Route::get('get/griya', [MasteDataGriyaController::class, 'ajaxGetDataGriya'])->name('ajax.get');
     Route::get('kabupaten/{id?}', [LocationController::class, 'getKabupaten']);
     Route::get('kecamatan/{id}', [LocationController::class, 'getKecamatan']);
     Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);
+    Route::get('banjar-dinas/{id?}', [LocationController::class, 'getBanjarDinas'])->name('ajax.get-banjar-dinas');
+
 });
 
 

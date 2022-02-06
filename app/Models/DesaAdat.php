@@ -59,10 +59,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DesaAdat extends Model
 {
-	protected $table = 'tb_desaadat';
-	protected $primaryKey = 'desadat_id';
+	protected $table = 'tb_m_desa_adat';
 
 	protected $casts = [
+		'id' => 'int',
 		'desadat_jenis_id' => 'int',
 		'desadat_kantor_long' => 'float',
 		'desadat_kantor_lat' => 'float',
@@ -120,8 +120,18 @@ class DesaAdat extends Model
 		'password_temp'
 	];
 
-	public function GriyaRumah()
+	// public function tb_admin_desa_adats()
+	// {
+	// 	return $this->hasMany(TbAdminDesaAdat::class, 'desa_adat_id');
+	// }
+
+	public function BanjarDinas()
 	{
-		return $this->hasMany(GriyaRumah::class, 'id_desa_adat','desadat_id');
+		return $this->hasMany(BanjarDinas::class, 'desa_adat_id');
 	}
+
+	// public function tb_prajuru_desa_adats()
+	// {
+	// 	return $this->hasMany(TbPrajuruDesaAdat::class, 'desa_adat_id');
+	// }
 }

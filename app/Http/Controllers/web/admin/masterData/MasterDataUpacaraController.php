@@ -572,7 +572,7 @@ class MasterDataUpacaraController extends Controller
         // END LOGIC
 
         // RETURN
-            return redirect()->back()->with([
+            return redirect()->route('admin.master-data.upacara.index')->with([
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Berhasil Menghapus Data Tahapan Upacara',

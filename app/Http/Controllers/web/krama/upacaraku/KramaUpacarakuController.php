@@ -31,23 +31,21 @@ class KramaUpacarakuController extends Controller
     public function createUpacaraku(Request $request)
     {
         $dataKabupaten = Kabupaten::all();
-        $dataDesaAdat = DesaAdat::all();
-        return view('pages.krama.manajemen-upacara.upacaraku-create',compact(['dataKabupaten','dataDesaAdat']));
+        return view('pages.krama.manajemen-upacara.upacaraku-create',compact(['dataKabupaten']));
     }
     // CREATE UPACARAKU
 
     // STORE UPACARAKU
     public function storeUpacaraku(Request $request)
     {
+
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'id_upacara' => 'required|exists:tb_upacara,id',
-                'id_desa' => 'required|exists:tb_desa,id_desa',
-                'id_desa_adat' => 'required|exists:tb_desaadat,desadat_id',
+                'id_banjar_dinas' => 'required|exists:tb_m_banjar_dinas,id',
+                'daterange' => 'required',
                 'nama_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
                 'lokasi' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
-                'start_date' => 'required|date',
-                'end_date' => 'required|date',
                 'deskripsi_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
                 'lat' => 'required|numeric|regex:/^[0-9.-]+$/i',
                 'lng' => 'required|numeric|regex:/^[0-9.-]+$/i',
@@ -55,10 +53,8 @@ class KramaUpacarakuController extends Controller
             [
                 'id_upacara.required' => "Jenis Upacara wajib diisi",
                 'id_upacara.exists' => "Jenis Upacara tidak sesuai",
-                'id_desa.required' => "Desa wajib diisi",
-                'id_desa.exists' => "Desa tidak sesuai",
-                'id_desa_adat.required' => "Desa Adat wajib diisi",
-                'id_desa_adat.exists' => "Desa Adat tidak sesuai",
+                'id_banjar_dinas.required' => "Banjar Dinas wajib diisi",
+                'id_banjar_dinas.exists' => "Banjar Dinas tidak sesuai",
                 'nama_upacara.required' => "Nama Upacara wajib diisi",
                 'nama_upacara.regex' => "Format Nama Upacara tidak sesuai",
                 'nama_upacara.min' => "Nama Upacara minimal berjumlah 3 karakter",
@@ -67,10 +63,7 @@ class KramaUpacarakuController extends Controller
                 'lokasi.regex' => "Format Alamat Lengkap Upacara Lengkap tidak sesuai",
                 'lokasi.min' => "Alamat Lengkap Upacara Lengkap minimal berjumlah 3 karakter",
                 'lokasi.max' => "Alamat Lengkap Upacara Lengkap maksimal berjumlah 100 karakter",
-                'start_date.required' => "Tanggal Mulai - Selesai wajib diisi",
-                'start_date.date' => "Format Tanggal Mulai - Selesai salah",
-                'end_date.required' => "Tanggal Mulai - Selesai wajib diisi",
-                'end_date.date' => "Format Tanggal Mulai - Selesai salah",
+                'daterange.required' => "Tanggal Mulai - Selesai wajib diisi",
                 'lat.required' => "Latitude griya wajib diisi",
                 'lat.numeric' => "Latitude harus berupa angka",
                 'lat.regex' => "Format koordinat Latitude griya tidak sesuai",
@@ -93,15 +86,17 @@ class KramaUpacarakuController extends Controller
         // MAIN LOGIC
              try{
                 DB::beginTransaction();
+                $parseDate = Str::of($request->daterange)->explode(' - ');
+                $startDate = new Carbon($parseDate[0]);
+                $endDate = new Carbon($parseDate[1]);
                 Upacaraku::create([
                     'id_upacara'=>$request->id_upacara,
                     'id_krama'=>Auth::user()->Krama->id,
-                    'id_desa'=>$request->id_desa,
-                    'id_desa_adat'=>$request->id_desa_adat,
+                    'id_banjar_dinas'=>$request->id_banjar_dinas,
                     'nama_upacara'=>$request->nama_upacara,
                     'alamat_upacaraku'=>$request->lokasi,
-                    'tanggal_mulai'=>$request->start_date,
-                    'tanggal_selesai'=>$request->end_date,
+                    'tanggal_mulai'=>$startDate->format('Y-m-d h:i:s'),
+                    'tanggal_selesai'=>$endDate->format('Y-m-d h:i:s'),
                     'deskripsi_upacaraku'=>$request->deskripsi_upacara,
                     'status'=> 'pending',
                     'lat'=>$request->lat,
@@ -127,14 +122,13 @@ class KramaUpacarakuController extends Controller
                 'message' => 'Akun berhasil dibuat, gunakan email dan password untuk masuk kedalam sistem',
             ]);
         //END
-
-
     }
+    // STORE UPACARAKU
 
     // DETAIL UPACARAKU
     public function detailUpacaraku(Request $request)
     {
-        $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi','Desa','DesaAdat'])->findOrFail($request->id);
+        $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi','BanjarDinas'])->findOrFail($request->id);
         return view('pages.krama.manajemen-upacara.upacaraku-detail',compact('dataUpacaraku'));
     }
     // DETAIL UPACARAKU
