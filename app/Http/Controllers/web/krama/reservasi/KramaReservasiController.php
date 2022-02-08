@@ -24,7 +24,14 @@ class KramaReservasiController extends Controller
     // INDEX RESERVASI KRAMA
     public function indexReservasi(Request $request)
     {
-        $dataReservasi = Upacaraku::with('Reservasi')->whereHas('Reservasi')->get();
+        // $dataReservasi = Upacaraku::query()->with('Reservasi')->whereHas('Reservasi')->get();
+        $dataReservasi = Upacaraku::query();
+        $queryReservasi = function($queryReservasi){
+            $queryReservasi->with('DetailReservasi')->whereHas('DetailReservasi');
+        };
+        $dataReservasi->with('Reservasi',$queryReservasi)->whereHas('Reservasi');
+        $dataReservasi = $dataReservasi->where('id_krama',Auth::user()->Krama->id)->get();
+
         // dd($dataReservasi);
 
         // $dataReservasi = Reservasi::with(['DetailReservasi','Sulinggih']);

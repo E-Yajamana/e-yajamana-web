@@ -87,68 +87,23 @@
                                                 <th>No</th>
                                                 <th>Nama Upakara</th>
                                                 <th>Pemuput Upakara</th>
-                                                <th>Status Reservasi</th>
+                                                <th class='d-flex justify-content-center text-center'>Status Reservasi</th>
                                                 <th>Tahapan Reservasi</th>
                                                 <th>Tindakan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @foreach ($dataReservasi as $data)
+                                            @foreach ($dataReservasi as $index => $data)
                                                 <tr>
-                                                    <td>{{$loop->iteration}}</td>
-                                                    <td>{{$data->Upacaraku->nama_upacara}}</td>
-                                                    <td>{{$data->Sulinggih->nama_sulinggih}}</td>
-                                                    <td >
-                                                        <span class="bg-secondary btn-sm" style="border-radius: 5px; width:70px;">{{$data->status}}</span>
-                                                    <td >
-                                                        @foreach ($data->DetailReservasi as $dataDetailReservasi)
-                                                            <li>{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}} - {{$dataDetailReservasi->status}}</li>
-                                                        @endforeach
-                                                    </td>
-                                                    <td><a href="http://127.0.0.1:8000/krama/manajemen-upacara/detail/8" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach --}}
-
-                                            {{-- @foreach ($dataReservasi as $index => $data)
-                                                @foreach ($data->Reservasi as $data2)
-                                                    <tr>
-                                                        <td rowspan="{{count($data->Reservasi)}}">{{$index+1}}</td>
-                                                        <td rowspan="{{count($data->Reservasi)}}">{{$data->nama_upacara}}</td>
-                                                        <td rowspan="{{count($data->Reservasi)}}">{{$data2->Sulinggih->nama_sulinggih}}</td>
-                                                    </tr>
-                                                @endforeach
-                                            @endforeach --}}
-                                        @foreach ($dataReservasi as $index => $data)
-                                            <tr>
-                                                <td rowspan="{{count($data->Reservasi)}}">{{$index+1}}</td>
-                                                <td rowspan="{{count($data->Reservasi)}}">{{$data->nama_upacara}}</td>
-                                                <td class="pl-4">{{$data->Reservasi[0]->Sulinggih->nama_sulinggih}}</td>
-                                                <td class='d-flex justify-content-center text-center'>
-                                                    <span class="bg-secondary btn-sm" style="border-radius: 5px; width:110px;">{{$data->Reservasi[0]->status}}</span>
-                                                </td>
-                                                <td>
-                                                    @foreach ($data->Reservasi[0]->DetailReservasi as $dataDetailReservasi)
-                                                        <li>{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}} - {{$dataDetailReservasi->status}}</li>
-                                                    @endforeach
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                            @for($i=1; $i < count($data->Reservasi); $i++ )
-                                                <tr>
-                                                    <td>{{$data->Reservasi[$i]->Sulinggih->nama_sulinggih}}</td>
+                                                    <td rowspan="{{count($data->Reservasi)}}">{{$index+1}}</td>
+                                                    <td rowspan="{{count($data->Reservasi)}}">{{$data->nama_upacara}}</td>
+                                                    <td style="height: " class="pl-4">{{$data->Reservasi[0]->Sulinggih->nama_sulinggih}}</td>
                                                     <td class='d-flex justify-content-center text-center'>
-                                                        <span class="bg-secondary btn-sm" style="border-radius: 5px; width:110px;">{{$data->Reservasi[$i]->status}}</span>
+                                                        <span class="bg-secondary btn-sm" style="border-radius: 5px; width:110px;">{{($data->Reservasi[0]->status)}}</span>
                                                     </td>
                                                     <td>
-                                                        @foreach ($data->Reservasi[$i]->DetailReservasi as $dataDetailReservasi)
-                                                            <li>{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}} - {{$dataDetailReservasi->status}}</li>
+                                                        @foreach ($data->Reservasi[0]->DetailReservasi as $dataDetailReservasi)
+                                                            <li>{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}} | {{strtoupper($dataDetailReservasi->status)}}</li>
                                                         @endforeach
                                                     </td>
                                                     <td>
@@ -157,9 +112,36 @@
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
                                                 </tr>
-                                            @endfor
-                                        @endforeach
+                                                @for($i=1; $i < count($data->Reservasi); $i++ )
+                                                    <tr>
+                                                        <td>{{$data->Reservasi[$i]->Sulinggih->nama_sulinggih}}</td>
+                                                        <td class='d-flex justify-content-center text-center'>
+                                                            <span class="bg-secondary btn-sm" style="border-radius: 5px; width:110px;">{{$data->Reservasi[$i]->status}}</span>
+                                                        </td>
+                                                        <td>
+                                                            @foreach ($data->Reservasi[$i]->DetailReservasi as $dataDetailReservasi)
+                                                                <li>{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}} | {{strtoupper($dataDetailReservasi->status)}}</li>
+                                                            @endforeach
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endfor
+                                            @endforeach
                                         </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Upakara</th>
+                                                <th>Pemuput Upakara</th>
+                                                <th>Status Reservasi</th>
+                                                <th>Tahapan Reservasi</th>
+                                                <th>Tindakan</th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>

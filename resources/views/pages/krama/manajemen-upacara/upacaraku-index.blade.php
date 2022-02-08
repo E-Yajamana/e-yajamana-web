@@ -52,8 +52,7 @@
                                     <ul class="nav nav-pills">
                                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Tangkil</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Muput</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Muput Upacara</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Selesai</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Batal</a></li>
                                     </ul>
