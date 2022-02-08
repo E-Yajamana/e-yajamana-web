@@ -111,23 +111,22 @@ class KramaUpacaraController extends Controller
     {
         // SECURITY
             $validator = Validator::make($request->all(),[
+                'id_banjar_dinas' => 'required',
                 'id_upacara' => 'required',
-                'id_desa' => 'required',
-                'id_desa_adat' => 'required',
                 'nama_upacara' => 'required',
                 'lokasi' => 'required',
-                'lat' => 'required',
-                'lng' => 'required',
                 'tanggal_mulai' => 'required',
                 'tanggal_selesai' => 'required',
-                'desc' => 'required',
+                'deskripsi_upacaraku' => 'required',
+                'lat' => 'required',
+                'lng' => 'required',
             ]);
 
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
                         'message' => 'Validation Error',
-                        'data' => (Object)[],
+                        'data' => $validator->errors(),
                 ],400);
             }
         // END
@@ -139,23 +138,21 @@ class KramaUpacaraController extends Controller
                 $user = Auth::user();
 
                 Upacaraku::create([
+                    'id_banjar_dinas' => $request->id_banjar_dinas,
                     'id_upacara' => $request->id_upacara,
                     'id_krama' => $user->krama->id,
-                    'id_desa' => $request->id_desa,
-                    'id_desa_adat' => $request->id_desa_adat,
                     'nama_upacara' => $request->nama_upacara,
                     'lokasi' => $request->lokasi,
-                    'lat' => $request->lat,
-                    'lng' => $request->lng,
-                    'status' => 'pending',
                     'tanggal_mulai' => $request->tanggal_mulai,
                     'tanggal_selesai' => $request->tangal_selesa,
-                    'desc' => $request->desc,
+                    'deskripsi_upacaraku' => $request->desckripsi_upacaraku,
+                    'status' => 'pending',
+                    'lat' => $request->lat,
+                    'lng' => $request->lng,
                 ]);
 
                 DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return $err;
                 DB::rollBack();
                 return response()->json([
                         'status' => 500,
@@ -198,18 +195,29 @@ class KramaUpacaraController extends Controller
 
         // MAIN LOGIC
             try{
+                $banjarDinasQuery = function($queryBanjarDinas){
+                    $queryBanjarDinas->with([
+                        'DesaDinas' => function($desaDinasQuery){
+                            $desaDinasQuery->with([
+                                'Kecamatan' => function($kecamatanQuery){
+                                    $kecamatanQuery->with([
+                                        'Kabupaten' => function($kabupatenQuery){
+                                            $kabupatenQuery->with([
+                                                'Provinsi'
+                                            ]);
+                                        }
+                                    ]);
+                                }
+                            ]);
+                        }
+                    ]);
+                };
+
                 $upacara = Upacaraku::with([
                     'Upacara' => function($upacaraQuery){
                         $upacaraQuery->with(['TahapanUpacara']);
                     },
-                    'Desa' => function($desaQuery){
-                        $desaQuery->with(['Kecamatan' => function($kecamatanQuery){
-                            $kecamatanQuery->with(['Kabupaten' => function($provinsiQuery){
-                                $provinsiQuery->with('Provinsi');
-                            }]);
-                        }]);
-                    },
-                    'DesaAdat',
+                    'BanjarDinas' => $banjarDinasQuery,
                     'Reservasi' => function($reservasiQuery){
                         $reservasiQuery->with([
                             'Sulinggih',
@@ -220,12 +228,10 @@ class KramaUpacaraController extends Controller
                     }
                     ])
                     ->whereHas('Upacara')
-                    ->whereHas('Desa')
-                    ->whereHas('DesaAdat')
+                    ->whereHas('BanjarDinas')
                     ->findOrFail($id_upacara);
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',

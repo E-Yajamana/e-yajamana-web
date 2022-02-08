@@ -72,4 +72,113 @@ class SulinggihReservasiController extends Controller
             ],200);
         // END
     }
+
+    public function show($id){
+        // SECURITY
+            $validator = Validator::make(['id' => $id],[
+                'id' => 'required'
+            ]);
+            
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 403,
+                        'message' => 'Validation Error',
+                        'data' => $validator->errors(),
+                ],403);
+            }
+        // END
+        
+        // MAIN LOGIC
+            try{
+                $reservasi = Reservasi::with([
+                    'Upacaraku' => function($upacarakuQuery){
+                        $upacarakuQuery->with([
+                            'Upacara' => function($upacaraQuery){
+                                $upacaraQuery->with('TahapanUpacara');
+                            },
+                            'Krama' => function($kramaQuery){
+                                $kramaQuery->with([
+                                    'User' => function($userQuery){
+                                        $userQuery->with(['Penduduk']);
+                                    }
+                                ])->whereHas('User',function($userQuery){
+                                    $userQuery->with(['Penduduk']);
+                                });
+                            }
+                            ])
+                            ->whereHas('Krama')
+                            ->whereHas('Upacara');
+                    },
+                    'Sulinggih' => function($sulinggihQuery) {
+                        $sulinggihQuery->where('id',Auth::user()->Sulinggih->id);
+                    },
+                    'DetailReservasi' => function($detailReservasiQuery){
+                        $detailReservasiQuery->with('TahapanUpacara');
+                    }
+                ])
+                ->where('tipe','sulinggih_pemangku')
+                ->whereHas('Upacaraku')
+                ->whereHas('Sulinggih')
+                ->findOrFail($id);
+
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+        
+        // RETURN
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil mengambil data reservasi',
+                    'data' => [
+                        'reservasi' => $reservasi
+                    ],
+            ],200);
+        // END
+    }
+
+    public function update($request){
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'id' => 'required',
+                'detail_reservasi' => 'required|json',
+            ]);
+            
+            if($validator->fails()){
+                return response()->json([
+                        'status' => 400,
+                        'message' => 'Validation Error',
+                        'data' => $validator->errors(),
+                ],400);
+            }
+        // END
+        
+        // MAIN LOGIC
+            try{
+                
+                $detailReservasi = json_decode($request->detail_reservasi);
+
+                return $detailReservasi;
+
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+        
+        // RETURN
+            return response()->json([
+                    'status' => 200,
+                    'message' => 'Berhasil memperbaharui data reservasi',
+                    'data' => (Object)[],
+            ],200);
+        // END
+    }
 }

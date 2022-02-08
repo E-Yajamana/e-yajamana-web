@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function(){
                     Route::get('kabupaten/{id_provinsi}',[LocationController::class,'getKabupaten']);
                     Route::get('kecamatan/{id_kabupaten}',[LocationController::class,'getKecamatan']);
                     Route::get('desadinas/{id_kecamatan}',[LocationController::class,'getDesaDinas']);
+                    Route::get('banjardinas/{id_desa_dinas}',[LocationController::class,'getBanjarDinas']);
                     Route::get('desaadat',[LocationController::class,'getDesaAdat']);
 
                     Route::get('kecamatanbyprovinsi/{id_provinsi}',[LocationController::class,'getKecamatanByProvinsiId']);
@@ -92,6 +93,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
             // SULINGGIH RESERVASI FRAGMENT
                 Route::post('reservasi',[SulinggihReservasiController::class,'index']);
+                Route::get('reservasi/detail/{id_reservasi}',[SulinggihReservasiController::class,'show']);
             // END
         });
     // END

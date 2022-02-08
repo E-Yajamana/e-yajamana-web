@@ -55,6 +55,7 @@ class AuthController extends Controller
 
                         case 'sulinggih':
                             $sulinggih = $user->Sulinggih()->with(['GriyaRumah'])->whereHas('GriyaRumah')->firstOrFail();
+                            $penduduk = $user->Penduduk()->firstOrFail();
                             $token = $user->createToken('e-yajamana',['role:sulinggih'])->plainTextToken;
                             break;
 

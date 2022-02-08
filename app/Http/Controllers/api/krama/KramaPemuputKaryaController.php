@@ -78,31 +78,36 @@ class KramaPemuputKaryaController extends Controller
 
                 if($request->id_kecamatan != null && $request->id_kecamatan != 0){
                     // QUERY DESA
-                    $desaQuery = function($desaQuery) use ($request) {
-                        $desaQuery->with([
-                            'Kecamatan' => function($kecamatanQuery) use ($request) {
-                                $kecamatanQuery->where('id_kecamatan',$request->id_kecamatan);
-                            }
-                        ])
-                        ->whereHas('Kecamatan',function($kecamatanQuery) use ($request) {
-                            $kecamatanQuery->where('id_kecamatan',$request->id_kecamatan);
-                        });
-                    };
-
+                    $griyaRumahQuery = function($griyaRumahQuery) use ($request){
+                                        $griyaRumahQuery->with([
+                                            'BanjarDinas' => function($banjarDinasQuery) use ($request){
+                                                $banjarDinasQuery->with([
+                                                    'DesaDinas' => function($desaDinasQuery) use ($request){
+                                                        $desaDinasQuery->with([
+                                                            'Kecamatan' => function($kecamatanQuery) use ($request) {
+                                                                $kecamatanQuery->where('id',$request->id_kecamatan);
+                                                            }
+                                                        ]);
+                                                    }
+                                                ]);
+                                            }
+                                        ]);
+                                    };
                     $griyaRumahs->with([
-                        'Desa' => $desaQuery,
-                    ])->whereHas('Desa',$desaQuery);
+                        'BanjarDinas' => $griyaRumahQuery,
+                    ])->whereHas('BanjarDinas',$griyaRumahQuery);
 
 
                 }else{
-                    $griyaRumahs->with(['Desa'])->whereHas('Desa');
-                    $sanggars->with(['Desa'])->whereHas('Desa');
+                    $griyaRumahs->with(['BanjarDinas'])->whereHas('BanjarDinas');
+                    // $sanggars->with(['BanjarDinas'])->whereHas('BanjarDinas');
                 }
 
                 $sanggars = $sanggars->get();
                 $griyaRumahs = $griyaRumahs->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',
