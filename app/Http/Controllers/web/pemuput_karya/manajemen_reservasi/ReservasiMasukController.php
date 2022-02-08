@@ -27,6 +27,7 @@ class ReservasiMasukController extends Controller
         };
         $dataReservasi->with(['DetailReservasi'=>$queryDetailReservasi])->whereHas('DetailReservasi',$queryDetailReservasi);
         $dataReservasi = $dataReservasi->where('id_relasi',Auth::user()->Sulinggih->id)->get();
+
         return view('pages.pemuput-karya.manajemen-reservasi.pemuput-reservasi-masuk-index',compact('dataReservasi'));
     }
     // INDEX VIEW DATA RESERVASI MASUK

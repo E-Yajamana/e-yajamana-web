@@ -156,16 +156,16 @@
                 console.log(false)
             }
 
-            // if(moment(tanggal_tangkil).format('YYYY-MM-DD') == moment().format('MM-DD-YYYY')){
-            //     location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}";
-            // }else{
-            //     Swal.fire({
-            //         icon: 'info',
-            //         title: 'Pemberitahuan',
-            //         text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('MM-DD-YYYY') ,
-            //     });
-            // }
-            // console.log(moment().format('MM-DD-YYYY'));
+            if(moment(tanggal_tangkil).format('YYYY-MM-DD') == moment().format('MM-DD-YYYY')){
+                location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}";
+            }else{
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Pemberitahuan',
+                    text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('MM-DD-YYYY') ,
+                });
+            }
+            console.log(moment().format('MM-DD-YYYY'));
         }
     </script>
 @endpush

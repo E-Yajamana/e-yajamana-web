@@ -17,6 +17,7 @@ use DateTime;
 use Illuminate\Support\Facades\DB;
 use ErrorException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 
 class KramaReservasiController extends Controller
 {
@@ -24,6 +25,19 @@ class KramaReservasiController extends Controller
     public function indexReservasi(Request $request)
     {
         $dataReservasi = Upacaraku::with('Reservasi')->whereHas('Reservasi')->get();
+        // dd($dataReservasi);
+
+        // $dataReservasi = Reservasi::with(['DetailReservasi','Sulinggih']);
+        // $queryUpacaraku = function ($queryUpacaraku){
+        //     $queryUpacaraku->where('id_krama',Auth::user()->Krama->id);
+        // };
+
+        // $dataReservasi->with('Upacaraku',$queryUpacaraku)->whereHas('Upacaraku',$queryUpacaraku)->whereHas('DetailReservasi');
+
+        // $dataReservasi = $dataReservasi->get();
+        // // dd($dataReservasi);
+
+
         return view('pages.krama.manajemen-reservasi.krama-reservasi-index',compact('dataReservasi'));
     }
     // INDEX RESERVASI KRAMA
