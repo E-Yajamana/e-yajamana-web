@@ -95,4 +95,9 @@ class Sulinggih extends Model
 		return $this->hasMany(Reservasi::class, 'id_relasi','id');
 	}
 
+    public function KeteranganKonfirmasi()
+	{
+		return $this->hasMany(KeteranganKonfirmasi::class, 'id_sulinggih');
+	}
+
 }

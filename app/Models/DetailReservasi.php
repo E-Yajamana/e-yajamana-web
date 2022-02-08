@@ -70,4 +70,10 @@ class DetailReservasi extends Model
 	{
 		return $this->belongsTo(TahapanUpacara::class, 'id_tahapan_upacara','id');
 	}
+
+	public function KeteranganKonfirmasi()
+	{
+		return $this->hasMany(KeteranganKonfirmasi::class, 'id_detail_reservasi');
+	}
+
 }

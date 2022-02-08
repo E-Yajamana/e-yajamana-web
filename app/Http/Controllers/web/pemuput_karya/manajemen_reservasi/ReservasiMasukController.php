@@ -80,7 +80,7 @@ class ReservasiMasukController extends Controller
     // VERIFIKASI RESERVASI
     public function verifikasiReservasi(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'id_tahapan' => 'required|exists:tb_detail_reservasi,id',

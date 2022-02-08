@@ -143,16 +143,29 @@
     <script type="text/javascript">
 
         function cekTanggalTangkil(tanggal_tangkil){
-            if(moment(tanggal_tangkil).format('MM-DD-YYYY') == moment().format('MM-DD-YYYY')){
-                location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}";
+            console.log(moment(tanggal_tangkil).format('YYYY-MM-DD'))
+            console.log(moment().format('YYYY-MM-DD'))
+
+            // console.log(moment(moment(tanggal_tangkil).format('YYYY-MM-DD')).isBetween(moment(tanggal_tangkil).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')));
+
+            console.log(moment('2010-10-20').isBetween('2010-10-19', '2010-10-25')); // true)
+
+            if(moment(moment(tanggal_tangkil).format('YYYY-MM-DD')).isBetween(moment(tanggal_tangkil).format('YYYY-MM-DD'), moment().format('YYYY-MM-DD'))){
+                console.log(true)
             }else{
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Pemberitahuan',
-                    text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('MM-DD-YYYY') ,
-                });
+                console.log(false)
             }
-            console.log(moment().format('MM-DD-YYYY'));
+
+            // if(moment(tanggal_tangkil).format('YYYY-MM-DD') == moment().format('MM-DD-YYYY')){
+            //     location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}";
+            // }else{
+            //     Swal.fire({
+            //         icon: 'info',
+            //         title: 'Pemberitahuan',
+            //         text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('MM-DD-YYYY') ,
+            //     });
+            // }
+            // console.log(moment().format('MM-DD-YYYY'));
         }
     </script>
 @endpush

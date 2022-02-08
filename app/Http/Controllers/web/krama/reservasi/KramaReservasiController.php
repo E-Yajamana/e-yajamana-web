@@ -118,7 +118,6 @@ class KramaReservasiController extends Controller
                     $parseDate = Str::of($data['tanggal'])->explode(' - ');
                     $startDate = new Carbon($parseDate[0]);
                     $endDate = new Carbon($parseDate[1]);
-                    // dd($startDate->format('Y-m-d h:i:s'));
                     $reservasi->DetailReservasi()->create([
                         'id_tahapan_upacara' => $data['idTahapan'],
                         'tanggal_mulai' => $startDate->format('Y-m-d h:i:s'),
