@@ -70,7 +70,7 @@
                         <li class="nav-item ml-3">
                             <a id="side-data-upacara" href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon mr-1"></i>
-                            <p>Data Upacaraku</p>
+                            <p>Data Upacara</p>
                             </a>
                         </li>
                     </ul>
@@ -78,7 +78,7 @@
                         <li class="nav-item ml-3">
                             <a id="side-tambah-upacara" href="{{route('krama.manajemen-upacara.upacaraku.create')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon mr-1"></i>
-                            <p>Tambah Upacaraku</p>
+                            <p>Tambah Upacara</p>
                             </a>
                         </li>
                     </ul>

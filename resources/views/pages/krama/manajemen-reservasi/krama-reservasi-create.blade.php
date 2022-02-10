@@ -279,11 +279,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="card-footer">
+                                                <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
+                                                <button type="submit" class="btn btn btn-primary btn-sm float-lg-right center">Selanjutnya</button>
+                                            </div>
                                         </div>
-                                        <div class="card-footer">
-                                            <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
-                                            <button type="submit" class="btn btn btn-primary btn-sm float-lg-right center">Selanjutnya</button>
-                                        </div>
+
                                     </form>
                                 </div>
                             <!-- TAHAPAN FORM DATA -->
