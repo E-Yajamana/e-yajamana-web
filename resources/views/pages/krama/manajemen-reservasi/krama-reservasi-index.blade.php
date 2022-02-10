@@ -191,9 +191,7 @@
                             </div>
                         </div>
                         {{-- Start Data Table In Sulinggih --}}
-
                     </div>
-
                 </div>
                 <!-- /.col -->
             </div>

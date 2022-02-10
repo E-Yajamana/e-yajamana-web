@@ -47,7 +47,7 @@ class AjaxController extends Controller
             $queryDetail->with('TahapanUpacara')->where('status','diterima');
         };
         $dataTangkil->with(['DetailReservasi'=>$queryDetail])->whereHas('DetailReservasi',$queryDetail);
-        $dataTangkil = $dataTangkil->whereIdRelasiAndStatus($request->id,'proses tangkil')->get();
+        $dataTangkil = $dataTangkil->whereIdRelasi($request->id)->whereNotIn('status',['pending','batal','selesai'])  ->get();
         return response()->json([
             'status' => 200,
             'message' => 'Berhasil mengambil data griya',

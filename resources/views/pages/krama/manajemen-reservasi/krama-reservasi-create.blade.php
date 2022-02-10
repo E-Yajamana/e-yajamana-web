@@ -177,7 +177,7 @@
 
                                         <div class="card tab-content card-primary card-outline">
                                             <div class="card-header my-auto">
-                                                <label class="card-title my-auto">Rentetan Upacara</label>
+                                                <label class="card-title my-auto">Rentetan Upacara | Periode {{date('d-M-Y',strtotime($dataUpacaraku->tanggal_mulai))}} - {{date('d-M-Y',strtotime($dataUpacaraku->tanggal_selesai))}} </label>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row justify-content-center">
@@ -332,7 +332,7 @@
 
         </div>
     </section>
-
+    <input value='@json($dataUpacaraku)' id="dataUpacaraku" type="hidden">
     <!-- MODAL DETAIL POPUP USER -->
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog" role="document">
@@ -351,7 +351,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-                    <button type="button" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
         </div>
@@ -403,13 +402,20 @@
 
 @push('js')
 
-<script>
-
-
-  </script>
-
     {{-- VALIDATE FORM --}}
     <script type="text/javascript">
+        let data = $('#dataUpacaraku').val();
+        let dataUpacara = JSON.parse(data)
+        console.log(dataUpacara);
+
+        var tanggal_mulai = moment(dataUpacara.tanggal_mulai).format('YYYY-MM-DD')
+        var tanggal_selesai = moment(dataUpacara.tanggal_selesai).format('YYYY-MM-DD')
+        console.log(tanggal_mulai);
+        console.log(tanggal_selesai);
+
+
+        // var dateNew = '02/15/2022 12:00 AM'
+        // console.log(moment(dateNew).format('YYYY-MM-DD'));
 
         // ADD FUNCTION VALIDATE DATE RANGE
         jQuery.validator.addMethod("daterange", function(value, element){
@@ -423,6 +429,25 @@
             }
         }, "Masukan tanggal dan waktu dengan benar!");
         // ADD FUNCTION VALIDATE DATE RANGE
+
+        // ADD FUNCTION VALIDATE DATE RANGE
+        jQuery.validator.addMethod("validationDate", function(value, element){
+            var tanggal_mulai = moment(dataUpacara.tanggal_mulai).format('YYYY-MM-DD')
+            var tanggal_selesai = moment(dataUpacara.tanggal_selesai).format('YYYY-MM-DD')
+
+            moment(tanggal_awal).isBetween(tanggal_mulai, tanggal_selesai, undefined, '[]');
+
+            const dateNew  = value.split(" - ");
+            var tanggal_awal = moment(dateNew[0]).format('YYYY-MM-DD');
+            var tanggal_akhir = moment(dateNew[1]).format('YYYY-MM-DD');
+            if(moment(tanggal_awal).isBetween(tanggal_mulai, tanggal_selesai, undefined, '[]') == true && moment(tanggal_akhir).isBetween(tanggal_mulai, tanggal_selesai, undefined, '[]') ){
+                return true;
+            }else{
+                return false;
+            }
+        }, "Masukan tanggal dan waktu dengan benar!");
+        // ADD FUNCTION VALIDATE DATE RANGE
+
 
 
         // ADD FUNCTION VALIDATE FORM INPUT
@@ -438,12 +463,14 @@
                 'daterange[]': {
                     required: true,
                     daterange: true,
+                    validationDate:true
                 },
                 },
                 messages: {
                 'daterange[]': {
                     required: "Tanggal reservasi wajib diisi",
-                    date: "Masukan tanggal dengan benar"
+                    date: "Masukan tanggal dengan benar",
+                    validationDate : "Tanggal yang anda masukan tidak sesuai dengan tanggal upacara"
                 },
                 },
                 errorElement: 'span',

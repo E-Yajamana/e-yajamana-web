@@ -20,8 +20,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Data Upacaraku</li>
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Data Upacaraku</li>
                     </ol>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                                                     <td>{{date('d-M-Y',strtotime($data->tanggal_mulai))}} - {{date('d-M-Y',strtotime($data->tanggal_selesai))}} </td>
                                                     <td>
                                                         <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                        <a href="{{route('krama.manajemen-upacara.upacaraku.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
                                                 </tr>
@@ -128,10 +128,7 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
                 </div>
                 <!-- /.col -->
             </div>

@@ -241,7 +241,6 @@
                                                 <button type="submit" class="btn m-1 btn-primary float-right ml-2">Konfimasi Tangkil</button>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -370,6 +369,7 @@
                 console.log(startDate.format('DD/MM/YYYY hh:mm A') + ' - ' + endDate.format('DD/MM/YYYY hh:mm A'));
                 console.log(moment(start).format('DD/MM/YYYY hh:mm A'))
                 if(startDate.format('DD/MM/YYYY hh:mm A') != moment(start).format('DD/MM/YYYY hh:mm A') || moment(end).format('DD/MM/YYYY hh:mm A') != endDate.format('DD/MM/YYYY hh:mm A')){
+                    $('#keterangan_penolakan-'+id).empty();
                     $("#id_detail-" + id).attr('name','id_detail_reservasi[]' );
                     $("#reservationtime-" + id).attr('name', 'daterange[]');
                     $('#keterangan_penolakan-'+id).append("<input type='text' class='mt-3 form-control' name='alasan_penolakan_sulinggih[]' value='' placeholder='Masukan alasan penolakan'>");
@@ -412,7 +412,7 @@
                 $("#showDataReservasi").append("<div class='card shadow mb-4 card-info card-outline '><div class='card-header' aria-expanded='false'><div class='user-block'><img class='img-circle' src='{{asset('base-template/dist/img/user1-128x128.jpg')}}' alt='User Image'><span class='username'><a class='ml-2' href='#'>"+element.sulinggih.nama_sulinggih+"</a> | "+element.status.toUpperCase()+"</span><span class='description'><label class='ml-2'>Tanggal Tangkil : "+ tanggalTangkil+" </label></span></div></div><div class='card-body'><table  class='table'><thead><tr><th>No</th><th>Nama Tahapan</th><th class='text-md-center'>Waktu Mulai - Selesai</th><th class='text-md-center'>Status</th></tr></thead><tbody id='data-"+element.id+"'></tbody>" );
                 element.detail_reservasi.forEach(data => {
                     i++
-                    $("#data-"+element.id).append("<tr><td>"+i+"</td><td style='width: 30%'>"+data.tahapan_upacara.nama_tahapan+"</td><td class='text-md-center'><div class='input-group'><div class='input-group-prepend'><span class='input-group-text'><i class='far fa-calendar-alt'></i></span></div><input type='hidden' class='d-none' id='id_detail-"+data.id+"' value='"+data.id+"'><input id='reservationtime-"+data.id+"' type='text' class='form-control float-right' value=''></div> <div id='keterangan_penolakan-"+data.id+"'> </div></td><td class='d-flex justify-content-center'><div class='bg-info btn-sm text-center' style='border-radius: 5px; width:80px;'>"+data.status+"</div></td></tr></table></div></div>");
+                    $("#data-"+element.id).append("<tr><td>"+i+"</td><td style='width: 30%'>"+data.tahapan_upacara.nama_tahapan+"</td><td class='text-md-center'><div class='input-group'><div class='input-group-prepend'><span class='input-group-text'><i class='far fa-calendar-alt'></i></span></div><input type='hidden' class='d-none' id='id_detail-"+data.id+"' value='"+data.id+"'><input id='reservationtime-"+data.id+"' type='text' class='form-control float-right' value=''></div> <div id='keterangan_penolakan-"+data.id+"'> </div></td><td class='d-flex justify-content-center text-center'><div class='bg-info btn-sm text-center' style='border-radius: 5px; width:80px;'>"+data.status+"</div></td></tr></table></div></div>");
                     setDataRangeTahapan(data.id,data.tanggal_mulai,data.tanggal_selesai);
                 })
             }

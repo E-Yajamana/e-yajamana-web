@@ -24,7 +24,7 @@ class CekUser
                     if(Auth::user()->role == $role){
                         return $next($request);
                     }else{
-                        return redirect()->back()->with([
+                        return redirect()->route('admin.dashboard')->with([
                             'status' => 'fail',
                             'icon' => 'error',
                             'title' => 'Hak Akses Dibatasi !',
@@ -37,7 +37,7 @@ class CekUser
                         if(Auth::user()->role == $role){
                             return $next($request);
                         }else{
-                            return redirect()->back()->with([
+                            return redirect()->route('pemuput-karya.dashboard')->with([
                                 'status' => 'fail',
                                 'icon' => 'error',
                                 'title' => 'Hak Akses Dibatasi !',
@@ -57,7 +57,7 @@ class CekUser
                     if(Auth::user()->role == $role){
                         return $next($request);
                     }else{
-                        return redirect()->back()->with([
+                        return redirect()->route('krama.dashboard')->with([
                             'status' => 'fail',
                             'icon' => 'error',
                             'title' => 'Hak Akses Dibatasi !',

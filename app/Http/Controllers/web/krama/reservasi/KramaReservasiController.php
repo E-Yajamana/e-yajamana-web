@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\GriyaRumah;
 use App\Models\Reservasi;
 use App\Models\Sanggar;
+use App\Models\Sulinggih;
 use App\Models\Upacaraku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -72,9 +73,10 @@ class KramaReservasiController extends Controller
                 $dataUpacaraku = Upacaraku::with(['Upacara'])->findOrFail($request->id);
 
                 $dataSanggar = Sanggar::where('status_konfirmasi_akun','disetujui')->get();
-                $dataPemuputKarya = GriyaRumah::query()->with('Sulinggih')->whereHas('Sulinggih');
-                $sulinggihQuery = function($sulinggihQuery){
-                    $sulinggihQuery->with('User')->where('status_konfirmasi_akun','disetujui');
+                $dataUserReservasi = Reservasi::where('id_upacaraku',$request->id)->pluck('id_relasi');
+                $dataPemuputKarya = GriyaRumah::query();
+                $sulinggihQuery = function($sulinggihQuery) use ($dataUserReservasi){
+                    $sulinggihQuery->with('User')->where('status_konfirmasi_akun','disetujui')->whereNotIn('id',$dataUserReservasi);
                 };
                 $dataPemuputKarya->with([
                     'Sulinggih' => $sulinggihQuery
@@ -91,7 +93,6 @@ class KramaReservasiController extends Controller
         // END LOGIC
 
         // RETRUN
-            // dd($dataPemuputKarya);
             return view('pages.krama.manajemen-reservasi.krama-reservasi-create',compact(['dataUpacaraku','dataPemuputKarya','dataSanggar']));
         // END RETURN
     }

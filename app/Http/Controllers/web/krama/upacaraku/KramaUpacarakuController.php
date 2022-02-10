@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\web\krama\upacaraku;
 
 use App\Http\Controllers\Controller;
+use App\Models\BanjarDinas;
 use App\Models\DesaAdat;
+use App\Models\DesaDinas;
 use App\Models\Kabupaten;
+use App\Models\Kecamatan;
 use App\Models\Upacaraku;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -132,4 +135,21 @@ class KramaUpacarakuController extends Controller
         return view('pages.krama.manajemen-upacara.upacaraku-detail',compact('dataUpacaraku'));
     }
     // DETAIL UPACARAKU
+
+    // EDIT UPACARAKU
+    public function editUpacaraku(Request $request)
+    {
+        $dataKabupaten = Kabupaten::where('provinsi_id',51)->get();
+        $dataKecamatan = Kecamatan::all();
+        $dataDesa = DesaDinas::all();
+        $dataBanjarDinas = BanjarDinas::all();
+
+        $dataUpacaraku = Upacaraku::with('Upacara')->findOrFail($request->id);
+
+        return view('pages.krama.manajemen-upacara.upacaraku-edit',compact('dataKabupaten','dataUpacaraku','dataKecamatan','dataDesa','dataBanjarDinas'));
+    }
+    // EDIT UPACARAKU
+
+
+
 }
