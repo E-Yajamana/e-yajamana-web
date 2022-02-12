@@ -44,7 +44,7 @@ class KramaReservasiController extends Controller
 
         // $dataReservasi = $dataReservasi->get();
         // // dd($dataReservasi);
-
+        // dd($dataReservasi);
 
         return view('pages.krama.manajemen-reservasi.krama-reservasi-index',compact('dataReservasi'));
     }

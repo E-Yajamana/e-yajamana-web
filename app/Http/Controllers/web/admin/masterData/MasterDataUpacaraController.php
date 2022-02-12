@@ -157,17 +157,19 @@ class MasterDataUpacaraController extends Controller
                     'image' =>$filename,
                 ]);
 
+                $tahapanUpacara = [];
                 foreach($request->dataTahapan as $data)
                 {
                     $folder = 'app/admin/master-data/upacara/tahapan';
                     $filenameTahapan =  ImageHelper::moveImage($data['foto_tahapan'],$folder);
-                    $upacara->TahapanUpacara()->create([
+                    $tahapanUpacara[] = new TahapanUpacara([
                         'nama_tahapan' => $data['nama_tahapan'],
                         'deskripsi_tahapan' => $data['desc_tahapan'],
-                        'status_upacara' => $data['status'],
+                        'status_tahapan' => $data['status'],
                         'image' => $filenameTahapan,
                     ]);
                 }
+                $upacara->TahapanUpacara()->saveMany($tahapanUpacara);
                 DB::commit();
             // END LOGIC
 
@@ -419,12 +421,11 @@ class MasterDataUpacaraController extends Controller
                 'deskripsi.max' => "Deskripsi upacara maksimal berjumlah 50 karakter",
             ]);
             if($validator->fails()){
-                return redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'error',
-                    'title' => 'Gagal Menambahkan Data Tahapan Upacara',
-                    'message' => 'Gagal menambahkan data tahapan upacara ke dalam sistem,harap kembali memeriksa form input anda'
-                ])->withInput($request->all())->withErrors($validator->errors());
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Gagal Menginput Data',
+                    'error' => $validator->errors()
+                ],400);
             }
         // END SECURITY
 
@@ -443,12 +444,13 @@ class MasterDataUpacaraController extends Controller
         // END LOGIC
 
         // RETURN
-            return redirect()->back()->with([
+            return response()->json([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Berhasil Membuat Tahapan Upacara',
-                'message' => 'Data Tahapan Upacara berhasil terhapus dari sistem'
-            ]);
+                'title' => 'Berhasil Mengubah Tahapan Upacara',
+                'message' => 'Data Tahapan Upacara berhasil terhapus dari sistem',
+                'data' => $upacara
+            ],200);
         // END RETURN
 
     }

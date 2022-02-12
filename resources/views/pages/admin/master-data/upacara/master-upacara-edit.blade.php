@@ -140,11 +140,11 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 mb-4">
-                        <a href="{{route('admin.master-data.upacara.detail',$dataUpacara->id)}}" class="btn btn-secondary">Kembali</a>
-                        <button onclick="simpanData()" class="btn btn-primary float-right ml-2">Simpan Data</button>
+                    <div class="card-footer">
+                        <div class="col-md-12 my-2">
+                            <a href="{{route('admin.master-data.upacara.detail',$dataUpacara->id)}}" class="btn btn-secondary">Kembali</a>
+                            <button onclick="simpanData()" class="btn btn-primary float-right ml-2">Simpan Data</button>
+                        </div>
                     </div>
                 </div>
             </div>

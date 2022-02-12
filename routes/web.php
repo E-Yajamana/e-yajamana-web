@@ -82,7 +82,7 @@ Route::group(['prefix'=>'admin','middleware'=>'cek:admin'], function () {
                 Route::post('store', [MasterDataUpacaraController::class, 'storeTahapanUpacara'])->name('admin.master-data.upacara.tahapan.store');
                 Route::put('update', [MasterDataUpacaraController::class, 'updateTahapanUpacara'])->name('admin.master-data.upacara.tahapan.update');
                 Route::delete('delete', [MasterDataUpacaraController::class, 'deleteTahapanUpacara'])->name('admin.master-data.upacara.tahapan.delete');
-                Route::get('detail/{id}', [MasterDataUpacaraController::class, 'detailTahapanUpacara'])->name('admin.master-data.upacara.tahapan.detail');
+                Route::get('detail/{id?}', [MasterDataUpacaraController::class, 'detailTahapanUpacara'])->name('admin.master-data.upacara.tahapan.detail');
             });
 
         });
@@ -150,6 +150,7 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
         Route::post('store', [KramaUpacarakuController::class, 'storeUpacaraku'])->name('krama.manajemen-upacara.upacaraku.store');
         Route::get('detail/{id}', [KramaUpacarakuController::class, 'detailUpacaraku'])->name('krama.manajemen-upacara.upacaraku.detail');
         Route::get('edit/{id}', [KramaUpacarakuController::class, 'editUpacaraku'])->name('krama.manajemen-upacara.upacaraku.edit');
+        Route::get('update', [KramaUpacarakuController::class, 'editUpacaraku'])->name('krama.manajemen-upacara.upacaraku.edit');
 
     });
 

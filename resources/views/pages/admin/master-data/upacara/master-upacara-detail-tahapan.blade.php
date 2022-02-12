@@ -39,7 +39,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-sm-6" style="width: ">
-                                <img src="" style="height: 400px; width:100%" class=" d-flex img-fluid pad img-thumbnail"  alt="Responsive image">
+                                <img src="{{route('get-image.tahapan-upacara',$dataTahapan->id)}}" style="height: 400px; width:100%" class=" d-flex img-fluid pad img-thumbnail"  alt="Responsive image">
                             </div>
                             <div class="col-12 col-sm-6 justify-content-center align-items-center d-flex">
                                 <div class=" text-center px-lg-4">
@@ -54,8 +54,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row px-3">
-                        <div class="col-md-12 mb-4">
+                    <div class="card-footer">
+                        <div class="col-md-12 my-2">
                             <a href="{{route('admin.master-data.upacara.detail',$dataTahapan->id_upacara)}}" class="btn btn-secondary">Kembali</a>
                             <a onclick="deleteData({{$dataTahapan->id}})" class="btn btn-danger float-right ml-2">Hapus Tahapan Upacara</a>
                             <button onclick="editTahapan({{$dataTahapan->id}},'{{$dataTahapan->nama_tahapan}}','{{$dataTahapan->deskripsi_tahapan}}','{{$dataTahapan->status_tahapan}}','{{$dataTahapan->image}}')" class="btn btn-info float-right mr-2">Edit Data Tahapan<a>

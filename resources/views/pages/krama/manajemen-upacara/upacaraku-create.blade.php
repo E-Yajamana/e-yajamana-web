@@ -490,9 +490,8 @@
         });
 
         $('#daterange').daterangepicker({
-            timePicker: true,
             locale: {
-                format: 'DD/MM/YYYY',
+                format: 'DD-MMMM-YYYY',
             },
             drops: "up",
         });
@@ -513,6 +512,7 @@
 
     <script language="javascript" type="text/javascript">
         let jenis_upacara,nama_upacara,kabupaten,kecamatan,desa_dinas,desa_adat,alamat,deskripsi,daterange;
+
 
         // VALIDASI FORM INPUT DATA
         $('#submitData').validate({
