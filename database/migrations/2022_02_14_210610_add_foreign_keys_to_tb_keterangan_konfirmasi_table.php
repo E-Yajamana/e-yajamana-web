@@ -14,7 +14,7 @@ class AddForeignKeysToTbKeteranganKonfirmasiTable extends Migration
     public function up()
     {
         Schema::table('tb_keterangan_konfirmasi', function (Blueprint $table) {
-            $table->foreign(['id_sulinggih'], 'tb_keterangan_konfirmasi_ibfk_1')->references(['id'])->on('tb_sulinggih');
+            $table->foreign(['id_relasi'], 'tb_keterangan_konfirmasi_ibfk_3')->references(['id'])->on('tb_user_eyajamana');
             $table->foreign(['id_detail_reservasi'], 'tb_keterangan_konfirmasi_ibfk_2')->references(['id'])->on('tb_detail_reservasi');
         });
     }
@@ -27,7 +27,7 @@ class AddForeignKeysToTbKeteranganKonfirmasiTable extends Migration
     public function down()
     {
         Schema::table('tb_keterangan_konfirmasi', function (Blueprint $table) {
-            $table->dropForeign('tb_keterangan_konfirmasi_ibfk_1');
+            $table->dropForeign('tb_keterangan_konfirmasi_ibfk_3');
             $table->dropForeign('tb_keterangan_konfirmasi_ibfk_2');
         });
     }

@@ -14,8 +14,8 @@ class AddForeignKeysToTbSuperAdminTable extends Migration
     public function up()
     {
         Schema::table('tb_super_admin', function (Blueprint $table) {
-            $table->foreign(['user_id'], 'tb_super_admin_ibfk_4')->references(['id'])->on('tb_user');
             $table->foreign(['penduduk_id'], 'tb_super_admin_ibfk_5')->references(['id'])->on('tb_penduduk');
+            $table->foreign(['user_id'], 'tb_super_admin_ibfk_4')->references(['id'])->on('tb_user');
         });
     }
 
@@ -27,8 +27,8 @@ class AddForeignKeysToTbSuperAdminTable extends Migration
     public function down()
     {
         Schema::table('tb_super_admin', function (Blueprint $table) {
-            $table->dropForeign('tb_super_admin_ibfk_4');
             $table->dropForeign('tb_super_admin_ibfk_5');
+            $table->dropForeign('tb_super_admin_ibfk_4');
         });
     }
 }

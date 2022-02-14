@@ -23,8 +23,6 @@ class DatabaseSeeder extends Seeder
         Upacaraku::truncate();
         Krama::truncate();
 
-
-
         $this->call(TbUpacaraTableSeeder::class);
         $this->call(TbKramaTableSeeder::class);
         $this->call(TbGriyaRumahTableSeeder::class);

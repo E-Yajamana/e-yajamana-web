@@ -15,7 +15,7 @@ class CreateTbKeteranganKonfirmasiTable extends Migration
     {
         Schema::create('tb_keterangan_konfirmasi', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_sulinggih')->index('id_sulinggih');
+            $table->integer('id_relasi')->index('id_sulinggih');
             $table->integer('id_detail_reservasi')->index('id_detail_reservasi');
             $table->text('keterangan')->nullable();
             $table->timestamps();
