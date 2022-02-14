@@ -150,13 +150,13 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
         Route::post('store', [KramaUpacarakuController::class, 'storeUpacaraku'])->name('krama.manajemen-upacara.upacaraku.store');
         Route::get('detail/{id}', [KramaUpacarakuController::class, 'detailUpacaraku'])->name('krama.manajemen-upacara.upacaraku.detail');
         Route::get('edit/{id}', [KramaUpacarakuController::class, 'editUpacaraku'])->name('krama.manajemen-upacara.upacaraku.edit');
-        Route::get('update', [KramaUpacarakuController::class, 'editUpacaraku'])->name('krama.manajemen-upacara.upacaraku.edit');
+        Route::put('update', [KramaUpacarakuController::class, 'updateUpacaraku'])->name('krama.manajemen-upacara.upacaraku.update');
 
     });
 
     Route::prefix('manajemen-reservasi')->group(function () {
         Route::get('index', [KramaReservasiController::class, 'indexReservasi'])->name('krama.manajemen-reservasi.index');
-        Route::get('create/{id}', [KramaReservasiController::class, 'createReservasi'])->name('krama.manajemen-reservasi.create');
+        Route::get('create/{id?}', [KramaReservasiController::class, 'createReservasi'])->name('krama.manajemen-reservasi.create');
         Route::post('store', [KramaReservasiController::class, 'storeReservasi'])->name('krama.manajemen-reservasi.store');
     });
 
@@ -194,7 +194,8 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function
 
 Route::prefix('get-image')->group(function () {
     Route::get('upacara/{id}', [GetImageController::class, 'getImageUpacara'])->name('get-image.upacara');
-    Route::get('tahapan-upacara/{id}', [GetImageController::class, 'getImageTahapanUpacara'])->name('get-image.tahapan-upacara');
+    Route::get('tahapan-upacara/{id?}', [GetImageController::class, 'getImageTahapanUpacara'])->name('get-image.tahapan-upacara');
+    Route::get('profile/pemuput-karya/{id?}', [PemuputDashboardController::class, 'getProfilePemuput'])->name('get-image.profile.pemuput-karya');
 
 });
 

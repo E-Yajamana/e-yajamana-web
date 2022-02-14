@@ -156,7 +156,7 @@
                                                         <div class="card-header">
                                                             <div class="card-body box-profile align-content-center">
                                                                 <div class="text-center">
-                                                                <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
+                                                                    <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
                                                                 </div>
                                                                 <h3 class="text-center bold mb-0 mt-3 ">{{$dataUpacaraku->nama_upacara}}</h3>
                                                                 <p class="text-center mb-1 mt-1">{{$dataUpacaraku->Upacara->kategori_upacara}}</p>
@@ -166,16 +166,21 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card">
+                                        <div class="card card-primary card-outline">
                                             <div class="card-header">
                                                 <label class="card-title"  id="judulKalender">Jadwal Muput </label>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                             <div class="card-body">
                                                 <div id='calendar'></div>
                                             </div>
                                         </div>
 
-                                        <div class="card tab-content card-primary card-outline">
+                                        <div class="card tab-content ">
                                             <div class="card-header my-auto">
                                                 <label class="card-title my-auto">Rentetan Upacara | Periode {{date('d-M-Y',strtotime($dataUpacaraku->tanggal_mulai))}} - {{date('d-M-Y',strtotime($dataUpacaraku->tanggal_selesai))}} </label>
                                             </div>
@@ -334,6 +339,7 @@
         </div>
     </section>
     <input value='@json($dataUpacaraku)' id="dataUpacaraku" type="hidden">
+    <input value='@json($dataSanggar)' id="dataSanggar" type="hidden">
     <!-- MODAL DETAIL POPUP USER -->
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog" role="document">
@@ -409,14 +415,10 @@
         let dataUpacara = JSON.parse(data)
         console.log(dataUpacara);
 
-        var tanggal_mulai = moment(dataUpacara.tanggal_mulai).format('YYYY-MM-DD')
-        var tanggal_selesai = moment(dataUpacara.tanggal_selesai).format('YYYY-MM-DD')
-        console.log(tanggal_mulai);
-        console.log(tanggal_selesai);
-
-
-        // var dateNew = '02/15/2022 12:00 AM'
-        // console.log(moment(dateNew).format('YYYY-MM-DD'));
+        // var tanggal_mulai = moment(dataUpacara.tanggal_mulai).format('YYYY-MM-DD')
+        // var tanggal_selesai = moment(dataUpacara.tanggal_selesai).format('YYYY-MM-DD')
+        // console.log(tanggal_mulai);
+        // console.log(tanggal_selesai);
 
         // ADD FUNCTION VALIDATE DATE RANGE
         jQuery.validator.addMethod("daterange", function(value, element){
@@ -448,8 +450,6 @@
             }
         }, "Masukan tanggal dan waktu dengan benar!");
         // ADD FUNCTION VALIDATE DATE RANGE
-
-
 
         // ADD FUNCTION VALIDATE FORM INPUT
         $(function () {
@@ -514,6 +514,8 @@
     <script type="text/javascript">
         let dataPemuputKarya,dataSanggar,dataUpacaraku;
 
+
+        // FUNCTION GET DATA JADWAL SULINGGIH
         function showJadwal(id){
             $.ajax({
                 url: "{{route('ajax.get.data-tangkil')}}"+"/"+id,
@@ -547,7 +549,7 @@
                             center: 'title',
                             right: 'dayGridMonth,timeGridWeek,timeGridDay'
                         },
-                        height: 520,
+                        height: 560,
                         eventClick: function(info) {
                             alert('Event: ' + info.event.title);
                             alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
@@ -561,17 +563,27 @@
             })
 
         }
+        // FUNCTION GET DATA JADWAL SULINGGIH
+
+        function getSanggar(id,id_user,nama_sanggar,nama_pengelola,email,nomor_telepon,alamat){
+            $("#myModal").modal('hide');
+            showJadwal(id)
+            $("#judulKalender").text('Jadwal Acara '+nama_sanggar);
+            $("#in_nama_sulinggih").html(nama_sanggar);
+            $("#in_email_sulinggih").html(email);
+            stepper.next();
+            $("#dataPemuput").append("<div class='card-header'><label class='card-title'>Pemuput Upacara</label><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse' title='Collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body box-profile align-content-center'><div class='text-center mb-2'><img class='profile-user-img img-fluid img-circle'  src='{{route('get-image.profile.pemuput-karya')}}/"+id_user+"' alt='User profile picture'></div><div class='row mt-3'><div class='col-6'><input value='"+id+"' type='hidden' name='id_relasi' class='d-none'><input value='sanggar' name='tipe' type='hidden' class='d-none'><div class='form-group'><label>Nama Sanggar</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama_sanggar+"' disabled=''></div><div class='form-group'><label>Nomer Handphone</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nomor_telepon+"' disabled=''></div></div><div class='col-6'><div class='form-group'><label>Pengelola Sanggar</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama_pengelola+"' disabled=''></div><div class='form-group'><label>Email</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+email+"' disabled=''></div></div><div class='col-12'><div class='form-group'><label>Alamat Lengkap Pemuput</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+alamat+"' disabled></div></div></div></div>");
+        }
 
         // FUNCTION GET DATA PEMUPUT YANG DIPILIH
-        function getPemuput(id,nama,tlpn,alamat,gender,tgldiksha,email){
+        function getPemuput(id,id_user,nama,tlpn,alamat,namaWalaka,tgldiksha,email){
             $("#myModal").modal('hide');
             $("#judulKalender").text('Jadwal Muput '+nama);
-            // gaskan(id);
             stepper.next()
             showJadwal(id)
             $("#in_nama_sulinggih").html(nama);
             $("#in_email_sulinggih").html(email);
-            $("#dataPemuput").append("<div class='card-header'><label class='card-title'>Pemuput Upacara</label><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse' title='Collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body box-profile align-content-center'><div class='text-center mb-2'><img class='profile-user-img img-fluid img-circle'  src='{{route('get-image.upacara',1)}}' alt='User profile picture'></div><div class='row mt-3'><div class='col-6'><input value='"+id+"' type='hidden' name='id_relasi' class='d-none'><input value='sulinggih_pemangku' name='tipe' type='hidden' class='d-none'><div class='form-group'><label>Nama Pemuput Upacara</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama+"' disabled=''></div><div class='form-group'><label>Nomer Handphone</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+tlpn+"' disabled=''></div><div class='form-group'><label>Email</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+email+"' disabled=''></div></div><div class='col-6'><div class='form-group'><label>Tanggal diDiksha</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+moment(tgldiksha).format('D-MMM-Y')+"' disabled=''></div><div class='form-group'><label>Jenis Kelamin</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+gender+"' disabled=''></div><div class='form-group'><label>Alamat Lengkap Pemuput</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+alamat+"' disabled></div></div></div></div>");
+            $("#dataPemuput").append("<div class='card-header'><label class='card-title'>Pemuput Upacara</label><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse' title='Collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body box-profile align-content-center'><div class='text-center mb-2'><img class='profile-user-img img-fluid img-circle'  src='{{route('get-image.profile.pemuput-karya')}}/"+id_user+"' alt='User profile picture'></div><div class='row mt-3'><div class='col-6'><input value='"+id+"' type='hidden' name='id_relasi' class='d-none'><input value='sulinggih_pemangku' name='tipe' type='hidden' class='d-none'><div class='form-group'><label>Nama Panggilan</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+namaWalaka+"' disabled=''></div><div class='form-group'><label>Nomer Handphone</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+tlpn+"' disabled=''></div><div class='form-group'><label>Email</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+email+"' disabled=''></div></div><div class='col-6'><div class='form-group'><label>Nama Sulinggih</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama+"' disabled=''></div><div class='form-group'><label>Tanggal diDiksha</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+moment(tgldiksha).format('D-MMM-Y')+"' disabled=''></div><div class='form-group'><label>Alamat Lengkap Pemuput</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+alamat+"' disabled></div></div></div></div>");
         };
         // FUNCTION GET DATA PEMUPUT YANG DIPILIH
 
@@ -585,16 +597,16 @@
                 $("#inputDate-"+id).append( "<div class='input-group'><div class='input-group-prepend'><span class='input-group-text'><i class='far fa-clock'></i></span></div> <input name='daterange[]' id='reservationtime"+id+"' type='text' class='form-control float-right' value=''></div>");
 
                 $('#reservationtime'+id).daterangepicker({
-                    autoUpdateInput: false,
+                    autoUpdateInput: true,
                     timePicker: true,
                     locale: {
-                        format: 'MM/DD/YYYY hh:mm A',
+                        format: 'DD MMMM YYYY hh:mm A',
                         cancelLabel: 'Clear'
                     },
                     drops: "up",
                 })
                 $('#reservationtime'+id).on('apply.daterangepicker', function(ev, picker) {
-                    $(this).val(picker.startDate.format('MM/DD/YYYY hh:mm A') + ' - ' + picker.endDate.format('MM/DD/YYYY hh:mm A'));
+                    $(this).val(picker.startDate.format('DD MMMM YYYY hh:mm A') + ' - ' + picker.endDate.format('DD MMMM YYYY hh:mm A'));
                 });
             }else {
                 $("#inputDate-"+id).empty();
@@ -619,22 +631,23 @@
             }).addTo(mymap);
 
             // START INISIALISASI DATA
-            dataSanggar = {!! json_encode($dataSanggar) !!}
-            dataPemuputKarya = {!! json_encode($dataPemuputKarya) !!}
-            dataUpacaraku = {!! json_encode($dataUpacaraku) !!}
+                dataJsonSanggar = $('#dataSanggar').val();
+                dataSanggar = JSON.parse(dataJsonSanggar)
+                dataPemuputKarya = {!! json_encode($dataPemuputKarya) !!}
 
-            dataPemuputKarya.forEach(element => {
-                createMarkerPemuputKarya(element.lat,element.lng,element.nama_griya_rumah,element.alamat_griya_rumah,element.sulinggih);
-            });
+                dataPemuputKarya.forEach(element => {
+                    createMarkerPemuputKarya(element.lat,element.lng,element.nama_griya_rumah,element.alamat_griya_rumah,element.sulinggih);
+                });
 
-            dataSanggar.forEach(element => {
-                createMarkerSanggar(element.lat,element.lng,element.nama_sanggar);
-            });
+                dataSanggar.forEach(element => {
+                    createMarkerSanggar(element);
+                });
             // END INISIALISASI DATA
 
 
             //  FUNCTION CREATE MAREKER SANGGAR
-            function createMarkerSanggar(lat,lng,namaSanggar){
+            function createMarkerSanggar(data){
+                console.log(data)
                 var icMarker = L.icon({
                     iconUrl: "{{asset('base-template/dist/img/marker/sanggar.png')}}",
                     iconSize: [36, 40],
@@ -642,15 +655,21 @@
                     popupAnchor: [12, -28],
                 });
 
-                var marker = new L.marker([lat, lng],{
+                var marker = new L.marker([data.lat, data.lng],{
                     icon: icMarker,
-                }).bindPopup(namaSanggar).addTo(mymap);
+                }).bindPopup(data.nama_sanggar).addTo(mymap);
 
                 marker.on('click', function() {
                     marker.openPopup();
                     $("#myModal").modal();
+                    $("#nama_griya").html(data.nama_sanggar);
+                    $("#alamat").html("Lokasi : "+data.alamat_sanggar);
+                    $("#dataSulinggih").empty();
+                    $("#dataSulinggih").append("<div class='card shadow collapsed-card mt-3'><div class='card-header'><div class='user-block'><img class='img-circle' src='{{route('get-image.profile.pemuput-karya')}}/"+data.id_user+"' alt='User Image'><span class='username'><a class='ml-2' href='#'> "+data.nama_sanggar+"</a></span><span class='description'><div class='ml-2 '> "+data.user.email+"</div></span></div><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body'><div class='row '><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Pengelola Sanggar   :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user.penduduk.nama+"</span></div><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Nomor Telepon :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user.nomor_telepon+"</span></div></div></div><div class='card-footer' style='display: none;'><button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getSanggar("+data.id+","+data.id_user+",'"+data.nama_sanggar+"','"+data.user.penduduk.nama+"','"+data.user.email+"','"+data.user.nomor_telepon+"','"+data.alamat_sanggar+"')\">Reservasi</button></div></div>");
                 });
             }
+            //  END FUNCTION CREATE MAREKER SANGGAR
+
 
             //  FUNCTION CREATE MAREKER PEMUPUT-KARYA
             function createMarkerPemuputKarya(lat,lng,namaGriya,alamat,dataSulinggih){
@@ -674,12 +693,13 @@
                     $("#dataSulinggih").empty();
                     // SET MODAL DATA SULINGGIH DAN PEMUPUT KARYA
                     dataSulinggih.forEach(data =>{
-                        var fdate = new Date(data.tanggal_diksha)
-                        var tanggal_tangkil = fdate.getDate().toString()+"-"+(fdate.getMonth()+1)+"-"+fdate.getFullYear()
-                        $("#dataSulinggih").append("<div class='card shadow collapsed-card mt-3'><div class='card-header'><div class='user-block'><img class='img-circle' src='{{asset('base-template/dist/img/user1-128x128.jpg')}}' alt='User Image'><span class='username'><a class='ml-2' href='#'> "+data.nama_sulinggih+"</a></span><span class='description'><div class='ml-2 '> "+data.user.email+"</div></span></div><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body'><div class='row '><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Tanggal Diksha   :</span></div><div class='col-5'><span style='font-size:80%' > "+tanggal_tangkil+"</span></div><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Nomor Telepon :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user.nomor_telepon+"</span></div></div></div><div class='card-footer' style='display: none;'><button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getPemuput("+data.id+",'"+data.nama_sulinggih+"','"+data.user.nomor_telepon+"','"+alamat+"','"+data.jenis_kelamin+"','"+data.tanggal_diksha+"','"+data.user.email+"')\">Reservasi</button></div></div>");
+                        var tanggal_diksha = moment(data.tanggal_diksha).format('YYYY-MMMM-DD')
+                        console.log(tanggal_diksha)
+                        $("#dataSulinggih").append("<div class='card shadow collapsed-card mt-3'><div class='card-header'><div class='user-block'><img class='img-circle' src='{{route('get-image.profile.pemuput-karya')}}/"+data.id_user+"' alt='User Image'><span class='username'><a class='ml-2' href='#'> "+data.nama_sulinggih+"</a></span><span class='description'><div class='ml-2 '> "+data.user.email+"</div></span></div><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body'><div class='row '><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Tanggal Diksha   :</span></div><div class='col-5'><span style='font-size:80%' > "+tanggal_diksha+"</span></div><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Nomor Telepon :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user.nomor_telepon+"</span></div></div></div><div class='card-footer' style='display: none;'><button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getPemuput("+data.id+","+data.id_user+",'"+data.nama_sulinggih+"','"+data.user.nomor_telepon+"','"+alamat+"','"+data.nama_walaka+"','"+data.tanggal_diksha+"','"+data.user.email+"')\">Reservasi</button></div></div>");
                     });
                 });
             }
+            //  END CREATE MAREKER PEMUPUT-KARYA
 
         });
         // FUNCTION TO VIEW MAPS AND MARKER

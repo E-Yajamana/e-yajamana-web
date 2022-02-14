@@ -105,7 +105,7 @@
                                                         @else class="bg-danger btn-sm"
                                                         @endif style="border-radius: 5px; width:70px;">{{$data->status}}</span>
                                                     </td>
-                                                    <td>{{date('d-M-Y',strtotime($data->tanggal_mulai))}} - {{date('d-M-Y',strtotime($data->tanggal_selesai))}} </td>
+                                                    <td>{{date('d M Y',strtotime($data->tanggal_mulai))}} - {{date('d M Y',strtotime($data->tanggal_selesai))}} </td>
                                                     <td>
                                                         <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="{{route('krama.manajemen-upacara.upacaraku.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
@@ -155,7 +155,7 @@
     <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 
     <!-- Page specific script -->
-    <script>
+    <script type="text/javascript">
         $(function () {
             $('#example2').DataTable({
                 "paging": true,
@@ -179,21 +179,10 @@
                 }
             });
         });
-    </script>
 
-    <script type="text/javascript">
         $(document).ready(function(){
             $('#side-upacara').addClass('menu-open');
-            $('#side-kabupaten').addClass('active');
-
-            $('#mySelect2').select2('data');
-            $('.select2').select2()
-
-            //Initialize Select2 Elements
-            $('.select2bs4').select2({
-                theme: 'bootstrap4'
-            })
+            $('#side-data-upacara').addClass('active');
         });
     </script>
-
 @endpush

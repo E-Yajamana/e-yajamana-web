@@ -14,8 +14,8 @@ class AddForeignKeysToTbDetailReservasiTable extends Migration
     public function up()
     {
         Schema::table('tb_detail_reservasi', function (Blueprint $table) {
-            $table->foreign(['id_reservasi'], 'tb_detail_reservasi_ibfk_1')->references(['id'])->on('tb_reservasi');
-            $table->foreign(['id_tahapan_upacara'], 'tb_detail_reservasi_ibfk_2')->references(['id'])->on('tb_tahapan_upacara');
+            $table->foreign(['id_reservasi'], 'tb_detail_reservasi_ibfk_1')->references(['id'])->on('tb_reservasi')->onDelete("cascade");
+            $table->foreign(['id_tahapan_upacara'], 'tb_detail_reservasi_ibfk_2')->references(['id'])->on('tb_tahapan_upacara')->onDelete("cascade");
         });
     }
 

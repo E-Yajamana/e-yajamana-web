@@ -195,6 +195,39 @@ class TbTahapanUpacaraTableSeeder extends Seeder
                 'created_at' => '2022-01-29 19:01:47',
                 'updated_at' => '2022-01-29 19:01:47',
             ),
+            16 => 
+            array (
+                'id' => 20,
+                'id_upacara' => 6,
+                'nama_tahapan' => 'Wangun Bale Petak',
+                'deskripsi_tahapan' => 'Wangun Bale Petak merupakan proses membangun Bale Petak yang digunakan sebagai tempat bersetana-Nya Sang Pitara di bale Payajnan. Bale Petak ini dibangun dalam keadaan yang cukup tinggi dikarenakan Sang Pitara bersetana disana.',
+                'status_tahapan' => 'awal',
+                'image' => 'app/admin/master-data/upacara/tahapan1644653190-default-mac-wallpaper-17-1920x1200jpg.jpg',
+                'created_at' => '2022-02-12 16:06:30',
+                'updated_at' => '2022-02-12 16:06:30',
+            ),
+            17 => 
+            array (
+                'id' => 22,
+                'id_upacara' => 6,
+                'nama_tahapan' => 'Nganyut ke Segara',
+            'deskripsi_tahapan' => 'Nganyut ke Segara adalah merupakan tahap terakhir dari suatu upacara seperti Mamukur atau Ngaben, dapat dilakukan pagi hari selesai upacara Ngeseng Sekah (Upacara Ngirim). Setelah tiba di tepi pantai, arang/abu yang ditempatkan didalam kelapa gading dikeluarkan dan ditebarkan di tepi pantai yang didahului dengan upacara persembahyangan sesajen kepada Sang Hyang Baruna, sebagai penguasa laut, sekaligus permohonan penyucian terhadap roh yang diupacarakan dan diakhiri dengan persembayhangan oleh keluarga.',
+                'status_tahapan' => 'akhir',
+                'image' => 'app/admin/master-data/upacara/tahapan/1644653365-unnamedpng.png',
+                'created_at' => '2022-02-12 16:09:25',
+                'updated_at' => '2022-02-12 16:09:25',
+            ),
+            18 => 
+            array (
+                'id' => 23,
+                'id_upacara' => 7,
+                'nama_tahapan' => 'Mantraning Caru',
+            'deskripsi_tahapan' => 'Merupakan prosesi awal sebelum dimulainya Upacara Mecaru. Banten (Upakara) Caru akan dibersihkan oleh Pemangku melalui mantram.',
+                'status_tahapan' => 'puncak',
+                'image' => 'app/admin/master-data/upacara/tahapan/1644653528-screen-0jpg.jpg',
+                'created_at' => '2022-02-12 16:12:08',
+                'updated_at' => '2022-02-12 16:12:08',
+            ),
         ));
         
         

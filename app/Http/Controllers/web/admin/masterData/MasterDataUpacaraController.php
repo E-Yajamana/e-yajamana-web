@@ -5,7 +5,9 @@ namespace App\Http\Controllers\web\admin\masterdata;
 use App\Http\Controllers\Controller;
 use App\Models\Upacara;
 use App\ImageHelper;
+use App\Models\DetailReservasi;
 use App\Models\TahapanUpacara;
+use App\Models\Upacaraku;
 use ErrorException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
@@ -106,36 +108,36 @@ class MasterDataUpacaraController extends Controller
 
         }else{
             // SECURITY
-            $validator = Validator::make($request->all(),[
-                'nama_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|unique:tb_upacara,nama_upacara|min:5|max:50',
-                'katagori' => 'required|in:Dewa Yadnya,Pitra Yadnya,Manusa Yadnya,Rsi Yadnya,Bhuta Yadnya',
-                'foto_upacara' => 'required|image|mimes:png,jpg,jpeg|max:2500',
-                'deskripsi_upacara' => 'required|min:8|max:1000',
+                $validator = Validator::make($request->all(),[
+                    'nama_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|unique:tb_upacara,nama_upacara|min:5|max:50',
+                    'katagori' => 'required|in:Dewa Yadnya,Pitra Yadnya,Manusa Yadnya,Rsi Yadnya,Bhuta Yadnya',
+                    'foto_upacara' => 'required|image|mimes:png,jpg,jpeg|max:2500',
+                    'deskripsi_upacara' => 'required|min:8|max:1000',
 
-                'dataTahapan.*.nama_tahapan' => 'required',
-                'dataTahapan.*.desc_tahapan' => 'required',
-                'dataTahapan.*.status' => 'required',
-                'dataTahapan.*.foto_tahapan' => 'required',
+                    'dataTahapan.*.nama_tahapan' => 'required',
+                    'dataTahapan.*.desc_tahapan' => 'required',
+                    'dataTahapan.*.status' => 'required',
+                    'dataTahapan.*.foto_tahapan' => 'required',
 
-            ],
-            [
-                'nama_upacara.required' => "Nama upacara wajib diisi",
-                'nama_upacara.regex' => "Format nama upacara tidak sesuai",
-                'nama_upacara.min' => "Nama upacara minimal berjumlah 5 karakter",
-                'nama_upacara.max' => "Nama upacara maksimal berjumlah 50 karakter",
-                'nama_upacara.unique' => "Nama Upacara sudah pernah dibuat sebelumnya",
-                'katagori.required' => "Katagori upacara wajib diisi",
-                'katagori.in' => "Katagori Upacara tidak sesuai ",
-                'foto_upacara.required' => "Gambar upacara wajib diisi",
-                'foto_upacara.image' => "Gambar harus berupa foto",
-                'foto_upacara.mimes' => "Format gambar harus jpeg, png atau jpg",
-                'foto_upacara.size' => "Gambar maksimal berukuran 2.5 Mb",
-                'deskripsi_upacara.required' => "Deskripsi upacara wajib diisi",
-                'deskripsi_upacara.min' => "Deskripsi upacara minimal berjumlah 5 karakter",
-                'deskripsi_upacara.max' => "Deskripsi upacara maksimal berjumlah 50 karakter",
-                'dataTahapan' => "Data tahapan upacara wajib diisi"
-            ]);
-            if($validator->fails()){
+                ],
+                [
+                    'nama_upacara.required' => "Nama upacara wajib diisi",
+                    'nama_upacara.regex' => "Format nama upacara tidak sesuai",
+                    'nama_upacara.min' => "Nama upacara minimal berjumlah 5 karakter",
+                    'nama_upacara.max' => "Nama upacara maksimal berjumlah 50 karakter",
+                    'nama_upacara.unique' => "Nama Upacara sudah pernah dibuat sebelumnya",
+                    'katagori.required' => "Katagori upacara wajib diisi",
+                    'katagori.in' => "Katagori Upacara tidak sesuai ",
+                    'foto_upacara.required' => "Gambar upacara wajib diisi",
+                    'foto_upacara.image' => "Gambar harus berupa foto",
+                    'foto_upacara.mimes' => "Format gambar harus jpeg, png atau jpg",
+                    'foto_upacara.size' => "Gambar maksimal berukuran 2.5 Mb",
+                    'deskripsi_upacara.required' => "Deskripsi upacara wajib diisi",
+                    'deskripsi_upacara.min' => "Deskripsi upacara minimal berjumlah 5 karakter",
+                    'deskripsi_upacara.max' => "Deskripsi upacara maksimal berjumlah 50 karakter",
+                    'dataTahapan' => "Data tahapan upacara wajib diisi"
+                ]);
+                if($validator->fails()){
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
@@ -160,7 +162,7 @@ class MasterDataUpacaraController extends Controller
                 $tahapanUpacara = [];
                 foreach($request->dataTahapan as $data)
                 {
-                    $folder = 'app/admin/master-data/upacara/tahapan';
+                    $folder = 'app/admin/master-data/upacara/tahapan/';
                     $filenameTahapan =  ImageHelper::moveImage($data['foto_tahapan'],$folder);
                     $tahapanUpacara[] = new TahapanUpacara([
                         'nama_tahapan' => $data['nama_tahapan'],
@@ -366,12 +368,24 @@ class MasterDataUpacaraController extends Controller
 
         // MAIN LOGIC
             try{
-                Upacara::findOrFail($request->id)->delete();
+                $upacaraku = Upacaraku::where('id_upacara',$request->id)->count();
+                if($upacaraku != 0){
+                    return redirect()->back()->with([
+                        'status' => 'fail',
+                        'icon' => 'error',
+                        'title' => 'Hapus Data Gagal!',
+                        'message' => 'Hapus data gagal, data upacara sedang digunakan pada sistem!'
+                    ]);
+                }else{
+                    $upacara = Upacara::findOrFail($request->id);
+                    File::delete(storage_path($upacara->image));
+                    $upacara->delete();
+                }
             }catch(ModelNotFoundException $err){
                 return redirect()->back()->with([
                     'status' => 'success',
                     'icon' => 'success',
-                    'tittle' => 'Hapus Data Gagal!',
+                    'title' => 'Hapus Data Gagal!',
                     'message' => 'Hapus data gagal, mohon hubungi developer untuk lebih lanjut!!'
                 ]);
             }
@@ -560,9 +574,19 @@ class MasterDataUpacaraController extends Controller
 
         // MAIN LOGIC
             try{
-                $dataTahapan = TahapanUpacara::findOrFail($request->id);
-                File::delete(storage_path($dataTahapan->image));
-                $dataTahapan->delete();
+                $dataInDetailReservasi = DetailReservasi::where('id_tahapan_upacara',$request->id)->count();
+                if($dataInDetailReservasi != 0){
+                    return redirect()->back()->with([
+                        'status' => 'fail',
+                        'icon' => 'error',
+                        'title' => 'Hapus Data Gagal!',
+                        'message' => 'Hapus data gagal, data tahapan upacara sedang digunakan pada sistem!'
+                    ]);
+                }else{
+                    $dataTahapan = TahapanUpacara::findOrFail($request->id);
+                    File::delete(storage_path($dataTahapan->image));
+                    $dataTahapan->delete();
+                }
             }catch(ModelNotFoundException $err){
                 return redirect()->back()->with([
                     'status' => 'success',

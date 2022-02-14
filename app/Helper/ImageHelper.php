@@ -29,7 +29,7 @@ class ImageHelper
             );
         } else {
             return response()->file(
-                public_path('app/default/none.jpg')
+                public_path('app/default/profile.jpg')
             );
         }
     }

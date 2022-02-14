@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TbSanggar
- * 
+ *
  * @property int $id
  * @property int $id_user
  * @property string $id_desa
@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $keterangan_konfirmasi_akun
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
+ *
  * @property TbUser $tb_user
  * @property TbDesa $tb_desa
  * @property TbDesaadat $tb_desaadat

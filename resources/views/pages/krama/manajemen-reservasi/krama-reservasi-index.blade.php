@@ -77,7 +77,6 @@
                         <div class="card-header my-auto">
                             <h3 class="card-title my-auto">List Data Upacara</h3>
                         </div>
-
                         <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
                             <div class="card-body p-0">
                                 <div class="table-responsive mailbox-messages p-2">
@@ -147,50 +146,6 @@
                             </div>
                         </div>
 
-                        {{-- Start Data Table In Proses --}}
-                        <div class="tab-pane fade show" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
-                            <div class="card-body p-0">
-                                <div class="table-responsive mailbox-messages p-2">
-                                    <table id="example2" class="table table-striped table-hover mx-auto table-responsive-sm">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Upacara</th>
-                                                <th>Jenis Upacara</th>
-                                                <th>Status Upacara</th>
-                                                <th>Tanggal Upacara</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mepandes Putu Alex</td>
-                                                <td>Manusa Yadnya</td>
-                                                <td>Proses</td>
-                                                <td>27 Juni 2021 - 30 Juni 2021</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                    <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Upacara</th>
-                                                <th>Jenis Upacara</th>
-                                                <th>Status Upacara</th>
-                                                <th>Tanggal Upacara</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- Start Data Table In Sulinggih --}}
                     </div>
                 </div>
                 <!-- /.col -->
@@ -214,8 +169,7 @@
     <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 
-    <!-- Page specific script -->
-    <script>
+    <script type="text/javascript">
 
         $(function () {
             $('#example2').DataTable({
@@ -240,9 +194,7 @@
                 }
             });
         });
-    </script>
 
-    <script type="text/javascript">
         $(document).ready(function(){
             $('#side-reservasi').addClass('menu-open');
             $('#side-data-reservasi').addClass('active');

@@ -14,7 +14,7 @@ class AddForeignKeysToTbTahapanUpacaraTable extends Migration
     public function up()
     {
         Schema::table('tb_tahapan_upacara', function (Blueprint $table) {
-            $table->foreign(['id_upacara'], 'tb_tahapan_upacara_ibfk_1')->references(['id'])->on('tb_upacara');
+            $table->foreign(['id_upacara'], 'tb_tahapan_upacara_ibfk_1')->references(['id'])->on('tb_upacara')->onDelete("cascade");
         });
     }
 

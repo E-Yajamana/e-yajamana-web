@@ -12,6 +12,7 @@
                 <form id="submitData" enctype="multipart/form-data" method="POST">
                     @csrf
                     <input class="d-none" type="hidden" id="id_upacara" name="id_upacara" value="{{$dataUpacara->id}}">
+                    <input id="id_tahapan" name="id" value="" type="hidden" class="d-none">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Nama Tahapan Upacara <span class="text-danger">*</span></label>
                         <input id="nama_tahapan" type="text" name="nama_tahapan" class="form-control @error('nama_tahapan') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Tahapan" value="{{old('nama_tahapan')}}">
@@ -56,44 +57,17 @@
 </div>
 
 @push('js')
-    <script type="text/javascript">
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
             }
-        });
-        $('#submitData').submit(function(e) {
-            e.preventDefault();
-            let formData = new FormData(this);
-            $.ajax({
-                url: "{{ route('admin.master-data.upacara.tahapan.store') }}",
-                type:'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                beforeSend:function(){
-                    $(document).find('div.invalid-feedback').text('');
-                },
-                success:function(response){
-                    console.log(response)
-                    console.log(response.data.id)
-                    Swal.fire({
-                        icon : response.icon,
-                        title: response.title,
-                        text: response.message,
-                    });
-                    // "/"+jenisUpacara
-                    $('#submitData')[0].reset();
-                    $("#exampleModal").modal('hide');
-                    $('#'+response.data.status_tahapan).append("<li><a class='text-dark' href='{{route('admin.master-data.upacara.tahapan.detail')}}/"+response.data.id+"'>"+response.data.nama_tahapan+"</a></li>");
-                },
-                error: function(response, error){
-                    $.each(response.responseJSON.error, function(prefix, val){
-                        $('#'+prefix+'_error').text(val[0]);
-                    });
-                }
-            });
-
         })
     </script>
 @endpush

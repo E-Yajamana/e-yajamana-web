@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\web\krama\upacaraku;
 
+use App\DateRangeHelper;
 use App\Http\Controllers\Controller;
 use App\Models\BanjarDinas;
 use App\Models\DesaAdat;
@@ -11,6 +12,7 @@ use App\Models\Kecamatan;
 use App\Models\Upacaraku;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use ErrorException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +21,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use PDOException;
+use PhpParser\Node\Expr\FuncCall;
 use Prophecy\Call\Call;
 class KramaUpacarakuController extends Controller
 {
@@ -33,7 +36,7 @@ class KramaUpacarakuController extends Controller
     // CREATE UPACARAKU
     public function createUpacaraku(Request $request)
     {
-        $dataKabupaten = Kabupaten::all();
+        $dataKabupaten = Kabupaten::whereProvinsiId(51)->get();
         return view('pages.krama.manajemen-upacara.upacaraku-create',compact(['dataKabupaten']));
     }
     // CREATE UPACARAKU
@@ -89,17 +92,15 @@ class KramaUpacarakuController extends Controller
         // MAIN LOGIC
              try{
                 DB::beginTransaction();
-                $parseDate = Str::of($request->daterange)->explode(' - ');
-                $startDate = new Carbon($parseDate[0]);
-                $endDate = new Carbon($parseDate[1]);
+                list($start,$end) = DateRangeHelper::parseDateRange($request->daterange);
                 Upacaraku::create([
                     'id_upacara'=>$request->id_upacara,
                     'id_krama'=>Auth::user()->Krama->id,
                     'id_banjar_dinas'=>$request->id_banjar_dinas,
                     'nama_upacara'=>$request->nama_upacara,
                     'alamat_upacaraku'=>$request->lokasi,
-                    'tanggal_mulai'=>$startDate->format('Y-m-d h:i:s'),
-                    'tanggal_selesai'=>$endDate->format('Y-m-d h:i:s'),
+                    'tanggal_mulai'=>$start,
+                    'tanggal_selesai'=>$end,
                     'deskripsi_upacaraku'=>$request->deskripsi_upacara,
                     'status'=> 'pending',
                     'lat'=>$request->lat,
@@ -121,8 +122,8 @@ class KramaUpacarakuController extends Controller
             return redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Akun Berhasil Dibuat',
-                'message' => 'Akun berhasil dibuat, gunakan email dan password untuk masuk kedalam sistem',
+                'title' => 'Berhasil Menambhakan Upacara   ',
+                'message' => 'Upacara berhasil dibuat,anda dapat mereservais pemuput upacara pada upacara anda!',
             ]);
         //END
     }
@@ -131,25 +132,137 @@ class KramaUpacarakuController extends Controller
     // DETAIL UPACARAKU
     public function detailUpacaraku(Request $request)
     {
-        $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi','BanjarDinas'])->findOrFail($request->id);
-        return view('pages.krama.manajemen-upacara.upacaraku-detail',compact('dataUpacaraku'));
+        // SECURITY
+            $validator = Validator::make(['id' =>$request->id],[
+                'id' => 'required|exists:tb_upacaraku,id',
+            ]);
+
+            if($validator->fails()){
+                return redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Data Upacara Tidak Ditemukan !',
+                    'message' => 'Data Upacara tidak ditemukan, pilihlah data dengan benar !',
+                ]);
+            }
+        // END SECURITY
+
+        // MAIN LOGIC
+            try{
+                $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi','BanjarDinas'])->findOrFail($request->id);
+            }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
+                return \redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Sistem Gagal Menemukan Data Griya !',
+                    'message' => 'sistem gagal menemukan Data Griya, mohon untuk menghubungi developer sistem !',
+                ]);
+            }
+        // END MAIN LOGIC
+
+        // RETURN
+            return view('pages.krama.manajemen-upacara.upacaraku-detail',compact('dataUpacaraku'));
+        // RETURN
+
     }
     // DETAIL UPACARAKU
 
     // EDIT UPACARAKU
     public function editUpacaraku(Request $request)
     {
-        $dataKabupaten = Kabupaten::where('provinsi_id',51)->get();
-        $dataKecamatan = Kecamatan::all();
-        $dataDesa = DesaDinas::all();
-        $dataBanjarDinas = BanjarDinas::all();
+        // SECURITY
+            $validator = Validator::make(['id' =>$request->id],[
+                'id' => 'required|exists:tb_upacaraku,id',
+            ]);
 
-        $dataUpacaraku = Upacaraku::with('Upacara')->findOrFail($request->id);
+            if($validator->fails()){
+                return redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Data Upacara Tidak Ditemukan !',
+                    'message' => 'Data Upacara tidak ditemukan, pilihlah data dengan benar !',
+                ]);
+            }
+        // END SECURITY
 
-        return view('pages.krama.manajemen-upacara.upacaraku-edit',compact('dataKabupaten','dataUpacaraku','dataKecamatan','dataDesa','dataBanjarDinas'));
+        // MAIN LOGIC
+            try{
+                $dataUpacaraku = Upacaraku::with('Upacara')->withCount(['Reservasi'=>function ($query) {
+                    $query->whereIn('status', ['proses muput','selesai','batal']);
+                }])->findOrFail($request->id);
+                $dataKabupaten = Kabupaten::where('provinsi_id',51)->get();
+                $dataKecamatan = Kecamatan::all();
+                $dataDesa = DesaDinas::all();
+                $dataBanjarDinas = BanjarDinas::all();
+            }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
+                return \redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Sistem Gagal Menemukan Data Upacara !',
+                    'message' => 'sistem gagal menemukan Data Upacara, mohon untuk menghubungi developer sistem !',
+                ]);
+            }
+        // END MAIN LOGIC
+
+        // RETURN
+            return view('pages.krama.manajemen-upacara.upacaraku-edit',compact('dataKabupaten','dataUpacaraku','dataKecamatan','dataDesa','dataBanjarDinas'));
+        // RETURN
     }
     // EDIT UPACARAKU
 
+    public function updateUpacaraku(Request $request)
+    {
+
+        // SECURITY
+            // $validator = Validator::make($request->all(),[
+            //     'id_upacara' => 'required|exists:tb_upacara,id',
+            //     'id_banjar_dinas' => 'required|exists:tb_m_banjar_dinas,id',
+            //     // 'daterange' => 'required',
+            //     'nama_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
+            //     'lokasi' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
+            //     'deskripsi_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
+            //     'lat' => 'required|numeric|regex:/^[0-9.-]+$/i',
+            //     'lng' => 'required|numeric|regex:/^[0-9.-]+$/i',
+            // ],
+            // [
+            //     'id_upacara.required' => "Jenis Upacara wajib diisi",
+            //     'id_upacara.exists' => "Jenis Upacara tidak sesuai",
+            //     'id_banjar_dinas.required' => "Banjar Dinas wajib diisi",
+            //     'id_banjar_dinas.exists' => "Banjar Dinas tidak sesuai",
+            //     'nama_upacara.required' => "Nama Upacara wajib diisi",
+            //     'nama_upacara.regex' => "Format Nama Upacara tidak sesuai",
+            //     'nama_upacara.min' => "Nama Upacara minimal berjumlah 3 karakter",
+            //     'nama_upacara.max' => "Nama Upacara maksimal berjumlah 100 karakter",
+            //     'lokasi.required' => "Alamat Lengkap Upacara Lengkap wajib diisi",
+            //     'lokasi.regex' => "Format Alamat Lengkap Upacara Lengkap tidak sesuai",
+            //     'lokasi.min' => "Alamat Lengkap Upacara Lengkap minimal berjumlah 3 karakter",
+            //     'lokasi.max' => "Alamat Lengkap Upacara Lengkap maksimal berjumlah 100 karakter",
+            //     'daterange.required' => "Tanggal Mulai - Selesai wajib diisi",
+            //     'lat.required' => "Latitude griya wajib diisi",
+            //     'lat.numeric' => "Latitude harus berupa angka",
+            //     'lat.regex' => "Format koordinat Latitude griya tidak sesuai",
+            //     'lng.required' => "Longitude griya wajib diisi",
+            //     'lng.numeric' => "Longitude harus berupa angka",
+            //     'lng.regex' => "Format koordinat Longitude griya tidak sesuai",
+
+            // ]);
+
+            // if($validator->fails()){
+            //     return redirect()->back()->with([
+            //         'status' => 'fail',
+            //         'icon' => 'error',
+            //         'title' => 'Gagal Menambahkan Data Upacaraku',
+            //         'message' => 'Gagal Menambahkan Data Upacaraku, silakan periksa kembali form input anda!'
+            //     ])->withInput($request->all())->withErrors($validator->errors());
+            // }
+        // END
+
+        dd($request->all());
+        list($start,$end) = DateRangeHelper::parseDateRange($request->daterange);
+        dd($start);
+
+
+    }
 
 
 }

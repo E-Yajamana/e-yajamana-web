@@ -75,14 +75,13 @@
                             <div class="col-12 col-sm-4">
                                 <h4 class="text-center mb-3">AWAL</h4>
                                 <ul id="awal">
-                                    @foreach ($dataUpacara->TahapanUpacara as $data)
+                                    @foreach ($dataUpacara->TahapanUpacara->where('status_tahapan','awal') as $data)
                                         <li>
                                             <a class="text-dark" href="{{route('admin.master-data.upacara.tahapan.detail',$data->id)}}">{{$data->nama_tahapan}}</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
-
                             <div class="col-12 col-sm-4">
                                 <h4 class="text-center mb-3">PUNCAK</h4>
                                 <ul id="puncak">
@@ -92,7 +91,6 @@
                                         </li>
                                     @endforeach
                                 </ul>
-
                             </div>
                             <div class="col-12 col-sm-4">
                                 <h4 class="text-center mb-3">AKHIR</h4>
@@ -148,6 +146,45 @@
         //Initialize Select2 Elements
         $('.select2bs4').select2({
             theme: 'bootstrap4'
+        })
+    </script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('#submitData').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                url: "{{ route('admin.master-data.upacara.tahapan.store') }}",
+                type:'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend:function(){
+                    $(document).find('div.invalid-feedback').text('');
+                },
+                success:function(response){
+                    console.log(response)
+                    console.log(response.data.id)
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                    $('#submitData')[0].reset();
+                    $("#exampleModal").modal('hide');
+                    $('#'+response.data.status_tahapan).append("<li><a class='text-dark' href='{{route('admin.master-data.upacara.tahapan.detail')}}/"+response.data.id+"'>"+response.data.nama_tahapan+"</a></li>");
+                },
+                error: function(response, error){
+                    $.each(response.responseJSON.error, function(prefix, val){
+                        $('#'+prefix+'_error').text(val[0]);
+                    });
+                }
+            });
+
         })
     </script>
 
