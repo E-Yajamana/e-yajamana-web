@@ -39,9 +39,9 @@ class KeteranganKonfirmasi extends Model
 		'keterangan'
 	];
 
-	public function Sulinggih()
+	public function Relasi()
 	{
-		return $this->belongsTo(Sulinggih::class, 'id_sulinggih');
+		return $this->belongsTo(User::class, 'id_sulinggih');
 	}
 
 	public function DetailReservasi()
