@@ -27,13 +27,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Detail Data Upacaraku</h1>
+                    <h1>Detail Data Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacaraku</a></li>
-                    <li class="breadcrumb-item active">Detail Upacaraku</li>
+                    <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacara</a></li>
+                    <li class="breadcrumb-item active">Detail Upacara</li>
                     </ol>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                 <div class="col-12">
                     <div class="callout callout-danger container-fluid">
                         <h5><i class="fas fa-info"></i> Catatan:</h5>
-                        Anda tidak dapat menghapus upacara saat sudah reservasi yang disetujui.
+                        Anda tidak dapat menghapus upacara saat sudah ada reservasi yang berstatus proses muput.
                     </div>
 
                     <div class="card tab-content">
@@ -258,7 +258,6 @@
                                                         <th class="text-md-center">Upacara Mulai</th>
                                                         <th class="text-md-center">Upacara Selesai</th>
                                                         <th class="text-md-center">Status</th>
-                                                        <th class="text-md-center">Tindakan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -273,10 +272,7 @@
                                                                 <div>{{date('d-M-Y h:i:s',strtotime($data->tanggal_selesai))}}</div>
                                                             </td>
                                                             <td class="d-flex justify-content-center">
-                                                                <div class="bg-success btn-sm text-center" style="border-radius: 5px; width:80px; ">{{$data->status}}</div>
-                                                            </td>
-                                                            <td class="text-md-center">
-                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                                <div class="bg-secondary btn-sm text-center" style="border-radius: 5px; width:80px; ">{{$data->status}}</div>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -333,7 +329,7 @@
             mymap.addLayer(marker);
 
             $('#side-upacara').addClass('menu-open');
-            $('#side-kabupaten').addClass('active');
+            $('#side-data-upacara').addClass('active');
         });
     </script>
 

@@ -61,9 +61,9 @@ class TbUserEyajamanaTableSeeder extends Seeder
             3 => 
             array (
                 'id' => 4,
-                'id_penduduk' => NULL,
+                'id_penduduk' => 2,
                 'email' => 'sannggar@gmail.com',
-                'password' => 'sanggar',
+                'password' => '$2y$10$4LCJHT3xSLboXP4jsrlSc.nu0iaZOVmpadfmrxZFJAOCqaJuG8q7.',
                 'nomor_telepon' => '082412859582',
                 'user_profile' => 'app/default/profile/user.jpg',
                 'role' => 'sanggar',
@@ -139,7 +139,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
             9 => 
             array (
                 'id' => 10,
-                'id_penduduk' => NULL,
+                'id_penduduk' => 1,
                 'email' => 'sanggar-warini@gmail.com',
                 'password' => 'sanggar',
                 'nomor_telepon' => '081414121481',

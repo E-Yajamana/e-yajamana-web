@@ -131,18 +131,17 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <div class="form-group">
-                                            <label>Jenis Upacara <span class="text-danger">*</span></label>
-                                            <select id="jenis_upacara" name="id_upacara" class="form-control select2bs4 @error('id_upacara') is-invalid @enderror" style="width: 100%;">
-                                                <option value="0" disabled selected>Pilih Jenis Upacara</option>
-                                            </select>
-                                            @error('id_upacara')
-                                                <div class="invalid-feedback text-start">
-                                                    {{$errors->first('id_upacara') }}
-                                                </div>
-                                            @enderror
-                                        </div>
+                                        <label>Jenis Upacara <span class="text-danger">*</span></label>
+                                        <select id="jenisupacara" name="id_upacara" class="form-control select2bs4 @error('id_upacara') is-invalid @enderror" style="width: 100%;">
+                                            <option value="0" disabled selected>Pilih Jenis Upacara</option>
+                                        </select>
+                                        @error('id_upacara')
+                                            <div class="invalid-feedback text-start">
+                                                {{$errors->first('id_upacara') }}
+                                            </div>
+                                        @enderror
                                     </div>
+                                    <div class="form-group">
                                     <div class="form-group">
                                         <label>Nama Upacara <span class="text-danger">*</span></label>
                                         <div class="input-group">
@@ -684,18 +683,18 @@
                 dataType: "json",
                 success:function(dataYadnya)
                 {
-                    console.log(dataYadnya.data);
                     if(dataYadnya.data){
-                        $('#jenis_upacara').empty();
-                        $('#jenis_upacara').append('<option value="0" disabled selected>Pilih Jenis Upacara</option>');
+                        $('#jenisupacara').empty();
+                        $('#jenisupacara').append('<option value="0" disabled selected>Pilih Jenis Upacara</option>');
                         $.each(dataYadnya.data, function(key, data){
-                            $('#jenis_upacara').append('<option value="'+ data.id +'">' + data.nama_upacara+ '</option>');
+                            console.log(data);
+                            $('#jenisupacara').append('<option value="'+ data.id +'">' + data.nama_upacara+ '</option>');
                             jenis_upacara = data.nama_upacara;
                         });
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    $('#jenis_upacara').empty();
+                    $('#jenisupacara').empty();
                 }
             })
         }

@@ -55,6 +55,7 @@
                     <form action="{{route('krama.manajemen-upacara.upacaraku.update')}}" method="POST">
                         @csrf
                         @method('PUT')
+                        <input name="id_upacaraku" value="{{$dataUpacaraku->id}}" type="hidden" class="d-none">
                         <div class="card">
                             <div class="card-header my-auto">
                                 <label class="card-title my-auto">Form Edit Data Upacara</label>
@@ -77,16 +78,17 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>Jenis Upacara <span class="text-danger">*</span></label>
-                                    <select  name="id_upacara" id="jenis_upacara" @if ($dataUpacaraku->reservasi_count != 0) disabled @endif  class="form-control select2bs4 @error('jenis_upacara') is-invalid @enderror" style="width: 100%;" >
-                                        <option value="0" disabled selected>Pilih Jenis Upacara</option>
-                                    </select>
-                                    <p class="m-1 text-sm">(Pilih Jenis Yadnya terlebih dahulu)</p>
-                                    @error('jenis_upacara')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('jenis_upacara') }}
-                                        </div>
-                                    @enderror
+                                    <div class="form-group">
+                                        <label>Jenis Upacara <span class="text-danger">*</span></label>
+                                        <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif id="jenisupacara" name="id_upacara" class="form-control select2bs4 @error('id_upacara') is-invalid @enderror" style="width: 100%;">
+                                            <option value="0" disabled selected>Pilih Jenis Upacara</option>
+                                        </select>
+                                        @error('id_upacara')
+                                            <div class="invalid-feedback text-start">
+                                                {{$errors->first('id_upacara') }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <input name="status" value="{{$dataUpacaraku->status}}" type="hidden" class="d-none">
                                 <div class="form-group">
@@ -97,7 +99,7 @@
                                                 <i class="far fa-calendar-alt"></i>
                                             </span>
                                         </div>
-                                        <input name="daterange" id="reservationtime" type='text' class='form-control float-right'>
+                                        <input @if ($dataUpacaraku->reservasi_count != 0) disabled @endif name="daterange" id="reservationtime" type='text' class='form-control float-right'>
                                         @error('daterange')
                                             <div class="invalid-feedback text-start">
                                                 {{ $errors->first('daterange') }}
@@ -222,10 +224,10 @@
                                         </div>
                                         <div class="form-group mb-0">
                                             <label>Alamat Upacara</label>
-                                            <textarea name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->alamat_upacaraku}}</textarea>
-                                            @error('alamat_griya')
+                                            <textarea name="alamat_upacaraku" class="form-control  @error('alamat_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->alamat_upacaraku}}</textarea>
+                                            @error('alamat_upacaraku')
                                                 <div class="invalid-feedback text-start">
-                                                    {{$errors->first('alamat_griya') }}
+                                                    {{$errors->first('alamat_upacaraku') }}
                                                 </div>
                                             @enderror
                                         </div>
@@ -292,16 +294,15 @@
         let parseData = (JSON.parse(article));
         console.log(parseData);
 
-        $('#test').val(moment(parseData.tanggal_mulai).format('DD-MMMM-YYYY') - moment(parseData.tanggal_selesai).format('DD-MMMM-YYYY'))
 
         $('#reservationtime').daterangepicker({
             "autoApply": true,
-            startDate: moment(parseData.tanggal_mulai).format('DD-MMMM-YYYY'),
-            endDate:moment(parseData.tanggal_selesai).format('DD-MMMM-YYYY'),
+            startDate: moment(parseData.tanggal_mulai).format('DD MMMM YYYY'),
+            endDate:moment(parseData.tanggal_selesai).format('DD MMMM YYYY'),
             disabled: true,
             // option : disabled,
             locale: {
-                format: 'DD-MMMM-YYYY',
+                format: 'DD MMMM YYYY',
             },
             drops: "up",
         });
@@ -363,21 +364,21 @@
             dataType: "json",
             success:function(dataYadnya)
             {
+                console.log(dataYadnya)
                 if(dataYadnya.data){
-                    $('#jenis_upacara').empty();
-                    $('#jenis_upacara').append('<option value="0" disabled selected>Pilih Jenis Upacara</option>');
+                    $('#jenisupacara').empty();
+                    $('#jenisupacara').append('<option value="0" disabled selected>Pilih Jenis Upacara</option>');
                     $.each(dataYadnya.data, function(key, data){
-                        if(parseData.upacara.id ==  data.id){
-                            $('#jenis_upacara').append('<option selected value="'+ data.id +'">' + data.nama_upacara+ '</option>');
+                        if(parseData.id_upacara == data.id){
+                            $('#jenisupacara').append('<option selected value="'+ data.id +'">' + data.nama_upacara+ '</option>');
                         }else{
-                            $('#jenis_upacara').append('<option value="'+ data.id +'">' + data.nama_upacara+ '</option>');
+                            $('#jenisupacara').append('<option value="'+ data.id +'">' + data.nama_upacara+ '</option>');
                         }
-                        jenis_upacara = data.nama_upacara;
                     });
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
-                $('#jenis_upacara').empty();
+                $('#jenisupacara').empty();
             }
         })
 
@@ -391,20 +392,18 @@
                 dataType: "json",
                 success:function(dataYadnya)
                 {
-                    console.log(dataYadnya.data);
                     if(dataYadnya.data.length != 0){
-                        $('#jenis_upacara').empty();
-                        $('#jenis_upacara').append('<option value="0" disabled selected>Pilih Jenis Upacara</option>');
+                        $('#jenisupacara').empty();
+                        $('#jenisupacara').append('<option value="0" disabled selected>Pilih Jenis Upacara</option>');
                         $.each(dataYadnya.data, function(key, data){
-                            $('#jenis_upacara').append('<option value="'+ data.id +'">' + data.nama_upacara+ '</option>');
-                            jenis_upacara = data.nama_upacara;
+                            $('#jenisupacara').append('<option value="'+ data.id +'">' + data.nama_upacara+ '</option>');
                         });
                     }else{
-                        $('#jenis_upacara').append('<option value="0" disabled selected>Belum terdapat data upacara pada sistem</option>');
+                        $('#jenisupacara').append('<option value="0" disabled selected>Belum terdapat data upacara pada sistem</option>');
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    $('#jenis_upacara').empty();
+                    $('#jenisupacara').empty();
                 }
             })
         })

@@ -95,8 +95,8 @@
                                             @foreach ($dataReservasi as $index => $data)
                                                 <tr>
                                                     <td rowspan="{{count($data->Reservasi)}}">{{$index+1}}</td>
-                                                    <td rowspan="{{count($data->Reservasi)}}">{{$data->nama_upacara}}</td>
-                                                    <td style="height: " class="pl-4">{{$data->Reservasi[0]->Sulinggih->nama_sulinggih}}</td>
+                                                    <td style="width: 18%" rowspan="{{count($data->Reservasi)}}">{{$data->nama_upacara}}</td>
+                                                    <td style="width: 18%" class="pl-4">{{$data->Reservasi[0]->Sulinggih->nama_sulinggih}}</td>
                                                     <td class='d-flex justify-content-center text-center'>
                                                         <span class="bg-secondary btn-sm" style="border-radius: 5px; width:110px;">{{($data->Reservasi[0]->status)}}</span>
                                                     </td>

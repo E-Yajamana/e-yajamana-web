@@ -162,14 +162,6 @@
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
 
     <script>
-        $('#mySelect2').select2('data');
-
-        $('.select2').select2()
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        })
-
         function addReservasi(){
             let dataJSON = $('#jsonDataKrama').val();
             dataKramaUpacaraku = JSON.parse(dataJSON);
