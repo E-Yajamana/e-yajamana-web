@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\api\sulinggih;
 
 use App\Http\Controllers\Controller;
+use App\Models\DetailReservasi;
 use App\Models\Reservasi;
 use Doctrine\DBAL\Query\QueryException;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Mavinoo\Batch\BatchFacade;
 use PDOException;
 
 class SulinggihReservasiController extends Controller
@@ -16,7 +20,7 @@ class SulinggihReservasiController extends Controller
     public function index(Request $request){
         // SECURITY
             $validator = Validator::make($request->all(),[
-                'status' => 'nullable|in:pending,diterima,ditolak',
+                'status' => 'nullable|in:pending,proses tangkil,proses muput,selesai,batal',
                 'date_sort' => 'nullable|in:desc,asc',
             ]);
 
@@ -141,34 +145,74 @@ class SulinggihReservasiController extends Controller
         // END
     }
 
-    public function update($request){
+    public function update(Request $request){
         // SECURITY
-            $validator = Validator::make($request->all(),[
-                'id' => 'required',
-                'detail_reservasi' => 'required|json',
-            ]);
-            
-            if($validator->fails()){
-                return response()->json([
-                        'status' => 400,
-                        'message' => 'Validation Error',
-                        'data' => $validator->errors(),
-                ],400);
-            }
+            // STEP ONE
+                $validator = Validator::make($request->all(),[
+                    'id_reservasi' => 'required',
+                    'detail_reservasi' => 'required|json',
+                ]);
+                
+                if($validator->fails()){
+                    return response()->json([
+                            'status' => 400,
+                            'message' => 'Validation Error',
+                            'data' => $validator->errors(),
+                    ],400);
+                }
         // END
         
         // MAIN LOGIC
             try{
+                DB::beginTransaction();
                 
-                $detailReservasi = json_decode($request->detail_reservasi);
+                $detail_reservasi = json_decode($request->detail_reservasi);
 
-                return $detailReservasi;
+                $array_detail_reservasi = array_map(function($object){
+                    return (array) $object;
+                },$detail_reservasi);
 
+                // DETAIL RESERVASI UPDATE
+                    BatchFacade::update(new DetailReservasi(),$array_detail_reservasi,'id');
+                // END
+
+                // MASTER RESERVASI
+                    $status = 'pending';
+                    $ditolak = 0;
+                    
+                    foreach ($array_detail_reservasi as $index => $value) {
+                        if($value['status'] == 'diterima'){
+                            $status = 'proses tangkil';
+                            break;
+                        }
+
+                        if($value['status'] == 'ditolak'){
+                            $ditolak += 1;
+                            if($ditolak == count($array_detail_reservasi)){
+                                $status = 'batal';
+                                break;
+                            }
+                        }
+                        
+                        if($value['status'] == 'pending'){
+                            $status = 'pending';
+                        }
+                    }
+
+                    if(!Reservasi::findOrFail($request->id_reservasi)->update(['status' => $status])){
+                        throw new Exception("Gagal update reservasi"); 
+                    }
+
+                // END
+                DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                DB::rollback();
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',
-                        'data' => (Object)[],
+                        'data' => (Object)[
+                            $status
+                        ],
                 ],500);
             }
         // END

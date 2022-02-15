@@ -13,7 +13,7 @@ class CreateTbDesaadatTable extends Migration
      */
     public function up()
     {
-        Schema::create('tb_desaadat', function (Blueprint $table) {
+        Schema::create('tb_desaadat_tes', function (Blueprint $table) {
             $table->increments('desadat_id');
             $table->tinyInteger('desadat_jenis_id')->nullable()->comment('FK ke tb_master_jenis_desaadat');
             $table->string('desadat_nama', 50)->nullable();
