@@ -27,6 +27,7 @@ class ReservasiMasukController extends Controller
         };
         $dataReservasi->with(['DetailReservasi'=>$queryDetailReservasi])->whereHas('DetailReservasi',$queryDetailReservasi);
         $dataReservasi = $dataReservasi->where('id_relasi',Auth::user()->Sulinggih->id)->get();
+
         return view('pages.pemuput-karya.manajemen-reservasi.pemuput-reservasi-masuk-index',compact('dataReservasi'));
     }
     // INDEX VIEW DATA RESERVASI MASUK
@@ -80,7 +81,7 @@ class ReservasiMasukController extends Controller
     // VERIFIKASI RESERVASI
     public function verifikasiReservasi(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'id_tahapan' => 'required|exists:tb_detail_reservasi,id',

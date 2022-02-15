@@ -64,15 +64,15 @@ class Reservasi extends Model
 		return $date->format('Y-m-d H:i:s');
 	}
 
-    public function Sanggar()
-	{
-		return $this->belongsTo(Sanggar::class, 'id_relasi','id');
-	}
+    // public function Sanggar()
+	// {
+	// 	return $this->belongsTo(Sanggar::class, 'id_relasi','id');
+	// }
 
-	public function Sulinggih()
-	{
-		return $this->belongsTo(Sulinggih::class, 'id_relasi','id');
-	}
+	// public function Sulinggih()
+	// {
+	// 	return $this->belongsTo(Sulinggih::class, 'id_relasi','id');
+	// }
 
 	public function Upacaraku()
 	{
@@ -83,6 +83,12 @@ class Reservasi extends Model
 	{
 		return $this->hasMany(DetailReservasi::class, 'id_reservasi','id');
 	}
+
+    public function Relasi()
+	{
+		return $this->belongsTo(User::class, 'id_relasi');
+	}
+
 
 	// public function tb_gambars()
 	// {

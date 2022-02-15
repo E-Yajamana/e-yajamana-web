@@ -55,7 +55,7 @@
                                 @foreach ($dataReservasi as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$data->Upacaraku->Krama->User->Penduduk}}</td>
+                                        <td>Risamwan</td>
                                         <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
                                         <td>{{date('d-M-Y | h:i',strtotime($data->tanggal_tangkil))}}</td>
                                         <td>
@@ -143,16 +143,24 @@
     <script type="text/javascript">
 
         function cekTanggalTangkil(tanggal_tangkil){
-            if(moment(tanggal_tangkil).format('MM-DD-YYYY') == moment().format('MM-DD-YYYY')){
+            console.log(moment(tanggal_tangkil).format('YYYY-MM-DD'))
+            console.log(moment().format('YYYY-MM-DD'))
+            var tanggal_tangkil = moment(tanggal_tangkil).format('YYYY-MM-DD')
+            var datenow = console.log(moment().format('YYYY-MM-DD'))
+
+            // var data = moment(tanggal_tangkil).isBetween(tanggal_tangkil, datenow, undefined, '[]');
+            // console.log(data);
+
+            if(moment(tanggal_tangkil).isBetween(tanggal_tangkil, datenow, undefined, '[]')){
                 location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}";
             }else{
                 Swal.fire({
                     icon: 'info',
                     title: 'Pemberitahuan',
-                    text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('MM-DD-YYYY') ,
+                    text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('DD-MMM-YYYY') ,
                 });
             }
-            console.log(moment().format('MM-DD-YYYY'));
+            // console.log(moment().format('MM-DD-YYYY'));
         }
     </script>
 @endpush

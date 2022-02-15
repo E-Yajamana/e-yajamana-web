@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TbSanggarTableSeeder extends Seeder
 {
@@ -15,20 +14,41 @@ class TbSanggarTableSeeder extends Seeder
      */
     public function run()
     {
+        
 
-
-        DB::table('tb_sanggar')->delete();
-
-        DB::table('tb_sanggar')->insert(array (
-            0 =>
+        \DB::table('tb_sanggar')->delete();
+        
+        \DB::table('tb_sanggar')->insert(array (
+            0 => 
             array (
-                'id' => 4,
-                'id_user' => 8,
-                'nama_sanggar' => 'Sanggar Singo Sari',
-                'alamat_sanggar' => 'Dalung Permai',
+                'id' => 2,
+                'id_user' => 10,
+                'nama_sanggar' => 'Sanngar Bali Warini',
+                'alamat_sanggar' => 'Buana sari no 14',
+                'sk_tanda_usaha' => 'app/default/tanda_usaha.jpg',
+                'lat' => '-8.785502000000000000',
+                'lng' => '115.176629200000000000',
+                'status_konfirmasi_akun' => 'disetujui',
+                'keterangan_konfirmasi_akun' => NULL,
+                'created_at' => '2022-01-19 01:47:09',
+                'updated_at' => '2022-01-23 06:27:00',
+            ),
+            1 => 
+            array (
+                'id' => 3,
+                'id_user' => 4,
+                'nama_sanggar' => 'Sanggar Nuansa Bali',
+                'alamat_sanggar' => 'Tegal lantang no 145',
+                'sk_tanda_usaha' => 'app/default/tanda_usaha.jpg',
+                'lat' => '-8.556869800000000000',
+                'lng' => '115.199806000000000000',
+                'status_konfirmasi_akun' => 'disetujui',
+                'keterangan_konfirmasi_akun' => NULL,
+                'created_at' => '2022-01-24 20:29:48',
+                'updated_at' => '2022-01-24 20:29:50',
             ),
         ));
-
-
+        
+        
     }
 }

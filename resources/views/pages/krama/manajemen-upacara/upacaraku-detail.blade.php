@@ -27,13 +27,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Detail Data Upacaraku</h1>
+                    <h1>Detail Data Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">List Upacaraku</a></li>
-                    <li class="breadcrumb-item active">Buat Upacaraku</li>
+                    <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacara</a></li>
+                    <li class="breadcrumb-item active">Detail Upacara</li>
                     </ol>
                 </div>
             </div>
@@ -41,15 +41,13 @@
         <!-- /.container-fluid -->
     </section>
 
-
-
     <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="callout callout-danger container-fluid">
                         <h5><i class="fas fa-info"></i> Catatan:</h5>
-                        Anda tidak dapat menghapus upacara saat sudah reservasi yang disetujui.
+                        Anda tidak dapat menghapus upacara saat sudah ada reservasi yang berstatus proses muput.
                     </div>
 
                     <div class="card tab-content">
@@ -120,7 +118,7 @@
                                                 <div class="form-group">
                                                     <label>Alamat Lengkap Upacara</label>
                                                     <textarea disabled name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="4" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->alamat_upacaraku}}, Desa {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->Provinsi->name))}} </textarea>
-                                                     
+
                                                     @error('alamat_griya')
                                                         <div class="invalid-feedback text-start">
                                                             {{$errors->first('alamat_griya') }}
@@ -191,40 +189,26 @@
                         </div>
                     </div>
 
-                    @if ($dataUpacaraku->Reservasi->count() == 0)
-                        <div class="card">
-                            <div class="card-header my-auto">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="card-title my-auto">Reservasi Upacara</label>
-                                    </div>
-                                    <div class="col-6">
-                                        <a class="btn-sm btn-primary float-right" href="{{route('krama.manajemen-reservasi.create',$dataUpacaraku->id)}}"><i class="fa fa-plus"></i> Buat Reservasi</a>
-                                    </div>
+                    <div class="card">
+                        <div class="card-header my-auto">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label class="card-title my-auto">Reservasi Upacara</label>
+                                </div>
+                                <div class="col-6">
+                                    <a class="btn-sm btn-primary float-right" href="{{route('krama.manajemen-reservasi.create',$dataUpacaraku->id)}}"><i class="fa fa-plus"></i> Buat Reservasi</a>
                                 </div>
                             </div>
-                            <div class="card-body">
+                        </div>
+                        <div class="card-body">
+                            @if ($dataUpacaraku->Reservasi->count() == 0)
                                 <div class=" px-lg-3 row align-items-center justify-content-center">
                                     <div class="callout callout-info container-fluid">
                                         <h5><i class="fas fa-info"></i> Pemberitahuan:</h5>
                                         Belum terdapat dara reservasi pada upacara ini !
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    @else
-                        <div class="card">
-                            <div class="card-header my-auto">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label class="card-title my-auto">Reservasi Upacara</label>
-                                    </div>
-                                    <div class="col-6">
-                                        <a class="btn-sm btn-primary float-right" href="{{route('krama.manajemen-reservasi.create',$dataUpacaraku->id)}}"><i class="fa fa-plus"></i> Tambah Reservasi</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
+                            @else
                                 @foreach ($dataUpacaraku->Reservasi as $data)
                                     <div class="card shadow collapsed-card">
                                         <div class="card-header" aria-expanded="false">
@@ -274,7 +258,6 @@
                                                         <th class="text-md-center">Upacara Mulai</th>
                                                         <th class="text-md-center">Upacara Selesai</th>
                                                         <th class="text-md-center">Status</th>
-                                                        <th class="text-md-center">Tindakan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -289,38 +272,32 @@
                                                                 <div>{{date('d-M-Y h:i:s',strtotime($data->tanggal_selesai))}}</div>
                                                             </td>
                                                             <td class="d-flex justify-content-center">
-                                                                <div class="bg-success btn-sm text-center" style="border-radius: 5px; width:80px; ">{{$data->status}}</div>
-                                                            </td>
-                                                            <td class="text-md-center">
-                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                                <div class="bg-secondary btn-sm text-center" style="border-radius: 5px; width:80px; ">{{$data->status}}</div>
                                                             </td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <!-- /.card-body -->
+                                        {{-- <!-- /.card-body -->
                                         <div class="card-footer" style="display: none;">
                                             <button type="button" class="btn btn btn-infox btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
                                         </div>
-                                        <!-- /.card-footer-->
+                                        <!-- /.card-footer--> --}}
                                     </div>
                                 @endforeach
+                            @endif
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-12 my-1">
+                                    <a href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="btn btn-secondary">Kembali</a>
+                                    <button type="submit" class="btn m-1 btn-danger float-right ml-2">Hapus Upacaraku</button>
+                                    <button type="submit" class="btn m-1 btn-info float-right ml-2">Edit Data Upacaraku</button>
+                                </div>
                             </div>
                         </div>
-                    @endif
-                    <!-- /.card -->
-                    <div class="container-fluid mt-2">
-                        <div class="row">
-                            <div class="col-md-12 mb-4 p-0">
-                                <a href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="btn btn-secondary">Kembali</a>
-                                <input type="submit" value="Hapus Upacaraku" class="btn btn-danger float-right ml-2">
-                                <input type="submit" value="Edit Data Upacaraku" class="btn btn-info float-right mr-2">
-                            </div>
-                        </div>
-
                     </div>
-
                 </div>
                 <!-- /.col -->
             </div>
@@ -330,7 +307,6 @@
     </section>
 
 @endsection
-
 
 
 @push('js')
@@ -351,6 +327,9 @@
             // var curLocation = [$dataGriya->lat, $dataGriya->lng];
             var marker = new L.marker([<?= $dataUpacaraku->lat ?>, <?=$dataUpacaraku->lng ?>]);
             mymap.addLayer(marker);
+
+            $('#side-upacara').addClass('menu-open');
+            $('#side-data-upacara').addClass('active');
         });
     </script>
 
@@ -364,14 +343,6 @@
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
     <!-- jQuery -->
     <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
-
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#side-upacara').addClass('menu-open');
-            $('#side-kabupaten').addClass('active');
-        });
-    </script>
 
 
 @endpush

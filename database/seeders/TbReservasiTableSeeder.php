@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TbReservasiTableSeeder extends Seeder
 {
@@ -15,43 +14,37 @@ class TbReservasiTableSeeder extends Seeder
      */
     public function run()
     {
+        
 
-
-        DB::table('tb_reservasi')->delete();
-
-        DB::table('tb_reservasi')->insert(array (
-            0 =>
+        \DB::table('tb_reservasi')->delete();
+        
+        \DB::table('tb_reservasi')->insert(array (
+            0 => 
             array (
-                'id' => 9,
-                'id_relasi' => 1,
-                'id_upacaraku' => 1,
+                'id' => 48,
+                'id_relasi' => 20,
+                'id_upacaraku' => 17,
                 'tipe' => 'sulinggih_pemangku',
-                'status' => 'selesai',
-                'tgl_tangkil' => '2021-10-20',
-                'desc' => 'Resevarsi buat anak saya',
+                'status' => 'pending',
+                'tanggal_tangkil' => NULL,
+                'keterangan' => NULL,
+                'created_at' => '2022-02-10 20:31:29',
+                'updated_at' => '2022-02-10 20:31:29',
             ),
-            1 =>
+            1 => 
             array (
-                'id' => 10,
-                'id_relasi' => 2,
-                'id_upacaraku' => 1,
+                'id' => 49,
+                'id_relasi' => 20,
+                'id_upacaraku' => 21,
                 'tipe' => 'sulinggih_pemangku',
-                'status' => 'in progress',
-                'tgl_tangkil' => '2021-10-22',
-                'desc' => 'teseavrsi 2',
-            ),
-            2 =>
-            array (
-                'id' => 11,
-                'id_relasi' => 1,
-                'id_upacaraku' => 2,
-                'tipe' => 'sulinggih_pemangku',
-                'status' => 'sedang berlangsung',
-                'tgl_tangkil' => '2021-10-15',
-                'desc' => 'Resevarsi Krama 2 Pemangku',
+                'status' => 'pending',
+                'tanggal_tangkil' => NULL,
+                'keterangan' => NULL,
+                'created_at' => '2022-02-14 15:24:07',
+                'updated_at' => '2022-02-14 15:24:07',
             ),
         ));
-
-
+        
+        
     }
 }

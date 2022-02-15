@@ -131,18 +131,17 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <div class="form-group">
-                                            <label>Jenis Upacara <span class="text-danger">*</span></label>
-                                            <select id="jenis_upacara" name="id_upacara" class="form-control select2bs4 @error('id_upacara') is-invalid @enderror" style="width: 100%;">
-                                                <option value="0" disabled selected>Pilih Jenis Upacara</option>
-                                            </select>
-                                            @error('id_upacara')
-                                                <div class="invalid-feedback text-start">
-                                                    {{$errors->first('id_upacara') }}
-                                                </div>
-                                            @enderror
-                                        </div>
+                                        <label>Jenis Upacara <span class="text-danger">*</span></label>
+                                        <select id="jenisupacara" name="id_upacara" class="form-control select2bs4 @error('id_upacara') is-invalid @enderror" style="width: 100%;">
+                                            <option value="0" disabled selected>Pilih Jenis Upacara</option>
+                                        </select>
+                                        @error('id_upacara')
+                                            <div class="invalid-feedback text-start">
+                                                {{$errors->first('id_upacara') }}
+                                            </div>
+                                        @enderror
                                     </div>
+                                    <div class="form-group">
                                     <div class="form-group">
                                         <label>Nama Upacara <span class="text-danger">*</span></label>
                                         <div class="input-group">
@@ -160,7 +159,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Tanggal Mulai - Tanggal Selesai Upacara</label>
+                                        <label>Tanggal Mulai - Tanggal Selesai Upacara <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                             <span class="input-group-text">
@@ -186,7 +185,7 @@
                                                     @php
                                                         $kabupaten = old('kabupaten')
                                                     @endphp
-                                                    @foreach ($dataKabupaten->where('provinsi_id',51) as $data)
+                                                    @foreach ($dataKabupaten as $data)
                                                         @if ($kabupaten == $data->id)
                                                             <option value="{{$data->id}}" selected>{{$data->name}}</option>
                                                         @else
@@ -246,7 +245,7 @@
                                     <!-- AJAX LOKASI SEARCH  -->
 
                                     <div class="form-group">
-                                        <label>Alamat Lengkap Lokasi Upacara</label>
+                                        <label>Alamat Lengkap Lokasi Upacara <span class="text-danger">*</span></label>
                                         <textarea id="alamat" name="lokasi" class="form-control @error('lokasi') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Lokasi Upacara">{{old('lokasi')}}</textarea>
                                         @error('lokasi')
                                             <div class="invalid-feedback text-start">
@@ -257,7 +256,7 @@
 
                                     {{-- Form Pemetaan Lokasi Upacara --}}
                                     <div class="form-group">
-                                        <label>Pemetaan Lokasi Upacara</label>
+                                        <label>Pemetaan Lokasi Upacara <span class="text-danger">*</span></label>
                                         <div class="input-group mb-3">
                                             <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" value="{{old('lat')}}" readonly="readonly">
                                             @error('lat')
@@ -279,14 +278,13 @@
                                     {{-- Form Pemetaan Lokasi Upacara --}}
 
                                     <div class="form-group">
-                                        <label>Deskripsi Upacara</label>
+                                        <label>Deskripsi Upacara </label>
                                         <textarea  id="deskripsi" name="deskripsi_upacara" class="form-control" rows="3" placeholder="Masukan Deskripsi Upacara"></textarea>
                                         @error('deskripsi_upacara')
                                             <div class="invalid-feedback text-start">
                                                 {{ $errors->first('deskripsi_upacara') }}
                                             </div>
                                         @enderror
-
                                     </div>
 
                                     <div class="form-group">
@@ -336,23 +334,23 @@
                                 <div class="row">
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
-                                            <label>Kabupaten/Kota <span class="text-danger">*</span></label>
+                                            <label>Kabupaten/Kota </label>
                                             <input disabled type="text" id="view_kabupaten" autocomplete="off" class="form-control" value="{{ old('nama_upacara') }}" placeholder="Masukan Nama Upacara">
                                         </div>
                                         <div class="form-group">
                                             <div class="form-group">
-                                                <label>Kecamatan <span class="text-danger">*</span></label>
+                                                <label>Kecamatan </label>
                                                 <input disabled type="text" id="view_kecamatan" autocomplete="off" class="form-control" placeholder="Masukan Nama Upacara">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-group">
-                                            <label>Desa Dinas<span class="text-danger">*</span></label>
+                                            <label>Desa Dinas</label>
                                             <input disabled type="text" id="view_desa" name="nama_upacara" autocomplete="off" class="form-control" placeholder="Masukan Nama Upacara">
                                         </div>
                                         <div class="form-group">
-                                            <label>Desa Adat <span class="text-danger">*</span></label>
+                                            <label>Desa Adat </label>
                                             <input disabled type="text" id="view_desa_adat" name="nama_upacara" autocomplete="off" class="form-control" placeholder="Masukan Nama Upacara">
                                         </div>
                                     </div>
@@ -409,13 +407,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
-                                    <button type="button" id="submit" class="btn btn-primary float-sm-right" >Simpan</button>
+                                    <div class="card-footer my-2">
+                                        <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
+                                        <button type="button" id="submit" class="btn btn-primary float-sm-right" >Simpan</button>
+                                    </div>
                                 </div>
                             </div>
-                             <!-- STEPPER 3 RANGKUMAN DATA -->
+                            <!-- STEPPER 3 RANGKUMAN DATA -->
 
                         </div>
                     </div>
@@ -461,8 +459,6 @@
     <script src="{{asset('base-template/plugins/inputmask/jquery.inputmask.min.js')}}"></script>
     <!-- date-range-picker -->
     <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <!-- bootstrap color picker -->
-    <script src="{{asset('base-template/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
     <!-- Bootstrap Switch -->
@@ -471,7 +467,6 @@
     <!-- jquery-validation -->
     <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
-
 
     <!-- dropzonejs -->
     <script src="{{asset('base-template/plugins/dropzone/min/dropzone.min.js')}}"></script>
@@ -490,9 +485,8 @@
         });
 
         $('#daterange').daterangepicker({
-            timePicker: true,
             locale: {
-                format: 'DD/MM/YYYY',
+                format: 'DD MMMM YYYY',
             },
             drops: "up",
         });
@@ -513,6 +507,7 @@
 
     <script language="javascript" type="text/javascript">
         let jenis_upacara,nama_upacara,kabupaten,kecamatan,desa_dinas,desa_adat,alamat,deskripsi,daterange;
+
 
         // VALIDASI FORM INPUT DATA
         $('#submitData').validate({
@@ -641,14 +636,8 @@
                         $('#awal').empty();
                         $('#puncak').empty();
                         $('#akhir').empty();
-                        $.each(datatahapan.data.awal, function(key, data){
-                            $('#awal').append('<li>'+data.nama_tahapan+'</li>');
-                        });
-                        $.each(datatahapan.data.puncak, function(key, data){
-                            $('#puncak').append('<li>'+data.nama_tahapan+'</li>');
-                        });
-                        $.each(datatahapan.data.akhir, function(key, data){
-                            $('#akhir').append('<li>'+data.nama_tahapan+'</li>');
+                        $.each(datatahapan.data, function(key, data){
+                            $('#'+data.status_tahapan).append('<li>'+data.nama_tahapan+'</li>');
                         });
                     }
                 })
@@ -694,18 +683,18 @@
                 dataType: "json",
                 success:function(dataYadnya)
                 {
-                    console.log(dataYadnya.data);
                     if(dataYadnya.data){
-                        $('#jenis_upacara').empty();
-                        $('#jenis_upacara').append('<option value="0" disabled selected>Pilih Jenis Upacara</option>');
+                        $('#jenisupacara').empty();
+                        $('#jenisupacara').append('<option value="0" disabled selected>Pilih Jenis Upacara</option>');
                         $.each(dataYadnya.data, function(key, data){
-                            $('#jenis_upacara').append('<option value="'+ data.id +'">' + data.nama_upacara+ '</option>');
+                            console.log(data);
+                            $('#jenisupacara').append('<option value="'+ data.id +'">' + data.nama_upacara+ '</option>');
                             jenis_upacara = data.nama_upacara;
                         });
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    $('#jenis_upacara').empty();
+                    $('#jenisupacara').empty();
                 }
             })
         }

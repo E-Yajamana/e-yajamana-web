@@ -68,9 +68,9 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-kabupaten" href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="nav-link p-2">
+                            <a id="side-data-upacara" href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon mr-1"></i>
-                            <p>Data Upacaraku</p>
+                            <p>Data Upacara</p>
                             </a>
                         </li>
                     </ul>
@@ -78,7 +78,7 @@
                         <li class="nav-item ml-3">
                             <a id="side-tambah-upacara" href="{{route('krama.manajemen-upacara.upacaraku.create')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon mr-1"></i>
-                            <p>Tambah Upacaraku</p>
+                            <p>Tambah Upacara</p>
                             </a>
                         </li>
                     </ul>
@@ -102,14 +102,14 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-tambah-reservasi" href="#" class="nav-link p-2">
-                            <i class="far fa-circle nav-icon mr-1"></i>
+                            <a type="button" onclick="addReservasi()" id="side-tambah-reservasi" class="nav-link p-2">
+                                <i class="far fa-circle nav-icon mr-1"></i>
                             <p>Tambah Reservasi</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-
+                <input id="jsonDataKrama" type="hidden" value='@json(Auth::user()->Krama->Upacaraku)'>
                 <li class="nav-item">
                     <a href="pages/gallery.html" class="nav-link p-2">
                         <i class="far bi-geo-alt-fill nav-icon mr-1"></i>
@@ -117,9 +117,71 @@
                     </a>
                 </li>
             </ul>
-
         </nav>
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
 </aside>
+
+@if (count(Auth::user()->Krama->Upacaraku) != 0)
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Pilih Upacara</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="body">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label>Pilih Upacara yang akan direservasi <span class="text-danger">*</span></label>
+                        <select id="jenis_upacara" name="id_upacara" class="form-control select2bs4" style="width: 100%;">
+                            <option value="0" disabled selected>Pilih Upacara</option>
+                            @foreach (Auth::user()->Krama->Upacaraku as $data)
+                                <option value="{{$data->id}}">{{$data->nama_upacara}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button onclick="createReservasi()" type="button" class="btn btn-primary">Reservasi</button>
+            </div>
+            </div>
+        </div>
+    </div>
+@endif
+
+
+@push('js')
+    <!-- Select2 -->
+    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
+
+    <script>
+        function addReservasi(){
+            let dataJSON = $('#jsonDataKrama').val();
+            dataKramaUpacaraku = JSON.parse(dataJSON);
+            console.log(dataKramaUpacaraku.length)
+            if(dataKramaUpacaraku.length != 0){
+                $('#exampleModalCenter').modal();
+            }else{
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Gagal menambahkan reservasi...',
+                    text: 'untuk menambahkan reservasi, anda diminta untuk membuat sebauh upacara terlebih dahulu.. !!',
+                    footer: '<a href="{{route('krama.manajemen-upacara.upacaraku.create')}}">Buat upacara?</a>'
+                })
+            }
+        }
+
+        function createReservasi(){
+            var data = $("#jenis_upacara").val();
+            location.href = "{{route('krama.manajemen-reservasi.create')}}/"+data;
+        }
+
+    </script>
+@endpush

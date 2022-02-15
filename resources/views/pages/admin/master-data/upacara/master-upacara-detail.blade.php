@@ -2,7 +2,8 @@
 @section('tittle','Detail Upacara')
 
 @push('css')
-
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 @endpush
 
 @section('content')
@@ -73,29 +74,27 @@
                         <div class="row px-lg-4">
                             <div class="col-12 col-sm-4">
                                 <h4 class="text-center mb-3">AWAL</h4>
-                                <ul>
-                                    @foreach ($dataUpacara->TahapanUpacara as $data)
+                                <ul id="awal">
+                                    @foreach ($dataUpacara->TahapanUpacara->where('status_tahapan','awal') as $data)
                                         <li>
                                             <a class="text-dark" href="{{route('admin.master-data.upacara.tahapan.detail',$data->id)}}">{{$data->nama_tahapan}}</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
-
                             <div class="col-12 col-sm-4">
                                 <h4 class="text-center mb-3">PUNCAK</h4>
-                                <ul>
+                                <ul id="puncak">
                                     @foreach ($dataUpacara->TahapanUpacara->where('status_tahapan','puncak') as $data)
                                         <li>
                                             <a class="text-dark" href="{{route('admin.master-data.upacara.tahapan.detail',$data->id)}}">{{$data->nama_tahapan}}</a>
                                         </li>
                                     @endforeach
                                 </ul>
-
                             </div>
                             <div class="col-12 col-sm-4">
                                 <h4 class="text-center mb-3">AKHIR</h4>
-                                <ul>
+                                <ul id="akhir">
                                     @foreach ($dataUpacara->TahapanUpacara->where('status_tahapan','akhir') as $data)
                                         <li>
                                             <a class="text-dark" href="{{route('admin.master-data.upacara.tahapan.detail',$data->id)}}">{{$data->nama_tahapan}}</a>
@@ -105,97 +104,28 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid mt-2">
-        <div class="row">
-            <div class="col-md-12 mb-4">
-                <a href="{{route('admin.master-data.upacara.index')}}" class="btn btn-secondary">Kembali</a>
-                <a class="btn btn-danger float-right ml-2">Hapus DataUpacara</a>
-                <a href="{{route('admin.master-data.upacara.edit',$dataUpacara->id)}}" class="btn btn-info float-right mr-2">Edit Data Upacara<a>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Edit Tahapan Upacara</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="{{route('admin.master-data.upacara.tahapan.store')}}" enctype="multipart/form-data">
-                        @csrf
-                        <input class="d-none" type="hidden" name="id_upacara" value="{{$dataUpacara->id}}">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Tahapan Upacara <span class="text-danger">*</span></label>
-                            <input id="nama_tahapan" type="text" name="nama_tahapan" class="form-control @error('nama_tahapan') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Tahapan" value="{{old('nama_tahapan')}}">
-                            @error('nama_tahapan')
-                                <div class="invalid-feedback text-start">
-                                    {{ $errors->first('nama_tahapan') }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label>Status Upacara <span class="text-danger">*</span></label>
-                            <select id="status" name="status" class="form-control  @error('status') is-invalid @enderror" style="width: 100%;">
-                                <option disabled selected>Pilih Status Tahapan</option>
-                                @php
-                                    $status = old('status')
-                                @endphp
-                                <option @if ($status == 'awal') selected @endif  value="awal" >Awal</option>
-                                <option @if ($status == 'puncak') selected @endif value="puncak" >Puncak</option>
-                                <option @if ($status == 'akhir') selected @endif value="akhir" >Akhir</option>
-                            </select>
-                            @error('status')
-                                <div class="invalid-feedback text-start">
-                                    {{$errors->first('status') }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label>Foto Tahapan Upacara</label>
-                            <div class="input-group mb-2">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input @error('file') is-invalid @enderror" name="file" id="customFile" value="{{old('file')}}" >
-                                    <label class="custom-file-label " for="customFile">Masukan Foto Tahapan</label>
-                                </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-md-12 my-2">
+                                <a href="{{route('admin.master-data.upacara.index')}}" class="btn btn-secondary">Kembali</a>
+                                <a class="btn btn-danger float-right ml-2">Hapus DataUpacara</a>
+                                <a href="{{route('admin.master-data.upacara.edit',$dataUpacara->id)}}" class="btn btn-info float-right mr-2">Edit Data Upacara<a>
                             </div>
-                            @error('file')
-                                <div class="invalid-feedback text-start">
-                                    {{ $errors->first('file') }}
-                                </div>
-                            @enderror
                         </div>
-                        <div class="form-group">
-                            <label>Deskripsi Tahapan <span class="text-danger">*</span></label>
-                            <textarea name="deskripsi" id="deskripsi" class="form-control  @error('deskripsi') is-invalid @enderror" rows="3" placeholder="Masukan Deskripsi Tahapan" value="{{ old('deskripsi') }}" >{{ old('deskripsi') }}</textarea>
-                            @error('deskripsi')
-                                <div class="invalid-feedback text-start">
-                                    {{$errors->first('deskripsi') }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Buat Tahapan</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    @include('pages.admin.master-data.upacara.master-modal-tahapan-upacara-create')
 
 @endsection
 
 @push('js')
+    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 
     <script>
@@ -209,6 +139,53 @@
             bsCustomFileInput.init();
         });
 
+        $('#mySelect2').select2('data');
+
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    </script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $('#submitData').submit(function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                url: "{{ route('admin.master-data.upacara.tahapan.store') }}",
+                type:'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend:function(){
+                    $(document).find('div.invalid-feedback').text('');
+                },
+                success:function(response){
+                    console.log(response)
+                    console.log(response.data.id)
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                    $('#submitData')[0].reset();
+                    $("#exampleModal").modal('hide');
+                    $('#'+response.data.status_tahapan).append("<li><a class='text-dark' href='{{route('admin.master-data.upacara.tahapan.detail')}}/"+response.data.id+"'>"+response.data.nama_tahapan+"</a></li>");
+                },
+                error: function(response, error){
+                    $.each(response.responseJSON.error, function(prefix, val){
+                        $('#'+prefix+'_error').text(val[0]);
+                    });
+                }
+            });
+
+        })
     </script>
 
 @endpush

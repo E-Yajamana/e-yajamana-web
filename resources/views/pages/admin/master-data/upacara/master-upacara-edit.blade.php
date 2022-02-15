@@ -107,6 +107,7 @@
                     </div>
                     <div class="card-body">
                         <table id="example2" class="table table-bordered table-hover ">
+                            <input id="id_upacara" value="{{$dataUpacara->id}}" type="hidden" class="d-none">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -117,7 +118,7 @@
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="dataTahapan">
                                 @foreach ($dataUpacara->TahapanUpacara as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
@@ -140,11 +141,11 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 mb-4">
-                        <a href="{{route('admin.master-data.upacara.detail',$dataUpacara->id)}}" class="btn btn-secondary">Kembali</a>
-                        <button onclick="simpanData()" class="btn btn-primary float-right ml-2">Simpan Data</button>
+                    <div class="card-footer">
+                        <div class="col-md-12 my-2">
+                            <a href="{{route('admin.master-data.upacara.detail',$dataUpacara->id)}}" class="btn btn-secondary">Kembali</a>
+                            <button onclick="simpanData()" class="btn btn-primary float-right ml-2">Simpan Data</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -292,13 +293,75 @@
             </div>
         </div>
     </div>
-
-
 @endsection
 
-@push('js')
 
+@push('js')
+    <!-- Bootstrabase-template-->
+    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- DataTablbase-template Plugins -->
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+
+    <!-- Fungsi Boostrap & Library  -->
     <script type="text/javascript">
+        $('#side-master-data').addClass('menu-open');
+        $('#side-upacara').addClass('active');
+
+        $(function () {
+            bsCustomFileInput.init();
+        });
+
+    </script>
+    <!-- Fungsi Boostrap & Library  -->
+
+@endpush
+
+@push('js')
+    <script type="text/javascript">
+        let id = $("#id_upacara").val();
+        // getDataTahapan()
+        // function getDataTahapan(){
+        //     console.log(id)
+        //     $.ajax({
+        //         url: "{{route('ajax.get.tahapan-upacara')}}/"+id,
+        //         type: "GET",
+        //         dataType: "json",
+        //         success: function (dataTahapan) {
+        //             $.each(dataTahapan.data, function (key, data) {
+        //                 key++
+        //                 $('#dataTahapan').append("<tr><td>"+key+"</td><td>"+data.nama_tahapan+"</td><td style='width: 25%;'>"+data.deskripsi_tahapan+"</td><td>"+data.status_tahapan+"</td><td style='width: 20%;height: 10%' ><img style='width: 100%;height: 150px' src='{{route('get-image.tahapan-upacara',"+data.id+")}}' class='img-fluid pad img-thumbnail'  alt='Responsive image'></td><td><a href='{{route('admin.master-data.upacara.tahapan.detail',"+data.id+")}}' class='btn btn-info btn-sm'><i class='fas fa-eye'></i></a><button type='button' onclick='editTahapan("+data.id+",'"+data.nama_tahapan+"','"+data.deskripsi_tahapan+"','"+data.status_tahapan+"','"+data.image+"')' class='btn btn-primary btn-sm'><i class='fas fa-edit'></i></button><a onclick='deleteData("+data.id+")' class='btn btn-danger btn-sm'><i class='fas fa-trash'></i></a></td></form>");
+        //             });
+
+
+        //             // console.log(dataDesa.data.desas.length != 0);
+
+        //             // if (dataDesa.data.desas) {
+        //             //     $('#desa_dinas').empty();
+        //             //     $('#id_banjar_dinas').empty();
+        //             //     $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
+        //             //     $('#id_banjar_dinas').append('<option value="0" disabled selected>Pilih Banjar Dinas</option>');
+        //             //     $.each(dataDesa.data.desas, function (key, data) {
+        //             //         $('#desa_dinas').append('<option value="' + data.id + '">' + data.name + '</option>');
+        //             //     });
+        //             // } else {
+        //             //     $('#desa_dinas').empty();
+        //             //     $('#desa_dinas').append('<option value="0" disabled selected>Belum terdapat data Desa Dinas pada Kecamatan tersebut!</option>');
+        //             // }
+        //         }
+        //     })
+        // }
+
+
+
+
+
         function simpanData(){
             $("#simpanData").submit();
         }
@@ -329,61 +392,30 @@
 
                     }
                 })
-            }
+        }
 
-    </script>
-
-    <!-- Data Table Atribut -->
-    <script>
-        $(function () {
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-                "oLanguage": {
-                    "sSearch": "Cari:",
-                    "sZeroRecords": "Data Tidak Ditemukan",
-                    "sSearchPlaceholder": "Cari data....",
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "oLanguage": {
+                "sSearch": "Cari:",
+                "sZeroRecords": "Data Tidak Ditemukan",
+                "sSearchPlaceholder": "Cari data....",
+            },
+            "language": {
+                "paginate": {
+                    "previous": 'Sebelumnya',
+                    "next": 'Berikutnya'
                 },
-                "language": {
-                    "paginate": {
-                        "previous": 'Sebelumnya',
-                        "next": 'Berikutnya'
-                    },
-                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
-                }
-            });
-        });
-    </script>
-@endpush
-
-@push('js')
-    <!-- Fungsi Boostrap & Library  -->
-    <script type="text/javascript">
-        $('#side-master-data').addClass('menu-open');
-        $('#side-upacara').addClass('active');
-
-
-        $(function () {
-            bsCustomFileInput.init();
+                "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+            }
         });
 
-    </script>
-    <!-- Fungsi Boostrap & Library  -->
 
-    <!-- Bootstrabase-template-->
-    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- DataTablbase-template Plugins -->
-    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <!-- Select2 -->
-    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+    </script>
 @endpush

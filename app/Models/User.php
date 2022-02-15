@@ -67,4 +67,14 @@ class User extends Authenticatable
         return $this->hasOne(Serati::class,'id_user','id');
     }
 
+    public function Reservasi()
+	{
+		return $this->hasMany(Reservasi::class, 'id_relasi');
+	}
+
+    public function KeteranganKonfirmasi()
+	{
+		return $this->hasMany(KeteranganKonfirmasi::class, 'id_relasi');
+	}
+
 }

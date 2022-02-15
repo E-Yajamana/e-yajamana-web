@@ -20,8 +20,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Data Upacaraku</li>
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Data Upacaraku</li>
                     </ol>
                 </div>
             </div>
@@ -52,8 +52,7 @@
                                     <ul class="nav nav-pills">
                                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Tangkil</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Muput</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Muput Upacara</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Selesai</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Batal</a></li>
                                     </ul>
@@ -106,10 +105,10 @@
                                                         @else class="bg-danger btn-sm"
                                                         @endif style="border-radius: 5px; width:70px;">{{$data->status}}</span>
                                                     </td>
-                                                    <td>{{date('d-M-Y',strtotime($data->tanggal_mulai))}} - {{date('d-M-Y',strtotime($data->tanggal_selesai))}} </td>
+                                                    <td>{{date('d M Y',strtotime($data->tanggal_mulai))}} - {{date('d M Y',strtotime($data->tanggal_selesai))}} </td>
                                                     <td>
                                                         <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                        <a href="{{route('krama.manajemen-upacara.upacaraku.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
                                                 </tr>
@@ -129,10 +128,7 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
-
                 </div>
                 <!-- /.col -->
             </div>
@@ -159,7 +155,7 @@
     <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 
     <!-- Page specific script -->
-    <script>
+    <script type="text/javascript">
         $(function () {
             $('#example2').DataTable({
                 "paging": true,
@@ -183,21 +179,10 @@
                 }
             });
         });
-    </script>
 
-    <script type="text/javascript">
         $(document).ready(function(){
             $('#side-upacara').addClass('menu-open');
-            $('#side-kabupaten').addClass('active');
-
-            $('#mySelect2').select2('data');
-            $('.select2').select2()
-
-            //Initialize Select2 Elements
-            $('.select2bs4').select2({
-                theme: 'bootstrap4'
-            })
+            $('#side-data-upacara').addClass('active');
         });
     </script>
-
 @endpush

@@ -119,7 +119,6 @@ class MasteDataGriyaController extends Controller
             $validator = Validator::make(['id' =>$request->id],[
                 'id' => 'required|exists:tb_griya_rumah,id',
             ]);
-
             if($validator->fails()){
                 return redirect()->route('admin.master-data.griya.index')->with([
                     'status' => 'fail',
@@ -299,7 +298,7 @@ class MasteDataGriyaController extends Controller
                         return redirect()->back()->with([
                             'status' => 'fail',
                             'icon' => 'error',
-                            'tittle' => 'Hapus Data Gagal!',
+                            'title' => 'Hapus Data Gagal!',
                             'message' => 'Hapus data gagal, Data Griya Masih berstatus aktif '
                         ]);
                     // END RETURN
@@ -308,15 +307,13 @@ class MasteDataGriyaController extends Controller
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'tittle' => 'Hapus Data Gagal!',
+                    'title' => 'Hapus Data Gagal!',
                     'message' => 'Hapus data gagal, mohon hubungi developer untuk lebih lanjut!!'
                 ]);
             }
         // END LOGIC
     }
     // END DELETE INPUT DATABASE LOKASI GRIYA
-
-
 
     // AJAX INPUT DATABASE LOKASI GRIYA
     public function ajaxStoreDataGriya(Request $request)

@@ -14,6 +14,10 @@ $('#kabupaten').on('change', function () {
 
                 if (dataKecamatan.data.kecamatans.length != 0) {
                     $('#kecamatan').empty();
+                    $('#desa_dinas').empty();
+                    $('#id_banjar_dinas').empty();
+                    $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
+                    $('#id_banjar_dinas').append('<option value="0" disabled selected>Pilih Banjar Dinas</option>');
                     $('#kecamatan').append('<option value="0" disabled selected>Pilih Kecamatan</option>');
                     $.each(dataKecamatan.data.kecamatans, function (key, data) {
                         $('#kecamatan').append('<option value="' + data.id + '">' + data.name + '</option>');
@@ -46,7 +50,9 @@ $('#kecamatan').on('change', function () {
 
                 if (dataDesa.data.desas) {
                     $('#desa_dinas').empty();
+                    $('#id_banjar_dinas').empty();
                     $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
+                    $('#id_banjar_dinas').append('<option value="0" disabled selected>Pilih Banjar Dinas</option>');
                     $.each(dataDesa.data.desas, function (key, data) {
                         $('#desa_dinas').append('<option value="' + data.id + '">' + data.name + '</option>');
                     });

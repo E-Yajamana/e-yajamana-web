@@ -13,13 +13,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class TbMPendidikan
- * 
+ *
  * @property int $id
  * @property string|null $jenjang_pendidikan
  * @property Carbon $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * 
+ *
  * @property Collection|TbPenduduk[] $tb_penduduks
  *
  * @package App\Models

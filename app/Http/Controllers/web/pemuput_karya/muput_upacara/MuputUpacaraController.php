@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\web\pemuput_karya\muput_upacara;
 
+use App\DateRangeHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Desa;
 use App\Models\DetailReservasi;
 use App\Models\Reservasi;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 use App\Models\Upacara;
 use App\Models\Upacaraku;
 use Illuminate\Http\Request;
@@ -14,6 +17,9 @@ use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use PDOException;
+
+use Carbon\CarbonPeriod;
+
 
 class MuputUpacaraController extends Controller
 {
@@ -86,7 +92,6 @@ class MuputUpacaraController extends Controller
     // EDIT KONFIRMASI TANGKIL
     public function editKonfirmasiTangkil(Request $request)
     {
-
         $queryDetailReservasi = function ($queryDetailReservasi){
             $queryDetailReservasi->with(['Sulinggih','DetailReservasi'=>function($queryTahapanUpacara){
                 $queryTahapanUpacara->with(['TahapanUpacara'])->whereHas('TahapanUpacara');
@@ -104,7 +109,51 @@ class MuputUpacaraController extends Controller
     // UPDATE KONFIRMASI TANGIL
     public function updateKonfirmasiTangkil(Request $request)
     {
-        dd($request->all());
+
+        $idSulinggih =Auth::user()->Sulinggih->id;
+        list($start,$end) = DateRangeHelper::parseDateRange($request->data_upacara[0]['daterange']);
+        Upacaraku::findOrFail($request->data_upacara[0]['id'])->update([
+            'nama_upacara'=>$request->data_upacara[0]['nama_upacara'],
+            'deskripsi_upacaraku'=>$request->data_upacara[0]['deskripsi_upacara'],
+            'tanggal_mulai'=>$start,
+            'tanggal_selesai'=>$end,
+        ]);
+
+        Reservasi::whereIdUpacarakuAndIdRelasi($request->data_upacara[0]['id'], $idSulinggih)->update([
+            'status' => 'proses muput'
+        ]);
+
+        foreach($request->data_user_reservasi as $data)
+        {
+            list($start,$end) = DateRangeHelper::parseDateRange($data['daterange']);
+            DetailReservasi::findOrFail($data['id'])->update([
+                'tanggal_mulai' => $start,
+                'tanggal_selesai' => $end,
+                'keterangan' =>$data['keterangan'],
+                'status' => $data['status']
+            ]);
+        }
+
+        if($request->id_detail_reservasi != null){
+            foreach($request->id_detail_reservasi as $index => $data){
+                $detailReservasi = DetailReservasi::findOrFail($data);
+                if($detailReservasi->Reservasi->status == 'proses tangkil'){
+                    Reservasi::findOrFail($detailReservasi->Reservasi->id)->update(['status'=>'pending']);
+                }
+                list($start,$end) = DateRangeHelper::parseDateRange($request->daterange[$index]);
+                $detailReservasi->update([
+                    'status' => 'pending',
+                    'tanggal_mulai' => $start,
+                    'tanggal_selesai' => $end
+                ]);
+
+                $detailReservasi->KeteranganKonfirmasi()->create([
+                    'id_sulinggih'=> $idSulinggih,
+                    'keterangan'=> $request->alasan_penolakan_sulinggih[$index]
+                ]);
+            }
+        }
+
     }
     // UPDATE KONFIRMASI TANGIL
 
