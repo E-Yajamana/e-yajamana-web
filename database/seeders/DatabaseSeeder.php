@@ -50,5 +50,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TbUserEyajamanaTableSeeder::class);
         Schema::enableForeignKeyConstraints();
 
+        $this->call(TbDetailReservasiTableSeeder::class);
     }
 }

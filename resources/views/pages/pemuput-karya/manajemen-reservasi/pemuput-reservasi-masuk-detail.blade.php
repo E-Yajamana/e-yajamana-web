@@ -32,7 +32,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Data Reservasi</a></li>
+                    <li class="breadcrumb-item"><a href="#">Data Reservasi Masuk</a></li>
                     <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
@@ -57,11 +57,11 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Nama Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->nama_krama}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->User->Penduduk->nama}}" disabled>
                                     </div>
                                     <div class="form-group">
                                         <label>Alamat Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->alamat_krama}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->User->Penduduk->alamat}}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
@@ -380,6 +380,7 @@
             }
         };
         // VALIDASI SEDERHANA DARI PENENTUAN STATUS TAHAPAN
+
         // ADD FUNCTION VALIDASI ALASAN PENOLAKAN
         $(function () {
             $.validator.setDefaults({

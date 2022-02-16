@@ -47,7 +47,6 @@ class Reservasi extends Model
 	protected $fillable = [
 		'id_relasi',
 		'id_upacaraku',
-		'tipe',
 		'status',
 		'tanggal_tangkil',
 		'keterangan'

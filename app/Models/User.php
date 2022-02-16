@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use stdClass;
 
 class User extends Authenticatable
 {
@@ -76,5 +77,33 @@ class User extends Authenticatable
 	{
 		return $this->hasMany(KeteranganKonfirmasi::class, 'id_relasi');
 	}
+
+    public function getRelasi()
+    {
+        switch ($this->role) {
+            case 'sulinggih':
+                $relasi =  $this->hasOne(Sulinggih::class,'id_user','id')->first();
+                $dataObj = new stdClass;
+                $dataObj->nama = $relasi->nama_sulinggih;
+                return $dataObj;
+                break;
+            case 'pemangku':
+                $relasi =  $this->hasOne(Sulinggih::class,'id_user','id')->first();
+                $dataObj = new stdClass;
+                $dataObj->nama = $relasi->nama_walaka;
+                return $dataObj;
+                break;
+            case 'sanggar':
+                $relasi = $this->hasOne(Sanggar::class,'id_user','id')->first();
+                $dataObj = new stdClass;
+                $dataObj->nama = $relasi->nama_sanggar;
+                return $dataObj;
+                break;
+            default:
+                return null;
+                break;
+        }
+
+    }
 
 }

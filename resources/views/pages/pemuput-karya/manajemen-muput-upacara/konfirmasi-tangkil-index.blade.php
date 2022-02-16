@@ -65,7 +65,7 @@
                                         </td>
                                         <td>
                                             <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a onclick="cekTanggalTangkil('{{$data->tanggal_tangkil}}')"  class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a onclick="cekTanggalTangkil({{$data->id_upacaraku}},'{{$data->tanggal_tangkil}}')"  class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         </td>
                                     </tr>
@@ -142,7 +142,7 @@
 @push('js')
     <script type="text/javascript">
 
-        function cekTanggalTangkil(tanggal_tangkil){
+        function cekTanggalTangkil(id,tanggal_tangkil){
             console.log(moment(tanggal_tangkil).format('YYYY-MM-DD'))
             console.log(moment().format('YYYY-MM-DD'))
             var tanggal_tangkil = moment(tanggal_tangkil).format('YYYY-MM-DD')
@@ -152,7 +152,7 @@
             // console.log(data);
 
             if(moment(tanggal_tangkil).isBetween(tanggal_tangkil, datenow, undefined, '[]')){
-                location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->Upacaraku->id)}}";
+                location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit')}}/"+id;
             }else{
                 Swal.fire({
                     icon: 'info',

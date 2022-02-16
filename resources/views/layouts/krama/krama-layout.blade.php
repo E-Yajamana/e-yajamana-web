@@ -47,14 +47,13 @@
 
     <!-- jQuery -->
     <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
+    <!-- Bootstrabase-template-->
+    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- overlayScrollbars -->
     <script src="{{asset('base-template/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('base-template/dist/js/adminlte.js')}}"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <script src="{{asset('base-template\dist\js\sweetalert2.all.min.js')}}"></script>
 
     <script>

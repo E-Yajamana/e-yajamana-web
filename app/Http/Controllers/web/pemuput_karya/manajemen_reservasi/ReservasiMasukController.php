@@ -21,14 +21,27 @@ class ReservasiMasukController extends Controller
     // INDEX VIEW DATA RESERVASI MASUK
     public function index(Request $request)
     {
-        $dataReservasi = Reservasi::with(['DetailReservasi','Upacaraku']);
-        $queryDetailReservasi = function($queryDetailReservasi){
-            $queryDetailReservasi->where('status','pending');
-        };
-        $dataReservasi->with(['DetailReservasi'=>$queryDetailReservasi])->whereHas('DetailReservasi',$queryDetailReservasi);
-        $dataReservasi = $dataReservasi->where('id_relasi',Auth::user()->Sulinggih->id)->get();
+        // MAIN LOGIC
+            try{
+                $dataReservasi = Reservasi::with(['Relasi.Penduduk','DetailReservasi','Upacaraku']);
+                $queryDetailReservasi = function($queryDetailReservasi){
+                    $queryDetailReservasi->where('status','pending');
+                };
+                $dataReservasi->with(['DetailReservasi'=>$queryDetailReservasi])->whereHas('DetailReservasi',$queryDetailReservasi);
+                $dataReservasi = $dataReservasi->where('id_relasi',Auth::user()->id)->get();
+            }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
+                return \redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Sistem Gagal Menemukan Data Reservasi Masuk !',
+                    'message' => 'sistem gagal menemukan Data Reservasi Masuk, mohon untuk menghubungi developer sistem !',
+                ]);
+            }
+        // END LOGIC
 
-        return view('pages.pemuput-karya.manajemen-reservasi.pemuput-reservasi-masuk-index',compact('dataReservasi'));
+        // RETURN
+            return view('pages.pemuput-karya.manajemen-reservasi.pemuput-reservasi-masuk-index',compact('dataReservasi'));
+        // END RETURN
     }
     // INDEX VIEW DATA RESERVASI MASUK
 
@@ -49,13 +62,15 @@ class ReservasiMasukController extends Controller
                     'message' => 'Data Reservasi tidak ditemukan, pilihlah data dengan benar !',
                 ]);
             }
+
         // END SECURITY
 
         // MAIN LOGIC
             try{
-                $dataReservasi = Reservasi::with(['Upacaraku','DetailReservasi'])->findOrFail($request->id);
+                $idUser = Auth::user()->id;
+                $dataReservasi = Reservasi::with(['Upacaraku.Krama.User.Penduduk','DetailReservasi'])->whereIdRelasi($idUser)->whereHas('Upacaraku.Krama.User')->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
-                return \redirect()->back()->with([
+                return \redirect()->route('pemuput-karya.manajemen-reservasi.index')->with([
                     'status' => 'fail',
                     'icon' => 'error',
                     'title' => 'Sistem Gagal Menemukan Data Reservasi !',

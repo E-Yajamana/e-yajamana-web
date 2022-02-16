@@ -38,7 +38,7 @@
                                     <h3 class="card-title">Filter Reservasi</h3>
                                 </div>
                                 <div class="col-6">
-                                    <a class="btn btn-primary float-right" type="button" href="#"> <i class="fa fa-plus"></i> Tambah Reservasi</a>
+                                    <a class="btn btn-primary float-right" type="button" onclick="addReservasi()"> <i class="fa fa-plus"></i> Tambah Reservasi</a>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                     </div>
                     <!-- /.card -->
 
-                    <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
+                    <div class="card tab-content" id="v-pills-tabContent">
                         {{-- Start Data Table Sulinggih --}}
                         <div class="card-header my-auto">
                             <h3 class="card-title my-auto">List Data Upacara</h3>
@@ -84,8 +84,8 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Nama Upakara</th>
-                                                <th>Pemuput Upakara</th>
+                                                <th>Nama Upacara</th>
+                                                <th>Pemuput Upacara</th>
                                                 <th class='d-flex justify-content-center text-center'>Status Reservasi</th>
                                                 <th>Tahapan Reservasi</th>
                                                 <th>Tindakan</th>
@@ -96,9 +96,14 @@
                                                 <tr>
                                                     <td rowspan="{{count($data->Reservasi)}}">{{$index+1}}</td>
                                                     <td style="width: 18%" rowspan="{{count($data->Reservasi)}}">{{$data->nama_upacara}}</td>
-                                                    <td style="width: 18%" class="pl-4">{{$data->Reservasi[0]->Sulinggih->nama_sulinggih}}</td>
+                                                    <td style="width: 18%" class="pl-4">
+                                                        @if ($data->Reservasi[0]->Relasi->Sulinggih != null)
+                                                            {{$data->Reservasi[0]->Relasi->Sulinggih->nama_sulinggih}}</td>
+                                                        @else
+                                                            {{$data->Reservasi[0]->Relasi->Sanggar->nama_sanggar}}</td>
+                                                        @endif
                                                     <td class='d-flex justify-content-center text-center'>
-                                                        <span class="bg-secondary btn-sm" style="border-radius: 5px; width:110px;">{{($data->Reservasi[0]->status)}}</span>
+                                                        <span @if ($data->Reservasi[0]->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->Reservasi[0]->status == 'proses tangkil' || $data->Reservasi[0]->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->Reservasi[0]->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->Reservasi[0]->status)}}</span>
                                                     </td>
                                                     <td>
                                                         @foreach ($data->Reservasi[0]->DetailReservasi as $dataDetailReservasi)
@@ -106,16 +111,22 @@
                                                         @endforeach
                                                     </td>
                                                     <td>
-                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[0]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
                                                 </tr>
                                                 @for($i=1; $i < count($data->Reservasi); $i++ )
                                                     <tr>
-                                                        <td>{{$data->Reservasi[$i]->Sulinggih->nama_sulinggih}}</td>
+                                                        <td>
+                                                            @if ($data->Reservasi[$i]->Relasi->Sulinggih != null)
+                                                                {{$data->Reservasi[$i]->Relasi->Sulinggih->nama_sulinggih}}</td>
+                                                            @else
+                                                                {{$data->Reservasi[$i]->Relasi->Sanggar->nama_sanggar}}</td>
+                                                            @endif
+                                                        </td>
                                                         <td class='d-flex justify-content-center text-center'>
-                                                            <span class="bg-secondary btn-sm" style="border-radius: 5px; width:110px;">{{$data->Reservasi[$i]->status}}</span>
+                                                            <span @if ($data->Reservasi[$i]->status  == 'pending') class="bg-secondary btn-sm" @elseif ($data->Reservasi[$i]->status == 'proses tangkil' || $data->Reservasi[$i]->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->Reservasi[$i]->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->Reservasi[$i]->status)}}</span>
                                                         </td>
                                                         <td>
                                                             @foreach ($data->Reservasi[$i]->DetailReservasi as $dataDetailReservasi)
@@ -123,7 +134,7 @@
                                                             @endforeach
                                                         </td>
                                                         <td>
-                                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                             <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
