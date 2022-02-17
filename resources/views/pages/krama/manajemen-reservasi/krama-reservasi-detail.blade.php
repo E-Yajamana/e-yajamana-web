@@ -104,7 +104,7 @@
                                     <td class="text-center">
                                         <a onclick="updateData({{$data->id}},{{$data->TahapanUpacara->id}},'{{$data->TahapanUpacara->nama_tahapan}}','{{$data->tanggal_mulai}}','{{$data->tanggal_selesai}}','{{$data->status}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                         @if ($dataReservasi->status == 'pending')
-                                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                            <button onclick="ajaxDeleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                         @endif
                                     </td>
                                 </tr>
@@ -153,7 +153,7 @@
                         <div class="form-group">
                             <label>Tahapan Upacara <span class="text-danger">*</span></label>
                             <select id="id_tahapan_upacara" name="id_tahapan_upacara" class="select2bs4 form-control  @error('status') is-invalid @enderror" style="width: 100%;">
-                                <option disabled selected>Pilih Tahapan Upacara</option>
+                                 <option disabled selected>Pilih Tahapan Upacara</option>
                             </select>
                             <div class="text-sm text-danger text-start id_tahapan_upacara_error" id="id_tahapan_upacara_error"></div>
                         </div>
@@ -249,6 +249,7 @@
 
         getDataTahapanReservasi()
 
+
         function modalAdd (){
             getDataTahapanReservasi()
             $("#exampleModal").modal();
@@ -298,7 +299,7 @@
         });
 
         // FUNGSI EDIT DATA RESERVASI
-        function ajaxEditData(){
+        function ajaxEditData(id){
             let id_reservasi = $('#id_reservasi').val();
             let id_detail_reservasi = $('#id_detail_reservasi').val();
             let id_tahapan_upacara = $('#id_tahapan_upacara').val();
@@ -363,6 +364,64 @@
         }
         // FUNGSI EDIT DATA RESERVASI
 
+        // FUNGSI DELETE DATA RESERVASI
+        function ajaxDeleteData(id){
+            let id_reservasi = $('#id_reservasi').val();
+
+            $.ajax({
+                url: "{{ route('krama.manajemen-reservasi.ajax.delete')}}",
+                type:'DELETE',
+                data: {
+                    id_reservasi:id_reservasi,
+                    id_detail_reservasi:id,
+                    "_method":"DELETE",
+                    "_token":"{{ csrf_token() }}"
+                },
+                beforeSend:function(){
+                    $(document).find('div.invalid-feedback').text('');
+                },
+                success:function(response){
+                    console.log(response)
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                    $('#addData')[0].reset();
+                    $("#dataView").empty();
+                    $.each(response.data, function(key, data){
+                        key++
+                        onclick="updateData({{$data->id}},{{$data->TahapanUpacara->id}},'{{$data->TahapanUpacara->nama_tahapan}}','{{$data->tanggal_mulai}}','{{$data->tanggal_selesai}}','{{$data->status}}')"
+                        $("#dataView").append(
+                            '<tr>'+
+                            '<td>'+key+'</td>'+
+                            '<td>'+data.tahapan_upacara.nama_tahapan+'</td>'+
+                            '<td>'+moment(data.tanggal_mulai).format('DD MMMM YYYY')+'</td>'+
+                            '<td>'+moment(data.tanggal_selesai).format('DD MMMM YYYY')+'</td>'+
+                            '<td class="d-flex justify-content-center text-center"><span '+
+                            (data.status == 'pending' ? 'class="bg-secondary btn-sm"' : '')+
+                            (data.status == 'diterima' ? 'class="bg-success btn-sm"' : '')+
+                            (data.status == 'ditolak' ? 'class="bg-danger btn-sm"' : '')+
+                            'style="border-radius: 5px; width:110px;">'+data.status+'</span>'+
+                            '</td>'+
+                            '<td class="text-center">'+
+                            "<a onclick=\"updateData("+data.id+","+data.tahapan_upacara.id+",'"+data.tahapan_upacara.nama_tahapan+"','"+data.tanggal_mulai+"','"+data.tanggal_selesai+"','"+data.status+"')\" class='btn btn-primary btn-sm mx-1'><i class='fas fa-edit'></i></a>"+
+                            (data.status == 'pending' ? '<button class="mx-1 btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>' : '')+
+                            '</td>'+
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function(response, error){
+                    console.log(response);
+                    $.each(response.responseJSON.error, function(prefix, val){
+                        $('#'+prefix+'_error').text(val[0]);
+                    });
+                }
+            });
+        }
+        // FUNGSI DELETE DATA RESERVASI
+
+
         // FUNGSI ADD DATA RESERVASI BARU
         function ajaxPostData(){
             let id_reservasi = $('#id_reservasi').val();
@@ -405,7 +464,7 @@
                             'style="border-radius: 5px; width:110px;">'+data.status+'</span>'+
                             '</td>'+
                             '<td class="text-center">'+
-                            '<a href="#" class="btn btn-primary btn-sm mx-1"><i class="fas fa-edit"></i></a>'+
+                            "<a onclick=\"updateData("+data.id+","+data.tahapan_upacara.id+",'"+data.tahapan_upacara.nama_tahapan+"','"+data.tanggal_mulai+"','"+data.tanggal_selesai+"','"+data.status+"')\" class='btn btn-primary btn-sm mx-1'><i class='fas fa-edit'></i></a>"+
                             (data.status == 'pending' ? '<button class="mx-1 btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>' : '')+
                             '</td>'+
                             '</tr>'

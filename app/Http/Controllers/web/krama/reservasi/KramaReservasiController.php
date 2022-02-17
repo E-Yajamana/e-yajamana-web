@@ -337,6 +337,57 @@ class KramaReservasiController extends Controller
     }
     // AJAX UPDATE RESERVASI
 
+    // AJAX DELETE RESERVASI
+    public function ajaxDeleteReservasi(Request $request)
+    {
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'id_detail_reservasi' => 'required|exists:tb_detail_reservasi,id',
+                'id_reservasi' => 'required|exists:tb_reservasi,id',
+            ],
+            [
+                'id_detail_reservasi.required' => "ID Reservasi wajib diisi",
+                'id_detail_reservasi.exists' => 'ID Reservasi tidak sesuai dengan di sistem',
+            ]);
+            if($validator->fails()){
+                return response()->json([
+                    'status' => 400,
+                    'icon' => 'error',
+                    'message' => 'Gagal Menambahkan data reservasi',
+                    'error' => $validator->errors()
+                ],400);
+            }
+        // END SECURITY
+
+        // MAIN LOGFIC
+             try{
+                DB::beginTransaction();
+                DetailReservasi::findOrFail($request->id_detail_reservasi)->delete();
+                $data = DetailReservasi::with('TahapanUpacara')->whereIdReservasi($request->id_reservasi)->get();
+                DB::commit();
+            }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
+                return response()->json([
+                    'status' => 400,
+                    'icon' => 'error',
+                    'message' => 'Gagal Menambahkan data reservasi',
+                    'error' => $validator->errors()
+                ],400);
+            }
+        // MAIN LOGIC
+
+        // RETURN
+            return response()->json([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Berhasil Menghapus Data Reservasi',
+                'message' => 'Data Reservasi berhasil dihapus dari sistem',
+                'data' =>$data
+            ],200);
+        // END RETURN
+    }
+    // AJAX DELETE RESERVASI
+
+
 
 
 }

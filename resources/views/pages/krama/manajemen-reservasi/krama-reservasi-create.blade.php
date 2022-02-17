@@ -514,7 +514,6 @@
     <script type="text/javascript">
         let dataPemuputKarya,dataSanggar,dataUpacaraku;
 
-
         // FUNCTION GET DATA JADWAL SULINGGIH
         function showJadwal(id){
             $.ajax({
@@ -567,7 +566,7 @@
 
         function getSanggar(id,id_user,nama_sanggar,nama_pengelola,email,nomor_telepon,alamat){
             $("#myModal").modal('hide');
-            showJadwal(id)
+            showJadwal(id_user)
             $("#judulKalender").text('Jadwal Acara '+nama_sanggar);
             $("#in_nama_sulinggih").html(nama_sanggar);
             $("#in_email_sulinggih").html(email);
@@ -583,7 +582,7 @@
             $("#dataPemuput").empty();
             $("#judulKalender").text('Jadwal Muput '+nama);
             stepper.next()
-            showJadwal(id)
+            showJadwal(id_user)
             $("#in_nama_sulinggih").html(nama);
             $("#in_email_sulinggih").html(email);
             $("#dataPemuput").append("<div class='card-header'><label class='card-title'>Pemuput Upacara</label><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse' title='Collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body box-profile align-content-center'><div class='text-center mb-2'><img class='profile-user-img img-fluid img-circle'  src='{{route('get-image.profile.pemuput-karya')}}/"+id_user+"' alt='User profile picture'></div><div class='row mt-3'><div class='col-6'><input value='"+id_user+"' type='hidden' name='id_relasi' class='d-none'><input value='sulinggih_pemangku' name='tipe' type='hidden' class='d-none'><div class='form-group'><label>Nama Panggilan</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+namaWalaka+"' disabled=''></div><div class='form-group'><label>Nomer Handphone</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+tlpn+"' disabled=''></div><div class='form-group'><label>Email</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+email+"' disabled=''></div></div><div class='col-6'><div class='form-group'><label>Nama Sulinggih</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama+"' disabled=''></div><div class='form-group'><label>Tanggal diDiksha</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+moment(tgldiksha).format('D-MMM-Y')+"' disabled=''></div><div class='form-group'><label>Alamat Lengkap Pemuput</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+alamat+"' disabled></div></div></div></div>");
@@ -637,6 +636,9 @@
                 dataJsonSanggar = $('#dataSanggar').val();
                 dataSanggar = JSON.parse(dataJsonSanggar)
                 dataPemuputKarya = {!! json_encode($dataPemuputKarya) !!}
+                console.log(dataSanggar)
+                console.log(dataPemuputKarya)
+
 
                 dataPemuputKarya.forEach(element => {
                     createMarkerPemuputKarya(element.lat,element.lng,element.nama_griya_rumah,element.alamat_griya_rumah,element.sulinggih);

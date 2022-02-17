@@ -151,7 +151,7 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
         Route::get('detail/{id}', [KramaUpacarakuController::class, 'detailUpacaraku'])->name('krama.manajemen-upacara.upacaraku.detail');
         Route::get('edit/{id}', [KramaUpacarakuController::class, 'editUpacaraku'])->name('krama.manajemen-upacara.upacaraku.edit');
         Route::put('update', [KramaUpacarakuController::class, 'updateUpacaraku'])->name('krama.manajemen-upacara.upacaraku.update');
-        Route::put('delete', [KramaUpacarakuController::class, 'deleteUpacaraku'])->name('krama.manajemen-upacara.upacaraku.delete');
+        Route::delete('delete', [KramaUpacarakuController::class, 'deleteUpacaraku'])->name('krama.manajemen-upacara.upacaraku.delete');
 
     });
 
@@ -163,6 +163,7 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
 
         Route::post('ajax/store', [KramaReservasiController::class, 'ajaxStoreReservasi'])->name('krama.manajemen-reservasi.ajax.store');
         Route::put('ajax/update', [KramaReservasiController::class, 'ajaxUpdateReservasi'])->name('krama.manajemen-reservasi.ajax.update');
+        Route::delete('ajax/delete', [KramaReservasiController::class, 'ajaxDeleteReservasi'])->name('krama.manajemen-reservasi.ajax.delete');
     });
 
 });
