@@ -218,7 +218,9 @@ class KramaUpacaraController extends Controller
                 'BanjarDinas' => $banjarDinasQuery,
                 'Reservasi' => function ($reservasiQuery) {
                     $reservasiQuery->with([
-                        'Sulinggih',
+                        'Relasi' => function ($relasiQuery) {
+                            $relasiQuery->with(['Sanggar', 'Sulinggih']);
+                        },
                         'DetailReservasi' => function ($detailReservasiQuery) {
                             $detailReservasiQuery->with(['TahapanUpacara']);
                         }
@@ -229,6 +231,7 @@ class KramaUpacaraController extends Controller
                 ->whereHas('BanjarDinas')
                 ->findOrFail($id_upacara);
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',

@@ -80,6 +80,7 @@ class KramaReservasiController extends Controller
             foreach ($detailReservasi->formDetailReservasis as $key => $value) {
                 $value = (array)$value;
                 $value['id_reservasi'] = $reservasi->id;
+                $value['status'] = 'pending';
                 $insertArray[] = $value;
             }
 
