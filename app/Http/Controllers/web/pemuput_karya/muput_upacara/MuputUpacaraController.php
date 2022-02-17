@@ -39,7 +39,7 @@ class MuputUpacaraController extends Controller
                 $queryDetailReservasi->where('status','diterima');
             };
             $dataReservasi->with(['DetailReservasi'=>$queryDetailReservasi])->whereHas('DetailReservasi',$queryDetailReservasi);
-            $dataReservasi = $dataReservasi->whereIdRelasiAndStatus(Auth::user()->Sulinggih->id,'proses tangkil')->orderBy('tanggal_tangkil','asc')->get();
+            $dataReservasi = $dataReservasi->whereIdRelasiAndStatus(Auth::user()->id,'proses tangkil')->orderBy('tanggal_tangkil','asc')->get();
         }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
             return \redirect()->back()->with([
                 'status' => 'fail',
@@ -92,15 +92,19 @@ class MuputUpacaraController extends Controller
     // EDIT KONFIRMASI TANGKIL
     public function editKonfirmasiTangkil(Request $request)
     {
-        $queryDetailReservasi = function ($queryDetailReservasi){
-            $queryDetailReservasi->with(['Sulinggih','DetailReservasi'=>function($queryTahapanUpacara){
-                $queryTahapanUpacara->with(['TahapanUpacara'])->whereHas('TahapanUpacara');
-            }])->whereHas('DetailReservasi');
-        };
+        // $queryDetailReservasi = function ($queryDetailReservasi){
+        //     $queryDetailReservasi->with(['Relasi','DetailReservasi'=>function($queryTahapanUpacara){
+        //         $queryTahapanUpacara->with(['TahapanUpacara'])->whereHas('TahapanUpacara');
+        //     }])->whereHas('DetailReservasi');
+        // };
 
-        $dataUpacara = Upacaraku::query()->with(['Reservasi','Upacara','Krama'])->whereHas('Reservasi');
-        $dataUpacara->with(['Reservasi'=>$queryDetailReservasi])->whereHas('Reservasi',$queryDetailReservasi);
-        $dataUpacara = $dataUpacara->findOrFail($request->id);
+        // $dataUpacara = Upacaraku::query()->with(['Reservasi','Upacara','Krama'])->whereHas('Reservasi');
+        // $dataUpacara->with(['Reservasi'=>$queryDetailReservasi])->whereHas('Reservasi',$queryDetailReservasi);
+        // $dataUpacara = $dataUpacara->findOrFail($request->id);
+
+        $dataUpacara = Upacaraku::with(['Reservasi.DetailReservasi.TahapanUpacara','Reservasi.Relasi','Krama'])->findOrFail($request->id);
+        dd($dataUpacara);
+
 
         return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-tangkil-edit',compact('dataUpacara'));
     }

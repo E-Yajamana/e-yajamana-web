@@ -57,5 +57,22 @@ class AjaxController extends Controller
         ],200);
     }
 
+    public function getDataTahapanReservasi(Request $request)
+    {
+        $dataReservasi = Reservasi::with(['Upacaraku','DetailReservasi'])->whereHas('DetailReservasi')->findOrFail($request->id);
+        $dataTahapanReservasi = [];
+        foreach($dataReservasi->DetailReservasi as $data){
+            $dataTahapanReservasi[] = $data->id_tahapan_upacara;
+        }
+        $dataTahapan = TahapanUpacara::whereIdUpacara($dataReservasi->Upacaraku->id_upacara)->whereNotIn('id',$dataTahapanReservasi)->get();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil mengambil data',
+            'data' => $dataTahapan
+        ],200);
+
+    }
+
 
 }

@@ -49,7 +49,6 @@
                         <h5><i class="fas fa-info"></i> Catatan:</h5>
                         Anda tidak dapat menghapus upacara saat sudah ada reservasi yang berstatus proses muput.
                     </div>
-
                     <div class="card tab-content">
                         <!-- /.card-header -->
                         <div class="card-header">
@@ -214,7 +213,13 @@
                                         <div class="card-header" aria-expanded="false">
                                             <div class="user-block">
                                                 <img class="img-circle mt-1" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
-                                                <span class="username"><a class="ml-2" href="#">{{$data->Sulinggih->nama_sulinggih}}</a></span>
+                                                <span class="username">
+                                                    @if ($data->Relasi->Sulinggih != null)
+                                                        <a class="ml-2" href="#">{{$data->Relasi->Sulinggih->nama_sulinggih}}</a>
+                                                    @else
+                                                        <a class="ml-2" href="#">{{$data->Relasi->Sanggar->nama_sanggar}}</a>
+                                                    @endif
+                                                </span>
                                                 <span class="description">
                                                     <div @if ($data->status == 'pending') class="bg-secondary btn-sm text-center p-1 mt-1 ml-2" @elseif ($data->status == 'proses tangkil' || $data->status == 'proses muput')  class="bg-info btn-sm text-center p-1 mt-1 ml-2" @elseif ($data->status == 'batal') class="bg-danger btn-sm text-center p-1 mt-1 ml-2"  @elseif ($data->status == 'selesai') class="bg-success btn-sm text-center p-1 mt-1 ml-2" @else class="bg-info btn-sm text-center p-1 mt-1 ml-2"  @endif style="border-radius: 5px; width:120px; ">{{ucfirst($data->status)}}</div>
                                                 </span>
@@ -279,11 +284,6 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        {{-- <!-- /.card-body -->
-                                        <div class="card-footer" style="display: none;">
-                                            <button type="button" class="btn btn btn-infox btn-sm float-lg-right" data-toggle="modal" data-target="#modal-default">Detail Reservasi</button>
-                                        </div>
-                                        <!-- /.card-footer--> --}}
                                     </div>
                                 @endforeach
                             @endif
@@ -293,7 +293,7 @@
                                 <div class="col-md-12 my-1">
                                     <a href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="btn btn-secondary">Kembali</a>
                                     <button type="submit" class="btn m-1 btn-danger float-right ml-2">Hapus Upacaraku</button>
-                                    <button type="submit" class="btn m-1 btn-info float-right ml-2">Edit Data Upacaraku</button>
+                                    <a href="{{route('krama.manajemen-upacara.upacaraku.edit',$dataUpacaraku->id)}}" class="btn m-1 btn-info float-right ml-2">Edit Data Upacaraku</a>
                                 </div>
                             </div>
                         </div>

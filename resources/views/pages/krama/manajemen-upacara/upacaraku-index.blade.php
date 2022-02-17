@@ -52,7 +52,7 @@
                                     <ul class="nav nav-pills">
                                         <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Muput Upacara</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Berlangsung</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Selesai</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Batal</a></li>
                                     </ul>
@@ -83,7 +83,7 @@
                         <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
                             <div class="card-body p-0">
                                 <div class="table-responsive mailbox-messages p-2">
-                                    <table id="example2" class="table table-striped table-hover mx-auto table-responsive-sm">
+                                    <table id="example2" class="table mx-auto table-responsive-sm">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -91,7 +91,7 @@
                                                 <th>Jenis Upacara</th>
                                                 <th>Status Upacara</th>
                                                 <th>Tanggal Upacara</th>
-                                                <th>Action</th>
+                                                <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -100,16 +100,24 @@
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$data->nama_upacara}}</td>
                                                     <td>{{$data->Upacara->kategori_upacara}}</td>
-                                                    <td>
-                                                        <span @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm" @elseif ($data->status == 'proses muput' OR  $data->status == 'proses tangkil') class="bg-info btn-sm"
-                                                        @else class="bg-danger btn-sm"
-                                                        @endif style="border-radius: 5px; width:70px;">{{$data->status}}</span>
+                                                    <td class="d-flex text-center">
+                                                        <span @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'berlangsung') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm"
+                                                        @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:100px;">{{Str::ucfirst($data->status)}}</span>
                                                     </td>
                                                     <td>{{date('d M Y',strtotime($data->tanggal_mulai))}} - {{date('d M Y',strtotime($data->tanggal_selesai))}} </td>
-                                                    <td>
+                                                    <td class="text-center">
                                                         <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="{{route('krama.manajemen-upacara.upacaraku.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        @if ($data->status != 'selesai' && $data->status != 'batal')
+                                                            <a href="{{route('krama.manajemen-upacara.upacaraku.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                        @endif
+                                                        @if ($data->status == 'pending')
+                                                        <button onclick="deleteUpacara({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                                                            <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('krama.manajemen-upacara.upacaraku.delete',$data->id)}}" method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" class="d-none" value="{{$data->id}}" name="id">
+                                                            </form>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -142,8 +150,6 @@
 @endsection
 
 @push('js')
-    <!-- Bootstrabase-template-->
-    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- DataTablbase-template Plugins -->
     <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
@@ -184,5 +190,29 @@
             $('#side-upacara').addClass('menu-open');
             $('#side-data-upacara').addClass('active');
         });
+    </script>
+@endpush
+
+@push('js')
+    <script>
+        function deleteUpacara(id){
+            Swal.fire({
+                title: 'Peringatan',
+                text : 'Apakah anda yakin akan membatalkan upacara?',
+                icon:'warning',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: `Hapus`,
+                denyButtonText: `Batal`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#delete-'+id).submit();
+                } else if (result.isDenied) {
+
+                }
+            })
+        }
     </script>
 @endpush
