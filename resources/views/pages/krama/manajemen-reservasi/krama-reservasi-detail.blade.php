@@ -102,7 +102,7 @@
                                         <span @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'diterima') class="bg-success btn-sm"  @elseif ($data->status == 'ditolak') class="bg-danger btn-sm" @else class="bg-info btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->status)}}</span>
                                     </td>
                                     <td class="text-center">
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                        <a onclick="updateData({{$data->id}},{{$data->TahapanUpacara->id}},'{{$data->TahapanUpacara->nama_tahapan}}','{{$data->tanggal_mulai}}','{{$data->tanggal_selesai}}','{{$data->status}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                         @if ($dataReservasi->status == 'pending')
                                             <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                         @endif
@@ -116,7 +116,7 @@
             <div class="card-footer">
                 <div class="col-md-12 my-2">
                     <a href="{{route('krama.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
-                    <button data-toggle="modal" data-target="#exampleModal" type="submit" class="btn btn-primary float-right" align-self="end">Tambah Reservasi</button>
+                    <button onclick="modalAdd()" type="button" class="btn btn-primary float-right" align-self="end">Tambah Reservasi</button>
                 </div>
             </div>
         </div>
@@ -124,6 +124,7 @@
     <input type="hidden" class="d-none" id="tanggal_mulai" value="{{$dataReservasi->Upacaraku->tanggal_mulai}}">
     <input type="hidden" class="d-none" id="tangagl_selesai" value="{{$dataReservasi->Upacaraku->tanggal_selesai}}">
 
+    {{-- modal --}}
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -136,6 +137,9 @@
                 <form id="addData" method="POST">
                     <div class="modal-body">
                         <input type="hidden" class="d-none" value="{{$dataReservasi->id}}" id="id_reservasi">
+                        <input type="hidden" class="d-none" value="" id="id_detail_reservasi">
+                        <input type="hidden" class="d-none" value="" id="status_reservasi">
+                        <input id="status" type="hidden" class="d-none">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Jenis Upacara</label>
                             <input disabled id="nama_tahapan" type="text" name="nama_tahapan" class="form-control @error('nama_tahapan') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Tahapan" value="{{$dataReservasi->Upacaraku->Upacara->nama_upacara}}">
@@ -164,14 +168,13 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Tambah Reservasi</button>
+                        <button id="createData" type="button" class="btn btn-primary">Tambah Reservasi</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-
+    {{-- modal --}}
 
 @endsection
 
@@ -243,19 +246,128 @@
 
 @push('js')
     <script type="text/javascript">
+
         getDataTahapanReservasi()
 
+        function modalAdd (){
+            getDataTahapanReservasi()
+            $("#exampleModal").modal();
+            $('#status').val('add');
+        }
 
-        function postData(){
+        // EDIT DATA RESERVASI
+        function updateData(idDetail,id,nama,start,end,status){
+            console.log(status)
+            $(".update-data").remove()
+            $('#reservationtime').daterangepicker({
+                timePicker: true,
+                startDate: moment(start).format('DD MMMM YYYY hh:mm A'),
+                endDate:moment(end).format('DD MMMM YYYY hh:mm A'),
+                locale: {
+                    format: 'DD MMMM YYYY hh:mm A',
+                },
+                drops: "up",
+            });
+            $("#id_tahapan_upacara").append('<option class="update-data" selected value="'+id+'">'+nama+'</option>');
+            $('#id_detail_reservasi').val(idDetail);
+            $('#status_reservasi').val(status);
+            $('#status').val('update');
+            $('#createData').text('Update Data');
+            $("#exampleModal").modal();
+        }
+        // EDIT DATA RESERVASI
+
+        // FINAL PENENTUAN DATA UPDATE OR STORE DATA
+        $('#createData').click(function(){
+            var form = $("#addData");
+            let status = $("#status").val()
+            if(form.valid()==true){
+                if(status == 'update'){
+                    ajaxEditData()
+                }else{
+                    ajaxPostData();
+                }
+            }
+        });
+        // FINAL PENENTUAN DATA UPDATE OR STORE DATA
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        // FUNGSI EDIT DATA RESERVASI
+        function ajaxEditData(){
+            let id_reservasi = $('#id_reservasi').val();
+            let id_detail_reservasi = $('#id_detail_reservasi').val();
+            let id_tahapan_upacara = $('#id_tahapan_upacara').val();
+            let daterange = $('#reservationtime').val();
+            let status = $('#status_reservasi').val();
+
+            console.log(status)
+            $.ajax({
+                url: "{{ route('krama.manajemen-reservasi.ajax.update')}}",
+                type:'PUT',
+                data: {
+                    id_reservasi : id_reservasi,
+                    id_detail_reservasi:id_detail_reservasi,
+                    id_tahapan_upacara:id_tahapan_upacara,
+                    daterange:daterange,
+                    status:status,
+                    "_method":"PUT",
+                    "_token":"{{ csrf_token() }}"
+                },
+                beforeSend:function(){
+                    $(document).find('div.invalid-feedback').text('');
+                },
+                success:function(response){
+                    console.log(response)
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                    $('#addData')[0].reset();
+                    $("#exampleModal").modal('hide');
+                    $("#dataView").empty();
+                    $.each(response.data, function(key, data){
+                        key++
+                        onclick="updateData({{$data->id}},{{$data->TahapanUpacara->id}},'{{$data->TahapanUpacara->nama_tahapan}}','{{$data->tanggal_mulai}}','{{$data->tanggal_selesai}}','{{$data->status}}')"
+                        $("#dataView").append(
+                            '<tr>'+
+                            '<td>'+key+'</td>'+
+                            '<td>'+data.tahapan_upacara.nama_tahapan+'</td>'+
+                            '<td>'+moment(data.tanggal_mulai).format('DD MMMM YYYY')+'</td>'+
+                            '<td>'+moment(data.tanggal_selesai).format('DD MMMM YYYY')+'</td>'+
+                            '<td class="d-flex justify-content-center text-center"><span '+
+                            (data.status == 'pending' ? 'class="bg-secondary btn-sm"' : '')+
+                            (data.status == 'diterima' ? 'class="bg-success btn-sm"' : '')+
+                            (data.status == 'ditolak' ? 'class="bg-danger btn-sm"' : '')+
+                            'style="border-radius: 5px; width:110px;">'+data.status+'</span>'+
+                            '</td>'+
+                            '<td class="text-center">'+
+                            "<a onclick=\"updateData("+data.id+","+data.tahapan_upacara.id+",'"+data.tahapan_upacara.nama_tahapan+"','"+data.tanggal_mulai+"','"+data.tanggal_selesai+"','"+data.status+"')\" class='btn btn-primary btn-sm mx-1'><i class='fas fa-edit'></i></a>"+
+                            (data.status == 'pending' ? '<button class="mx-1 btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>' : '')+
+                            '</td>'+
+                            '</tr>'
+                        );
+                    });
+                },
+                error: function(response, error){
+                    console.log(response);
+                    $.each(response.responseJSON.error, function(prefix, val){
+                        $('#'+prefix+'_error').text(val[0]);
+                    });
+                }
+            });
+        }
+        // FUNGSI EDIT DATA RESERVASI
+
+        // FUNGSI ADD DATA RESERVASI BARU
+        function ajaxPostData(){
             let id_reservasi = $('#id_reservasi').val();
             let id_tahapan_upacara = $('#id_tahapan_upacara').val();
             let daterange = $('#reservationtime').val();
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
 
             $.ajax({
                 url: "{{ route('krama.manajemen-reservasi.ajax.store')}}",
@@ -285,7 +397,7 @@
                             '<td>'+key+'</td>'+
                             '<td>'+data.tahapan_upacara.nama_tahapan+'</td>'+
                             '<td>'+moment(data.tanggal_mulai).format('DD MMMM YYYY')+'</td>'+
-                            '<td>'+moment(data.tanggal_mulai).format('DD MMMM YYYY')+'</td>'+
+                            '<td>'+moment(data.tanggal_selesai).format('DD MMMM YYYY')+'</td>'+
                             '<td class="d-flex justify-content-center text-center"><span '+
                             (data.status == 'pending' ? 'class="bg-secondary btn-sm"' : '')+
                             (data.status == 'diterima' ? 'class="bg-success btn-sm"' : '')+
@@ -298,9 +410,7 @@
                             '</td>'+
                             '</tr>'
                         );
-
                     });
-
                 },
                 error: function(response, error){
                     console.log(response);
@@ -310,42 +420,35 @@
                 }
             });
         }
+        // FUNGSI ADD DATA RESERVASI BARU
 
-
-
-
-        $(function () {
-            $.validator.setDefaults({
-                submitHandler: function () {
-                    postData()
-                }
-            });
-            $('#addData').validate({
-                rules: {
+        // VALIDATOR FORM INPUT ADD MODAL
+        $('#addData').validate({
+            rules: {
                 'daterange': {
                     required: true,
                     validationDate:true
                 },
-                },
-                messages: {
+            },
+            messages: {
                 'daterange': {
                     required: "Tanggal reservasi wajib diisi",
                     validationDate : "Tanggal yang anda masukan tidak sesuai dengan tanggal upacara"
                 },
-                },
-                errorElement: 'span',
-                errorPlacement: function (error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function (element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                }
-            });
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
         });
+        // VALIDATOR FORM INPUT MODAL
 
         // ADD FUNCTION VALIDATE DATE RANGE
         jQuery.validator.addMethod("validationDate", function(value, element){
@@ -367,8 +470,7 @@
         }, "Masukan tanggal dan waktu dengan benar!");
         // ADD FUNCTION VALIDATE DATE RANGE
 
-
-
+        // FUNGSI GET DATA TAHAPAN RESERVASI
         function getDataTahapanReservasi(){
             let idReservasi = $("#id_reservasi").val();
             $.ajax({
@@ -390,7 +492,6 @@
                 }
             })
         }
-
-
+        // FUNGSI GET DATA TAHAPAN RESERVASI
     </script>
 @endpush

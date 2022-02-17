@@ -613,10 +613,9 @@
         $('#submitToRangkuman').click(function(){
             var form = $("#submitData");
             if(form.valid()==true){
-                stepper.next();
                 setDataToRangkuman();
+                stepper.next();
             }
-
         });
 
         function setDataToRangkuman()

@@ -160,7 +160,9 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
         Route::get('create/{id?}', [KramaReservasiController::class, 'createReservasi'])->name('krama.manajemen-reservasi.create');
         Route::get('detail/{id?}', [KramaReservasiController::class, 'detailReservasi'])->name('krama.manajemen-reservasi.detail');
         Route::post('store', [KramaReservasiController::class, 'storeReservasi'])->name('krama.manajemen-reservasi.store');
+
         Route::post('ajax/store', [KramaReservasiController::class, 'ajaxStoreReservasi'])->name('krama.manajemen-reservasi.ajax.store');
+        Route::put('ajax/update', [KramaReservasiController::class, 'ajaxUpdateReservasi'])->name('krama.manajemen-reservasi.ajax.update');
     });
 
 });
