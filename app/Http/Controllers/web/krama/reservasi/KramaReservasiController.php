@@ -161,7 +161,7 @@ class KramaReservasiController extends Controller
         // END LOGIC
 
         // RETURN
-            return redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
+            return redirect()->route('krama.manajemen-reservasi.index')->with([
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Berhasil Membuat Data Upacara',
@@ -192,13 +192,17 @@ class KramaReservasiController extends Controller
 
         // MAIN LOGIC
             try{
-                $dataReservasi = Reservasi::with(['Upacaraku.Upacara','Relasi.Penduduk','DetailReservasi.TahapanUpacara'])->whereHas('Relasi')->whereHas('DetailReservasi.TahapanUpacara')->findOrFail($request->id);
+                $idUser = Auth::user()->Krama->id;
+                $queryUpacaraku = function ($queryUpacaraku) use ($idUser){
+                    $queryUpacaraku->with('Upacara','Krama')->whereIdKrama($idUser);
+                };
+                $dataReservasi = Reservasi::with(['Relasi.Penduduk','DetailReservasi.TahapanUpacara','Upacaraku'=> $queryUpacaraku])->whereHas('Relasi')->whereHas('Upacaraku',$queryUpacaraku)->whereHas('DetailReservasi.TahapanUpacara')->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Sistem Gagal Menambahkan Data Reservasi !',
-                    'message' => 'sistem gagal menambahkan data reservasi, mohon untuk menghubungi developer sistem untuk lebih lanjut!',
+                    'title' => 'Sistem Gagal Menemukan Reservasi !',
+                    'message' => 'sistem gagal  Menemukan Data Reservasi, mohon untuk menghubungi developer sistem untuk lebih lanjut!',
                 ]);
             }
         // END LOGIC
@@ -209,6 +213,50 @@ class KramaReservasiController extends Controller
 
     }
     // DETAIL RESERVASI KRAMA
+
+    // DELETE RESERVASI KRAMA
+    public function deleteReservasi(Request $request)
+    {
+        // SECURITY
+            $validator = Validator::make(['id' =>$request->id],[
+                'id' => 'required|exists:tb_reservasi,id',
+            ]);
+
+            if($validator->fails()){
+                return redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Data Reservasi Tidak Ditemukan !',
+                    'message' => 'Data Reservasi tidak ditemukan, pilihlah data dengan benar !',
+                ]);
+            }
+        // END SECURITY
+
+        // MAIN LOGFIC
+            try{
+                $reservasi = Reservasi::whereIn('status',['pending','proses tangkil'])->findOrFail($request->id);
+                $reservasi->update(['status'=>'batal']);
+                $reservasi->DetailReservasi()->update(['status'=>'batal']);
+            }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Menghapus Data Reservasi!',
+                    'message' => 'Data Reservasi gagal dihapus, karena status reservasi telah belangsung / selesai  !',
+                ]);
+            }
+        // MAIN LOGIC
+
+        // RETURN
+            return redirect()->route('krama.manajemen-reservasi.index')->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Berhasil Membatalkan Reservasi',
+                'message' => 'Berhasil membatalkan Reservasi, data terbaru dapat dilihat pada menu data reservasi!',
+            ]);
+        // END RETURN
+    }
+    // DELETE RESERVASI KRAMA
 
     // AJAX STORE RESERVASI
     public function ajaxStoreReservasi(Request $request)
@@ -362,7 +410,11 @@ class KramaReservasiController extends Controller
         // MAIN LOGFIC
              try{
                 DB::beginTransaction();
-                DetailReservasi::findOrFail($request->id_detail_reservasi)->delete();
+                DetailReservasi::findOrFail($request->id_detail_reservasi)->update(['status'=>'batal']);
+                $dataDetailReservasi = DetailReservasi::whereIdReservasi($request->id_reservasi)->whereIn('status',['pending','diterima'])->count();
+                if($dataDetailReservasi == 0){
+                    Reservasi::findOrFail($request->id_reservasi)->update(['status'=>'batal']);
+                }
                 $data = DetailReservasi::with('TahapanUpacara')->whereIdReservasi($request->id_reservasi)->get();
                 DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
@@ -379,7 +431,7 @@ class KramaReservasiController extends Controller
             return response()->json([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Berhasil Menghapus Data Reservasi',
+                'title' => 'Berhasil Membatalkan Reservasi',
                 'message' => 'Data Reservasi berhasil dihapus dari sistem',
                 'data' =>$data
             ],200);

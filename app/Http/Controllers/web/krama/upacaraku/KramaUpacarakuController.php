@@ -150,14 +150,14 @@ class KramaUpacarakuController extends Controller
         // MAIN LOGIC
             try{
                 $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi' => function ($query){
-                    $query->with(['Relasi.Sulinggih','Relasi.Sanggar']);
-                },'BanjarDinas'])->findOrFail($request->id);
+                    $query->with(['Relasi.Sulinggih','Relasi.Sanggar','DetailReservasi.TahapanUpacara']);
+                },'BanjarDinas'])->whereIdKrama(Auth::user()->Krama->id)->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Sistem Gagal Menemukan Data Griya !',
-                    'message' => 'sistem gagal menemukan Data Griya, mohon untuk menghubungi developer sistem !',
+                    'title' => 'Sistem Gagal Menemukan Data Upacaraku !',
+                    'message' => 'sistem gagal menemukan Data Upacaraku, mohon untuk menghubungi developer sistem !',
                 ]);
             }
         // END MAIN LOGIC
@@ -190,8 +190,8 @@ class KramaUpacarakuController extends Controller
         // MAIN LOGIC
             try{
                 $dataUpacaraku = Upacaraku::with('Upacara')->withCount(['Reservasi'=>function ($query) {
-                    $query->whereIn('status', ['proses muput','selesai','batal']);
-                }])->findOrFail($request->id);
+                    $query->whereIn('status', ['proses muput','selesai']);
+                }])->whereIdKrama(Auth::user()->Krama->id)->findOrFail($request->id);
                 $dataKabupaten = Kabupaten::where('provinsi_id',51)->get();
                 $dataKecamatan = Kecamatan::all();
                 $dataDesa = DesaDinas::all();
@@ -337,14 +337,14 @@ class KramaUpacarakuController extends Controller
             $dataUpacaraku->update(['status'=>'batal']);
             $dataUpacaraku->Reservasi()->update(['status'=>'batal']);
             foreach( $dataUpacaraku->Reservasi as $data){
-                $data->DetailReservasi()->update(['status'=>'ditolak']);
+                $data->DetailReservasi()->update(['status'=>'batal']);
             }
         }else{
             return \redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
                 'status' => 'fail',
                 'icon' => 'error',
                 'title' => 'Gagal Mengahapus Data !',
-                'message' => 'sistem gagal menghapus data upacara, terdapat reservasi yang sedang berlangsung/selesai pada upacara !',
+                'message' => 'sistem gagal menghapus data upacara, terdapat reservasi yang Sedang Berlangsung/Selesai pada upacara !',
             ]);
         }
 

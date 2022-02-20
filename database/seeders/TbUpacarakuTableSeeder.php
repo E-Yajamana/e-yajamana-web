@@ -34,7 +34,7 @@ class TbUpacarakuTableSeeder extends Seeder
                 'lat' => '-8.534577561443303000',
                 'lng' => '115.261962907388820000',
                 'created_at' => '2022-02-13 19:40:23',
-                'updated_at' => '2022-02-13 19:40:23',
+                'updated_at' => '2022-02-19 22:43:59',
             ),
             1 => 
             array (
@@ -52,6 +52,23 @@ class TbUpacarakuTableSeeder extends Seeder
                 'lng' => '115.271850619465110000',
                 'created_at' => '2022-02-13 20:06:35',
                 'updated_at' => '2022-02-13 20:06:35',
+            ),
+            2 => 
+            array (
+                'id' => 23,
+                'id_banjar_dinas' => 16,
+                'id_upacara' => 7,
+                'id_krama' => 1,
+                'nama_upacara' => 'Mecaru di Jembrana',
+                'alamat_upacaraku' => 'Jembraan Jalan kedewatan no 153',
+                'tanggal_mulai' => '2022-02-20',
+                'tanggal_selesai' => '2022-02-24',
+                'deskripsi_upacaraku' => 'Upacara yang dilaksanakan selama seminggu sekali',
+                'status' => 'pending',
+                'lat' => '-8.578908910980676000',
+                'lng' => '115.223065741759110000',
+                'created_at' => '2022-02-19 19:57:30',
+                'updated_at' => '2022-02-19 20:09:04',
             ),
         ));
         

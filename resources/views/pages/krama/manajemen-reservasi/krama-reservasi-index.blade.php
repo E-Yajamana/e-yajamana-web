@@ -111,9 +111,19 @@
                                                         @endforeach
                                                     </td>
                                                     <td>
-                                                        <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[0]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[0]->id)}}" class="btn btn-info btn-sm">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        @if ($data->Reservasi[0]->status == 'pending' || $data->Reservasi[0]->status == 'proses tangkil')
+                                                            <button onclick="batalReservasi({{$data->Reservasi[0]->id}})" class="btn btn-danger btn-sm">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                            <form id="{{"batal-".$data->Reservasi[0]->id}}" class="d-none" action="{{route('krama.manajemen-reservasi.delete')}}" method="post">
+                                                                @csrf
+                                                                @method('put')
+                                                                <input type="hidden" class="d-none" value="{{$data->Reservasi[0]->id}}" name="id">
+                                                            </form>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                                 @for($i=1; $i < count($data->Reservasi); $i++ )
@@ -134,9 +144,15 @@
                                                             @endforeach
                                                         </td>
                                                         <td>
-                                                            <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                                            @if ($data->Reservasi[$i]->status == 'pending' || $data->Reservasi[$i]->status == 'proses tangkil')
+                                                                <a onclick="batalReservasi({{$data->Reservasi[$i]->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                                                <form id="{{"batal-".$data->Reservasi[$i]->id}}" class="d-none" action="{{route('krama.manajemen-reservasi.delete')}}" method="post">
+                                                                    @csrf
+                                                                    @method('put')
+                                                                    <input type="hidden" class="d-none" value="{{$data->Reservasi[$i]->id}}" name="id">
+                                                                </form>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 @endfor
@@ -166,8 +182,6 @@
     <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-
-
 @endsection
 
 @push('js')
@@ -212,4 +226,28 @@
         });
     </script>
 
+@endpush
+
+@push('js')
+    <script>
+        function batalReservasi(id){
+            Swal.fire({
+                title: 'Peringatan',
+                text : 'Apakah anda yakin akan membatalkan reservasi?',
+                icon:'warning',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: `Batal`,
+                denyButtonText: `Cancel`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#batal-'+id).submit();
+                } else if (result.isDenied) {
+
+                }
+            })
+        }
+    </script>
 @endpush
