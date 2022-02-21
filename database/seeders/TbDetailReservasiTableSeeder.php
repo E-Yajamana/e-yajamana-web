@@ -199,6 +199,42 @@ class TbDetailReservasiTableSeeder extends Seeder
                 'created_at' => '2022-02-19 20:28:08',
                 'updated_at' => '2022-02-19 20:28:08',
             ),
+            15 => 
+            array (
+                'id' => 16,
+                'id_reservasi' => 50,
+                'id_tahapan_upacara' => 7,
+                'tanggal_mulai' => '2022-02-17 00:00:00',
+                'tanggal_selesai' => '2022-02-18 23:59:00',
+                'status' => 'pending',
+                'keterangan' => NULL,
+                'created_at' => '2022-02-20 16:54:15',
+                'updated_at' => '2022-02-20 16:54:15',
+            ),
+            16 => 
+            array (
+                'id' => 17,
+                'id_reservasi' => 50,
+                'id_tahapan_upacara' => 8,
+                'tanggal_mulai' => '2022-02-21 00:00:00',
+                'tanggal_selesai' => '2022-02-23 23:59:00',
+                'status' => 'pending',
+                'keterangan' => NULL,
+                'created_at' => '2022-02-20 16:54:24',
+                'updated_at' => '2022-02-20 16:54:24',
+            ),
+            17 => 
+            array (
+                'id' => 18,
+                'id_reservasi' => 50,
+                'id_tahapan_upacara' => 9,
+                'tanggal_mulai' => '2022-02-20 00:00:00',
+                'tanggal_selesai' => '2022-02-23 23:59:00',
+                'status' => 'pending',
+                'keterangan' => NULL,
+                'created_at' => '2022-02-20 16:54:39',
+                'updated_at' => '2022-02-20 16:54:39',
+            ),
         ));
         
         

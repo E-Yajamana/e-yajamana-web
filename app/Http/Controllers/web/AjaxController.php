@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\KeteranganKonfirmasi;
 use App\Models\Reservasi;
 use App\Models\TahapanUpacara;
 use App\Models\Upacara;
@@ -49,8 +50,6 @@ class AjaxController extends Controller
         ],200);
     }
 
-
-
     public function getDataTahapanReservasi(Request $request)
     {
         $dataReservasi = Reservasi::with(['Upacaraku','DetailReservasi'=> function($query){
@@ -67,8 +66,18 @@ class AjaxController extends Controller
             'message' => 'Berhasil mengambil data',
             'data' => $dataTahapan
         ],200);
-
     }
+
+    public function getKeteranganPergantian(Request $request)
+    {
+        $data = KeteranganKonfirmasi::with(['Relasi.Sulinggih','DetailReservasi.Reservasi'])->whereIdDetailReservasi($request->id)->orderBy('created_at','desc')->get();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil mengambil data',
+            'data' => $data
+        ],200);
+    }
+
 
 
 }

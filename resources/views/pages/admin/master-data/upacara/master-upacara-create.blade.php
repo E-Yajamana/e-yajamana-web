@@ -168,10 +168,7 @@
                     //replace the "Choose a file" label
                     $(this).next('.custom-file-label').html(fileName);
                 })
-
-
             });
-
 
             $(document).on('click', '.remove-item', function () {
                 $(this).parents('tr').remove();

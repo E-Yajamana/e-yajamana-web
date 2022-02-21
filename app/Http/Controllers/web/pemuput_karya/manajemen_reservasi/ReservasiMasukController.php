@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\web\pemuput_karya\manajemen_reservasi;
 
+use App\DateRangeHelper;
 use App\Http\Controllers\Controller;
 use App\Models\DetailReservasi;
 use App\Models\Reservasi;
@@ -45,7 +46,6 @@ class ReservasiMasukController extends Controller
     }
     // INDEX VIEW DATA RESERVASI MASUK
 
-
     // DETAIL RESERVASI MASUK
     public function detailReservasi(Request $request)
     {
@@ -62,7 +62,6 @@ class ReservasiMasukController extends Controller
                     'message' => 'Data Reservasi tidak ditemukan, pilihlah data dengan benar !',
                 ]);
             }
-
         // END SECURITY
 
         // MAIN LOGIC
@@ -96,7 +95,6 @@ class ReservasiMasukController extends Controller
     // VERIFIKASI RESERVASI
     public function verifikasiReservasi(Request $request)
     {
-        // dd($request->all());
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'id_tahapan' => 'required|exists:tb_detail_reservasi,id',
@@ -164,98 +162,48 @@ class ReservasiMasukController extends Controller
     // ALL VERIFIKASI RESERVASI
     public function allVerifikasiReservasi(Request $request)
     {
-        if($request->status == 'diterima'){
-            // SECURITY
-                $validator = Validator::make($request->all(),[
-                    'id_tahapan_reservasi' => 'required|exists:tb_detail_reservasi,id',
-                    'id_reservasi' => 'required|exists:tb_reservasi,id',
-                ]);
-                if($validator->fails()){
-                    return redirect()->back()->with([
-                        'status' => 'fail',
-                        'icon' => 'error',
-                        'title' => 'Gagal Memperbarui Status',
-                        'message' => 'Gagal memperbarui status ke sistem, Hubungi Developer untuk lebih lanjut'
-                    ]);
-                }
-            // END SECURITY
-
-            // MAIN LOGIC
-                try{
-                    if($request->tanggal_tangkil != null){
-                        DB::beginTransaction();
-                        $tanggal_tangkil = new Carbon($request->tanggal_tangkil);
-                        Reservasi::findOrFail($request->id_reservasi)->update(['tanggal_tangkil'=>$tanggal_tangkil->format('Y-m-d h:i:s'),'status'=>'proses tangkil']);
-                        DetailReservasi::whereIn('id',$request->id_tahapan_reservasi)->update(['status'=>$request->status]);
-                        DB::commit();
-                    }else{
-                        DB::beginTransaction();
-                        Reservasi::findOrFail($request->id_reservasi)->update(['status'=>'proses tangkil']);
-                        DetailReservasi::whereIn('id',$request->id_tahapan_reservasi)->update(['status'=>$request->status]);
-                        DB::commit();
-                    }
-                }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
-                    return redirect()->back()->with([
-                        'status' => 'fail',
-                        'icon' => 'error',
-                        'title' => 'Gagal Memperbarui Status',
-                        'message' => 'Gagal memperbarui status ke sistem, Hubungi Developer untuk lebih lanjut'
-                    ]);
-                }
-                DB::commit();
-            // END MAIN LOGIC
-
-            // RETURN
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'id_tahapan_reservasi' => 'required|exists:tb_detail_reservasi,id',
+                'id_reservasi' => 'required|exists:tb_reservasi,id',
+                'status' => 'required|in:ditolak,diterima'
+            ]);
+            if($validator->fails()){
                 return redirect()->back()->with([
-                    'status' => 'success',
-                    'icon' => 'success',
-                    'title' => 'Berhasil Memperbarui Status Reservasi',
-                    'message' => 'Berhasil Memperbarui Status Reservasi, Data terbaru dapat dilihat pada menu data muput upacara',
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Menerima Reservasi',
+                    'message' => 'Gagal memperbarui status ke sistem, Hubungi Developer untuk lebih lanjut'
                 ]);
-            // END RETURN
+            }
+        // END SECURITY
 
-        }elseif($request->status == 'ditolak'){
-             // SECURITY
-                $validator = Validator::make($request->all(),[
-                    'id_tahapan_reservasi' => 'required|exists:tb_detail_reservasi,id',
-                    'id_reservasi' => 'required|exists:tb_reservasi,id',
-                    'alasan_penolakan' => 'required',
-                ]);
-                if($validator->fails()){
-                    return redirect()->back()->with([
-                        'status' => 'fail',
-                        'icon' => 'error',
-                        'title' => 'Gagal Memperbarui Status',
-                        'message' => 'Gagal memperbarui status ke sistem, Cek kembali alasan penolakan anda!'
+        // MAIN LOGIC
+        try{
+            if($request->status == 'diterima'){
+                DB::beginTransaction();
+                if($request->tanggal_tangkil != null){
+                    $tanggal_tangkil = DateRangeHelper::parseSingleDate($request->tanggal_tangkil);
+                    Reservasi::findOrFail($request->id_reservasi)->update([
+                        'tanggal_tangkil'=>$tanggal_tangkil,
+                        'status'=>'proses tangkil'
                     ]);
-                }
-            // END SECURITY
-
-            // MAIN LOGIC
-                try{
-                    DB::beginTransaction();
-                    Reservasi::findOrFail($request->id_reservasi)->update(['keterangan'=>$request->alasan_penolakan,'status'=>'batal']);
                     DetailReservasi::whereIn('id',$request->id_tahapan_reservasi)->update(['status'=>$request->status]);
-                }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
-                    return redirect()->back()->with([
-                        'status' => 'fail',
-                        'icon' => 'error',
-                        'title' => 'Gagal Memperbarui Status',
-                        'message' => 'Gagal memperbarui status ke sistem, Hubungi Developer untuk lebih lanjut'
-                    ]);
+                }else{
+                    Reservasi::findOrFail($request->id_reservasi)->update([
+                        'status'=>'batal',
+                        'tanggal_tangkil'=>null
+                ]);
+                    DetailReservasi::whereIn('id',$request->id_tahapan_reservasi)->update(['status'=>$request->status]);
                 }
                 DB::commit();
-            // END MAIN LOGIC
-
-            // RETURN
-                return redirect()->back()->with([
-                    'status' => 'success',
-                    'icon' => 'success',
-                    'title' => 'Berhasil Memperbarui Status Reservasi',
-                    'message' => 'Berhasil Memperbarui Status Reservasi, Data terbaru dapat dilihat pada menu data muput upacara',
-                ]);
-            // END RETURN
-        }else{
+            }else{
+                DB::beginTransaction();
+                Reservasi::findOrFail($request->id_reservasi)->update(['keterangan'=>$request->alasan_penolakan,'status'=>'batal']);
+                DetailReservasi::whereIn('id',$request->id_tahapan_reservasi)->update(['status'=>$request->status]);
+                DB::commit();
+            }
+        }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
             return redirect()->back()->with([
                 'status' => 'fail',
                 'icon' => 'error',
@@ -263,6 +211,16 @@ class ReservasiMasukController extends Controller
                 'message' => 'Gagal memperbarui status ke sistem, Hubungi Developer untuk lebih lanjut'
             ]);
         }
+        // END MAIN LOGIC
+
+        // RETURN
+            return redirect()->route('pemuput-karya.manajemen-reservasi.index')->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Berhasil Memperbarui Status Reservasi',
+                'message' => 'Berhasil Memperbarui Status Reservasi, Data terbaru dapat dilihat pada menu data muput upacara',
+            ]);
+        // END RETURN
     }
     // ALL VERIFIKASI RESERVASI
 
