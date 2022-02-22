@@ -13,7 +13,7 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Tangkil Krama</h1>
+                    <h1>Data Muput Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -27,6 +27,32 @@
     </section>
 
     <div class="container-fluid">
+        <div class="card card-primary card-outline tab-content">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-6 my-2">
+                        <h3 class="card-title">Filter Data Muput Upacara</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-7">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Proses Tangkil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Muput</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Selesai</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Batal</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
                 <h3 class="card-title my-auto">List Data Reservasi Krama</h3>
@@ -40,48 +66,60 @@
                             <thead >
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Tahapan</th>
-                                    <th>Nama Upacara</th>
-                                    <th>Penyelenggara</th>
-                                    <th>Tanggal Mulai - Selesai</th>
-                                    <th>Waktu Mulai - Selesai</th>
+                                    <th>Penyelenggara </th>
+                                    <th>Jenis Upacara</th>
+                                    <th>Tahapan Reservasi</th>
+                                    <th>Status</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>Piodalan Ring Pura</td>
-                                    <td>Piodalan Ring Pura Desa  Dalung</td>
                                     <td>Krama Dalung</td>
-                                    <td>14 Dec 2021 - 15 Dec 2021</td>
-                                    <td>09:00 - 11.00</td>
+                                    <td>Piodalan Ring Pura</td>
                                     <td>
-                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        <li >Wangun Bale Petak  : 12 Dec 2021  : 09.00</li>
+                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
+                                        <li >Wangun Bale Petak : 12 Dec 2021  : 09.00</li>
+                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
+                                    </td>
+                                    <td>
+                                        <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:90px;">Proses Tangkil</div>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>2</td>
-                                    <td>Piodalan Ring Pura</td>
-                                    <td>Piodalan Ring Pura Desa  Dalung</td>
+                                    <td>1</td>
                                     <td>Krama Dalung</td>
-                                    <td>14 Dec 2021 - 15 Dec 2021</td>
-                                    <td>09:00 - 11.00</td>
+                                    <td>Piodalan Ring Pura</td>
                                     <td>
-                                        <a href="{{route('sulinggih.manajemen-reservasi.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        <li >Wangun Bale Petak  : 12 Dec 2021  : 09.00</li>
+                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
+                                        <li >Wangun Bale Petak : 12 Dec 2021  : 09.00</li>
+                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
+                                    </td>
+                                    <td>
+                                        <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:90px;">Proses Muput</div>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Tahapan</th>
-                                    <th>Penyelenggara</th>
-                                    <th>Nama Upacara</th>
-                                    <th>Tanggal Mulai - Selesai</th>
-                                    <th>Waktu Mulai - Selesai</th>
+                                    <th>Penyelenggara </th>
+                                    <th>Jenis Upacara</th>
+                                    <th>Tahapan Reservasi</th>
+                                    <th>Status</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </tfoot>
@@ -139,7 +177,7 @@
     <script type="text/javascript">
         $(document).ready(function(){
             $('#side-manajemen-muput-upacara').addClass('menu-open');
-            $('#side-manajemen-muput-upacara-konfirmasi-muput-upacara').addClass('active');
+            $('#side-manajemen-muput-upacara-index').addClass('active');
         });
     </script>
 

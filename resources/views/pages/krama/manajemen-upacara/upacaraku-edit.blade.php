@@ -49,7 +49,7 @@
                     @if ($dataUpacaraku->reservasi_count != 0)
                         <div class="callout callout-danger container-fluid">
                             <h5><i class="fas fa-info"></i> Catatan:</h5>
-                            Anda tidak dapat kembali merubah tanggal upacara, karenakan terdapat reservasi yang sedang berlangsung.
+                            Anda tidak dapat kembali merubah Jenis Yadnya, Jenis Upacara, dan Tanggal Mulai - Selesai Upacara, karenakan sudah terdapat reservasi yang sedang berlangsung / Selesai.
                         </div>
                     @endif
                     <form action="{{route('krama.manajemen-upacara.upacaraku.update')}}" method="POST">
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nama Upacaraku <span class="text-danger">*</span></label>
-                                    <input   type="text" name="nama_upacara" class="form-control @error('nama_upacara') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Upacaraku" value="{{$dataUpacaraku->nama_upacara}}">
+                                    <input  @if ($dataUpacaraku->reservasi_count != 0) disabled @endif type="text" name="nama_upacara" class="form-control @error('nama_upacara') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Upacaraku" value="{{$dataUpacaraku->nama_upacara}}">
                                     @error('nama_upacara')
                                         <div class="invalid-feedback text-start">
                                             {{ $errors->first('nama_upacara') }}
@@ -118,7 +118,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Deskripsi Upacara <span class="text-danger">*</span></label>
-                                    <textarea name="deskripsi_upacaraku" class="form-control  @error('deskripsi_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->deskripsi_upacaraku}}</textarea>
+                                    <textarea  @if ($dataUpacaraku->reservasi_count != 0) disabled @endif name="deskripsi_upacaraku" class="form-control  @error('deskripsi_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->deskripsi_upacaraku}}</textarea>
                                     @error('deskripsi_upacaraku')
                                         <div class="invalid-feedback text-start">
                                             {{$errors->first('deskripsi_upacaraku') }}
@@ -149,7 +149,7 @@
                                     <div class="col-12 col-sm-6 p-3">
                                         <div class="form-group">
                                             <label>Kabupaten/Kota <span class="text-danger">*</span></label>
-                                            <select name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
+                                            <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif @if ($dataUpacaraku->reservasi_count != 0) disabled @endif name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
                                                 <option value="0" disabled selected>Pilih Kabupaten</option>
                                                 @foreach ($dataKabupaten as $data)
                                                     @if ($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->id == $data->id)
@@ -168,7 +168,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Kecamatan <span class="text-danger">*</span></label>
-                                            <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                            <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
                                                 @foreach ($dataKecamatan->where('kabupaten_id',$dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->id) as $data)
                                                     @if ($data->id == $dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->id)
                                                         <option selected value="{{$data->id}}">{{$data->name}}</option>
@@ -186,7 +186,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Desa Dinas<span class="text-danger">*</span></label>
-                                            <select id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
+                                            <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
                                                 <option value="0" disabled selected>Pilih Desa Dinas</option>
                                                 @foreach ($dataDesa->where('kecamatan_id',$dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->id) as $data)
                                                     @if ($data->id == $dataUpacaraku->BanjarDinas->DesaDinas->id)
@@ -205,7 +205,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Banjar Dinas <span class="text-danger">*</span></label>
-                                            <select id="id_banjar_dinas" name="id_banjar_dinas" class="form-control select2bs4 @error('id_banjar_dinas') is-invalid @enderror" style="width: 100%;">
+                                            <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif id="id_banjar_dinas" name="id_banjar_dinas" class="form-control select2bs4 @error('id_banjar_dinas') is-invalid @enderror" style="width: 100%;">
                                                 <option value="0" disabled selected>Pilih Banjar Dinas</option>
                                                 @foreach ($dataBanjarDinas->where('id',$dataUpacaraku->BanjarDinas->id) as $data)
                                                     @if ($data->id == $dataUpacaraku->BanjarDinas->id)
@@ -224,7 +224,7 @@
                                         </div>
                                         <div class="form-group mb-0">
                                             <label>Alamat Upacara</label>
-                                            <textarea name="alamat_upacaraku" class="form-control  @error('alamat_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->alamat_upacaraku}}</textarea>
+                                            <textarea @if ($dataUpacaraku->reservasi_count != 0) disabled @endif name="alamat_upacaraku" class="form-control  @error('alamat_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->alamat_upacaraku}}</textarea>
                                             @error('alamat_upacaraku')
                                                 <div class="invalid-feedback text-start">
                                                     {{$errors->first('alamat_upacaraku') }}
@@ -330,9 +330,14 @@
                curLocation = [-8.4517916, 115.1970086];
            }
 
-           var marker = new L.marker(curLocation, {
-               draggable: 'true'
-           });
+           if(parseData.reservasi_count == 0){
+                var marker = new L.marker(curLocation, {
+                    draggable: 'true'
+                });
+           }else{
+                var marker = new L.marker(curLocation);
+           }
+
 
            marker.on('dragend', function(event) {
                var position = marker.getLatLng();
@@ -408,8 +413,6 @@
             })
         })
         // CONFIG SET UP DATA JENIS UPACARA DAN YADNYA
-
-
 
     </script>
 @endpush

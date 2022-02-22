@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\KeteranganKonfirmasi;
 use App\Models\Reservasi;
 use App\Models\TahapanUpacara;
 use App\Models\Upacara;
@@ -24,14 +25,6 @@ class AjaxController extends Controller
 
     public function getTahapanUpacara(Request $request)
     {
-        // $awal = TahapanUpacara::where('id_upacara',$request->id)->where('status_tahapan','awal')->get();
-        // $puncak = TahapanUpacara::where('id_upacara',$request->id)->where('status_tahapan','awal')->get();
-        // $akhir = TahapanUpacara::where('id_upacara',$request->id)->where('status_tahapan','awal')->get();
-        // $data = [
-        //     'awal' =>$awal,
-        //     'puncak' => $puncak,
-        //     'akhir' => $akhir
-        // ];
         $data = TahapanUpacara::where('id_upacara',$request->id)->get();
 
         return response()->json([
@@ -46,20 +39,22 @@ class AjaxController extends Controller
     {
         $dataTangkil = Reservasi::with('Upacaraku','DetailReservasi')->whereHas('DetailReservasi')->whereHas('Upacaraku');
         $queryDetail = function ($queryDetail){
-            $queryDetail->with('TahapanUpacara')->where('status','diterima');
+            $queryDetail->with('TahapanUpacara')->whereNotIn('status',['ditolak']);
         };
         $dataTangkil->with(['DetailReservasi'=>$queryDetail])->whereHas('DetailReservasi',$queryDetail);
-        $dataTangkil = $dataTangkil->whereIdRelasi($request->id)->whereNotIn('status',['pending','batal','selesai'])->get();
+        $dataTangkil = $dataTangkil->whereIdRelasi($request->id)->whereNotIn('status',['batal','selesai'])->get();
         return response()->json([
             'status' => 200,
-            'message' => 'Berhasil mengambil data griya',
+            'message' => 'Berhasil mengambil data jadwal dari sulinggih',
             'data' => $dataTangkil
         ],200);
     }
 
     public function getDataTahapanReservasi(Request $request)
     {
-        $dataReservasi = Reservasi::with(['Upacaraku','DetailReservasi'])->whereHas('DetailReservasi')->findOrFail($request->id);
+        $dataReservasi = Reservasi::with(['Upacaraku','DetailReservasi'=> function($query){
+            $query->whereNotIn('status',['batal']);
+        }])->whereHas('DetailReservasi')->findOrFail($request->id);
         $dataTahapanReservasi = [];
         foreach($dataReservasi->DetailReservasi as $data){
             $dataTahapanReservasi[] = $data->id_tahapan_upacara;
@@ -71,8 +66,18 @@ class AjaxController extends Controller
             'message' => 'Berhasil mengambil data',
             'data' => $dataTahapan
         ],200);
-
     }
+
+    public function getKeteranganPergantian(Request $request)
+    {
+        $data = KeteranganKonfirmasi::with(['Relasi.Sulinggih','DetailReservasi.Reservasi'])->whereIdDetailReservasi($request->id)->orderBy('created_at','desc')->get();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil mengambil data',
+            'data' => $data
+        ],200);
+    }
+
 
 
 }

@@ -27,5 +27,10 @@ class DateRangeHelper
         return [$startDate, $endDate];
     }
 
+    public static function parseSingleDate($date)
+    {
+        $startDate = Carbon::createFromFormat('d M Y g:i A', $date)->format('Y-m-d H:i:s');
+        return $date;
+    }
 
 }

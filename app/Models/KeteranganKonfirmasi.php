@@ -29,19 +29,19 @@ class KeteranganKonfirmasi extends Model
 	protected $table = 'tb_keterangan_konfirmasi';
 
 	protected $casts = [
-		'id_sulinggih' => 'int',
+		'id_relasi' => 'int',
 		'id_detail_reservasi' => 'int'
 	];
 
 	protected $fillable = [
-		'id_sulinggih',
+		'id_relasi',
 		'id_detail_reservasi',
 		'keterangan'
 	];
 
 	public function Relasi()
 	{
-		return $this->belongsTo(User::class, 'id_sulinggih');
+		return $this->belongsTo(User::class, 'id_relasi');
 	}
 
 	public function DetailReservasi()

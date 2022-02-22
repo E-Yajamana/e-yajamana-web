@@ -81,7 +81,7 @@
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-muput-upacara-konfirmasi-muput-upacara" href="{{route('sulinggih.muput-upacara.konfirmasi.upacara')}}" class="nav-link p-2">
+                            <a id="side-manajemen-muput-upacara-konfirmasi-muput-upacara" href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Konfirmasi Muput  <span class="badge badge-primary right">2</span></p>
                             </a>
@@ -101,11 +101,11 @@
                         <li class="nav-item ml-3">
                             <a id="side-manajemen-reservasi-index" href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Reservasi Masuk</p> <span class="ml-4 badge badge-primary right">@yield('count')</span></p>
+                            <p>Reservasi Masuk @yield('count-reservasi-masuk')</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-reservasi-riwayat" href="{{route('sulinggih.muput-upacara.index')}}" class="nav-link p-2">
+                            <a id="side-manajemen-reservasi-riwayat" href="{{route('pemuput-karya.manajemen-reservasi.riwayat.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Riwayat Reservasi</p>
                             </a>

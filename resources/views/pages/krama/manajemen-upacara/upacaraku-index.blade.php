@@ -112,7 +112,7 @@
                                                         @endif
                                                         @if ($data->status == 'pending')
                                                         <button onclick="deleteUpacara({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                                            <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('krama.manajemen-upacara.upacaraku.delete',$data->id)}}" method="post">
+                                                            <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('krama.manajemen-upacara.upacaraku.delete')}}" method="post">
                                                                 @csrf
                                                                 @method('put')
                                                                 <input type="hidden" class="d-none" value="{{$data->id}}" name="id">

@@ -49,6 +49,8 @@
                         <h5><i class="fas fa-info"></i> Catatan:</h5>
                         Anda tidak dapat menghapus upacara saat sudah ada reservasi yang berstatus proses muput.
                     </div>
+
+
                     <div class="card tab-content">
                         <!-- /.card-header -->
                         <div class="card-header">
@@ -225,34 +227,34 @@
                                                 </span>
                                             </div>
                                             <div class="card-tools">
-                                                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fas fa-caret-down float-lg-right"></i>
-                                                </button>
+                                                <div class="input-group-prepend">
+                                                    <button type="button" class="btn btn-tool" data-toggle="dropdown">
+                                                        <i class="fas fa-ellipsis-v float-lg-right mt-2"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <a href="{{route('krama.manajemen-reservasi.detail',$data->id)}}" class="dropdown-item text-dark">Detail</a></li>
+                                                        <a data-card-widget="collapse" data-toggle="tooltip" class="dropdown-item">Lihat Tahapan</a></li>
+                                                        <li class="dropdown-divider"></li>
+                                                        <a href="#" class="text-dark dropdown-item">Delete Reservasi</a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="card-body" style="display: none;">
                                             {{-- START VIEW TANGGAL TANGKIL --}}
-                                            @if ($data->tanggal_tangkil != null)
                                                 <div class="callout callout-danger container-fluid">
                                                     <div>
                                                         <p>
                                                             <i class="fas fa-info"></i>
                                                             <strong class="ml-1">Tanggal Tangkil :</strong>
-                                                            {{$data->tanggal_tangkil}}
+                                                            @if ($data->tanggal_tangkil != null)
+                                                                {{$data->tanggal_tangkil}}
+                                                            @else
+                                                                Belum ditentukan
+                                                            @endif
                                                         </p>
                                                     </div>
                                                 </div>
-                                            @else
-                                                <div class="callout callout-danger container-fluid">
-                                                    <div>
-                                                        <p>
-                                                            <i class="fas fa-info"></i>
-                                                            <strong class="ml-1">Tanggal Tangkil :</strong>
-                                                            Belum ditentukan
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            @endif
                                             {{-- END VIEW TANGGAL TANGKIL --}}
 
                                             <table id="example2" class="table table-bordered table-hover">
@@ -276,8 +278,8 @@
                                                             <td class="text-md-center">
                                                                 <div>{{date('d-M-Y h:i:s',strtotime($data->tanggal_selesai))}}</div>
                                                             </td>
-                                                            <td class="d-flex justify-content-center">
-                                                                <div class="bg-secondary btn-sm text-center" style="border-radius: 5px; width:80px; ">{{$data->status}}</div>
+                                                            <td class="d-flex justify-content-center text-center">
+                                                                <span @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'diterima') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm"  @elseif ($data->status == 'ditolak' || $data->status == 'batal' ) class="bg-danger btn-sm" @else class="bg-info btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->status)}}</span>
                                                             </td>
                                                         </tr>
                                                     @endforeach

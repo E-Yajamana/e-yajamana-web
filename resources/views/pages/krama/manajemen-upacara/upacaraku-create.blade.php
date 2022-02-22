@@ -46,6 +46,9 @@
         <!-- /.container-fluid -->
     </section>
 
+    <section class="content">
+
+    </section>
     <div class="row">
         <div class="col-md-12">
             <div class="card card-default">
@@ -142,7 +145,6 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                    <div class="form-group">
                                         <label>Nama Upacara <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <input type="text" id="nama_upacara" name="nama_upacara" autocomplete="off" class="form-control @error('nama_upacara') is-invalid @enderror" value="{{ old('nama_upacara') }}" placeholder="Masukan Nama Upacara">
@@ -162,9 +164,9 @@
                                         <label>Tanggal Mulai - Tanggal Selesai Upacara <span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="far fa-calendar-alt"></i>
-                                            </span>
+                                                <span class="input-group-text">
+                                                    <i class="far fa-calendar-alt"></i>
+                                                </span>
                                             </div>
                                             <input id="daterange" name="daterange" type="text" class="form-control float-right @error('daterange') is-invalid @enderror">
                                             @error('daterange')
@@ -604,6 +606,7 @@
                 $(element).removeClass('is-invalid');
             }
         });
+        // VALIDASI FORM INPUT DATA
 
 
         $('#submit').click(function(){
@@ -613,17 +616,16 @@
         $('#submitToRangkuman').click(function(){
             var form = $("#submitData");
             if(form.valid()==true){
-                stepper.next();
                 setDataToRangkuman();
+                stepper.next();
             }
-
         });
 
         function setDataToRangkuman()
         {
             // stepper.next();
-            // AJAX GET DATA TAHAPAN TO RANGKUMAN
-            var jenisUpacara = $("#jenis_upacara").val()
+            // AJAX GET DATA p TO RANGKUMAN
+            var jenisUpacara = $("#jenisupacara").val()
             if(jenisUpacara){
                 $.ajax({
                     url: "{{route('ajax.get.tahapan-upacara')}}"+"/"+jenisUpacara,
