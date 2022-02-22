@@ -33,14 +33,14 @@ class MuputUpacaraController extends Controller
     // INDEX VIEW MUPUT
     public function indexKonfirmasiTangkil(Request $request)
     {
-        try{
-            $dataReservasi = Reservasi::with(['DetailReservasi','Upacaraku'])->whereHas('DetailReservasi');
-            $queryDetailReservasi =function ($queryDetailReservasi){
-                $queryDetailReservasi->where('status','diterima');
+        try {
+            $dataReservasi = Reservasi::with(['DetailReservasi', 'Upacaraku'])->whereHas('DetailReservasi');
+            $queryDetailReservasi = function ($queryDetailReservasi) {
+                $queryDetailReservasi->where('status', 'diterima');
             };
-            $dataReservasi->with(['DetailReservasi'=>$queryDetailReservasi])->whereHas('DetailReservasi',$queryDetailReservasi);
-            $dataReservasi = $dataReservasi->whereIdRelasiAndStatus(Auth::user()->id,'proses tangkil')->orderBy('tanggal_tangkil','asc')->get();
-        }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
+            $dataReservasi->with(['DetailReservasi' => $queryDetailReservasi])->whereHas('DetailReservasi', $queryDetailReservasi);
+            $dataReservasi = $dataReservasi->whereIdRelasiAndStatus(Auth::user()->id, 'proses tangkil')->orderBy('tanggal_tangkil', 'asc')->get();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             return \redirect()->back()->with([
                 'status' => 'fail',
                 'icon' => 'error',
@@ -49,7 +49,7 @@ class MuputUpacaraController extends Controller
             ]);
         }
         // RETURN
-            return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-tangkil-index',compact('dataReservasi'));
+        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-tangkil-index', compact('dataReservasi'));
         // END RETURN
     }
     // INDEX VIEW MUPUT
@@ -58,34 +58,34 @@ class MuputUpacaraController extends Controller
     public function detailKonfirmasiTangkil(Request $request)
     {
         // SECURITY
-            $validator = Validator::make(['id' =>$request->id],[
-                'id' => 'required|exists:tb_reservasi,id',
-            ]);
+        $validator = Validator::make(['id' => $request->id], [
+            'id' => 'required|exists:tb_reservasi,id',
+        ]);
 
-            if($validator->fails()){
-                return redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'error',
-                    'title' => 'Reservasi Tidak Ditemukan !',
-                    'message' => 'Reservasi tidak ditemukan, pilihlah data dengan benar !',
-                ]);
-            }
+        if ($validator->fails()) {
+            return redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Reservasi Tidak Ditemukan !',
+                'message' => 'Reservasi tidak ditemukan, pilihlah data dengan benar !',
+            ]);
+        }
         // END SECURITY
 
         // MAIN LOGIC
-            try{
-                $dataReservasi = Reservasi::with(['Upacaraku','DetailReservasi'])->whereHas('DetailReservasi')->findOrFail($request->id);
-            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
-                return \redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'error',
-                    'title' => 'Internal server error  !',
-                    'message' => 'Internal server error , mohon untuk menghubungi developer sistem !',
-                ]);
-            }
+        try {
+            $dataReservasi = Reservasi::with(['Upacaraku', 'DetailReservasi'])->whereHas('DetailReservasi')->findOrFail($request->id);
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return \redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Internal server error  !',
+                'message' => 'Internal server error , mohon untuk menghubungi developer sistem !',
+            ]);
+        }
         // END LOGIC
 
-        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-tangkil-detail',compact('dataReservasi'));
+        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-tangkil-detail', compact('dataReservasi'));
     }
     // DETAIL KONFIRMASI TANGKIL
 
@@ -102,11 +102,10 @@ class MuputUpacaraController extends Controller
         // $dataUpacara->with(['Reservasi'=>$queryDetailReservasi])->whereHas('Reservasi',$queryDetailReservasi);
         // $dataUpacara = $dataUpacara->findOrFail($request->id);
 
-        $dataUpacara = Upacaraku::with(['Reservasi.DetailReservasi.TahapanUpacara','Reservasi.Relasi','Krama'])->findOrFail($request->id);
-        dd($dataUpacara);
+        $dataUpacara = Upacaraku::with(['Reservasi.DetailReservasi.TahapanUpacara', 'Reservasi.Relasi', 'Krama'])->findOrFail($request->id);
 
 
-        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-tangkil-edit',compact('dataUpacara'));
+        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-tangkil-edit', compact('dataUpacara'));
     }
     // EDIT KONFIRMASI TANGKIL
 
@@ -114,37 +113,36 @@ class MuputUpacaraController extends Controller
     public function updateKonfirmasiTangkil(Request $request)
     {
 
-        $idSulinggih =Auth::user()->Sulinggih->id;
-        list($start,$end) = DateRangeHelper::parseDateRange($request->data_upacara[0]['daterange']);
+        $idSulinggih = Auth::user()->Sulinggih->id;
+        list($start, $end) = DateRangeHelper::parseDateRange($request->data_upacara[0]['daterange']);
         Upacaraku::findOrFail($request->data_upacara[0]['id'])->update([
-            'nama_upacara'=>$request->data_upacara[0]['nama_upacara'],
-            'deskripsi_upacaraku'=>$request->data_upacara[0]['deskripsi_upacara'],
-            'tanggal_mulai'=>$start,
-            'tanggal_selesai'=>$end,
+            'nama_upacara' => $request->data_upacara[0]['nama_upacara'],
+            'deskripsi_upacaraku' => $request->data_upacara[0]['deskripsi_upacara'],
+            'tanggal_mulai' => $start,
+            'tanggal_selesai' => $end,
         ]);
 
         Reservasi::whereIdUpacarakuAndIdRelasi($request->data_upacara[0]['id'], $idSulinggih)->update([
             'status' => 'proses muput'
         ]);
 
-        foreach($request->data_user_reservasi as $data)
-        {
-            list($start,$end) = DateRangeHelper::parseDateRange($data['daterange']);
+        foreach ($request->data_user_reservasi as $data) {
+            list($start, $end) = DateRangeHelper::parseDateRange($data['daterange']);
             DetailReservasi::findOrFail($data['id'])->update([
                 'tanggal_mulai' => $start,
                 'tanggal_selesai' => $end,
-                'keterangan' =>$data['keterangan'],
+                'keterangan' => $data['keterangan'],
                 'status' => $data['status']
             ]);
         }
 
-        if($request->id_detail_reservasi != null){
-            foreach($request->id_detail_reservasi as $index => $data){
+        if ($request->id_detail_reservasi != null) {
+            foreach ($request->id_detail_reservasi as $index => $data) {
                 $detailReservasi = DetailReservasi::findOrFail($data);
-                if($detailReservasi->Reservasi->status == 'proses tangkil'){
-                    Reservasi::findOrFail($detailReservasi->Reservasi->id)->update(['status'=>'pending']);
+                if ($detailReservasi->Reservasi->status == 'proses tangkil') {
+                    Reservasi::findOrFail($detailReservasi->Reservasi->id)->update(['status' => 'pending']);
                 }
-                list($start,$end) = DateRangeHelper::parseDateRange($request->daterange[$index]);
+                list($start, $end) = DateRangeHelper::parseDateRange($request->daterange[$index]);
                 $detailReservasi->update([
                     'status' => 'pending',
                     'tanggal_mulai' => $start,
@@ -152,12 +150,11 @@ class MuputUpacaraController extends Controller
                 ]);
 
                 $detailReservasi->KeteranganKonfirmasi()->create([
-                    'id_sulinggih'=> $idSulinggih,
-                    'keterangan'=> $request->alasan_penolakan_sulinggih[$index]
+                    'id_sulinggih' => $idSulinggih,
+                    'keterangan' => $request->alasan_penolakan_sulinggih[$index]
                 ]);
             }
         }
-
     }
     // UPDATE KONFIRMASI TANGIL
 

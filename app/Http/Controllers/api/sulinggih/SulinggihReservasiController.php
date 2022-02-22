@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\sulinggih;
 use App\Http\Controllers\Controller;
 use App\Models\DetailReservasi;
 use App\Models\Reservasi;
+use App\Models\Upacaraku;
 use Doctrine\DBAL\Query\QueryException;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
