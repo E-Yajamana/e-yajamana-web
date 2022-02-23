@@ -52,7 +52,15 @@ class KramaPemuputKaryaController extends Controller
 
                         $sulinggihQuery = function($sulinggihQuery) use ($request) {
                             $sulinggihQuery
-                                ->with(['User'])
+                                ->with([
+                                    'User',
+                                    'Reservasi' => function($reservasiQuery){
+                                        $reservasiQuery->with([
+                                            'DetailReservasi'
+                                        ])
+                                        ->whereHas('DetailReservasi');
+                                    }
+                                    ])
                                 ->whereHas('User')
                                 ->where('status',$request->status);
                         };
@@ -66,7 +74,13 @@ class KramaPemuputKaryaController extends Controller
                         $sanggars->with(['User'])->whereHas('User');
                         $sulinggihQuery = function($sulinggihQuery) use ($request) {
                             $sulinggihQuery
-                                ->with(['User'])
+                                ->with(['User','Reservasi' => function($reservasiQuery){
+                                    $reservasiQuery->with([
+                                        'DetailReservasi'
+                                    ])
+                                    ->whereHas('DetailReservasi');
+                                }
+                                ])
                                 ->whereHas('User');
                         };
 
@@ -78,31 +92,36 @@ class KramaPemuputKaryaController extends Controller
 
                 if($request->id_kecamatan != null && $request->id_kecamatan != 0){
                     // QUERY DESA
-                    $desaQuery = function($desaQuery) use ($request) {
-                        $desaQuery->with([
-                            'Kecamatan' => function($kecamatanQuery) use ($request) {
-                                $kecamatanQuery->where('id_kecamatan',$request->id_kecamatan);
-                            }
-                        ])
-                        ->whereHas('Kecamatan',function($kecamatanQuery) use ($request) {
-                            $kecamatanQuery->where('id_kecamatan',$request->id_kecamatan);
-                        });
-                    };
-
+                    $griyaRumahQuery = function($griyaRumahQuery) use ($request){
+                                        $griyaRumahQuery->with([
+                                            'BanjarDinas' => function($banjarDinasQuery) use ($request){
+                                                $banjarDinasQuery->with([
+                                                    'DesaDinas' => function($desaDinasQuery) use ($request){
+                                                        $desaDinasQuery->with([
+                                                            'Kecamatan' => function($kecamatanQuery) use ($request) {
+                                                                $kecamatanQuery->where('id',$request->id_kecamatan);
+                                                            }
+                                                        ]);
+                                                    }
+                                                ]);
+                                            }
+                                        ]);
+                                    };
                     $griyaRumahs->with([
-                        'Desa' => $desaQuery,
-                    ])->whereHas('Desa',$desaQuery);
+                        'BanjarDinas' => $griyaRumahQuery,
+                    ])->whereHas('BanjarDinas',$griyaRumahQuery);
 
 
                 }else{
-                    $griyaRumahs->with(['Desa'])->whereHas('Desa');
-                    $sanggars->with(['Desa'])->whereHas('Desa');
+                    $griyaRumahs->with(['BanjarDinas'])->whereHas('BanjarDinas');
+                    // $sanggars->with(['BanjarDinas'])->whereHas('BanjarDinas');
                 }
 
                 $sanggars = $sanggars->get();
                 $griyaRumahs = $griyaRumahs->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',
@@ -121,71 +140,5 @@ class KramaPemuputKaryaController extends Controller
                     ],
             ],200);
         // END
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

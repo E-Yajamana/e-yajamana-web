@@ -43,68 +43,67 @@ class KramaReservasiController extends Controller
     public function store(Request $request)
     {
         // SECURITY
-            $validator = Validator::make($request->all(),[
-                'id_relasi' => 'required',
-                'id_upacaraku' => 'required',
-                'tipe' => 'required',
-                'detail_reservasi' => 'required|json',
-            ]);
-            
-            if($validator->fails()){
-                return response()->json([
-                        'status' => 400,
-                        'message' => 'Validataion error',
-                        'data' => [
-                            'errors' => $validator->errors()
-                        ],
-                ],400);
-            }
-        // END
-        
-        // MAIN LOGIC
-            try{
-                $detailReservasi = json_decode($request->detail_reservasi);
+        $validator = Validator::make($request->all(), [
+            'id_relasi' => 'required',
+            'id_upacaraku' => 'required',
+            'tipe' => 'required',
+            'detail_reservasi' => 'required|json',
+        ]);
 
-                DB::beginTransaction();
-
-                $reservasi = Reservasi::create([
-                                'id_relasi' => $request->id_relasi,
-                                'id_upacaraku' => $request->id_upacaraku,
-                                'tipe' => $request->tipe,
-                                'status' => 'pending'
-                            ]);
-
-                $detailReservasi = json_decode($request->detail_reservasi);
-                
-                $insertArray = [];
-                
-                foreach ($detailReservasi->formDetailReservasis as $key => $value) {
-                    $value = (array)$value;
-                    $value['id_reservasi'] = $reservasi->id;
-                    $insertArray[] = $value;
-                }
-
-                DetailReservasi::insert($insertArray);
-
-                DB::commit();
-
-            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                
-                DB::rollback();
-                return response()->json([
-                        'status' => 500,
-                        'message' => 'Internal server error',
-                        'data' => (Object)[],
-                ],500);
-            }
-        // END
-        
-        // RETURN
+        if ($validator->fails()) {
             return response()->json([
-                    'status' => 200,
-                    'message' => 'Berhasil menambahakn data reservasi',
-                    'data' => (Object)[],
-            ],200);
+                'status' => 400,
+                'message' => 'Validataion error',
+                'data' => [
+                    'errors' => $validator->errors()
+                ],
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            $detailReservasi = json_decode($request->detail_reservasi);
+
+            DB::beginTransaction();
+
+            $reservasi = Reservasi::create([
+                'id_relasi' => $request->id_relasi,
+                'id_upacaraku' => $request->id_upacaraku,
+                'status' => 'pending'
+            ]);
+
+            $detailReservasi = json_decode($request->detail_reservasi);
+
+            $insertArray = [];
+
+            foreach ($detailReservasi->formDetailReservasis as $key => $value) {
+                $value = (array)$value;
+                $value['id_reservasi'] = $reservasi->id;
+                $value['status'] = 'pending';
+                $insertArray[] = $value;
+            }
+
+            DetailReservasi::insert($insertArray);
+
+            DB::commit();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            DB::rollback();
+            return $err;
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal server error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil menambahakn data reservasi',
+            'data' => (object)[],
+        ], 200);
         // END
     }
 

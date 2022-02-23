@@ -10,6 +10,7 @@ use App\Models\DesaDinas;
 use App\Models\Kabupaten;
 use App\Models\KabupatenBaru;
 use App\Models\Kecamatan;
+use App\Models\Provinsi;
 use App\Models\ProvinsiBaru;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -23,8 +24,9 @@ class LocationController extends Controller
     public function getProvinsi(){
         // MAIN LOGIC
             try{
-                $provinsis = ProvinsiBaru::all();
+                $provinsis = Provinsi::all();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal Server Error',
@@ -180,7 +182,9 @@ class LocationController extends Controller
 
         // MAIN LOGIC
             try{
+
                 $banjarDinas = BanjarDinas::where('desa_dinas_id',$id_desa_dinas)->get();
+
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
                 return response()->json([
                         'status' => 500,
@@ -208,7 +212,6 @@ class LocationController extends Controller
                 $desaadats = DesaAdat::get(['desadat_id','desadat_nama']);
 
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return $err;
                 return response()->json([
                         'status' => 500,
                         'message' => 'Internal server error',

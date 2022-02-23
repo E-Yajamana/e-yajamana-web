@@ -52,7 +52,7 @@ class Reservasi extends Model
 		'keterangan'
 	];
 
-		/**
+	/**
 	 * Prepare a date for array / JSON serialization.
 	 *
 	 * @param  \DateTimeInterface  $date
@@ -63,7 +63,7 @@ class Reservasi extends Model
 		return $date->format('Y-m-d H:i:s');
 	}
 
-    // public function Sanggar()
+	// public function Sanggar()
 	// {
 	// 	return $this->belongsTo(Sanggar::class, 'id_relasi','id');
 	// }
@@ -75,15 +75,15 @@ class Reservasi extends Model
 
 	public function Upacaraku()
 	{
-		return $this->belongsTo(Upacaraku::class, 'id_upacaraku','id');
+		return $this->belongsTo(Upacaraku::class, 'id_upacaraku', 'id');
 	}
 
 	public function DetailReservasi()
 	{
-		return $this->hasMany(DetailReservasi::class, 'id_reservasi','id');
+		return $this->hasMany(DetailReservasi::class, 'id_reservasi', 'id');
 	}
 
-    public function Relasi()
+	public function Relasi()
 	{
 		return $this->belongsTo(User::class, 'id_relasi');
 	}

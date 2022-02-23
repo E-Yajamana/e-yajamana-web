@@ -63,12 +63,12 @@ class DetailReservasi extends Model
 
 	public function Reservasi()
 	{
-		return $this->belongsTo(Reservasi::class, 'id_reservasi','id');
+		return $this->belongsTo(Reservasi::class, 'id_reservasi', 'id');
 	}
 
 	public function TahapanUpacara()
 	{
-		return $this->belongsTo(TahapanUpacara::class, 'id_tahapan_upacara','id');
+		return $this->belongsTo(TahapanUpacara::class, 'id_tahapan_upacara', 'id');
 	}
 
 	public function KeteranganKonfirmasi()
