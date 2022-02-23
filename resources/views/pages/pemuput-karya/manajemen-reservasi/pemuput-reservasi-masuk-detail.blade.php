@@ -22,7 +22,6 @@
 @endpush
 
 @section('content')
-
     <section class="content-header">
         <div class="container-fluid border-bottom mt-2">
             <div class="row mb-2">
@@ -205,6 +204,35 @@
                                     </table>
                                 </div>
                             </div>
+                            <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
+                            <div class="modal fade" id="modalInputTangkil" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Form Verifikasi Reservasi</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>Tentukan Tanggal Tangkil:</label>
+                                                <div class="input-group date" id="reservationdatetime2" data-target-input="nearest">
+                                                    <input name="tanggal_tangkil" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime2" />
+                                                    <div class="input-group-append" data-target="#reservationdatetime2" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                                            <button onclick="inputData()" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
                             <div class="card-footer">
                                 <div class="col-md-12 my-2">
                                     <a href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
@@ -223,6 +251,7 @@
     <input id="jsonData" type="hidden" value='@json($dataReservasi)'>
 
     @include('pages.pemuput-karya.manajemen-reservasi.modal-verifikasi-all')
+
 
 @endsection
 
@@ -284,6 +313,15 @@
             }
         });
 
+        $('#reservationdatetime2').datetimepicker({
+            format: 'DD MMMM YYYY h:mm A',
+            date: new Date(),
+            icons: {
+                time: 'far fa-clock'
+            }
+        });
+
+
         $('#mySelect2').select2('data');
         $('.select2').select2()
         //Initialize Select2 Elements
@@ -299,6 +337,7 @@
         // DEKLARASI DATA RESERVASI
         let jsonData = $('#jsonData').val();
         let data_reservasi = (JSON.parse(jsonData));
+        console.log(data_reservasi)
 
         let dataDatabase=[];
         $.each(data_reservasi.detail_reservasi, function(key, data){
@@ -320,7 +359,7 @@
                 });
             }else if(data.indexOf("diterima") !== -1){
                 if(data_reservasi.tanggal_tangkil == null){
-                    $("#modalKonfirmasi").modal();
+                    $("#modalInputTangkil").modal();
                     $("#statusReservasi").val('proses tangkil');
                 }else{
                     $("#statusReservasi").val('proses tangkil');
@@ -343,8 +382,7 @@
         };
         // VALIDASI SEDERHANA DARI PENENTUAN STATUS TAHAPAN
 
-
-          // ADD FUNCTION VALIDATE DATE RANGE
+        // ADD FUNCTION VALIDATE DATE RANGE
         jQuery.validator.addMethod("isi", function(value, element){
             if(element != null ){
                 return true;
@@ -396,17 +434,13 @@
         // FUNGSI GET DATA ALASAN DIDATABASE (**)
         getAlasanPenolakan();
         function getAlasanPenolakan(){
-            $.each(dataReservasi.detail_reservasi, function(key, data){
+            $.each(data_reservasi.detail_reservasi, function(key, data){
+                key++
                 if(data.keterangan != null){
                     var text = document.getElementById("text_penolakan-"+data.id);
-                    var jenis = $('select[name="data_user_reservasi['+data.id+'][status]"]').val();
-                    if(jenis=='ditolak'){
-                        text.type = "text";
-                        text.value = data.keterangan;
-                    }else{
-                        text.type = "hidden";
-                        text.value = "";
-                    }
+                    var jenis = $('select[name="status['+key+']"').val();
+                    text.type = "text";
+                    text.value = data.keterangan;
                 }
             });
         }
@@ -420,11 +454,6 @@
             if(jenis=='ditolak'){
                 text.type = "text";
                 getAlasanPenolakan();
-                 $(".form-control").each(function () {
-                    $(this).rules('add', {
-                        required: true
-                    });
-                });
             }else{
                 text.type = "hidden";
                 text.value = "";

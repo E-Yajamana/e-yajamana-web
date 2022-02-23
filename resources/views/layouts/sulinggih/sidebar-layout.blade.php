@@ -60,9 +60,9 @@
                 <li class="nav-header font-weight-bold pl-2">MENU UTAMA</li>
 
                 <li id="" class="nav-item">
-                    <a href="#" class="nav-link p-2">
+                    <a href="{{route('pemuput-karya.calender')}}" class="nav-link p-2" id="muput-calendar">
                         <i class="fa fa-calendar-alt nav-icon"></i>
-                        <p>Jadwal Muput <span class="ml-4 badge badge-primary right">2</span></p>
+                        <p>Jadwal Muput</p>
                     </a>
                 </li>
 
@@ -83,8 +83,9 @@
                         <li class="nav-item ml-3">
                             <a id="side-manajemen-muput-upacara-konfirmasi-muput-upacara" href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Konfirmasi Muput  <span class="badge badge-primary right">2</span></p>
+                            <p>Konfirmasi Muput  </p>
                             </a>
+                            {{-- <span class="badge badge-primary right">2</span> --}}
                         </li>
                     </ul>
                 </li>

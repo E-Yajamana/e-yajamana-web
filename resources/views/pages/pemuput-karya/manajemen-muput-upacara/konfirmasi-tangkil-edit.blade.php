@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-12">
                     {{-- ACTION FORM INPUT DATA --}}
-                    <form action="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.update')}}" method="POST">
+                    <form action="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.update')}}" method="POST" id="postData">
                         @csrf
                         @method('PUT')
                         <input name="id_reservasi" value="{{$dataReservasi->id}}" type="hidden" class="d-none">
@@ -191,7 +191,7 @@
                                                                 <th>Nama Tahapan</th>
                                                                 <th class='text-md-center'>Waktu Mulai - Selesai</th>
                                                                 <th class=''>Status</th>
-                                                                <th class="text-center">Detail Transaksi</th>
+                                                                <th class="text-center">Detail Keterangan</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody >
@@ -271,7 +271,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="timeline" id="timeline">
-                                <div>
+                                {{-- <div>
                                     <i class="fas fa-user bg-blue"></i>
                                     <div class="timeline-item">
                                         <h3 class="timeline-header"><a href="#">Made Rismawan</a><p class="m-0 mt-1">22 Januari 2021</p></h3>
@@ -283,7 +283,7 @@
                                 </div>
                                 <div>
                                     <i class="fas fa-clock bg-gray"></i>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <!-- /.col -->
@@ -357,6 +357,11 @@
         dataUpacara = (JSON.parse(jsonDataUpacara));
         dataReservasi = (JSON.parse(jsonDataReservasi));
         console.log(dataUpacara)
+
+        var date  = $("#reservationtime").val();
+        const parameterDate  = date.split(" - ");
+        console.log(date)
+
 
         // SET UP DATERANGE
         function setDataRangeTahapan(id,start,end){
@@ -480,15 +485,14 @@
         getAlasanPenolakan();
         function getAlasanPenolakan(){
             $.each(dataReservasi.detail_reservasi, function(key, data){
+                key++
                 if(data.keterangan != null){
                     var text = document.getElementById("text_penolakan-"+data.id);
-                    var jenis = $('select[name="data_user_reservasi['+data.id+'][status]"]').val();
+                    var jenis = $('select[name="data_user_reservasi['+key+'][status]"]').val();
+                    console.log(jenis)
                     if(jenis=='ditolak'){
                         text.type = "text";
                         text.value = data.keterangan;
-                    }else{
-                        text.type = "hidden";
-                        text.value = "";
                     }
                 }
             });

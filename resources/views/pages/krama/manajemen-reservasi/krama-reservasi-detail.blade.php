@@ -42,7 +42,7 @@
                     <h3 class="text-center bold mb-0 ">{{$dataReservasi->Relasi->getRelasi()->nama}}</h3>
                     <p class="text-center">Tanggal Upacara : {{date('d M Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d M Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
                     <div class="d-flex justify-content-center mt-2 text-center" id="view_status">
-                        <div @if ($dataReservasi->status  == 'pending') class="bg-secondary btn-sm" @elseif ($dataReservasi->status == 'proses tangkil' || $dataReservasi->status == 'proses muput') class="bg-primary btn-sm" @elseif ($dataReservasi->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:100px;">{{Str::ucfirst($dataReservasi->status)}}</div>
+                        <div @if ($dataReservasi->status  == 'pending') class="bg-secondary btn-sm" @elseif ($dataReservasi->status == 'proses tangkil' || $dataReservasi->status == 'proses muput') class="bg-primary btn-sm" @elseif ($dataReservasi->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($dataReservasi->status)}}</div>
                     </div>
                 </div>
             </div>

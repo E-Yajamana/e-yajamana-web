@@ -42,7 +42,7 @@ class AjaxController extends Controller
             $queryDetail->with('TahapanUpacara')->whereNotIn('status',['ditolak']);
         };
         $dataTangkil->with(['DetailReservasi'=>$queryDetail])->whereHas('DetailReservasi',$queryDetail);
-        $dataTangkil = $dataTangkil->whereIdRelasi($request->id)->whereNotIn('status',['batal','selesai'])->get();
+        $dataTangkil = $dataTangkil->whereIdRelasi($request->id)->whereNotIn('status',['batal'])->get();
         return response()->json([
             'status' => 200,
             'message' => 'Berhasil mengambil data jadwal dari sulinggih',

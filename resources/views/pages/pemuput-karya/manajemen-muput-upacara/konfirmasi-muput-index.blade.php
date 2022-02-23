@@ -54,20 +54,20 @@
                                         <td rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->Krama->User->Penduduk->nama}}</td>
                                         <td rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->Upacara->nama_upacara}}</td>
                                         <td class="pl-4">{{$data->DetailReservasi[0]->TahapanUpacara->nama_tahapan}}</td>
-                                        <td>{{date('d M Y | H:i:s',strtotime($data->DetailReservasi[0]->tanggal_mulai))}}</td>
-                                        <td>{{date('d M Y | H:i:s',strtotime($data->DetailReservasi[0]->tanggal_selesai))}}</td>
+                                        <td>{{date('d M Y',strtotime($data->DetailReservasi[0]->tanggal_mulai))}}</td>
+                                        <td>{{date('d M Y',strtotime($data->DetailReservasi[0]->tanggal_selesai))}}</td>
                                         <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[0]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                             <a onclick="konfirmasiMuput({{$data->DetailReservasi[0]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         </td>
                                     </tr>
                                     @for($i=1; $i < count($data->DetailReservasi); $i++ )
                                         <tr>
                                             <td>{{$data->DetailReservasi[$i]->TahapanUpacara->nama_tahapan}}</td>
-                                            <td>{{date('d M Y | H:i:s',strtotime($data->DetailReservasi[$i]->tanggal_mulai))}}</td>
-                                            <td>{{date('d M Y | H:i:s',strtotime($data->DetailReservasi[$i]->tanggal_selesai))}}</td>
+                                            <td>{{date('d M Y',strtotime($data->DetailReservasi[$i]->tanggal_mulai))}}</td>
+                                            <td>{{date('d M Y',strtotime($data->DetailReservasi[$i]->tanggal_selesai))}}</td>
                                             <td>
-                                                <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                 <a onclick="konfirmasiMuput({{$data->DetailReservasi[$i]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                             </td>
                                         </tr>
@@ -98,41 +98,36 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Verifikasi Reservasi</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Form Konfirmasi Muput Upacara</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{route('pemuput-karya.manajemen-reservasi.all-verifikasi')}}" method="POST" id="konfirmasiData">
+                <form action="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.update')}}" method="POST" id="konfirmasiData" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
-                        <input class="d-none" name="id_reservasi" id="idReservasiTerima" value="" type="hidden">
-                        <input class="d-none" name="status" value="diterima" type="hidden">
-                        <div id="id_tahapan">
-                            {{-- Data Tahapan --}}
-                        </div>
+                        <input class="d-none" name="id_detail_reservasi" id="idDetailReservasi" value="" type="hidden">
                         <div class="form-group">
-                            <label>Tentukan Tanggal Tangkil:</label>
-                            <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                <input name="tanggal_tangkil" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime" />
-                                <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            <label>Foto Bukti Muput Upacara</label>
+                            <div class="input-group mb-2">
+                                <div class="custom-file">
+                                    <input type="file" id="file" class="custom-file-input @error('file') is-invalid @enderror" name="file" id="customFile" value="{{old('file')}}" >
+                                    <label class="custom-file-label " for="customFile">Masukan Foto Bukti Muput Upacara</label>
                                 </div>
                             </div>
+                            <div class="text-sm text-danger text-start file_error" id="file_error"></div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-                        <button onclick="terimaSemua()" type="button" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
-
-
 
 @endsection
 
@@ -146,6 +141,7 @@
     <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 
     <script>
         $(function () {
@@ -171,6 +167,10 @@
                 }
             });
         });
+        $(function () {
+            bsCustomFileInput.init();
+        });
+
     </script>
 
     <script type="text/javascript">
@@ -180,13 +180,27 @@
         });
     </script>
 
-
 @endpush
 
 @push('js')
     <script>
         function konfirmasiMuput(id){
-            modalKonfirmasi.modal();
+            Swal.fire({
+                title: 'Pemberitahuan',
+                text : 'Apakah anda ingin mengkonfirmasi tahapan reservasi tersebut?',
+                icon:'question',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: `Terima`,
+                denyButtonText: `Batal`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor : '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#idDetailReservasi").val(id);
+                    $("#modalKonfirmasi").modal();
+                }
+            })
         }
     </script>
 @endpush
