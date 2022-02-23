@@ -26,7 +26,8 @@ class User extends Authenticatable
         'nomor_telepon',
         'user_profile',
         'role',
-        'json_token_lupa_password'
+        'json_token_lupa_password',
+        'fcm_token_key'
     ];
 
     /**

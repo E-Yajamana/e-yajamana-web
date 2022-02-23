@@ -113,7 +113,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // NOTIFICATION
     Route::get('notification/{status}', [NotificationController::class, 'getNotificationByIdUserandStatus']);
     Route::post('read/notification', [NotificationController::class, 'readNotification']);
+    Route::post('unread/notification', [NotificationController::class, 'unreadNotification']);
     Route::post('delete/notification', [NotificationController::class, 'deleteNotification']);
+    Route::post('send/notification', [NotificationController::class, 'sendNotification']);
     // END
 
 });

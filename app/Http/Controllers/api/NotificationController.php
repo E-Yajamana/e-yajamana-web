@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Carbon\Carbon;
+use Faker\Provider\Uuid;
+use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use NotificationHelper;
 use PDOException;
 
 class NotificationController extends Controller
@@ -112,6 +116,54 @@ class NotificationController extends Controller
         // END
     }
 
+    public function unreadNotification(Request $request)
+    {
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'id_notification' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation error',
+                'data' => [
+                    $validator->errors()
+                ],
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            DB::beginTransaction();
+            $user = Auth::user();
+            $notification = $user->notifications()->where('id', $request->id_notification)->firstOrFail();
+
+            $data = $notification->data;
+            $data['status'] = "new";
+
+            $notification->update(['read_at' => null, 'data' => $data]);
+            DB::commit();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 500,
+                'message' => 'Server message',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil unread notification',
+            'data' => (object)[],
+        ], 200);
+        // END
+    }
+
     public function deleteNotification(Request $request)
     {
         // SECURITY
@@ -151,6 +203,65 @@ class NotificationController extends Controller
             'status' => 200,
             'message' => 'Berhasil delete notification',
             'data' => (object)[],
+        ], 200);
+        // END
+    }
+
+    public function sendNotification(Request $request)
+    {
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+            'body' => 'required',
+            'image' => 'required',
+            'status' => 'required',
+            'id_target' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation error',
+                'data' => [
+                    $validator->errors()
+                ],
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            $userTarget = User::findOrFail($request->id_target);
+            $result = NotificationHelper::sendNotification(
+                [
+                    'title' => $request->title,
+                    'body' => $request->body,
+                    'status' => $request->status,
+                    'image' => $request->image,
+                    'notifiable_id' => $userTarget->id,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $userTarget
+            );
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal server error',
+                'data' => (object)[],
+            ], 500);
+        }
+
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil mengirim notifikasi',
+            'data' => (object)[
+                $result
+            ],
         ], 200);
         // END
     }

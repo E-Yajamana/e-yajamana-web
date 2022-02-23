@@ -34,7 +34,8 @@
         },
         "files": [
             "app/Helper/ImageHelper.php",
-            "app/Helper/DateRangeHelper.php"
+            "app/Helper/DateRangeHelper.php",
+            "app/Helper/NotificationHelper.php"
         ]
     },
     "autoload-dev": {
