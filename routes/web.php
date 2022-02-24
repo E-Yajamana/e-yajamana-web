@@ -39,7 +39,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('pages.pemuput-karya.manajemen-reservasi.pemuput-reservasi-riwayat');
+    return view('pages.auth.login');
 });
 
 //
@@ -175,6 +175,7 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
 Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function ()  {
     Route::get('dashboard', [PemuputDashboardController::class, 'index'])->name('pemuput-karya.dashboard');
+    Route::get('calender', [PemuputDashboardController::class, 'calenderIndex'])->name('pemuput-karya.calender');
 
     Route::prefix('manajemen-reservasi')->group(function () {
         Route::prefix('manajemen-reservasi')->group(function () {
@@ -196,6 +197,8 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function
         Route::put('konfimasi-tangkil/update', [KonfirmasiTangkilController::class, 'updateKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.update');
 
         Route::get('konfimasi-muput/index', [KonfirmasiMuputController::class, 'index'])->name('pemuput-karya.muput-upacara.konfirmasi-muput.index');
+        Route::put('konfimasi-muput/update', [KonfirmasiMuputController::class, 'konfimasiMuputUpacara'])->name('pemuput-karya.muput-upacara.konfirmasi-muput.update');
+        Route::get('konfimasi-muput/detail/{id?}', [KonfirmasiMuputController::class, 'detail'])->name('pemuput-karya.muput-upacara.konfirmasi-muput.detail');
     });
 
 });
@@ -210,6 +213,8 @@ Route::prefix('get-image')->group(function () {
 
 Route::prefix('ajax')->group(function () {
     Route::get('get/keterangan/{id?}', [AjaxController::class, 'getKeteranganPergantian'])->name('ajax.get.keterangan-reservasi');
+
+    Route::get('get/get-tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
 
     Route::get('get/jenis-yadnya/{jenis?}', [AjaxController::class, 'jenisYadnya'])->name('ajax.get.jenis-yadnya');
     Route::get('get/tahapan/upacara/{id?}', [AjaxController::class, 'getTahapanUpacara'])->name('ajax.get.tahapan-upacara');

@@ -24,12 +24,12 @@ class ReservasiMasukController extends Controller
     {
         // MAIN LOGIC
             try{
-                $dataReservasi = Reservasi::with(['Relasi.Penduduk','DetailReservasi','Upacaraku']);
+                $dataReservasi = Reservasi::with(['Relasi','DetailReservasi','Upacaraku.Krama.User.Penduduk']);
                 $queryDetailReservasi = function($queryDetailReservasi){
                     $queryDetailReservasi->where('status','pending');
                 };
                 $dataReservasi->with(['DetailReservasi'=>$queryDetailReservasi])->whereHas('DetailReservasi',$queryDetailReservasi);
-                $dataReservasi = $dataReservasi->where('id_relasi',Auth::user()->id)->get();
+                $dataReservasi = $dataReservasi->whereIdRelasi(Auth::user()->id)->whereIn('status',['pending','proses tangkil'])->get();
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
                     'status' => 'fail',
@@ -85,13 +85,6 @@ class ReservasiMasukController extends Controller
     }
     // DETAIL RESERVASI MASUK
 
-    // DETAIL RESERVASI MASUK
-    public function riwayatReservasi(Request $request)
-    {
-        return view('pages.pemuput-karya.manajemen-reservasi.pemuput-reservasi-riwayat');
-    }
-    // DETAIL RESERVASI MASUK
-
     // VERIFIKASI RESERVASI
     public function verifikasiReservasi(Request $request)
     {
@@ -128,7 +121,8 @@ class ReservasiMasukController extends Controller
                 DB::commit();
             }else{
                 DB::beginTransaction();
-                $tanggal_tangkil = new Carbon($request->tanggal_tangkil);
+                $tanggal_tangkil = DateRangeHelper::parseSingleDate($request->tanggal_tangkil);
+                dd($tanggal_tangkil);
                 Reservasi::findOrFail($request->id_reservasi)->update(['status'=>$request->status_reservasi,'tanggal_tangkil'=>$tanggal_tangkil->format('Y-m-d h:i:s')]);
                 foreach($request->id_tahapan as $index => $data){
                     DetailReservasi::findOrFail($data)->update([
@@ -136,6 +130,7 @@ class ReservasiMasukController extends Controller
                         'status' => $request->status[$index]
                     ]);
                 }
+                DB::commit();
             }
         }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
             return redirect()->back()->with([
@@ -223,6 +218,4 @@ class ReservasiMasukController extends Controller
         // END RETURN
     }
     // ALL VERIFIKASI RESERVASI
-
-
 }

@@ -165,6 +165,7 @@ class KonfirmasiTangkilController extends Controller
                     'deskripsi_upacaraku'=>$request->data_upacara[0]['deskripsi_upacara'],
                     'tanggal_mulai'=>$start,
                     'tanggal_selesai'=>$end,
+                    'status' => 'berlangsung'
                 ]);
                 Reservasi::whereIdUpacarakuAndIdRelasi($request->data_upacara[0]['id'], $idSulinggih)->findOrFail($request->id_reservasi)->update([
                     'status' => 'proses muput'

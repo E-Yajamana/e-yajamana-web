@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class TbPenduduk
- * 
+ *
  * @property int $id
  * @property string|null $desa_id
  * @property string|null $nomor_induk_krama
@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * 
+ *
  * @property TbMProfesi|null $tb_m_profesi
  * @property TbMPendidikan|null $tb_m_pendidikan
  * @property TbPenduduk|null $tb_penduduk
@@ -95,7 +95,7 @@ class Penduduk extends Model
 		'ibu_kandung_id'
 	];
 
-	public function User(){
+    public function User(){
 		return $this->hasMany(User::class,'id_penduduk','id');
 	}
 
@@ -106,4 +106,49 @@ class Penduduk extends Model
 	public function IbuKandung(){
 		return $this->belongsTo(Penduduk::class,'ibu_kandung_id','id');
 	}
+
+	public function Profesi()
+	{
+		return $this->belongsTo(Profesi::class, 'profesi_id');
+	}
+
+	public function Pendidikan()
+	{
+		return $this->belongsTo(Pendidikan::class, 'pendidikan_id');
+	}
+
+	public function KramaMipilDesaAdat()
+	{
+		return $this->hasMany(KramaMipilDesaAdat::class, 'penduduk_id');
+	}
+
+    public function KramaTamiuDesaAdat()
+	{
+		return $this->hasMany(KramaTamiuDesaAdat::class, 'penduduk_id');
+	}
+
+	public function TamiuDesaAdat()
+	{
+		return $this->hasMany(TamiuDesaAdat::class, 'penduduk_id');
+	}
+
+	// public function tb_perkawinans()
+	// {
+	// 	return $this->hasMany(TbPerkawinan::class, 'pradana_id');
+	// }
+
+	// public function tb_super_admins()
+	// {
+	// 	return $this->hasMany(TbSuperAdmin::class, 'penduduk_id');
+	// }
+
+    // public function tb_keluarga_besars()
+	// {
+	// 	return $this->hasMany(TbKeluargaBesar::class, 'kepala_keluarga_besar_id');
+	// }
+
+    // public function tb_mapera()
+    // {
+    // 	return $this->hasOne(TbMapera::class, 'penduduk_id');
+    // }
 }

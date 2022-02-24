@@ -31,7 +31,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-6 my-2">
-                        <h3 class="card-title">Filter Data Muput Upacara</h3>
+                        <h3 class="card-title">Filter Data Reservasi Upacara</h3>
                     </div>
                 </div>
             </div>
@@ -74,44 +74,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Krama Dalung</td>
-                                    <td>Piodalan Ring Pura</td>
-                                    <td>
-                                        <li >Wangun Bale Petak  : 12 Dec 2021  : 09.00</li>
-                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
-                                        <li >Wangun Bale Petak : 12 Dec 2021  : 09.00</li>
-                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
-                                    </td>
-                                    <td>
-                                        <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:90px;">Proses Tangkil</div>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Krama Dalung</td>
-                                    <td>Piodalan Ring Pura</td>
-                                    <td>
-                                        <li >Wangun Bale Petak  : 12 Dec 2021  : 09.00</li>
-                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
-                                        <li >Wangun Bale Petak : 12 Dec 2021  : 09.00</li>
-                                        <li >Melaspas Wewangunan : 12 Dec 2021  : 09.00</li>
-                                    </td>
-                                    <td>
-                                        <div class=" bg-secondary btn-sm text-center" style="border-radius: 5px; width:90px;">Proses Muput</div>
-                                    </td>
-                                    <td>
-                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                        <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                    </td>
-                                </tr>
+                                @foreach ($dataReservasi as $data)
+                                    <tr>
+                                        <td>{{$loop->iteration}}</td>
+                                        <td style="width: 20%">{{$data->Upacaraku->Krama->User->Penduduk->nama}}</td>
+                                        <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
+                                        <td>
+                                            @foreach ($data->DetailReservasi as $dataDetail)
+                                                <li >{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
+                                            @endforeach
+                                        </td>
+                                        <td class="text-center">
+                                            <div  @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'proses tangkil' || $data->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:110px;">{{ucfirst($data->status)}}</div>
+                                        </td>
+                                        <td>
+                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            {{-- <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a> --}}
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -176,8 +158,8 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#side-manajemen-muput-upacara').addClass('menu-open');
-            $('#side-manajemen-muput-upacara-index').addClass('active');
+            $('#side-manajemen-reservasi').addClass('menu-open');
+            $('#side-manajemen-reservasi-riwayat').addClass('active');
         });
     </script>
 

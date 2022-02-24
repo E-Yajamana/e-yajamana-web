@@ -510,7 +510,6 @@
     <script language="javascript" type="text/javascript">
         let jenis_upacara,nama_upacara,kabupaten,kecamatan,desa_dinas,desa_adat,alamat,deskripsi,daterange;
 
-
         // VALIDASI FORM INPUT DATA
         $('#submitData').validate({
             rules: {
@@ -607,7 +606,6 @@
             }
         });
         // VALIDASI FORM INPUT DATA
-
 
         $('#submit').click(function(){
             $('#submitData').submit();

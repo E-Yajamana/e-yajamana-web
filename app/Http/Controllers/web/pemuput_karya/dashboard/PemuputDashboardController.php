@@ -54,6 +54,10 @@ class PemuputDashboardController extends Controller
      }
     // GET IMAGE PROFILE SULINGGIH
 
+    public function calenderIndex(Request $request)
+    {
+        return view('pages.pemuput-karya.calender.pemuput-calender');
+    }
 
 
 }

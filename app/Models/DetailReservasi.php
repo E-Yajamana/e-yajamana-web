@@ -75,4 +75,9 @@ class DetailReservasi extends Model
 	{
 		return $this->hasMany(KeteranganKonfirmasi::class, 'id_detail_reservasi');
 	}
+
+    public function Gambar()
+	{
+		return $this->hasMany(Gambar::class, 'id_detail_reservarsi');
+	}
 }
