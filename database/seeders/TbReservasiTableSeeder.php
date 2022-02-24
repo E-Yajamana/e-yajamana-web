@@ -28,12 +28,12 @@ class TbReservasiTableSeeder extends Seeder
                 'tanggal_tangkil' => NULL,
                 'keterangan' => NULL,
                 'created_at' => '2022-02-14 21:48:53',
-                'updated_at' => '2022-02-19 22:43:59',
+                'updated_at' => '2022-02-23 22:43:24',
             ),
             1 => 
             array (
                 'id' => 51,
-                'id_relasi' => 10,
+                'id_relasi' => 8,
                 'id_upacaraku' => 22,
                 'status' => 'pending',
                 'tanggal_tangkil' => NULL,
@@ -44,7 +44,7 @@ class TbReservasiTableSeeder extends Seeder
             2 => 
             array (
                 'id' => 52,
-                'id_relasi' => 4,
+                'id_relasi' => 8,
                 'id_upacaraku' => 21,
                 'status' => 'pending',
                 'tanggal_tangkil' => NULL,
@@ -57,11 +57,11 @@ class TbReservasiTableSeeder extends Seeder
                 'id' => 53,
                 'id_relasi' => 2,
                 'id_upacaraku' => 23,
-                'status' => 'proses muput',
+                'status' => 'pending',
                 'tanggal_tangkil' => NULL,
                 'keterangan' => NULL,
                 'created_at' => '2022-02-19 19:59:23',
-                'updated_at' => '2022-02-19 20:09:04',
+                'updated_at' => '2022-02-23 22:43:15',
             ),
             4 => 
             array (
@@ -83,7 +83,7 @@ class TbReservasiTableSeeder extends Seeder
                 'tanggal_tangkil' => NULL,
                 'keterangan' => NULL,
                 'created_at' => '2022-02-19 20:19:33',
-                'updated_at' => '2022-02-19 20:19:33',
+                'updated_at' => '2022-02-23 22:43:09',
             ),
             6 => 
             array (

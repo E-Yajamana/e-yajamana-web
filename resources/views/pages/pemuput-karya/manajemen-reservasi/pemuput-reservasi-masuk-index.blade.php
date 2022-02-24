@@ -7,7 +7,8 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/daterangepicker/daterangepicker.css')}}">
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
 
@@ -78,7 +79,7 @@
                                         </td>
                                         <td>
                                             <a href="{{route('pemuput-karya.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a onclick="konfirmasiReservasi({{$data->id}},'{{$data->tanggal_tangkil}}')" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                            <a onclick="konfirmasiReservasi({{$data->id}},'{{$data->tanggal_tangkil}}','{{$data->Upacaraku->tanggal_mulai}}')" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                             <a onclick="tolakReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                         </td>
                                     </tr>
@@ -96,6 +97,8 @@
                                 </tr>
                             </tfoot>
                         </table>
+
+
                     </div>
                 </div>
             </div>
@@ -115,17 +118,16 @@
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 
-    <!-- date-range-picker -->
-    <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <!-- daterangepicker -->
     <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
+    <!-- date-range-picker -->
+    <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
 
     <!-- Bootstrabase-template-->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-
 
     <script type="text/javascript">
         $(document).ready(function(){
@@ -167,12 +169,14 @@
         })
 
         $('#reservationdatetime').datetimepicker({
+
             format: 'DD MMMM YYYY h:mm A',
             date: new Date(),
             icons: {
                 time: 'far fa-clock'
             }
         });
+
     </script>
 @endpush
 

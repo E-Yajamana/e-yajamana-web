@@ -48,7 +48,6 @@ class KonfirmasiTangkilController extends Controller
     }
     // INDEX VIEW MUPUT
 
-
     // DETAIL KONFIRMASI TANGKIL
     public function detailKonfirmasiTangkil(Request $request)
     {
@@ -185,9 +184,10 @@ class KonfirmasiTangkilController extends Controller
                     $dataKeterangan = [];
                     foreach($request->id_detail_reservasi as $index => $data){
                         $detailReservasi = DetailReservasi::findOrFail($data);
-                        if($detailReservasi->Reservasi->status == 'proses tangkil'){
-                            Reservasi::findOrFail($detailReservasi->Reservasi->id)->update(['status'=>'pending']);
-                        }
+                        // if($detailReservasi->Reservasi->status == 'proses tangkil'){
+                        //     Reservasi::findOrFail($detailReservasi->Reservasi->id)->update(['status'=>'pending']);
+                        // }
+                        Reservasi::findOrFail($detailReservasi->Reservasi->id)->update(['status'=>'pending']);
                         list($start,$end) = DateRangeHelper::parseDateRangeTime($request->daterange[$index]);
                         $detailReservasi->update([
                             'status' => 'pending',

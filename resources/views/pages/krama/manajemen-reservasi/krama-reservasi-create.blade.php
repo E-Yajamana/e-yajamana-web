@@ -631,18 +631,18 @@
         // FUNCTION SHOW DATA SWEETALERT
 
 
-        function getSanggar(id,id_user,nama_sanggar,nama_pengelola,email,nomor_telepon,alamat){
-            $("#myModal").modal('hide');
-            namaPemuput = nama_sanggar;
-            showJadwal(id_user)
-            $("#judulKalender").text('Jadwal Acara '+nama_sanggar);
-            $("#in_nama_sulinggih").html(nama_sanggar);
-            $("#in_email_sulinggih").html(email);
-            $("#dataPemuput").empty();
-            console.log(id_user)
-            stepper.next();
-            $("#dataPemuput").append("<div class='card-header'><label class='card-title'>Pemuput Upacara</label><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse' title='Collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body box-profile align-content-center'><div class='text-center mb-2'><img class='profile-user-img img-fluid img-circle'  src='{{route('get-image.profile.pemuput-karya')}}/"+id_user+"' alt='User profile picture'></div><div class='row mt-3'><div class='col-6'><input value='"+id_user+"' type='hidden' name='id_relasi' class='d-none'><input value='sanggar' name='tipe' type='hidden' class='d-none'><div class='form-group'><label>Nama Sanggar</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama_sanggar+"' disabled=''></div><div class='form-group'><label>Nomer Handphone</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nomor_telepon+"' disabled=''></div></div><div class='col-6'><div class='form-group'><label>Pengelola Sanggar</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama_pengelola+"' disabled=''></div><div class='form-group'><label>Email</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+email+"' disabled=''></div></div><div class='col-12'><div class='form-group'><label>Alamat Lengkap Pemuput</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+alamat+"' disabled></div></div></div></div>");
-        }
+        // function getSanggar(id,id_user,nama_sanggar,nama_pengelola,email,nomor_telepon,alamat){
+        //     $("#myModal").modal('hide');
+        //     namaPemuput = nama_sanggar;
+        //     showJadwal(id_user)
+        //     $("#judulKalender").text('Jadwal Acara '+nama_sanggar);
+        //     $("#in_nama_sulinggih").html(nama_sanggar);
+        //     $("#in_email_sulinggih").html(email);
+        //     $("#dataPemuput").empty();
+        //     console.log(id_user)
+        //     stepper.next();
+        //     $("#dataPemuput").append("<div class='card-header'><label class='card-title'>Pemuput Upacara</label><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse' title='Collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body box-profile align-content-center'><div class='text-center mb-2'><img class='profile-user-img img-fluid img-circle'  src='{{route('get-image.profile.pemuput-karya')}}/"+id_user+"' alt='User profile picture'></div><div class='row mt-3'><div class='col-6'><input value='"+id_user+"' type='hidden' name='id_relasi' class='d-none'><input value='sanggar' name='tipe' type='hidden' class='d-none'><div class='form-group'><label>Nama Sanggar</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama_sanggar+"' disabled=''></div><div class='form-group'><label>Nomer Handphone</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nomor_telepon+"' disabled=''></div></div><div class='col-6'><div class='form-group'><label>Pengelola Sanggar</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+nama_pengelola+"' disabled=''></div><div class='form-group'><label>Email</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+email+"' disabled=''></div></div><div class='col-12'><div class='form-group'><label>Alamat Lengkap Pemuput</label><input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='"+alamat+"' disabled></div></div></div></div>");
+        // }
 
         // FUNCTION GET DATA PEMUPUT YANG DIPILIH
         function getPemuput(id,id_user,nama,tlpn,alamat,namaWalaka,tgldiksha,email){
@@ -714,9 +714,9 @@
                     createMarkerPemuputKarya(element.lat,element.lng,element.nama_griya_rumah,element.alamat_griya_rumah,element.sulinggih);
                 });
 
-                dataSanggar.forEach(element => {
-                    createMarkerSanggar(element);
-                });
+                // dataSanggar.forEach(element => {
+                //     createMarkerSanggar(element);
+                // });
             // END INISIALISASI DATA
 
 

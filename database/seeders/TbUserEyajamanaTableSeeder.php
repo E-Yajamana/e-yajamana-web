@@ -113,7 +113,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
             7 => 
             array (
                 'id' => 8,
-                'id_penduduk' => NULL,
+                'id_penduduk' => 1,
                 'email' => 'alit@gmail.com',
                 'password' => 'sulinggih',
                 'nomor_telepon' => '082424124989',

@@ -20,10 +20,17 @@
                     <div class="form-group">
                         <label>Tentukan Tanggal Tangkil:</label>
                         <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                            <input name="tanggal_tangkil" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime" />
-                            <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="far fa-calendar-alt"></i>
+                                </span>
                             </div>
+                            <input name="tanggal_tangkil" id="demo" type='text' class='form-control float-right' >
+                            @error('tanggal_tangkil')
+                                <div class="invalid-feedback text-start">
+                                    {{ $errors->first('tanggal_tangkil') }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -76,7 +83,7 @@
     <script type="text/javascript">
 
         //FUNGSI KONFIRMASI RESERVASI
-        function konfirmasiReservasi(idReservasi,tgl){
+        function konfirmasiReservasi(idReservasi,tgl,tanggal_mulai){
             $("#idReservasiTerima").val(idReservasi);
             var dataTahapan =  document.getElementsByName('id_tahapan_reservasi_'+idReservasi+'[]');
             for (var i = 0; i < dataTahapan.length; i++) {
@@ -95,6 +102,16 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     if(tgl == ''){
+                        // SET UP DATE UPACARA
+                        $('#demo').daterangepicker({
+                            timePicker: true,
+                            "singleDatePicker": true,
+                            "minDate": moment(Date ()).format('DD MMMM YYYY'),
+                            "maxDate": moment(tanggal_mulai).add(-5, 'day').format('DD MMMM YYYY'),
+                            locale: {
+                                format: 'DD MMMM YYYY h:mm A',
+                            },
+                        });
                         $("#modalKonfirmasi").modal();
                     }else{
                         $("#konfirmasiData").submit();

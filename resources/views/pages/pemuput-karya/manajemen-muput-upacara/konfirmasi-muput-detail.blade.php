@@ -129,7 +129,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-md-12 my-2">
-                        <a href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
+                        <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.index')}}" class="btn btn-secondary">Kembali</a>
                         <button onclick="konfirmasiMuput({{$dataDetailReservasi->id}})" type="button" class="btn btn-primary float-right ml-2 m-1">Konfirmasi Muput</button>
                     </div>
                 </div>

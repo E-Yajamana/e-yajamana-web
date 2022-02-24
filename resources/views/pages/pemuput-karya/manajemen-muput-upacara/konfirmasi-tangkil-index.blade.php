@@ -57,7 +57,7 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$data->Upacaraku->Krama->User->Penduduk->nama}}</td>
                                         <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
-                                        <td>{{date('d-M-Y | h:i',strtotime($data->tanggal_tangkil))}}</td>
+                                        <td>{{date('d F Y | h:i',strtotime($data->tanggal_tangkil))}}</td>
                                         <td>
                                             @foreach ($data->DetailReservasi as $dataDetail)
                                                 <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
