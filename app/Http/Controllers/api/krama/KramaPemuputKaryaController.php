@@ -22,123 +22,121 @@ class KramaPemuputKaryaController extends Controller
     public function index(Request $request)
     {
         // SECURITY
-            $validator = Validator::make($request->all(),[
-                'status' => 'nullable|in:sulinggih,pemangku,sanggar',
-                'id_kecamatan' => 'nullable|numeric'
-            ]);
+        $validator = Validator::make($request->all(), [
+            'status' => 'nullable|in:sulinggih,pemangku,sanggar',
+            'id_kecamatan' => 'nullable|numeric'
+        ]);
 
-            if($validator->fails()){
-                return response()->json([
-                        'status' => 400,
-                        'message' => 'Validation error',
-                        'data' => (Object)[],
-                ],400);
-            }
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation error',
+                'data' => (object)[],
+            ], 400);
+        }
         // END
 
         // MAIN LOGIC
-            try{
+        try {
 
-                $griyaRumahs = GriyaRumah::query()->with(['Sulinggih'])->whereHas('Sulinggih');
-                
-                $sanggars = Sanggar::query();
+            $griyaRumahs = GriyaRumah::query()->with(['Sulinggih'])->whereHas('Sulinggih');
 
-                if($request->status != null && $request->status != ""){
-                    if($request->status == 'sanggar' ){
-                        $griyaRumahs->where('id',-1);
-                        $sanggars->with(['User'])->whereHas('User');
-                    }else{
-                        $sanggars->where('id',-1);
+            $sanggars = Sanggar::query();
 
-                        $sulinggihQuery = function($sulinggihQuery) use ($request) {
-                            $sulinggihQuery
-                                ->with([
-                                    'User',
-                                    'Reservasi' => function($reservasiQuery){
-                                        $reservasiQuery->with([
-                                            'DetailReservasi'
-                                        ])
-                                        ->whereHas('DetailReservasi');
-                                    }
-                                    ])
-                                ->whereHas('User')
-                                ->where('status',$request->status);
-                        };
+            if ($request->status != null && $request->status != "") {
+                if ($request->status == 'sanggar') {
+                    $griyaRumahs->where('id', -1);
+                    $sanggars->with(['User'])->whereHas('User');
+                } else {
+                    $sanggars->where('id', -1);
 
-                        $griyaRumahs->with([
-                            'Sulinggih' => $sulinggihQuery
-                        ])
-                        ->whereHas('Sulinggih',$sulinggihQuery);
-                    }
-                }else{
-                        $sanggars->with(['User'])->whereHas('User');
-                        $sulinggihQuery = function($sulinggihQuery) use ($request) {
-                            $sulinggihQuery
-                                ->with(['User','Reservasi' => function($reservasiQuery){
-                                    $reservasiQuery->with([
-                                        'DetailReservasi'
-                                    ])
-                                    ->whereHas('DetailReservasi');
+                    $sulinggihQuery = function ($sulinggihQuery) use ($request) {
+                        $sulinggihQuery
+                            ->with([
+                                'User' => function ($userQuery) {
+                                    $userQuery->with([
+                                        'Reservasi' => function ($reservasiQuery) {
+                                            $reservasiQuery->with(['DetailReservasi']);
+                                        }
+                                    ]);
                                 }
-                                ])
-                                ->whereHas('User');
-                        };
+                            ])
+                            ->whereHas('User')
+                            ->where('status', $request->status);
+                    };
 
-                        $griyaRumahs->with([
-                            'Sulinggih' => $sulinggihQuery
-                        ])
-                        ->whereHas('Sulinggih',$sulinggihQuery);
-                }
-
-                if($request->id_kecamatan != null && $request->id_kecamatan != 0){
-                    // QUERY DESA
-                    $griyaRumahQuery = function($griyaRumahQuery) use ($request){
-                                        $griyaRumahQuery->with([
-                                            'BanjarDinas' => function($banjarDinasQuery) use ($request){
-                                                $banjarDinasQuery->with([
-                                                    'DesaDinas' => function($desaDinasQuery) use ($request){
-                                                        $desaDinasQuery->with([
-                                                            'Kecamatan' => function($kecamatanQuery) use ($request) {
-                                                                $kecamatanQuery->where('id',$request->id_kecamatan);
-                                                            }
-                                                        ]);
-                                                    }
-                                                ]);
-                                            }
-                                        ]);
-                                    };
                     $griyaRumahs->with([
-                        'BanjarDinas' => $griyaRumahQuery,
-                    ])->whereHas('BanjarDinas',$griyaRumahQuery);
-
-
-                }else{
-                    $griyaRumahs->with(['BanjarDinas'])->whereHas('BanjarDinas');
-                    // $sanggars->with(['BanjarDinas'])->whereHas('BanjarDinas');
+                        'Sulinggih' => $sulinggihQuery
+                    ])
+                        ->whereHas('Sulinggih', $sulinggihQuery);
                 }
+            } else {
+                $sanggars->with(['User'])->whereHas('User');
+                $sulinggihQuery = function ($sulinggihQuery) use ($request) {
+                    $sulinggihQuery
+                        ->with([
+                            'User' => function ($userQuery) {
+                                $userQuery->with([
+                                    'Reservasi' => function ($reservasiQuery) {
+                                        $reservasiQuery->with(['DetailReservasi']);
+                                    }
+                                ]);
+                            }
+                        ])
+                        ->whereHas('User');
+                };
 
-                $sanggars = $sanggars->get();
-                $griyaRumahs = $griyaRumahs->get();
-
-            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return $err;
-                return response()->json([
-                        'status' => 500,
-                        'message' => 'Internal server error',
-                        'data' => (Object)[],
-                ],500);
+                $griyaRumahs->with([
+                    'Sulinggih' => $sulinggihQuery
+                ])
+                    ->whereHas('Sulinggih', $sulinggihQuery);
             }
+
+            if ($request->id_kecamatan != null && $request->id_kecamatan != 0) {
+                // QUERY DESA
+                $griyaRumahQuery = function ($griyaRumahQuery) use ($request) {
+                    $griyaRumahQuery->with([
+                        'BanjarDinas' => function ($banjarDinasQuery) use ($request) {
+                            $banjarDinasQuery->with([
+                                'DesaDinas' => function ($desaDinasQuery) use ($request) {
+                                    $desaDinasQuery->with([
+                                        'Kecamatan' => function ($kecamatanQuery) use ($request) {
+                                            $kecamatanQuery->where('id', $request->id_kecamatan);
+                                        }
+                                    ]);
+                                }
+                            ]);
+                        }
+                    ]);
+                };
+                $griyaRumahs->with([
+                    'BanjarDinas' => $griyaRumahQuery,
+                ])->whereHas('BanjarDinas', $griyaRumahQuery);
+            } else {
+                $griyaRumahs->with(['BanjarDinas'])->whereHas('BanjarDinas');
+                // $sanggars->with(['BanjarDinas'])->whereHas('BanjarDinas');
+            }
+
+            $sanggars = $sanggars->get();
+            $griyaRumahs = $griyaRumahs->get();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal server error',
+                'data' => (object)[],
+            ], 500);
+        }
         // END
 
         // RETURN
-            return response()->json([
-                    'status' => 200,
-                    'message' => 'Berhasil mengambil data pemuput  karya',
-                    'data' => [
-                        'griya_rumahs' => $griyaRumahs,
-                        'sanggars' => $sanggars
-                    ],
-            ],200);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil mengambil data pemuput  karya',
+            'data' => [
+                'griya_rumahs' => $griyaRumahs,
+                'sanggars' => $sanggars
+            ],
+        ], 200);
         // END
     }
 }

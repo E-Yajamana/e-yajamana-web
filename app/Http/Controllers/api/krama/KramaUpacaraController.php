@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use PDOException;
 use Illuminate\Support\Facades\Input;
+use NotificationHelper;
 use Symfony\Component\Console\Input\Input as InputInput;
 
 class KramaUpacaraController extends Controller
@@ -148,6 +149,19 @@ class KramaUpacaraController extends Controller
                 'lat' => $request->lat,
                 'lng' => $request->lng,
             ]);
+
+            $result = NotificationHelper::sendNotification(
+                [
+                    'title' => "UPACARA DIBUAT",
+                    'body' => "Upacara dengan nama " . $request->nama_upacara . " telah berhasil dibuat, silahkan melakukan reservasi sulinggih untuk memputu upacara",
+                    'status' => "new",
+                    'image' => "normal",
+                    'notifiable_id' => $user->id,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $user
+            );
 
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {

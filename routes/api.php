@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\admin\AdminDashboardController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\krama\KramaDashboardController;
 use App\Http\Controllers\api\krama\KramaPemuputKaryaController;
@@ -108,6 +109,14 @@ Route::middleware('auth:sanctum')->group(function () {
         // SULINGGIH KONFIRMASI MUPUT
         Route::get('muput/detail/{id_reservasi}', [SulinggihMuputController::class, 'getDetailMuput']);
         Route::post('puput', [SulinggihMuputController::class, 'puputKarya']);
+        // END
+    });
+    // END
+
+    // SULINGGIH
+    Route::prefix('admin')->middleware(['ability:role:admin'])->group(function () {
+        // HOME FRAGMENT
+        Route::get('dashboard', [AdminDashboardController::class, 'index']);
         // END
     });
     // END
