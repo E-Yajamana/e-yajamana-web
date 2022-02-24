@@ -12,17 +12,15 @@ class KonfirmasiMuputController extends Controller
     public function index()
     {
         $idUser = Auth::user()->id;
-        $queryDetailReservasi = function ($queryDetailReservasi){
+        $queryDetailReservasi = function ($queryDetailReservasi) {
             $queryDetailReservasi->with('TahapanUpacara')->whereStatus('diterima')->whereHas('TahapanUpacara');
         };
-        $dataReservasi = Reservasi::with(['Upacaraku.Krama.User.Penduduk','Upacaraku.Upacara','DetailReservasi'=>$queryDetailReservasi])->whereHas('DetailReservasi',$queryDetailReservasi)->whereIdRelasiAndStatus($idUser,'proses muput')->get();
-        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-muput-index',compact('dataReservasi'));
+        $dataReservasi = Reservasi::with(['Upacaraku.Krama.User.Penduduk', 'Upacaraku.Upacara', 'DetailReservasi' => $queryDetailReservasi])->whereHas('DetailReservasi', $queryDetailReservasi)->whereIdRelasiAndStatus($idUser, 'proses muput')->get();
+        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-muput-index', compact('dataReservasi'));
     }
 
     public function muputKarya(Request $request)
     {
         dd($request->all());
     }
-
-
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\api\krama\KramaUpacaraController;
 use App\Http\Controllers\api\location\LocationController;
 use App\Http\Controllers\api\NotificationController;
 use App\Http\Controllers\api\sulinggih\SulinggihDashboardController;
+use App\Http\Controllers\api\sulinggih\SulinggihMuputController;
 use App\Http\Controllers\api\sulinggih\SulinggihReservasiController;
 use App\Http\Controllers\api\sulinggih\SulinggihTangkilController;
 use App\Http\Controllers\api\yadnya\YadnyaController;
@@ -102,6 +103,11 @@ Route::middleware('auth:sanctum')->group(function () {
         // SULINGGIH KONFIRMASI TANGKIL
         Route::get('tangkil/detail/{id_reservasi}', [SulinggihTangkilController::class, 'getDetailTangkil']);
         Route::post('tangkil/konfirmasi', [SulinggihTangkilController::class, 'konfirmasiTangkil']);
+        // END
+
+        // SULINGGIH KONFIRMASI MUPUT
+        Route::get('muput/detail/{id_reservasi}', [SulinggihMuputController::class, 'getDetailMuput']);
+        Route::post('puput', [SulinggihMuputController::class, 'puputKarya']);
         // END
     });
     // END
