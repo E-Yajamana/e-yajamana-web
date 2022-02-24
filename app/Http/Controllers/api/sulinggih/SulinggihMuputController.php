@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\api\sulinggih;
 
 use App\Http\Controllers\Controller;
+use App\ImageHelper;
 use App\Models\Reservasi;
 use App\Models\Upacaraku;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Doctrine\DBAL\Query\QueryException;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PDOException;
 
@@ -40,9 +43,9 @@ class SulinggihMuputController extends Controller
                 'DetailReservasi' => function ($detailReservasiQuery) {
                     $detailReservasiQuery->with([
                         'TahapanUpacara'
-                    ]);
+                    ])->where('status', '!=', 'selesai');
                 }
-            ])->where('status', 'proses muput')->where('id_relasi', $user->id)->findOrFail($id);
+            ])->where('id_relasi', $user->id)->findOrFail($id);
 
             $upacaraku = Upacaraku::with([
                 'Krama' => function ($kramaQuery) {
@@ -56,6 +59,7 @@ class SulinggihMuputController extends Controller
                 }
             ])->where('id', $reservasi->id_upacaraku)->firstOrFail();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
@@ -100,6 +104,9 @@ class SulinggihMuputController extends Controller
         try {
             DB::beginTransaction();
 
+            $file = $request->file('image_muput');
+            $path = ImageHelper::moveImage($file, 'app/sulinggih/bukti-muput/upacara/');
+
             $detailReservasiQuery = function ($detailReservasiQuery) {
                 $detailReservasiQuery->with(['TahapanUpacara'])->whereHas('TahapanUpacara');
             };
@@ -108,7 +115,9 @@ class SulinggihMuputController extends Controller
                 'DetailReservasi' => $detailReservasiQuery
             ])->whereHas('DetailReservasi', $detailReservasiQuery)->findOrFail($request->id_reservasi);
 
-            $reservasi->DetailReservasi->where('id', $request->id_detail_reservasi)[0]->update(['status' => 'selesai']);
+            $detailReservasi = $reservasi->DetailReservasi->where('id', $request->id_detail_reservasi)->first();
+            $detailReservasi->update(['status' => 'selesai']);
+            $detailReservasi->Gambar()->create(['image' => $path]);
 
             $totalDetailReservasi = $reservasi->DetailReservasi->count();
             $countSelesai = 0;
