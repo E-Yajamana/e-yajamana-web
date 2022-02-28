@@ -57,6 +57,10 @@ Route::prefix('auth')->group(function () {
         Route::post('sanggar', [RegisterController::class, 'storeRegisSanngar'])->name('auth.register.akun.sanggar.store');
         Route::post('sulinggih', [RegisterController::class, 'storeRegisSulinggih'])->name('auth.register.akun.sulinggih.store');
         Route::post('pemangku', [RegisterController::class, 'storeRegisPemangku'])->name('auth.register.akun.pemangku.store');
+
+
+        Route::post('new/sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
+
     });
 
     Route::get('lupa-password', [AuthController::class, 'lupaPasswordLanding'])->name('auth.lupa-password.lading');
@@ -227,6 +231,9 @@ Route::prefix('ajax')->group(function () {
     Route::get('kecamatan/{id}', [LocationController::class, 'getKecamatan']);
     Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);
     Route::get('banjar-dinas/{id?}', [LocationController::class, 'getBanjarDinas'])->name('ajax.get-banjar-dinas');
+
+    Route::get('get/penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
+
 
 });
 

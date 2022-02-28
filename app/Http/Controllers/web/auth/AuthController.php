@@ -23,11 +23,14 @@ class AuthController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    // INDEX PAGE LOGIN
     public function login(Request $request)
     {
         return view('pages.auth.login');
     }
+    // INDEX PAGE LOGIN
 
+    // POST LOGIN
     public function loginPost(Request $request)
     {
         // SECURITY
@@ -89,7 +92,9 @@ class AuthController extends Controller
         // END MAIN
 
     }
+    // POST LOGIN
 
+    // LOGOUT SESSION
     public function logout()
     {
         Auth::logout();
@@ -100,5 +105,29 @@ class AuthController extends Controller
             'message' => 'Berhasil melakukan logout !',
         ]);
     }
+    // LOGOUT SESSION
+
+    // LUPA PASSWORD INDEX
+    public function lupaPasswordLanding(Request $request)
+    {
+        return view('pages.auth.lupa-password.landing');
+    }
+    // LUPA PASSWORD INDEX
+
+    // VERIFY OTP
+    public function verifyOTP(Request $request)
+    {
+        return view('pages.auth.lupa-password.verify-otp');
+    }
+    // VERIFY OTP
+
+    // RESET PASSWORD
+    public function resetPassword(Request $request)
+    {
+        return view('pages.auth.lupa-password.reset-password');
+    }
+    // RESET PASSWORD
+
+
 }
 

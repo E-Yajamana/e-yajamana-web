@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="{{ asset('images/sipandu-logo.ico') }}">
+    <link rel="icon" type="image/png" href="{{ asset('base-template/dist/img/logo-01.png') }}">
     <title>E-Yajamana | @yield('tittle')</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/fontawesome-free/css/all.min.css')}}">
@@ -38,7 +38,6 @@
 <script src="{{url('base-template/plugins/jquery/jquery.min.js')}}"></script>
 <script src="{{url('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 @stack('js')
 
 <script src="{{asset('base-template\dist\js\sweetalert2.all.min.js')}}"></script>
