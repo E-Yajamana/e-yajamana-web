@@ -55,7 +55,7 @@ class RegisterController extends Controller
 
         // MAIN LOGIC & RETURN
             if($request->akun == 'krama'){
-                return view('pages.auth.register.register-krama-bali',compact(['dataKabupaten','dataDesaAdat']));
+                return view('pages.auth.register-new.register-krama');
             }elseif($request->akun == 'sulinggih'){
                 $dataKabupaten = Kabupaten::whereProvinsiId(51)->get();
                 $queryUser = function ($queryUser){
@@ -72,8 +72,8 @@ class RegisterController extends Controller
                 return view('pages.auth.register.register-serati',compact(['dataKabupaten','dataDesaAdat']));
             }elseif($request->akun == 'pemangku'){
                 $dataKabupaten = Kabupaten::all();
-                $dataDesaAdat = DesaAdat::all();
-                return view('pages.auth.register.register-pemangku',compact(['dataKabupaten','dataDesaAdat']));
+                $dataGriya = GriyaRumah::all();
+                return view('pages.auth.register-new.register-pemangku',compact(['dataKabupaten','dataGriya']));
             }else{
                 return redirect()->route('auth.register.index')->with([
                     'status' => 'fail',
@@ -906,8 +906,222 @@ class RegisterController extends Controller
     }
     // SANGGAR STORE AKUN NEW INTEGERATION
 
+    // KRAMA STORE AKUN NEW INTEGERATION
+    public function storeNewRegisKrama(Request $request)
+    {
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'id_penduduk' => 'required|exists:tb_penduduk,id',
+                'email' => 'required|email|unique:tb_user_eyajamana,email|min:5|max:100',
+                'password' => 'required|confirmed',
+                'nomor_telepon' => 'unique:tb_user_eyajamana,nomor_telepon|numeric|digits_between:11,15',
+                'lat' => 'required|numeric|regex:/^[0-9.-]+$/i',
+                'lng' => 'required|numeric|regex:/^[0-9.-]+$/i',
+            ],
+            [
+                'id_penduduk.required' => "ID Penduduk wajib diisi",
+                'id_penduduk.exists' => "ID penduduk tidak sesuai",
+                'email.required' => "Email wajib diisi",
+                'email.regex' => "Format Email tidak sesuai",
+                'email.unique' => "Email sudah pernah dibuat sebelumnya",
+                'email.min' => "Email minimal berjumlah 5 karakter",
+                'email.max' => "Email maksimal berjumlah 100 karakter",
+                'password.required' => "Password wajib diisi",
+                'password.confirmed' => "Password yang anda masukan tidak sesuai",
+                'nomor_telepon.required' => "Nomor Telepon wajib diisi",
+                'nomor_telepon.unique' => "Nomor Telepon sudah pernah dibuat sebelumnya",
+                'nomor_telepon.numeric' => "Nomor Telepon harus berupa angka",
+                'nomor_telepon.digits_between' => "Nomor Telepon disii dengan 11 sampai dengan 15 angka",
+                'lat.required' => "Latitude griya wajib diisi",
+                'lat.numeric' => "Latitude harus berupa angka",
+                'lat.regex' => "Format koordinat Latitude griya tidak sesuai",
+                'lng.required' => "Longitude griya wajib diisi",
+                'lng.numeric' => "Longitude harus berupa angka",
+                'lng.regex' => "Format koordinat Longitude griya tidak sesuai",
+            ]);
+
+            if($validator->fails()){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Registrasi',
+                    'message' => 'Gagal melakukan registrasi akun, silakan periksa kembali form input anda!'
+                ])->withInput($request->all())->withErrors($validator->errors());
+            }
+        // END SECURITY
+
+        // MAIN LOGIC
+            try{
+                DB::beginTransaction();
+                User::create([
+                    'id_penduduk' => $request->id_penduduk,
+                    'email'=> $request->email,
+                    'password'=> Hash::make($request->password),
+                    'nomor_telepon'=> $request->nomor_telepon,
+                    'user_profile'=> 'app/default/profile/user.jpg',
+                    'role'=> 'krama_bali',
+                ])->Krama()->create([
+                    'lat'=> $request->lat ,
+                    'lng'=> $request->lng ,
+                ]);
+                DB::commit();
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
+                DB::rollBack();
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Menambahkan Data Akun Sanggar',
+                    'message' => 'Gagal menambahkan data akun Sanggar, apabila diperlukan mohon hubungi developer sistem`',
+                ]);
+            }
+        //END MAIN LOGIC
+
+        //  RETURN
+            return redirect()->route('auth.login')->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Berhasil Membuat Akun Krama Bali',
+                'message' => 'Berhasil membuat akun Krama Bali, mohon tunggu proses email verifikasi telebih dahulu untuk menggunakan akun',
+            ]);
+        // END LOGIC
+
+    }
+    // KRAMA STORE AKUN NEW INTEGERATION
 
 
+    public function storeNewRegisPemangku(Request $request)
+    {
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'id_penduduk' => 'required|exists:tb_penduduk,id',
+                'email' => 'required|email|unique:tb_user_eyajamana,email|min:5|max:100',
+                'password' => 'required|confirmed',
+                'nomor_telepon' => 'unique:tb_user_eyajamana,nomor_telepon|numeric|digits_between:11,15',
+                'nama_sulinggih' => 'required|regex:/^[a-z,. 0-9, -]+$/i|min:5|max:50',
+            ],
+            [
+                'id_penduduk.required' => "ID Penduduk wajib diisi",
+                'id_penduduk.exists' => "ID penduduk tidak sesuai",
+                'email.required' => "Email wajib diisi",
+                'email.regex' => "Format Email tidak sesuai",
+                'email.unique' => "Email sudah pernah dibuat sebelumnya",
+                'email.min' => "Email minimal berjumlah 5 karakter",
+                'email.max' => "Email maksimal berjumlah 100 karakter",
+                'password.required' => "Password wajib diisi",
+                'password.confirmed' => "Password yang anda masukan tidak sesuai",
+                'nomor_telepon.required' => "Nomor Telepon wajib diisi",
+                'nomor_telepon.unique' => "Nomor Telepon sudah pernah dibuat sebelumnya",
+                'nomor_telepon.numeric' => "Nomor Telepon harus berupa angka",
+                'nomor_telepon.digits_between' => "Nomor Telepon disii dengan 11 sampai dengan 15 angka",
+                'nama_sulinggih.required' => "Nama Sulinggih wajib diisi",
+                'nama_sulinggih.regex' => "Format Nama Sulinggih tidak sesuai",
+                'nama_sulinggih.min' => "Nama Sulinggih minimal berjumlah 5 karakter",
+                'nama_sulinggih.max' => "Nama Sulinggih maksimal berjumlah 50 karakter",
+            ]);
+
+            if($validator->fails()){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Registrasi',
+                    'message' => 'Gagal melakukan registrasi akun, silakan periksa kembali form input anda!'
+                ])->withInput($request->all())->withErrors($validator->errors());
+            }
+        // END SECURITY
+
+        // MAIN LOGIC
+            try{
+                DB::beginTransaction();
+                $user = User::create([
+                    'id_penduduk' => $request->id_penduduk,
+                    'email'=> $request->email,
+                    'password'=> Hash::make($request->password),
+                    'nomor_telepon'=> $request->nomor_telepon,
+                    'user_profile'=> 'app/default/profile/user.jpg',
+                    'role'=> 'pemangku',
+                ]);
+
+                if($request->nama_griya != null && $request->nama_griya != ""){
+                    //  SECURITY FORM GRIYA
+                        $validator = Validator::make($request->all(),[
+                            'nama_griya' => "required|regex:/^[a-z ,.'-]+$/i|min:3|max:50",
+                            'alamat_griya' => "required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100",
+                            'kabupaten' => 'required|exists:tb_m_kabupaten,id',
+                            'id_banjar_dinas' => 'required|exists:tb_m_banjar_dinas,id',
+                            'lat' => 'required|numeric|regex:/^[0-9.-]+$/i',
+                            'lng' => 'required|numeric|regex:/^[0-9.-]+$/i',
+                        ],
+                        [
+                            'nama_griya.required' => "Nama griya wajib diisi",
+                            'nama_griya.regex' => "Format nama griya tidak sesuai",
+                            'nama_griya.min' => "Nama griya minimal berjumlah 3 karakter",
+                            'nama_griya.max' => "Nama griya maksimal berjumlah 50 karakter",
+                            'alamat_griya.required' => "Nama griya wajib diisi",
+                            'alamat_griya.regex' => "Format nama griya tidak sesuai",
+                            'alamat_griya.min' => "Nama griya minimal berjumlah 3 karakter",
+                            'alamat_griya.max' => "Nama griya maksimal berjumlah 100 karakter",
+                            'kabupaten.required' => "Lokasi Kabupaten wajib diisi",
+                            'kabupaten.exists' => "Lokasi Kabupaten tidak sesuai",
+                            'id_banjar_dinas.required' => "Lokasi Banjar Dinas wajib diisi",
+                            'id_banjar_dinas.exists' => "Lokasi Banjar Dinas tidak sesuai",
+                            'lat.required' => "Latitude griya wajib diisi",
+                            'lat.numeric' => "Latitude harus berupa angka",
+                            'lat.regex' => "Format koordinat Latitude griya tidak sesuai",
+                            'lng.required' => "Longitude griya wajib diisi",
+                            'lng.numeric' => "Longitude harus berupa angka",
+                            'lng.regex' => "Format koordinat Longitude griya tidak sesuai",
+                        ]);
+
+                        if($validator->fails()){
+                            return redirect()->back()->with([
+                                'status' => 'fail',
+                                'icon' => 'error',
+                                'title' => 'Gagal Registrasi',
+                                'message' => 'Gagal melakukan registrasi akun, silakan periksa kembali form Griya anda!'
+                            ])->withInput($request->all())->withErrors($validator->errors());
+                        }
+                    // END SECURITY FORM GRIYA
+
+                    // CREATE FUNCTION
+                    GriyaRumah::create([
+                        'nama_griya_rumah'=> $request->nama_griya,
+                        'alamat_griya_rumah'=> $request->alamat_griya,
+                        'id_banjar_dinas'=> $request->id_banjar_dinas,
+                        'lat'=> $request->lat,
+                        'lng'=> $request->lng,
+                    ])->Sulinggih()->create([
+                        'id_user' => $user->id,
+                        'nama_sulinggih' => $request->nama_sulinggih,
+                        'status_konfirmasi_akun' => 'pending',
+                    ]);
+                }else{
+                    $user->Sulinggih()->create([
+                        'nama_sulinggih' => $request->nama_sulinggih,
+                        'status_konfirmasi_akun' => 'pending',
+                    ]);
+                }
+                DB::commit();
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
+                // File::delete(storage_path($filename));
+                DB::rollBack();
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Menambahkan Data Akun Sulinggih',
+                    'message' => 'Gagal menambahkan data akun sulinggih, apabila diperlukan mohon hubungi developer sistem`',
+                ]);
+            }
+        // END LOGIC
+
+        //  RETURN
+            return redirect()->route('auth.login')->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Berhasil Membuat Akun Pemangku',
+                'message' => 'Berhasil membuat akun Pemangku, mohon tunggu proses email verifikasi telebih dahulu untuk menggunakan akun',
+            ]);
+        // END LOGIC
+    }
 
 
 }
