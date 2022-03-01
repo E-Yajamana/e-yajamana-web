@@ -46,8 +46,8 @@ class Sanggar extends Model
 
 	protected $fillable = [
 		'id_user',
-		'id_desa',
-		'id_desa_adat',
+		// 'id_desa',
+		// 'id_desa_adat',
 		'nama_sanggar',
 		'nama_pengelola',
 		'alamat_sanggar',

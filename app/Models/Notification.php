@@ -12,7 +12,7 @@ use DateTimeInterface;
 
 /**
  * Class Notification
- * 
+ *
  * @property string $id
  * @property string $type
  * @property string $notifiable_type

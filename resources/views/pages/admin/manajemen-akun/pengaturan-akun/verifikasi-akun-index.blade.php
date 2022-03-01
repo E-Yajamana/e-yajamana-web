@@ -92,7 +92,7 @@
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_walaka}}</td>
                                                         <td>{{$data->nama_sulinggih}}</td>
-                                                        <td>{{date('d-M-Y',strtotime($data->created_at))}}</td>
+                                                        <td>{{date('d F Y',strtotime($data->created_at))}}</td>
                                                         <td>
                                                             <a href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
@@ -138,7 +138,7 @@
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_walaka}}</td>
                                                         <td>{{$data->User->nomor_telepon}}</td>
-                                                        <td>{{date('d-M-Y',strtotime($data->created_at))}}</td>
+                                                        <td>{{date('d F Y',strtotime($data->created_at))}}</td>
                                                         <td>
                                                             <a href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
@@ -184,7 +184,7 @@
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_sanggar}}</td>
                                                         <td>{{$data->nama_pengelola}}</td>
-                                                        <td>{{date('d-M-Y',strtotime($data->created_at))}}</td>
+                                                        <td>{{date('d F Y',strtotime($data->created_at))}}</td>
                                                         <td>
                                                             <a href="{{route('admin.manajemen-akun.verifikasi.detail.sanggar',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a onclick="verifikasiSanggar({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>

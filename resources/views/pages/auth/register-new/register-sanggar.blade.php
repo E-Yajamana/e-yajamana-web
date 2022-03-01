@@ -54,12 +54,12 @@
                             <button type="button" class="step-trigger" role="tab" aria-controls="next-part"
                             id="next-part-trigger">
                             <span class="bs-stepper-circle">3</span>
-                            <span class="bs-stepper-label">Data Sulinggih</span>
+                            <span class="bs-stepper-label">Data Sanggar</span>
                             </button>
                         </div>
                     </div>
                     <div class="bs-stepper-content">
-                        <form method="POST" action="{{route('auth.register.akun.sulinggih.new.store')}}" enctype="multipart/form-data" id="formRegister">
+                        <form method="POST" action="{{route('auth.register.akun.sanggar.store')}}" enctype="multipart/form-data" id="formRegister">
                             @csrf
                             <!-- STEPPER 1 PILIH YADNYA -->
                             <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
@@ -166,111 +166,23 @@
                             <!-- STEPPER 3 DATA SULINGGIH -->
                             <div id="next-part" class="content" role="tabpanel" aria-labelledby="next-part-trigger">
                                 <div class="container p-1 mt-2">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label>Nama Walaka <span class="text-danger">*</span></label>
-                                                <div class="input-group">
-                                                    <input type="text" id="nama_walaka" name="nama_walaka" autocomplete="off" class="form-control @error('nama_walaka') is-invalid @enderror" value="{{ old('nama_walaka') }}" placeholder="Masukan Nama Walaka">
-                                                    @error('nama_walaka')
-                                                        <div class="invalid-feedback text-start">
-                                                            {{$errors->first('nama_walaka') }}
-                                                        </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label>Nama Sulinggih <span class="text-danger">*</span></label>
-                                                <div class="input-group">
-                                                    <input type="text" id="nama_sulinggih" name="nama_sulinggih" autocomplete="off" class="form-control @error('nama_sulinggih') is-invalid @enderror" value="{{ old('nama_sulinggih') }}" placeholder="Masukan Nama Sulinggih">
-                                                    @error('nama_sulinggih')
-                                                        <div class="invalid-feedback text-start">
-                                                            {{$errors->first('nama_sulinggih') }}
-                                                        </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" id="rowPasangan">
-                                        <div class="form-group  @if (old('nama_pasangan') !=  null) col-6 @else col-12 @endif " id="formPasangan">
-                                            <label>Pasangan Sulinggih <span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <select name="id_pasangan" id="pasangan" class=" select2bs4 pasangan @error('id_pasangan') is-invalid @enderror" style="width: 100%;" value="{{old('pasangan')}}">
-                                                    <option value="0" disabled selected>Pilih Pasangan Sulinggih</option>
-                                                    <option @if (old('nama_pasangan') != null) selected @endif  value="">Pilih Pasangan Sulinggih lainnya..</option>
-                                                    @foreach ($dataSulinggih as $data)
-                                                        <option value="{{$data->id}}" >{{$data->nama_sulinggih}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('id_pasangan')
-                                                    <div class="invalid-feedback text-start">
-                                                        {{$errors->first('id_pasangan') }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        @if (old('nama_pasangan') != null)
-                                            <div class="form-group col-6 rowPasangan">
-                                                <label>Nama Pasangan <span class="text-danger">*</span></label>
-                                                <div class="input-group">
-                                                    <input type="text" name="nama_pasangan" autocomplete="off" class="form-control" placeholder="Masukan Nama Pasangan Sulinggih" value="{{old('nama_pasangan')}}">
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="row" id="rowNabe">
-                                        <div class="form-group  @if (old('nama_nabe') != null) col-6 @else col-12 @endif" id="formNabe">
-                                            <label>Nabe <span class="text-danger">*</span></label>
-                                            <div class="input-group">
-                                                <select name="id_nabe" id="nabe" class="select2bs4 nabe @error('id_nabe') is-invalid @enderror" style="width: 100%;" value="{{old('id_nabe')}}">
-                                                    <option value="0" disabled selected>Pilih Nabe</option>
-                                                    <option @if (old('nama_nabe') != null) selected @endif value="">Pilih Nabe Lainnya..</option>
-                                                    @foreach ($dataSulinggih as $data)
-                                                        <option value="{{$data->id}}" >{{$data->nama_sulinggih}}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('id_nabe')
-                                                    <div class="invalid-feedback text-start">
-                                                        {{$errors->first('id_nabe') }}
-                                                    </div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        @if (old('nama_nabe') != null)
-                                            <div class="form-group col-6 rowNabe">
-                                                <label>Nama Nabe <span class="text-danger">*</span></label>
-                                                <div class="input-group">
-                                                    <input type="text" name="nama_nabe" autocomplete="off" class="form-control" placeholder="Masukan Nama Nabe" value="{{old('nama_nabe')}}">
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-
                                     <div class="form-group">
-                                        <label>Tanggal Diksa <span class="text-danger">*</span></label>
-                                        <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="far fa-calendar-alt"></i>
-                                                </span>
-                                            </div>
-                                            <input name="tanggal_diksha" id="demo" type='text' class='form-control float-right' value="{{old('tanggal_diksha')}}">
-                                            @error('tanggal_diksha')
+                                        <label>Nama Sanggar <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" id="nama_sanggar" name="nama_sanggar" autocomplete="off" class="form-control @error('nama_sanggar') is-invalid @enderror" value="{{ old('nama_sanggar') }}" placeholder="Masukan Nama Sanggar">
+                                            @error('nama_sanggar')
                                                 <div class="invalid-feedback text-start">
-                                                    {{ $errors->first('tanggal_diksha') }}
+                                                    {{$errors->first('nama_sanggar') }}
                                                 </div>
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Lampiran SK Kesulinggihan <span class="text-danger">*</span></label>
+                                        <label>Lampiran SK Tanda Usaha <span class="text-danger">*</span></label>
                                         <div class="input-group mb-2">
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input @error('file') is-invalid @enderror" name="file" id="customFile" value="{{old('file')}}">
-                                                <label class="custom-file-label " for="customFile">@if (old('file')!= null) {{old('file')}} @endif Foto SK Kesulinggihan</label>
+                                                <label class="custom-file-label " for="customFile">@if (old('file')!= null) {{old('file')}} @endif Foto SK Tanda Usaha</label>
                                             </div>
                                         </div>
                                         @error('file')
@@ -279,119 +191,24 @@
                                             </div>
                                         @enderror
                                     </div>
-                                    <div class="form-group">
-                                        <label>Lokasi Griya <span class="text-danger">*</span></label>
+                                    <div class="form-group"><label>Pemetaan Lokasi Griya <span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <select name="id_griya" id="lokasi_griya" class="select2bs4 lokasi_griya @error('id_griya') is-invalid @enderror" style="width: 100%;" value="{{old('id_griya')}}">
-                                                <option value="0" disabled selected>Pilih Lokasi Griya</option>
-                                                <option value="">Input Lokasi Griya Lainnya..</option>
-                                                @foreach ($dataGriya as $data)
-                                                    <option value="{{$data->id}}" >{{$data->nama_griya_rumah}}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('id_griya')
-                                                <div class="invalid-feedback text-start">
-                                                    {{$errors->first('id_griya') }}
-                                                </div>
-                                            @enderror
+                                            <input readonly="readonly" type="text" id="lat" name="lat" autocomplete="off" class="form-control col-6 @error('lat') is-invalid @enderror" value="{{ old('lat') }}" placeholder="Latitude">
+                                            <input readonly="readonly" type="text" id="lng" name="lng" autocomplete="off" class="form-control col-6 @error('lng') is-invalid @enderror" value="{{ old('lng') }}" placeholder="Longtitude">
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" id="modalMap" data-target="#modal-xl"><i class="fa fa-map-marked"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <div id="formGriya"  @if (old('nama_griya') != null) class="" @else class="d-none"  @endif >
-                                        <div class="card-header"></div>
-                                        <div class="card-body px-0">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Nama Griya <span class="text-danger">*</span></label>
-                                                        <div class="input-group">
-                                                            <input type="text" id="nama_griya" name="nama_griya" autocomplete="off" class="form-control @error('nama_griya') is-invalid @enderror" value="{{ old('nama_griya') }}" placeholder="Masukan Nama Griya">
-                                                            @error('nama_griya')
-                                                                <div class="invalid-feedback text-start">{{$errors->first('nama_griya') }}</div>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Alamat Lengkap Griya <span class="text-danger">*</span></label>
-                                                        <div class="input-group">
-                                                            <input type="text" id="alamat_griya" name="alamat_griya" autocomplete="off" class="form-control @error('alamat_griya') is-invalid @enderror" value="{{ old('alamat_griya') }}" placeholder="Masukan Alamat Lengkap Griya">
-                                                            @error('alamat_griya')
-                                                                <div class="invalid-feedback text-start">{{$errors->first('alamat_griya') }} </div>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    <div class="form-group">
+                                        <label>Alamat Lengkap Sanggar <span class="text-danger">*</span></label>
+                                        <textarea name="alamat_sanggar" id="alamat_sanggar" class="form-control  @error('alamat_sanggar') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya" value="{{ old('alamat_sanggar') }}" >{{old('alamat_sanggar')}}</textarea>
+                                        @error('alamat_sanggar')
+                                            <div class="invalid-feedback text-start">
+                                                {{$errors->first('alamat_sanggar') }}
                                             </div>
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Kabupaten/Kota <span class="text-danger">*</span></label>
-                                                        <select name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
-                                                            <option value="0" disabled selected>Pilih Kabupaten</option>
-                                                            @foreach ($dataKabupaten as $data)
-                                                                <option value="{{$data->id}}">{{$data->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        @error('kabupaten')
-                                                        <div class="invalid-feedback text-start">{{$errors->first('kabupaten') }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group"><label>Kecamatan <span class="text-danger">*</span></label>
-                                                        <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
-                                                            <option value="0" disabled selected>Pilih Kecamatan</option>
-                                                        </select>
-                                                        <p class="m-1 text-xs">(Pilih Kabupaten terlebih dahulu)</p>
-                                                        @error('kecamatan')
-                                                            <div class="invalid-feedback text-start">{{$errors->first('kecamatan') }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Desa Dinas<span class="text-danger">*</span></label>
-                                                        <select id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
-                                                            <option value="0" disabled selected>Pilih Desa Dinas</option>
-                                                        </select>
-                                                        <p class="m-1 text-xs">(Pilih Kecamatan terlebih dahulu)</p>
-                                                        @error('id_desa')
-                                                            <div class="invalid-feedback text-start">{{$errors->first('id_desa') }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="form-group">
-                                                        <label>Banjar Dinas <span class="text-danger">*</span></label>
-                                                        <select id="id_banjar_dinas" name="id_banjar_dinas" class="form-control select2bs4 @error('id_banjar_dinas') is-invalid @enderror" style="width: 100%;">
-                                                            <option value="0" disabled selected>Pilih Banjar Dinas</option>
-                                                        </select>
-                                                        <p class="m-1 text-xs">(Pilih Desa Dinas terlebih dahulu)</p>
-                                                        @error('id_banjar_dinas')
-                                                            <div class="invalid-feedback text-start">{{$errors->first('id_banjar_dinas') }}</div>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="form-group"><label>Pemetaan Lokasi Griya <span class="text-danger">*</span></label>
-                                                        <div class="input-group">
-                                                            <input readonly="readonly" type="text" id="lat" name="lat" autocomplete="off" class="form-control col-6 @error('lat') is-invalid @enderror" value="{{ old('lat') }}" placeholder="Latitude">
-                                                            <input readonly="readonly" type="text" id="lng" name="lng" autocomplete="off" class="form-control col-6 @error('lng') is-invalid @enderror" value="{{ old('lng') }}" placeholder="Longtitude">
-                                                            <div class="input-group-append">
-                                                                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" id="modalMap" data-target="#modal-xl"><i class="fa fa-map-marked"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group mb-0">
@@ -469,17 +286,6 @@
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
-
-        $('#demo').daterangepicker({
-            "singleDatePicker": true,
-            "drops": "up",
-            "minDate": "01 January 1800",
-            "maxDate": moment(Date ()).format('DD MMMM YYYY'),
-            locale: {
-                format: 'DD MMMM YYYY',
-            },
-        });
-
     </script>
 
 @endpush
@@ -534,43 +340,6 @@
 {{-- SET UP FORM INPUT REGISTER --}}
 @push('js')
     <script>
-          $("#pasangan").on('change',function(){
-            var value = $(this).val();
-            console.log(pasangan)
-            if(value == null || value == ""){
-                $('.rowPasangan').remove();
-                $("#formPasangan").removeClass('col-12').addClass('col-6');
-                $("#rowPasangan").append('<div class="form-group col-6 rowPasangan"><label>Nama Pasangan <span class="text-danger">*</span></label><div class="input-group"> <input type="text" name="nama_pasangan" autocomplete="off" class="form-control" placeholder="Masukan Nama Pasangan Sulinggih"></div></div>');
-            }else{
-                $('.rowPasangan').remove();
-                $("#formPasangan").removeClass('col-6').addClass('col-12');
-            }
-        })
-
-        $("#nabe").on('change',function(){
-            var value = $(this).val();
-            console.log(pasangan)
-            if(value == null || value == ""){
-                $('.rowNabe').remove();
-                $("#formNabe").removeClass('col-12').addClass('col-6');
-                $("#rowNabe").append('<div class="form-group col-6 rowNabe"><label>Nama Nabe <span class="text-danger">*</span></label><div class="input-group"> <input type="text" name="nama_nabe" autocomplete="off" class="form-control" placeholder="Masukan Nama Nabe"></div></div>');
-            }else{
-                $('.rowNabe').remove();
-                $("#formNabe").removeClass('col-6').addClass('col-12');
-            }
-        })
-
-        $("#lokasi_griya").on('change',function(){
-            var value = $(this).val();
-            console.log(pasangan)
-            if(value == null || value == ""){
-                $("#formGriya").removeClass('d-none')
-            }else{
-                $("#formGriya").addClass('d-none');
-                $("#nama_griya").val();
-                $("#id_banjar_dinas").val();
-            }
-        })
 
         $(document).ready(function() {
             //--------------START Deklarasi awal seperti icon pembuatan map-------------//
@@ -682,6 +451,8 @@
 
         function step3(){
             var form = $("#formRegister");
+            stepper.next();
+
             if(form.valid()==true){
                 stepper.next();
                 $(".form-control").each(function () {
@@ -694,6 +465,8 @@
                 });
             }
         }
+
+
     </script>
 @endpush
 {{-- VALIDASI FORM INPUT --}}
