@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\admin\AdminDashboardController;
+use App\Http\Controllers\Api\admin\AdminDataAkunUserController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\krama\KramaDashboardController;
 use App\Http\Controllers\api\krama\KramaPemuputKaryaController;
@@ -117,6 +118,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('admin')->middleware(['ability:role:admin'])->group(function () {
         // HOME FRAGMENT
         Route::get('dashboard', [AdminDashboardController::class, 'index']);
+        // END
+
+        // DATA AKUN USER
+        Route::get('dataakunuser/{status?}', [AdminDataAkunUserController::class, 'index']);
         // END
     });
     // END
