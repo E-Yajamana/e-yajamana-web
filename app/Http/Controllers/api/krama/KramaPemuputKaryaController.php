@@ -56,7 +56,11 @@ class KramaPemuputKaryaController extends Controller
                                 'User' => function ($userQuery) {
                                     $userQuery->with([
                                         'Reservasi' => function ($reservasiQuery) {
-                                            $reservasiQuery->with(['DetailReservasi']);
+                                            $reservasiQuery->with([
+                                                'DetailReservasi' => function ($detailReservasiQuery) {
+                                                    $detailReservasiQuery->with('TahapanUpacara');
+                                                }
+                                            ]);
                                         }
                                     ]);
                                 }
@@ -78,7 +82,11 @@ class KramaPemuputKaryaController extends Controller
                             'User' => function ($userQuery) {
                                 $userQuery->with([
                                     'Reservasi' => function ($reservasiQuery) {
-                                        $reservasiQuery->with(['DetailReservasi']);
+                                        $reservasiQuery->with([
+                                            'DetailReservasi' => function ($detailReservasiQuery) {
+                                                $detailReservasiQuery->with('TahapanUpacara');
+                                            }
+                                        ]);
                                     }
                                 ]);
                             }
