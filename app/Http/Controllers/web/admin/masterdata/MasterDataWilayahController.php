@@ -26,10 +26,9 @@ class MasterDataWilayahController extends Controller
 
     public function indexDesaDinas(Request $request)
     {
-        $dataDesa = Kabupaten::where('provinsi_id',51)->with('Kecamatan')->get();
+        $dataDesa = Kabupaten::where('provinsi_id',51)->with('Kecamatan.DesaDinas')->get();
         return view('pages.admin.master-data.wilayah.desa',compact('dataDesa'));
     }
-
 
     public function indexDesaAdat(Request $request)
     {

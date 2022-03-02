@@ -30,7 +30,13 @@ class DateRangeHelper
     public static function parseSingleDate($date)
     {
         $startDate = Carbon::createFromFormat('d M Y g:i A', $date)->format('Y-m-d H:i:s');
-        return $date;
+        return $startDate;
+    }
+
+    public static function defaultSingleDate($date)
+    {
+        $result = Carbon::createFromFormat('d M Y', $date);
+        return $result;
     }
 
 }

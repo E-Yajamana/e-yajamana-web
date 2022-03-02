@@ -115,7 +115,7 @@
                             dataDetailArray.title = "Muput Upacara "+dataDetailReservasi.tahapan_upacara.nama_tahapan,
                             dataDetailArray.start = new Date (dataDetailReservasi.tanggal_mulai),
                             dataDetailArray.end = new Date (dataDetailReservasi.tanggal_selesai),
-                            dataDetailArray.allDay = true
+                            dataDetailArray.allDay = false
                             evetArray.push({...dataDetailArray});
                         })
                     });

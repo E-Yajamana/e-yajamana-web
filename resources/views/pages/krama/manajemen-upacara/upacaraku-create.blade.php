@@ -461,6 +461,8 @@
     <script src="{{asset('base-template/plugins/inputmask/jquery.inputmask.min.js')}}"></script>
     <!-- date-range-picker -->
     <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <!-- daterangepicker -->
+    <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
     <!-- Bootstrap Switch -->
@@ -474,8 +476,6 @@
     <script src="{{asset('base-template/plugins/dropzone/min/dropzone.min.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{asset('base-template/dist/js/demo.js')}}"></script>
-    <!-- date-range-picker -->
-    <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <!-- ajax-get-wilayah -->
     <script src="{{asset('base-template/dist/js/pages/ajax-get-wilayah.js')}}"></script>
 
@@ -486,7 +486,12 @@
             $('#side-tambah-upacara').addClass('active');
         });
 
+        console.log(moment(Date ()).add(1, 'M').format('DD MMMM YYYY'))
+
         $('#daterange').daterangepicker({
+            // dateLimit: { days: 7 },
+            "minDate": moment(Date ()).add(1, 'M').format('DD MMMM YYYY'),
+            "maxDate": moment(Date ()).add(1, 'Y').format('DD MMMM YYYY'),
             locale: {
                 format: 'DD MMMM YYYY',
             },

@@ -532,8 +532,7 @@
                 dataType: "json",
                 success:function(response)
                 {
-                    // console.log(response)
-                    if(response.data){
+                    if(response.data.length != 0){
                         $('#timeline').empty();
                         $.each(response.data, function(key, data){
                             let tanggal;
@@ -548,6 +547,9 @@
 
                             );
                         });
+                    }else{
+                        $('#timeline').empty();
+                        $('#timeline').append("<div><i class='fas fa-calendar-plus bg-green'></i><div class='timeline-item'><h3 class='timeline-header no-border'><a href='#'>"+dataReservasi.upacaraku.krama.user.penduduk.nama+"</a> Membuat Upacara <p class='m-0 mt-1'>"+moment(dataReservasi.upacaraku.created_at).format('DD MMMM YYYY hh:mm A')+"</p></h3></div></div><div><i class='fas fa-clock bg-gray'></i></div>");
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {

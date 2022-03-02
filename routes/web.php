@@ -52,11 +52,18 @@ Route::prefix('auth')->group(function () {
         Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
         Route::get('{akun}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
 
-        Route::post('krama', [RegisterController::class, 'storeRegisKrama'])->name('auth.register.akun.krama.store');
-        Route::post('serati', [RegisterController::class, 'storeRegisSerati'])->name('auth.register.akun.serati.store');
-        Route::post('sanggar', [RegisterController::class, 'storeRegisSanngar'])->name('auth.register.akun.sanggar.store');
-        Route::post('sulinggih', [RegisterController::class, 'storeRegisSulinggih'])->name('auth.register.akun.sulinggih.store');
-        Route::post('pemangku', [RegisterController::class, 'storeRegisPemangku'])->name('auth.register.akun.pemangku.store');
+        // Route::post('krama', [RegisterController::class, 'storeRegisKrama'])->name('auth.register.akun.krama.store');
+        // Route::post('serati', [RegisterController::class, 'storeRegisSerati'])->name('auth.register.akun.serati.store');
+        // Route::post('sanggar', [RegisterController::class, 'storeRegisSanngar'])->name('auth.register.akun.sanggar.store');
+        // Route::post('sulinggih', [RegisterController::class, 'storeRegisSulinggih'])->name('auth.register.akun.sulinggih.store');
+        // Route::post('pemangku', [RegisterController::class, 'storeRegisPemangku'])->name('auth.register.akun.pemangku.store');
+
+
+        Route::post('new/sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
+        Route::post('new/sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
+        Route::post('new/pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
+        Route::post('new/krama', [RegisterController::class, 'storeNewRegisKrama'])->name('auth.register.akun.krama.store');
+
     });
 
     Route::get('lupa-password', [AuthController::class, 'lupaPasswordLanding'])->name('auth.lupa-password.lading');
@@ -227,6 +234,9 @@ Route::prefix('ajax')->group(function () {
     Route::get('kecamatan/{id}', [LocationController::class, 'getKecamatan']);
     Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);
     Route::get('banjar-dinas/{id?}', [LocationController::class, 'getBanjarDinas'])->name('ajax.get-banjar-dinas');
+
+    Route::get('get/penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
+
 
 });
 

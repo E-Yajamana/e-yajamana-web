@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use DateTimeInterface;
+use stdClass;
+
 /**
  * Class TbSulinggih
  *
@@ -59,15 +61,12 @@ class Sulinggih extends Model
 	protected $fillable = [
 		'id_griya',
 		'id_user',
-		'nabe',
+		'id_nabe',
+		'id_pasangan',
 		'nama_walaka',
 		'nama_sulinggih',
 		'nama_pasangan',
-		'tempat_lahir',
-		'tanggal_lahir',
-		'jenis_kelamin',
-		'pekerjaan',
-		'pendidikan',
+		'nama_nabe',
 		'tanggal_diksha',
 		'status',
 		'sk_kesulinggihan',
@@ -98,7 +97,12 @@ class Sulinggih extends Model
 
 	public function Nabe()
 	{
-		return $this->belongsTo(Sulinggih::class, 'nabe');
+		return $this->belongsTo(Sulinggih::class, 'id_nabe');
+	}
+
+    public function Pasangan()
+	{
+		return $this->belongsTo(Sulinggih::class, 'id_pasangan');
 	}
 
 	public function Reservasi()
@@ -110,5 +114,27 @@ class Sulinggih extends Model
 	{
 		return $this->hasMany(KeteranganKonfirmasi::class, 'id_sulinggih');
 	}
+
+
+    public function getNabeAndPasangan()
+    {
+        $dataObj = new stdClass;
+
+        if($this->id_nabe != null){
+            $relasi = $this->belongsTo(Sulinggih::class, 'id_nabe')->first();
+            $dataObj->nama_nabe = $relasi->nama_sulinggih;
+        }else{
+            $dataObj->nama_nabe = $this->nama_nabe;
+        }
+
+        if($this->id_pasangan != null){
+            $relasi = $this->belongsTo(Sulinggih::class, 'id_pasangan')->first();
+            $dataObj->nama_pasangan = $relasi->nama_walaka;
+        }else{
+            $dataObj->nama_pasangan = $this->nama_pasangan;
+        }
+
+        return $dataObj;
+    }
 
 }

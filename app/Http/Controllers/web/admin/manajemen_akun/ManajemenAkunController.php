@@ -136,13 +136,15 @@ class ManajemenAkunController extends Controller
 
         // MAIN LOGIC
             try{
-                $dataSulinggih = Sulinggih::where('status_konfirmasi_akun','pending')->with(['User','GriyaRumah','Nabe'])->findOrFail($request->id);
+                $dataSulinggih = Sulinggih::where('status_konfirmasi_akun','pending')->with(['User.Penduduk'=>function($query){
+                    $query->with(['Profesi','Pendidikan'])->whereHas('Profesi')->whereHas('Pendidikan');
+                },'GriyaRumah.BanjarDinas.DesaDinas.Kecamatan.Kabupaten','Nabe','Pasangan'])->findOrFail($request->id);
             }catch(ModelNotFoundException | Exception $err){
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Data Peminjam Tidak Ditemukan',
-                    'message' => 'Data Peminjam tidak ditemukan di dalam sistem',
+                    'title' => 'Data Sulinggih Tidak Ditemukan',
+                    'message' => 'Data Sulinggih tidak ditemukan di dalam sistem',
                 ]);
             }
         // END
@@ -153,7 +155,6 @@ class ManajemenAkunController extends Controller
 
     }
     // DETAIL DATA VERIFIKASI AKUN PEMUPUT KARYA (SULINGGIHN DAN PEMANGKU)
-
 
 
     // UPDATE TERIMA VERIFIKASI DATA SANGGAR

@@ -117,7 +117,7 @@
                                                     <i class="far fa-calendar-alt"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control float-right" id="reservation" disabled value="{{date('d-M-Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d-M-Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}">
+                                            <input type="text" class="form-control float-right" id="reservation" disabled value="{{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}">
                                         </div>
                                     </div>
                                 </div>
@@ -174,8 +174,8 @@
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$data->TahapanUpacara->nama_tahapan}}</td>
-                                                    <td>{{date('d-M-Y : h:i',strtotime($data->tanggal_mulai))}}</td>
-                                                    <td>{{date('d-M-Y : h:i',strtotime($data->tanggal_selesai))}}</td>
+                                                    <td>{{date('d F Y : h:i',strtotime($data->tanggal_mulai))}}</td>
+                                                    <td>{{date('d F Y : h:i',strtotime($data->tanggal_selesai))}}</td>
                                                     <td>
                                                         <div class="form-group">
                                                             <select name="status[]" class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true" id="status">
