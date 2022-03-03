@@ -63,7 +63,7 @@ Route::prefix('auth')->group(function () {
         Route::post('new/sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
         Route::post('new/pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
         Route::post('new/krama', [RegisterController::class, 'storeNewRegisKrama'])->name('auth.register.akun.krama.store');
-        Route::post('new/serati', [RegisterController::class, 'storeNewRegisSerati'])->name('auth.register.akun.serati.store');
+        Route::post('new/serati', [RegisterController::class, 'storeNewRegisSerati'])->name(' ');
 
     });
 

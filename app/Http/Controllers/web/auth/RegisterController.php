@@ -69,7 +69,7 @@ class RegisterController extends Controller
             }elseif($request->akun == 'serati'){
                 return view('pages.auth.register-new.register-serati');
             }elseif($request->akun == 'pemangku'){
-                $dataKabupaten = Kabupaten::all();
+                $dataKabupaten = Kabupaten::whereProvinsiId(51)->get();
                 $dataGriya = GriyaRumah::all();
                 return view('pages.auth.register-new.register-pemangku',compact(['dataKabupaten','dataGriya']));
             }else{
@@ -615,6 +615,7 @@ class RegisterController extends Controller
                     'id_griya' => $request->lokasi_griya,
                     'jenis_kelamin' => $request->jenis_kelamin,
                     'tempat_lahir' => $request->tempat_lahir,
+                    'status' => 'pemangku',
                     'tanggal_lahir' => $request->tanggal_lahir,
                     'status_konfirmasi_akun' => 'pending',
                 ]);
