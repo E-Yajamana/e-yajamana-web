@@ -6,6 +6,7 @@ use App\Http\Controllers\api\location\LocationController;
 use App\Http\Controllers\KramaController;
 use App\Http\Controllers\SulinggihController;
 use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
+use App\Http\Controllers\web\admin\manajemen_akun\DataAkunController;
 use App\Http\Controllers\web\admin\manajemen_akun\ManajemenAkunController;
 use App\Http\Controllers\web\admin\masterData\MasteDataGriyaController;
 use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
@@ -58,11 +59,11 @@ Route::prefix('auth')->group(function () {
         // Route::post('sulinggih', [RegisterController::class, 'storeRegisSulinggih'])->name('auth.register.akun.sulinggih.store');
         // Route::post('pemangku', [RegisterController::class, 'storeRegisPemangku'])->name('auth.register.akun.pemangku.store');
 
-
         Route::post('new/sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
         Route::post('new/sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
         Route::post('new/pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
         Route::post('new/krama', [RegisterController::class, 'storeNewRegisKrama'])->name('auth.register.akun.krama.store');
+        Route::post('new/serati', [RegisterController::class, 'storeNewRegisSerati'])->name('auth.register.akun.serati.store');
 
     });
 
@@ -139,11 +140,9 @@ Route::group(['prefix'=>'admin','middleware'=>'cek:admin'], function () {
 
         // DATA AKUN USER
         Route::prefix('data-akun')->group(function () {
-            Route::get('index', [ManajemenAkunController::class, 'dataAkunIndex'])->name('admin.manajemen-akun.data-akun.index');
-            Route::get('data-akun/detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.data-akun.detail');
+            Route::get('index', [DataAkunController::class, 'index'])->name('admin.manajemen-akun.data-akun.index');
+            Route::get('detail/{id?}', [DataAkunController::class, 'detail'])->name('admin.manajemen-akun.data-akun.detail');
 
-            Route::get('data-akun', [AdminController::class, 'dataAkunShow'])->name('admin.data-akun.show');
-            Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
         });
         // DATA AKUN USER
     });

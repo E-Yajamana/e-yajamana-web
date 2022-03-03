@@ -284,17 +284,5 @@ class ManajemenAkunController extends Controller
      // DETAIL DATA VERIFIKASI AKUN PEMUPUT KARYA (SULINGGIHN DAN PEMANGKU)
 
 
-    public function dataAkunIndex(Request $request)
-    {
-        return view('pages.admin.manajemen-akun.data-akun.data-akun-index');
-    }
-
-    public function dataAkunDetail(Request $request)
-    {
-        return view('pages.admin.manajemen-akun.data-akun.data-akun-detail');
-    }
-
-
-
 
 }

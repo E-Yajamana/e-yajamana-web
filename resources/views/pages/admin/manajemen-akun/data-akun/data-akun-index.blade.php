@@ -106,7 +106,7 @@
                                                     <td>Griya Kerebokan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -117,7 +117,7 @@
                                                     <td>Griya Pemecutan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -128,7 +128,7 @@
                                                     <td>Griya Pemecutan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -161,7 +161,7 @@
                                                     <td>Griya Kerebokan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -172,7 +172,7 @@
                                                     <td>Griya Pemecutan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -183,7 +183,7 @@
                                                     <td>Griya Pemecutan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -216,7 +216,7 @@
                                                     <td>Griya Kerebokan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -227,7 +227,7 @@
                                                     <td>Griya Pemecutan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -238,7 +238,7 @@
                                                     <td>Griya Pemecutan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -271,7 +271,7 @@
                                                     <td>Griya Kerebokan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -282,7 +282,7 @@
                                                     <td>Griya Pemecutan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -293,7 +293,7 @@
                                                     <td>Griya Pemecutan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -326,7 +326,7 @@
                                                     <td>081462756246</td>
                                                     <td>Griya Kerebokan</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -337,7 +337,7 @@
                                                     <td>Griya Pemecutan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>
@@ -348,7 +348,7 @@
                                                     <td>Griya Pemecutan</td>
                                                     <td>081462756246</td>
                                                     <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                         <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                     </td>

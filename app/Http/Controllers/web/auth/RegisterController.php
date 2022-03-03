@@ -67,9 +67,7 @@ class RegisterController extends Controller
             }elseif($request->akun == 'sanggar'){
                 return view('pages.auth.register-new.register-sanggar');
             }elseif($request->akun == 'serati'){
-                $dataKabupaten = Kabupaten::all();
-                $dataDesaAdat = DesaAdat::all();
-                return view('pages.auth.register.register-serati',compact(['dataKabupaten','dataDesaAdat']));
+                return view('pages.auth.register-new.register-serati');
             }elseif($request->akun == 'pemangku'){
                 $dataKabupaten = Kabupaten::all();
                 $dataGriya = GriyaRumah::all();
@@ -988,7 +986,7 @@ class RegisterController extends Controller
     }
     // KRAMA STORE AKUN NEW INTEGERATION
 
-
+    // PEMANGKU STORE AKUN NEW INTEGERATION
     public function storeNewRegisPemangku(Request $request)
     {
         // SECURITY
@@ -1122,6 +1120,90 @@ class RegisterController extends Controller
             ]);
         // END LOGIC
     }
+    // PEMANGKU STORE AKUN NEW INTEGERATION
+
+    // SERATI STORE AKUN NEW INTEGERATION
+    public function storeNewRegisSerati(Request $request)
+    {
+         // SECURITY
+            $validator = Validator::make($request->all(),[
+                'id_penduduk' => 'required|exists:tb_penduduk,id',
+                'email' => 'required|email|unique:tb_user_eyajamana,email|min:5|max:100',
+                'password' => 'required|confirmed',
+                'nomor_telepon' => 'unique:tb_user_eyajamana,nomor_telepon|numeric|digits_between:11,15',
+                'lat' => 'required|numeric|regex:/^[0-9.-]+$/i',
+                'lng' => 'required|numeric|regex:/^[0-9.-]+$/i',
+            ],
+            [
+                'id_penduduk.required' => "ID Penduduk wajib diisi",
+                'id_penduduk.exists' => "ID penduduk tidak sesuai",
+                'email.required' => "Email wajib diisi",
+                'email.regex' => "Format Email tidak sesuai",
+                'email.unique' => "Email sudah pernah dibuat sebelumnya",
+                'email.min' => "Email minimal berjumlah 5 karakter",
+                'email.max' => "Email maksimal berjumlah 100 karakter",
+                'password.required' => "Password wajib diisi",
+                'password.confirmed' => "Password yang anda masukan tidak sesuai",
+                'nomor_telepon.required' => "Nomor Telepon wajib diisi",
+                'nomor_telepon.unique' => "Nomor Telepon sudah pernah dibuat sebelumnya",
+                'nomor_telepon.numeric' => "Nomor Telepon harus berupa angka",
+                'nomor_telepon.digits_between' => "Nomor Telepon disii dengan 11 sampai dengan 15 angka",
+                'lat.required' => "Latitude griya wajib diisi",
+                'lat.numeric' => "Latitude harus berupa angka",
+                'lat.regex' => "Format koordinat Latitude griya tidak sesuai",
+                'lng.required' => "Longitude griya wajib diisi",
+                'lng.numeric' => "Longitude harus berupa angka",
+                'lng.regex' => "Format koordinat Longitude griya tidak sesuai",
+            ]);
+
+            if($validator->fails()){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Registrasi',
+                    'message' => 'Gagal melakukan registrasi akun, silakan periksa kembali form input anda!'
+                ])->withInput($request->all())->withErrors($validator->errors());
+            }
+        // END SECURITY
+
+        // MAIN LOGIC
+            try{
+                DB::beginTransaction();
+                User::create([
+                    'id_penduduk' => $request->id_penduduk,
+                    'email'=> $request->email,
+                    'password'=> Hash::make($request->password),
+                    'nomor_telepon'=> $request->nomor_telepon,
+                    'user_profile'=> 'app/default/profile/user.jpg',
+                    'role'=> 'krama_bali',
+                ])->Serati()->create([
+                    'status_konfirmasi_akun'=> 'pending' ,
+                    'lat'=> $request->lat ,
+                    'lng'=> $request->lng ,
+                ]);
+                DB::commit();
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
+                DB::rollBack();
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Menambahkan Data Akun Sanggar',
+                    'message' => 'Gagal menambahkan data akun Sanggar, apabila diperlukan mohon hubungi developer sistem`',
+                ]);
+            }
+        //END MAIN LOGIC
+
+        //  RETURN
+            return redirect()->route('auth.login')->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Berhasil Membuat Akun Serati',
+                'message' => 'Berhasil membuat akun Serati, mohon tunggu proses email verifikasi telebih dahulu untuk menggunakan akun',
+            ]);
+        // END LOGIC
+    }
+    // SERATI STORE AKUN NEW INTEGERATION
+
 
 
 }
