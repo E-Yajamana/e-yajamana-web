@@ -22,8 +22,29 @@ class DataAkunController extends Controller
         return view('pages.admin.manajemen-akun.data-akun.data-akun-index',compact('dataKrama','dataSanggar','dataSerati','dataPemangku','dataSulinggih'));
     }
 
-    public function dataAkunDetail(Request $request)
+    public function detailPemuputKarya(Request $request)
     {
-        return view('pages.admin.manajemen-akun.data-akun.data-akun-detail');
+        $dataSulinggih = Sulinggih::with(['User.Penduduk','GriyaRumah.BanjarDinas.DesaDinas.Kecamatan.Kabupaten'])->findOrFail($request->id);
+        return view('pages.admin.manajemen-akun.data-akun.data-akun-pemuput-karya-detail',compact('dataSulinggih'));
     }
+
+    public function detailSanggar(Request $request)
+    {
+        $dataSanggar = Sanggar::with(['User.Penduduk'])->findOrFail($request->id);
+        return view('pages.admin.manajemen-akun.data-akun.data-akun-sanggar-detail',compact('dataSanggar'));
+    }
+
+    public function detailSerati(Request $request)
+    {
+        $dataSerati = Serati::with(['User.Penduduk'])->findOrFail($request->id);
+        return view('pages.admin.manajemen-akun.data-akun.data-akun-serati-detail',compact('dataSerati'));
+    }
+
+    public function detailKrama(Request $request)
+    {
+        $dataKrama = Krama::with(['User.Penduduk'])->findOrFail($request->id);
+        return view('pages.admin.manajemen-akun.data-akun.data-akun-krama-detail',compact('dataKrama'));
+    }
+
+
 }

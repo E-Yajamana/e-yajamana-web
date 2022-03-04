@@ -58,7 +58,7 @@ class ManajemenAkunController extends Controller
         // END MAIN LOGIC & RETURN
 
         // RETRUN
-            return redirect()->route('admin.manajemen-akun.verifikasi.index')->with([
+            return redirect()->back()->with([
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Data Sulinggih Berhasil Diperbarui',
@@ -105,7 +105,7 @@ class ManajemenAkunController extends Controller
         // END MAIN LOGIC & RETURN
 
         // RETRUN
-            return redirect()->route('admin.manajemen-akun.verifikasi.index')->with([
+            return redirect()->back()->with([
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Data Akun Sulinggih Berhasil Diperbarui',
@@ -189,7 +189,7 @@ class ManajemenAkunController extends Controller
         // END MAIN LOGIC & RETURN
 
         // RETRUN
-            return redirect()->route('admin.manajemen-akun.verifikasi.index')->with([
+            return redirect()->back()->with([
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Data Akun Sanggar Berhasil Diperbarui',
@@ -221,7 +221,7 @@ class ManajemenAkunController extends Controller
         // MAIN LOGIC & RETURN
             try{
                 Sanggar::findOrFail($request->id)->update([
-                    'status_konfirmasi'=>'ditolak',
+                    'status_konfirmasi_akun'=>'ditolak',
                     'keterangan_konfirmasi_akun'=> $request->text_penolakan
                 ]);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
@@ -235,7 +235,7 @@ class ManajemenAkunController extends Controller
         // END MAIN LOGIC & RETURN
 
         // RETRUN
-            return redirect()->route('admin.manajemen-akun.verifikasi.index')->with([
+            return redirect()->back()->with([
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Data Akun Sanggar Berhasil Diperbarui',

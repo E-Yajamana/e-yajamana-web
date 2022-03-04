@@ -141,7 +141,10 @@ Route::group(['prefix'=>'admin','middleware'=>'cek:admin'], function () {
         // DATA AKUN USER
         Route::prefix('data-akun')->group(function () {
             Route::get('index', [DataAkunController::class, 'index'])->name('admin.manajemen-akun.data-akun.index');
-            Route::get('detail/{id?}', [DataAkunController::class, 'detail'])->name('admin.manajemen-akun.data-akun.detail');
+            Route::get('detail/krama/{id?}', [DataAkunController::class, 'detailKrama'])->name('admin.manajemen-akun.data-akun.krama.detail');
+            Route::get('detail/serati/{id?}', [DataAkunController::class, 'detailSerati'])->name('admin.manajemen-akun.data-akun.serati.detail');
+            Route::get('detail/sanggar/{id?}', [DataAkunController::class, 'detailSanggar'])->name('admin.manajemen-akun.data-akun.sanggar.detail');
+            Route::get('detail/pemuput-karya/{id?}', [DataAkunController::class, 'detailPemuputKarya'])->name('admin.manajemen-akun.data-akun.pemuput-karya.detail');
 
         });
         // DATA AKUN USER

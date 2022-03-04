@@ -1090,12 +1090,12 @@ class RegisterController extends Controller
                         'lng'=> $request->lng,
                     ])->Sulinggih()->create([
                         'id_user' => $user->id,
-                        'nama_sulinggih' => $request->nama_sulinggih,
+                        'nama_walaka' => $request->nama_sulinggih,
                         'status_konfirmasi_akun' => 'pending',
                     ]);
                 }else{
                     $user->Sulinggih()->create([
-                        'nama_sulinggih' => $request->nama_sulinggih,
+                        'nama_walaka' => $request->nama_sulinggih,
                         'status_konfirmasi_akun' => 'pending',
                     ]);
                 }
