@@ -24,7 +24,6 @@ Route::post('request/email/token', [AuthController::class, 'lupaPassword']);
 Route::post('check/email/token', [AuthController::class, 'checkToken']);
 Route::post('create/new/password', [AuthController::class, 'createNewPassword']);
 // END
-// END
 
 // SACTUM MIDDLEWARE
 Route::middleware('auth:sanctum')->group(function () {

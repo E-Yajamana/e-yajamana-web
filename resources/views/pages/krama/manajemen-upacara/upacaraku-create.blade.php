@@ -2,7 +2,6 @@
 @section('tittle','Data Upacaraku')
 
 @push('css')
-
     <!-- daterange picker -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/daterangepicker/daterangepicker.css')}}">
     <!-- Tempusdominus Bootstrap 4 -->

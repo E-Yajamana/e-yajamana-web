@@ -108,15 +108,35 @@ class AuthController extends Controller
     // LOGOUT SESSION
 
     // LUPA PASSWORD INDEX
-    public function lupaPasswordLanding(Request $request)
+    public function index(Request $request)
     {
-        return view('pages.auth.lupa-password.landing');
+        return view('pages.auth.lupa-password.reset-password');
     }
     // LUPA PASSWORD INDEX
 
     // VERIFY OTP
     public function verifyOTP(Request $request)
     {
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'email' => 'required|email|exists:tb_user_eyajamana,email',
+            ],
+            [
+                'email.required' => "Email tidak boleh kosong",
+                'email.email' => "Masukan email yang sesuai",
+                'email.exists' => "Email tidak sesuai dengan database sistem",
+            ]);
+
+            if($validator->fails()){
+                return redirect()->back()->withErrors($validator->errors())->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Login',
+                    'message' => 'Gagal melakukan login ke dalam sistem, validation input form gagal'
+                ])->withInput($request->all());
+            }
+        // END SECURITY
+
         return view('pages.auth.lupa-password.verify-otp');
     }
     // VERIFY OTP

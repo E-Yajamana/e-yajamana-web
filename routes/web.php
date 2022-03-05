@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AjaxWilayahDropdown;
+use App\Http\Controllers\api\AuthController as ApiAuthController;
 use App\Http\Controllers\api\location\LocationController;
 use App\Http\Controllers\KramaController;
 use App\Http\Controllers\SulinggihController;
@@ -53,12 +54,6 @@ Route::prefix('auth')->group(function () {
         Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
         Route::get('{akun}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
 
-        // Route::post('krama', [RegisterController::class, 'storeRegisKrama'])->name('auth.register.akun.krama.store');
-        // Route::post('serati', [RegisterController::class, 'storeRegisSerati'])->name('auth.register.akun.serati.store');
-        // Route::post('sanggar', [RegisterController::class, 'storeRegisSanngar'])->name('auth.register.akun.sanggar.store');
-        // Route::post('sulinggih', [RegisterController::class, 'storeRegisSulinggih'])->name('auth.register.akun.sulinggih.store');
-        // Route::post('pemangku', [RegisterController::class, 'storeRegisPemangku'])->name('auth.register.akun.pemangku.store');
-
         Route::post('new/sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
         Route::post('new/sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
         Route::post('new/pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
@@ -67,9 +62,13 @@ Route::prefix('auth')->group(function () {
 
     });
 
-    Route::get('lupa-password', [AuthController::class, 'lupaPasswordLanding'])->name('auth.lupa-password.lading');
-    Route::get('lupa-password/verify-otp', [AuthController::class, 'verifyOTP'])->name('auth.lupa-password.verify-otp');
-    Route::get('lupa-password/reset-password', [AuthController::class, 'resetPassword'])->name('auth.lupa-password.reset-password');
+    Route::prefix('lupa-password')->group(function () {
+        Route::get('index', [AuthController::class, 'index'])->name('auth.lupa-password.lading');
+        Route::post('request/email/token', [ApiAuthController::class, 'lupaPassword'])->name('auth.lupa-password.request.token');
+        Route::post('check/email/token', [ApiAuthController::class, 'checkToken'])->name('auth.lupa-password.check.token');
+        Route::post('create/new/password', [ApiAuthController::class, 'createNewPassword'])->name('auth.lupa-password.new.password');
+
+    });
 
 });
 
