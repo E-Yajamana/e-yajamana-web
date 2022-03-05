@@ -62,6 +62,11 @@ class AuthController extends Controller
                         $token = $user->createToken('e-yajamana', ['role:sulinggih'])->plainTextToken;
                         break;
 
+                    case 'admin':
+                        $penduduk = $user->Penduduk()->firstOrFail();
+                        $token = $user->createToken('e-yajamana', ['role:admin'])->plainTextToken;
+                        break;
+
                     default:
                         throw new Exception("Role tidak ditemukan");
                         break;
@@ -92,7 +97,7 @@ class AuthController extends Controller
                 'user' => $user,
                 'penduduk' => $penduduk,
                 'krama' => $krama,
-                'sulinggih' => $sulinggih
+                'sulinggih' => $sulinggih,
             ]
         ], 200);
         // END

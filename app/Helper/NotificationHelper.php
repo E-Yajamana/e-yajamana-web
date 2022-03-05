@@ -10,7 +10,7 @@ class NotificationHelper
     {
         $userTarget->notify(new UserNotification($data));
 
-        $serverKey = env('FCM_SERVER_KEY');
+        $serverKey = config('firebase.key');
         $headers = [
             'Authorization' => 'key=' . $serverKey,
             'Content-Type'  => 'application/json',

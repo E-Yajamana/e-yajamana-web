@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\api\admin\AdminDashboardController;
+use App\Http\Controllers\Api\admin\AdminDataAkunUserController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\krama\KramaDashboardController;
 use App\Http\Controllers\api\krama\KramaPemuputKaryaController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\api\krama\KramaUpacaraController;
 use App\Http\Controllers\api\location\LocationController;
 use App\Http\Controllers\api\NotificationController;
 use App\Http\Controllers\api\sulinggih\SulinggihDashboardController;
+use App\Http\Controllers\api\sulinggih\SulinggihMuputController;
 use App\Http\Controllers\api\sulinggih\SulinggihReservasiController;
 use App\Http\Controllers\api\sulinggih\SulinggihTangkilController;
 use App\Http\Controllers\api\yadnya\YadnyaController;
@@ -102,11 +105,24 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('tangkil/detail/{id_reservasi}', [SulinggihTangkilController::class, 'getDetailTangkil']);
         Route::post('tangkil/konfirmasi', [SulinggihTangkilController::class, 'konfirmasiTangkil']);
         // END
+
+        // SULINGGIH KONFIRMASI MUPUT
+        Route::get('muput/detail/{id_reservasi}', [SulinggihMuputController::class, 'getDetailMuput']);
+        Route::post('puput', [SulinggihMuputController::class, 'puputKarya']);
+        // END
     });
     // END
 
-    // LOGOUT
-    Route::post('logout', [AuthController::class, 'logoutUser']);
+    // SULINGGIH
+    Route::prefix('admin')->middleware(['ability:role:admin'])->group(function () {
+        // HOME FRAGMENT
+        Route::get('dashboard', [AdminDashboardController::class, 'index']);
+        // END
+
+        // DATA AKUN USER
+        Route::get('dataakunuser/{status?}', [AdminDataAkunUserController::class, 'index']);
+        // END
+    });
     // END
 
     // NOTIFICATION
@@ -115,6 +131,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('unread/notification', [NotificationController::class, 'unreadNotification']);
     Route::post('delete/notification', [NotificationController::class, 'deleteNotification']);
     Route::post('send/notification', [NotificationController::class, 'sendNotification']);
+    // END
+
+    // LOGOUT
+    Route::post('logout', [AuthController::class, 'logoutUser']);
     // END
 
 });

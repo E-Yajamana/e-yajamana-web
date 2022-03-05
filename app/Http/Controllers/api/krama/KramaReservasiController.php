@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\DetailReservasi;
 use App\Models\Reservasi;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use NotificationHelper;
 use PDOException;
 
 class KramaReservasiController extends Controller
@@ -63,9 +66,13 @@ class KramaReservasiController extends Controller
 
         // MAIN LOGIC
         try {
+            DB::beginTransaction();
+
             $detailReservasi = json_decode($request->detail_reservasi);
 
-            DB::beginTransaction();
+            $relasi = User::with(['Sulinggih'])->findOrFail($request->id_relasi);
+
+            $user = Auth::user();
 
             $reservasi = Reservasi::create([
                 'id_relasi' => $request->id_relasi,
@@ -85,6 +92,32 @@ class KramaReservasiController extends Controller
             }
 
             DetailReservasi::insert($insertArray);
+
+            NotificationHelper::sendNotification(
+                [
+                    'title' => "RESERVASI BARU",
+                    'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
+                    'status' => "new",
+                    'image' => "krama",
+                    'notifiable_id' => $relasi->id,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $relasi
+            );
+
+            NotificationHelper::sendNotification(
+                [
+                    'title' => "PERMOHONAN RESERVASI DIBUAT",
+                    'body' => "Permohonan reservasi kepada " . $relasi->Sulinggih->nama_sulinggih . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
+                    'status' => "new",
+                    'image' => "sulinggih",
+                    'notifiable_id' => $user->id,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $user
+            );
 
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
