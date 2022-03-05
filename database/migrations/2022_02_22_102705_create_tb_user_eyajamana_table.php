@@ -22,6 +22,7 @@ class CreateTbUserEyajamanaTable extends Migration
             $table->string('user_profile', 200)->nullable();
             $table->enum('role', ['admin', 'sulinggih', 'sanggar', 'pemangku', 'serati', 'krama_bali']);
             $table->text('json_token_lupa_password')->nullable();
+            $table->text('fcm_token_key')->nullable();
             $table->timestamps();
         });
     }
