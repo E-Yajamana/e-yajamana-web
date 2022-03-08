@@ -44,27 +44,27 @@
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
                                         <a id="sulinggih-tabs" href="#sulinggih-table" class="nav-link active" data-toggle="pill" role="tab" aria-controls="sulinggih-table" aria-selected="true">
-                                            Sulinggih <span class="badge bg-warning float-right">5</span>
+                                            Sulinggih <span class="badge bg-warning float-right">{{count($dataSulinggih)}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a id="pemangku-tabs"  href="#pemangku-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="pemangku-table" aria-selected="false">
-                                            Pemangku <span class="badge bg-warning float-right">15</span>
+                                            Pemangku <span class="badge bg-warning float-right">{{count($dataPemangku)}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a id="sanggar-tabs" href="#sanggar-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="sanggar-table" aria-selected="false">
-                                            Sanggar <span class="badge bg-warning float-right">2</span>
+                                            Sanggar <span class="badge bg-warning float-right">{{count($dataSanggar)}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="serati-tabs" data-toggle="pill" href="#serati-table" role="tab" aria-controls="serati-table" aria-selected="false">
-                                            Serati <span class="badge bg-warning float-right">8</span>
+                                            Serati <span class="badge bg-warning float-right">{{count($dataSerati)}}</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a id="krama-tabs" href="#krama-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="krama-table" aria-selected="false">
-                                            Krama Bali <span class="badge bg-warning float-right">4</span>
+                                            Krama Bali <span class="badge bg-warning float-right">{{count($dataKrama)}}</span>
                                         </a>
                                     </li>
                                   </ul>
@@ -95,44 +95,45 @@
                                                     <th>No</th>
                                                     <th>Nama Sulinggih</th>
                                                     <th>Lokasi Griya</th>
-                                                    <th>Nomor Telepon</th>
+                                                    <th>Status Akun</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Ida Begawan Agre Segening</td>
-                                                    <td>Griya Kerebokan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Ida Cri Bhagawan Sabda Murti</td>
-                                                    <td>Griya Pemecutan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>Ida Bujangga Rsi Adi Guru</td>
-                                                    <td>Griya Pemecutan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
+                                                @foreach ($dataSulinggih as $data)
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$data->nama_sulinggih}}</td>
+                                                        <td>{{$data->GriyaRumah->nama_griya_rumah}}</td>
+                                                        <td class="text-center">
+                                                            <div  @if ($data->status_konfirmasi_akun == 'pending') class="bg-secondary btn-sm" @elseif ($data->status_konfirmasi_akun == 'ditolak') class="bg-danger btn-sm" @elseif ($data->status_konfirmasi_akun == 'disetujui') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:90px;">{{ucfirst($data->status_konfirmasi_akun)}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin.manajemen-akun.data-akun.pemuput-karya.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            @if ($data->status_konfirmasi_akun == 'pending')
+                                                                <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                                <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times px-1"></i></a>
+                                                                <form id="{{"update-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya')}}" method="post">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <input type="hidden" name="id" value="{{$data->id}}">
+                                                                </form>
+                                                                <form id="{{"tolakPemuput-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya.tolak')}}" method="post">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <input type="hidden" name="id" value="{{$data->id}}">
+                                                                    <input type="hidden" id={{"text_penolakan".$data->id}} value="" name="text_penolakan">
+                                                                </form>
+                                                            @elseif ($data->status_konfirmasi_akun == 'disetujui')
+                                                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            @else
+                                                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -150,44 +151,45 @@
                                                     <th>No</th>
                                                     <th>Nama Pemangku</th>
                                                     <th>Alamat Pemangku</th>
-                                                    <th>Nomor Telepon</th>
+                                                    <th>Status Akun</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>I Wayan Sutama</td>
-                                                    <td>Griya Kerebokan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>I Wayan Darma</td>
-                                                    <td>Griya Pemecutan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>I Gede Adi Catra</td>
-                                                    <td>Griya Pemecutan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
+                                                @foreach ($dataPemangku as $data)
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$data->nama_sulinggih}}</td>
+                                                        <td>{{$data->GriyaRumah->nama_griya_rumah}}</td>
+                                                        <td class="text-center">
+                                                            <div  @if ($data->status_konfirmasi_akun == 'pending') class="bg-secondary btn-sm" @elseif ($data->status_konfirmasi_akun == 'ditolak') class="bg-danger btn-sm" @elseif ($data->status_konfirmasi_akun == 'disetujui') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:90px;">{{ucfirst($data->status_konfirmasi_akun)}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin.manajemen-akun.data-akun.pemuput-karya.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            @if ($data->status_konfirmasi_akun == 'pending')
+                                                                <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                                <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times px-1"></i></a>
+                                                                <form id="{{"update-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya')}}" method="post">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <input type="hidden" name="id" value="{{$data->id}}">
+                                                                </form>
+                                                                <form id="{{"tolakPemuput-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya.tolak')}}" method="post">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <input type="hidden" name="id" value="{{$data->id}}">
+                                                                    <input type="hidden" id={{"text_penolakan".$data->id}} value="" name="text_penolakan">
+                                                                </form>
+                                                            @elseif ($data->status_konfirmasi_akun == 'disetujui')
+                                                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            @else
+                                                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -204,45 +206,43 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Sanggar</th>
-                                                    <th>Alamat Sanggar</th>
                                                     <th>Nomor Telepon</th>
+                                                    <th>Status Akun</th>
                                                     <th>Tindakan</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>I Wayan Sutama</td>
-                                                    <td>Griya Kerebokan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>I Wayan Darma</td>
-                                                    <td>Griya Pemecutan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>I Gede Adi Catra</td>
-                                                    <td>Griya Pemecutan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
+                                                @foreach ($dataSanggar as $data)
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$data->nama_sanggar}}</td>
+                                                        <td>{{$data->User->nomor_telepon}}</td>
+                                                        <td class="text-center">
+                                                            <div  @if ($data->status_konfirmasi_akun == 'pending') class="bg-secondary btn-sm" @elseif ($data->status_konfirmasi_akun == 'ditolak') class="bg-danger btn-sm" @elseif ($data->status_konfirmasi_akun == 'disetujui') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:90px;">{{ucfirst($data->status_konfirmasi_akun)}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin.manajemen-akun.data-akun.sanggar.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            @if ($data->status_konfirmasi_akun == 'pending')
+                                                                <a onclick="verifikasiSanggar({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                                <a onclick="tolakSanggar({{$data->id}})" class="btn btn-danger btn-sm mx-1"><i class="fas fa-times"></i></a>
+                                                                <form id="{{"updateSanggar-".$data->id}}" class="d-none"  action="{{route('admin.manajemen-akun.verifikasi.sanggar')}}" method="post">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <input type="hidden" name="id" value="{{$data->id}}">
+                                                                </form>
+                                                                <form id="{{"tolakSanggar-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.sanggar.tolak')}}" method="post">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <input type="hidden" name="id" value="{{$data->id}}">
+                                                                    <input type="hidden" name="text_penolakan" id={{"text_penolakan".$data->id}} value="">
+                                                                </form>
+                                                            @else
+                                                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -265,39 +265,21 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>I Wayan Sutama</td>
-                                                    <td>Griya Kerebokan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>I Wayan Darma</td>
-                                                    <td>Griya Pemecutan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>I Gede Adi Catra</td>
-                                                    <td>Griya Pemecutan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
+                                                @foreach ($dataSerati as $data)
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$data->User->Penduduk->nama}}</td>
+                                                        <td>{{$data->User->nomor_telepon}}</td>
+                                                        <td class="text-center">
+                                                            <div  @if ($data->status_konfirmasi_akun == 'pending') class="bg-secondary btn-sm" @elseif ($data->status_konfirmasi_akun == 'ditolak') class="bg-danger btn-sm" @elseif ($data->status_konfirmasi_akun == 'disetujui') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:90px;">{{ucfirst($data->status_konfirmasi_akun)}}</div>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{route('admin.manajemen-akun.data-akun.serati.detail',$data->id)}}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -310,7 +292,7 @@
                                 <div class="card-body p-0">
                                     <div class="table-responsive mailbox-messages p-2">
                                         <table id="tb-krama" class="table table-striped table-hover mx-auto table-responsive-sm">
-                                            <thead class="text-center">
+                                            <thead>
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Krama</th>
@@ -320,39 +302,19 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>I Wayan Sutama</td>
-                                                    <td>081462756246</td>
-                                                    <td>Griya Kerebokan</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>I Wayan Darma</td>
-                                                    <td>Griya Pemecutan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>I Gede Adi Catra</td>
-                                                    <td>Griya Pemecutan</td>
-                                                    <td>081462756246</td>
-                                                    <td>
-                                                        <a href="{{route('admin.data-akun.detail')}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                    </td>
-                                                </tr>
+                                                @foreach ($dataKrama as $data)
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$data->User->Penduduk->nama}}</td>
+                                                        <td>{{$data->User->nomor_telepon}}</td>
+                                                        <td>{{$data->User->Penduduk->alamat}}</td>
+                                                        <td>
+                                                            <a href="{{route('admin.manajemen-akun.data-akun.krama.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -485,4 +447,114 @@
         });
     </script>
 
+@endpush
+
+@push('js')
+    <script type="text/javascript">
+        // TERIMA VERIFIKASI PEMUPUT KARYA
+        function verifikasiPemuputKarya(index)
+        {
+            Swal.fire({
+                title: 'Verifikasi',
+                text : 'Apakah anda yakin akan mengkonfirmasi akun pemuput karya tersebut?',
+                icon:'question',
+                showDenyButton: true,
+                showCancelButton: false,
+                denyButtonText: `Tidak`,
+                confirmButtonText: `iya`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#update-'+index).submit();
+                    } else if (result.isDenied) {
+
+                    }
+                })
+        }
+        // TERIMA VERIFIKASI PEMUPUT KARYA
+
+        // TERIMA VERIFIKASI SANGGAR
+        function verifikasiSanggar(index)
+        {
+            Swal.fire({
+                title: 'Verifikasi',
+                text : 'Apakah anda yakin akan mengkonfirmasi akun Sanggar tersebut?',
+                icon:'question',
+                showDenyButton: true,
+                showCancelButton: false,
+                denyButtonText: `Tidak`,
+                confirmButtonText: `iya`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#updateSanggar-'+index).submit();
+                    } else if (result.isDenied) {
+
+                    }
+                })
+        }
+        // TERIMA VERIFIKASI SANGGAR
+
+        // TOLAK VERIFIKASI PEMUPUT KARYA
+        function tolakPemuputKarya(index)
+        {
+            var data ="";
+            Swal.fire({
+                input: 'textarea',
+                title: 'Tolak Permintaan Akun',
+                text : 'Masukan alasan penolakan?',
+                showDenyButton: true,
+                showCancelButton: false,
+                denyButtonText: `Batal`,
+                confirmButtonText: `iya`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                preConfirm: function (email) {
+                    data = email ;
+                },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#text_penolakan"+index).val(data);
+                        $('#tolakPemuput-'+index).submit();
+                    } else if (result.isDenied) {
+
+                    }
+            })
+        }
+        // TOLAK VERIFIKASI PEMUPUT KARYA
+
+        // TOLAK VERIFIKASI PEMUPUT KARYA
+        function tolakSanggar(index)
+        {
+            var data ="";
+            Swal.fire({
+                input: 'textarea',
+                title: 'Tolak Permintaan Akun',
+                text : 'Masukan alasan penolakan?',
+                showDenyButton: true,
+                showCancelButton: false,
+                denyButtonText: `Batal`,
+                confirmButtonText: `iya`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor: '#d33',
+                preConfirm: function (email) {
+                    data = email ;
+                },
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $("#text_penolakan"+index).val(data);
+                        $('#tolakSanggar-'+index).submit();
+                    } else if (result.isDenied) {
+
+                    }
+            })
+        }
+        // TOLAK VERIFIKASI PEMUPUT KARYA
+
+
+
+    </script>
+    <!-- Fungsi Verifikasi Data Akun Pemuput Karya dan Sanggar -->
 @endpush

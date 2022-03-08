@@ -58,12 +58,12 @@ class ManajemenAkunController extends Controller
         // END MAIN LOGIC & RETURN
 
         // RETRUN
-        return redirect()->route('admin.manajemen-akun.verifikasi.index')->with([
-            'status' => 'success',
-            'icon' => 'success',
-            'title' => 'Data Sulinggih Berhasil Diperbarui',
-            'message' => 'Data Sulinggih Berhasil Diperbarui, cek kembali data sulinggih ',
-        ]);
+            return redirect()->back()->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Data Sulinggih Berhasil Diperbarui',
+                'message' => 'Data Sulinggih Berhasil Diperbarui, cek kembali data sulinggih ',
+             ]);
         // END RETURN
 
     }
@@ -105,12 +105,12 @@ class ManajemenAkunController extends Controller
         // END MAIN LOGIC & RETURN
 
         // RETRUN
-        return redirect()->route('admin.manajemen-akun.verifikasi.index')->with([
-            'status' => 'success',
-            'icon' => 'success',
-            'title' => 'Data Akun Sulinggih Berhasil Diperbarui',
-            'message' => 'Data Akun Sulinggih Berhasil Diperbarui, cek kembali data Sanggar ',
-        ]);
+            return redirect()->back()->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Data Akun Sulinggih Berhasil Diperbarui',
+                'message' => 'Data Akun Sulinggih Berhasil Diperbarui, cek kembali data Sanggar ',
+            ]);
         // END RETURN
 
     }
@@ -189,12 +189,12 @@ class ManajemenAkunController extends Controller
         // END MAIN LOGIC & RETURN
 
         // RETRUN
-        return redirect()->route('admin.manajemen-akun.verifikasi.index')->with([
-            'status' => 'success',
-            'icon' => 'success',
-            'title' => 'Data Akun Sanggar Berhasil Diperbarui',
-            'message' => 'Data Akun Sanggar Berhasil Diperbarui, cek kembali data Sanggar ',
-        ]);
+            return redirect()->back()->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Data Akun Sanggar Berhasil Diperbarui',
+                'message' => 'Data Akun Sanggar Berhasil Diperbarui, cek kembali data Sanggar ',
+            ]);
         // END RETURN
     }
     // UPDATE TERIMA VERIFIKASI DATA SANGGAR
@@ -219,28 +219,28 @@ class ManajemenAkunController extends Controller
         // END SECURITY
 
         // MAIN LOGIC & RETURN
-        try {
-            Sanggar::findOrFail($request->id)->update([
-                'status_konfirmasi' => 'ditolak',
-                'keterangan_konfirmasi_akun' => $request->text_penolakan
-            ]);
-        } catch (ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err) {
-            return redirect()->back()->with([
-                'status' => 'fail',
-                'icon' => 'error',
-                'title' => 'Sistem Gagal Menemukan Akun Pemuput Karya !',
-                'message' => 'sistem gagal menemukan Akun Pemuput Karya, mohon untuk menghubungi developer sistem !',
-            ]);
-        }
+            try{
+                Sanggar::findOrFail($request->id)->update([
+                    'status_konfirmasi_akun'=>'ditolak',
+                    'keterangan_konfirmasi_akun'=> $request->text_penolakan
+                ]);
+            }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Sistem Gagal Menemukan Akun Pemuput Karya !',
+                    'message' => 'sistem gagal menemukan Akun Pemuput Karya, mohon untuk menghubungi developer sistem !',
+                ]);
+            }
         // END MAIN LOGIC & RETURN
 
         // RETRUN
-        return redirect()->route('admin.manajemen-akun.verifikasi.index')->with([
-            'status' => 'success',
-            'icon' => 'success',
-            'title' => 'Data Akun Sanggar Berhasil Diperbarui',
-            'message' => 'Data Akun Sanggar Berhasil Diperbarui, cek kembali data Sanggar ',
-        ]);
+            return redirect()->back()->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Data Akun Sanggar Berhasil Diperbarui',
+                'message' => 'Data Akun Sanggar Berhasil Diperbarui, cek kembali data Sanggar ',
+            ]);
         // END RETURN
     }
     // UPDATE TOLAK VERIFIKASI DATA SANGGAR
@@ -284,13 +284,4 @@ class ManajemenAkunController extends Controller
     // DETAIL DATA VERIFIKASI AKUN PEMUPUT KARYA (SULINGGIHN DAN PEMANGKU)
 
 
-    public function dataAkunIndex(Request $request)
-    {
-        return view('pages.admin.manajemen-akun.data-akun.data-akun-index');
-    }
-
-    public function dataAkunDetail(Request $request)
-    {
-        return view('pages.admin.manajemen-akun.data-akun.data-akun-detail');
-    }
 }

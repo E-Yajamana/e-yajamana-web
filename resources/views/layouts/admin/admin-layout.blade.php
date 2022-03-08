@@ -12,7 +12,7 @@
             font-family: Nunito !important;
         }
     </style>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- Select2 -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
@@ -67,6 +67,78 @@
 
 
     @stack('js')
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAi5-GWTruT_bF15xnbUAGR9c5afq5P_as",
+            authDomain: "eyajamana-website.firebaseapp.com",
+            // databaseURL: 'https://project-id.firebaseio.com',
+            projectId: "eyajamana-website",
+            storageBucket: "eyajamana-website.appspot.com",
+            messagingSenderId: "980955733639",
+            appId: "1:980955733639:web:65b9823c8ff9ff0e0e2222",
+            measurementId: "G-XCMZ3MKTZJ"
+
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+
+        function startFCM() {
+            messaging
+                .requestPermission()
+                .then(function () {
+                    return messaging.getToken()
+                })
+                .then(function (response) {
+                    console.log(response)
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: "{{route('notification.save-token')}}",
+                        type: 'PATCH',
+                        data: {
+                            token: response,
+                        },
+                        dataType: "JSON",
+                        success: function (response) {
+                            console.log(response)
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        },
+                    });
+                    // console.log(response)
+                }).catch(function (error) {
+                    alert(error);
+                });
+        }
+
+        startFCM();
+
+
+        messaging.onMessage(function (payload) {
+            console.log(payload)
+            const title = payload.data.title;
+            const options = {
+                body: payload.data.body,
+                icon: '/logo-eyajamana.png',
+            };
+            new Notification(title, options);
+        });
+
+
+
+
+    </script>
 
 </body>
 </html>

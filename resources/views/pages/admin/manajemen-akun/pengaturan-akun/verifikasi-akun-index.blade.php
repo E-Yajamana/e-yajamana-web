@@ -136,7 +136,7 @@
                                                 @foreach ($dataPemangku as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
-                                                        <td>{{$data->nama_walaka}}</td>
+                                                        <td>{{$data->nama_sulinggih}}</td>
                                                         <td>{{$data->User->nomor_telepon}}</td>
                                                         <td>{{date('d F Y',strtotime($data->created_at))}}</td>
                                                         <td>

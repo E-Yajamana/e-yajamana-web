@@ -1,11 +1,9 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AjaxWilayahDropdown;
+use App\Http\Controllers\api\AuthController as ApiAuthController;
 use App\Http\Controllers\api\location\LocationController;
-use App\Http\Controllers\KramaController;
-use App\Http\Controllers\SulinggihController;
 use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
+use App\Http\Controllers\web\admin\manajemen_akun\DataAkunController;
 use App\Http\Controllers\web\admin\manajemen_akun\ManajemenAkunController;
 use App\Http\Controllers\web\admin\masterData\MasteDataGriyaController;
 use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
@@ -17,6 +15,7 @@ use App\Http\Controllers\web\GetImageController;
 use App\Http\Controllers\web\krama\dashboard\KramaDashboardController;
 use App\Http\Controllers\web\krama\reservasi\KramaReservasiController;
 use App\Http\Controllers\web\krama\upacaraku\KramaUpacarakuController;
+use App\Http\Controllers\web\NotifyController;
 use App\Http\Controllers\web\pemuput_karya\dashboard\PemuputDashboardController;
 use App\Http\Controllers\web\pemuput_karya\manajemen_reservasi\ReservasiMasukController;
 use App\Http\Controllers\web\pemuput_karya\manajemen_reservasi\RiwayatReservasiController;
@@ -52,23 +51,21 @@ Route::prefix('auth')->group(function () {
         Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
         Route::get('{akun}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
 
-        // Route::post('krama', [RegisterController::class, 'storeRegisKrama'])->name('auth.register.akun.krama.store');
-        // Route::post('serati', [RegisterController::class, 'storeRegisSerati'])->name('auth.register.akun.serati.store');
-        // Route::post('sanggar', [RegisterController::class, 'storeRegisSanngar'])->name('auth.register.akun.sanggar.store');
-        // Route::post('sulinggih', [RegisterController::class, 'storeRegisSulinggih'])->name('auth.register.akun.sulinggih.store');
-        // Route::post('pemangku', [RegisterController::class, 'storeRegisPemangku'])->name('auth.register.akun.pemangku.store');
-
-
         Route::post('new/sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
         Route::post('new/sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
         Route::post('new/pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
         Route::post('new/krama', [RegisterController::class, 'storeNewRegisKrama'])->name('auth.register.akun.krama.store');
+        Route::post('new/serati', [RegisterController::class, 'storeNewRegisSerati'])->name(' ');
 
     });
 
-    Route::get('lupa-password', [AuthController::class, 'lupaPasswordLanding'])->name('auth.lupa-password.lading');
-    Route::get('lupa-password/verify-otp', [AuthController::class, 'verifyOTP'])->name('auth.lupa-password.verify-otp');
-    Route::get('lupa-password/reset-password', [AuthController::class, 'resetPassword'])->name('auth.lupa-password.reset-password');
+    Route::prefix('lupa-password')->group(function () {
+        Route::get('index', [AuthController::class, 'index'])->name('auth.lupa-password.lading');
+        Route::post('request/email/token', [ApiAuthController::class, 'lupaPassword'])->name('auth.lupa-password.request.token');
+        Route::post('check/email/token', [ApiAuthController::class, 'checkToken'])->name('auth.lupa-password.check.token');
+        Route::post('create/new/password', [ApiAuthController::class, 'createNewPassword'])->name('auth.lupa-password.new.password');
+
+    });
 
 });
 
@@ -139,11 +136,12 @@ Route::group(['prefix'=>'admin','middleware'=>'cek:admin'], function () {
 
         // DATA AKUN USER
         Route::prefix('data-akun')->group(function () {
-            Route::get('index', [ManajemenAkunController::class, 'dataAkunIndex'])->name('admin.manajemen-akun.data-akun.index');
-            Route::get('data-akun/detail/{id?}', [ManajemenAkunController::class, 'detailVerifikasi'])->name('admin.manajemen-akun.data-akun.detail');
+            Route::get('index', [DataAkunController::class, 'index'])->name('admin.manajemen-akun.data-akun.index');
+            Route::get('detail/krama/{id?}', [DataAkunController::class, 'detailKrama'])->name('admin.manajemen-akun.data-akun.krama.detail');
+            Route::get('detail/serati/{id?}', [DataAkunController::class, 'detailSerati'])->name('admin.manajemen-akun.data-akun.serati.detail');
+            Route::get('detail/sanggar/{id?}', [DataAkunController::class, 'detailSanggar'])->name('admin.manajemen-akun.data-akun.sanggar.detail');
+            Route::get('detail/pemuput-karya/{id?}', [DataAkunController::class, 'detailPemuputKarya'])->name('admin.manajemen-akun.data-akun.pemuput-karya.detail');
 
-            Route::get('data-akun', [AdminController::class, 'dataAkunShow'])->name('admin.data-akun.show');
-            Route::get('data-akun/detail/id', [AdminController::class, 'dataAkunDetail'])->name('admin.data-akun.detail');
         });
         // DATA AKUN USER
     });
@@ -239,5 +237,17 @@ Route::prefix('ajax')->group(function () {
 
 
 });
+
+
+ // NOTIFICATION
+ Route::patch('saveToken', [NotifyController::class, 'saveToken'])->name('notification.save-token');
+ Route::post('send-notification', [NotifyController::class, 'sendNotify'])->name('send-notificaiton');
+
+//  Route::get('notification/{status}', [NotificationController::class, 'getNotificationByIdUserandStatus']);
+//  Route::post('read/notification', [NotificationController::class, 'readNotification']);
+//  Route::post('unread/notification', [NotificationController::class, 'unreadNotification']);
+//  Route::post('delete/notification', [NotificationController::class, 'deleteNotification']);
+//  Route::post('send/notification', [NotificationController::class, 'sendNotification']);
+ // NOTIFICATION
 
 

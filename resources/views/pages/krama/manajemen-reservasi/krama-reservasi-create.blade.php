@@ -188,7 +188,7 @@
 
                                         <div class="card tab-content ">
                                             <div class="card-header my-auto">
-                                                <label class="card-title my-auto">Rentetan Upacara | Periode {{date('d-M-Y',strtotime($dataUpacaraku->tanggal_mulai))}} - {{date('d-M-Y',strtotime($dataUpacaraku->tanggal_selesai))}} </label>
+                                                <label class="card-title my-auto">Rentetan Upacara | Periode {{date('d F Y',strtotime($dataUpacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataUpacaraku->tanggal_selesai))}} </label>
                                             </div>
                                             <div class="card-body">
                                                 <div class="row justify-content-center">
@@ -667,10 +667,14 @@
                 text.style.display = "block";
                 $("#card"+id).removeClass("collapsed-card");
                 $("#inputDate-"+id).append( "<div class='input-group'><div class='input-group-prepend'><span class='input-group-text'><i class='far fa-clock'></i></span></div> <input name='daterange[]' id='reservationtime"+id+"' type='text' class='form-control float-right' value=''></div>");
-
+                moment(dataUpacara.tanggal_selesai).format('YYYY-MM-DD')
                 $('#reservationtime'+id).daterangepicker({
                     autoUpdateInput: true,
                     timePicker: true,
+                    "startDate": moment(dataUpacara.tanggal_mulai).format('DD MMMM YYYY'),
+                    "endDate":  moment(dataUpacara.tanggal_selesai).format('DD MMMM YYYY'),
+                    minDate: moment(dataUpacara.tanggal_mulai).format('DD MMMM YYYY'),
+                    maxDate: moment(dataUpacara.tanggal_selesai).format('DD MMMM YYYY'),
                     locale: {
                         format: 'DD MMMM YYYY hh:mm A',
                         cancelLabel: 'Clear'
@@ -678,7 +682,7 @@
                     drops: "up",
                 })
                 $('#reservationtime'+id).on('apply.daterangepicker', function(ev, picker) {
-                    $(this).val(picker.startDate.format('DD MMMM YYYY hh:mm A') + ' - ' + picker.endDate.format('DD MMMM YYYY hh:mm A'));
+                    $(this).val(moment(dataUpacara.tanggal_selesai).format('DD MMMM YYYY') + ' - ' +  moment(dataUpacara.tanggal_selesai).format('DD MMMM YYYY hh:mm A'));
                 });
             }else {
                 $("#inputDate-"+id).empty();
