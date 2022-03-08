@@ -38,7 +38,7 @@ class AdminDataAkunUserController extends Controller
                     "Sulinggih" => function ($sulinggihQuery) {
                         $sulinggihQuery->where('status_konfirmasi_akun', 'disetujui');
                     },
-                ])->where('role', 'sulinggih')->whereHas("Penduduk")->get();
+                ])->where('role', 'sulinggih')->get();
                 break;
             case "pemangku":
                 $userSistems = $userQuery->with([
@@ -46,7 +46,7 @@ class AdminDataAkunUserController extends Controller
                     "Sulinggih" => function ($sulinggihQuery) {
                         $sulinggihQuery->where('status_konfirmasi_akun', 'disetujui');
                     },
-                ])->where('role', 'pemangku')->whereHas("Penduduk")->whereHas('Penduduk')->get();
+                ])->where('role', 'pemangku')->whereHas('Penduduk')->get();
                 break;
             case "sanggar":
                 $userSistems = $userQuery->with([
