@@ -11,6 +11,7 @@ use App\Models\Sanggar;
 use App\Models\Sulinggih;
 use App\Models\TahapanUpacara;
 use App\Models\Upacaraku;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Doctrine\DBAL\Query\QueryException;
@@ -22,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use ErrorException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use NotificationHelper;
 
 class KramaReservasiController extends Controller
 {
@@ -72,7 +74,7 @@ class KramaReservasiController extends Controller
         // MAIN LOGIC
             try{
                 $dataUpacaraku = Upacaraku::with(['Upacara'])->findOrFail($request->id);
-                $dataUserReservasi = Reservasi::where('id_upacaraku',$request->id)->pluck('id_relasi');
+                $dataUserReservasi = Reservasi::where('id_upacaraku',$request->id)->whereNotIn('status',['batal','selesai'])->pluck('id_relasi');
 
                 $dataSanggar = Sanggar::with('User.Penduduk')->whereHas('User.Penduduk')->where('status_konfirmasi_akun','disetujui')->whereNotIn('id_user',$dataUserReservasi)->get();
 
@@ -149,8 +151,41 @@ class KramaReservasiController extends Controller
                     ];
                 }
                 $reservasi->DetailReservasi()->createMany($dataDetailReservasi);
+
+                $relasi = User::findOrFail($request->id_relasi);
+                $user = Auth::user();
+
+                // SEND NOTIFICATION
+                NotificationHelper::sendNotification(
+                    [
+                        'title' => "RESERVASI BARU",
+                        'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
+                        'status' => "new",
+                        'image' => "krama",
+                        'notifiable_id' => $relasi->id,
+                        'formated_created_at' => date('Y-m-d H:i:s'),
+                        'formated_updated_at' => date('Y-m-d H:i:s'),
+                    ],
+                    $relasi
+                );
+
+                NotificationHelper::sendNotification(
+                    [
+                        'title' => "PERMOHONAN RESERVASI DIBUAT",
+                        'body' => "Permohonan reservasi kepada " . $relasi->getRelasi()->nama . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
+                        'status' => "new",
+                        'image' => "sulinggih",
+                        'notifiable_id' => $user->id,
+                        'formated_created_at' => date('Y-m-d H:i:s'),
+                        'formated_updated_at' => date('Y-m-d H:i:s'),
+                    ],
+                    $user
+                );
+                // END SEND NOTIFICATION
+
                 DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
+                DB::rollback();
                 return \redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',

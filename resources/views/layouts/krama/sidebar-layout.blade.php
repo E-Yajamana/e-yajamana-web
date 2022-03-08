@@ -109,7 +109,6 @@
                         </li>
                     </ul>
                 </li>
-                <input id="jsonDataKrama" type="hidden" value='@json(Auth::user()->Krama->Upacaraku)'>
                 <li class="nav-item">
                     <a href="pages/gallery.html" class="nav-link p-2">
                         <i class="far bi-geo-alt-fill nav-icon mr-1"></i>
@@ -122,6 +121,7 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+<input id="jsonDataKrama" type="hidden" value='@json(Auth::user()->Krama->Upacaraku)'>
 
 @if (count(Auth::user()->Krama->Upacaraku) != 0)
     <!-- Modal -->

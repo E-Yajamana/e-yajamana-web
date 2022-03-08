@@ -9,14 +9,16 @@ class NotificationHelper
     public static function sendNotification(array $data, User $userTarget)
     {
         $userTarget->notify(new UserNotification($data));
-
         $serverKey = config('firebase.key');
         $headers = [
             'Authorization' => 'key=' . $serverKey,
             'Content-Type'  => 'application/json',
         ];
         $fields = [
-            'to' => $userTarget->fcm_token_key,
+            'registration_ids' => [
+                $userTarget->fcm_token_key,
+                $userTarget->fcm_token_web
+            ],
             'content-available' => true,
             'priority' => 'high',
             'data' => [

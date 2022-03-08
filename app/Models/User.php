@@ -28,7 +28,8 @@ class User extends Authenticatable
         'user_profile',
         'role',
         'json_token_lupa_password',
-        'fcm_token_key'
+        'fcm_token_key',
+        'fcm_token_web'
     ];
 
     /**

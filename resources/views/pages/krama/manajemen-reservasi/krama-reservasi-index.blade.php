@@ -195,31 +195,6 @@
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 
     <script type="text/javascript">
-
-        $(function () {
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true,
-                "responsive": true,
-                "oLanguage": {
-                    "sSearch": "Cari:",
-                    "sZeroRecords": "Data Tidak Ditemukan",
-                    "sSearchPlaceholder": "Cari data....",
-                },
-                "language": {
-                    "paginate": {
-                        "previous": 'Sebelumnya',
-                        "next": 'Berikutnya'
-                    },
-                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
-                }
-            });
-        });
-
         $(document).ready(function(){
             $('#side-reservasi').addClass('menu-open');
             $('#side-data-reservasi').addClass('active');

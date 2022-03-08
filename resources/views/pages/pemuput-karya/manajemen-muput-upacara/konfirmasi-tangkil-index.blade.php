@@ -135,8 +135,6 @@
             $('#side-manajemen-muput-upacara-konfirmasi-tangkil').addClass('active');
         });
     </script>
-
-
 @endpush
 
 @push('js')

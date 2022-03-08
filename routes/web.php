@@ -1,11 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AjaxWilayahDropdown;
 use App\Http\Controllers\api\AuthController as ApiAuthController;
 use App\Http\Controllers\api\location\LocationController;
-use App\Http\Controllers\KramaController;
-use App\Http\Controllers\SulinggihController;
 use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
 use App\Http\Controllers\web\admin\manajemen_akun\DataAkunController;
 use App\Http\Controllers\web\admin\manajemen_akun\ManajemenAkunController;
@@ -19,6 +15,7 @@ use App\Http\Controllers\web\GetImageController;
 use App\Http\Controllers\web\krama\dashboard\KramaDashboardController;
 use App\Http\Controllers\web\krama\reservasi\KramaReservasiController;
 use App\Http\Controllers\web\krama\upacaraku\KramaUpacarakuController;
+use App\Http\Controllers\web\NotifyController;
 use App\Http\Controllers\web\pemuput_karya\dashboard\PemuputDashboardController;
 use App\Http\Controllers\web\pemuput_karya\manajemen_reservasi\ReservasiMasukController;
 use App\Http\Controllers\web\pemuput_karya\manajemen_reservasi\RiwayatReservasiController;
@@ -240,5 +237,17 @@ Route::prefix('ajax')->group(function () {
 
 
 });
+
+
+ // NOTIFICATION
+ Route::patch('saveToken', [NotifyController::class, 'saveToken'])->name('notification.save-token');
+ Route::post('send-notification', [NotifyController::class, 'sendNotify'])->name('send-notificaiton');
+
+//  Route::get('notification/{status}', [NotificationController::class, 'getNotificationByIdUserandStatus']);
+//  Route::post('read/notification', [NotificationController::class, 'readNotification']);
+//  Route::post('unread/notification', [NotificationController::class, 'unreadNotification']);
+//  Route::post('delete/notification', [NotificationController::class, 'deleteNotification']);
+//  Route::post('send/notification', [NotificationController::class, 'sendNotification']);
+ // NOTIFICATION
 
 
