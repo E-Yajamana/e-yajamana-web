@@ -18,7 +18,7 @@ class AdminDataAkunUserController extends Controller
         $validator = Validator::make([
             'status' => $status
         ], [
-            'status' => 'nullable|in:sulinggih,pemangku,sanggar,serati,krama_bali,semua'
+            'status' => 'nullable|in:sulinggih,pemangku,sanggar,serati,krama,semua'
         ]);
 
         if ($validator->fails()) {
@@ -29,7 +29,7 @@ class AdminDataAkunUserController extends Controller
             ], 400);
         }
         // END
-        $userQuery = User::query();
+        $userQuery = User::query()->where('role', '!=', 'admin');
         // MAIN LOGIC
         switch ($status) {
             case "sulinggih":
@@ -64,7 +64,7 @@ class AdminDataAkunUserController extends Controller
                     }
                 ])->where('role', 'serati')->whereHas("Penduduk")->get();
                 break;
-            case "krama_bali":
+            case "krama":
                 $userSistems = $userQuery->with([
                     "Penduduk",
                     "Krama"

@@ -10,6 +10,7 @@ use App\Http\Controllers\api\krama\KramaReservasiController;
 use App\Http\Controllers\api\krama\KramaUpacaraController;
 use App\Http\Controllers\api\location\LocationController;
 use App\Http\Controllers\api\NotificationController;
+use App\Http\Controllers\api\RegisController;
 use App\Http\Controllers\api\sulinggih\SulinggihDashboardController;
 use App\Http\Controllers\api\sulinggih\SulinggihMuputController;
 use App\Http\Controllers\api\sulinggih\SulinggihReservasiController;
@@ -27,6 +28,31 @@ Route::post('request/email/token', [AuthController::class, 'lupaPassword']);
 Route::post('check/email/token', [AuthController::class, 'checkToken']);
 Route::post('create/new/password', [AuthController::class, 'createNewPassword']);
 // END
+
+// REGISTER
+Route::prefix('register')->group(function () {
+    Route::post('check/nik', [RegisController::class, 'checkNik']);
+    Route::post('post/krama', [RegisController::class, 'postRegisterKrama']);
+    Route::post('post/sulinggih', [RegisController::class, 'postRegisterSulinggih']);
+
+    Route::get('get/sulinggih', [RegisController::class, 'getAllSulinggih']);
+    Route::get('get/griya', [RegisController::class, 'getAllGriya']);
+
+    // LOCATION
+    Route::prefix('location')->group(function () {
+        Route::get('provinsi', [LocationController::class, 'getProvinsi']);
+        Route::get('kabupaten/{id_provinsi}', [LocationController::class, 'getKabupaten']);
+        Route::get('kecamatan/{id_kabupaten}', [LocationController::class, 'getKecamatan']);
+        Route::get('desadinas/{id_kecamatan}', [LocationController::class, 'getDesaDinas']);
+        Route::get('banjardinas/{id_desa_dinas}', [LocationController::class, 'getBanjarDinas']);
+        Route::get('desaadat', [LocationController::class, 'getDesaAdat']);
+
+        Route::get('kecamatanbyprovinsi/{id_provinsi}', [LocationController::class, 'getKecamatanByProvinsiId']);
+    });
+    // END
+});
+// END
+
 // END
 
 // SACTUM MIDDLEWARE
