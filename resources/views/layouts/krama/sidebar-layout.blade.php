@@ -12,7 +12,6 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
                 <li id="side-pengaturan-akun" class="user-panel nav-item">
                     <a href="#" class="nav-link mb-2">
                         <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
@@ -23,13 +22,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="#" class="nav-link">
+                            <a id="side-profile" href="{{route('krama.profile')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon mr-1"></i>
                                 <p>Profile</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-konfirmasi-sulinggih" href="{{route('auth.logout')}}" class="nav-link">
+                            <a href="{{route('auth.logout')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon mr-1"></i>
                                 <p>Logout</p>
                             </a>
@@ -50,8 +49,8 @@
                 </div>
 
                 <li class="nav-header font-weight-bold pl-2" >DASHBOARD</li>
-                <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link p-2">
+                <li class="nav-item" id="side-dashboard">
+                    <a href="{{route('krama.dashboard')}}" class="nav-link p-2">
                         <i class="nav-icon mr-1 fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
