@@ -156,21 +156,21 @@ class AuthController extends Controller
     {
 
         // SECURITY
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email|exists:tb_user_eyajamana,email',
-            ],[
-                'email.required' => "Email tidak boleh kosong",
-                'email.email' => "Masukan email yang sesuai",
-                'email.exists' => "Email tidak sesuai dengan database sistem",
-            ]);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:tb_user_eyajamana,email',
+        ], [
+            'email.required' => "Email tidak boleh kosong",
+            'email.email' => "Masukan email yang sesuai",
+            'email.exists' => "Email tidak sesuai dengan database sistem",
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => 400,
-                    'message' => 'Validation error',
-                    'data' =>$validator->errors(),
-                ], 400);
-            }
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation error',
+                'data' => $validator->errors(),
+            ], 400);
+        }
         // END
 
         // MAIN LOGIC
@@ -303,14 +303,16 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'token' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
                 'message' => 'Validation error',
-                'data' => (object)[],
+                'data' => [
+                    $validator->errors()
+                ],
             ], 400);
         }
         // END

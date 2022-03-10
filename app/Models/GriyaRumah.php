@@ -49,11 +49,11 @@ class GriyaRumah extends Model
 
 	public function BanjarDinas()
 	{
-		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas','id');
+		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas', 'id');
 	}
 
 	public function Sulinggih()
 	{
-		return $this->hasMany(Sulinggih::class, 'id_griya','id');
+		return $this->hasMany(Sulinggih::class, 'id_griya', 'id');
 	}
 }
