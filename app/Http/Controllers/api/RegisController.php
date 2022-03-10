@@ -88,7 +88,7 @@ class RegisController extends Controller
         try {
             DB::beginTransaction();
 
-            $penduduk = Penduduk::doesntHave("User")->where('nik', $request->nik)->firstOrfail();
+            $penduduk = Penduduk::where('nik', $request->nik)->firstOrfail();
 
             $user = User::create([
                 'email' => $request->email,
@@ -178,19 +178,19 @@ class RegisController extends Controller
 
             $sulinggih = new sulinggih();
 
-            if ($request->id_nabe == null) {
+            if ($request->id_nabe == null || $request->id_nabe == 0) {
                 $sulinggih->nama_nabe = $request->nama_nabe;
             } else {
                 $sulinggih->id_nabe = $request->id_nabe;
             }
 
-            if ($request->id_pasangan == null) {
+            if ($request->id_pasangan == null || $request->id_pasangan == 0) {
                 $sulinggih->nama_pasangan = $request->nama_pasangan;
             } else {
                 $sulinggih->id_pasangan = $request->id_pasangan;
             }
 
-            if ($request->id_griya == null) {
+            if ($request->id_griya == null || $request->id_griya == 0) {
                 $griya = GriyaRumah::create([
                     'nama_griya_rumah' => $request->nama_griya,
                     'alamat_griya_rumah' => $request->alamat_griya,
@@ -224,6 +224,7 @@ class RegisController extends Controller
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             DB::rollBack();
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',

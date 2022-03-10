@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\admin\AdminDashboardController;
 use App\Http\Controllers\Api\admin\AdminDataAkunUserController;
 use App\Http\Controllers\api\admin\GriyaRumahController;
+use App\Http\Controllers\api\admin\PengaturanAkunController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\krama\KramaDashboardController;
 use App\Http\Controllers\api\krama\KramaPemuputKaryaController;
@@ -153,6 +154,12 @@ Route::middleware('auth:sanctum')->group(function () {
         // MASTER DATA
         Route::prefix('masterdata')->group(function () {
             Route::get('griyarumah/{nama?}/{idBanjarDinas?}', [GriyaRumahController::class, 'index']);
+        });
+        // END
+
+        // PENGATURAN AKUN
+        Route::prefix('pengaturanakun')->group(function () {
+            Route::get('akun/{nama?}/{status?}', [PengaturanAkunController::class, 'index']);
         });
         // END
     });
