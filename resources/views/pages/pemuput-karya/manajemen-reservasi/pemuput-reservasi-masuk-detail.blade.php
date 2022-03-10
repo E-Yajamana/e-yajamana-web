@@ -182,6 +182,7 @@
                                                                 <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
                                                                 <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @else value="diterima" @endif >Setujui</option>
                                                                 <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
+                                                                <option data-id="{{$data->id}}" @if ($data->status == 'batal') value="batal" selected @else value="batal" @endif>Batal</option>
                                                             </select>
                                                         </div>
                                                         <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
