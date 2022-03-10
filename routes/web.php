@@ -13,6 +13,7 @@ use App\Http\Controllers\web\auth\AuthController;
 use App\Http\Controllers\web\auth\RegisterController;
 use App\Http\Controllers\web\GetImageController;
 use App\Http\Controllers\web\krama\dashboard\KramaDashboardController;
+use App\Http\Controllers\web\krama\KramaController;
 use App\Http\Controllers\web\krama\reservasi\KramaReservasiController;
 use App\Http\Controllers\web\krama\upacaraku\KramaUpacarakuController;
 use App\Http\Controllers\web\NotifyController;
@@ -151,6 +152,7 @@ Route::group(['prefix'=>'admin','middleware'=>'cek:admin'], function () {
 
 Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
+    Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
 
     Route::prefix('manajemen-upacara')->group(function () {
         Route::get('index', [KramaUpacarakuController::class, 'indexUpacaraku'])->name('krama.manajemen-upacara.upacaraku.index');
