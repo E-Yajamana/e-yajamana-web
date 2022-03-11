@@ -2,8 +2,19 @@
 @section('tittle','Dashboard')
 
 @push('css')
+
 <!-- fullCalendar -->
 <link rel="stylesheet" href="{{asset('base-template/plugins/fullcalendar/main.css')}}">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+crossorigin=""/>
+
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+crossorigin=""></script>
+
 @endpush
 
 @section('content')
@@ -144,11 +155,6 @@
                 <div class="card" style="height:683px">
                     <div class="card-header">
                         <label class="card-title"  id="judulKalender">Jadwal Muput </label>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-horizontal-sm list-unstyled mb-2">
@@ -163,7 +169,7 @@
             <div class="col-12 col-sm-6">
                 <div class="card" style="height:683px">
                     <div class="card-header">
-                        <label class="card-title"  id="judulKalender">Jadwal Reservasi Akan Datang </label>
+                        <label class="card-title"  id="judulKalender"><i class="fas fa-bullhorn mr-2"></i></i>Reservasi Akan Datang </label>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
@@ -173,10 +179,10 @@
                     <div class="card-body">
                          <!-- Timelime example  -->
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mt-3">
                                 <div class="timeline">
-                                    <div class="time-label">
-                                        <span class="bg-info">10 Feb. 2014</span>
+                                    {{-- <div class="time-label">
+                                        <span class="bg-info">10 Februari 2014</span>
                                     </div>
                                     <div>
                                         <i class="fas fa-user bg-green"></i>
@@ -191,22 +197,21 @@
                                             <span class="time"><i class="fas fa-clock"></i> Jam : 18.00 - Selesai</span>
                                             <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
                                         </div>
-                                    </div>
-                                    {{-- <div class="time-label">
-                                        <span class="bg-green">3 Jan. 2014</span>
+                                    </div> --}}
+                                    <div class="time-label">
+                                        <span class="bg-info">3 Jan. 2014</span>
                                     </div>
                                     <div>
-                                        <i class="fas fa-comments bg-yellow"></i>
+                                        <i class="fas fa-user bg-primary"></i>
                                         <div class="timeline-item">
                                             <span class="time"><i class="fas fa-clock"></i> 27 mins ago</span>
-                                            <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
+                                            <h3 class="timeline-header"><a href="#">Ida Pedande | </a> Muput upacara Mepandes</h3>
                                             <div class="timeline-body">
-                                                Take me to your leader!
-                                                Switzerland is small and neutral!
-                                                We are more like Germany, ambitious and misunderstood!
+                                                Ida pedande muput upacara pada karya potong gigi yang dimulai pada jam 09:20 WITA berlangsung di
+                                                Perumahan Cemara Giri Graha
                                             </div>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                     <div>
                                         <i class="fas fa-clock bg-gray"></i>
                                     </div>
@@ -218,6 +223,28 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <label class="card-title"  id="judulKalender">Posisi Krama</label>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="gmaps" style="height: 450px"></div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="uppercase">Lihat Detail Pemetaan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 @endsection
@@ -233,6 +260,36 @@
 <!-- daterangepicker -->
 <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
 
+<!-- Maps Pemetaan  -->
+<script language="javascript" type="text/javascript">
+    $(document).ready(function() {
+        //--------------START Deklarasi awal seperti icon pembuatan map-------------//
+       var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 10);
+       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+           attribution: 'Maps E-Yajamana',
+           maxZoom: 18,
+           minZoom: 9,
+           id: 'mapbox/streets-v11',
+           tileSize: 512,
+           zoomOffset: -1,
+           accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
+       }).addTo(mymap);
+       document.getElementById("modalMap").onclick = function () {
+           document.getElementById('modal-xl').style.display = 'block';
+           setTimeout(function() {
+               mymap.invalidateSize();
+           }, 100);
+       }
+       var curLocation = [0, 0];
+       if (curLocation[0] == 0 && curLocation[1] == 0) {
+           curLocation = [-8.4517916, 115.1970086];
+       }
+       var marker = new L.marker(curLocation, {
+           draggable: 'true'
+       });
+   })
+</script>
+<!-- Maps Pemetaan  -->
 
 <script>
     $(function () {

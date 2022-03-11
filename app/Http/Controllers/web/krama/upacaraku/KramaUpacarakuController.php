@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use NotificationHelper;
 use PDOException;
 use PhpParser\Node\Expr\FuncCall;
 use Prophecy\Call\Call;
@@ -93,9 +94,11 @@ class KramaUpacarakuController extends Controller
              try{
                 DB::beginTransaction();
                 list($start,$end) = DateRangeHelper::parseDateRange($request->daterange);
+                $user = Auth::user();
+
                 Upacaraku::create([
                     'id_upacara'=>$request->id_upacara,
-                    'id_krama'=>Auth::user()->Krama->id,
+                    'id_krama'=>$user->Krama->id,
                     'id_banjar_dinas'=>$request->id_banjar_dinas,
                     'nama_upacara'=>$request->nama_upacara,
                     'alamat_upacaraku'=>$request->lokasi,
@@ -106,6 +109,7 @@ class KramaUpacarakuController extends Controller
                     'lat'=>$request->lat,
                     'lng'=>$request->lng,
                 ]);
+
                 DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 DB::rollBack();

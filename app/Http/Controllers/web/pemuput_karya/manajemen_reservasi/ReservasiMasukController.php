@@ -5,6 +5,7 @@ namespace App\Http\Controllers\web\pemuput_karya\manajemen_reservasi;
 use App\DateRangeHelper;
 use App\Http\Controllers\Controller;
 use App\Models\DetailReservasi;
+use App\Models\Krama;
 use App\Models\Reservasi;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
+use NotificationHelper;
 use PDOException;
 
 class ReservasiMasukController extends Controller
@@ -108,30 +110,46 @@ class ReservasiMasukController extends Controller
 
         // MAIN LOGIC
         try{
+            DB::beginTransaction();
+            $reservasi = Reservasi::with('Upacaraku')->findOrFail($request->id_reservasi);
+            $krama = Krama::findOrFail($reservasi->Upacaraku->id_krama);
+
             if($request->tanggal_tanggkil == null){
-                DB::beginTransaction();
-                $tanggal_tangkil = new Carbon($request->tanggal_tangkil);
-                Reservasi::findOrFail($request->id_reservasi)->update(['status'=>$request->status_reservasi,'tanggal_tangkil'=>$tanggal_tangkil->format('Y-m-d h:i:s')]);
-                foreach($request->id_tahapan as $index => $data){
-                    DetailReservasi::findOrFail($data)->update([
-                        'keterangan' => $request->alasan_penolakan[$index],
-                        'status' => $request->status[$index]
-                    ]);
-                }
-                DB::commit();
-            }else{
-                DB::beginTransaction();
                 $tanggal_tangkil = DateRangeHelper::parseSingleDate($request->tanggal_tangkil);
-                dd($tanggal_tangkil);
-                Reservasi::findOrFail($request->id_reservasi)->update(['status'=>$request->status_reservasi,'tanggal_tangkil'=>$tanggal_tangkil->format('Y-m-d h:i:s')]);
+                $reservasi->update(['status'=>$request->status_reservasi,'tanggal_tangkil'=>$tanggal_tangkil]);
                 foreach($request->id_tahapan as $index => $data){
                     DetailReservasi::findOrFail($data)->update([
                         'keterangan' => $request->alasan_penolakan[$index],
                         'status' => $request->status[$index]
                     ]);
                 }
-                DB::commit();
+            }else{
+                $tanggal_tangkil = DateRangeHelper::parseSingleDate($request->tanggal_tangkil);
+                $reservasi->update(['status'=>$request->status_reservasi,'tanggal_tangkil'=>$tanggal_tangkil]);
+                foreach($request->id_tahapan as $index => $data){
+                    DetailReservasi::findOrFail($data)->update([
+                        'keterangan' => $request->alasan_penolakan[$index],
+                        'status' => $request->status[$index]
+                    ]);
+                }
             }
+
+            // SEND NOTIFICATION
+            NotificationHelper::sendNotification(
+                [
+                    'title' => "RESERVASI BARU",
+                    'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
+                    'status' => "new",
+                    'image' => "krama",
+                    'notifiable_id' => $krama->id,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $krama
+            );
+            // SEND NOTIFICATION
+
+            DB::commit();
         }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
             return redirect()->back()->with([
                 'status' => 'fail',
