@@ -105,19 +105,13 @@ crossorigin=""></script>
             <div class="col-12 col-sm-4">
                 <div class="card" style="height: 375px">
                     <div class="card-header">
-                      <h3 class="card-title">Upacara Krama</h3>
-                      <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                          <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                          <i class="fas fa-times"></i>
-                        </button>
-                      </div>
+                        <h3 class="card-title">Upacara Krama</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body p-0">
-                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                    <!-- /.card-header -->
+
+                        {{-- <ul class="products-list product-list-in-card pl-2 pr-2">
                             <!-- /.item -->
                             <li class="item">
                                 <div class="ml-3 product-info">
@@ -139,8 +133,18 @@ crossorigin=""></script>
                                     </span>
                                 </div>
                             </li>
+                        </ul> --}}
+                        <div class="h-100 d-flex justify-content-center align-items-center ">
+                            <div class="media">
+                                <div class="media-body text-center mb-2 ">
+                                    <i class="fa-4x bi-brightness-high-fill text-secondary"></i>
+                                    <div class="d-flex justify-content-center">
+                                        <p class="text-md text-center mt-1 w-75">Belum ada Upacara yang dibuat..</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                        </ul>
                     </div>
                     <div class="card-footer text-center">
                         <a href="#" class="uppercase">Lihat Semua Upacara Krama</a>
@@ -180,24 +184,7 @@ crossorigin=""></script>
                          <!-- Timelime example  -->
                         <div class="row">
                             <div class="col-md-12 mt-3">
-                                <div class="timeline">
-                                    {{-- <div class="time-label">
-                                        <span class="bg-info">10 Februari 2014</span>
-                                    </div>
-                                    <div>
-                                        <i class="fas fa-user bg-green"></i>
-                                        <div class="timeline-item">
-                                            <span class="time"><i class="fas fa-clock"></i> Jam : 18.00 - Selesai</span>
-                                            <h3 class="timeline-header no-border"><a href="#">Ida Pedande | </a> Muput upacara Mepandes</h3>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <i class="fas fa-user bg-green"></i>
-                                        <div class="timeline-item">
-                                            <span class="time"><i class="fas fa-clock"></i> Jam : 18.00 - Selesai</span>
-                                            <h3 class="timeline-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
-                                        </div>
-                                    </div> --}}
+                                {{-- <div class="timeline">
                                     <div class="time-label">
                                         <span class="bg-info">3 Jan. 2014</span>
                                     </div>
@@ -215,10 +202,22 @@ crossorigin=""></script>
                                     <div>
                                         <i class="fas fa-clock bg-gray"></i>
                                     </div>
+                                </div> --}}
+                            </div>
+                        </div>
+                        <div class="h-100 d-flex justify-content-center align-items-center ">
+                            <div class="media">
+                                <div class="media-body text-center mb-2 ">
+                                    <i class="fa-6x fas fa-calendar-alt text-secondary"></i>
+                                    <div class="d-flex justify-content-center mt-3">
+                                        <p class="text-lg text-center mt-1 w-75">Belum terdapat Reservasi..</p>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- /.col -->
                         </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="#" class="uppercase">Lihat Semua Reservasi Krama</a>
                     </div>
                 </div>
             </div>
@@ -274,12 +273,7 @@ crossorigin=""></script>
            zoomOffset: -1,
            accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
        }).addTo(mymap);
-       document.getElementById("modalMap").onclick = function () {
-           document.getElementById('modal-xl').style.display = 'block';
-           setTimeout(function() {
-               mymap.invalidateSize();
-           }, 100);
-       }
+
        var curLocation = [0, 0];
        if (curLocation[0] == 0 && curLocation[1] == 0) {
            curLocation = [-8.4517916, 115.1970086];

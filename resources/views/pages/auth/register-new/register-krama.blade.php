@@ -266,7 +266,7 @@
                     Swal.fire({
                         icon: 'warning',
                         title: 'Gagal menemukan data penduduk...',
-                        text: 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKUAT terlebih dahulu.. !!',
+                        text: 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKEDAT terlebih dahulu.. !!',
                         footer: '<a href="#">Lakukan Pendataan telebih dahulu disini</a>'
                     })
                 }

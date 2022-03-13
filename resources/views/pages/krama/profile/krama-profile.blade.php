@@ -177,17 +177,16 @@ crossorigin=""></script>
                     </div>
                 </div>
                 <!-- RESERVASI RANGKUMAN -->
-
             </div>
 
             <div class="col-md-8">
                 <div class="card card-primary card-outline card-outline-tabs">
                     <div class="card-header border-bottom-0 p-2">
                         <ul class="nav nav-tabs">
-                            <li class="nav-item"><a class="nav-link active text-dark" href="#dataDiri" data-toggle="tab">Data Diri</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" href="#dataDiri" data-toggle="tab">Data Diri</a></li>
                             <li class="nav-item"><a class="nav-link text-dark" href="#akun" data-toggle="tab">Akun</a></li>
                             <li class="nav-item"><a class="nav-link text-dark" id="pemetaanTabs" href="#pemetaan" data-toggle="tab">Pemetaan Lokasi</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" href="#edit-profile" data-toggle="tab">Notifikasi</a></li>
+                            <li class="nav-item"><a class="nav-link active text-dark" href="#notifikasi" data-toggle="tab">Notifikasi</a></li>
                             <li class="nav-item"><a class="nav-link text-dark" href="#ubahPassword" data-toggle="tab">Ubah Password</a></li>
                         </ul>
                     </div>
@@ -195,7 +194,7 @@ crossorigin=""></script>
                         <div class="tab-content">
 
                             <!---- DATA DIRI TABS ------>
-                            <div class="tab-pane " id="dataDiri">
+                            <div class="tab-pane" id="dataDiri">
                                 <div class="ml-2 fs-4">
                                     <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Data Diri</label>
                                     <p>Kelola data diri Anda agar lebih mudah mendapatkan informasimu</p>
@@ -306,7 +305,7 @@ crossorigin=""></script>
                             <!---- AKUN TABS ------>
 
                             <!---- PEMETAAN TABS ------>
-                            <div class="tab-pane active" id="pemetaan">
+                            <div class="tab-pane" id="pemetaan">
                                 <div class="ml-2 fs-4">
                                     <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Akun</label>
                                     <p>Kelola akun Anda agar lebih mudah untuk melakukan login</p>
@@ -322,6 +321,61 @@ crossorigin=""></script>
                             </div>
                             <!---- PEMETAAN TABS ------>
 
+                            <!---- NOTIFIKASI TABS ------>
+                            <div class="tab-pane active" id="notifikasi">
+                                <div class="ml-2 fs-4">
+                                    <label class="fw-bold text-center d-grid text-lg mb-1">Notifikasi</label>
+                                    <p class="mb-0">Kelola notifikasi yang masuk ke akun Anda...</p>
+                                </div>
+                                <div class="dropdown-divider mt-2 mb-3"></div>
+
+                                    <ul class="nav nav-tabs text-md ">
+                                        <li class="nav-item"><a class="nav-link active text-dark text-bold" href="#notifikasiBaru" data-toggle="tab">BARU </a></li>
+                                        <li class="nav-item"><a class="nav-link text-dark text-bold" href="#notifikasiRiwayat" data-toggle="tab">RIWAYAT</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active" id="notifikasiBaru">
+                                            <!---- NOT NULL NOTIFICATION ------>
+                                            <div class="card mt-3">
+                                                <div class="card-header" aria-expanded="false">
+                                                    <div class="card-tools mr-0">
+                                                        <div class="input-group-prepend">
+                                                            <button type="button" class="btn btn-tool float-right px-0" data-toggle="dropdown">
+                                                                <i class="fas fa-ellipsis-v float-lg-right mt-2"></i>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <a href="#" class="dropdown-item text-dark">Baca Notifikasi</a></li>
+                                                                {{-- <li class="dropdown-divider"></li> --}}
+                                                                <a href="#" class="text-dark dropdown-item">Delete Notifikasi</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-xs text-primary my-4"><i class="fas fa-info-circle"></i> Informasi | 17:20</span>
+                                                    <p class="text-md mb-0 text-bold">Permohonan Reservasi dibuat</p>
+                                                    <p class="text-xs mb-1">Permohonan reservasi kepada Made Rismawan telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya</p>
+                                                </div>
+                                            </div>
+                                            <!---- NOT NULL NOTIFICATION ------>
+                                        </div>
+                                        <div class="tab-pane" id="notifikasiRiwayat">
+                                           <!---- IF NOT IN NOTIFICATION IN SISTEM ------>
+                                            <div class="h-100 d-flex justify-content-center align-items-center mt-4">
+                                                <div class="media">
+                                                    <div class="media-body text-center mb-2 mt-2">
+                                                        <i class="fa-4x far fa-bell text-secondary"></i>
+                                                        <div class="d-flex justify-content-center mt-3">
+                                                            <p class="text-md text-center">Belum tedapat notifikasi..</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!---- IF NOT IN NOTIFICATION IN SISTEM ------>
+                                        </div>
+                                    </div>
+
+                                <div class="dropdown-divider mt-2"></div>
+                            </div>
+                            <!---- NOTIFIKASI TABS ------>
 
                             <!---- UBAH PASSWORD TABS ------>
                             <div class="tab-pane" id="ubahPassword">
