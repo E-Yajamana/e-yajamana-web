@@ -15,13 +15,10 @@ class Serati extends Model
         'id_user',
         'status_konfirmasi_akun',
         'keterangan_konfirmasi_akun',
-        'lat',
-        'lng'
     ];
 
     public function User(){
         return $this->belongsTo(User::class,'id_user','id');
     }
-
 
 }

@@ -80,9 +80,9 @@ class Upacaraku extends Model
 		return $date->format('Y-m-d H:i:s');
 	}
 
-	public function Krama()
+	public function User()
 	{
-		return $this->belongsTo(Krama::class, 'id_krama');
+		return $this->belongsTo(User::class, 'id_krama');
 	}
 
 	public function Upacara()

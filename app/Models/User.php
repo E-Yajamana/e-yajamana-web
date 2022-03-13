@@ -9,6 +9,36 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use stdClass;
 
+/**
+ * Class TbUserEyajamana
+ *
+ * @property int $id
+ * @property int|null $id_penduduk
+ * @property string $email
+ * @property string $password
+ * @property string $nomor_telepon
+ * @property string|null $user_profile
+ * @property string|null $json_token_lupa_password
+ * @property string|null $fcm_token_key
+ * @property string|null $fcm_token_web
+ * @property float|null $lat
+ * @property float|null $lng
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ *
+ * @property TbPenduduk|null $tb_penduduk
+ * @property Collection|TbKepemilikanSanggar[] $tb_kepemilikan_sanggars
+ * @property Collection|TbKeteranganKonfirmasi[] $tb_keterangan_konfirmasis
+ * @property Collection|TbPemuputKarya[] $tb_pemuput_karyas
+ * @property Collection|TbReservasi[] $tb_reservasis
+ * @property Collection|TbSerati[] $tb_seratis
+ * @property Collection|TbUpacaraku[] $tb_upacarakus
+ * @property Collection|TbUserRole[] $tb_user_roles
+ *
+ * @package App\Models
+ */
+
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -20,16 +50,18 @@ class User extends Authenticatable
      *
      * @var string[]
      */
+
     protected $fillable = [
-        'email',
-        'password',
         'id_penduduk',
-        'nomor_telepon',
-        'user_profile',
-        'role',
-        'json_token_lupa_password',
-        'fcm_token_key',
-        'fcm_token_web'
+		'email',
+		'password',
+		'nomor_telepon',
+		'user_profile',
+		'json_token_lupa_password',
+		'fcm_token_key',
+		'fcm_token_web',
+		'lat',
+		'lng'
     ];
 
     /**
@@ -39,7 +71,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+		'json_token_lupa_password'
     ];
 
     /**
@@ -48,27 +80,19 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'id_penduduk' => 'int',
+		'lat' => 'float',
+		'lng' => 'float'
     ];
-
-    public function Krama()
-    {
-        return $this->hasOne(Krama::class, 'id_user', 'id');
-    }
 
     public function Penduduk()
     {
         return $this->belongsTo(Penduduk::class, 'id_penduduk', 'id');
     }
 
-    public function Sanggar()
+    public function PemuputKarya()
     {
-        return $this->hasOne(Sanggar::class, 'id_user', 'id');
-    }
-
-    public function Sulinggih()
-    {
-        return $this->hasOne(Sulinggih::class, 'id_user', 'id');
+        return $this->hasOne(PemuputKarya::class, 'id_user', 'id');
     }
 
     public function Serati()
@@ -84,6 +108,21 @@ class User extends Authenticatable
     public function KeteranganKonfirmasi()
     {
         return $this->hasMany(KeteranganKonfirmasi::class, 'id_relasi');
+    }
+
+    public function Upacaraku()
+	{
+		return $this->hasMany(Upacaraku::class, 'id_krama');
+	}
+
+    public function Role()
+    {
+        return $this->belongsToMany(Role::class,'tb_user_roles','id_user','id_role')->withTimestamps();
+    }
+
+    public function Sanggar()
+    {
+        return $this->belongsToMany(Sanggar::class,'tb_kepemilikan_sanggar','id_user','id_sanggar')->withTimestamps();
     }
 
     public function getRelasi()
