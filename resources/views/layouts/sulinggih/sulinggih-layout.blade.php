@@ -60,14 +60,13 @@
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
     <script>
         var firebaseConfig = {
-            apiKey: "AIzaSyAi5-GWTruT_bF15xnbUAGR9c5afq5P_as",
-            authDomain: "eyajamana-website.firebaseapp.com",
-            // databaseURL: 'https://project-id.firebaseio.com',
-            projectId: "eyajamana-website",
-            storageBucket: "eyajamana-website.appspot.com",
-            messagingSenderId: "980955733639",
-            appId: "1:980955733639:web:65b9823c8ff9ff0e0e2222",
-            measurementId: "G-XCMZ3MKTZJ"
+            apiKey: "AIzaSyAwDQm7M6h2Jm30yZ2VzyI1uPgW3ZeLfrI",
+            authDomain: "e-yajamana.firebaseapp.com",
+            projectId: "e-yajamana",
+            storageBucket: "e-yajamana.appspot.com",
+            messagingSenderId: "521034262423",
+            appId: "1:521034262423:web:6c9e5f7fdc80bf77a846d2",
+            measurementId: "G-93GDMX9QYD"
 
         };
 

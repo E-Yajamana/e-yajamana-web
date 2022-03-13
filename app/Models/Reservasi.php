@@ -63,16 +63,6 @@ class Reservasi extends Model
 		return $date->format('Y-m-d H:i:s');
 	}
 
-	// public function Sanggar()
-	// {
-	// 	return $this->belongsTo(Sanggar::class, 'id_relasi','id');
-	// }
-
-	// public function Sulinggih()
-	// {
-	// 	return $this->belongsTo(Sulinggih::class, 'id_relasi','id');
-	// }
-
 	public function Upacaraku()
 	{
 		return $this->belongsTo(Upacaraku::class, 'id_upacaraku', 'id');
@@ -88,9 +78,4 @@ class Reservasi extends Model
 		return $this->belongsTo(User::class, 'id_relasi');
 	}
 
-
-	// public function tb_gambars()
-	// {
-	// 	return $this->hasMany(TbGambar::class, 'id_reservarsi');
-	// }
 }

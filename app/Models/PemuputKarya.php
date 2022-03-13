@@ -12,75 +12,52 @@ use Illuminate\Database\Eloquent\Model;
 use DateTimeInterface;
 use stdClass;
 
+
 /**
- * Class TbSulinggih
+ * Class TbPemuputKarya
  *
  * @property int $id
- * @property int $id_griya
  * @property int $id_user
- * @property int|null $nabe
- * @property string|null $nama_walaka
- * @property string|null $nama_sulinggih
- * @property string|null $nama_pasangan
- * @property string|null $tempat_lahir
- * @property Carbon|null $tanggal_lahir
- * @property string|null $jenis_kelamin
- * @property string|null $pekerjaan
- * @property string|null $pendidikan
- * @property Carbon|null $tanggal_diksha
- * @property string|null $status
- * @property string|null $sk_kesulinggihan
+ * @property int $id_griya
+ * @property int|null $id_pasangan
+ * @property int $id_atribut
+ * @property string|null $nama_pemuput
  * @property string|null $status_konfirmasi_akun
  * @property string|null $keterangan_konfirmasi_akun
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
- * @property TbUser $tb_user
+ * @property TbUserEyajamana $tb_user_eyajamana
  * @property TbGriyaRumah $tb_griya_rumah
- * @property TbSulinggih|null $tb_sulinggih
- * @property Collection|TbReservasi[] $tb_reservasis
- * @property Collection|TbSulinggih[] $tb_sulinggihs
+ * @property TbPemuputKarya|null $tb_pemuput_karya
+ * @property TbAtributPemuput $tb_atribut_pemuput
+ * @property Collection|TbAtributPemuput[] $tb_atribut_pemuputs
+ * @property Collection|TbPemuputKarya[] $tb_pemuput_karyas
  *
  * @package App\Models
  */
-class Sulinggih extends Model
+class PemuputKarya extends Model
 {
-	protected $table = 'tb_sulinggih';
+	protected $table = 'tb_pemuput_karya';
 
 	protected $casts = [
-		'id_griya' => 'int',
 		'id_user' => 'int',
-		'nabe' => 'int'
-	];
-
-	protected $dates = [
-		'tanggal_lahir',
-		'tanggal_diksha'
+		'id_griya' => 'int',
+		'id_pasangan' => 'int',
+		'id_atribut' => 'int'
 	];
 
 	protected $fillable = [
-		'id_griya',
 		'id_user',
-		'id_nabe',
+		'id_griya',
 		'id_pasangan',
-		'nama_walaka',
-		'nama_sulinggih',
-		'nama_pasangan',
-		'nama_nabe',
-		'tanggal_diksha',
-		'status',
-		'sk_kesulinggihan',
+		'id_atribut',
+		'nama_pemuput',
 		'status_konfirmasi_akun',
 		'keterangan_konfirmasi_akun'
 	];
 
-		/**
-	 * Prepare a date for array / JSON serialization.
-	 *
-	 * @param  \DateTimeInterface  $date
-	 * @return string
-	 */
-	protected function serializeDate(DateTimeInterface $date)
+    protected function serializeDate(DateTimeInterface $date)
 	{
 		return $date->format('Y-m-d H:i:s');
 	}
@@ -95,26 +72,20 @@ class Sulinggih extends Model
 		return $this->belongsTo(GriyaRumah::class, 'id_griya');
 	}
 
-	public function Nabe()
-	{
-		return $this->belongsTo(Sulinggih::class, 'id_nabe');
-	}
-
     public function Pasangan()
 	{
-		return $this->belongsTo(Sulinggih::class, 'id_pasangan');
+		return $this->belongsTo(PemuputKarya::class, 'id_pasangan');
 	}
 
-	public function Reservasi()
+	public function AtributPemuput()
 	{
-		return $this->hasMany(Reservasi::class, 'id_relasi','id');
+		return $this->belongsTo(AtributPemuput::class, 'id_atribut');
 	}
 
-    public function KeteranganKonfirmasi()
+	public function Nabe()
 	{
-		return $this->hasMany(KeteranganKonfirmasi::class, 'id_sulinggih');
+		return $this->hasMany(AtributPemuput::class, 'id_nabe');
 	}
-
 
     public function getNabeAndPasangan()
     {
