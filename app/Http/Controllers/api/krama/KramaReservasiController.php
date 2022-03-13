@@ -122,7 +122,6 @@ class KramaReservasiController extends Controller
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             DB::rollback();
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',

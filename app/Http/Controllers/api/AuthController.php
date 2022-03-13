@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use PDOException;
 
 class AuthController extends Controller
@@ -43,34 +43,47 @@ class AuthController extends Controller
                 $user = Auth::user();
                 $user->update(['fcm_token_key' => $request->fcm_token_key]);
 
-                // MENENTUKAN USER
-                $krama = null;
-                $sulinggih = null;
                 $penduduk = null;
+                $pemuputKarya = null;
+                $sanggar = null;
+                $roles = $user->Role;
 
-                switch ($user->role) {
-                    case 'krama_bali':
-                        $krama = $user->Krama()->firstOrFail();
-                        $penduduk = $user->Penduduk()->firstOrFail();
-
-                        $token = $user->createToken('e-yajamana', ['role:krama_bali'])->plainTextToken;
-                        break;
-
-                    case 'sulinggih':
-                        $sulinggih = $user->Sulinggih()->with(['GriyaRumah'])->whereHas('GriyaRumah')->firstOrFail();
-                        $penduduk = $user->Penduduk()->firstOrFail();
-                        $token = $user->createToken('e-yajamana', ['role:sulinggih'])->plainTextToken;
-                        break;
-
-                    case 'admin':
-                        $penduduk = $user->Penduduk()->firstOrFail();
-                        $token = $user->createToken('e-yajamana', ['role:admin'])->plainTextToken;
-                        break;
-
-                    default:
-                        throw new Exception("Role tidak ditemukan");
-                        break;
+                if($roles->count() == 1 && $roles->first()->nama_role == "Krama"){
+                    $penduduk = $user->Penduduk()->firstOrFail();
+                    $message = "Berhasil login sebagai krama";
+                    $token = $user->createToken('e-yajamana', ['role:krama_bali'])->plainTextToken;
+                }else{
+                    
                 }
+
+                // // MENENTUKAN USER
+                // $krama = null;
+                // $pemuputKarya = null;
+                // $penduduk = null;
+
+                // switch ($user->role) {
+                //     case 'krama_bali':
+                //         $krama = $user->Krama()->firstOrFail();
+                //         $penduduk = $user->Penduduk()->firstOrFail();
+
+                //         $token = $user->createToken('e-yajamana', ['role:krama_bali'])->plainTextToken;
+                //         break;
+
+                //     case 'pemuput_karya':
+                //         $pemuputKarya = $user->PemuputKarya()->with(['GriyaRumah'])->whereHas('GriyaRumah')->firstOrFail();
+                //         $penduduk = $user->Penduduk()->firstOrFail();
+                //         $token = $user->createToken('e-yajamana', ['role:sulinggih'])->plainTextToken;
+                //         break;
+
+                //     case 'admin':
+                //         $penduduk = $user->Penduduk()->firstOrFail();
+                //         $token = $user->createToken('e-yajamana', ['role:admin'])->plainTextToken;
+                //         break;
+
+                //     default:
+                //         throw new Exception("Role tidak ditemukan");
+                //         break;
+                // }
             } else {
                 return response()->json([
                     'status' => 401,
@@ -91,13 +104,13 @@ class AuthController extends Controller
         // RETURN
         return response()->json([
             'status' => 200,
-            'message' => 'Berhasil melakukan login',
+            'message' => $message,
             'data' => (object)[
                 'token' => $token,
                 'user' => $user,
                 'penduduk' => $penduduk,
-                'krama' => $krama,
-                'sulinggih' => $sulinggih,
+                'sanggar' => $sanggar,
+                'sulinggih' => $pemuputKarya,
             ]
         ], 200);
         // END
@@ -125,7 +138,6 @@ class AuthController extends Controller
                 throw new Exception("UNKNOWN ERROR");
             }
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
