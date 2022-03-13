@@ -190,7 +190,7 @@ class KramaReservasiController extends Controller
                     'status' => 'fail',
                     'icon' => 'error',
                     'title' => 'Sistem Gagal Menambahkan Data Reservasi !',
-                    'message' => 'sistem gagal menambahkan data reservasi, mohon untuk menghubungi developer sistem untuk lebih lanjut!',
+                    'message' => $err,
                 ]);
             }
         // END LOGIC
