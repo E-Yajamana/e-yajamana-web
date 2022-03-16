@@ -46,6 +46,7 @@ Route::get('/', function () {
 Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
+    Route::get('login/select-account', [AuthController::class, 'selectAccount'])->name('select-account')->middleware('permission:login');
 
     Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
@@ -72,7 +73,7 @@ Route::prefix('auth')->group(function () {
 });
 
 // ROUTE ADMIN
-Route::group(['prefix'=>'admin'], function () {
+Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     // MASTER DATA ADMIN
@@ -151,7 +152,7 @@ Route::group(['prefix'=>'admin'], function () {
 });
 // ROUTE ADMIN
 
-Route::group(['prefix'=>'krama'], function () {
+Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
 
@@ -181,7 +182,7 @@ Route::group(['prefix'=>'krama'], function () {
 });
 
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
-Route::group(['prefix'=>'pemuput-karya'], function ()  {
+Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], function ()  {
     Route::get('dashboard', [PemuputDashboardController::class, 'index'])->name('pemuput-karya.dashboard');
     Route::get('calender', [PemuputDashboardController::class, 'calenderIndex'])->name('pemuput-karya.calender');
 

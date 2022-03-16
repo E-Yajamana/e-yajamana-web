@@ -21,13 +21,20 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest', ['except' => ['logout','selectAccount']]);
     }
 
     // INDEX PAGE LOGIN
     public function login(Request $request)
     {
         return view('pages.auth.login');
+    }
+    // INDEX PAGE LOGIN
+
+    // INDEX PAGE LOGIN
+    public function selectAccount(Request $request)
+    {
+        return view('pages.auth.login.login-switch');
     }
     // INDEX PAGE LOGIN
 
@@ -70,27 +77,9 @@ class AuthController extends Controller
                         if($konfirmasiAkunPemuput == 0 && $konfirmasiAkunSanggar == 0){
                             return redirect(route('krama.dashboard'));
                         }else{
-                            return view('pages.auth.login.login-switch');
+                            return redirect()->route('select-account');
                         }
                     }
-                    // }
-
-                    // switch(Auth::user()->role){
-                    //     case 'krama_bali':
-                    //         return redirect(route('krama.dashboard'));
-                    //     case 'admin':
-                    //         return redirect(route('admin.dashboard'));`
-                    //     case 'sulinggih':
-                    //         return redirect(route('pemuput-karya.dashboard'));
-                    //     default:
-                    //         Auth::user()->logout;
-                    //         return redirect()->back()->with([
-                    //             'status' => 'fail',
-                    //             'icon' => 'error',
-                    //             'title' => 'Gagal Login',
-                    //             'message' => 'Pengguna Tidak dapat digunakan!'
-                    //         ])->withInput($request->all());
-                    // }
                 }else{
                     return redirect()->route('auth.login')->with([
                         'status' => 'fail',

@@ -23,10 +23,10 @@ use Illuminate\Support\Facades\Hash;
 class RegisterController extends Controller
 {
 
-    // public function __construct()
-    // {
-    //     $this->middleware('guest');
-    // }
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
 
      // INDEX VIEW REGISTER AWAL
     public function regisIndex(Request $request)

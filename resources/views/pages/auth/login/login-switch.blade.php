@@ -25,9 +25,9 @@
                         </a>
                     </div>
                     @if (Auth::user()->PemuputKarya != null)
-                        @if (Auth::user()->PemuputKarya->where('status_konfirmasi_akun','disetujui') != null || Auth::user()->PemuputKarya->where('status_konfirmasi_akun','disetujui') != "")
+                        @if (Auth::user()->PemuputKarya->status_konfirmasi_akun == 'disetujui')
                             <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
-                                <a style="text-decoration: none;" href="{{route('auth.register.form.akun','sulinggih')}}">
+                                <a style="text-decoration: none;" href="{{route('pemuput-karya.dashboard')}}">
                                     <div class="card p-2 shadow cursor" role="button">
                                         <label class="text-center m-0 p-1 text-dark">@if (Auth::user()->PemuputKarya->tipe == 'sulinggih') SULINGGIH @else PEMANGKU @endif </label>
                                         <img @if (Auth::user()->PemuputKarya->tipe == 'sulinggih') src="{{asset('base-template/dist/img/jenis-user/sulinggih.jpg')}}" @else  src="{{asset('base-template/dist/img/jenis-user/pemangku.jpg')}}" @endif style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
@@ -80,7 +80,6 @@
                             </div>
                         </div>
                     @endif
-
                     @if (Auth::user()->Serati != null || Auth::user()->Serati != "")
                         <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
                             <a style="text-decoration: none;" href="{{route('auth.register.form.akun','serati')}}">
