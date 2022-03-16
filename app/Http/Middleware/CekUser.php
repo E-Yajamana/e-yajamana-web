@@ -17,68 +17,68 @@ class CekUser
      */
     public function handle(Request $request, Closure $next, $role)
     {
-        if(Auth::check()){
-            // dd(Auth::user()->Sulinggih->status_konfirmasi_akun);
-            switch(Auth::user()->role){
-                case('admin'):
-                    if(Auth::user()->role == $role){
-                        return $next($request);
-                    }else{
-                        return redirect()->route('admin.dashboard')->with([
-                            'status' => 'fail',
-                            'icon' => 'error',
-                            'title' => 'Hak Akses Dibatasi !',
-                            'message' => 'Mohon untuk login terlebih dahulu',
-                        ]);;
-                    }
-                case('sulinggih'):
-                    if(Auth::user()->Sulinggih->status_konfirmasi_akun == 'disetujui'){
-                        // dd(Auth::user()->role == $role);
-                        if(Auth::user()->role == $role){
-                            return $next($request);
-                        }else{
-                            return redirect()->route('pemuput-karya.dashboard')->with([
-                                'status' => 'fail',
-                                'icon' => 'error',
-                                'title' => 'Hak Akses Dibatasi !',
-                                'message' => 'Akses halaman tidak tersedia pada akun ini',
-                            ]);
-                        }
-                    }else{
-                        Auth::logout();
-                        return redirect()->route('auth.login')->with([
-                            'status' => 'fail',
-                            'icon' => 'error',
-                            'title' => 'Gagal Login !',
-                            'message' => 'Akun anda belum terverifikasi, Mohon untuk login terlebih dahulu',
-                        ]);
-                    }
-                case('krama_bali'):
-                    if(Auth::user()->role == $role){
-                        return $next($request);
-                    }else{
-                        return redirect()->route('krama.dashboard')->with([
-                            'status' => 'fail',
-                            'icon' => 'error',
-                            'title' => 'Hak Akses Dibatasi !',
-                            'message' => 'Mohon untuk login terlebih dahulu',
-                        ]);;
-                    }
-                default:
-                    return redirect()->back()->with([
-                        'status' => 'fail',
-                        'icon' => 'error',
-                        'title' => 'Hak Akses Dibatasi !',
-                        'message' => 'Mohon untuk login terlebih dahulu',
-                    ]);;
-            }
-        }else{
-            return redirect()->route('auth.login')->with([
-                'status' => 'fail',
-                'icon' => 'error',
-                'title' => 'Gagal Login !',
-                'message' => 'Mohon untuk login terlebih dahulu',
-            ]);;
-        }
+        // if(Auth::check()){
+        //     // dd(Auth::user()->Sulinggih->status_konfirmasi_akun);
+        //     switch(Auth::user()->role){
+        //         case('admin'):
+        //             if(Auth::user()->role == $role){
+        //                 return $next($request);
+        //             }else{
+        //                 return redirect()->route('admin.dashboard')->with([
+        //                     'status' => 'fail',
+        //                     'icon' => 'error',
+        //                     'title' => 'Hak Akses Dibatasi !',
+        //                     'message' => 'Mohon untuk login terlebih dahulu',
+        //                 ]);;
+        //             }
+        //         case('sulinggih'):
+        //             if(Auth::user()->Sulinggih->status_konfirmasi_akun == 'disetujui'){
+        //                 // dd(Auth::user()->role == $role);
+        //                 if(Auth::user()->role == $role){
+        //                     return $next($request);
+        //                 }else{
+        //                     return redirect()->route('pemuput-karya.dashboard')->with([
+        //                         'status' => 'fail',
+        //                         'icon' => 'error',
+        //                         'title' => 'Hak Akses Dibatasi !',
+        //                         'message' => 'Akses halaman tidak tersedia pada akun ini',
+        //                     ]);
+        //                 }
+        //             }else{
+        //                 Auth::logout();
+        //                 return redirect()->route('auth.login')->with([
+        //                     'status' => 'fail',
+        //                     'icon' => 'error',
+        //                     'title' => 'Gagal Login !',
+        //                     'message' => 'Akun anda belum terverifikasi, Mohon untuk login terlebih dahulu',
+        //                 ]);
+        //             }
+        //         case('krama_bali'):
+        //             if(Auth::user()->role == $role){
+        //                 return $next($request);
+        //             }else{
+        //                 return redirect()->route('krama.dashboard')->with([
+        //                     'status' => 'fail',
+        //                     'icon' => 'error',
+        //                     'title' => 'Hak Akses Dibatasi !',
+        //                     'message' => 'Mohon untuk login terlebih dahulu',
+        //                 ]);;
+        //             }
+        //         default:
+        //             return redirect()->back()->with([
+        //                 'status' => 'fail',
+        //                 'icon' => 'error',
+        //                 'title' => 'Hak Akses Dibatasi !',
+        //                 'message' => 'Mohon untuk login terlebih dahulu',
+        //             ]);;
+        //     }
+        // }else{
+        //     return redirect()->route('auth.login')->with([
+        //         'status' => 'fail',
+        //         'icon' => 'error',
+        //         'title' => 'Gagal Login !',
+        //         'message' => 'Mohon untuk login terlebih dahulu',
+        //     ]);;
+        // }
     }
 }

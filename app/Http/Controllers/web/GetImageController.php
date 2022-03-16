@@ -38,7 +38,7 @@ class GetImageController extends Controller
             try{
                 $path = Upacara::findOrFail($request->id)->image;
                 return ImageHelper::getImage($path);
-            }catch(Expectation | ModelNotFoundException $err){
+            }catch(\Exception | ModelNotFoundException $err){
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
@@ -72,7 +72,7 @@ class GetImageController extends Controller
             try{
                 $path = TahapanUpacara::findOrFail($request->id)->image;
                 return ImageHelper::getImage($path);
-            }catch(Expectation | ModelNotFoundException $err){
+            }catch(\Exception | ModelNotFoundException $err){
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
@@ -106,7 +106,7 @@ class GetImageController extends Controller
             try{
                 $path = Sulinggih::findOrFail($request->id)->sk_kesulinggihan;
                 return ImageHelper::getImage($path);
-            }catch(Expectation | ModelNotFoundException $err){
+            }catch(\Exception | ModelNotFoundException $err){
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',

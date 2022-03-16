@@ -46,17 +46,18 @@ Route::get('/', function () {
 Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
+
     Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
     Route::prefix('register')->group(function () {
         Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
         Route::get('{akun}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
 
-        Route::post('new/sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
-        Route::post('new/sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
-        Route::post('new/pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
-        Route::post('new/krama', [RegisterController::class, 'storeNewRegisKrama'])->name('auth.register.akun.krama.store');
-        Route::post('new/serati', [RegisterController::class, 'storeNewRegisSerati'])->name(' ');
+        Route::post('sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
+        Route::post('sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
+        Route::post('pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
+        Route::post('krama', [RegisterController::class, 'storeNewRegisKrama'])->name('auth.register.akun.krama.store');
+        Route::post('serati', [RegisterController::class, 'storeNewRegisSerati'])->name(' ');
 
     });
 
@@ -71,7 +72,7 @@ Route::prefix('auth')->group(function () {
 });
 
 // ROUTE ADMIN
-Route::group(['prefix'=>'admin','middleware'=>'cek:admin'], function () {
+Route::group(['prefix'=>'admin'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     // MASTER DATA ADMIN
@@ -150,7 +151,7 @@ Route::group(['prefix'=>'admin','middleware'=>'cek:admin'], function () {
 });
 // ROUTE ADMIN
 
-Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
+Route::group(['prefix'=>'krama'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
 
@@ -180,7 +181,7 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
 });
 
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
-Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function ()  {
+Route::group(['prefix'=>'pemuput-karya'], function ()  {
     Route::get('dashboard', [PemuputDashboardController::class, 'index'])->name('pemuput-karya.dashboard');
     Route::get('calender', [PemuputDashboardController::class, 'calenderIndex'])->name('pemuput-karya.calender');
 

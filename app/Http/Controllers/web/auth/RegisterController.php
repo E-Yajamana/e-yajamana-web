@@ -55,7 +55,7 @@ class RegisterController extends Controller
 
         // MAIN LOGIC & RETURN
             if($request->akun == 'krama'){
-                return view('pages.auth.register-new.register-krama');
+                return view('pages.auth.register.register-krama');
             }elseif($request->akun == 'sulinggih'){
                 $dataKabupaten = Kabupaten::whereProvinsiId(51)->get();
                 $queryUser = function ($queryUser){
@@ -63,15 +63,15 @@ class RegisterController extends Controller
                 };
                 $dataSulinggih = Sulinggih::with(['User'=> $queryUser])->whereHas('User',$queryUser)->get();
                 $dataGriya = GriyaRumah::all();
-                return view('pages.auth.register-new.register-sulinggih',compact('dataKabupaten','dataSulinggih','dataGriya'));
+                return view('pages.auth.register.register-sulinggih',compact('dataKabupaten','dataSulinggih','dataGriya'));
             }elseif($request->akun == 'sanggar'){
-                return view('pages.auth.register-new.register-sanggar');
+                return view('pages.auth.register.register-sanggar');
             }elseif($request->akun == 'serati'){
-                return view('pages.auth.register-new.register-serati');
+                return view('pages.auth.register.register-serati');
             }elseif($request->akun == 'pemangku'){
                 $dataKabupaten = Kabupaten::whereProvinsiId(51)->get();
                 $dataGriya = GriyaRumah::all();
-                return view('pages.auth.register-new.register-pemangku',compact(['dataKabupaten','dataGriya']));
+                return view('pages.auth.register.register-pemangku',compact(['dataKabupaten','dataGriya']));
             }else{
                 return redirect()->route('auth.register.index')->with([
                     'status' => 'fail',

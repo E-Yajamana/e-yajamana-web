@@ -1,9 +1,16 @@
 @extends('pages.auth.layout.master')
-@section('tittle','Register Akun Serati')
+@section('tittle','Register Akun Sulinggih')
 
 @push('css')
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/daterangepicker/daterangepicker.css')}}">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+    <!-- Select2 -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <!-- BS Stepper -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/bs-stepper/css/bs-stepper.min.css')}}">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
     integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -13,12 +20,12 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
-
 @endpush
 
 @section('content')
-    <div class="container justify-content-center pt-4">
-        <div class="card card-primary">
+
+    <div class="container d-flex justify-content-center pt-4">
+        <div class="card card-primary w-75">
             <div class="card-header bg-white text-center">
                 <img class="rounded mx-auto d-block" src="{{ asset('base-template/dist/img/logo-01.png') }}" alt="sipandu logo" width="100" height="100">
                 <a href="" class="text-decoration-none h4 fw-bold mb-1">E-Yajamana</a>
@@ -26,271 +33,149 @@
                 <p class="text-center mb-2">Silahkan lengkapi data di bawah ini</p>
             </div>
             <div class="card-body">
-                <form action="{{route('auth.register.akun.serati.store')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="row px-lg-4">
-                        <div class="col-12 col-md-6">
-                            <div class="form-group">
-                                <label>E-Mail <span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <input type="email" name="email" autocomplete="off" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Masukan E-Mail">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-envelope"></span>
-                                        </div>
-                                    </div>
-                                    @error('email')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('email') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Password <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="password" name="password" autocomplete="off" class="form-control @error('password') is-invalid @enderror" placeholder="Masukan Password">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-lock"></span>
-                                        </div>
-                                    </div>
-                                    @error('password')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('password') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Konfirmasi Password <span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <input type="password" name="password_confirmation" autocomplete="off" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Masukan Kembali Password">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-lock"></span>
-                                        </div>
-                                    </div>
-                                    @error('password_confirmation')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('password_confirmation') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Nama Serati<span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <input type="text" name="nama" autocomplete="off" class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" placeholder="Masukan Nama Sanggar">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
-                                        </div>
-                                    </div>
-                                    @error('nama')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('nama') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Nomor HP <span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <input type="number" name="nomor_telepon" autocomplete="off" class="form-control @error('nomor_telepon') is-invalid @enderror" value="{{ old('nomor_telepon') }}" placeholder="Masukan Nomor HP">
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-phone-alt"></span>
-                                        </div>
-                                    </div>
-                                    @error('nomor_telepon')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('nomor_telepon') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group mb-3">
-                                    <label>Tempat Lahir <span class="text-danger">*</span></label>
-                                    <select id="tempat_lahir" name="tempat_lahir" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
-                                        <option value="0" disabled selected>Pilih Lokasi Tempat Lahir</option>
-                                        @php
-                                            $kabupaten = old('tempat_lahir')
-                                        @endphp
-                                        @foreach ($dataKabupaten as $data)
-                                            @if ($kabupaten == $data->name)
-                                                <option value="{{$data->name}}" selected>{{$data->name}}</option>
-                                            @else
-                                                <option value="{{$data->name}}">{{$data->name}}</option>
-                                            @endif
-
-                                        @endforeach
-                                    </select>
-                                    @error('tempat_lahir')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('tempat_lahir') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Tanggal Lahir <span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <input type="date" name="tanggal_lahir" id="tangalLahir" name="nama" autocomplete="off" class="form-control @error('tanggal_lahir') is-invalid @enderror" value="{{ old('tanggal_lahir') }}" placeholder="dd-mm-yyyy" placeholder="dd-mm-yyyy" value=""min="1997-01-01" max="2030-12-31">
-                                    @error('tanggal_lahir')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('tanggal_lahir') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
+                <div class="bs-stepper">
+                    <div class="bs-stepper-header" role="tablist">
+                    <!-- your steps here -->
+                        <div class="step" data-target="#logins-part">
+                            <button type="button" class="step-trigger" role="tab" aria-controls="logins-part" id="logins-part-trigger">
+                                <span class="bs-stepper-circle">1</span>
+                                <span class="bs-stepper-label">NIK</span>
+                            </button>
                         </div>
-                        <div class="col-12 col-md-6">
-                            <div class="form-group">
-                                <label>Provinsi <span class="text-danger">*</span></label>
-                                <select disabled class="form-control select2bs4  @error('penerbit') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
-                                    <option disabled selected value="Bali">BALI</option>
-                                </select>
-                                @error('penerbit')
-                                    <div class="invalid-feedback text-start">
-                                        {{$errors->first('penerbit') }}
+                        <div class="line"></div>
+                        <div class="step" data-target="#information-part">
+                            <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
+                                <span class="bs-stepper-circle">2</span>
+                                <span class="bs-stepper-label">Data User & Pemetaan Lokasi</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bs-stepper-content">
+                        <form method="POST" action="{{route('auth.register.akun.serati.store')}}" enctype="multipart/form-data" id="formRegister">
+                            @csrf
+                            <!-- STEPPER 1 PILIH YADNYA -->
+                            <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
+                                <div class="divider"></div>
+                                <div class="container p-1 mt-2">
+                                    <div class="form-group">
+                                        <label>NIK <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" id="nik" name="nik" autocomplete="off" class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik') }}" placeholder="Masukan NIK">
+                                            <div class="input-group-append">
+                                                <button onclick="cekNIK()" type="button" class="btn btn-sm btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <input id="id_penduduk" name="id_penduduk" type="hidden" class="d-none" value="{{ old('id_penduduk') }}" >
+                                        <p class="m-1 text-sm">(Apabila NIK tidak ditemukan, Lakukan Pendataan terlebih dahulu <a href="">disini)</a></p>
                                     </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Kabupaten/Kota <span class="text-danger">*</span></label>
-                                <select id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
-                                    <option value="0" disabled selected>Pilih Kabupaten</option>
-                                    @php
-                                        $kabupaten = old('kabupaten')
-                                    @endphp
-                                    @foreach ($dataKabupaten->where('id_provinsi',51) as $data)
-                                        @if ($kabupaten == $data->id_kabupaten)
-                                            <option value="{{$data->id_kabupaten}}" selected>{{$data->name}}</option>
-                                        @else
-                                            <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                    <div class="form-group mt-lg-4 mb-0" id="buttonFormNIK">
+                                        @if (old('nik') != null)
+                                            <button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>
                                         @endif
-                                    @endforeach
-                                </select>
-                                @error('kabupaten')
-                                    <div class="invalid-feedback text-start">
-                                        {{$errors->first('kabupaten') }}
                                     </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <div class="form-group">
-                                    <label>Kecamatan <span class="text-danger">*</span></label>
-                                    <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
-                                        <option value="0" disabled selected>Pilih Kecamatan</option>
-                                    </select>
-                                    @error('kecamatan')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('kecamatan') }}
-                                        </div>
-                                    @enderror
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>Desa Dinas<span class="text-danger">*</span></label>
-                                <select id="desa_dinas" name="desa_dinas" class="form-control select2bs4 @error('desa_dinas') is-invalid @enderror" style="width: 100%;">
-                                    <option value="0" disabled selected>Pilih Desa Dinas</option>
-                                </select>
-                                @error('desa_dinas')
-                                    <div class="invalid-feedback text-start">
-                                        {{$errors->first('desa_dinas') }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Desa Adat <span class="text-danger">*</span></label>
-                                <select id="desa_adat" name="desa_adat" class="form-control select2bs4 @error('desa_adat') is-invalid @enderror" style="width: 100%;">
-                                    <option value="0" disabled selected>Pilih Desa Adat</option>
-                                    @foreach ($dataDesaAdat as $data)
-                                        <option value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
-                                    @endforeach
-                                </select>
-                                @error('desa_adat')
-                                    <div class="invalid-feedback text-start">
-                                        {{$errors->first('desa_adat') }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Alamat Lengkap<span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <input type="text" name="alamat" autocomplete="off" class="form-control @error('alamat') is-invalid @enderror" value="{{ old('alamat') }}" placeholder="Masukan Alamat Lengkap Serati">
-                                    @error('alamat')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('alamat') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>Jenis Kelamin <span class="text-danger">*</span></label>
-                                <div class="input-group mb-3">
-                                    <select name="jenis_kelamin" value="{{ old('jenis_kelamin') }}"  class="form-control select2bs4 @error('jenis_kelamin') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
-                                        <option disabled selected value="Bali">Pilih Jenis Kelamin</option>
-                                        @php
-                                            $genre = old('jenis_kelamin')
-                                        @endphp
-                                        <option @if ($genre=='laki-laki') selected @endif value="laki-laki">Laki-Laki</option>
-                                        <option @if ($genre=='perempuan') selected @endif value="perempuan">Perempuan</option>
-                                    </select>
-                                    @error('jenis_kelamin')
-                                        <div class="invalid-feedback text-start">
-                                            {{$errors->first('jenis_kelamin') }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>Pemetaan Lokasi Upacara</label>
-                                <div class="input-group mb-3">
-                                    <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" value="{{old('lat')}}" readonly="readonly">
-                                    @error('lat')
-                                        <div class="invalid-feedback text-start">
-                                            {{ $errors->first('lat') }}
-                                        </div>
-                                    @enderror
-                                    <input name="lng" id="lng" type="text" aria-label="Last name" class="form-control ml1" placeholder="Lang  @error('lng') is-invalid @enderror" value="{{old('lat')}}" readonly="readonly">
-                                    @error('lng')
-                                        <div class="invalid-feedback text-start">
-                                            {{ $errors->first('lng') }}
-                                        </div>
-                                    @enderror
-                                    <button type="button" class="btn btn-default ml-2" data-toggle="modal" id="modalMap" data-target="#modal-xl">
-                                        <i class="fas fa-map-marked"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            <!-- STEPPER 1 PILIH YADNYA -->
 
-                    <div class="row d-flex justify-content-end mt-1 p-lg-4">
-                        <div class="col-5 col-sm-8">
-                            <p> Sudah memiliki akun? Klik
-                                <a href="{{route('auth.login')}}" class="text-decoration-none link-primary">di sini</a>
-                            </p>
-                        </div>
-                        <div class="col-7 col-sm-4">
-                            <button type="submit" class="btn btn-primary btn-block">Buat Akun</button>
-                        </div>
+                            <!-- STEPPER 2 DATA USER -->
+                            <div id="information-part" class="content" role="tabpanel" aria-labelledby="information-part-trigger">
+                                <div class="container p-1 mt-2">
+                                    <div class="form-group">
+                                        <label>Nomor Telepon <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="number" id="nomor_telepon" name="nomor_telepon" autocomplete="off" class="form-control @error('nomor_telepon') is-invalid @enderror" value="{{ old('nomor_telepon') }}" placeholder="Masukan Nomor Telepon">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-phone-alt"></span>
+                                                </div>
+                                            </div>
+                                            @error('nomor_telepon')
+                                                <div class="invalid-feedback text-start">
+                                                    {{$errors->first('nomor_telepon') }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="email" id="email" name="email" autocomplete="off" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Masukan E-mail">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-envelope"></span>
+                                                </div>
+                                            </div>
+                                            @error('email')
+                                                <div class="invalid-feedback text-start">
+                                                    {{$errors->first('email') }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="password" id="password" name="password" autocomplete="off" class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}" placeholder="Masukan Password">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-lock"></span>
+                                                </div>
+                                            </div>
+                                            @error('password')
+                                                <div class="invalid-feedback text-start">
+                                                    {{$errors->first('password') }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Konfirmasi Password <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="password" id="password_confirmation" name="password_confirmation" autocomplete="off" class="form-control @error('password_confirmation') is-invalid @enderror" value="{{ old('password_confirmation') }}" placeholder="Masukan Konfirmasi Password">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <span class="fas fa-lock"></span>
+                                                </div>
+                                            </div>
+                                            @error('password_confirmation')
+                                                <div class="invalid-feedback text-start">
+                                                    {{$errors->first('password_confirmation') }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group"><label>Pemetaan Lokasi Serati <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input readonly="readonly" type="text" id="lat" name="lat" autocomplete="off" class="form-control col-6 @error('lat') is-invalid @enderror" value="{{ old('lat') }}" placeholder="Latitude">
+                                            <input readonly="readonly" type="text" id="lng" name="lng" autocomplete="off" class="form-control col-6 @error('lng') is-invalid @enderror" value="{{ old('lng') }}" placeholder="Longtitude">
+                                            <div class="input-group-append">
+                                                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" id="modalMap" data-target="#modal-xl"><i class="fa fa-map-marked"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mt-lg-4 mb-0">
+                                        <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
+                                        <button onclick="step3()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- STEPPER 2 DATA USER -->
+                        </form>
                     </div>
-                </form>
+                </div>
+
             </div>
-            <div class="text-center my-4">
-                <a href="" class="nav-link link-dark">E-Yajamana 2021 | All Right Reserved &copy </a>
+            <div class="card-footer text-center">
+                <a href="" class="nav-link link-dark">E-Yajamana 2021 | All Right Reserved © </a>
             </div>
         </div>
     </div>
 
-    <div class="modal fade " id="modal-xl">
+    <div class="modal fade" id="modal-xl">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -309,21 +194,102 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('js')
+    <!-- BS-Stepper -->
+    <script src="{{asset('base-template/plugins/bs-stepper/js/bs-stepper.min.js')}}"></script>
+
     <!-- Select2 -->
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+    <!-- InputMask -->
+    <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
     <!-- date-range-picker -->
     <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <!-- daterangepicker -->
+    <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
 
-    <!-- Maps Pemetaan  -->
-    <script language="javascript" type="text/javascript">
-         $(document).ready(function() {
-             //--------------START Deklarasi awal seperti icon pembuatan map-------------//
-            var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 10);
+    <!-- jquery-validation -->
+    <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
+
+    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+
+    <script src="{{asset('base-template/dist/js/pages/ajax-get-wilayah.js')}}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            window.stepper = new Stepper(document.querySelector('.bs-stepper'))
+        })
+
+        $(function () {
+            bsCustomFileInput.init();
+        });
+
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    </script>
+
+@endpush
+
+@push('js')
+    <script>
+        // FUNGSI CEK NIK PADA SISTEM
+        function cekNIK(){
+            var nik = $("#nik").val();
+            $.ajax({
+                url: '{{route('ajax.get.data-penduduk')}}/' + nik,
+                type: "GET",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    if (response.data != 0) {
+                        $('#id_penduduk').val(response.data.id);
+                        $('#buttonFormNIK').empty();
+                        Swal.fire({
+                            icon: response.icon,
+                            title: response.tittle,
+                            text: response.message,
+                        });
+                        $('#buttonFormNIK').append('<button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>')
+                    }else {
+                        $('#nik').val();
+                    }
+                },
+                error: function(response, error){
+                    console.log(response)
+                    $('#buttonFormNIK').empty()
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Gagal menemukan data penduduk...',
+                        text: 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKEDAT terlebih dahulu.. !!',
+                        footer: '<a href="#">Lakukan Pendataan telebih dahulu disini</a>'
+                    })
+                }
+            })
+        }
+        // FUNGSI CEK NIK PADA SISTEM
+
+        // KEYUP FORM INPUT NIK
+        $('#nik').on('keyup', function () {
+            $('#buttonFormNIK').empty()
+        })
+        // KEYUP FORM INPUT NIK
+
+    </script>
+@endpush
+
+{{-- SET UP FORM INPUT REGISTER --}}
+@push('js')
+    <script>
+
+        $(document).ready(function() {
+            //--------------START Deklarasi awal seperti icon pembuatan map-------------//
+            var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 9);
 
             L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                 attribution: 'Maps E-Yajamana',
@@ -335,12 +301,11 @@
                 accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
             }).addTo(mymap);
 
-
             document.getElementById("modalMap").onclick = function () {
                 document.getElementById('modal-xl').style.display = 'block';
                 setTimeout(function() {
                     mymap.invalidateSize();
-                }, 100);
+                }, 10);
             }
 
             var curLocation = [0, 0];
@@ -373,95 +338,89 @@
             mymap.addLayer(marker);
 
         })
-
     </script>
-    <!-- Maps Pemetaan  -->
-
-    <!-- Fungsi Form Input  -->
-    <script type="text/javascript">
-        $('#mySelect2').select2('data');
-
-        $(document).ready(function(){
-            $('#side-master-data').addClass('menu-open');
-            $('#side-upacara').addClass('active');
-        });
-
-        $('.select2').select2()
-
-        //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        })
-
-        $(function () {
-            bsCustomFileInput.init();
-        });
-
-    </script>
-    <!-- Fungsi Form Input  -->
-
-    <!-- Fungsi Ajax Get Data  -->
-    <script language="javascript" type="text/javascript">
-        $('#kabupaten').on('change', function() {
-            var kabupatenID = $(this).val();
-            if(kabupatenID){
-                $.ajax({
-                       url: '/ajax/kecamatan/'+kabupatenID,
-                       type: "GET",
-                       data : {"_token":"{{ csrf_token() }}"},
-                       dataType: "json",
-                       success:function(dataKecamatan)
-                        {
-                            console.log(kabupatenID);
-                            console.log(dataKecamatan.data.kecamatans);
-
-                            if(dataKecamatan.data.kecamatans){
-                                $('#kecamatan').empty();
-                                $('#kecamatan').append('<option value="0" disabled selected>Pilih Kecamatan</option>');
-                                $.each(dataKecamatan.data.kecamatans, function(key, data){
-                                    $('#kecamatan').append('<option value="'+ data.id_kecamatan +'">' + data.name+ '</option>');
-                                });
-                            }else{
-                                $('#course').empty();
-                            }
-                        }
-                    })
-            }else{
-                $('#course').empty();
-            }
-        })
-
-        $('#kecamatan').on('change', function() {
-            var kecamatanID = $(this).val();
-            if(kecamatanID){
-                $.ajax({
-                       url: '/ajax/desa/'+kecamatanID,
-                       type: "GET",
-                       data : {"_token":"{{ csrf_token() }}"},
-                       dataType: "json",
-                       success:function(dataDesa)
-                        {
-                            console.log(kecamatanID);
-                            console.log(dataDesa.data.desas);
-
-                            if(dataDesa.data.desas){
-                                $('#desa_dinas').empty();
-                                $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
-                                $.each(dataDesa.data.desas, function(key, data){
-                                    $('#desa_dinas').append('<option value="'+ data.id_desa +'">' + data.name+ '</option>');
-                                });
-                            }else{
-                                $('#course').empty();
-                            }
-                        }
-                    })
-            }else{
-                $('#course').empty();
-            }
-        })
-    </script>
-    <!-- Fungsi Ajax Get Data  -->
-
-
-
 @endpush
+{{-- SET UP FORM INPUT REGISTER --}}
+
+{{-- VALIDASI FORM INPUT --}}
+@push('js')
+    <script>
+        // VALIDASI FORM INPUT DATA
+        $('#formRegister').validate({
+            rules: {
+                email: {
+                    required: true,
+                },
+                password: {
+                    required: true,
+                    minlength: 3
+                },
+                password_confirmation: {
+                    required: true,
+                    minlength: 3
+                },
+                nomor_telepon: {
+                    required: true,
+                    minlength: 12
+                },
+                lat: {
+                    required: true,
+                },
+                lng: {
+                    required: true,
+                },
+            },
+            messages: {
+                email: {
+                    required: "Email Wajib diisi",
+                },
+                password: {
+                    required: "Password Wajib diisi",
+                    minlength: "Password minimal diisi dengan 3 karakter"
+                },
+                nomor_telepon: {
+                    required: "Nomor Telepon Wajib diisi",
+                    minlength:"Nomor Telepon minimal diisi dengan 12 karakter"
+                },
+                password_confirmation: {
+                    required: "Password Konfirmasi Wajib diisi",
+                    minlength:"Password Konfirmasi minimal diisi dengan 3 karakter"
+                },
+                lat: {
+                    required: "Latitude Wajib diisi",
+                },
+                lng: {
+                    required: "Longtitude Wajib diisi",
+                },
+            },
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                error.addClass('ml-1 invalid-feedback text-start');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+        // VALIDASI FORM INPUT DATA
+
+        function step3(){
+            var form = $("#formRegister");
+
+            if(form.valid()==true){
+                formRegister.submit();
+            }
+        }
+
+
+    </script>
+@endpush
+{{-- VALIDASI FORM INPUT --}}
+
+
+
+
+
