@@ -492,8 +492,8 @@
 
         $('#daterange').daterangepicker({
             // dateLimit: { days: 7 },
-            "minDate": moment(Date ()).add(1, 'M').format('DD MMMM YYYY'),
-            "maxDate": moment(Date ()).add(1, 'Y').format('DD MMMM YYYY'),
+            "minDate": moment(Date ()).add(1, 'D').format('DD MMMM YYYY'),
+            "maxDate": moment(Date ()).add(2, 'Y').format('DD MMMM YYYY'),
             locale: {
                 format: 'DD MMMM YYYY',
             },

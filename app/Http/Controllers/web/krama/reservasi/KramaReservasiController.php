@@ -329,7 +329,7 @@ class KramaReservasiController extends Controller
                 ]);
                 DB::commit();
 
-                $data = DetailReservasi::with('TahapanUpacara')->whereIdReservasi($request->id_reservasi)->get();
+                $data = DetailReservasi::with(['TahapanUpacara','Reservasi'])->whereIdReservasi($request->id_reservasi)->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return response()->json([
@@ -392,7 +392,7 @@ class KramaReservasiController extends Controller
                 ]);
                 DB::commit();
 
-                $data = DetailReservasi::with('TahapanUpacara')->whereIdReservasi($request->id_reservasi)->get();
+                $data = DetailReservasi::with(['TahapanUpacara','Reservasi'])->whereIdReservasi($request->id_reservasi)->get();
 
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return response()->json([
@@ -448,7 +448,7 @@ class KramaReservasiController extends Controller
                 if($dataDetailReservasi == 0){
                     Reservasi::findOrFail($request->id_reservasi)->update(['status'=>'batal']);
                 }
-                $data = DetailReservasi::with('TahapanUpacara')->whereIdReservasi($request->id_reservasi)->get();
+                $data = DetailReservasi::with(['TahapanUpacara','Reservasi'])->whereIdReservasi($request->id_reservasi)->get();
                 DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return response()->json([

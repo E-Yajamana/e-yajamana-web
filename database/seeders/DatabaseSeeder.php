@@ -55,5 +55,7 @@ class DatabaseSeeder extends Seeder
 
 
 
+        $this->call(TbReservasiTableSeeder::class);
+        $this->call(TbDetailReservasiTableSeeder::class);
     }
 }

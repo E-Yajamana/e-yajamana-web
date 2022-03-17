@@ -70,6 +70,23 @@ class TbUpacarakuTableSeeder extends Seeder
                 'created_at' => '2022-02-19 19:57:30',
                 'updated_at' => '2022-02-19 20:09:04',
             ),
+            3 => 
+            array (
+                'id' => 24,
+                'id_banjar_dinas' => 16,
+                'id_upacara' => 6,
+                'id_krama' => 51,
+                'nama_upacara' => 'Atma Wedana Testing Upacara',
+                'alamat_upacaraku' => 'Kabupaten Jembrana Kecamatan Apakaden ni',
+                'tanggal_mulai' => '2022-04-20',
+                'tanggal_selesai' => '2022-04-27',
+                'deskripsi_upacaraku' => 'Testing Upacara',
+                'status' => 'pending',
+                'lat' => '-8.525885734177315000',
+                'lng' => '115.108154313638820000',
+                'created_at' => '2022-03-17 11:20:13',
+                'updated_at' => '2022-03-17 11:20:13',
+            ),
         ));
         
         

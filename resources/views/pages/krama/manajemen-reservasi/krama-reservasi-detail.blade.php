@@ -429,7 +429,7 @@
                     $("#exampleModal").modal('hide');
                     $("#dataView").empty();
                     $.each(response.data, function(key, data){
-                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id)
+                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id ,data.reservasi.status)
                     });
                 },
                 error: function(response, error){
@@ -468,7 +468,7 @@
                     $("#dataView").empty();
                     $.each(response.data, function(key, data){
                         console.log(data)
-                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id)
+                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id ,data.reservasi.status)
                     });
                 },
                 error: function(response, error){
@@ -509,7 +509,7 @@
                     $("#exampleModal").modal('hide');
                     $("#dataView").empty();
                     $.each(response.data, function(key, data){
-                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id)
+                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id ,data.reservasi.status)
                     });
                 },
                 error: function(response, error){
@@ -522,10 +522,15 @@
         }
         // FUNGSI ADD DATA RESERVASI BARU
 
+        function capitalizeFirstLetter(string){
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+
         // FUNGSI APPEND DATA
-        function appendData(no,nama_tahapan, tanggal_mulai ,tanggal_selesai, status,id_detail, id_tahapan_upacara){
+        function appendData(no,nama_tahapan, tanggal_mulai ,tanggal_selesai, status,id_detail, id_tahapan_upacara, status_reservasi){
             no++
-            if(status == 'batal'){
+            if(status_reservasi == 'batal'){
                 $("#view_status").empty();
                 $('#action').remove();
                 $('#addTahapanReservasi').remove();
@@ -544,9 +549,10 @@
                 (status == 'ditolak' ? 'class="bg-danger btn-sm"' : '')+
                 (status == 'selesai' ? 'class="bg-success btn-sm"' : '')+
                 (status == 'batal' ? 'class="bg-danger btn-sm"' : '')+
-                'style="border-radius: 5px; width:110px;">'+status+'</span>'+
+                'style="border-radius: 5px; width:110px;">'+capitalizeFirstLetter(status)+'</span>'+
                 '</td>'+
                 (status == 'pending' || status == 'proses tangkil' ? "<td class='text-center'> <a onclick=\"updateData("+id_detail+","+id_tahapan_upacara+",'"+nama_tahapan+"','"+tanggal_mulai+"','"+tanggal_selesai+"','"+status+"')\" class='btn btn-primary btn-sm mx-1'><i class='fas fa-edit'></i></a>" : "" )+
+                (status == 'batal' ? "<td class='text-center'></td>" : "" )+
                 (status == 'pending' || status == 'proses tangkil'  ? '<button onclick="batalReservasi('+id_detail+')" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button></td>' : '')+
                 '</tr>'
             );
