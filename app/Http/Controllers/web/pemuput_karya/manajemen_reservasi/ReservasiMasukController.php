@@ -26,7 +26,7 @@ class ReservasiMasukController extends Controller
     {
         // MAIN LOGIC
             try{
-                $dataReservasi = Reservasi::with(['Relasi','DetailReservasi','Upacaraku.Krama.User.Penduduk']);
+                $dataReservasi = Reservasi::with(['Relasi','DetailReservasi','Upacaraku.User.Penduduk']);
                 $queryDetailReservasi = function($queryDetailReservasi){
                     $queryDetailReservasi->where('status','pending');
                 };

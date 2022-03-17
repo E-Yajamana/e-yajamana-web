@@ -48,6 +48,7 @@ class Reservasi extends Model
 		'id_relasi',
 		'id_upacaraku',
 		'status',
+        'tipe',
 		'tanggal_tangkil',
 		'keterangan'
 	];

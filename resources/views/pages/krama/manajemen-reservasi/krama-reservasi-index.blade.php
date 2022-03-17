@@ -92,14 +92,14 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ($dataReservasi == null)
+                                            @if ($dataReservasi->count() != 0)
                                                 @foreach ($dataReservasi as $index => $data)
                                                     <tr>
                                                         <td rowspan="{{count($data->Reservasi)}}">{{$index+1}}</td>
                                                         <td style="width: 18%" rowspan="{{count($data->Reservasi)}}">{{$data->nama_upacara}}</td>
                                                         <td style="width: 18%" class="pl-4">
-                                                            @if ($data->Reservasi[0]->Relasi->Sulinggih != null)
-                                                                {{$data->Reservasi[0]->Relasi->Sulinggih->nama_sulinggih}}</td>
+                                                            @if ($data->Reservasi[0]->Relasi->PemuputKarya != null)
+                                                                {{$data->Reservasi[0]->Relasi->PemuputKarya->nama_pemuput}}</td>
                                                             @else
                                                                 {{$data->Reservasi[0]->Relasi->Sanggar->nama_sanggar}}</td>
                                                             @endif
@@ -130,8 +130,8 @@
                                                     @for($i=1; $i < count($data->Reservasi); $i++ )
                                                         <tr>
                                                             <td>
-                                                                @if ($data->Reservasi[$i]->Relasi->Sulinggih != null)
-                                                                    {{$data->Reservasi[$i]->Relasi->Sulinggih->nama_sulinggih}}</td>
+                                                                @if ($data->Reservasi[$i]->Relasi->PemuputKarya != null)
+                                                                    {{$data->Reservasi[$i]->Relasi->PemuputKarya->nama_pemuput}}</td>
                                                                 @else
                                                                     {{$data->Reservasi[$i]->Relasi->Sanggar->nama_sanggar}}</td>
                                                                 @endif

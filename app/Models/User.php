@@ -125,23 +125,17 @@ class User extends Authenticatable
         return $this->belongsToMany(Sanggar::class,'tb_kepemilikan_sanggar','id_user','id_sanggar')->withTimestamps();
     }
 
-    public function getRelasi()
+    public function getRelasi($role)
     {
-        switch ($this->role) {
-            case 'sulinggih':
-                $relasi =  $this->hasOne(Sulinggih::class, 'id_user', 'id')->first();
+        switch ($role) {
+            case 'pemuput_karya':
+                $relasi =  $this->hasOne(PemuputKarya::class, 'id_user', 'id')->first();
                 $dataObj = new stdClass;
-                $dataObj->nama = $relasi->nama_sulinggih;
-                return $dataObj;
-                break;
-            case 'pemangku':
-                $relasi =  $this->hasOne(Sulinggih::class, 'id_user', 'id')->first();
-                $dataObj = new stdClass;
-                $dataObj->nama = $relasi->nama_walaka;
+                $dataObj->nama = $relasi->nama_pemuput;
                 return $dataObj;
                 break;
             case 'sanggar':
-                $relasi = $this->hasOne(Sanggar::class, 'id_user', 'id')->first();
+                $relasi =  $this->hasOne(Sanggar::class, 'id_user', 'id')->first();
                 $dataObj = new stdClass;
                 $dataObj->nama = $relasi->nama_sanggar;
                 return $dataObj;
@@ -151,4 +145,6 @@ class User extends Authenticatable
                 break;
         }
     }
+
+
 }

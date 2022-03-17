@@ -34,7 +34,7 @@ class KramaReservasiController extends Controller
             try{
                 $idKrama = Auth::user()->id;
                 $dataReservasi = Upacaraku::with(['Reservasi.DetailReservasi','Reservasi.Relasi'=>function($query){
-                    $query->with(['Sulinggih','Sanggar']);
+                    $query->with(['PemuputKarya','Sanggar']);
                 }])->whereHas('Reservasi.DetailReservasi')->whereHas('Reservasi.Relasi')->where('id_krama',$idKrama)->get();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 return redirect()->back()->with([
@@ -45,7 +45,6 @@ class KramaReservasiController extends Controller
                 ]);
             }
         // END MAIN LOGIC
-
         // RETURN
             return view('pages.krama.manajemen-reservasi.krama-reservasi-index',compact('dataReservasi'));
         // END RETURN
@@ -80,7 +79,7 @@ class KramaReservasiController extends Controller
 
                 $dataPemuputKarya = GriyaRumah::query();
                 $sulinggihQuery = function($sulinggihQuery) use ($dataUserReservasi){
-                    $sulinggihQuery->with('AtributPemuput')->where('status_konfirmasi_akun','disetujui')->whereNotIn('id_user',$dataUserReservasi);
+                    $sulinggihQuery->with(['AtributPemuput','User'])->where('status_konfirmasi_akun','disetujui')->whereNotIn('id_user',$dataUserReservasi);
                 };
                 $dataPemuputKarya->with([
                     'PemuputKarya' => $sulinggihQuery
@@ -109,7 +108,7 @@ class KramaReservasiController extends Controller
             $validator = Validator::make($request->all(),[
                 'id_relasi' => 'required',
                 'id_upacaraku' => 'required|exists:tb_upacaraku,id',
-                'tipe' => 'required|in:sulinggih_pemangku,sanggar',
+                'tipe' => 'required|in:pemuput_karya,sanggar',
                 'data_detail.*.idTahapan' => 'required',
                 'data_detail.*.tanggal' => 'required',
             ],
@@ -130,13 +129,13 @@ class KramaReservasiController extends Controller
             }
         // END SECURITY
 
-
         // MAIN LOGIC
             try{
                 DB::beginTransaction();
                 $reservasi = Reservasi::create([
                     'id_relasi' => $request->id_relasi,
                     'id_upacaraku' =>$request->id_upacaraku,
+                    'tipe' =>$request->tipe,
                     'status' =>'pending',
                 ]);
 
@@ -168,11 +167,10 @@ class KramaReservasiController extends Controller
                     ],
                     $relasi
                 );
-
                 NotificationHelper::sendNotification(
                     [
                         'title' => "PERMOHONAN RESERVASI DIBUAT",
-                        'body' => "Permohonan reservasi kepada " . $relasi->getRelasi()->nama . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
+                        'body' => "Permohonan reservasi kepada " . $relasi->getRelasi($request->tipe)->nama . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
                         'status' => "new",
                         'image' => "sulinggih",
                         'notifiable_id' => $user->id,
@@ -227,9 +225,9 @@ class KramaReservasiController extends Controller
 
         // MAIN LOGIC
             try{
-                $idUser = Auth::user()->Krama->id;
+                $idUser = Auth::user()->id;
                 $queryUpacaraku = function ($queryUpacaraku) use ($idUser){
-                    $queryUpacaraku->with('Upacara','Krama')->whereIdKrama($idUser);
+                    $queryUpacaraku->with('Upacara','User')->whereIdKrama($idUser);
                 };
                 $dataReservasi = Reservasi::with(['Relasi.Penduduk','DetailReservasi.TahapanUpacara','Upacaraku'=> $queryUpacaraku])->whereHas('Relasi')->whereHas('Upacaraku',$queryUpacaraku)->whereHas('DetailReservasi.TahapanUpacara')->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
