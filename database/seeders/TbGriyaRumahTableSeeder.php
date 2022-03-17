@@ -151,6 +151,17 @@ class TbGriyaRumahTableSeeder extends Seeder
                 'created_at' => '2022-01-18 22:35:16',
                 'updated_at' => '2022-01-18 22:35:16',
             ),
+            12 => 
+            array (
+                'id' => 18,
+                'id_banjar_dinas' => 16,
+                'nama_griya_rumah' => 'test griya',
+                'alamat_griya_rumah' => 'jln test',
+                'lat' => '-8.627586064565929000',
+                'lng' => '115.229976810514930000',
+                'created_at' => '2022-03-10 17:51:38',
+                'updated_at' => '2022-03-10 17:51:38',
+            ),
         ));
         
         

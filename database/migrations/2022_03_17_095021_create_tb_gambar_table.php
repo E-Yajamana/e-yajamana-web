@@ -16,7 +16,6 @@ class CreateTbGambarTable extends Migration
         Schema::create('tb_gambar', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('id_detail_reservarsi')->nullable()->index('id_resevarsi');
-            $table->date('tanggal_upload')->nullable();
             $table->string('image', 255)->nullable();
             $table->timestamps();
         });

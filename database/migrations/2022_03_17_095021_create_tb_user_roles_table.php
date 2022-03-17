@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddForeignKeysToTbSanggarTable extends Migration
+class CreateTbUserRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddForeignKeysToTbSanggarTable extends Migration
      */
     public function up()
     {
-        Schema::table('tb_sanggar', function (Blueprint $table) {
-            $table->foreign(['id_user'], 'tb_sanggar_ibfk_1')->references(['id'])->on('tb_user_eyajamana');
+        Schema::create('tb_user_roles', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->integer('id_user')->index('id_user');
+            $table->integer('id_role')->index('id_role');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddForeignKeysToTbSanggarTable extends Migration
      */
     public function down()
     {
-        Schema::table('tb_sanggar', function (Blueprint $table) {
-            $table->dropForeign('tb_sanggar_ibfk_1');
-        });
+        Schema::dropIfExists('tb_user_roles');
     }
 }

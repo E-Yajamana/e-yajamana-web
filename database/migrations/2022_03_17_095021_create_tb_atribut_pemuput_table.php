@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTbKramaTable extends Migration
+class CreateTbAtributPemuputTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateTbKramaTable extends Migration
      */
     public function up()
     {
-        Schema::create('tb_krama', function (Blueprint $table) {
+        Schema::create('tb_atribut_pemuput', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_user')->index('id_user');
-            $table->decimal('lat', 20, 18)->nullable();
-            $table->decimal('lng', 21, 18)->nullable();
-            $table->timestamps();
+            $table->integer('id_nabe')->index('id_nabe');
+            $table->string('sk_pemuput', 100)->nullable();
+            $table->date('tanggal_diksha')->nullable();
         });
     }
 
@@ -29,6 +28,6 @@ class CreateTbKramaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_krama');
+        Schema::dropIfExists('tb_atribut_pemuput');
     }
 }
