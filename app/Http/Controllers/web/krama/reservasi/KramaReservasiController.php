@@ -32,7 +32,7 @@ class KramaReservasiController extends Controller
     {
         // MAIN LOGIC
             try{
-                $idKrama = Auth::user()->Krama->id;
+                $idKrama = Auth::user()->id;
                 $dataReservasi = Upacaraku::with(['Reservasi.DetailReservasi','Reservasi.Relasi'=>function($query){
                     $query->with(['Sulinggih','Sanggar']);
                 }])->whereHas('Reservasi.DetailReservasi')->whereHas('Reservasi.Relasi')->where('id_krama',$idKrama)->get();
@@ -76,21 +76,21 @@ class KramaReservasiController extends Controller
                 $dataUpacaraku = Upacaraku::with(['Upacara'])->findOrFail($request->id);
                 $dataUserReservasi = Reservasi::where('id_upacaraku',$request->id)->whereNotIn('status',['batal','selesai'])->pluck('id_relasi');
 
-                $dataSanggar = Sanggar::with('User.Penduduk')->whereHas('User.Penduduk')->where('status_konfirmasi_akun','disetujui')->whereNotIn('id_user',$dataUserReservasi)->get();
+                $dataSanggar = Sanggar::with('User.Penduduk')->whereHas('User.Penduduk')->where('status_konfirmasi_akun','disetujui')->get();
 
                 $dataPemuputKarya = GriyaRumah::query();
                 $sulinggihQuery = function($sulinggihQuery) use ($dataUserReservasi){
-                    $sulinggihQuery->with('User')->where('status_konfirmasi_akun','disetujui')->whereNotIn('id_user',$dataUserReservasi);
+                    $sulinggihQuery->with('AtributPemuput')->where('status_konfirmasi_akun','disetujui')->whereNotIn('id_user',$dataUserReservasi);
                 };
                 $dataPemuputKarya->with([
-                    'Sulinggih' => $sulinggihQuery
-                ])->whereHas('Sulinggih',$sulinggihQuery);
+                    'PemuputKarya' => $sulinggihQuery
+                    ])->whereHas('PemuputKarya',$sulinggihQuery);
                 $dataPemuputKarya = $dataPemuputKarya->get();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Data Reservasi Tidak ditemukan !',
+                    'title' => 'Gagal Menemukan Data Reservasi !',
                     'message' => 'Data Reservasi Tidak ditemukan, mohon hubungi developer untuk lebih lanjut!',
                 ]);
             }

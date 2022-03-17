@@ -299,8 +299,8 @@
             "autoApply": true,
             startDate: moment(parseData.tanggal_mulai).format('DD MMMM YYYY'),
             endDate:moment(parseData.tanggal_selesai).format('DD MMMM YYYY'),
+            "minDate": moment(Date ()).format('DD MMMM YYYY'),
             disabled: true,
-            // option : disabled,
             locale: {
                 format: 'DD MMMM YYYY',
             },

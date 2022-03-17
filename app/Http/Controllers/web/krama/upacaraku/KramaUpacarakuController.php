@@ -29,7 +29,7 @@ class KramaUpacarakuController extends Controller
     // INDEX UPACARAKU
     public function indexUpacaraku(Request $request)
     {
-        $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi'])->where('id_krama',Auth::user()->Krama->id)->get();
+        $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi'])->where('id_krama',Auth::user()->id)->get();
         return view('pages.krama.manajemen-upacara.upacaraku-index', compact('dataUpacaraku'));
     }
     // INDEX UPACARAKU
@@ -98,7 +98,7 @@ class KramaUpacarakuController extends Controller
 
                 Upacaraku::create([
                     'id_upacara'=>$request->id_upacara,
-                    'id_krama'=>$user->Krama->id,
+                    'id_krama'=>$user->id,
                     'id_banjar_dinas'=>$request->id_banjar_dinas,
                     'nama_upacara'=>$request->nama_upacara,
                     'alamat_upacaraku'=>$request->lokasi,
@@ -155,7 +155,7 @@ class KramaUpacarakuController extends Controller
             try{
                 $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi' => function ($query){
                     $query->with(['Relasi.Sulinggih','Relasi.Sanggar','DetailReservasi.TahapanUpacara']);
-                },'BanjarDinas'])->whereIdKrama(Auth::user()->Krama->id)->findOrFail($request->id);
+                },'BanjarDinas'])->whereIdKrama(Auth::user()->id)->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
                     'status' => 'fail',
@@ -195,7 +195,7 @@ class KramaUpacarakuController extends Controller
             try{
                 $dataUpacaraku = Upacaraku::with('Upacara')->withCount(['Reservasi'=>function ($query) {
                     $query->whereIn('status', ['proses muput','selesai']);
-                }])->whereIdKrama(Auth::user()->Krama->id)->findOrFail($request->id);
+                }])->whereIdKrama(Auth::user()->id)->findOrFail($request->id);
                 $dataKabupaten = Kabupaten::where('provinsi_id',51)->get();
                 $dataKecamatan = Kecamatan::all();
                 $dataDesa = DesaDinas::all();
@@ -266,7 +266,7 @@ class KramaUpacarakuController extends Controller
                 if($request->daterange == null || $request->id_upacara == null){
                     DB::beginTransaction();
                     Upacaraku::findOrFail($request->id_upacaraku)->update([
-                        'id_krama'=>Auth::user()->Krama->id,
+                        'id_krama'=>Auth::user()->id,
                         'id_banjar_dinas'=>$request->id_banjar_dinas,
                         'nama_upacara'=>$request->nama_upacara,
                         'alamat_upacaraku'=>$request->alamat_upacaraku,
@@ -281,7 +281,7 @@ class KramaUpacarakuController extends Controller
                     list($start,$end) = DateRangeHelper::parseDateRange($request->daterange);
                     Upacaraku::findOrFail($request->id_upacaraku)->update([
                         'id_upacara'=>$request->id_upacara,
-                        'id_krama'=>Auth::user()->Krama->id,
+                        'id_krama'=>Auth::user()->id,
                         'id_banjar_dinas'=>$request->id_banjar_dinas,
                         'nama_upacara'=>$request->nama_upacara,
                         'alamat_upacaraku'=>$request->alamat_upacaraku,

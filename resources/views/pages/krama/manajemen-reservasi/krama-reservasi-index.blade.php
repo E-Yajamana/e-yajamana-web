@@ -92,78 +92,85 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($dataReservasi as $index => $data)
-                                                <tr>
-                                                    <td rowspan="{{count($data->Reservasi)}}">{{$index+1}}</td>
-                                                    <td style="width: 18%" rowspan="{{count($data->Reservasi)}}">{{$data->nama_upacara}}</td>
-                                                    <td style="width: 18%" class="pl-4">
-                                                        @if ($data->Reservasi[0]->Relasi->Sulinggih != null)
-                                                            {{$data->Reservasi[0]->Relasi->Sulinggih->nama_sulinggih}}</td>
-                                                        @else
-                                                            {{$data->Reservasi[0]->Relasi->Sanggar->nama_sanggar}}</td>
-                                                        @endif
-                                                    <td class='d-flex justify-content-center text-center'>
-                                                        <span @if ($data->Reservasi[0]->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->Reservasi[0]->status == 'proses tangkil' || $data->Reservasi[0]->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->Reservasi[0]->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->Reservasi[0]->status)}}</span>
-                                                    </td>
-                                                    <td>
-                                                        @foreach ($data->Reservasi[0]->DetailReservasi as $dataDetailReservasi)
-                                                            <li>{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}} | {{strtoupper($dataDetailReservasi->status)}}</li>
-                                                        @endforeach
-                                                    </td>
-                                                    <td>
-                                                        <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[0]->id)}}" class="btn btn-info btn-sm">
-                                                            <i class="fas fa-edit"></i>
-                                                        </a>
-                                                        @if ($data->Reservasi[0]->status == 'pending' || $data->Reservasi[0]->status == 'proses tangkil')
-                                                            <button onclick="batalReservasi({{$data->Reservasi[0]->id}})" class="btn btn-danger btn-sm">
-                                                                <i class="fas fa-times"></i>
-                                                            </button>
-                                                            <form id="{{"batal-".$data->Reservasi[0]->id}}" class="d-none" action="{{route('krama.manajemen-reservasi.delete')}}" method="post">
-                                                                @csrf
-                                                                @method('put')
-                                                                <input type="hidden" class="d-none" value="{{$data->Reservasi[0]->id}}" name="id">
-                                                            </form>
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                                @for($i=1; $i < count($data->Reservasi); $i++ )
+                                            @if ($dataReservasi == null)
+                                                @foreach ($dataReservasi as $index => $data)
                                                     <tr>
-                                                        <td>
-                                                            @if ($data->Reservasi[$i]->Relasi->Sulinggih != null)
-                                                                {{$data->Reservasi[$i]->Relasi->Sulinggih->nama_sulinggih}}</td>
+                                                        <td rowspan="{{count($data->Reservasi)}}">{{$index+1}}</td>
+                                                        <td style="width: 18%" rowspan="{{count($data->Reservasi)}}">{{$data->nama_upacara}}</td>
+                                                        <td style="width: 18%" class="pl-4">
+                                                            @if ($data->Reservasi[0]->Relasi->Sulinggih != null)
+                                                                {{$data->Reservasi[0]->Relasi->Sulinggih->nama_sulinggih}}</td>
                                                             @else
-                                                                {{$data->Reservasi[$i]->Relasi->Sanggar->nama_sanggar}}</td>
+                                                                {{$data->Reservasi[0]->Relasi->Sanggar->nama_sanggar}}</td>
                                                             @endif
-                                                        </td>
                                                         <td class='d-flex justify-content-center text-center'>
-                                                            <span @if ($data->Reservasi[$i]->status  == 'pending') class="bg-secondary btn-sm" @elseif ($data->Reservasi[$i]->status == 'proses tangkil' || $data->Reservasi[$i]->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->Reservasi[$i]->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->Reservasi[$i]->status)}}</span>
+                                                            <span @if ($data->Reservasi[0]->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->Reservasi[0]->status == 'proses tangkil' || $data->Reservasi[0]->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->Reservasi[0]->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->Reservasi[0]->status)}}</span>
                                                         </td>
                                                         <td>
-                                                            @foreach ($data->Reservasi[$i]->DetailReservasi as $dataDetailReservasi)
+                                                            @foreach ($data->Reservasi[0]->DetailReservasi as $dataDetailReservasi)
                                                                 <li>{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}} | {{strtoupper($dataDetailReservasi->status)}}</li>
                                                             @endforeach
                                                         </td>
                                                         <td>
-                                                            <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                                                            @if ($data->Reservasi[$i]->status == 'pending' || $data->Reservasi[$i]->status == 'proses tangkil')
-                                                                <a onclick="batalReservasi({{$data->Reservasi[$i]->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                                                <form id="{{"batal-".$data->Reservasi[$i]->id}}" class="d-none" action="{{route('krama.manajemen-reservasi.delete')}}" method="post">
+                                                            <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[0]->id)}}" class="btn btn-info btn-sm">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                            @if ($data->Reservasi[0]->status == 'pending' || $data->Reservasi[0]->status == 'proses tangkil')
+                                                                <button onclick="batalReservasi({{$data->Reservasi[0]->id}})" class="btn btn-danger btn-sm">
+                                                                    <i class="fas fa-times"></i>
+                                                                </button>
+                                                                <form id="{{"batal-".$data->Reservasi[0]->id}}" class="d-none" action="{{route('krama.manajemen-reservasi.delete')}}" method="post">
                                                                     @csrf
                                                                     @method('put')
-                                                                    <input type="hidden" class="d-none" value="{{$data->Reservasi[$i]->id}}" name="id">
+                                                                    <input type="hidden" class="d-none" value="{{$data->Reservasi[0]->id}}" name="id">
                                                                 </form>
                                                             @endif
                                                         </td>
                                                     </tr>
-                                                @endfor
-                                            @endforeach
+                                                    @for($i=1; $i < count($data->Reservasi); $i++ )
+                                                        <tr>
+                                                            <td>
+                                                                @if ($data->Reservasi[$i]->Relasi->Sulinggih != null)
+                                                                    {{$data->Reservasi[$i]->Relasi->Sulinggih->nama_sulinggih}}</td>
+                                                                @else
+                                                                    {{$data->Reservasi[$i]->Relasi->Sanggar->nama_sanggar}}</td>
+                                                                @endif
+                                                            </td>
+                                                            <td class='d-flex justify-content-center text-center'>
+                                                                <span @if ($data->Reservasi[$i]->status  == 'pending') class="bg-secondary btn-sm" @elseif ($data->Reservasi[$i]->status == 'proses tangkil' || $data->Reservasi[$i]->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->Reservasi[$i]->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->Reservasi[$i]->status)}}</span>
+                                                            </td>
+                                                            <td>
+                                                                @foreach ($data->Reservasi[$i]->DetailReservasi as $dataDetailReservasi)
+                                                                    <li>{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}} | {{strtoupper($dataDetailReservasi->status)}}</li>
+                                                                @endforeach
+                                                            </td>
+                                                            <td>
+                                                                <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                                                @if ($data->Reservasi[$i]->status == 'pending' || $data->Reservasi[$i]->status == 'proses tangkil')
+                                                                    <a onclick="batalReservasi({{$data->Reservasi[$i]->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                                                    <form id="{{"batal-".$data->Reservasi[$i]->id}}" class="d-none" action="{{route('krama.manajemen-reservasi.delete')}}" method="post">
+                                                                        @csrf
+                                                                        @method('put')
+                                                                        <input type="hidden" class="d-none" value="{{$data->Reservasi[$i]->id}}" name="id">
+                                                                    </form>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endfor
+                                                @endforeach
+                                            @else
+                                                <tr class="odd">`
+                                                    <td valign="top" colspan="6" class="dataTables_empty text-center m-4">Tidak Terdapat Reservasi</td>
+                                                </tr>
+                                            @endif
+
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th>No</th>
                                                 <th>Nama Upakara</th>
                                                 <th>Pemuput Upakara</th>
-                                                <th>Status Reservasi</th>
+                                                <th class='d-flex justify-content-center text-center'>Status Reservasi</th>
                                                 <th>Tahapan Reservasi</th>
                                                 <th>Tindakan</th>
                                             </tr>

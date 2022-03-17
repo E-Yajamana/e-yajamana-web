@@ -14,15 +14,14 @@ class TbSanggarTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('tb_sanggar')->delete();
-        
+
         \DB::table('tb_sanggar')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 2,
-                'id_user' => 10,
                 'nama_sanggar' => 'Sanngar Bali Warini',
                 'alamat_sanggar' => 'Buana sari no 14',
                 'sk_tanda_usaha' => 'app/default/tanda_usaha.jpg',
@@ -33,10 +32,9 @@ class TbSanggarTableSeeder extends Seeder
                 'created_at' => '2022-01-19 01:47:09',
                 'updated_at' => '2022-01-23 06:27:00',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 3,
-                'id_user' => 4,
                 'nama_sanggar' => 'Sanggar Nuansa Bali',
                 'alamat_sanggar' => 'Tegal lantang no 145',
                 'sk_tanda_usaha' => 'app/default/tanda_usaha.jpg',
@@ -48,7 +46,7 @@ class TbSanggarTableSeeder extends Seeder
                 'updated_at' => '2022-01-24 20:29:50',
             ),
         ));
-        
-        
+
+
     }
 }

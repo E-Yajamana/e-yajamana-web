@@ -346,6 +346,8 @@
     </section>
     <input value='@json($dataUpacaraku)' id="dataUpacaraku" type="hidden">
     <input value='@json($dataSanggar)' id="dataSanggar" type="hidden">
+    <input value='@json($dataPemuputKarya)' id="dataPemuput" type="hidden">
+
     <!-- MODAL DETAIL POPUP USER -->
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog" role="document">
@@ -420,7 +422,6 @@
         let data = $('#dataUpacaraku').val();
         let namaPemuput,jenisPemuput;
         let dataUpacara = JSON.parse(data)
-        // console.log(dataUpacara);
 
         // ADD FUNCTION VALIDATE DATE RANGE
         jQuery.validator.addMethod("daterange", function(value, element){
