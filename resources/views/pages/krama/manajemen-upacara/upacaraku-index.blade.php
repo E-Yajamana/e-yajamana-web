@@ -50,11 +50,11 @@
                             <div class="row">
                                 <div class="col-7">
                                     <ul class="nav nav-pills" id="filterStatus">
-                                        <li class="nav-item filter"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
-                                        <li class="nav-item filter"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
-                                        <li class="nav-item filter"><a class="nav-link" href="#activity" data-toggle="tab">Berlangsung</a></li>
-                                        <li class="nav-item filter"><a class="nav-link" href="#timeline" data-toggle="tab">Selesai</a></li>
-                                        <li class="nav-item filter"><a class="nav-link" href="#settings" data-toggle="tab">Batal</a></li>
+                                        <li class="nav-item"><a class="nav-link active"  data-toggle="tab">Semua</a></li>
+                                        <li class="nav-item"><a class="nav-link"  data-toggle="tab">Pending</a></li>
+                                        <li class="nav-item"><a class="nav-link"  data-toggle="tab">Berlangsung</a></li>
+                                        <li class="nav-item"><a class="nav-link"  data-toggle="tab">Selesai</a></li>
+                                        <li class="nav-item"><a class="nav-link"  data-toggle="tab">Batal</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-5">
@@ -95,7 +95,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="dataUpacara">
-                                            {{-- @foreach ($dataUpacaraku as $data)
+                                            @foreach ($dataUpacaraku as $data)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$data->nama_upacara}}</td>
@@ -119,7 +119,7 @@
                                                         @endif
                                                     </td>
                                                 </tr>
-                                            @endforeach --}}
+                                            @endforeach
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -148,31 +148,9 @@
 
 @endsection
 
-@push('js')
-    <!-- DataTablbase-template Plugins -->
-    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <!-- Select2 -->
-    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
-
-    <!-- Page specific script -->
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#side-upacara').addClass('menu-open');
-            $('#side-data-upacara').addClass('active');
-        });
-    </script>
-
-@endpush
 
 @push('js')
     <script>
-        let jenisYadnya,statusUpacara,dataUpacara;
-
         function deleteUpacara(id){
             Swal.fire({
                 title: 'Peringatan',
@@ -192,75 +170,74 @@
                 }
             })
         }
+    </script>
+
+@endpush
 
 
-        statusUpacara = $("#filterStatus li").find('a.active').text()
-        jenisYadnya =  $('#filterJenisYadnya').find(":selected").val();
+@push('js')
 
-        $('#filterJenisYadnya').change(function(){
-            var jenis = $(this).find(':selected').val();
-            getDataUpacaraku(jenis,statusUpacara)
+    <!-- DataTablbase-template Plugins -->
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+
+    <!-- Page specific script -->
+    <script type="text/javascript">
+        let jenisYadnya,statusUpacara,dataUpacara;
+
+        $(document).ready(function(){
+            $('#side-upacara').addClass('menu-open');
+            $('#side-data-upacara').addClass('active');
+        });
+
+        var table = $('#example2').DataTable({
+            "oLanguage": {
+                "sSearch": "Cari:",
+                "sZeroRecords": "Data Tidak Ditemukan",
+                "sSearchPlaceholder": "Cari data....",
+            },
+            "language": {
+                "paginate": {
+                    "previous": 'Sebelumnya',
+                    "next": 'Berikutnya'
+                },
+                "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+            }
         });
 
 
-        getDataUpacaraku(jenisYadnya,statusUpacara)
 
-        function getDataUpacaraku(jenisYadnya,status){
-            $.ajax({
-                url: "{{ route('ajax.filter.upacaraku')}}" + '/' +jenisYadnya + '/' + status,
-                type: "GET",
-                dataType: "json",
-                success: function (response) {
-                    showData(response.data)
-                },
-                error: function(response){
-                    console.log(response)
+        $.fn.dataTable.ext.search.push(
+            function( settings, data, dataIndex ) {
+                jenisYadnya =  $('#filterJenisYadnya').find(":selected").val();
+
+                var jenisUpacaraData = data[2];
+                var statusData = data[3];
+                console.log(statusUpacara)
+                if((jenisYadnya == "Semua" && statusData == statusUpacara) || (statusUpacara == "Semua" && jenisUpacaraData == jenisYadnya) ){
+                    return true;
                 }
-            })
-        }
+                return false;
+            }
+        );
 
-        function showData(data){
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true,
-                "responsive": true,
-                data: data,
-                columns: [
-                    { data: 'no', title: "No" },
-                    { data: 'nama_upacara', title: "Nama Upacara" },
-                    { data: 'jenis_upacara', title: "Jenis Upacara" },
-                    { data: 'status_upacara', title: "Status Upacara" },
-                    { data: 'tanggal', title: "Tanggal Upacara" },
-                    { data: 'link', title: "Action" }
-                ],
-                "oLanguage": {
-                    "sSearch": "Cari:",
-                    "sZeroRecords": "Data Tidak Ditemukan",
-                    "sSearchPlaceholder": "Cari data....",
-                },
-                "language": {
-                    "paginate": {
-                        "previous": 'Sebelumnya',
-                        "next": 'Berikutnya'
-                    },
-                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
-                }
-            });
+        $('#filterJenisYadnya').change( function() {
+            statusUpacara = "Semua"
+            table.draw();
+        });
 
-        }
-
-
-
-
-
-
-
-
+        $('#filterStatus a').click(function(e) {
+            statusUpacara = $(this).text()
+            table.draw();
+        });
 
     </script>
 
 @endpush
+
