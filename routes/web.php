@@ -243,7 +243,6 @@ Route::prefix('ajax')->group(function () {
 
     Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
 
-    Route::get('upacaraku/{jenisYadnya?}/{status?}', [KramaUpacarakuController::class, 'getUpacarakuByStatusAndJenisYadnya'])->name('ajax.filter.upacaraku');
 });
 // END SERVICE AJAX SISTEM
 
