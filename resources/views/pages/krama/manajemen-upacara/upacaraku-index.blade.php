@@ -49,22 +49,22 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-7">
-                                    <ul class="nav nav-pills">
-                                        <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Berlangsung</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Selesai</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Batal</a></li>
+                                    <ul class="nav nav-pills" id="filterStatus">
+                                        <li class="nav-item filter"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
+                                        <li class="nav-item filter"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
+                                        <li class="nav-item filter"><a class="nav-link" href="#activity" data-toggle="tab">Berlangsung</a></li>
+                                        <li class="nav-item filter"><a class="nav-link" href="#timeline" data-toggle="tab">Selesai</a></li>
+                                        <li class="nav-item filter"><a class="nav-link" href="#settings" data-toggle="tab">Batal</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-5">
-                                    <select class="form-control select2bs4" style="width: 100%;" aria-placeholder="ada">
-                                        <option >Jenis Yadnya</option>
-                                        <option>Dewa Yadnya</option>
-                                        <option>Pitra Yadnya</option>
-                                        <option>Manusa Yadnya</option>
-                                        <option>Rsi Yadnya</option>
-                                        <option>Bhuta Yadnya</option>
+                                    <select id="filterJenisYadnya" class="form-control select2bs4" style="width: 100%;" aria-placeholder="ada">
+                                        <option value="Semua">Jenis Yadnya</option>
+                                        <option value="Dewa Yadnya">Dewa Yadnya</option>
+                                        <option value="Pitra Yadnya">Pitra Yadnya</option>
+                                        <option value="Manusa Yadnya">Manusa Yadnya</option>
+                                        <option value="Rsi Yadnya">Rsi Yadnya</option>
+                                        <option value="Bhuta Yadnya">Bhuta Yadnya</option>
                                     </select>
                                 </div>
                             </div>
@@ -94,8 +94,8 @@
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            @foreach ($dataUpacaraku as $data)
+                                        <tbody id="dataUpacara">
+                                            {{-- @foreach ($dataUpacaraku as $data)
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$data->nama_upacara}}</td>
@@ -103,7 +103,7 @@
                                                     <td class="d-flex text-center">
                                                         <span @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'berlangsung') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:100px;">{{Str::ucfirst($data->status)}}</span>
                                                     </td>
-                                                    <td>{{date('d M Y',strtotime($data->tanggal_mulai))}} - {{date('d M Y',strtotime($data->tanggal_selesai))}} </td>
+                                                    <td>{{date('d F Y',strtotime($data->tanggal_mulai))}} - {{date('d F Y',strtotime($data->tanggal_selesai))}} </td>
                                                     <td class="text-center">
                                                         <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         @if ($data->status != 'selesai' && $data->status != 'batal')
@@ -111,15 +111,15 @@
                                                         @endif
                                                         @if ($data->status == 'pending')
                                                         <button onclick="deleteUpacara({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                                            <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('krama.manajemen-upacara.upacaraku.delete')}}" method="post">
-                                                                @csrf
-                                                                @method('put')
-                                                                <input type="hidden" class="d-none" value="{{$data->id}}" name="id">
-                                                            </form>
+                                                        <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('krama.manajemen-upacara.upacaraku.delete')}}" method="post">
+                                                            @csrf
+                                                            @method('put')
+                                                            <input type="hidden" class="d-none" value="{{$data->id}}" name="id">
+                                                        </form>
                                                         @endif
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @endforeach --}}
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -161,39 +161,18 @@
 
     <!-- Page specific script -->
     <script type="text/javascript">
-        $(function () {
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true,
-                "responsive": true,
-                "oLanguage": {
-                    "sSearch": "Cari:",
-                    "sZeroRecords": "Data Tidak Ditemukan",
-                    "sSearchPlaceholder": "Cari data....",
-                },
-                "language": {
-                    "paginate": {
-                        "previous": 'Sebelumnya',
-                        "next": 'Berikutnya'
-                    },
-                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
-                }
-            });
-        });
-
         $(document).ready(function(){
             $('#side-upacara').addClass('menu-open');
             $('#side-data-upacara').addClass('active');
         });
     </script>
+
 @endpush
 
 @push('js')
     <script>
+        let jenisYadnya,statusUpacara,dataUpacara;
+
         function deleteUpacara(id){
             Swal.fire({
                 title: 'Peringatan',
@@ -213,5 +192,75 @@
                 }
             })
         }
+
+
+        statusUpacara = $("#filterStatus li").find('a.active').text()
+        jenisYadnya =  $('#filterJenisYadnya').find(":selected").val();
+
+        $('#filterJenisYadnya').change(function(){
+            var jenis = $(this).find(':selected').val();
+            getDataUpacaraku(jenis,statusUpacara)
+        });
+
+
+        getDataUpacaraku(jenisYadnya,statusUpacara)
+
+        function getDataUpacaraku(jenisYadnya,status){
+            $.ajax({
+                url: "{{ route('ajax.filter.upacaraku')}}" + '/' +jenisYadnya + '/' + status,
+                type: "GET",
+                dataType: "json",
+                success: function (response) {
+                    showData(response.data)
+                },
+                error: function(response){
+                    console.log(response)
+                }
+            })
+        }
+
+        function showData(data){
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "responsive": true,
+                data: data,
+                columns: [
+                    { data: 'no', title: "No" },
+                    { data: 'nama_upacara', title: "Nama Upacara" },
+                    { data: 'jenis_upacara', title: "Jenis Upacara" },
+                    { data: 'status_upacara', title: "Status Upacara" },
+                    { data: 'tanggal', title: "Tanggal Upacara" },
+                    { data: 'link', title: "Action" }
+                ],
+                "oLanguage": {
+                    "sSearch": "Cari:",
+                    "sZeroRecords": "Data Tidak Ditemukan",
+                    "sSearchPlaceholder": "Cari data....",
+                },
+                "language": {
+                    "paginate": {
+                        "previous": 'Sebelumnya',
+                        "next": 'Berikutnya'
+                    },
+                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+                }
+            });
+
+        }
+
+
+
+
+
+
+
+
+
     </script>
+
 @endpush

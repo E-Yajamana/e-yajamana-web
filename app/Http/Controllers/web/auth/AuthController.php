@@ -71,7 +71,7 @@ class AuthController extends Controller
                         return redirect(route('admin.dashboard'));
                     }elseif($user->Role->count() == 1 && $user->Role->first()->nama_role == "Krama"){
                         return redirect(route('krama.dashboard'));
-                    }else{
+                    }elseif($user->Role->count() > 1){
                         $konfirmasiAkunPemuput = PemuputKarya::whereIdUser($user->id)->whereStatusKonfirmasiAkun('disetujui')->count();
                         $konfirmasiAkunSanggar = Auth::user()->Sanggar->where('status_konfirmasi_akun','disetujui')->count();
                         if($konfirmasiAkunPemuput == 0 && $konfirmasiAkunSanggar == 0){

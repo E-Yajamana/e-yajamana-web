@@ -72,8 +72,10 @@ class KramaReservasiController extends Controller
 
         // MAIN LOGIC
             try{
+                $user = Auth::user();
                 $dataUpacaraku = Upacaraku::with(['Upacara'])->findOrFail($request->id);
-                $dataUserReservasi = Reservasi::where('id_upacaraku',$request->id)->whereNotIn('status',['batal','selesai'])->pluck('id_relasi');
+                $dataUserReservasi = Reservasi::where('id_upacaraku',$request->id)->whereNotIn('status',['batal','selesai'])->whereTipe('pemuput_karya')->pluck('id_relasi')->toArray();
+                array_push($dataUserReservasi, $user->id);
 
                 $dataSanggar = Sanggar::with('User.Penduduk')->whereHas('User.Penduduk')->where('status_konfirmasi_akun','disetujui')->get();
 

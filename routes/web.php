@@ -217,41 +217,40 @@ Route::prefix('get-image')->group(function () {
     Route::get('upacara/{id}', [GetImageController::class, 'getImageUpacara'])->name('get-image.upacara');
     Route::get('tahapan-upacara/{id?}', [GetImageController::class, 'getImageTahapanUpacara'])->name('get-image.tahapan-upacara');
     Route::get('profile/pemuput-karya/{id?}', [PemuputDashboardController::class, 'getProfilePemuput'])->name('get-image.profile.pemuput-karya');
-
 });
 
+// SERVICE AJAX SISTEM
 Route::prefix('ajax')->group(function () {
-    Route::get('get/keterangan/{id?}', [AjaxController::class, 'getKeteranganPergantian'])->name('ajax.get.keterangan-reservasi');
 
-    Route::get('get/get-tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
-
-    Route::get('get/jenis-yadnya/{jenis?}', [AjaxController::class, 'jenisYadnya'])->name('ajax.get.jenis-yadnya');
-    Route::get('get/tahapan/upacara/{id?}', [AjaxController::class, 'getTahapanUpacara'])->name('ajax.get.tahapan-upacara');
-
-    Route::get('get/data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
-
-    Route::post('add/griya', [MasteDataGriyaController::class, 'ajaxStoreDataGriya'])->name('ajax.post');
-    Route::get('get/griya', [MasteDataGriyaController::class, 'ajaxGetDataGriya'])->name('ajax.get');
+    Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);
     Route::get('kabupaten/{id?}', [LocationController::class, 'getKabupaten']);
     Route::get('kecamatan/{id}', [LocationController::class, 'getKecamatan']);
-    Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);
     Route::get('banjar-dinas/{id?}', [LocationController::class, 'getBanjarDinas'])->name('ajax.get-banjar-dinas');
 
-    Route::get('get/penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
+
+    Route::prefix('upacara')->group(function () {
+        Route::get('jenis-yadnya/{jenis?}', [AjaxController::class, 'jenisYadnya'])->name('ajax.get.jenis-yadnya');
+        Route::get('tahapan/upacara/{id?}', [AjaxController::class, 'getTahapanUpacara'])->name('ajax.get.tahapan-upacara');
+    });
+
+    Route::prefix('reservasi')->group(function () {
+        Route::get('keterangan/{id?}', [AjaxController::class, 'getKeteranganPergantian'])->name('ajax.get.keterangan-reservasi');
+        Route::get('tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
+    });
 
 
+    Route::get('data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
+
+    Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
+
+    Route::get('upacaraku/{jenisYadnya?}/{status?}', [KramaUpacarakuController::class, 'getUpacarakuByStatusAndJenisYadnya'])->name('ajax.filter.upacaraku');
 });
+// END SERVICE AJAX SISTEM
 
 
  // NOTIFICATION
  Route::patch('saveToken', [NotifyController::class, 'saveToken'])->name('notification.save-token');
  Route::post('send-notification', [NotifyController::class, 'sendNotify'])->name('send-notificaiton');
-
-//  Route::get('notification/{status}', [NotificationController::class, 'getNotificationByIdUserandStatus']);
-//  Route::post('read/notification', [NotificationController::class, 'readNotification']);
-//  Route::post('unread/notification', [NotificationController::class, 'unreadNotification']);
-//  Route::post('delete/notification', [NotificationController::class, 'deleteNotification']);
-//  Route::post('send/notification', [NotificationController::class, 'sendNotification']);
- // NOTIFICATION
+ // END NOTIFICATION
 
 
