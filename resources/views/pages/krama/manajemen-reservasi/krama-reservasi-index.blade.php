@@ -5,6 +5,7 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/jquery.dataTables.min.css')}}"> --}}
 @endpush
 
 @section('content')
@@ -205,6 +206,8 @@
         $(document).ready(function(){
             $('#side-reservasi').addClass('menu-open');
             $('#side-data-reservasi').addClass('active');
+            $('#example2').DataTable();
+
         });
     </script>
 
@@ -215,7 +218,7 @@
         function batalReservasi(id){
             Swal.fire({
                 title: 'Peringatan',
-                text : 'Apakah anda yakin akan membatalkan reservasi?',
+                text : 'Apakah anda yakin akan membatalkan Reservasi?',
                 icon:'warning',
                 showDenyButton: false,
                 showCancelButton: false,

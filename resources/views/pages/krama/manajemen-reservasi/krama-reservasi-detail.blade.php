@@ -403,7 +403,6 @@
             let daterange = $('#reservationtime').val();
             let status = $('#status_reservasi').val();
 
-            console.log(status)
             $.ajax({
                 url: "{{ route('krama.manajemen-reservasi.ajax.update')}}",
                 type:'PUT',

@@ -10,6 +10,7 @@ use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
 use App\Http\Controllers\web\admin\masterdata\MasterDataWilayahController;
 use App\Http\Controllers\web\AjaxController;
 use App\Http\Controllers\web\auth\AuthController;
+use App\Http\Controllers\web\auth\ProfileController;
 use App\Http\Controllers\web\auth\RegisterController;
 use App\Http\Controllers\web\GetImageController;
 use App\Http\Controllers\web\krama\dashboard\KramaDashboardController;
@@ -40,6 +41,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pages.auth.login');
+    // return view('welcome');
 });
 
 //
@@ -67,7 +69,12 @@ Route::prefix('auth')->group(function () {
         Route::post('request/email/token', [ApiAuthController::class, 'lupaPassword'])->name('auth.lupa-password.request.token');
         Route::post('check/email/token', [ApiAuthController::class, 'checkToken'])->name('auth.lupa-password.check.token');
         Route::post('create/new/password', [ApiAuthController::class, 'createNewPassword'])->name('auth.lupa-password.new.password');
+    });
 
+    Route::prefix('profile')->group(function () {
+        Route::put('akun/update', [ProfileController::class, 'updateAkun'])->name('profile.akun.update');
+        Route::put('password/update', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+        Route::put('data-diri/update', [ProfileController::class, 'updateDataDiri'])->name('profile.data-diri.update');
     });
 
 });

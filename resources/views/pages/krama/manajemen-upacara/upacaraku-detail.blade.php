@@ -216,8 +216,8 @@
                                             <div class="user-block">
                                                 <img class="img-circle mt-1" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
                                                 <span class="username">
-                                                    @if ($data->Relasi->Sulinggih != null)
-                                                        <a class="ml-2" href="#">{{$data->Relasi->Sulinggih->nama_sulinggih}}</a>
+                                                    @if ($data->Relasi->PemuputKarya != null)
+                                                        <a class="ml-2" href="#">{{$data->Relasi->PemuputKarya->nama_pemuput}}</a>
                                                     @else
                                                         <a class="ml-2" href="#">{{$data->Relasi->Sanggar->nama_sanggar}}</a>
                                                     @endif
@@ -235,7 +235,7 @@
                                                         <a href="{{route('krama.manajemen-reservasi.detail',$data->id)}}" class="dropdown-item text-dark">Detail</a></li>
                                                         <a data-card-widget="collapse" data-toggle="tooltip" class="dropdown-item">Lihat Tahapan</a></li>
                                                         <li class="dropdown-divider"></li>
-                                                        <a href="#" class="text-dark dropdown-item">Delete Reservasi</a></li>
+                                                        <a href="#" class="text-dark dropdown-item">Batal Reservasi</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -273,10 +273,10 @@
                                                             <td>{{$loop->iteration}}</td>
                                                             <td>{{$data->TahapanUpacara->nama_tahapan}}</td>
                                                             <td class="text-md-center">
-                                                                <div>{{date('d-M-Y - h:i:s',strtotime($data->tanggal_mulai))}}</div>
+                                                                <div>{{date('d F Y - h:i:s',strtotime($data->tanggal_mulai))}}</div>
                                                             </td>
                                                             <td class="text-md-center">
-                                                                <div>{{date('d-M-Y h:i:s',strtotime($data->tanggal_selesai))}}</div>
+                                                                <div>{{date('d F Y h:i:s',strtotime($data->tanggal_selesai))}}</div>
                                                             </td>
                                                             <td class="d-flex justify-content-center text-center">
                                                                 <span @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'diterima') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm"  @elseif ($data->status == 'ditolak' || $data->status == 'batal' ) class="bg-danger btn-sm" @else class="bg-info btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->status)}}</span>
@@ -307,6 +307,8 @@
         </div>
     <!-- /.container-fluid -->
     </section>
+    <input id="lat" value="{{$dataUpacaraku->lat}}" type="hidden" class="d-none">
+    <input id="lng" value="{{$dataUpacaraku->lng}}" type="hidden" class="d-none">
 
 @endsection
 
@@ -314,6 +316,13 @@
 @push('js')
 
     <script type="text/javascript">
+        let lat,lng;
+        lat = $("#lat").val();
+        lng = $("#lng").val();
+
+        console.log(lat)
+        console.log(lng)
+
         $(document).ready(function(){
             var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 10);
 

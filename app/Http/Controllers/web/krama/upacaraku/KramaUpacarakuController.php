@@ -29,7 +29,9 @@ class KramaUpacarakuController extends Controller
     // INDEX UPACARAKU
     public function indexUpacaraku(Request $request)
     {
-        $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi'])->where('id_krama',Auth::user()->id)->get();
+        $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi'])->withCount(['Reservasi'=> function($query){
+            $query->whereIn('status',['pending','proses tangkil']);
+        }])->where('id_krama',Auth::user()->id)->get();
         return view('pages.krama.manajemen-upacara.upacaraku-index', compact('dataUpacaraku'));
     }
     // INDEX UPACARAKU
@@ -136,6 +138,7 @@ class KramaUpacarakuController extends Controller
     // DETAIL UPACARAKU
     public function detailUpacaraku(Request $request)
     {
+        // dd($request->id);
         // SECURITY
             $validator = Validator::make(['id' =>$request->id],[
                 'id' => 'required|exists:tb_upacaraku,id',
@@ -154,7 +157,7 @@ class KramaUpacarakuController extends Controller
         // MAIN LOGIC
             try{
                 $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi' => function ($query){
-                    $query->with(['Relasi.Sulinggih','Relasi.Sanggar','DetailReservasi.TahapanUpacara']);
+                    $query->with(['Relasi.PemuputKarya','Relasi.Sanggar','DetailReservasi.TahapanUpacara']);
                 },'BanjarDinas'])->whereIdKrama(Auth::user()->id)->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
@@ -343,6 +346,23 @@ class KramaUpacarakuController extends Controller
             foreach( $dataUpacaraku->Reservasi as $data){
                 $data->DetailReservasi()->update(['status'=>'batal']);
             }
+            $user = Auth::user();
+
+            // SEND NOTIFICATION
+            NotificationHelper::sendNotification(
+                [
+                    'title' => "PEMBATALAN UPACARA",
+                    'body' => "Pembatalan upacara ".$dataUpacaraku->nama_upacara." berhasil dilakukan, data upacara dapat dilihat pada menu Data Upacara",
+                    'status' => "new",
+                    'image' => "krama",
+                    'notifiable_id' => $user->id,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $user
+            );
+            // END SEND NOTIFICATION
+
         }else{
             return \redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
                 'status' => 'fail',
