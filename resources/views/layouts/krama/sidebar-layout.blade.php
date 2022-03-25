@@ -22,7 +22,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-profile" href="{{route('krama.profile')}}" class="nav-link">
+                            <a id="side-switch" class="nav-link">
                                 <i class="far fa-circle nav-icon mr-1"></i>
                                 <p>Switch Account</p>
                             </a>

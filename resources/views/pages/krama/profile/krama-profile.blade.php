@@ -196,7 +196,7 @@ crossorigin=""></script>
                         <div class="tab-content">
 
                             <!---- DATA DIRI TABS ------>
-                            <div class="tab-pane" id="dataDiri">
+                            <div class="tab-pane active" id="dataDiri">
                                 <div class="ml-2 fs-4">
                                     <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Data Diri</label>
                                     <p>Kelola data diri Anda agar lebih mudah mendapatkan informasimu</p>
@@ -413,7 +413,7 @@ crossorigin=""></script>
                             <!---- AKUN TABS ------>
 
                             <!---- PEMETAAN TABS ------>
-                            <div class="tab-pane active" id="pemetaan">
+                            <div class="tab-pane" id="pemetaan">
                                 <div class="ml-2 fs-4">
                                     <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Akun</label>
                                     <p>Kelola akun Anda agar lebih mudah untuk melakukan login</p>
@@ -423,57 +423,45 @@ crossorigin=""></script>
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group">
-                                                <label>Kabupaten/Kota <span class="text-danger">*</span></label>
-                                                <select  name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
-                                                    <option value="0" disabled selected>Pilih Kabupaten</option>
+                                                <label>Provinsi </label>
+                                                <select id="provinsi" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                                    <option value="0" disabled selected>Pilih Provinsi</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <label>Kecamatan <span class="text-danger">*</span></label>
-                                                <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                                <label>Kabupaten/Kota </label>
+                                                <select  name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
+                                                    <option value="0" disabled selected>Pilih Kabupaten</option>
                                                 </select>
-                                                <p class="m-1 text-xs">(Pilih Kabupaten terlebih dahulu)</p>
+                                                <p class="m-1 text-xs">(Pilih Provinsi terlebih dahulu)</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <label>Desa Dinas<span class="text-danger">*</span></label>
+                                            <div class="form-group">
+                                                <label>Kecamatan </label>
+                                                <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                                    <option value="0" disabled selected>Pilih Kecamatan</option>
+                                                </select>
+                                                <p class="m-1 text-xs">(Pilih Kabupaten terlebih dahulu)</p>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <label>Desa Dinas</label>
                                             <select id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
                                                 <option value="0" disabled selected>Pilih Desa Dinas</option>
                                             </select>
                                             <p class="m-1 text-sm">(Pilih Kecamatan terlebih dahulu)</p>
-                                            @error('id_desa')
-                                                <div class="invalid-feedback text-start">
-                                                    {{$errors->first('id_desa') }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="col">
-                                            <label>Banjar Dinas <span class="text-danger">*</span></label>
-                                            <select id="id_banjar_dinas" name="id_banjar_dinas" class="form-control select2bs4 @error('id_banjar_dinas') is-invalid @enderror" style="width: 100%;">
-                                                <option value="0" disabled selected>Pilih Banjar Dinas</option>
-                                            </select>
-                                            <p class="m-1 text-sm">(Pilih Desa Dinas terlebih dahulu)</p>
-                                            @error('id_banjar_dinas')
-                                                <div class="invalid-feedback text-start">
-                                                    {{$errors->first('id_banjar_dinas') }}
-                                                </div>
-                                            @enderror
                                         </div>
                                     </div>
                                     <div class="row my-2">
                                         <div class="col-12">
                                             <div class="form-group">
-                                                <label>Alamat Upacara</label>
-                                                <textarea name="alamat_upacaraku" class="form-control  @error('alamat_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya"></textarea>
-                                                @error('alamat_upacaraku')
-                                                    <div class="invalid-feedback text-start">
-                                                        {{$errors->first('alamat_upacaraku') }}
-                                                    </div>
-                                                @enderror
+                                                <label>Alamat</label>
+                                                <textarea name="alamat_upacaraku" class="form-control " rows="3" placeholder="Masukan Alamat Lengkap">{{Auth::user()->Penduduk->alamat}}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -510,40 +498,77 @@ crossorigin=""></script>
                                     </ul>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="notifikasiBaru">
-                                            <!---- NOT NULL NOTIFICATION ------>
-                                            <div class="card mt-3">
-                                                <div class="card-header" aria-expanded="false">
-                                                    <div class="card-tools mr-0">
-                                                        <div class="input-group-prepend">
-                                                            <button type="button" class="btn btn-tool float-right px-0" data-toggle="dropdown">
-                                                                <i class="fas fa-ellipsis-v float-lg-right mt-2"></i>
-                                                            </button>
-                                                            <ul class="dropdown-menu">
-                                                                <a href="#" class="dropdown-item text-dark">Baca Notifikasi</a></li>
-                                                                {{-- <li class="dropdown-divider"></li> --}}
-                                                                <a href="#" class="text-dark dropdown-item">Delete Notifikasi</a></li>
-                                                            </ul>
+                                            @if (count($dataNotifikasi['new']) != 0)
+                                                @foreach ($dataNotifikasi['new'] as $data)
+                                                    <div class="card mt-3">
+                                                        <div class="card-header" aria-expanded="false">
+                                                            <div class="card-tools mr-0">
+                                                                <div class="input-group-prepend">
+                                                                    <button type="button" class="btn btn-tool float-right px-0" data-toggle="dropdown">
+                                                                        <i class="fas fa-ellipsis-v float-lg-right mt-2"></i>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <a href="#" class="dropdown-item text-dark">Baca Notifikasi</a></li>
+                                                                        {{-- <li class="dropdown-divider"></li> --}}
+                                                                        <a href="#" class="text-dark dropdown-item">Delete Notifikasi</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <span class="text-xs text-primary my-4"><i class="fas fa-info-circle"></i> Informasi | {{date('d F Y | H:m',strtotime($data->created_at))}}</span>
+                                                            <p class="text-md mb-0 text-bold">{{$data->parseDataToArray()->title}}</p>
+                                                            <p class="text-xs mb-1">{{$data->parseDataToArray()->body}}</p>
                                                         </div>
                                                     </div>
-                                                    <span class="text-xs text-primary my-4"><i class="fas fa-info-circle"></i> Informasi | 17:20</span>
-                                                    <p class="text-md mb-0 text-bold">Permohonan Reservasi dibuat</p>
-                                                    <p class="text-xs mb-1">Permohonan reservasi kepada Made Rismawan telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya</p>
+                                                @endforeach
+                                            @else
+                                                <div class="h-100 d-flex justify-content-center align-items-center mt-4">
+                                                    <div class="media">
+                                                        <div class="media-body text-center mb-2 mt-2">
+                                                            <i class="fa-4x far fa-bell text-secondary"></i>
+                                                            <div class="d-flex justify-content-center mt-3">
+                                                                <p class="text-md text-center">Belum tedapat notifikasi..</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <!---- NOT NULL NOTIFICATION ------>
+                                            @endif
                                         </div>
                                         <div class="tab-pane" id="notifikasiRiwayat">
                                            <!---- IF NOT IN NOTIFICATION IN SISTEM ------>
-                                            <div class="h-100 d-flex justify-content-center align-items-center mt-4">
-                                                <div class="media">
-                                                    <div class="media-body text-center mb-2 mt-2">
-                                                        <i class="fa-4x far fa-bell text-secondary"></i>
-                                                        <div class="d-flex justify-content-center mt-3">
-                                                            <p class="text-md text-center">Belum tedapat notifikasi..</p>
+                                           @if (count($dataNotifikasi['history']) != 0)
+                                                @foreach ($dataNotifikasi['new'] as $data)
+                                                    <div class="card mt-3">
+                                                        <div class="card-header" aria-expanded="false">
+                                                            <div class="card-tools mr-0">
+                                                                <div class="input-group-prepend">
+                                                                    <button type="button" class="btn btn-tool float-right px-0" data-toggle="dropdown">
+                                                                        <i class="fas fa-ellipsis-v float-lg-right mt-2"></i>
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <a href="#" class="dropdown-item text-dark">Baca Notifikasi</a></li>
+                                                                        {{-- <li class="dropdown-divider"></li> --}}
+                                                                        <a href="#" class="text-dark dropdown-item">Delete Notifikasi</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <span class="text-xs text-primary my-4"><i class="fas fa-info-circle"></i> Informasi | {{date('d F Y | H:m',strtotime($data->created_at))}}</span>
+                                                            <p class="text-md mb-0 text-bold">{{$data->parseDataToArray()->title}}</p>
+                                                            <p class="text-xs mb-1">{{$data->parseDataToArray()->body}}</p>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <div class="h-100 d-flex justify-content-center align-items-center mt-4">
+                                                    <div class="media">
+                                                        <div class="media-body text-center mb-2 mt-2">
+                                                            <i class="fa-4x far fa-bell text-secondary"></i>
+                                                            <div class="d-flex justify-content-center mt-3">
+                                                                <p class="text-md text-center">Belum tedapat notifikasi..</p>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                             <!---- IF NOT IN NOTIFICATION IN SISTEM ------>
                                         </div>
                                     </div>

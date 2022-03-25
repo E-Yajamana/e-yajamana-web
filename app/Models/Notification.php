@@ -9,6 +9,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use DateTimeInterface;
+use ReflectionFunctionAbstract;
 
 /**
  * Class Notification
@@ -67,4 +68,13 @@ class Notification extends Model
 	{
 		return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
 	}
+
+    public function parseDataToArray()
+    {
+        $array = json_decode($this->data);
+        return $array;
+    }
+
+
+
 }

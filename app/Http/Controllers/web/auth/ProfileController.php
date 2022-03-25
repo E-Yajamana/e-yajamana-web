@@ -16,14 +16,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use PDOException;
 
-
-
-
 class ProfileController extends Controller
 {
 
-
-    // AJAX UPDATE AKUN
+    // AKUN AJAX UPDATE AKUN
     public function updateAkun(Request $request)
     {
 
@@ -112,9 +108,9 @@ class ProfileController extends Controller
         // RETURN JSON AJAX DATA
 
     }
-    // AJAX UPDATE AKUN
+    // AKUN  AJAX UPDATE
 
-    // AJAX UPDATE PASSWORD
+    // PASSWORD AJAX UPDATE
     public function updatePassword(Request $request)
     {
         // SECURITY
@@ -192,7 +188,7 @@ class ProfileController extends Controller
             ],200);
         // RETURN JSON AJAX DATA
     }
-    // AJAX UPDATE PASSWORD
+    // PASSWORD AJAX UPDATE
 
     // DATA DIRI UPDATE
     public function updateDataDiri(Request $request)

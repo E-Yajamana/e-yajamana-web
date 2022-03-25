@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web\krama;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kecamatan;
+use App\Models\Notification;
 use App\Models\Reservasi;
 use App\Models\Upacaraku;
 use Carbon\Carbon;
@@ -37,6 +38,11 @@ class KramaController extends Controller
             'jumlahTolak' =>$reservasiKrama->where('status','batal')->count() ,
         ];
 
-        return view('pages.krama.profile.krama-profile',compact('rangkumanUpacara','rangkumanReservasi'));
+        $dataNotifikasi = [
+            'new' => Notification::whereNotifiableId($user->id)->whereJsonContains('data', ['status' => 'new'])->get(),
+            'history' => Notification::whereNotifiableId($user->id)->whereJsonContains('data', ['status' => 'history'])->get(),
+        ];
+
+        return view('pages.krama.profile.krama-profile',compact('rangkumanUpacara','rangkumanReservasi','dataNotifikasi'));
     }
 }
