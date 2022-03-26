@@ -67,10 +67,10 @@
                                 @foreach ($dataReservasi as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td style="width: 15%">{{$data->Upacaraku->Krama->User->Penduduk->nama}}</td>
+                                        <td style="width: 15%">{{$data->Upacaraku->User->Penduduk->nama}}</td>
                                         {{-- <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td> --}}
                                         <td style="width: 20%">{{$data->Upacaraku->alamat_upacaraku}}</td>
-                                        <td>{{date('d M Y',strtotime($data->Upacaraku->tanggal_mulai))}} - {{date('d M Y',strtotime($data->Upacaraku->tanggal_selesai))}}</td>
+                                        <td>{{date('d F Y',strtotime($data->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($data->Upacaraku->tanggal_selesai))}}</td>
                                         <td>
                                             @foreach ($data->DetailReservasi as $dataDetail)
                                                 <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>

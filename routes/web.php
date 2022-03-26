@@ -10,6 +10,7 @@ use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
 use App\Http\Controllers\web\admin\masterdata\MasterDataWilayahController;
 use App\Http\Controllers\web\AjaxController;
 use App\Http\Controllers\web\auth\AuthController;
+use App\Http\Controllers\web\auth\ProfileController;
 use App\Http\Controllers\web\auth\RegisterController;
 use App\Http\Controllers\web\GetImageController;
 use App\Http\Controllers\web\krama\dashboard\KramaDashboardController;
@@ -40,23 +41,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pages.auth.login');
+    // return view('welcome');
 });
 
 //
 Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
+    Route::get('login/select-account', [AuthController::class, 'selectAccount'])->name('select-account')->middleware('permission:login');
+
     Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
     Route::prefix('register')->group(function () {
         Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
         Route::get('{akun}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
 
-        Route::post('new/sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
-        Route::post('new/sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
-        Route::post('new/pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
-        Route::post('new/krama', [RegisterController::class, 'storeNewRegisKrama'])->name('auth.register.akun.krama.store');
-        Route::post('new/serati', [RegisterController::class, 'storeNewRegisSerati'])->name(' ');
+        Route::post('sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
+        Route::post('sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
+        Route::post('pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
+        Route::post('krama', [RegisterController::class, 'storeNewRegisKrama'])->name('auth.register.akun.krama.store');
+        Route::post('serati', [RegisterController::class, 'storeNewRegisSerati'])->name(' ');
 
     });
 
@@ -65,13 +69,18 @@ Route::prefix('auth')->group(function () {
         Route::post('request/email/token', [ApiAuthController::class, 'lupaPassword'])->name('auth.lupa-password.request.token');
         Route::post('check/email/token', [ApiAuthController::class, 'checkToken'])->name('auth.lupa-password.check.token');
         Route::post('create/new/password', [ApiAuthController::class, 'createNewPassword'])->name('auth.lupa-password.new.password');
+    });
 
+    Route::prefix('profile')->group(function () {
+        Route::put('akun/update', [ProfileController::class, 'updateAkun'])->name('profile.akun.update');
+        Route::put('password/update', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+        Route::put('data-diri/update', [ProfileController::class, 'updateDataDiri'])->name('profile.data-diri.update');
     });
 
 });
 
 // ROUTE ADMIN
-Route::group(['prefix'=>'admin','middleware'=>'cek:admin'], function () {
+Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     // MASTER DATA ADMIN
@@ -150,7 +159,7 @@ Route::group(['prefix'=>'admin','middleware'=>'cek:admin'], function () {
 });
 // ROUTE ADMIN
 
-Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
+Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
 
@@ -180,7 +189,7 @@ Route::group(['prefix'=>'krama','middleware'=>'cek:krama_bali'], function () {
 });
 
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
-Route::group(['prefix'=>'pemuput-karya','middleware'=>'cek:sulinggih'], function ()  {
+Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], function ()  {
     Route::get('dashboard', [PemuputDashboardController::class, 'index'])->name('pemuput-karya.dashboard');
     Route::get('calender', [PemuputDashboardController::class, 'calenderIndex'])->name('pemuput-karya.calender');
 
@@ -215,41 +224,39 @@ Route::prefix('get-image')->group(function () {
     Route::get('upacara/{id}', [GetImageController::class, 'getImageUpacara'])->name('get-image.upacara');
     Route::get('tahapan-upacara/{id?}', [GetImageController::class, 'getImageTahapanUpacara'])->name('get-image.tahapan-upacara');
     Route::get('profile/pemuput-karya/{id?}', [PemuputDashboardController::class, 'getProfilePemuput'])->name('get-image.profile.pemuput-karya');
-
 });
 
+// SERVICE AJAX SISTEM
 Route::prefix('ajax')->group(function () {
-    Route::get('get/keterangan/{id?}', [AjaxController::class, 'getKeteranganPergantian'])->name('ajax.get.keterangan-reservasi');
 
-    Route::get('get/get-tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
-
-    Route::get('get/jenis-yadnya/{jenis?}', [AjaxController::class, 'jenisYadnya'])->name('ajax.get.jenis-yadnya');
-    Route::get('get/tahapan/upacara/{id?}', [AjaxController::class, 'getTahapanUpacara'])->name('ajax.get.tahapan-upacara');
-
-    Route::get('get/data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
-
-    Route::post('add/griya', [MasteDataGriyaController::class, 'ajaxStoreDataGriya'])->name('ajax.post');
-    Route::get('get/griya', [MasteDataGriyaController::class, 'ajaxGetDataGriya'])->name('ajax.get');
+    Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);
     Route::get('kabupaten/{id?}', [LocationController::class, 'getKabupaten']);
     Route::get('kecamatan/{id}', [LocationController::class, 'getKecamatan']);
-    Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);
     Route::get('banjar-dinas/{id?}', [LocationController::class, 'getBanjarDinas'])->name('ajax.get-banjar-dinas');
 
-    Route::get('get/penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
 
+    Route::prefix('upacara')->group(function () {
+        Route::get('jenis-yadnya/{jenis?}', [AjaxController::class, 'jenisYadnya'])->name('ajax.get.jenis-yadnya');
+        Route::get('tahapan/upacara/{id?}', [AjaxController::class, 'getTahapanUpacara'])->name('ajax.get.tahapan-upacara');
+    });
+
+    Route::prefix('reservasi')->group(function () {
+        Route::get('keterangan/{id?}', [AjaxController::class, 'getKeteranganPergantian'])->name('ajax.get.keterangan-reservasi');
+        Route::get('tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
+    });
+
+
+    Route::get('data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
+
+    Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
 
 });
+// END SERVICE AJAX SISTEM
 
 
  // NOTIFICATION
  Route::patch('saveToken', [NotifyController::class, 'saveToken'])->name('notification.save-token');
  Route::post('send-notification', [NotifyController::class, 'sendNotify'])->name('send-notificaiton');
-
-//  Route::get('notification/{status}', [NotificationController::class, 'getNotificationByIdUserandStatus']);
-//  Route::post('read/notification', [NotificationController::class, 'readNotification']);
-//  Route::post('unread/notification', [NotificationController::class, 'unreadNotification']);
-//  Route::post('delete/notification', [NotificationController::class, 'deleteNotification']);
-//  Route::post('send/notification', [NotificationController::class, 'sendNotification']);
- // NOTIFICATION
+ // END NOTIFICATION
 
 

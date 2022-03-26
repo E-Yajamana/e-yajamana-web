@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddForeignKeysToTbKramaTable extends Migration
+class CreateTbRoleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddForeignKeysToTbKramaTable extends Migration
      */
     public function up()
     {
-        Schema::table('tb_krama', function (Blueprint $table) {
-            $table->foreign(['id_user'], 'tb_krama_ibfk_1')->references(['id'])->on('tb_user_eyajamana');
+        Schema::create('tb_role', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->string('nama_role', 15)->nullable();
         });
     }
 
@@ -25,8 +26,6 @@ class AddForeignKeysToTbKramaTable extends Migration
      */
     public function down()
     {
-        Schema::table('tb_krama', function (Blueprint $table) {
-            $table->dropForeign('tb_krama_ibfk_1');
-        });
+        Schema::dropIfExists('tb_role');
     }
 }

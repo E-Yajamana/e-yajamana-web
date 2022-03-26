@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web\auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Krama;
+use App\Models\PemuputKarya;
 use App\Models\Sanggar;
 use App\Models\Serati;
 use App\Models\Sulinggih;
@@ -20,13 +21,20 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest', ['except' => ['logout','selectAccount']]);
     }
 
     // INDEX PAGE LOGIN
     public function login(Request $request)
     {
         return view('pages.auth.login');
+    }
+    // INDEX PAGE LOGIN
+
+    // INDEX PAGE LOGIN
+    public function selectAccount(Request $request)
+    {
+        return view('pages.auth.login.login-switch');
     }
     // INDEX PAGE LOGIN
 
@@ -57,21 +65,20 @@ class AuthController extends Controller
         // MAIN LOGIC
             try{
                 if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-                    switch(Auth::user()->role){
-                        case 'krama_bali':
+                    $user = Auth::user();
+
+                    if($user->Role->count()== 1 && $user->Role->first()->nama_role == "ADMIN"){
+                        return redirect(route('admin.dashboard'));
+                    }elseif($user->Role->count() == 1 && $user->Role->first()->nama_role == "Krama"){
+                        return redirect(route('krama.dashboard'));
+                    }elseif($user->Role->count() > 1){
+                        $konfirmasiAkunPemuput = PemuputKarya::whereIdUser($user->id)->whereStatusKonfirmasiAkun('disetujui')->count();
+                        $konfirmasiAkunSanggar = Auth::user()->Sanggar->where('status_konfirmasi_akun','disetujui')->count();
+                        if($konfirmasiAkunPemuput == 0 && $konfirmasiAkunSanggar == 0){
                             return redirect(route('krama.dashboard'));
-                        case 'admin':
-                            return redirect(route('admin.dashboard'));
-                        case 'sulinggih':
-                            return redirect(route('pemuput-karya.dashboard'));
-                        default:
-                            Auth::user()->logout;
-                            return redirect()->back()->with([
-                                'status' => 'fail',
-                                'icon' => 'error',
-                                'title' => 'Gagal Login',
-                                'message' => 'Pengguna Tidak dapat digunakan!'
-                            ])->withInput($request->all());
+                        }else{
+                            return redirect()->route('select-account');
+                        }
                     }
                 }else{
                     return redirect()->route('auth.login')->with([

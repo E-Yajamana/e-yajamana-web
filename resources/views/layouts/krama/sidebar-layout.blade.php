@@ -16,17 +16,25 @@
                     <a href="#" class="nav-link mb-2">
                         <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
                         <p>
-                            Krama Bali
+                            {{Auth::user()->Penduduk->nama_alias}}
                             <i class="fas fa-angle-left right mt-2"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-switch" class="nav-link">
+                                <i class="far fa-circle nav-icon mr-1"></i>
+                                <p>Switch Account</p>
+                            </a>
+                        </li>
+
                         <li class="nav-item ml-3">
                             <a id="side-profile" href="{{route('krama.profile')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon mr-1"></i>
                                 <p>Profile</p>
                             </a>
                         </li>
+
                         <li class="nav-item ml-3">
                             <a href="{{route('auth.logout')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon mr-1"></i>
@@ -120,9 +128,9 @@
     </div>
     <!-- /.sidebar -->
 </aside>
-<input id="jsonDataKrama" type="hidden" value='@json(Auth::user()->Krama->Upacaraku)'>
+<input id="countReservasi" type="hidden" value='{{count(Auth::user()->Upacaraku)}}'>
 
-@if (count(Auth::user()->Krama->Upacaraku) != 0)
+@if (count(Auth::user()->Upacaraku) != 0)
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -139,7 +147,7 @@
                         <label>Pilih Upacara yang akan direservasi <span class="text-danger">*</span></label>
                         <select id="jenis_upacara" name="id_upacara" class="form-control select2bs4" style="width: 100%;">
                             <option value="0" disabled selected>Pilih Upacara</option>
-                            @foreach (Auth::user()->Krama->Upacaraku as $data)
+                            @foreach (Auth::user()->Upacaraku as $data)
                                 <option value="{{$data->id}}">{{$data->nama_upacara}}</option>
                             @endforeach
                         </select>
@@ -162,10 +170,8 @@
 
     <script>
         function addReservasi(){
-            let dataJSON = $('#jsonDataKrama').val();
-            dataKramaUpacaraku = JSON.parse(dataJSON);
-            console.log(dataKramaUpacaraku.length)
-            if(dataKramaUpacaraku.length != 0){
+            let countReservasi = $('#countReservasi').val();
+            if(countReservasi != 0){
                 $('#exampleModalCenter').modal();
             }else{
                 Swal.fire({

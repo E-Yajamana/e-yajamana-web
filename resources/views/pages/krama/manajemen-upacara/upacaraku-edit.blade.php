@@ -295,12 +295,22 @@
         console.log(parseData);
 
 
+        $('#daterange').daterangepicker({
+            "minDate": moment(Date ()).add(1, 'D').format('DD MMMM YYYY'),
+            "maxDate": moment(Date ()).add(2, 'Y').format('DD MMMM YYYY'),
+            locale: {
+                format: 'DD MMMM YYYY',
+            },
+            drops: "up",
+        });
+
         $('#reservationtime').daterangepicker({
             "autoApply": true,
+            "minDate": moment(Date ()).add(1, 'D').format('DD MMMM YYYY'),
+            "maxDate": moment(Date ()).add(2, 'Y').format('DD MMMM YYYY'),
             startDate: moment(parseData.tanggal_mulai).format('DD MMMM YYYY'),
             endDate:moment(parseData.tanggal_selesai).format('DD MMMM YYYY'),
             disabled: true,
-            // option : disabled,
             locale: {
                 format: 'DD MMMM YYYY',
             },

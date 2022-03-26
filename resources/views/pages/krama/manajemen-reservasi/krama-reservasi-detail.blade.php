@@ -39,8 +39,8 @@
                     <div class="text-center">
                       <img class="profile-user-img img-fluid img-circle" src="{{route('get-image.profile.pemuput-karya',$dataReservasi->Relasi->id)}}" alt="User profile picture">
                     </div>
-                    <h3 class="text-center bold mb-0 ">{{$dataReservasi->Relasi->getRelasi()->nama}}</h3>
-                    <p class="text-center">Tanggal Upacara : {{date('d M Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d M Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
+                    <h3 class="text-center bold mb-0 ">{{$dataReservasi->Relasi->getRelasi($dataReservasi->tipe)->nama}}</h3>
+                    <p class="text-center">Tanggal Upacara : {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
                     <div class="d-flex justify-content-center mt-2 text-center" id="view_status">
                         <div @if ($dataReservasi->status  == 'pending') class="bg-secondary btn-sm" @elseif ($dataReservasi->status == 'proses tangkil' || $dataReservasi->status == 'proses muput') class="bg-primary btn-sm" @elseif ($dataReservasi->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($dataReservasi->status)}}</div>
                     </div>
@@ -68,7 +68,6 @@
                             <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='{{$dataReservasi->Relasi->email}}' disabled=''>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -106,10 +105,14 @@
                                         <span @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'diterima') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm"  @elseif ($data->status == 'ditolak' || $data->status == 'batal' ) class="bg-danger btn-sm" @else class="bg-info btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->status)}}</span>
                                     </td>
                                     @if ($dataReservasi->status == 'pending' || $dataReservasi->status == 'proses tangkil')
-                                        <td class="text-center">
-                                            <a onclick="updateData({{$data->id}},{{$data->TahapanUpacara->id}},'{{$data->TahapanUpacara->nama_tahapan}}','{{$data->tanggal_mulai}}','{{$data->tanggal_selesai}}','{{$data->status}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <button onclick="batalReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
-                                        </td>
+                                        @if ($data->status == 'pending' || $data->status == 'diterima')
+                                            <td class="text-center">
+                                                <a onclick="updateData({{$data->id}},{{$data->TahapanUpacara->id}},'{{$data->TahapanUpacara->nama_tahapan}}','{{$data->tanggal_mulai}}','{{$data->tanggal_selesai}}','{{$data->status}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                <button onclick="batalReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
+                                            </td>
+                                        @else
+                                            <td class="text-center"></td>
+                                        @endif
                                     @endif
                                 </tr>
                             @endforeach
@@ -181,6 +184,8 @@
         </div>
     </div>
     {{-- modal --}}
+    <input type="hidden" id="tanggalMulai" value="{{$dataReservasi->Upacaraku->tanggal_mulai}}" class="d-none">
+    <input type="hidden" id="tanggalSelesai" value="{{$dataReservasi->Upacaraku->tanggal_selesai}}" class="d-none">
 
 @endsection
 
@@ -217,7 +222,7 @@
 
         $('.select2').select2()
 
-        //Initialize Select2 Elements
+        //Initialize Select2 Elementss
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
@@ -226,9 +231,17 @@
             bsCustomFileInput.init();
         });
 
+        let tanggalMulai = $('#tanggalMulai').val();
+        let tanggalSelesai = $('#tanggalSelesai').val();
+        console.log(tanggalMulai)
+
         $('#reservationtime').daterangepicker({
             autoUpdateInput: true,
             timePicker: true,
+            "startDate": moment(tanggalMulai).format('DD MMMM YYYY'),
+            "endDate":  moment(tanggalSelesai).format('DD MMMM YYYY'),
+            minDate: moment(tanggalMulai).format('DD MMMM YYYY'),
+            maxDate: moment(tanggalSelesai).format('DD MMMM YYYY'),
             locale: {
                 format: 'DD MMMM YYYY hh:mm A',
                 cancelLabel: 'Clear'
@@ -267,6 +280,8 @@
             $(".update-data").remove()
             $('#reservationtime').daterangepicker({
                 timePicker: true,
+                minDate: moment(tanggalMulai).format('DD MMMM YYYY'),
+                maxDate: moment(tanggalSelesai).format('DD MMMM YYYY'),
                 startDate: moment(start).format('DD MMMM YYYY hh:mm A'),
                 endDate:moment(end).format('DD MMMM YYYY hh:mm A'),
                 locale: {
@@ -388,7 +403,6 @@
             let daterange = $('#reservationtime').val();
             let status = $('#status_reservasi').val();
 
-            console.log(status)
             $.ajax({
                 url: "{{ route('krama.manajemen-reservasi.ajax.update')}}",
                 type:'PUT',
@@ -414,7 +428,7 @@
                     $("#exampleModal").modal('hide');
                     $("#dataView").empty();
                     $.each(response.data, function(key, data){
-                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id)
+                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id ,data.reservasi.status)
                     });
                 },
                 error: function(response, error){
@@ -452,7 +466,8 @@
                     $('#addData')[0].reset();
                     $("#dataView").empty();
                     $.each(response.data, function(key, data){
-                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id)
+                        console.log(data)
+                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id ,data.reservasi.status)
                     });
                 },
                 error: function(response, error){
@@ -493,7 +508,7 @@
                     $("#exampleModal").modal('hide');
                     $("#dataView").empty();
                     $.each(response.data, function(key, data){
-                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id)
+                        appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id ,data.reservasi.status)
                     });
                 },
                 error: function(response, error){
@@ -506,10 +521,15 @@
         }
         // FUNGSI ADD DATA RESERVASI BARU
 
+        function capitalizeFirstLetter(string){
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+
         // FUNGSI APPEND DATA
-        function appendData(no,nama_tahapan, tanggal_mulai ,tanggal_selesai, status,id_detail, id_tahapan_upacara){
+        function appendData(no,nama_tahapan, tanggal_mulai ,tanggal_selesai, status,id_detail, id_tahapan_upacara, status_reservasi){
             no++
-            if(status == 'batal'){
+            if(status_reservasi == 'batal'){
                 $("#view_status").empty();
                 $('#action').remove();
                 $('#addTahapanReservasi').remove();
@@ -528,9 +548,10 @@
                 (status == 'ditolak' ? 'class="bg-danger btn-sm"' : '')+
                 (status == 'selesai' ? 'class="bg-success btn-sm"' : '')+
                 (status == 'batal' ? 'class="bg-danger btn-sm"' : '')+
-                'style="border-radius: 5px; width:110px;">'+status+'</span>'+
+                'style="border-radius: 5px; width:110px;">'+capitalizeFirstLetter(status)+'</span>'+
                 '</td>'+
                 (status == 'pending' || status == 'proses tangkil' ? "<td class='text-center'> <a onclick=\"updateData("+id_detail+","+id_tahapan_upacara+",'"+nama_tahapan+"','"+tanggal_mulai+"','"+tanggal_selesai+"','"+status+"')\" class='btn btn-primary btn-sm mx-1'><i class='fas fa-edit'></i></a>" : "" )+
+                (status == 'batal' ? "<td class='text-center'></td>" : "" )+
                 (status == 'pending' || status == 'proses tangkil'  ? '<button onclick="batalReservasi('+id_detail+')" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button></td>' : '')+
                 '</tr>'
             );
