@@ -91,7 +91,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // END
 
     // KRAMA
-    Route::prefix('krama')->middleware(['ability:role:krama_bali'])->group(function () {
+    Route::prefix('krama')->middleware(['ability:role:krama'])->group(function () {
         // KRAMA HOME FRAGMENT
         Route::get('home', [KramaDashboardController::class, 'index']);
         // END
@@ -175,6 +175,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // LOGOUT
     Route::post('logout', [AuthController::class, 'logoutUser']);
+    // END
+
+    // ASK NEW ROLE
+    Route::post('asknewrole', [AuthController::class, 'askForTokenRole']);
     // END
 
 });
