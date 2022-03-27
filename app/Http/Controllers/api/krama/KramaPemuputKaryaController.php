@@ -39,7 +39,7 @@ class KramaPemuputKaryaController extends Controller
         // MAIN LOGIC
         try {
 
-            $griyaRumahs = GriyaRumah::query()->with(['Sulinggih'])->whereHas('Sulinggih');
+            $griyaRumahs = GriyaRumah::query()->with(['PemuputKarya'])->whereHas('PemuputKarya');
 
             $sanggars = Sanggar::query();
 
@@ -61,18 +61,21 @@ class KramaPemuputKaryaController extends Controller
                                                     $detailReservasiQuery->with('TahapanUpacara');
                                                 }
                                             ]);
-                                        }
-                                    ]);
-                                }
+                                        },
+                                        'Penduduk'
+                                    ])->whereHas('Penduduk');
+                                },
+                                'AtributPemuput'
                             ])
                             ->whereHas('User')
+                            ->whereHas('AtributPemuput')
                             ->where('status', $request->status);
                     };
 
                     $griyaRumahs->with([
-                        'Sulinggih' => $sulinggihQuery
+                        'PemuputKarya' => $sulinggihQuery
                     ])
-                        ->whereHas('Sulinggih', $sulinggihQuery);
+                        ->whereHas('PemuputKarya', $sulinggihQuery);
                 }
             } else {
                 $sanggars->with(['User'])->whereHas('User');
@@ -87,17 +90,20 @@ class KramaPemuputKaryaController extends Controller
                                                 $detailReservasiQuery->with('TahapanUpacara');
                                             }
                                         ]);
-                                    }
-                                ]);
-                            }
+                                    },
+                                    'Penduduk'
+                                ])->whereHas('Penduduk');;
+                            },
+                            'AtributPemuput'
                         ])
-                        ->whereHas('User');
+                        ->whereHas('User')
+                        ->whereHas('AtributPemuput');
                 };
 
                 $griyaRumahs->with([
-                    'Sulinggih' => $sulinggihQuery
+                    'PemuputKarya' => $sulinggihQuery
                 ])
-                    ->whereHas('Sulinggih', $sulinggihQuery);
+                    ->whereHas('PemuputKarya', $sulinggihQuery);
             }
 
             if ($request->id_kecamatan != null && $request->id_kecamatan != 0) {
@@ -122,7 +128,6 @@ class KramaPemuputKaryaController extends Controller
                 ])->whereHas('BanjarDinas', $griyaRumahQuery);
             } else {
                 $griyaRumahs->with(['BanjarDinas'])->whereHas('BanjarDinas');
-                // $sanggars->with(['BanjarDinas'])->whereHas('BanjarDinas');
             }
 
             $sanggars = $sanggars->get();

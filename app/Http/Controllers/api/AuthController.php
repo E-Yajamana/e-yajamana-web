@@ -48,12 +48,23 @@ class AuthController extends Controller
                 $sanggar = null;
                 $roles = $user->Role;
 
-                if($roles->count() == 1 && $roles->first()->nama_role == "Krama"){
+                if ($roles->count() == 1 && $roles->first()->nama_role == "Krama") {
                     $penduduk = $user->Penduduk()->firstOrFail();
                     $message = "Berhasil login sebagai krama";
                     $token = $user->createToken('e-yajamana', ['role:krama_bali'])->plainTextToken;
-                }else{
-                    
+
+                    return response()->json([
+                        'status' => 200,
+                        'message' => $message,
+                        'data' => (object)[
+                            'token' => $token,
+                            'user' => $user,
+                            'penduduk' => $penduduk,
+                            'roles' => $roles
+                        ]
+                    ], 200);
+                } else {
+                    return $roles;
                 }
 
                 // // MENENTUKAN USER

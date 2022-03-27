@@ -44,7 +44,7 @@ class KramaUpacaraController extends Controller
 
             $user = Auth::user();
 
-            $upacarakus = Upacaraku::query()->with(['Upacara'])->whereHas('Upacara')->where('id_krama', $user->Krama->id);
+            $upacarakus = Upacaraku::query()->with(['Upacara'])->whereHas('Upacara')->where('id_krama', $user->id);
 
             if ($request->nama != null || $request->nama != "") {
                 $upacarakus->where('nama_upacara', 'LIKE', '%' . $request->nama . '%');
@@ -233,7 +233,7 @@ class KramaUpacaraController extends Controller
                 'Reservasi' => function ($reservasiQuery) {
                     $reservasiQuery->with([
                         'Relasi' => function ($relasiQuery) {
-                            $relasiQuery->with(['Sanggar', 'Sulinggih']);
+                            $relasiQuery->with(['PemuputKarya']);
                         },
                         'DetailReservasi' => function ($detailReservasiQuery) {
                             $detailReservasiQuery->with(['TahapanUpacara']);
