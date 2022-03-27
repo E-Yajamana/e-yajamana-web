@@ -2,8 +2,6 @@
 @section('tittle','Data Detail Upacaraku')
 
 @push('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
@@ -15,10 +13,6 @@
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
-
-    <!-- embedd library jquery -->
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
 @endpush
 
 @section('content')
@@ -49,8 +43,6 @@
                         <h5><i class="fas fa-info"></i> Catatan:</h5>
                         Anda tidak dapat menghapus upacara saat sudah ada reservasi yang berstatus proses muput.
                     </div>
-
-
                     <div class="card tab-content">
                         <!-- /.card-header -->
                         <div class="card-header">
@@ -61,7 +53,7 @@
                                 <h3 class="text-center bold mb-0 ">{{$dataUpacaraku->Upacara->nama_upacara}}</h3>
                                 <p class="text-center mb-1">{{$dataUpacaraku->Upacara->kategori_upacara}}</p>
                                 <div class="d-flex justify-content-center">
-                                    <div class="bg-info btn-sm text-center" style="border-radius: 5px; width:120px;">{{Str::ucfirst($dataUpacaraku->status)}}</div>
+                                    <div @if ($dataUpacaraku->status == 'pending') class="bg-secondary btn-sm text-center" @elseif ($dataUpacaraku->status == 'berlangsung') class="bg-primary btn-sm text-center" @elseif ($dataUpacaraku->status == 'selesai') class="bg-success btn-sm text-center" @else class="bg-danger btn-sm text-center" @endif style="border-radius: 5px; width:120px;">{{Str::ucfirst($dataUpacaraku->status)}}</div>
                                 </div>
                             </div>
                         </div>
@@ -119,12 +111,6 @@
                                                 <div class="form-group">
                                                     <label>Alamat Lengkap Upacara</label>
                                                     <textarea disabled name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="4" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->alamat_upacaraku}}, Desa {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->Provinsi->name))}} </textarea>
-
-                                                    @error('alamat_griya')
-                                                        <div class="invalid-feedback text-start">
-                                                            {{$errors->first('alamat_griya') }}
-                                                        </div>
-                                                    @enderror
                                                 </div>
                                             </div>
                                         </div>
@@ -153,7 +139,7 @@
                                     <h4 class="text-center mb-3">AWAL</h4>
                                     <ul>
                                         @if ($dataUpacaraku->Upacara->TahapanUpacara->where('status_tahapan','awal')->count() == 0)
-                                            <li >Data Tahapan Tidak ditemukan</li>
+                                            <li class="text-danger font-weight-bold">Data Tahapan Tidak ditemukan</li>
                                         @else
                                             @foreach ($dataUpacaraku->Upacara->TahapanUpacara->where('status_tahapan','awal') as $data)
                                                 <li >{{$data->nama_tahapan}}</li>
@@ -165,7 +151,7 @@
                                     <h4 class="text-center mb-3">PUNCAK</h4>
                                     <ul>
                                         @if ($dataUpacaraku->Upacara->TahapanUpacara->where('status_tahapan','puncak')->count() == 0)
-                                            <li >Data Tahapan Tidak ditemukan</li>
+                                            <li class="text-danger font-weight-bold">Data Tahapan Tidak ditemukan</li>
                                         @else
                                             @foreach ($dataUpacaraku->Upacara->TahapanUpacara->where('status_tahapan','puncak') as $data)
                                                 <li >{{$data->nama_tahapan}}</li>
@@ -178,7 +164,7 @@
                                     <h4 class="text-center mb-3">AKHIR</h4>
                                     <ul>
                                         @if ($dataUpacaraku->Upacara->TahapanUpacara->where('status_tahapan','akhir')->count() == 0)
-                                            <li >Data Tahapan Tidak ditemukan</li>
+                                            <li class="text-danger font-weight-bold">Data Tahapan Tidak ditemukan</li>
                                         @else
                                             @foreach ($dataUpacaraku->Upacara->TahapanUpacara->where('status_tahapan','akhir') as $data)
                                                 <li >{{$data->nama_tahapan}}</li>
@@ -294,8 +280,10 @@
                             <div class="row">
                                 <div class="col-md-12 my-1">
                                     <a href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="btn btn-secondary">Kembali</a>
-                                    <button type="submit" class="btn m-1 btn-danger float-right ml-2">Hapus Upacaraku</button>
-                                    <a href="{{route('krama.manajemen-upacara.upacaraku.edit',$dataUpacaraku->id)}}" class="btn m-1 btn-info float-right ml-2">Edit Data Upacaraku</a>
+                                    @if ($dataUpacaraku->status == "pending")
+                                        <button type="button" onclick="deleteUpacara({{$dataUpacaraku->id}},{{$dataUpacaraku->reservasi_count}})" class="btn m-1 btn-danger float-right ml-2">Batalkan Upacara</button>
+                                        <a href="{{route('krama.manajemen-upacara.upacaraku.edit',$dataUpacaraku->id)}}" class="btn m-1 btn-info float-right ml-2">Ubah Upacara</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -310,18 +298,23 @@
     <input id="lat" value="{{$dataUpacaraku->lat}}" type="hidden" class="d-none">
     <input id="lng" value="{{$dataUpacaraku->lng}}" type="hidden" class="d-none">
 
+    @include('pages.krama.manajemen-upacara.modal-pembatalan-upacara')
+
 @endsection
 
 
 @push('js')
+    <!-- DataTablbase-template Plugins -->
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 
     <script type="text/javascript">
         let lat,lng;
         lat = $("#lat").val();
         lng = $("#lng").val();
-
-        console.log(lat)
-        console.log(lng)
 
         $(document).ready(function(){
             var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 10);
@@ -336,24 +329,11 @@
             }).addTo(mymap);
 
             // var curLocation = [$dataGriya->lat, $dataGriya->lng];
-            var marker = new L.marker([<?= $dataUpacaraku->lat ?>, <?=$dataUpacaraku->lng ?>]);
+            var marker = new L.marker([lat, lng]);
             mymap.addLayer(marker);
 
             $('#side-upacara').addClass('menu-open');
             $('#side-data-upacara').addClass('active');
         });
     </script>
-
-    <!-- Bootstrabase-template-->
-    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- DataTablbase-template Plugins -->
-    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <!-- jQuery -->
-    <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
-
-
 @endpush

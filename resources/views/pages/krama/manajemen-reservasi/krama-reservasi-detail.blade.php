@@ -187,6 +187,41 @@
     <input type="hidden" id="tanggalMulai" value="{{$dataReservasi->Upacaraku->tanggal_mulai}}" class="d-none">
     <input type="hidden" id="tanggalSelesai" value="{{$dataReservasi->Upacaraku->tanggal_selesai}}" class="d-none">
 
+    <div class="modal fade" id="modalPembatalanTahapan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal-header align-content-center text-center">
+                    <label class="modal-title h4 align-content-center w-100" id="exampleModalLabel">Pembatalan Tahapan Reservasi</label>
+                    <button type="button" class="pl-0 close float-lg-right"  data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="formAlasanPembatalan" >
+                    <input type="hidden" id="idTahapanReservasi" class="d-none" >
+                    <div class="modal-body">
+                        <div class="callout callout-info mx-1">
+                            <p class="text-xs">Pilih alasan untuk menginformasikan kembali Pemuput Karya terhadap Reservasi.</p>
+                        </div>
+                        <div class="form-group px-2">
+                            <label>Alasan Membatalkan Tahpan Reservasi? <span class="text-danger">*</span></label>
+                            <select id="alasan_pembatalan" name="alasan_pembatalan" class="select2bs4 form-control " style="width: 100%;">
+                                 <option disabled selected>Pilih Alasan</option>
+                                 <option value="Ingin mencari Pemuput Karya lainnya">Sudah mendapatkan Pemuput Karya Lainnya</option>
+                                 <option value="Ingin melakukan pencarian Pemuput Karya secara Offline">Ingin melakukan pencarian Pemuput Karya secara Offline</option>
+                                 <option value="">Lainnya</option>
+                            </select>
+                        </div>
+                        <div id="alasanLainnya" class="px-2"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="ajaxDeleteData()" type="button" class="btn btn-block btn-light btn-lg px-2 text-md">Batalkan Tahapan Reservasi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 @endsection
 
 @push('js')
@@ -217,15 +252,6 @@
             $('#side-master-data').addClass('menu-open');
             $('#side-upacara').addClass('active');
         });
-
-        $('#mySelect2').select2('data');
-
-        $('.select2').select2()
-
-        //Initialize Select2 Elementss
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        })
 
         $(function () {
             bsCustomFileInput.init();
@@ -270,6 +296,8 @@
 
         function modalAdd (){
             getDataTahapanReservasi()
+            $('#exampleModalLabel').text('Tambah Reservasi');
+            $('#createData').text('Tambah Reservasi');
             $("#exampleModal").modal();
             $('#status').val('add');
         }
@@ -293,6 +321,7 @@
             $('#id_detail_reservasi').val(idDetail);
             $('#status_reservasi').val(status);
             $('#status').val('update');
+            $('#exampleModalLabel').text('Update Data');
             $('#createData').text('Update Data');
             $("#exampleModal").modal();
         }
@@ -397,6 +426,7 @@
 
         // FUNGSI EDIT DATA RESERVASI
         function ajaxEditData(id){
+
             let id_reservasi = $('#id_reservasi').val();
             let id_detail_reservasi = $('#id_detail_reservasi').val();
             let id_tahapan_upacara = $('#id_tahapan_upacara').val();
@@ -442,15 +472,18 @@
         // FUNGSI EDIT DATA RESERVASI
 
         // FUNGSI DELETE DATA RESERVASI
-        function ajaxDeleteData(id){
+        function ajaxDeleteData(){
             let id_reservasi = $('#id_reservasi').val();
+            let id_tahapan_reservasi = $('#idTahapanReservasi').val();
+            let alasan_pembatalan = $('#alasan_pembatalan').val();
 
             $.ajax({
                 url: "{{ route('krama.manajemen-reservasi.ajax.delete')}}",
                 type:'PUT',
                 data: {
                     id_reservasi:id_reservasi,
-                    id_detail_reservasi:id,
+                    id_detail_reservasi:id_tahapan_reservasi,
+                    alasan_pembatalan:alasan_pembatalan,
                     "_method":"PUT",
                     "_token":"{{ csrf_token() }}"
                 },
@@ -467,6 +500,7 @@
                     $("#dataView").empty();
                     $.each(response.data, function(key, data){
                         console.log(data)
+                        $('#modalPembatalanTahapan').modal('toggle');
                         appendData(key,data.tahapan_upacara.nama_tahapan,data.tanggal_mulai,data.tanggal_selesai,data.status,data.id,data.tahapan_upacara.id ,data.reservasi.status)
                     });
                 },
@@ -525,7 +559,6 @@
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
-
         // FUNGSI APPEND DATA
         function appendData(no,nama_tahapan, tanggal_mulai ,tanggal_selesai, status,id_detail, id_tahapan_upacara, status_reservasi){
             no++
@@ -551,8 +584,8 @@
                 'style="border-radius: 5px; width:110px;">'+capitalizeFirstLetter(status)+'</span>'+
                 '</td>'+
                 (status == 'pending' || status == 'proses tangkil' ? "<td class='text-center'> <a onclick=\"updateData("+id_detail+","+id_tahapan_upacara+",'"+nama_tahapan+"','"+tanggal_mulai+"','"+tanggal_selesai+"','"+status+"')\" class='btn btn-primary btn-sm mx-1'><i class='fas fa-edit'></i></a>" : "" )+
-                (status == 'batal' ? "<td class='text-center'></td>" : "" )+
                 (status == 'pending' || status == 'proses tangkil'  ? '<button onclick="batalReservasi('+id_detail+')" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button></td>' : '')+
+                (status_reservasi != 'batal' && status == 'batal' ? "<td class='text-center'></td>" : "" )+
                 '</tr>'
             );
         }
@@ -577,7 +610,8 @@
                 denyButtonColor: '#d33',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    ajaxDeleteData(id);
+                    $('#idTahapanReservasi').val(id);
+                    $("#modalPembatalanTahapan").modal();
                 } else if (result.isDenied) {
 
                 }

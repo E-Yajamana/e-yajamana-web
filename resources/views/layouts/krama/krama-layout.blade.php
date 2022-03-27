@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
-    <!-- Font Awesome -->
+    <!-- Bootstrap Icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 
     <!-- Font Awesome -->
@@ -57,8 +57,21 @@
     <!-- AdminLTE App -->
     <script src="{{asset('base-template/dist/js/adminlte.js')}}"></script>
     <script src="{{asset('base-template\dist\js\sweetalert2.all.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 
+
+    @stack('js')
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
     <script>
+        $(function () {
+            bsCustomFileInput.init();
+            $('.select2').select2()
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+        })
+
         @if(Session::has('status'))
             Swal.fire({
                 icon:  @if(Session::has('icon')){!! '"'.Session::get('icon').'"' !!} @else 'question' @endif,
@@ -66,13 +79,7 @@
                 text: @if(Session::has('message')){!! '"'.Session::get('message').'"' !!} @else 'Oppss...'@endif,
             });
         @endif
-    </script>
 
-
-    @stack('js')
-
-    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
-    <script>
         var firebaseConfig = {
             apiKey: "AIzaSyAwDQm7M6h2Jm30yZ2VzyI1uPgW3ZeLfrI",
             authDomain: "e-yajamana.firebaseapp.com",

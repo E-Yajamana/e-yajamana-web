@@ -43,6 +43,54 @@ class TbDetailReservasiTableSeeder extends Seeder
                 'created_at' => '2022-03-17 23:36:04',
                 'updated_at' => '2022-03-17 23:36:04',
             ),
+            2 => 
+            array (
+                'id' => 3,
+                'id_reservasi' => 2,
+                'id_tahapan_upacara' => 20,
+                'tanggal_mulai' => '2022-04-27 00:00:00',
+                'tanggal_selesai' => '2022-04-27 00:00:00',
+                'status' => 'pending',
+                'keterangan' => NULL,
+                'created_at' => '2022-03-24 21:46:47',
+                'updated_at' => '2022-03-24 21:46:47',
+            ),
+            3 => 
+            array (
+                'id' => 4,
+                'id_reservasi' => 3,
+                'id_tahapan_upacara' => 20,
+                'tanggal_mulai' => '2022-04-20 00:00:00',
+                'tanggal_selesai' => '2022-04-27 00:00:00',
+                'status' => 'pending',
+                'keterangan' => NULL,
+                'created_at' => '2022-03-24 21:48:07',
+                'updated_at' => '2022-03-24 21:48:07',
+            ),
+            4 => 
+            array (
+                'id' => 5,
+                'id_reservasi' => 3,
+                'id_tahapan_upacara' => 22,
+                'tanggal_mulai' => '2022-04-27 00:00:00',
+                'tanggal_selesai' => '2022-04-27 00:00:00',
+                'status' => 'pending',
+                'keterangan' => NULL,
+                'created_at' => '2022-03-24 21:48:07',
+                'updated_at' => '2022-03-24 21:48:07',
+            ),
+            5 => 
+            array (
+                'id' => 6,
+                'id_reservasi' => 5,
+                'id_tahapan_upacara' => 20,
+                'tanggal_mulai' => '2022-04-27 00:00:00',
+                'tanggal_selesai' => '2022-04-27 00:00:00',
+                'status' => 'pending',
+                'keterangan' => NULL,
+                'created_at' => '2022-03-25 15:16:33',
+                'updated_at' => '2022-03-25 15:16:33',
+            ),
         ));
         
         

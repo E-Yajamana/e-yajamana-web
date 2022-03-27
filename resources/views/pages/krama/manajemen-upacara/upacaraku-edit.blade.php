@@ -274,14 +274,6 @@
         $(document).ready(function(){
             $('#side-upacara').addClass('menu-open');
             $('#side-data-upacara').addClass('active');
-
-            $('#mySelect2').select2('data');
-            $('.select2').select2()
-
-            //Initialize Select2 Elements
-            $('.select2bs4').select2({
-                theme: 'bootstrap4'
-            })
         });
 
     </script>

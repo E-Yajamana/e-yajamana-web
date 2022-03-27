@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-5">
                                     <select id="filterJenisYadnya" class="form-control select2bs4" style="width: 100%;" aria-placeholder="ada">
-                                        <option value="Semua">Jenis Yadnya</option>
+                                        <option  value="Semua">Jenis Yadnya</option>
                                         <option value="Dewa Yadnya">Dewa Yadnya</option>
                                         <option value="Pitra Yadnya">Pitra Yadnya</option>
                                         <option value="Manusa Yadnya">Manusa Yadnya</option>
@@ -108,12 +108,7 @@
                                                         <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         @if ($data->status == 'pending')
                                                             <a href="{{route('krama.manajemen-upacara.upacaraku.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <button onclick="deleteUpacara({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
-                                                            <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('krama.manajemen-upacara.upacaraku.delete')}}" method="post">
-                                                                @csrf
-                                                                @method('put')
-                                                                <input type="hidden" class="d-none" value="{{$data->id}}" name="id">
-                                                            </form>
+                                                            <button onclick="deleteUpacara({{$data->id}},{{{$data->reservasi_count}}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -143,71 +138,9 @@
     </section>
     <!-- /.content -->
 
-    <!-- /.content -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content ">
-                <div class="modal-header align-content-center text-center">
-                    <label class="modal-title h4 align-content-center w-100" id="exampleModalLabel">Pembatalan Upacara</label>
-                    <button type="button" class="pl-0 close float-lg-right"  data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <form id="addData" method="POST">
-                    <div class="modal-body">
-                        <div class="callout callout-info mx-1">
-                            <p>Follow the steps to continue to payment.</p>
-                        </div>
-                        <div class="form-group px-2">
-                            <label>Alasan Membatalkan Upacara? <span class="text-danger">*</span></label>
-                            <select id="apakaden" name="id_tahapan_upacara" class="select2bs4 form-control  @error('status') is-invalid @enderror" style="width: 100%;">
-                                 <option disabled selected>Pilih Alasan</option>
-                            </select>
-                            <div class="text-sm text-danger text-start id_tahapan_upacara_error" id="id_tahapan_upacara_error"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="createData" type="button" class="btn btn-block btn-light btn-lg px-2 text-md">Batalkan Upacara</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
+    @include('pages.krama.manajemen-upacara.modal-pembatalan-upacara')
 
 @endsection
-
-
-@push('js')
-
-    <script>
-        $("#exampleModal").modal();
-
-        function deleteUpacara(id){
-            Swal.fire({
-                title: 'Peringatan',
-                text : 'Apakah anda yakin akan membatalkan Upacara?',
-                icon:'warning',
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: `Iya`,
-                denyButtonText: `Tidak`,
-                confirmButtonColor: '#3085d6',
-                denyButtonColor: '#d33',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $("#exampleModal").modal();
-                } else if (result.isDenied) {
-
-                }
-            })
-        }
-    </script>
-
-@endpush
-
 
 @push('js')
     <!-- DataTablbase-template Plugins -->
@@ -216,9 +149,6 @@
     <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <!-- Select2 -->
-    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 
     <!-- SCRIPT FILTERING DATATABLES -->
     <script type="text/javascript">

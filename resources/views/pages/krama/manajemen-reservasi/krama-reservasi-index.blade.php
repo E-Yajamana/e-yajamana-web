@@ -1,5 +1,5 @@
 @extends('layouts.krama.krama-layout')
-@section('tittle','Data Upacaraku')
+@section('tittle','Data Reservasi')
 
 @push('css')
     <!-- DataTables -->
@@ -120,11 +120,6 @@
                                                                 <button onclick="batalReservasi({{$data->Reservasi[0]->id}})" class="btn btn-danger btn-sm">
                                                                     <i class="fas fa-times"></i>
                                                                 </button>
-                                                                <form id="{{"batal-".$data->Reservasi[0]->id}}" class="d-none" action="{{route('krama.manajemen-reservasi.delete')}}" method="post">
-                                                                    @csrf
-                                                                    @method('put')
-                                                                    <input type="hidden" class="d-none" value="{{$data->Reservasi[0]->id}}" name="id">
-                                                                </form>
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -149,11 +144,6 @@
                                                                 <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                                                 @if ($data->Reservasi[$i]->status == 'pending' || $data->Reservasi[$i]->status == 'proses tangkil')
                                                                     <a onclick="batalReservasi({{$data->Reservasi[$i]->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                                                    <form id="{{"batal-".$data->Reservasi[$i]->id}}" class="d-none" action="{{route('krama.manajemen-reservasi.delete')}}" method="post">
-                                                                        @csrf
-                                                                        @method('put')
-                                                                        <input type="hidden" class="d-none" value="{{$data->Reservasi[$i]->id}}" name="id">
-                                                                    </form>
                                                                 @endif
                                                             </td>
                                                         </tr>
@@ -190,6 +180,9 @@
     <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+
+    @include('pages.krama.manajemen-reservasi.modal-batal-reservasi')
+
 @endsection
 
 @push('js')
@@ -207,32 +200,7 @@
             $('#side-reservasi').addClass('menu-open');
             $('#side-data-reservasi').addClass('active');
             $('#example2').DataTable();
-
         });
     </script>
 
-@endpush
-
-@push('js')
-    <script>
-        function batalReservasi(id){
-            Swal.fire({
-                title: 'Peringatan',
-                text : 'Apakah anda yakin akan membatalkan Reservasi?',
-                icon:'warning',
-                showDenyButton: false,
-                showCancelButton: false,
-                confirmButtonText: `Batal`,
-                denyButtonText: `Cancel`,
-                confirmButtonColor: '#3085d6',
-                denyButtonColor: '#d33',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $('#batal-'+id).submit();
-                } else if (result.isDenied) {
-
-                }
-            })
-        }
-    </script>
 @endpush

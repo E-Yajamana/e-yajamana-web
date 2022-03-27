@@ -10,6 +10,7 @@ use App\Models\DesaDinas;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
 use App\Models\Upacaraku;
+use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use ErrorException;
@@ -111,8 +112,21 @@ class KramaUpacarakuController extends Controller
                     'lat'=>$request->lat,
                     'lng'=>$request->lng,
                 ]);
-
                 DB::commit();
+                // NOTIFICATION
+                NotificationHelper::sendNotification(
+                    [
+                        'title' => "UPACARA DIBUAT",
+                        'body' => "Upacara dengan nama ".$request->nama_upacara." telah berhasil dibuat, silahkan melakukan reservasi sulinggih untuk memputu upacara",
+                        'status' => "new",
+                        'image' => "normal",
+                        'notifiable_id' => $user->id,
+                        'formated_created_at' => date('Y-m-d H:i:s'),
+                        'formated_updated_at' => date('Y-m-d H:i:s'),
+                    ],
+                    $user
+                );
+                // NOTIFICATION
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 DB::rollBack();
                 return redirect()->back()->with([
@@ -138,7 +152,6 @@ class KramaUpacarakuController extends Controller
     // DETAIL UPACARAKU
     public function detailUpacaraku(Request $request)
     {
-        // dd($request->id);
         // SECURITY
             $validator = Validator::make(['id' =>$request->id],[
                 'id' => 'required|exists:tb_upacaraku,id',
@@ -158,7 +171,9 @@ class KramaUpacarakuController extends Controller
             try{
                 $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi' => function ($query){
                     $query->with(['Relasi.PemuputKarya','Relasi.Sanggar','DetailReservasi.TahapanUpacara']);
-                },'BanjarDinas'])->whereIdKrama(Auth::user()->id)->findOrFail($request->id);
+                },'BanjarDinas'])->withCount(['Reservasi'=> function($queryCount){
+                    $queryCount->whereIn('status',['pending','proses tangkil']);
+                }])->whereIdKrama(Auth::user()->id)->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
                     'status' => 'fail',
@@ -172,7 +187,6 @@ class KramaUpacarakuController extends Controller
         // RETURN
             return view('pages.krama.manajemen-upacara.upacaraku-detail',compact('dataUpacaraku'));
         // RETURN
-
     }
     // DETAIL UPACARAKU
 
@@ -318,7 +332,7 @@ class KramaUpacarakuController extends Controller
     }
     // UPDATE UPACARAKU
 
-    // DELETE UPACARAKU
+    // BATAL/DELETE UPACARAKU
     public function deleteUpacaraku(Request $request)
     {
         // SECURITY
@@ -336,41 +350,71 @@ class KramaUpacarakuController extends Controller
             }
         // END SECURITY
 
-        $dataUpacaraku = Upacaraku::with(['Reservasi.DetailReservasi'])->withCount(['Reservasi'=>function($query){
-            $query->whereIn('status',['proses muput','selesai']);
-        }])->findOrFail($request->id);
+        // MAIN LOGIC
+            try{
+                DB::beginTransaction();
+                $user = Auth::user();
+                $dataUpacaraku = Upacaraku::with(['Reservasi.DetailReservasi'])->withCount(['Reservasi'=>function($query){
+                    $query->whereIn('status',['proses muput','selesai']);
+                }])->findOrFail($request->id);
+                if($dataUpacaraku->reservasi_count == 0){
+                    $dataUpacaraku->update(['status'=>'batal']);
+                    if($request->reservasi_count != 0){
+                        $dataUpacaraku->Reservasi()->update(['status'=>'batal']);
+                        foreach($dataUpacaraku->Reservasi as $data){
+                            $relasi = User::findOrFail($data->id_relasi);
+                            // SEND NOTIFICATION TO HAVE RESERVASITON
+                            NotificationHelper::sendNotification(
+                                [
+                                    'title' => "PEMBATALAN RESERVASI",
+                                    'body' => $user->Penduduk->nama." membatalkan Reservasinya, dengan alasan ".$request->alasan_pembatalan.". Harap kembali melihat jadwal Mmuput terbaru!",
+                                    'status' => "new",
+                                    'image' => "krama",
+                                    'notifiable_id' => $relasi->id,
+                                    'formated_created_at' => date('Y-m-d H:i:s'),
+                                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                                ],
+                                $relasi
+                            );
+                            // END SEND NOTIFICATION TO HAVE RESERVASITON
+                            $data->DetailReservasi()->update(['status'=>'batal','keterangan'=>$request->alasan_pembatalan]);
+                        }
+                    }
 
-        if($dataUpacaraku->reservasi_count == 0){
-            $dataUpacaraku->update(['status'=>'batal']);
-            $dataUpacaraku->Reservasi()->update(['status'=>'batal']);
-            foreach( $dataUpacaraku->Reservasi as $data){
-                $data->DetailReservasi()->update(['status'=>'batal']);
+                    // SEND NOTIFICATION
+                    NotificationHelper::sendNotification(
+                        [
+                            'title' => "PEMBATALAN UPACARA",
+                            'body' => "Pembatalan upacara ".$dataUpacaraku->nama_upacara." berhasil dilakukan, data upacara dapat dilihat pada menu Data Upacara",
+                            'status' => "new",
+                            'image' => "krama",
+                            'notifiable_id' => $user->id,
+                            'formated_created_at' => date('Y-m-d H:i:s'),
+                            'formated_updated_at' => date('Y-m-d H:i:s'),
+                        ],
+                        $user
+                    );
+                    // END SEND NOTIFICATION
+                    DB::commit();
+                }else{
+                    return \redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
+                        'status' => 'fail',
+                        'icon' => 'error',
+                        'title' => 'Gagal Mengahapus Data !',
+                        'message' => 'Sistem gagal menghapus data upacara, terdapat reservasi yang Sedang Berlangsung/Selesai pada upacara !',
+                    ]);
+                }
+
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
+                DB::rollBack();
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Membatalkan Upacara',
+                    'message' => 'Gagal Membatalkan Upacara, harap menghubungi developer untuk lebih lanjut',
+                ]);
             }
-            $user = Auth::user();
-
-            // SEND NOTIFICATION
-            NotificationHelper::sendNotification(
-                [
-                    'title' => "PEMBATALAN UPACARA",
-                    'body' => "Pembatalan upacara ".$dataUpacaraku->nama_upacara." berhasil dilakukan, data upacara dapat dilihat pada menu Data Upacara",
-                    'status' => "new",
-                    'image' => "krama",
-                    'notifiable_id' => $user->id,
-                    'formated_created_at' => date('Y-m-d H:i:s'),
-                    'formated_updated_at' => date('Y-m-d H:i:s'),
-                ],
-                $user
-            );
-            // END SEND NOTIFICATION
-
-        }else{
-            return \redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
-                'status' => 'fail',
-                'icon' => 'error',
-                'title' => 'Gagal Mengahapus Data !',
-                'message' => 'sistem gagal menghapus data upacara, terdapat reservasi yang Sedang Berlangsung/Selesai pada upacara !',
-            ]);
-        }
+        // END MAIN LOGIC
 
         // RETURN
             return redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
@@ -380,8 +424,7 @@ class KramaUpacarakuController extends Controller
                 'message' => 'Data Upacara berhasil dihapus,anda dapat melihat perubahan pada detail upacara anda!',
             ]);
         // END RETURN
-
     }
-    // DELETE UPACARAKU
+    // BATAL/DELETE UPACARAKU
 
 }
