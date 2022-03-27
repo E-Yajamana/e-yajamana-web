@@ -70,7 +70,7 @@ class KramaReservasiController extends Controller
 
             $detailReservasi = json_decode($request->detail_reservasi);
 
-            $relasi = User::with(['Sulinggih'])->findOrFail($request->id_relasi);
+            $relasi = User::with(['PemuputKarya'])->findOrFail($request->id_relasi);
 
             $user = Auth::user();
 
@@ -109,7 +109,7 @@ class KramaReservasiController extends Controller
             NotificationHelper::sendNotification(
                 [
                     'title' => "PERMOHONAN RESERVASI DIBUAT",
-                    'body' => "Permohonan reservasi kepada " . $relasi->Sulinggih->nama_sulinggih . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
+                    'body' => "Permohonan reservasi kepada " . $relasi->PemuputKarya->nama_pemuput . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
                     'status' => "new",
                     'image' => "sulinggih",
                     'notifiable_id' => $user->id,
@@ -122,6 +122,7 @@ class KramaReservasiController extends Controller
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             DB::rollback();
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
