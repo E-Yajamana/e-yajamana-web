@@ -67,6 +67,30 @@ class TbReservasiTableSeeder extends Seeder
                 'created_at' => '2022-03-25 15:16:33',
                 'updated_at' => '2022-03-25 15:16:33',
             ),
+            4 => 
+            array (
+                'id' => 6,
+                'id_relasi' => 49,
+                'id_upacaraku' => 26,
+                'tipe' => 'pemuput_karya',
+                'status' => 'pending',
+                'tanggal_tangkil' => NULL,
+                'keterangan' => NULL,
+                'created_at' => '2022-03-28 13:51:29',
+                'updated_at' => '2022-03-28 13:51:29',
+            ),
+            5 => 
+            array (
+                'id' => 7,
+                'id_relasi' => 2,
+                'id_upacaraku' => 26,
+                'tipe' => 'pemuput_karya',
+                'status' => 'pending',
+                'tanggal_tangkil' => NULL,
+                'keterangan' => NULL,
+                'created_at' => '2022-03-28 13:52:31',
+                'updated_at' => '2022-03-28 13:52:31',
+            ),
         ));
         
         

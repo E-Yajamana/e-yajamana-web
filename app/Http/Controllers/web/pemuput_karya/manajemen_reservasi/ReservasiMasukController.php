@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DetailReservasi;
 use App\Models\Krama;
 use App\Models\Reservasi;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use ErrorException;
@@ -31,7 +32,7 @@ class ReservasiMasukController extends Controller
                     $queryDetailReservasi->where('status','pending');
                 };
                 $dataReservasi->with(['DetailReservasi'=>$queryDetailReservasi])->whereHas('DetailReservasi',$queryDetailReservasi);
-                $dataReservasi = $dataReservasi->whereIdRelasi(Auth::user()->id)->whereIn('status',['pending','proses tangkil'])->get();
+                $dataReservasi = $dataReservasi->whereIdRelasi(Auth::user()->id)->whereIn('status',['pending'])->get();
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
                     'status' => 'fail',
@@ -69,7 +70,7 @@ class ReservasiMasukController extends Controller
         // MAIN LOGIC
             try{
                 $idUser = Auth::user()->id;
-                $dataReservasi = Reservasi::with(['Upacaraku.Krama.User.Penduduk','DetailReservasi'])->whereIdRelasi($idUser)->whereHas('Upacaraku.Krama.User')->findOrFail($request->id);
+                $dataReservasi = Reservasi::with(['Upacaraku.User.Penduduk','DetailReservasi.TahapanUpacara'])->whereIdRelasi($idUser)->whereHas('Upacaraku.User.Penduduk')->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->route('pemuput-karya.manajemen-reservasi.index')->with([
                     'status' => 'fail',
@@ -90,6 +91,7 @@ class ReservasiMasukController extends Controller
     // VERIFIKASI RESERVASI
     public function verifikasiReservasi(Request $request)
     {
+
         // SECURITY
             $validator = Validator::make($request->all(),[
                 'id_tahapan' => 'required|exists:tb_detail_reservasi,id',
@@ -112,7 +114,6 @@ class ReservasiMasukController extends Controller
         try{
             DB::beginTransaction();
             $reservasi = Reservasi::with('Upacaraku')->findOrFail($request->id_reservasi);
-            $krama = Krama::findOrFail($reservasi->Upacaraku->id_krama);
 
             if($request->tanggal_tanggkil == null){
                 $tanggal_tangkil = DateRangeHelper::parseSingleDate($request->tanggal_tangkil);
@@ -133,6 +134,8 @@ class ReservasiMasukController extends Controller
                     ]);
                 }
             }
+
+            $krama = User::findOrFail($reservasi->Upacaraku->id_krama);
 
             // SEND NOTIFICATION
             NotificationHelper::sendNotification(

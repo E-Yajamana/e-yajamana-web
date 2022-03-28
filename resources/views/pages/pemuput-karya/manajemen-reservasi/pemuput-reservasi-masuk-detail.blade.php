@@ -56,21 +56,21 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Nama Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->User->Penduduk->nama}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->nama}}" disabled>
                                     </div>
                                     <div class="form-group">
-                                        <label>Alamat Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->User->Penduduk->alamat}}" disabled>
+                                        <label></label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->alamat}}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->User->email}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->email}}" disabled>
                                     </div>
                                     <div class="form-group">
                                         <label>Nomor Telepon</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->User->nomor_telepon}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->nomor_telepon}}" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -174,21 +174,30 @@
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$data->TahapanUpacara->nama_tahapan}}</td>
-                                                    <td>{{date('d F Y : h:i',strtotime($data->tanggal_mulai))}}</td>
-                                                    <td>{{date('d F Y : h:i',strtotime($data->tanggal_selesai))}}</td>
+                                                    <td>{{date('d F Y | H:i',strtotime($data->tanggal_mulai))}}</td>
+                                                    <td>{{date('d F Y | H:i',strtotime($data->tanggal_selesai))}}</td>
                                                     <td>
                                                         <div class="form-group">
-                                                            <select name="status[]" class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true" id="status">
-                                                                <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
-                                                                <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @else value="diterima" @endif >Setujui</option>
-                                                                <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
-                                                                <option data-id="{{$data->id}}" @if ($data->status == 'batal') value="batal" selected @else value="batal" @endif>Batal</option>
-                                                            </select>
-                                                        </div>
-                                                        <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
-                                                        <div class="form-group">
-                                                            <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" name="alasan_penolakan[]" value="" placeholder="Masukan alasan penolakan" required>
-                                                        </div>
+                                                            <select name="status[]" class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true" id="status-{{$data->id}}">
+                                                                @if ($data->status == 'batal')
+                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'batal') value="batal" selected @else value="batal" @endif>Batal</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
+                                                                    <div class="form-group">
+                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" readonly name="alasan_penolakan[]" value="{{$data->keterangan}}" placeholder="Masukan alasan penolakan">
+                                                                    </div>
+                                                                @else
+                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
+                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @else value="diterima" @endif >Setujui</option>
+                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
+                                                                    <div class="form-group">
+                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" name="alasan_penolakan[]" value="" placeholder="Masukan alasan penolakan">
+                                                                    </div>
+                                                                @endif
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -279,30 +288,6 @@
     <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
     <!-- Fungsi Form Input  -->
     <script type="text/javascript">
-         $(function () {
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true,
-                "responsive": true,
-                "oLanguage": {
-                    "sSearch": "Cari:",
-                    "sZeroRecords": "Data Tidak Ditemukan",
-                    "sSearchPlaceholder": "Cari data....",
-                },
-                "language": {
-                    "paginate": {
-                        "previous": 'Sebelumnya',
-                        "next": 'Berikutnya'
-                    },
-                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
-                }
-            });
-        });
-
         $('#side-manajemen-reservasi').addClass('menu-open');
         $('#side-manajemen-reservasi-index').addClass('active');
 
@@ -352,7 +337,7 @@
         // VALIDASI SEDERHANA DARI PENENTUAN STATUS TAHAPAN
         function validasiInputStatus(data){
             // console.log(data);
-            if(JSON.stringify(data)==JSON.stringify(dataDatabase)){
+            if(JSON.stringify(data) == JSON.stringify(dataDatabase)){
                 Swal.fire({
                     icon:  'warning',
                     title: 'Warning',
@@ -452,7 +437,7 @@
             var id = $(this).find(':selected').data('id');
             var jenis = $(this).find(':selected').val();
             var text = document.getElementById("text_penolakan-"+id);
-            if(jenis=='ditolak'){
+            if(jenis=='ditolak' || jenis=='batal' ){
                 text.type = "text";
                 getAlasanPenolakan();
             }else{

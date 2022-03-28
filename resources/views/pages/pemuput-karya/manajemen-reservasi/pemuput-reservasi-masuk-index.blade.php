@@ -1,5 +1,5 @@
 @extends('layouts.sulinggih.sulinggih-layout')
-@section('tittle','Reservasi Krama Masuk')
+@section('tittle','Reservasi Masuk')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Home</a></li>
                         <li class="breadcrumb-item active">Data Reservasi</li>
                     </ol>
                 </div>

@@ -75,6 +75,22 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-03-17 10:05:58',
                 'updated_at' => '2022-03-17 10:06:00',
             ),
+            7 => 
+            array (
+                'id' => 9,
+                'id_user' => 49,
+                'id_role' => 2,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            8 => 
+            array (
+                'id' => 10,
+                'id_user' => 49,
+                'id_role' => 3,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
         ));
         
         

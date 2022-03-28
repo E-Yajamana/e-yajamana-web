@@ -25,7 +25,7 @@ crossorigin=""></script>
                 <!-- small box -->
                 <div class="small-box bg-secondary">
                     <div class="inner">
-                        <h3>2</h3>
+                        <h3>{{$countData['countUpacara']}}</h3>
                         <p>Jumlah Jenis Upacara</p>
                     </div>
                     <div class="icon">
@@ -39,22 +39,8 @@ crossorigin=""></script>
                 <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>2</h3>
+                        <h3>{{$countData['countPemuputKarya']}}</h3>
                         <p>Jumlah Pemuput Karya</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-                <!-- small box -->
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>4</h3>
-                        <p>Jumlah Upacara Krama</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-users"></i>
@@ -65,20 +51,35 @@ crossorigin=""></script>
             <!-- ./col -->
             <div class="col-lg-3 col-6">
                 <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{$countData['countUpacaraKrama']}}</h3>
+                        <p>Jumlah Upacara Krama</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa bi-brightness-high-fill nav-icon"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
                 <div class="small-box bg-warning">
                     <div class="inner">
-                        <h3>4</h3>
+                        <h3>{{$countData['countReservasi']}}</h3>
                         <p>Jumlah Reservasi</p>
                     </div>
                     <div class="icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{route('krama.manajemen-reservasi.index')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>
         <!-- COUNT DATA -->
 
+        <!-- BAGIAN 2 DASHBOARD-->
         <div class="row">
             <div class="col-12 col-sm-8">
                 <!-- HEADER DONUT CHART -->
@@ -102,6 +103,7 @@ crossorigin=""></script>
                 <!-- /.card -->
             </div>
 
+            <!-- LIST UPACARA KRAMA-->
             <div class="col-12 col-sm-4">
                 <div class="card" style="height: 375px">
                     <div class="card-header">
@@ -110,55 +112,54 @@ crossorigin=""></script>
                     <!-- /.card-header -->
                     <div class="card-body p-0">
                     <!-- /.card-header -->
-
-                        {{-- <ul class="products-list product-list-in-card pl-2 pr-2">
-                            <!-- /.item -->
-                            <li class="item">
-                                <div class="ml-3 product-info">
-                                    <a href="#" class="product-title ">Dewa Yadnya | Upacarar Rismawan
-                                        <span class="badge badge-secondary float-right">PENDING</span>
-                                    </a>
-                                    <span class="product-description">
-                                        Atma Wedana adalah upacara yadnya yang bertujuan untuk menyucikan sang atma pitara setelah prosesi ngaben atau sawa wedana selesai yang dilaksanakan dengan upacara Nyekah atau Mamukur.
-                                    </span>
-                                </div>
-                            </li>
-                            <li class="item">
-                                <div class="ml-3 product-info">
-                                    <a href="#" class="product-title ">Dewa Yadnya | Upacarar Rismawan
-                                        <span class="badge badge-secondary float-right">PENDING</span>
-                                    </a>
-                                    <span class="product-description">
-                                        Atma Wedana .
-                                    </span>
-                                </div>
-                            </li>
-                        </ul> --}}
-                        <div class="h-100 d-flex justify-content-center align-items-center ">
-                            <div class="media">
-                                <div class="media-body text-center mb-2 ">
-                                    <i class="fa-4x bi-brightness-high-fill text-secondary"></i>
-                                    <div class="d-flex justify-content-center">
-                                        <p class="text-md text-center mt-1 w-75">Belum ada Upacara yang dibuat..</p>
+                        @if (count($dataUpacaraKrama) != 0)
+                            <ul class="products-list product-list-in-card pl-2 pr-2">
+                                <!-- /.item -->
+                                @foreach ($dataUpacaraKrama as $data)
+                                    <li class="item">
+                                        <div class="ml-3 product-info">
+                                            <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="product-title ">{{$data->Upacara->kategori_upacara}} | Upacarar Rismawan
+                                                <span class="badge badge-secondary float-right">{{Str::ucfirst($data->status)}}</span>
+                                            </a>
+                                            <span class="product-description">
+                                                {{$data->deskripsi_upacaraku}}
+                                            </span>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <div class="h-100 d-flex justify-content-center align-items-center ">
+                                <div class="media">
+                                    <div class="media-body text-center mb-2 ">
+                                        <i class="fa-4x bi-brightness-high-fill text-secondary"></i>
+                                        <div class="d-flex justify-content-center">
+                                            <p class="text-md text-center mt-1 w-75">Belum ada Upacara yang dibuat..</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
+
+
 
                     </div>
                     <div class="card-footer text-center">
-                        <a href="#" class="uppercase">Lihat Semua Upacara Krama</a>
+                        <a href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="uppercase">Lihat Semua Upacara Krama</a>
                     </div>
                 </div>
             </div>
+            <!-- LIST UPACARA KRAMA-->
         </div>
+        <!-- BAGIAN 2 DASHBOARD-->
 
 
+        <!-- BAGIAN 3 DASHBOARD-->
         <div class="row">
             <div class="col-12 col-sm-6">
                 <div class="card" style="height:683px">
                     <div class="card-header">
-                        <label class="card-title"  id="judulKalender">Jadwal Muput </label>
+                        <label class="card-title"  id="judulKalender">Jadwal Reservasi </label>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-horizontal-sm list-unstyled mb-2">
@@ -184,7 +185,7 @@ crossorigin=""></script>
                          <!-- Timelime example  -->
                         <div class="row">
                             <div class="col-md-12 mt-3">
-                                {{-- <div class="timeline">
+                                <div class="timeline">
                                     <div class="time-label">
                                         <span class="bg-info">3 Jan. 2014</span>
                                     </div>
@@ -202,10 +203,10 @@ crossorigin=""></script>
                                     <div>
                                         <i class="fas fa-clock bg-gray"></i>
                                     </div>
-                                </div> --}}
+                                </div>
                             </div>
                         </div>
-                        <div class="h-100 d-flex justify-content-center align-items-center ">
+                        {{-- <div class="h-100 d-flex justify-content-center align-items-center ">
                             <div class="media">
                                 <div class="media-body text-center mb-2 ">
                                     <i class="fa-6x fas fa-calendar-alt text-secondary"></i>
@@ -214,15 +215,17 @@ crossorigin=""></script>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="card-footer text-center">
-                        <a href="#" class="uppercase">Lihat Semua Reservasi Krama</a>
+                        <a href="{{route('krama.manajemen-reservasi.index')}}" class="uppercase">Lihat Semua Reservasi Krama</a>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- BAGIAN 3 DASHBOARD-->
 
+        <!-- BAGIAN 4 MAP-->
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -243,9 +246,11 @@ crossorigin=""></script>
                 </div>
             </div>
         </div>
-
+        <!-- BAGIAN 4 MAP-->
 
     </div>
+    <input id="countJenisYadnya" value="@json($dataCountJenisYadnya)">
+
 @endsection
 
 @push('js')
@@ -312,25 +317,24 @@ crossorigin=""></script>
         });
         calendar.render();
 
+
+        let dataCountJenisYadnya = $("#countJenisYadnya").val()
+        console.log(dataCountJenisYadnya)
+
         // NAMPILIN DI ID #donutChart
         var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-        var donutData        = {
-        labels: [
-            'Dewa Yadnya',
-            'Pitra Serangkai',
-            'Manusa Yadnyas',
-            'Rsi Yadnya',
-            'Bhuta Yadnya',
-        ],
-        datasets: [
-            {
-            data: [
-                2,
-                3
+        var donutData = {
+            labels: [
+                'Dewa Yadnya',
+                'Pitra Yadnya',
+                'Manusa Yadnya',
+                'Rsi Yadnya',
+                'Bhuta Yadnya',
             ],
-            backgroundColor : ['#f56954', '#00c0ef', '#f39c12', '#3c8dbc', '#d2d6de'],
-            }
-        ]
+            datasets: [{
+                data: dataCountJenisYadnya,
+                backgroundColor : ['#f56954', '#00c0ef', '#f39c12', '#3c8dbc', '#d2d6de'],
+            }]
         }
         var donutOptions     = {
         maintainAspectRatio : false,

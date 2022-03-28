@@ -637,14 +637,6 @@ crossorigin=""></script>
             $('#side-pengaturan-akun').addClass('menu-is-opening menu-open');
             $('#side-profile').addClass('active');
         });
-        // Custom Input Date
-        $(function () {
-            bsCustomFileInput.init();
-            $('.select2').select2()
-            $('.select2bs4').select2({
-                theme: 'bootstrap4'
-            })
-        })
 
         $('#tanggal_lahir').daterangepicker({
             "singleDatePicker": true,

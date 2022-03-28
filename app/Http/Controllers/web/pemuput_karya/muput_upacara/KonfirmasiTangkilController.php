@@ -28,8 +28,8 @@ class KonfirmasiTangkilController extends Controller
     public function indexKonfirmasiTangkil(Request $request)
     {
         try{
-            $dataReservasi = Reservasi::with(['DetailReservasi','Upacaraku.Krama.User.Penduduk'])->whereHas('DetailReservasi');
-            $queryDetailReservasi =function ($queryDetailReservasi){
+            $dataReservasi = Reservasi::with(['DetailReservasi','Upacaraku.User.Penduduk'])->whereHas('DetailReservasi');
+            $queryDetailReservasi = function ($queryDetailReservasi){
                 $queryDetailReservasi->where('status','diterima');
             };
             $dataReservasi->with(['DetailReservasi'=>$queryDetailReservasi])->whereHas('DetailReservasi',$queryDetailReservasi);

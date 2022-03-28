@@ -24,6 +24,7 @@ use App\Http\Controllers\web\pemuput_karya\manajemen_reservasi\RiwayatReservasiC
 use App\Http\Controllers\web\pemuput_karya\muput_upacara\KonfirmasiMuputController;
 use App\Http\Controllers\web\pemuput_karya\muput_upacara\KonfirmasiTangkilController;
 use App\Http\Controllers\web\pemuput_karya\muput_upacara\MuputUpacaraController;
+use App\Http\Controllers\web\pemuput_karya\PemuputKaryaController;
 use App\Http\Controllers\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -191,7 +192,9 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
 Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], function ()  {
     Route::get('dashboard', [PemuputDashboardController::class, 'index'])->name('pemuput-karya.dashboard');
+    Route::get('profile', [PemuputKaryaController::class, 'profile'])->name('pemuput-karya.profile');
     Route::get('calender', [PemuputDashboardController::class, 'calenderIndex'])->name('pemuput-karya.calender');
+
 
     Route::prefix('manajemen-reservasi')->group(function () {
         Route::prefix('manajemen-reservasi')->group(function () {
