@@ -109,7 +109,7 @@ class KramaReservasiController extends Controller
             NotificationHelper::sendNotification(
                 [
                     'title' => "PERMOHONAN RESERVASI DIBUAT",
-                    'body' => "Permohonan reservasi kepada " . $relasi->PemuputKarya->nama_pemuput . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
+                    'body' => "Permohonan reservasi kepada " . $relasi->PemuputKarya->nama_pemuput . " telah berhasil dilakukan, dimohon untuk menunggu konfirmasi dari pihak pemuput karya",
                     'status' => "new",
                     'image' => "sulinggih",
                     'notifiable_id' => $user->id,
