@@ -103,21 +103,14 @@ class SulinggihReservasiController extends Controller
                         'Upacara' => function ($upacaraQuery) {
                             $upacaraQuery->with('TahapanUpacara');
                         },
-                        'Krama' => function ($kramaQuery) {
-                            $kramaQuery->with([
-                                'User' => function ($userQuery) {
-                                    $userQuery->with(['Penduduk']);
-                                }
-                            ])->whereHas('User', function ($userQuery) {
-                                $userQuery->with(['Penduduk']);
-                            });
-                        }
-                    ])
-                        ->whereHas('Krama')
-                        ->whereHas('Upacara');
+                        'User' => function ($userQuery) {
+                            $userQuery->with(['Penduduk']);
+                        },
+                    ])->whereHas('User')->whereHas('Upacara');
                 },
                 'Relasi' => function ($relasiQuery) {
-                    $relasiQuery->where('id', Auth::user()->id);
+                    $relasiQuery->with(['PemuputKarya'])
+                        ->where('id', Auth::user()->id);
                 },
                 'DetailReservasi' => function ($detailReservasiQuery) {
                     $detailReservasiQuery->with('TahapanUpacara');

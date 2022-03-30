@@ -118,7 +118,7 @@ class AuthController extends Controller
 
             $role = $user->Role()->where('nama_role', $request->role)->firstOrFail();
 
-            $user->currentAccessToken()->update(['abilities' => 'role:' . $request->role]);
+            $user->currentAccessToken()->update(['abilities' => ['role:' . $request->role]]);
 
             switch ($role->nama_role) {
                 case "krama":
@@ -133,6 +133,23 @@ class AuthController extends Controller
                             'role' => $role
                         ]
                     ], 200);
+                    break;
+
+                case "pemuput_karya":
+                    $penduduk = $user->Penduduk()->firstOrFail();
+                    $sulinggih = $user->PemuputKarya()->firstOrFail();
+
+                    return response()->json([
+                        'status' => 200,
+                        'message' => "Siccess update acceess token to krama",
+                        'data' => (object)[
+                            'user' => $user,
+                            'penduduk' => $penduduk,
+                            'role' => $role,
+                            'pemuput_karya' => $sulinggih
+                        ]
+                    ], 200);
+                    break;
             }
         } catch (ModelNotFoundException $err) {
             return response()->json([

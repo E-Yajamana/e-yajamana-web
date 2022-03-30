@@ -118,7 +118,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // END
 
     // SULINGGIH
-    Route::prefix('sulinggih')->middleware(['ability:role:sulinggih'])->group(function () {
+    Route::prefix('sulinggih')->middleware(['ability:role:pemuput_karya'])->group(function () {
         // SULINGGIH HOME FRAGMENT
         Route::get('home', [SulinggihDashboardController::class, 'index']);
         // END

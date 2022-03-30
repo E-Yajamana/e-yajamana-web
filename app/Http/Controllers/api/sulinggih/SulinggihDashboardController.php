@@ -11,41 +11,41 @@ use PDOException;
 
 class SulinggihDashboardController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         // MAIN LOGIC
-            try{
-                $user = Auth::user();
-                $sulinggih = $user->Sulinggih()->with('GriyaRumah')->whereHas('GriyaRumah')->firstOrFail();
+        try {
+            $user = Auth::user();
+            $pemuputKarya = $user->PemuputKarya()->with('GriyaRumah')->whereHas('GriyaRumah')->firstOrFail();
 
-                $reservasiQuery = function($reservasiQuery){
-                    $reservasiQuery->with(['Upacara'])->whereHas('Upacara');
-                };
+            $reservasiQuery = function ($reservasiQuery) {
+                $reservasiQuery->with(['Upacara'])->whereHas('Upacara');
+            };
 
-                $reservasis = $sulinggih
-                                ->Reservasi()
-                                ->with(['Upacaraku' => $reservasiQuery])
-                                ->whereHas('Upacaraku',$reservasiQuery)
-                                ->where('tipe','sulinggih_pemangku')->get();
-
-            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return response()->json([
-                        'status' => 500,
-                        'message' => 'Internal server error',
-                        'data' => (Object)[],
-                ],500);
-            }
-        // END
-        
-        // RETURN
+            $reservasis = $user
+                ->Reservasi()
+                ->with(['Upacaraku' => $reservasiQuery])
+                ->whereHas('Upacaraku', $reservasiQuery)->get();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
             return response()->json([
-                    'status' => 200,
-                    'message' => 'Server message',
-                    'data' => [
-                        'user' => $user,
-                        'sulinggih' => $sulinggih,
-                        'reservasis' => $reservasis,
-                    ],
-            ],200);
+                'status' => 500,
+                'message' => 'Internal server error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Server message',
+            'data' => [
+                'user' => $user,
+                'pemuput_karya' => $pemuputKarya,
+                'reservasis' => $reservasis,
+            ],
+        ], 200);
         // END
     }
 }
