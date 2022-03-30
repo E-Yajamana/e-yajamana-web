@@ -1,4 +1,4 @@
-@extends('layouts.sulinggih.sulinggih-layout')
+@extends('layouts.pemuput-karya.pemuput-karya-layout')
 @section('tittle','Reservasi Krama Masuk')
 
 @push('css')
@@ -10,6 +10,9 @@
 
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/daterangepicker/daterangepicker.css')}}">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
     integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -30,8 +33,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Data Reservasi Masuk</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.manajemen-reservasi.index')}}">Data Reservasi Masuk</a></li>
                     <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
@@ -43,7 +46,7 @@
         <div class="container-fluid">
             <div class="callout callout-info container-fluid">
                 <h5><i class="fas fa-info"></i> Catatan:</h5>
-                Harap mengisi Tanggal Tangkil setelah menerima reservasi.
+                Harap melihat dan menentukan dengan detail semua status Tahapan Reservasi ketika ingin menyimpan data.
             </div>
             <div class="row">
                 <div class="col-12">
@@ -147,11 +150,10 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <form action="{{route('pemuput-karya.manajemen-reservasi.verifikasi')}}" method="POST" id="inputdata">
+                    <form action="{{route('pemuput-karya.manajemen-reservasi.verifikasi.update')}}" method="POST" id="inputdata">
                         @csrf
                         @method('PUT')
                         <input class="d-none" name="id_reservasi" id="idReservasi" value="{{$dataReservasi->id}}" type="hidden">
-                        <input class="d-none" name="status_reservasi" id="statusReservasi" value="{{$dataReservasi->id}}" type="hidden">
                         <div class="card tab-content">
                             <div class="card-header my-auto">
                                 <label class="card-title my-auto">Tahapan yang Direservasi</label>
@@ -170,7 +172,6 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($dataReservasi->DetailReservasi as $data)
-                                                <input type="hidden"  name="id_tahapan_reservasi_{{$dataReservasi->id}}[]" value="{{$data->id}}" >
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
                                                     <td>{{$data->TahapanUpacara->nama_tahapan}}</td>
@@ -225,13 +226,18 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div class="form-group">
+                                            <div class="callout callout-info mx-1 px-2">
+                                                <p class="text-xs">Tentukan tanggal tangkil, yang bertujuan untuk menentukan kedatangan Krama Bali untuk berdiskusi terkair Muput Upacara.</p>
+                                            </div>
+                                            <div class="form-group px-2">
                                                 <label>Tentukan Tanggal Tangkil:</label>
-                                                <div class="input-group date" id="reservationdatetime2" data-target-input="nearest">
-                                                    <input name="tanggal_tangkil" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime2" />
-                                                    <div class="input-group-append" data-target="#reservationdatetime2" data-toggle="datetimepicker">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="far fa-calendar-alt"></i>
+                                                        </span>
                                                     </div>
+                                                    <input name="tanggal_tangkil" id="date" type='text' class='form-control float-right' >
                                                 </div>
                                             </div>
                                         </div>
@@ -247,7 +253,7 @@
                                 <div class="col-md-12 my-2">
                                     <a href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
                                     <button type="submit" class="btn btn-primary float-right ml-2 m-1">Simpan Data</button>
-                                    <a onclick="konfirmasiReservasi({{$dataReservasi->id}},'{{$dataReservasi->tanggal_tangkil}}')" class="btn btn-secondary m-1 float-right " align-self="end">Setujui Semua</a>
+                                    <a onclick="konfirmasiReservasi({{$dataReservasi->id}},'{{$dataReservasi->tanggal_mulai}}')" class="btn btn-secondary m-1 float-right " align-self="end">Setujui Semua</a>
                                     <a onclick="tolakReservasi({{$dataReservasi->id}})" class=" btn btn-danger m-1 float-right " align-self="end">Tolak Semua</a>
                                 </div>
                             </div>
@@ -260,8 +266,7 @@
 
     <input id="jsonData" type="hidden" value='@json($dataReservasi)'>
 
-    @include('pages.pemuput-karya.manajemen-reservasi.modal-verifikasi-all')
-
+    @include('pages.pemuput-karya.manajemen-reservasi.modal-konfirmasi-reservasi')
 
 @endsection
 
@@ -276,37 +281,20 @@
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
 
-    <!-- date-range-picker -->
-    <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <!-- daterangepicker -->
-    <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
-
     <!-- Bootstrabase-template-->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
+    <!-- jquery-validation -->
+    <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
+
     <!-- Fungsi Form Input  -->
     <script type="text/javascript">
         $('#side-manajemen-reservasi').addClass('menu-open');
         $('#side-manajemen-reservasi-index').addClass('active');
-
-        $('#reservationdatetime').datetimepicker({
-            format: 'DD MMMM YYYY h:mm A',
-            date: new Date(),
-            icons: {
-                time: 'far fa-clock'
-            }
-        });
-
-        $('#reservationdatetime2').datetimepicker({
-            format: 'DD MMMM YYYY h:mm A',
-            date: new Date(),
-            icons: {
-                time: 'far fa-clock'
-            }
-        });
-
 
         $('#mySelect2').select2('data');
         $('.select2').select2()
@@ -323,7 +311,17 @@
         // DEKLARASI DATA RESERVASI
         let jsonData = $('#jsonData').val();
         let data_reservasi = (JSON.parse(jsonData));
+
         console.log(data_reservasi)
+        $('#date').daterangepicker({
+            timePicker: true,
+            "singleDatePicker": true,
+            "minDate": moment(Date ()).format('DD MMMM YYYY'),
+            "maxDate": moment(data_reservasi.upacaraku.tanggal_mulai).format('DD MMMM YYYY'),
+            locale: {
+                format: 'DD MMMM YYYY h:mm A',
+            },
+        });
 
         let dataDatabase=[];
         $.each(data_reservasi.detail_reservasi, function(key, data){
@@ -346,37 +344,22 @@
             }else if(data.indexOf("diterima") !== -1){
                 if(data_reservasi.tanggal_tangkil == null){
                     $("#modalInputTangkil").modal();
-                    $("#statusReservasi").val('proses tangkil');
                 }else{
-                    $("#statusReservasi").val('proses tangkil');
                     $("#inputdata")[0].submit();
                 }
             }else if(data.indexOf("ditolak") !== -1){
                 if(data.every((val,u,arr)=>val === arr[0]) == true){
-                    $("#statusReservasi").val('batal');
                     $("#inputdata")[0].submit();
                 }else{
-                    $("#statusReservasi").val('pending');
                     $("#inputdata")[0].submit();
                 }
             }else if (data.indexOf("pending") !== -1){
                 if(data.every((val,u,arr)=>val === arr[0]) == true){
-                    $("#statusReservasi").val('pending');
                     $("#inputdata")[0].submit();
                 }
             }
         };
         // VALIDASI SEDERHANA DARI PENENTUAN STATUS TAHAPAN
-
-        // ADD FUNCTION VALIDATE DATE RANGE
-        jQuery.validator.addMethod("isi", function(value, element){
-            if(element != null ){
-                return true;
-            }else{
-                return false;
-            }
-        }, "Masukan tanggal dan waktu dengan benar!");
-        // ADD FUNCTION VALIDATE DATE RANGE
 
         // ADD FUNCTION VALIDASI ALASAN PENOLAKAN
         $(function () {
@@ -394,7 +377,6 @@
                 rules: {
                     'alasan_penolakan[]': {
                         required: true,
-                        isi :true
                     },
                 },
                 messages: {
@@ -414,6 +396,11 @@
                     $(element).removeClass('is-invalid');
                 }
             });
+            $(".alasanPenolakan").rules("add", {
+                required:true,
+                minlength:3
+            });
+
         });
         // ADD FUNCTION VALIDASI ALASAN PENOLAKAN
 
@@ -435,14 +422,16 @@
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI (**)
         $('select').change(function(){
             var id = $(this).find(':selected').data('id');
-            var jenis = $(this).find(':selected').val();
-            var text = document.getElementById("text_penolakan-"+id);
-            if(jenis=='ditolak' || jenis=='batal' ){
-                text.type = "text";
-                getAlasanPenolakan();
-            }else{
-                text.type = "hidden";
-                text.value = "";
+            if(id != undefined){
+                var jenis = $(this).find(':selected').val();
+                var text = document.getElementById("text_penolakan-"+id);
+                if(jenis=='ditolak' || jenis=='batal' ){
+                    text.type = "text";
+                    getAlasanPenolakan();
+                }else{
+                    text.type = "hidden";
+                    text.value = "";
+                }
             }
         });
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI (**)

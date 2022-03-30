@@ -33,13 +33,13 @@
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
     <div class="wrapper">
 
-        @include('layouts.sulinggih.navbar-layout')
+        @include('layouts.sanggar.navbar-layout')
 
-        @include('layouts.sulinggih.sidebar-layout')
+        @include('layouts.sanggar.sidebar-layout')
 
-        @include('layouts.sulinggih.content-layout')
+        @include('layouts.sanggar.content-layout')
 
-        @include('layouts.sulinggih.footer-layout')
+        @include('layouts.sanggar.footer-layout')
 
     </div>
 

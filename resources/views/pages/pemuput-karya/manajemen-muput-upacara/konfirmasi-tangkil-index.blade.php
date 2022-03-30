@@ -1,4 +1,4 @@
-@extends('layouts.sulinggih.sulinggih-layout')
+@extends('layouts.pemuput-karya.pemuput-karya-layout')
 @section('tittle','Reservasi Krama Masuk')
 
 @push('css')
@@ -21,8 +21,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Data Reservasi</li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
+                        <li class="breadcrumb-item active">Data Krama Tangkil</li>
                     </ol>
                 </div>
             </div>
@@ -45,8 +45,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Krama </th>
-                                    <th>Jenis Upacara</th>
+                                    <th>Lokasi Upacara</th>
                                     <th>Waktu Tangkil</th>
+                                    <th>Jenis Yadnya</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
@@ -55,10 +56,14 @@
                                 @foreach ($dataReservasi as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$data->Upacaraku->User->Penduduk->nama}}</td>
-                                        <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
-                                        <td>{{date('d F Y | h:i',strtotime($data->tanggal_tangkil))}}</td>
                                         <td>
+                                            {{$data->Upacaraku->User->Penduduk->nama}}
+                                        </td>
+                                        <td style="width: 20%"> {{$data->Upacaraku->alamat_upacaraku}}</td>
+                                        <td>{{date('d F Y | H:i ',strtotime($data->tanggal_tangkil))}}</td>
+                                        <td>{{$data->Upacaraku->Upacara->kategori_upacara}}</td>
+                                        <td>
+                                            <label>{{$data->Upacaraku->Upacara->nama_upacara}}</label>
                                             @foreach ($data->DetailReservasi as $dataDetail)
                                                 <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
                                             @endforeach
@@ -75,8 +80,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Krama </th>
-                                    <th>Jenis Upacara</th>
+                                    <th>Lokasi Upacara</th>
                                     <th>Waktu Tangkil</th>
+                                    <th>Jenis Yadnya</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>

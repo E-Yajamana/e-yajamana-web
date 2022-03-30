@@ -1,4 +1,4 @@
-@extends('layouts.krama.krama-layout')
+@extends('layouts.pemuput-karya.pemuput-karya-layout')
 
 @section('tittle', 'My Profile')
 
@@ -47,11 +47,11 @@ crossorigin=""></script>
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
                                 <b class="fw-bold">Status</b>
-                                <a class="float-right text-decoration-none link-dark">Krama Bali</a>
+                                <a class="float-right text-decoration-none link-dark">{{ucfirst(Auth::user()->PemuputKarya->tipe)}}</a>
                             </li>
                             <li class="list-group-item">
                                 <b class="fw-bold">Jenis Kelamin</b>
-                                <a class="float-right text-decoration-none link-dark">{{Auth::user()->Penduduk->jenis_kelamin}}</a>
+                                <a class="float-right text-decoration-none link-dark">{{ucfirst(Auth::user()->Penduduk->jenis_kelamin)}}</a>
                             </li>
                             <li class="list-group-item">
                                 <b class="fw-bold">Terdaftar Sejak</b>
@@ -69,7 +69,7 @@ crossorigin=""></script>
                 <!-- UPCARA RANGKUMAN -->
                 <div class="card  collapsed-card">
                     <div class="card-header">
-                        <h3 class="card-title">Rangkuman Upacara</h3>
+                        <h3 class="card-title">Rangkuman Transaksi Reservasi</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                               <i class="fas fa-plus"></i>
@@ -88,7 +88,7 @@ crossorigin=""></script>
                                             <i class="fa-3x fa bi-brightness-high-fill nav-icon mr-1"></i>
                                         </div>
                                         <div class="product-info">
-                                            <p class="product-title mb-0 text-xs">Jumlah Upacara</p>
+                                            <p class="product-title mb-0 text-xs">Jumlah Reservasi</p>
                                             <p class="text-lg">3</p>
                                         </div>
                                     </li>
@@ -97,7 +97,7 @@ crossorigin=""></script>
                                             <i class="fa-3x fa bi-brightness-alt-high-fill nav-icon mr-1"></i>
                                         </div>
                                         <div class="product-info">
-                                            <p class="product-title mb-0 text-xs">Jumlah Upacara Proses</p>
+                                            <p class="product-title mb-0 text-xs">Jumlah Reservasi Proses</p>
                                             <p class="text-lg">3</p>
                                         </div>
                                     </li>
@@ -106,7 +106,7 @@ crossorigin=""></script>
                                             <i class="fa-3x fa bi-brightness-alt-low nav-icon mr-1"></i>
                                         </div>
                                         <div class="product-info">
-                                            <p class="product-title mb-0 text-xs">Jumlah Upacara Selesai</p>
+                                            <p class="product-title mb-0 text-xs">Jumlah Reservasi Selesai</p>
                                             <p class="text-lg">3</p>
                                         </div>
                                     </li>
@@ -116,66 +116,6 @@ crossorigin=""></script>
                     </div>
                 </div>
                 <!-- UPCARA RANGKUMAN -->
-
-                <!-- RESERVASI RANGKUMAN -->
-                <div class="card collapsed-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Rangkuman Reservasi </h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                              <i class="fas fa-plus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                              <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <ul class="products-list product-list-in-card pl-2 pr-2">
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <i class="fa-3x fa bi-people-fill nav-icon mr-1"></i>
-                                        </div>
-                                        <div class="product-info">
-                                            <p class="product-title mb-0 text-xs">Jumlah Reservasi</p>
-                                            <p class="text-lg">3</p>
-                                        </div>
-                                    </li>
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <i class="fa-3x fa bi-person-lines-fill nav-icon mr-1"></i>
-                                        </div>
-                                        <div class="product-info">
-                                            <p class="product-title mb-0 text-xs">Jumlah Disetujui</p>
-                                            <p class="text-lg">3</p>
-                                        </div>
-                                    </li>
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <i class="fa-3x fa bi-person-plus-fill nav-icon mr-1"></i>
-                                        </div>
-                                        <div class="product-info">
-                                            <p class="product-title mb-0 text-xs">Jumlah Proses</p>
-                                            <p class="text-lg">3</p>
-                                        </div>
-                                    </li>
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <i class="fa-3x fa bi-person-x-fill nav-icon mr-1"></i>
-                                        </div>
-                                        <div class="product-info">
-                                            <p class="product-title mb-0 text-xs">Jumlah Ditolak</p>
-                                            <p class="text-lg">3</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- RESERVASI RANGKUMAN -->
             </div>
 
             <div class="col-md-8">
@@ -193,7 +133,7 @@ crossorigin=""></script>
                         <div class="tab-content">
 
                             <!---- DATA DIRI TABS ------>
-                            <div class="tab-pane" id="dataDiri">
+                            <div class="tab-pane active" id="dataDiri">
                                 <div class="ml-2 fs-4">
                                     <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Data Diri</label>
                                     <p>Kelola data diri Anda agar lebih mudah mendapatkan informasimu</p>
@@ -352,7 +292,7 @@ crossorigin=""></script>
                             <!---- AKUN TABS ------>
 
                             <!---- PEMETAAN TABS ------>
-                            <div class="tab-pane active" id="pemetaan">
+                            <div class="tab-pane " id="pemetaan">
                                 <div class="ml-2 fs-4">
                                     <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Akun</label>
                                     <p>Kelola akun Anda agar lebih mudah untuk melakukan login</p>

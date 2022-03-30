@@ -50,12 +50,12 @@ class DatabaseSeeder extends Seeder
         $this->call(TbKepemilikanSanggarTableSeeder::class);
         $this->call(TbPemuputKaryaTableSeeder::class);
         $this->call(TbAtributPemuputTableSeeder::class);
-
+        $this->call(TbDetailReservasiTableSeeder::class);
+        $this->call(TbReservasiTableSeeder::class);
         Schema::enableForeignKeyConstraints();
 
 
 
-        $this->call(TbReservasiTableSeeder::class);
-        $this->call(TbDetailReservasiTableSeeder::class);
+
     }
 }

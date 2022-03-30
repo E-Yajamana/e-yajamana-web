@@ -39,8 +39,8 @@
                     <div class="text-center">
                       <img class="profile-user-img img-fluid img-circle" src="{{route('get-image.profile.pemuput-karya',$dataReservasi->Relasi->id)}}" alt="User profile picture">
                     </div>
-                    <h3 class="text-center bold mb-0 ">{{$dataReservasi->Relasi->getRelasi($dataReservasi->tipe)->nama}}</h3>
-                    <p class="text-center">Tanggal Upacara : {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
+                    <h3 class="text-center bold mb-0 ">{{$dataReservasi->Relasi->nama}}</h3>
+                    <p class="text-center">Tanggal Upacara : {{date('d F Y',strtotime($dataRe   servasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
                     <div class="d-flex justify-content-center mt-2 text-center" id="view_status">
                         <div @if ($dataReservasi->status  == 'pending') class="bg-secondary btn-sm" @elseif ($dataReservasi->status == 'proses tangkil' || $dataReservasi->status == 'proses muput') class="bg-primary btn-sm" @elseif ($dataReservasi->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($dataReservasi->status)}}</div>
                     </div>
