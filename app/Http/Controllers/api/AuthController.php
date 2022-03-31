@@ -352,6 +352,7 @@ class AuthController extends Controller
                 throw new Exception("GAGAL CHECK TOKEN");
             }
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
