@@ -59,7 +59,7 @@
                                         <td>
                                             {{$data->Upacaraku->User->Penduduk->nama}}
                                         </td>
-                                        <td style="width: 20%"> {{$data->Upacaraku->alamat_upacaraku}}</td>
+                                        <td style="width: 18%"> {{$data->Upacaraku->alamat_upacaraku}}</td>
                                         <td>{{date('d F Y | H:i ',strtotime($data->tanggal_tangkil))}}</td>
                                         <td>{{$data->Upacaraku->Upacara->kategori_upacara}}</td>
                                         <td>
@@ -69,9 +69,9 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a onclick="cekTanggalTangkil({{$data->id}},'{{$data->tanggal_tangkil}}')"  class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                            <a title="Detail Data" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a title="Edit Data" @if (date('Y-m-d') > date('Y-m-d',strtotime($data->tanggal_tangkil)) || date('Y-m-d') == date('Y-m-d',strtotime($data->tanggal_tangkil)) )  href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->id)}}" @else onclick="cekTanggalTangkil('{{$data->tanggal_tangkil}}')" @endif class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a title="Konfirmasi Tangkil" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -145,22 +145,13 @@
 
 @push('js')
     <script type="text/javascript">
-
-        function cekTanggalTangkil(id,tanggal_tangkil){
-            console.log(moment(tanggal_tangkil).format('YYYY-MM-DD'))
-            console.log(moment().format('YYYY-MM-DD'))
-            var tanggal_tangkil = moment(tanggal_tangkil).format('YYYY-MM-DD')
-            var datenow = console.log(moment().format('YYYY-MM-DD'))
-            if(moment(tanggal_tangkil).isBetween(tanggal_tangkil, datenow, undefined, '[]')){
-                location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit')}}/"+id;
-            }else{
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Pemberitahuan',
-                    text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('DD-MMM-YYYY') ,
-                });
-            }
-            // console.log(moment().format('MM-DD-YYYY'));
+        function cekTanggalTangkil(tanggal_tangkil){
+            console.log(tanggal_tangkil);
+            Swal.fire({
+                icon: 'info',
+                title: 'Pemberitahuan',
+                text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('DD MMMM YYYY') ,
+            });
         }
     </script>
 @endpush

@@ -125,6 +125,7 @@ class ReservasiMasukController extends Controller
             $user = Auth::user();
             $relasi = User::findOrFail($reservasi->id_relasi);
             $tanggal_tangkil = null;
+            $keterangan = null;
             switch($type){
                 case 'specific':
                     $dataDetailReservasi = [];
@@ -132,7 +133,7 @@ class ReservasiMasukController extends Controller
                         $dataDetailReservasi[] = [
                             'id' => $value,
                             'status' => $request->status[$key],
-                            'keterangan' => $request->alasan_penolakan[$key],
+                            'keterangan' => $request->alasan_pembatalan[$key],
                         ];
                     }
                     BatchFacade::update(new DetailReservasi(), $dataDetailReservasi, 'id');
@@ -147,7 +148,8 @@ class ReservasiMasukController extends Controller
                         if ($value == 'ditolak') {
                             $ditolak += 1;
                             if ($ditolak == count($request->status)) {
-                                $statusReservasi = 'batal';
+                                $keterangan = $request->alasan_pembatalan[0];
+                                $statusReservasi = 'ditolak';
                                 break;
                             }
                         }
@@ -165,6 +167,7 @@ class ReservasiMasukController extends Controller
                         $statusReservasi = 'proses tangkil';
                     }else{
                         $statusReservasi = 'ditolak';
+                        $keterangan = $request->alasan_pembatalan;
                     }
                     break;
                 default:
@@ -179,7 +182,7 @@ class ReservasiMasukController extends Controller
             $reservasi->update([
                 'tanggal_tangkil' => $tanggal_tangkil,
                 'status' => $statusReservasi,
-                'keterangan' => $request->alasan_pembatalan,
+                'keterangan' => $keterangan,
             ]);
 
             switch($statusReservasi){

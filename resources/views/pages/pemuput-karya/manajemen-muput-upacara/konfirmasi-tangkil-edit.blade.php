@@ -30,13 +30,13 @@
         <div class="container-fluid border-bottom mt-2">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Detail Reservasi Masuk</h1>
+                    <h1>Konfirmasi Tangkil</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Data Reservasi</a></li>
-                    <li class="breadcrumb-item active">Detail</li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}">Data Tangkil Krama</a></li>
+                        <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
             </div>
@@ -47,9 +47,10 @@
         <div class="container-fluid">
             <div class="callout callout-info container-fluid">
                 <h5><i class="fas fa-info"></i> Catatan:</h5>
-                Pemuput Upacara dapat merubah semua Tanggal Tahapan dari reservasi krama tersebut.
+                Pemuput Upacara dapat melakukan perubahan semua Data Reservasi, baik itu Reservasinya sendiri maupun Reservasi Pemuput Karya lain yang berstatus Proses Tangkil.
             </div>
             <div class="row">
+                <!--- DATA DETAIL KRAMA PEMESANAN --->
                 <div class="col-12">
                     <div class="card tab-content">
                         <div class="card-header my-auto">
@@ -57,30 +58,54 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="mb-2">Tanggal Tangkil Krama</label>
+                                        <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="far fa-calendar-alt"></i>
+                                                </span>
+                                            </div>
+                                            <input disabled type="text" class="form-control" id="date" name="tanggal_tangkil" placeholder="Enter email" value="{{date('d F Y | H:i ',strtotime($dataReservasi->tanggal_tangkil))}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Nama Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->User->Penduduk->nama}}" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Alamat Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->User->Penduduk->alamat}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->nama}}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->User->email}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->email}}" disabled>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label>Alamat Krama</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->alamat}}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Nomor Telepon</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->Krama->User->nomor_telepon}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->nomor_telepon}}" disabled>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--- DATA DETAIL KRAMA PEMESANAN --->
+
+
                 <div class="col-12">
                     {{-- ACTION FORM INPUT DATA --}}
                     <form action="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.update')}}" method="POST" id="postData">
@@ -102,7 +127,7 @@
                                         </div>
                                         <div class="card-body box-profile align-content-center">
                                             <div class="text-center">
-                                                <img class="ml-4 profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
+                                                <img class="ml-4 profile-user-img img-fluid img-circle" src="{{asset('base-template/dist/img/logo-01.png')}}" alt="User profile picture">
                                                 <h3 class="text-center bold mb-0 ">{{$dataReservasi->Upacaraku->Upacara->nama_upacara}}</h3>
                                                 <p class="text-center mb-1">{{$dataReservasi->Upacaraku->Upacara->kategori_upacara}}</p>
                                             </div>
@@ -176,11 +201,16 @@
                                     <div class="card-header my-auto">
                                         <div class="row">
                                             <div class="col-6">
-                                                <label class="card-title my-auto">Reservasi Upacara Lainnya</label>
+                                                <label class="card-title my-auto">Semua Data Reservasi Upacara {{$dataReservasi->Upacaraku->nama_upacara}}</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-body px-lg-4 mt-1" id="">
+                                        <div class="callout callout-info container-fluid mb-4">
+                                            <h5><i class="fas fa-info"></i> Catatan:</h5>
+                                            <p class=" text-md">Pemuput Upacara dapat melakukan perubahan semua Data Reservasi, baik itu Reservasinya sendiri maupun Reservasi Pemuput Karya lain yang berstatus Proses Tangkil.
+                                            </p>
+                                        </div>
                                         <div id="dataReservasiSulinggih">
                                             <div class='card shadow mb-4 '>
                                                 <div class='card-body'>
@@ -210,7 +240,6 @@
                                                                             <input name='data_user_reservasi[{{$loop->iteration}}][daterange]' id="reservationtime-{{$data->id}}" type='text' class='form-control float-right' value=''>
                                                                         </div>
                                                                     </td>
-
                                                                     <td>
                                                                         <div class="form-group">
                                                                             <select name='data_user_reservasi[{{$loop->iteration}}][status]' class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true" id="status">
@@ -254,7 +283,7 @@
     <input id="jsonDataUpacara" type="hidden" value='@json($dataUpacara)'>
     <input id="jsonDataReservasi" type="hidden" value='@json($dataReservasi)'>
     @foreach ($dataUpacara as $data)
-        <input id="nama-pemuput-karya-{{$data->id_relasi}}" value="{{$data->Relasi->getRelasi()->nama}}" type="hidden" class="d-none">
+        {{-- <input id="nama-pemuput-karya-{{$data->id_relasi}}" value="{{$data->Relasi->getRelasi()->nama}}" type="hidden" class="d-none"> --}}
     @endforeach
 
     <div class="modal fade" id="modal-default">

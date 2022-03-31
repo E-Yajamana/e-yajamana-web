@@ -186,7 +186,7 @@
                                                                     </div>
                                                                     <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
                                                                     <div class="form-group">
-                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" readonly name="alasan_penolakan[]" value="{{$data->keterangan}}" placeholder="Masukan alasan penolakan">
+                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" readonly name="alasan_pembatalan[]" value="{{$data->keterangan}}" placeholder="Masukan alasan penolakan">
                                                                     </div>
                                                                 @else
                                                                             <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
@@ -196,7 +196,7 @@
                                                                     </div>
                                                                     <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
                                                                     <div class="form-group">
-                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" name="alasan_penolakan[]" value="" placeholder="Masukan alasan penolakan">
+                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" name="alasan_pembatalan[]" value="" placeholder="Masukan alasan penolakan">
                                                                     </div>
                                                                 @endif
                                                     </td>
@@ -375,12 +375,12 @@
             });
             $('#inputdata').validate({
                 rules: {
-                    'alasan_penolakan[]': {
+                    'alasan_pembatalan[]': {
                         required: true,
                     },
                 },
                 messages: {
-                    'alasan_penolakan[]': {
+                    'alasan_pembatalan[]': {
                         required: "Alasan Penolakan Wajib diisi",
                     },
                 },

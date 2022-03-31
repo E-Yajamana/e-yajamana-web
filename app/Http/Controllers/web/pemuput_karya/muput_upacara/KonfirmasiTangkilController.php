@@ -107,8 +107,8 @@ class KonfirmasiTangkilController extends Controller
         // MAIN LOGIC
             try{
                 $idUser = Auth::user()->id;
-                $dataReservasi = Reservasi::with(['DetailReservasi.TahapanUpacara','Upacaraku.Krama.User.Penduduk'])->whereHas('DetailReservasi.TahapanUpacara')->whereHas('Upacaraku.Krama.User.Penduduk')->whereIdRelasiAndStatus($idUser,'proses tangkil')->findOrFail($request->id);
-                $dataUpacara = Reservasi::with(['Relasi','DetailReservasi.TahapanUpacara'])->whereIdUpacaraku($dataReservasi->id_upacaraku)->whereNotIn('id',[$request->id])->get();
+                $dataReservasi = Reservasi::with(['DetailReservasi.TahapanUpacara','Upacaraku.User.Penduduk'])->whereHas('DetailReservasi.TahapanUpacara')->whereHas('Upacaraku.User.Penduduk')->whereIdRelasiAndStatus($idUser,'proses tangkil')->findOrFail($request->id);
+                $dataUpacara = Reservasi::with(['Relasi','DetailReservasi.TahapanUpacara'])->whereIdUpacaraku($dataReservasi->id_upacaraku)->whereNotIn('id',[$request->id])->whereIn('status',['pending','proses tangkil'])->get();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
                     'status' => 'fail',

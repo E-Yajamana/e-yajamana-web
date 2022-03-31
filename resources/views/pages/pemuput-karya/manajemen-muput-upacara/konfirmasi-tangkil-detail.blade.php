@@ -225,7 +225,7 @@
                         <div class="card-footer">
                             <div class="col-md-12 my-2">
                                 <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}" class="btn btn-secondary">Kembali</a>
-                                <button onclick="simpanData()" type="button" class="btn btn-primary float-right ml-2 m-1">Simpan Data</button>
+                                <button onclick="simpanData()" type="button" class="btn btn-primary float-right ml-2 m-1">Ubah Data</button>
                             </div>
                         </div>
                     </div>
