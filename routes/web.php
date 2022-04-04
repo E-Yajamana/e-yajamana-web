@@ -213,12 +213,14 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], fun
         Route::get('konfimasi-tangkil/index', [KonfirmasiTangkilController::class, 'indexKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.index');
         Route::get('konfimasi-tangkil/detail/{id?}', [KonfirmasiTangkilController::class, 'detailKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail');
         Route::get('konfimasi-tangkil/edit/{id?}', [KonfirmasiTangkilController::class, 'editKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit');
-        Route::put('konfimasi-tangkil/konfirmasi', [KonfirmasiTangkilController::class, 'updateKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.update');
-        Route::put('konfimasi-tangkil/update', [KonfirmasiTangkilController::class, 'updateData'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.update-data');
+        Route::put('konfimasi-tangkil/update-data', [KonfirmasiTangkilController::class, 'updateData'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.update-data');
+        Route::put('konfimasi-tangkil/konfirmasi', [KonfirmasiTangkilController::class, 'updateKonfirmasi'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.update.terima');
+        Route::put('konfimasi-tangkil/batal', [KonfirmasiTangkilController::class, 'updateBatal'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.update.batal');
 
         Route::get('konfimasi-muput/index', [KonfirmasiMuputController::class, 'index'])->name('pemuput-karya.muput-upacara.konfirmasi-muput.index');
-        Route::put('konfimasi-muput/update', [KonfirmasiMuputController::class, 'konfimasiMuputUpacara'])->name('pemuput-karya.muput-upacara.konfirmasi-muput.update');
         Route::get('konfimasi-muput/detail/{id?}', [KonfirmasiMuputController::class, 'detail'])->name('pemuput-karya.muput-upacara.konfirmasi-muput.detail');
+        Route::put('konfimasi-muput/konfirmasi', [KonfirmasiMuputController::class, 'konfirmasiMuput'])->name('pemuput-karya.muput-upacara.konfirmasi-muput.konfirmasi');
+        Route::put('konfimasi-muput/batal', [KonfirmasiMuputController::class, 'batalMuput'])->name('pemuput-karya.muput-upacara.konfirmasi-muput.batal');
     });
 
 });

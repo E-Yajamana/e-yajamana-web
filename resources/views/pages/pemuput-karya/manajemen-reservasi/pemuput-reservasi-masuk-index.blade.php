@@ -76,7 +76,7 @@
                                             @endforeach
                                         </td>
                                         <td>
-                                            <a href="{{route('pemuput-karya.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{route('pemuput-karya.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                             <a onclick="konfirmasiReservasi({{$data->id}},'{{$data->Upacaraku->tanggal_mulai}}')" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                             <a onclick="tolakReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                         </td>

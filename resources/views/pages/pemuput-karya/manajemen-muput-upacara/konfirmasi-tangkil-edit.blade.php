@@ -76,13 +76,13 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Nama Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->nama}}" disabled>
+                                        <input type="text" class="form-control" id="nama" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->nama}}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->email}}" disabled>
+                                        <input type="text" class="form-control" id="email" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->email}}" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -90,13 +90,13 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Alamat Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->alamat}}" disabled>
+                                        <input type="text" class="form-control" id="alamat" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->alamat}}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label>Nomor Telepon</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->nomor_telepon}}" disabled>
+                                        <input type="text" class="form-control" id="nomor_telepon" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->nomor_telepon}}" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -105,10 +105,9 @@
                 </div>
                 <!--- DATA DETAIL KRAMA PEMESANAN --->
 
-
                 <div class="col-12">
                     {{-- ACTION FORM INPUT DATA --}}
-                    <form action="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.update')}}" method="POST" id="postData">
+                    <form action="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.update.terima')}}" method="POST" id="postData">
                         @csrf
                         @method('PUT')
                         <input name="id_reservasi" value="{{$dataReservasi->id}}" type="hidden" class="d-none">
@@ -163,7 +162,7 @@
                                                                 <i class="far fa-calendar-alt"></i>
                                                             </span>
                                                         </div>
-                                                        <input name="data_upacara[0][daterange]"  id="reservationtime" type='text' class='form-control float-right' value=''>
+                                                        <input name="data_upacara[0][daterange]"  id="dateUpacara" type='text' class='form-control float-right' value='{{date('d F Y ',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}}  {{date('d F Y ',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}'>
                                                         @error('data_upacara[0][daterange]')
                                                             <div class="invalid-feedback text-start">
                                                                 {{ $errors->first('data_upacara[0][daterange]') }}
@@ -208,50 +207,120 @@
                                     <div class="card-body px-lg-4 mt-1" id="">
                                         <div class="callout callout-info container-fluid mb-4">
                                             <h5><i class="fas fa-info"></i> Catatan:</h5>
-                                            <p class=" text-md">Pemuput Upacara dapat melakukan perubahan semua Data Reservasi, baik itu Reservasinya sendiri maupun Reservasi Pemuput Karya lain yang berstatus Proses Tangkil.
-                                            </p>
+                                            <p class=" text-md">Pemuput Upacara dapat melakukan perubahan semua Data Reservasi, baik itu Reservasinya sendiri maupun Reservasi Pemuput Karya lain yang berstatus Proses Tangkil.</p>
                                         </div>
-                                        <div id="dataReservasiSulinggih">
-                                            <div class='card shadow mb-4 '>
-                                                <div class='card-body'>
-                                                    <table  class='table'>
+
+                                        {{-- Reservasi Sulinggih --}}
+                                        <div class='card shadow mb-4'>
+                                            <div class='card-body'>
+                                                <table  class='table'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Nama Tahapan</th>
+                                                            <th class='text-md-center'>Waktu Mulai - Selesai</th>
+                                                            <th class=''>Status</th>
+                                                            <th class="text-center">Detail Keterangan</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody >
+                                                        @foreach ($dataReservasi->DetailReservasi as $data)
+                                                            <input value="{{$data->id}}" type="hidden" class="d-none" name="data_user_reservasi[{{$loop->iteration}}][id]">
+                                                            <tr>
+                                                                <td>{{$loop->iteration}}</td>
+                                                                <td  style='width: 14%'>{{$data->TahapanUpacara->nama_tahapan}}</td>
+                                                                <td class='text-md-center'>
+                                                                    <div class='input-group'>
+                                                                        <div class='input-group-prepend'>
+                                                                            <span class='input-group-text'>
+                                                                                <i class='far fa-calendar-alt'></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <input name='data_user_reservasi[{{$loop->iteration}}][daterange]' id="dateUser-{{$data->id}}" type='text' class='form-control float-right' value=''>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="width: 28%">
+                                                                    <div class="form-group">
+                                                                        <select name='data_user_reservasi[{{$loop->iteration}}][status]' class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true" id="status-{{$data->id}}">
+                                                                        @if ($data->status == 'batal')
+                                                                                    <option data-id="{{$data->id}}" @if ($data->status == 'batal') value="batal" selected @else value="batal" @endif>Batal</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" readonly name="data_user_reservasi[{{$loop->iteration}}][keterangan]" value="{{$data->keterangan}}" placeholder="Masukan alasan penolakan">
+                                                                            </div>
+                                                                        @else
+                                                                                    <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
+                                                                                    <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @else value="diterima" @endif >Setujui</option>
+                                                                                    <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" name="data_user_reservasi[{{$loop->iteration}}][keterangan]" value="" placeholder="Masukan alasan penolakan">
+                                                                            </div>
+                                                                        @endif
+                                                                </td>
+                                                                <td class="text-center" style='width: 10%'>
+                                                                    <a onclick="getKeterangan({{$data->id}})" class="btn btn-secondary btn-sm" ><i class="fas fa-ellipsis-h"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        {{-- Reservasi Sulinggih --}}
+
+                                        {{-- Data Reservasi Upacara Lainnya --}}
+                                        @foreach ($dataUpacara as $data)
+                                            <div class="card shadow mb-4 card-info card-outline ">
+                                                <div class="card-header" aria-expanded="false">
+                                                    <div class="user-block">
+                                                        <img class="img-circle" src="{{route('get-image.profile.pemuput-karya',2)}}" alt="User Image">
+                                                        <span class="username">
+                                                            <a class="ml-2" href="#">{{$data->Relasi->PemuputKarya->nama_pemuput}}</a> | {{strtoupper($data->status)}}
+                                                        </span>
+                                                        <span class="description">
+                                                            <label class="ml-2">Tanggal Tangkil : {{$data->tanggal_tangkil}} </label>
+                                                            @if ($data->tanggal_tangkil != null)
+                                                                {{date('d F Y | H:i ',strtotime($data->tanggal_tangkil))}}
+                                                            @else
+                                                                Belum ditentukan
+                                                            @endif
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table class="table">
                                                         <thead>
                                                             <tr>
                                                                 <th>No</th>
                                                                 <th>Nama Tahapan</th>
-                                                                <th class='text-md-center'>Waktu Mulai - Selesai</th>
-                                                                <th class=''>Status</th>
-                                                                <th class="text-center">Detail Keterangan</th>
+                                                                <th class="text-md-center">Waktu Mulai - Selesai</th>
+                                                                <th class="text-md-center">Status</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody >
-                                                            @foreach ($dataReservasi->DetailReservasi as $data)
-                                                                <input value="{{$data->id}}" type="hidden" class="d-none" name="data_user_reservasi[{{$loop->iteration}}][id]">
+                                                        <tbody>
+                                                            @foreach ($data->DetailReservasi as $dataDetailReservasi)
                                                                 <tr>
                                                                     <td>{{$loop->iteration}}</td>
-                                                                    <td  style='width: 14%'>{{$data->TahapanUpacara->nama_tahapan}}</td>
-                                                                    <td class='text-md-center'>
-                                                                        <div class='input-group'>
-                                                                            <div class='input-group-prepend'>
-                                                                                <span class='input-group-text'>
-                                                                                    <i class='far fa-calendar-alt'></i>
+                                                                    <td style="width: 30%">{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}}</td>
+                                                                    <td class="text-md-center">
+                                                                        <div class="input-group">
+                                                                            <div class="input-group-prepend">
+                                                                                <span class="input-group-text">
+                                                                                    <i class="far fa-calendar-alt"></i>
                                                                                 </span>
                                                                             </div>
-                                                                            <input name='data_user_reservasi[{{$loop->iteration}}][daterange]' id="reservationtime-{{$data->id}}" type='text' class='form-control float-right' value=''>
+                                                                            <input type="hidden" class="d-none" id="id_detail-{{$dataDetailReservasi->id}}" value="{{$dataDetailReservasi->id}}">
+                                                                            <input type="hidden" class="d-none" id="id_reservasi-{{$dataDetailReservasi->id}}" value="{{$data->id}}" >
+                                                                            <input id="datePemuput-{{$dataDetailReservasi->id}}" type="text" class="form-control float-right" value="">
+                                                                        </div>
+                                                                        <div id="keterangan_penolakan-{{$dataDetailReservasi->id}}">
                                                                         </div>
                                                                     </td>
-                                                                    <td>
-                                                                        <div class="form-group">
-                                                                            <select name='data_user_reservasi[{{$loop->iteration}}][status]' class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true" id="status">
-                                                                                <option data-id="{{$data->id}}"  @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
-                                                                                <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @else value="diterima" @endif >Setujui</option>
-                                                                                <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="form-control" name="data_user_reservasi[{{$loop->iteration}}][keterangan]" value="" placeholder="Masukan alasan penolakan" >
-                                                                    </td>
-                                                                    <td class="text-center" style='width: 10%'>
-                                                                        <a onclick="getKeterangan({{$data->id}})" class="btn btn-secondary btn-sm" ><i class="fas fa-ellipsis-h"></i></a>
+                                                                    <td class="d-flex justify-content-center text-center">
+                                                                        <div class=" @if($dataDetailReservasi->status == 'pending') bg-secondary @else bg-primary @endif btn-sm text-center" style="border-radius: 5px; width:80px;">{{strtoupper($dataDetailReservasi->status)}}</div>
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -259,15 +328,15 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div id="showDataReservasi">
-                                        </div>
+                                        @endforeach
+                                        {{-- Data Reservasi Upacara Lainnya --}}
                                     </div>
                                     <div class="card-footer">
                                         <div class="row">
-                                            <div class="col-md-12 my-1">
+                                            <div class="col-md-12 my-1 px-4">
                                                 <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}" class="btn btn-secondary">Kembali</a>
                                                 <button type="submit" class="btn m-1 btn-primary float-right ml-2">Konfimasi Tangkil</button>
+                                                <button onclick="batalTangkil({{$dataReservasi->id}},{{$dataReservasi->Upacaraku->id_krama}})" type="button" class="btn m-1 btn-danger float-right ml-2">Batal Tangkil</button>
                                             </div>
                                         </div>
                                     </div>
@@ -280,11 +349,9 @@
             </div>
         </div>
     </section>
+
     <input id="jsonDataUpacara" type="hidden" value='@json($dataUpacara)'>
     <input id="jsonDataReservasi" type="hidden" value='@json($dataReservasi)'>
-    @foreach ($dataUpacara as $data)
-        {{-- <input id="nama-pemuput-karya-{{$data->id_relasi}}" value="{{$data->Relasi->getRelasi()->nama}}" type="hidden" class="d-none"> --}}
-    @endforeach
 
     <div class="modal fade" id="modal-default">
         <div class="modal-dialog">
@@ -322,6 +389,9 @@
         </div>
     </div>
     <!-- /.modal -->
+
+
+    @include('pages.pemuput-karya.manajemen-muput-upacara.modal-pembatalan-tangkil')
 
 
 @endsection
@@ -379,90 +449,30 @@
 
 @push('js')
     <script type="text/javascript">
+
         // DEKLARASI DATA RESERVASI
         let dataUpacara,dataReservasi, tanggalTangkil;
         let jsonDataUpacara = $('#jsonDataUpacara').val();
         let jsonDataReservasi = $('#jsonDataReservasi').val();
         dataUpacara = (JSON.parse(jsonDataUpacara));
         dataReservasi = (JSON.parse(jsonDataReservasi));
-        console.log(dataUpacara)
 
-        var date  = $("#reservationtime").val();
-        const parameterDate  = date.split(" - ");
-        console.log(date)
+        let tanggal_mulai = dataReservasi.upacaraku.tanggal_mulai;
+        let tanggal_selesai = dataReservasi.upacaraku.tanggal_selesai;
 
 
-        // SET UP DATERANGE
-        function setDataRangeTahapan(id,start,end){
-            var startDate;
-            var endDate;
 
-            $('#reservationtime-'+id).daterangepicker({
-                timePicker: true,
-                startDate: moment(start).format('DD MMMM YYYY hh:mm A'),
-                endDate:moment(end).format('DD MMMM YYYY hh:mm A'),
-                locale: {
-                    format: 'DD MMMM YYYY hh:mm A',
-                },
-                drops: "up",
-            },function(start, end) {
-                startDate = start;
-                endDate = end;
-            });
+        // function setUpDateRange (){
 
-            $("#reservationtime-"+id).change(function () {
-                console.log(startDate.format('DD MMMM YYYY hh:mm A') + ' - ' + endDate.format('DD MMMM YYYY hh:mm A'));
-                console.log(moment(start).format('DD MMMM YYYY hh:mm A'))
-                if(startDate.format('DD MMMM YYYY hh:mm A') != moment(start).format('DD MMMM YYYY hh:mm A') || moment(end).format('DD MMMM YYYY hh:mm A') != endDate.format('DD MMMM YYYY hh:mm A')){
-                    $('#keterangan_penolakan-'+id).empty();
-                    $("#id_detail-" + id).attr('name','id_detail_reservasi[]' );
-                    $("#reservationtime-" + id).attr('name', 'daterange[]');
-                    $('#keterangan_penolakan-'+id).append("<input type='text' class='mt-3 form-control' name='alasan_penolakan_sulinggih[]' value='' placeholder='Masukan alasan penolakan'>");
-                }else{
-                    $("#id_detail-" + id).attr('name','' );
-                    $("#reservationtime-" + id).attr('name', '');
-                    $('#keterangan_penolakan-'+id).empty();
-                }
+        // }
 
-            })
 
-        }
-        // SET UP DATERANGE
-
-        // RESERVASI SULINGGIH LAIN CALENDER
-        dataUpacara.forEach(element => {
-            var i = 0;
-            (element.tanggal_tangkil != null ? tanggalTangkil = moment(element.tanggal_tangkil).format('DD MMMM YYYY hh:mm A') :  tanggalTangkil = "Belum ditentukan");
-            var namaPemuput = $('#nama-pemuput-karya-'+element.id_relasi).val();
-            $("#showDataReservasi").append("<div class='card shadow mb-4 card-info card-outline '><div class='card-header' aria-expanded='false'><div class='user-block'><img class='img-circle' src='{{route('get-image.profile.pemuput-karya')}}/"+element.id_relasi+"' alt='User Image'><span class='username'><a class='ml-2' href='#'>"+namaPemuput+"</a> | "+element.status.toUpperCase()+"</span><span class='description'><label class='ml-2'>Tanggal Tangkil : "+ tanggalTangkil+" </label></span></div></div><div class='card-body'><table  class='table'><thead><tr><th>No</th><th>Nama Tahapan</th><th class='text-md-center'>Waktu Mulai - Selesai</th><th class='text-md-center'>Status</th></tr></thead><tbody id='data-"+element.id+"'></tbody>" );
-            element.detail_reservasi.forEach(data => {
-                i++
-                $("#data-"+element.id).append(
-                    "<tr><td>"+i+"</td><td style='width: 30%'>"+data.tahapan_upacara.nama_tahapan+"</td>"+
-                    "<td class='text-md-center'><div class='input-group'><div class='input-group-prepend'><span class='input-group-text'><i class='far fa-calendar-alt'></i></span></div><input type='hidden' class='d-none' id='id_detail-"+data.id+"' value='"+data.id+"'><input id='reservationtime-"+data.id+"' type='text' class='form-control float-right' value=''></div> <div id='keterangan_penolakan-"+data.id+"'> </div></td>"+
-                    "<td class='d-flex justify-content-center text-center'>"+
-                    (data.status == 'pending' ? '<div class="bg-secondary btn-sm text-center"' : '')+
-                    (data.status == 'diterima' ? '<div class="bg-primary btn-sm text-center"' : '')+
-                    (data.status == 'ditolak' ? '<div class="bg-danger btn-sm text-center"' : '')+
-                    (data.status == 'selesai' ? '<div class="bg-success btn-sm text-center"' : '')+
-                    (data.status == 'batal' ? '<div class="bg-danger btn-sm text-center"' : '')+
-                    "style='border-radius: 5px; width:80px;'>"+data.status.toUpperCase()+"</div></td></tr></table></div></div>");
-                setDataRangeTahapan(data.id,data.tanggal_mulai,data.tanggal_selesai);
-            })
-        });
-        // RESERVASI SULINGGIH LAIN CALENDER
-
-    </script>
-@endpush
-
-{{-- DATA UPACARA --}}
-@push('js')
-    <script>
-        // SET UP DATE UPACARA
-        $('#reservationtime').daterangepicker({
+         // SET UP DATE UPACARA
+         $('#dateUpacara').daterangepicker({
             timePicker: true,
-            startDate: moment(dataReservasi.upacaraku.tanggal_mulai).format('DD MMMM YYYY'),
-            endDate:moment(dataReservasi.upacaraku.tanggal_selesai).format('DD MMMM YYYY'),
+            startDate: moment(tanggal_mulai).format('DD MMMM YYYY'),
+            endDate:moment(tanggal_selesai).format('DD MMMM YYYY'),
+            "minDate": moment(Date ()).format('DD MMMM YYYY'),
             locale: {
                 format: 'DD MMMM YYYY',
             },
@@ -472,10 +482,12 @@
 
         // SET UP DATE RANGE RESERVASI SULINGGIH
         dataReservasi.detail_reservasi.forEach(data => {
-            $('#reservationtime-'+data.id).daterangepicker({
+            $('#dateUser-'+data.id).daterangepicker({
                 timePicker: true,
                 startDate: moment(data.tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
                 endDate:moment(data.tanggal_selesai).format('DD MMMM YYYY hh:mm A'),
+                minDate: moment(tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
+                maxDate: moment(tanggal_selesai).format('DD MMMM YYYY hh:mm A'),
                 locale: {
                     format: 'DD MMMM YYYY hh:mm A',
                 },
@@ -487,6 +499,59 @@
         });
         // SET UP DATE RANGE RESERVASI SULINGGIH
 
+        // SET UP DATE RANGE RESERVASI SULINGGIH LAINNYA
+        dataUpacara.forEach(data_reservasi =>{
+            data_reservasi.detail_reservasi.forEach(data_detail_reservasi => {
+                $('#datePemuput-'+data_detail_reservasi.id).daterangepicker({
+                    timePicker: true,
+                    startDate: moment(data_detail_reservasi.tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
+                    endDate:moment(data_detail_reservasi.tanggal_selesai).format('DD MMMM YYYY hh:mm A'),
+                    minDate: moment(tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
+                    maxDate: moment(tanggal_selesai).format('DD MMMM YYYY hh:mm A'),
+                    locale: {
+                        format: 'DD MMMM YYYY hh:mm A',
+                    },
+                    drops: "up",
+                },function(start, end) {
+                    startDate = start;
+                    endDate = end;
+                });
+
+                $("#datePemuput-"+data_detail_reservasi.id).change(function () {
+                    console.log(endDate)
+                    if(startDate.format('DD MMMM YYYY hh:mm A') != moment(data_detail_reservasi.tanggal_mulai).format('DD MMMM YYYY hh:mm A') || moment(data_detail_reservasi.tanggal_selesai).format('DD MMMM YYYY hh:mm A') != endDate.format('DD MMMM YYYY hh:mm A')){
+                        $('#keterangan_penolakan-'+data_detail_reservasi.id).empty();
+                        $("#id_detail-" + data_detail_reservasi.id).attr('name','data_detail_reservasi['+data_detail_reservasi.id+'][id]');
+                        $("#id_reservasi-" + data_detail_reservasi.id).attr('name','data_detail_reservasi['+data_detail_reservasi.id+'][id_reservasi]');
+                        $("#datePemuput-" + data_detail_reservasi.id).attr('name', 'data_detail_reservasi['+data_detail_reservasi.id+'][date]');
+                        $('#keterangan_penolakan-'+data_detail_reservasi.id).append("<div class='form-group'><input type='text' class='mt-3 form-control' name='data_detail_reservasi["+data_detail_reservasi.id+"][keterangan]' value='' placeholder='Masukan alasan penolakan'></div>");
+                    }else{
+                        $("#id_detail-" + data_detail_reservasi.id).attr('name','');
+                        $("#reservationtime-" + data_detail_reservasi.id).attr('name','');
+                        $('#keterangan_penolakan-'+data_detail_reservasi.id).empty();
+                    }
+
+                })
+
+            })
+        })
+        // SET UP DATE RANGE RESERVASI SULINGGIH LAINNYA
+
+        // setUpDateRange()
+
+        // $('#dateUpacara').change(function () {
+        //     tanggal_mulai = $('#dateUpacara').data('daterangepicker').startDate ;
+        //     tanggal_selesai = $('#dateUpacara').data('daterangepicker').endDate;
+        //     setUpDateRange()
+        // })
+
+
+    </script>
+@endpush
+
+{{-- DATA UPACARA --}}
+@push('js')
+    <script>
         // SET UP MAPS
         $(document).ready(function(){
             $('#side-upacara').addClass('menu-open');
@@ -512,38 +577,33 @@
 
         // FUNGSI GET DATA ALASAN DIDATABASE (**)
         getAlasanPenolakan();
-        function getAlasanPenolakan(){
-            $.each(dataReservasi.detail_reservasi, function(key, data){
-                key++
-                if(data.keterangan != null){
-                    var text = document.getElementById("text_penolakan-"+data.id);
-                    var jenis = $('select[name="data_user_reservasi['+key+'][status]"]').val();
-                    console.log(jenis)
-                    if(jenis=='ditolak'){
+            function getAlasanPenolakan(){
+                $.each(dataReservasi.detail_reservasi, function(key, data){
+                    key++
+                    if(data.keterangan != null){
+                        var text = document.getElementById("text_penolakan-"+data.id);
+                        var jenis = $('select[name="status['+key+']"').val();
                         text.type = "text";
                         text.value = data.keterangan;
                     }
-                }
-            });
-        }
+                });
+            }
         // FUNGSI GET DATA ALASAN DIDATABASE (**)
+
 
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI (**)
         $('select').change(function(){
             var id = $(this).find(':selected').data('id');
-            var jenis = $(this).find(':selected').val();
-            var text = document.getElementById("text_penolakan-"+id);
-            if(jenis=='ditolak'){
-                text.type = "text";
-                getAlasanPenolakan();
-                 $(".form-control").each(function () {
-                    $(this).rules('add', {
-                        required: true
-                    });
-                });
-            }else{
-                text.type = "hidden";
-                text.value = "";
+            if(id != undefined){
+                var jenis = $(this).find(':selected').val();
+                var text = document.getElementById("text_penolakan-"+id);
+                if(jenis=='ditolak' || jenis=='batal' ){
+                    text.type = "text";
+                    getAlasanPenolakan();
+                }else{
+                    text.type = "hidden";
+                    text.value = "";
+                }
             }
         });
         // ADD FUNCTION ADD KOLOM ALASAN RESERVASI (**)
@@ -571,14 +631,14 @@
                                 "<div><i class='fas fa-user bg-blue'></i><div class='timeline-item'>"+
                                 "<h3 class='timeline-header'><a href='#'>"+data.relasi.sulinggih.nama_sulinggih+"</a> <p class='m-0 mt-1'>"+tanggal+"</p></h3>"+
                                 "<div class='timeline-body'> Perubahan Reservasi : "+data.keterangan+" </div></div></div>"+
-                                (key == response.data.length-1 ?  "<div><i class='fas fa-calendar-plus bg-green'></i><div class='timeline-item'><h3 class='timeline-header no-border'><a href='#'>"+dataReservasi.upacaraku.krama.user.penduduk.nama+"</a> Membuat Upacara <p class='m-0 mt-1'>"+moment(dataReservasi.upacaraku.created_at).format('DD MMMM YYYY hh:mm A')+"</p></h3></div></div>" : "")+
+                                (key == response.data.length-1 ?  "<div><i class='fas fa-calendar-plus bg-green'></i><div class='timeline-item'><h3 class='timeline-header no-border'><a href='#'>"+dataReservasi.upacaraku.user.penduduk.nama+"</a> Membuat Upacara <p class='m-0 mt-1'>"+moment(dataReservasi.upacaraku.created_at).format('DD MMMM YYYY hh:mm A')+"</p></h3></div></div>" : "")+
                                 (key == response.data.length-1 ? "<div><i class='fas fa-clock bg-gray'></i></div>" : "")
 
                             );
                         });
                     }else{
                         $('#timeline').empty();
-                        $('#timeline').append("<div><i class='fas fa-calendar-plus bg-green'></i><div class='timeline-item'><h3 class='timeline-header no-border'><a href='#'>"+dataReservasi.upacaraku.krama.user.penduduk.nama+"</a> Membuat Upacara <p class='m-0 mt-1'>"+moment(dataReservasi.upacaraku.created_at).format('DD MMMM YYYY hh:mm A')+"</p></h3></div></div><div><i class='fas fa-clock bg-gray'></i></div>");
+                        $('#timeline').append("<div><i class='fas fa-calendar-plus bg-green'></i><div class='timeline-item'><h3 class='timeline-header no-border'><a href='#'>"+dataReservasi.upacaraku.user.penduduk.nama+"</a> Membuat Upacara <p class='m-0 mt-1'>"+moment(dataReservasi.upacaraku.created_at).format('DD MMMM YYYY hh:mm A')+"</p></h3></div></div><div><i class='fas fa-clock bg-gray'></i></div>");
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -589,9 +649,74 @@
             $("#modal-default").modal();
         }
     </script>
-
 @endpush
 
+{{-- VALIDASI --}}
+@push('js')
+
+    <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
+
+    <script>
+        // ADD FUNCTION VALIDATE FORM INPUT
+        // $(function () {
+        //     $.validator.setDefaults({
+        //         submitHandler: function () {
+        //             // stepper.next()
+        //             // setDataToRangkuman();
+        //                 console.log(tanggal_mulai)
+        //         }
+        //     });
+        //     $('#postData').validate({
+        //         rules: {
+        //         'data_user_reservasi[0][daterange]': {
+        //             required: true,
+        //             validationDate:true
+        //         },
+        //         },
+        //         messages: {
+        //         'data_user_reservasi[0][daterange]': {
+        //             required: "Tanggal reservasi wajib diisi",
+        //             date: "Masukan tanggal dengan benar",
+        //             validationDate : "Tanggal yang anda masukan tidak sesuai dengan tanggal upacara"
+        //         },
+        //         },
+        //         errorElement: 'span',
+        //         errorPlacement: function (error, element) {
+        //             error.addClass('invalid-feedback');
+        //             element.closest('.form-group').append(error);
+        //         },
+        //         highlight: function (element, errorClass, validClass) {
+        //             $(element).addClass('is-invalid');
+        //         },
+        //         unhighlight: function (element, errorClass, validClass) {
+        //             $(element).removeClass('is-invalid');
+        //         }
+        //     });
+        // });
+        // ADD FUNCTION VALIDATE FORM INPUT
+
+        // ADD FUNCTION VALIDATE DATE RANGE
+        jQuery.validator.addMethod("validationDate", function(value, element){
+            // var tanggal_mulai = moment(dataUpacara.tanggal_mulai).format('YYYY-MM-DD')
+            // var tanggal_selesai = moment(dataUpacara.tanggal_selesai).format('YYYY-MM-DD')
+
+            // moment(tanggal_awal).isBetween(tanggal_mulai, tanggal_selesai, undefined, '[]');
+
+            const dateNew  = value.split(" - ");
+            var tanggal_awal = moment(dateNew[0]).format('YYYY-MM-DD');
+            var tanggal_akhir = moment(dateNew[1]).format('YYYY-MM-DD');
+            if(moment(tanggal_awal).isBetween(tanggal_mulai, tanggal_selesai, undefined, '[]') == true && moment(tanggal_akhir).isBetween(tanggal_mulai, tanggal_selesai, undefined, '[]') ){
+                return true;
+            }else{
+                return false;
+            }
+        }, "Masukan tanggal dan waktu dengan benar!");
+        // ADD FUNCTION VALIDATE DATE RANGE
+    </script>
+
+@endpush
+{{-- VALIDASI --}}
 
 
 

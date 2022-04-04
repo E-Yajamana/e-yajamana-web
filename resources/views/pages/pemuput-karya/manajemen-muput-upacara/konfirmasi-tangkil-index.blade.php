@@ -33,7 +33,7 @@
     <div class="container-fluid">
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
-                <h3 class="card-title my-auto">List Data Reservasi Krama</h3>
+                <h3 class="card-title my-auto">List Data Tangkil Krama</h3>
             </div>
 
             {{-- Start Data Table Sulinggih --}}
@@ -56,7 +56,7 @@
                                 @foreach ($dataReservasi as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>
+                                        <td style="width: 13%">
                                             {{$data->Upacaraku->User->Penduduk->nama}}
                                         </td>
                                         <td style="width: 18%"> {{$data->Upacaraku->alamat_upacaraku}}</td>
@@ -68,7 +68,7 @@
                                                 <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
                                             @endforeach
                                         </td>
-                                        <td>
+                                        <td style="width: 12%">
                                             <a title="Detail Data" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                                             <a title="Edit Data" @if (date('Y-m-d') > date('Y-m-d',strtotime($data->tanggal_tangkil)) || date('Y-m-d') == date('Y-m-d',strtotime($data->tanggal_tangkil)) )  href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->id)}}" @else onclick="cekTanggalTangkil('{{$data->tanggal_tangkil}}')" @endif class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                             <a title="Konfirmasi Tangkil" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
