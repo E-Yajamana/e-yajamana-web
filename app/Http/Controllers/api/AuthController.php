@@ -150,6 +150,19 @@ class AuthController extends Controller
                         ]
                     ], 200);
                     break;
+                case "admin":
+                    $penduduk = $user->Penduduk()->firstOrFail();
+
+                    return response()->json([
+                        'status' => 200,
+                        'message' => "Siccess update acceess token to krama",
+                        'data' => (object)[
+                            'user' => $user,
+                            'penduduk' => $penduduk,
+                            'role' => $role
+                        ]
+                    ], 200);
+                    break;
             }
         } catch (ModelNotFoundException $err) {
             return response()->json([

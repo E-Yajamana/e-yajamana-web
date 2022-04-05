@@ -105,6 +105,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('show', [KramaUpacaraController::class, 'index']);
             Route::post('create', [KramaUpacaraController::class, 'store']);
             Route::get('detail/{id_upacara?}', [KramaUpacaraController::class, 'show']);
+            Route::post('delete/{id_upacara?}', [KramaUpacaraController::class, 'destroy']);
         });
         // END
 

@@ -6,10 +6,8 @@ use App\Http\Controllers\Controller;
 use App\ImageHelper;
 use App\Models\AtributPemuput;
 use App\Models\GriyaRumah;
-use App\Models\Krama;
 use App\Models\PemuputKarya;
 use App\Models\Penduduk;
-use App\Models\Sulinggih;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -41,8 +39,14 @@ class RegisController extends Controller
 
         // MAIN LOGIC
         try {
-            $penduduk = Penduduk::where('nik', $request->nik)->firstOrFail();
-        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            $penduduk = Penduduk::with(['User'])->where('nik', $request->nik)->firstOrFail();
+        } catch (ModelNotFoundException | PDOException $err) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Bad Request Exception',
+                'data' => (object)[],
+            ], 403);
+        } catch (QueryException | \Throwable | \Exception $err) {
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
@@ -56,7 +60,7 @@ class RegisController extends Controller
             'status' => 200,
             'message' => 'Berhasil mengechek data penduduk terintegrasi SIKEDAT',
             'data' => [
-                'penduduk' => $penduduk
+                'penduduk' => $penduduk,
             ],
         ], 200);
         // END

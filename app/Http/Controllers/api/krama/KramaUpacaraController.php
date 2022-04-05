@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\api\krama;
 
 use App\Http\Controllers\Controller;
+use App\Models\Upacara;
 use App\Models\Upacaraku;
 use Doctrine\DBAL\Query\QueryException;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -139,7 +141,7 @@ class KramaUpacaraController extends Controller
             Upacaraku::create([
                 'id_banjar_dinas' => $request->id_banjar_dinas,
                 'id_upacara' => $request->id_upacara,
-                'id_krama' => $user->krama->id,
+                'id_krama' => $user->id,
                 'nama_upacara' => $request->nama_upacara,
                 'alamat_upacaraku' => $request->lokasi,
                 'tanggal_mulai' => $request->tanggal_mulai,
@@ -296,6 +298,52 @@ class KramaUpacaraController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // SECURITY
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation Error',
+                'data' => $validator->fails(),
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            $reservasiQuery = function ($reservasiQuery) {
+                $reservasiQuery->where('status', '!=', 'proses tangkil')->orWhere('status', '!=', 'proses muput')->orWhere('status', '!=', 'selesai');
+            };
+
+            $upacara = Upacaraku::with([
+                'Reservasi' => $reservasiQuery
+            ])->whereHas('Reservasi', $reservasiQuery)->findOrFail($id);
+
+            $upacara->delete();
+        } catch (ModelNotFoundException | PDOException | QueryException $err) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Server message',
+                'data' => (object)[],
+            ], 403);
+        } catch (\Throwable | \Exception $err) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil menghapus data upacara',
+            'data' => (object)[],
+        ], 200);
+        // END
     }
 }

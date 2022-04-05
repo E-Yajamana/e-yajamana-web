@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\api\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\PemuputKarya;
+use App\Models\Sanggar;
+use App\Models\Serati;
 use App\Models\User;
 
 class AdminDashboardController extends Controller
@@ -10,10 +13,10 @@ class AdminDashboardController extends Controller
     public function index()
     {
         // MAIN LOGIC
-        $totalSulinggih = User::where('role', 'sulinggih')->orWhere('role', 'pemangku')->count();
-        $totalSerati = User::where('role', 'serati')->count();
-        $totalSanggar = User::where('role', 'sanggar')->count();
-        $totalKrama = User::where('role', 'krama_bali')->count();
+        $totalSulinggih = PemuputKarya::count();
+        $totalSerati = Serati::count();
+        $totalSanggar = Sanggar::count();
+        $totalKrama = User::count();
         // END
 
         // RETURN
