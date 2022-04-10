@@ -171,7 +171,6 @@ class AuthController extends Controller
                 'data' => (object)[],
             ], 403);
         } catch (PDOException | QueryException | \Throwable | \Exception $err) {
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal Server Error',
