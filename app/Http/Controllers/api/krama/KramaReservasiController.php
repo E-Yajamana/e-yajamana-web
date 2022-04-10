@@ -180,8 +180,65 @@ class KramaReservasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'id_reservasi' => 'required|numeric',
+            'keterangan' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation Fail',
+                'data' => $validator->errors(),
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            $reservasi = Reservasi::with(['Relasi', 'Upacaraku'])
+                ->whereHas('Relasi')
+                ->whereHas('Upacaraku')
+                ->where('status', 'pending')->findOrFail($request->id_reservasid);
+
+            $reservasi->update(['status' => 'batal']);
+
+            $result = NotificationHelper::sendNotification(
+                [
+                    'title' => "Reservasi Dibatalkan",
+                    'body' => "Reservasi anda dengan ID : {$reservasi->id} telah dibatalkan\n\nPesan Krama : {$request->keterangan}",
+                    'status' => "new",
+                    'image' => "warning",
+                    'notifiable_id' => $reservasi->id_relasi,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $reservasi->Relasi
+            );
+        } catch (ModelNotFoundException | PDOException | QueryException $err) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Reservasi tidak ditemukan',
+                'data' => (object)[],
+            ], 403);
+        } catch (\Throwable | \Exception $err) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal server error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil membatalkan reservasi',
+            'data' => (object)[],
+        ], 200);
+        // END
     }
 }

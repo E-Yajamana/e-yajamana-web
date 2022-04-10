@@ -20,7 +20,6 @@ class KramaDashboardController extends Controller
             $penduduk = $user->Penduduk()->firstOrFail();
             $upacarakus = $user->Upacaraku()->with(['Upacara'])->get();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal Server Error',

@@ -112,6 +112,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // KRAMA RESERVASI
         Route::prefix('reservasi')->group(function () {
             Route::post('store', [KramaReservasiController::class, 'store']);
+            Route::post('batal', [KramaReservasiController::class, 'destroy']);
         });
         // END
 

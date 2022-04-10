@@ -48,7 +48,7 @@ class Reservasi extends Model
 		'id_relasi',
 		'id_upacaraku',
 		'status',
-        'tipe',
+		'tipe',
 		'tanggal_tangkil',
 		'keterangan'
 	];
@@ -78,5 +78,4 @@ class Reservasi extends Model
 	{
 		return $this->belongsTo(User::class, 'id_relasi');
 	}
-
 }
