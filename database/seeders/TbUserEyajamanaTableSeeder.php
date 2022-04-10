@@ -14,12 +14,12 @@ class TbUserEyajamanaTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('tb_user_eyajamana')->delete();
-        
+
         \DB::table('tb_user_eyajamana')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'id_penduduk' => 1,
@@ -35,7 +35,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 14:53:02',
                 'updated_at' => '2022-03-18 18:35:09',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
                 'id_penduduk' => 3,
@@ -51,7 +51,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 14:53:54',
                 'updated_at' => '2022-03-18 00:25:33',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 3,
                 'id_penduduk' => 23,
@@ -67,11 +67,11 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 14:54:47',
                 'updated_at' => '2022-01-18 14:54:49',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 4,
                 'id_penduduk' => 2,
-                'email' => 'sannggar@gmail.com',
+                'email' => 'sanggar@gmail.com',
                 'password' => '$2y$10$4LCJHT3xSLboXP4jsrlSc.nu0iaZOVmpadfmrxZFJAOCqaJuG8q7.',
                 'nomor_telepon' => '082412859582',
                 'user_profile' => 'app/default/profile/user.jpg',
@@ -83,7 +83,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 14:55:37',
                 'updated_at' => '2022-01-18 14:55:39',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 6,
                 'id_penduduk' => 45,
@@ -99,7 +99,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 14:57:25',
                 'updated_at' => '2022-03-15 14:04:35',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 16,
                 'id_penduduk' => 15,
@@ -115,7 +115,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-03-07 09:00:45',
                 'updated_at' => '2022-03-07 09:00:45',
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 22,
                 'id_penduduk' => 15,
@@ -131,7 +131,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-03-07 10:03:11',
                 'updated_at' => '2022-03-07 10:03:11',
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 49,
                 'id_penduduk' => 5,
@@ -147,7 +147,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2022-03-16 11:13:37',
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 50,
                 'id_penduduk' => 14,
@@ -163,7 +163,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 51,
                 'id_penduduk' => 7,
@@ -180,7 +180,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => NULL,
             ),
         ));
-        
-        
+
+
     }
 }

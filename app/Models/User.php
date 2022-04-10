@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Session;
 use stdClass;
 
 /**
@@ -125,26 +126,33 @@ class User extends Authenticatable
         return $this->belongsToMany(Sanggar::class,'tb_kepemilikan_sanggar','id_user','id_sanggar')->withTimestamps();
     }
 
-    public function getRelasi($role)
+    // public function getRelasi($role)
+    // {
+    //     switch ($role) {
+    //         case 'pemuput_karya':
+    //             $relasi =  $this->hasOne(PemuputKarya::class, 'id_user', 'id')->first();
+    //             $dataObj = new stdClass;
+    //             $dataObj->nama = $relasi->nama_pemuput;
+    //             return $dataObj;
+    //             break;
+    //         case 'sanggar':
+    //             $relasi =  $this->hasOne(Sanggar::class, 'id_user', 'id')->first();
+    //             $dataObj = new stdClass;
+    //             $dataObj->nama = $relasi->nama_sanggar;
+    //             return $dataObj;
+    //             break;
+    //         default:
+    //             return null;
+    //             break;
+    //     }
+    // }
+
+    public function sessionSanggar()
     {
-        switch ($role) {
-            case 'pemuput_karya':
-                $relasi =  $this->hasOne(PemuputKarya::class, 'id_user', 'id')->first();
-                $dataObj = new stdClass;
-                $dataObj->nama = $relasi->nama_pemuput;
-                return $dataObj;
-                break;
-            case 'sanggar':
-                $relasi =  $this->hasOne(Sanggar::class, 'id_user', 'id')->first();
-                $dataObj = new stdClass;
-                $dataObj->nama = $relasi->nama_sanggar;
-                return $dataObj;
-                break;
-            default:
-                return null;
-                break;
-        }
+        $session = session('id_sanggar');
+        return Sanggar::find($session);
     }
+
 
 
 }

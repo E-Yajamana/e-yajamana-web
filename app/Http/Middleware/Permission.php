@@ -72,9 +72,18 @@ class Permission
                             'message' => 'Anda tidak dapat mengakses menu tersebut!',
                         ]);;
                     }
-                case('login'):
-                    return $next($request);
                 case('sanggar'):
+                    if($user->Role()->where('nama_role','Sanggar')->exists()){
+
+                    }else{
+                        return redirect()->route('krama.dashboard')->with([
+                            'status' => 'fail',
+                            'icon' => 'error',
+                            'title' => 'Hak Akses Dibatasi !',
+                            'message' => 'Anda tidak dapat mengakses menu tersebut!',
+                        ]);;
+                    }
+                case('login'):
                     return $next($request);
                 default:
                     return redirect()->route('select-account')->with([

@@ -1,4 +1,4 @@
-@extends('layouts.sulinggih.sulinggih-layout')
+@extends('layouts.pemuput-karya.pemuput-karya-layout')
 @section('tittle','Reservasi Krama Masuk')
 
 @push('css')
@@ -21,8 +21,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Data Reservasi</li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
+                        <li class="breadcrumb-item active">Data Krama Tangkil</li>
                     </ol>
                 </div>
             </div>
@@ -33,7 +33,7 @@
     <div class="container-fluid">
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
-                <h3 class="card-title my-auto">List Data Reservasi Krama</h3>
+                <h3 class="card-title my-auto">List Data Tangkil Krama</h3>
             </div>
 
             {{-- Start Data Table Sulinggih --}}
@@ -45,8 +45,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Krama </th>
-                                    <th>Jenis Upacara</th>
+                                    <th>Lokasi Upacara</th>
                                     <th>Waktu Tangkil</th>
+                                    <th>Jenis Yadnya</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
@@ -55,18 +56,22 @@
                                 @foreach ($dataReservasi as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$data->Upacaraku->Krama->User->Penduduk->nama}}</td>
-                                        <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
-                                        <td>{{date('d F Y | h:i',strtotime($data->tanggal_tangkil))}}</td>
+                                        <td style="width: 13%">
+                                            {{$data->Upacaraku->User->Penduduk->nama}}
+                                        </td>
+                                        <td style="width: 18%"> {{$data->Upacaraku->alamat_upacaraku}}</td>
+                                        <td>{{date('d F Y | H:i ',strtotime($data->tanggal_tangkil))}}</td>
+                                        <td>{{$data->Upacaraku->Upacara->kategori_upacara}}</td>
                                         <td>
+                                            <label>{{$data->Upacaraku->Upacara->nama_upacara}}</label>
                                             @foreach ($data->DetailReservasi as $dataDetail)
                                                 <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
                                             @endforeach
                                         </td>
-                                        <td>
-                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a onclick="cekTanggalTangkil({{$data->id}},'{{$data->tanggal_tangkil}}')"  class="btn btn-danger btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        <td style="width: 12%">
+                                            <a title="Detail Data" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a title="Edit Data" @if (date('Y-m-d') > date('Y-m-d',strtotime($data->tanggal_tangkil)) || date('Y-m-d') == date('Y-m-d',strtotime($data->tanggal_tangkil)) )  href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->id)}}" @else onclick="cekTanggalTangkil('{{$data->tanggal_tangkil}}')" @endif class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a title="Konfirmasi Tangkil" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -75,8 +80,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Krama </th>
-                                    <th>Jenis Upacara</th>
+                                    <th>Lokasi Upacara</th>
                                     <th>Waktu Tangkil</th>
+                                    <th>Jenis Yadnya</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
@@ -139,22 +145,13 @@
 
 @push('js')
     <script type="text/javascript">
-
-        function cekTanggalTangkil(id,tanggal_tangkil){
-            console.log(moment(tanggal_tangkil).format('YYYY-MM-DD'))
-            console.log(moment().format('YYYY-MM-DD'))
-            var tanggal_tangkil = moment(tanggal_tangkil).format('YYYY-MM-DD')
-            var datenow = console.log(moment().format('YYYY-MM-DD'))
-            if(moment(tanggal_tangkil).isBetween(tanggal_tangkil, datenow, undefined, '[]')){
-                location.href = "{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit')}}/"+id;
-            }else{
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Pemberitahuan',
-                    text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('DD-MMM-YYYY') ,
-                });
-            }
-            // console.log(moment().format('MM-DD-YYYY'));
+        function cekTanggalTangkil(tanggal_tangkil){
+            console.log(tanggal_tangkil);
+            Swal.fire({
+                icon: 'info',
+                title: 'Pemberitahuan',
+                text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('DD MMMM YYYY') ,
+            });
         }
     </script>
 @endpush

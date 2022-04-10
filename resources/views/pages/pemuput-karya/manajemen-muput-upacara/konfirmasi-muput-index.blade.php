@@ -1,4 +1,4 @@
-@extends('layouts.sulinggih.sulinggih-layout')
+@extends('layouts.pemuput-karya.pemuput-karya-layout')
 @section('tittle','Reservasi Krama Masuk')
 
 @push('css')
@@ -13,12 +13,12 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Proses Muput Pemuput Karya</h1>
+                    <h1>Jadwal Muput Upacara </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Data Reservasi</li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
+                        <li class="breadcrumb-item active">Data Muput Upacara</li>
                     </ol>
                 </div>
             </div>
@@ -29,33 +29,32 @@
     <div class="container-fluid">
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
-                <h3 class="card-title my-auto">List Data Reservasi Krama</h3>
+                <h3 class="card-title my-auto">List Data Muput Upacara Krama</h3>
             </div>
 
             {{-- Start Data Table Sulinggih --}}
             <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
                 <div class="card-body p-0">
                     <div class="table-responsive mailbox-messages p-2">
-                        <table id="example2" class="table table-bordered table-hover mx-auto table-responsive-sm">
+                        <table id="example2" class="table mx-auto table-responsive-sm">
                             <thead >
                                 <th>No</th>
-                                <th>Nama Upacara</th>
                                 <th>Penyelengara</th>
+                                <th>Alamat</th>
                                 <th>Tahapan Reservasi</th>
                                 <th>Waktu Mulai</th>
                                 <th>Waktu Selesai</th>
-                                {{-- <th class='d-flex justify-content-center text-center'>Status Reservasi</th> --}}
                                 <th>Tindakan</th>
                             </thead>
                             <tbody>
                                 @foreach ($dataReservasi as $index => $data )
                                     <tr>
                                         <td rowspan="{{count($data->DetailReservasi)}}">{{$index+1}}</td>
-                                        <td rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->Krama->User->Penduduk->nama}}</td>
-                                        <td rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->Upacara->nama_upacara}}</td>
+                                        <td style="width: 15%"  rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->User->Penduduk->nama}}</td>
+                                        <td style="width: 18%" rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->alamat_upacaraku}}</td>
                                         <td class="pl-4">{{$data->DetailReservasi[0]->TahapanUpacara->nama_tahapan}}</td>
-                                        <td>{{date('d M Y',strtotime($data->DetailReservasi[0]->tanggal_mulai))}}</td>
-                                        <td>{{date('d M Y',strtotime($data->DetailReservasi[0]->tanggal_selesai))}}</td>
+                                        <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[0]->tanggal_mulai))}}</td>
+                                        <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[0]->tanggal_selesai))}}</td>
                                         <td>
                                             <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[0]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                             <a onclick="konfirmasiMuput({{$data->DetailReservasi[0]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
@@ -64,8 +63,8 @@
                                     @for($i=1; $i < count($data->DetailReservasi); $i++ )
                                         <tr>
                                             <td>{{$data->DetailReservasi[$i]->TahapanUpacara->nama_tahapan}}</td>
-                                            <td>{{date('d M Y',strtotime($data->DetailReservasi[$i]->tanggal_mulai))}}</td>
-                                            <td>{{date('d M Y',strtotime($data->DetailReservasi[$i]->tanggal_selesai))}}</td>
+                                            <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[$i]->tanggal_mulai))}}</td>
+                                            <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[$i]->tanggal_selesai))}}</td>
                                             <td>
                                                 <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                 <a onclick="konfirmasiMuput({{$data->DetailReservasi[$i]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
@@ -81,7 +80,6 @@
                                 <th>Tahapan Reservasi</th>
                                 <th>Waktu Mulai</th>
                                 <th>Waktu Selesai</th>
-                                {{-- <th class='d-flex justify-content-center text-center'>Status Reservasi</th> --}}
                                 <th>Tindakan</th>
                             </tfoot>
                         </table>
@@ -92,42 +90,6 @@
 
         </div>
     </div>
-
-    <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
-    <div class="modal fade" id="modalKonfirmasi" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Konfirmasi Muput Upacara</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.update')}}" method="POST" id="konfirmasiData" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body">
-                        <input class="d-none" name="id_detail_reservasi" id="idDetailReservasi" value="" type="hidden">
-                        <div class="form-group">
-                            <label>Foto Bukti Muput Upacara</label>
-                            <div class="input-group mb-2">
-                                <div class="custom-file">
-                                    <input type="file" id="file" class="custom-file-input @error('file') is-invalid @enderror" name="file" id="customFile" value="{{old('file')}}" >
-                                    <label class="custom-file-label " for="customFile">Masukan Foto Bukti Muput Upacara</label>
-                                </div>
-                            </div>
-                            <div class="text-sm text-danger text-start file_error" id="file_error"></div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
 
 @endsection
 

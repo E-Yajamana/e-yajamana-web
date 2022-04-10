@@ -14,12 +14,12 @@ class TbUpacaraTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('tb_upacara')->delete();
-        
+
         \DB::table('tb_upacara')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'nama_upacara' => 'Potong Gigi',
@@ -29,7 +29,7 @@ class TbUpacaraTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2022-01-22 10:00:41',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
                 'nama_upacara' => 'Ngenteg Linggi',
@@ -39,7 +39,7 @@ class TbUpacaraTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 3,
                 'nama_upacara' => 'Piodalan Ring Pura',
@@ -49,7 +49,7 @@ class TbUpacaraTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 5,
                 'nama_upacara' => 'testing upacara',
@@ -59,7 +59,7 @@ class TbUpacaraTableSeeder extends Seeder
                 'created_at' => '2022-01-29 19:01:47',
                 'updated_at' => '2022-01-29 19:01:47',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 6,
                 'nama_upacara' => 'Atma Wedana',
@@ -71,7 +71,7 @@ Melalui upacara Atma Wedana ini yang diawali dengan dilaksanakannya upacara ngan
                 'created_at' => '2022-02-12 16:06:30',
                 'updated_at' => '2022-02-12 16:06:30',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 7,
                 'nama_upacara' => 'Mecaru',
@@ -82,7 +82,7 @@ Melalui upacara Atma Wedana ini yang diawali dengan dilaksanakannya upacara ngan
                 'updated_at' => '2022-02-12 16:12:08',
             ),
         ));
-        
-        
+
+
     }
 }

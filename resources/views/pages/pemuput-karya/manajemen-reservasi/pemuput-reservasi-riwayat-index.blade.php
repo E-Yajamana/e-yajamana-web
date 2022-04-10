@@ -1,4 +1,4 @@
-@extends('layouts.sulinggih.sulinggih-layout')
+@extends('layouts.pemuput-karya.pemuput-karya-layout')
 @section('tittle','Reservasi Krama Masuk')
 
 @push('css')

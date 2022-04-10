@@ -8,22 +8,20 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
                 <li class="user-panel nav-item ">
                     <a href="#" class="nav-link mb-2">
                         <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
                         <p>
-                            Sulinggih
+                            {{Auth::user()->Penduduk->nama_alias}}
                             <i class="fas fa-angle-left right mt-2"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a  href="#" class="nav-link">
+                            <a href="{{route('pemuput-karya.profile')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Profile</p>
                             </a>

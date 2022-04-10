@@ -24,7 +24,7 @@
                             </div>
                         </a>
                     </div>
-                    @if (Auth::user()->PemuputKarya != null)
+                    @if (Auth::user()->PemuputKarya != null && Auth::user()->Role()->where('nama_role','Pemuput_karya')->exists())
                         @if (Auth::user()->PemuputKarya->status_konfirmasi_akun == 'disetujui')
                             <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
                                 <a style="text-decoration: none;" href="{{route('pemuput-karya.dashboard')}}">
@@ -60,17 +60,21 @@
                                     </div>
                                     <div class="modal-body" id="dataSulinggih">
                                         @foreach (Auth::user()->Sanggar->where('status_konfirmasi_akun','disetujui') as $data)
-                                            <div class="card shadow collapsed-card mt-3">
-                                                <div class="card-header">
-                                                    <div class="user-block">
-                                                        <img class="img-circle" src="{{route("get-image.profile.pemuput-karya")}}/2" alt="User Image">
-                                                        <span class="username"><a class="ml-2" href="#"> {{$data->nama_sanggar}}</a></span>
-                                                        <span class="description">
-                                                            <div class="ml-2 "> {{$data->alamat_sanggar}}</div>
-                                                        </span>
+                                            <form action="{{route('sanggar.session')}}" method="POST">
+                                                @csrf
+                                                <input value="{{$data->id}}" type="hidden" class="d-none" name="id">
+                                                <div class="card shadow collapsed-card mt-3">
+                                                    <div class="card-header">
+                                                        <div class="user-block">
+                                                            <img class="img-circle" src="{{route("get-image.profile.pemuput-karya")}}/2" alt="User Image">
+                                                            <span class="username"><button class="ml-2 p-0 btn btn-link" type="submit"> {{$data->nama_sanggar}}</button></span>
+                                                            <span class="description">
+                                                                <div class="ml-2"> {{$data->alamat_sanggar}}</div>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </form>
                                         @endforeach
                                     </div>
                                     <div class="modal-footer">
@@ -92,7 +96,7 @@
                     @endif
                 </div>
             </div>
-            <div class="text-center mt-2 mb-2">
+            <div class="text-center mt-2 p-0">
                 <a class="nav-link link-dark">E-Yajamana 2021 | All Right Reserved &copy </a>
             </div>
         </div>

@@ -18,7 +18,7 @@ class CreateTbReservasiTable extends Migration
             $table->integer('id_relasi')->index('id_relasi');
             $table->integer('id_upacaraku')->index('id_upacaraku');
             $table->enum('tipe', ['sanggar', 'pemuput_karya'])->nullable();
-            $table->enum('status', ['pending', 'proses tangkil', 'proses muput', 'selesai', 'batal'])->nullable();
+            $table->enum('status', ['pending', 'proses tangkil', 'proses muput', 'selesai', 'batal','ditolak'])->nullable();
             $table->dateTime('tanggal_tangkil')->nullable();
             $table->text('keterangan')->nullable();
             $table->timestamps();
