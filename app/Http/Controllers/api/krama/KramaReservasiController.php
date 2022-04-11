@@ -12,6 +12,7 @@ use App\Models\DetailReservasi;
 use App\Models\Reservasi;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Mavinoo\Batch\BatchFacade;
 use NotificationHelper;
 use PDOException;
 
@@ -199,12 +200,21 @@ class KramaReservasiController extends Controller
 
         // MAIN LOGIC
         try {
-            $reservasi = Reservasi::with(['Relasi', 'Upacaraku'])
+            DB::beginTransaction();
+
+            $reservasi = Reservasi::with(['Relasi', 'Upacaraku', 'DetailReservasi'])
                 ->whereHas('Relasi')
                 ->whereHas('Upacaraku')
-                ->where('status', 'pending')->findOrFail($request->id_reservasid);
+                ->where('status', 'pending')->findOrFail($request->id_reservasi);
 
             $reservasi->update(['status' => 'batal']);
+
+            $array_detail_reservasi = array_map(function ($object) {
+                $object['status'] = 'batal';
+                return (array) $object;
+            }, $reservasi->DetailReservasi->toArray());
+
+            BatchFacade::update(new DetailReservasi(), $array_detail_reservasi, 'id');
 
             $result = NotificationHelper::sendNotification(
                 [
@@ -218,13 +228,19 @@ class KramaReservasiController extends Controller
                 ],
                 $reservasi->Relasi
             );
+
+            DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException $err) {
+            DB::rollBack();
+            return $err;
             return response()->json([
                 'status' => 403,
                 'message' => 'Reservasi tidak ditemukan',
                 'data' => (object)[],
             ], 403);
         } catch (\Throwable | \Exception $err) {
+            DB::rollBack();
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
