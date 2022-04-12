@@ -147,9 +147,65 @@ class KramaReservasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id_reservasi)
     {
-        //
+        // SECURITY
+        $validator = Validator::make(['id_reservasi' => $id_reservasi], [
+            'id_reservasi' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation error',
+                'data' => $validator->errors(),
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            $reservasi = Reservasi::with([
+                'DetailReservasi' => function ($queryReservasi) {
+                    $queryReservasi->with([
+                        'TahapanUpacara' => function ($tahapanUpacaraQuery) {
+                            $tahapanUpacaraQuery->with(['Upacara']);
+                        }
+                    ]);
+                },
+                'Upacaraku' => function ($queryUpacaraku) {
+                    $queryUpacaraku->with([
+                        'Upacara' => function ($queryUpacara) {
+                            $queryUpacara->with(['TahapanUpacara']);
+                        }
+                    ]);
+                },
+                'Relasi' => function ($relasiQuery) {
+                    $relasiQuery->with([
+                        'Penduduk',
+                        'PemuputKarya'
+                    ]);
+                }
+            ])->findOrFail($id_reservasi);
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil Mengambil data reservasi',
+            'data' => [
+                'reservasi' => $reservasi
+            ],
+        ], 200);
+        // END
     }
 
     /**
@@ -170,9 +226,65 @@ class KramaReservasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'id_reservasi' => 'required|numeric',
+            'detail_reservasi' => 'required|json',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation Error',
+                'data' => $validator->errors(),
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            DB::beginTransaction();
+
+            $reservasi = Reservasi::with(['Relasi' => function ($relasiQuery) {
+                $relasiQuery->with(['PemuputKarya']);
+            }])->findOrFail($request->id_reservasi);
+
+            DetailReservasi::where('id_reservasi', $request->id_reservasi)->delete();
+
+            $detailReservasi = json_decode($request->detail_reservasi);
+
+            $insertArray = [];
+
+            foreach ($detailReservasi->formDetailReservasis as $key => $value) {
+                $value = (array)$value;
+                $value['id_reservasi'] = $request->id_reservasi;
+                $value['status'] = 'pending';
+                $insertArray[] = $value;
+            }
+
+            DetailReservasi::insert($insertArray);
+
+            DB::commit();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            DB::rollBack();
+            return $err;
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil memperbaharui reservasi',
+            'data' => (object)[],
+        ], 200);
+        // END
     }
 
     /**
@@ -205,7 +317,7 @@ class KramaReservasiController extends Controller
             $reservasi = Reservasi::with(['Relasi', 'Upacaraku', 'DetailReservasi'])
                 ->whereHas('Relasi')
                 ->whereHas('Upacaraku')
-                ->where('status', 'pending')->findOrFail($request->id_reservasi);
+                ->where('status', 'pending')->orWhere('status', 'batal')->findOrFail($request->id_reservasi);
 
             $reservasi->update(['status' => 'batal']);
 

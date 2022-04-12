@@ -113,6 +113,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('reservasi')->group(function () {
             Route::post('store', [KramaReservasiController::class, 'store']);
             Route::post('batal', [KramaReservasiController::class, 'destroy']);
+            Route::post('update', [KramaReservasiController::class, 'update']);
+            Route::get('show/{id_reservasi?}', [KramaReservasiController::class, 'show']);
         });
         // END
 
