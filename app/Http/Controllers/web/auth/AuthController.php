@@ -67,9 +67,9 @@ class AuthController extends Controller
                 if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
                     $user = Auth::user();
 
-                    if($user->Role->count()== 1 && $user->Role->first()->nama_role == "ADMIN"){
+                    if($user->Role->count()== 1 && $user->Role->first()->nama_role == "admin"){
                         return redirect(route('admin.dashboard'));
-                    }elseif($user->Role->count() == 1 && $user->Role->first()->nama_role == "Krama"){
+                    }elseif($user->Role->count() == 1 && $user->Role->first()->nama_role == "krama"){
                         return redirect(route('krama.dashboard'));
                     }elseif($user->Role->count() > 1){
                         $konfirmasiAkunPemuput = PemuputKarya::whereIdUser($user->id)->whereStatusKonfirmasiAkun('disetujui')->count();

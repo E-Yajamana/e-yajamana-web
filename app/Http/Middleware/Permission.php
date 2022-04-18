@@ -22,7 +22,7 @@ class Permission
             $user = Auth::user();
             switch($role){
                 case('admin'):
-                    if($user ->Role->first()->nama_role == 'ADMIN'){
+                    if($user ->Role->first()->nama_role == 'admin'){
                         return $next($request);
                     }else{
                         return redirect()->back()->with([
@@ -33,7 +33,7 @@ class Permission
                         ]);
                     }
                 case('krama'):
-                    if($user->Role()->where('nama_role','Krama')->exists()){
+                    if($user->Role()->where('nama_role','krama')->exists()){
                         return $next($request);
                     }else{
                         return redirect()->back()->with([
@@ -44,7 +44,7 @@ class Permission
                         ]);;
                     }
                 case('pemuput'):
-                    if($user->Role()->where('nama_role','Pemuput_Karya')->exists()){
+                    if($user->Role()->where('nama_role','pemuput_karya')->exists()){
                         if($user->PemuputKarya->status_konfirmasi_akun != 'disetujui'){
                             if(Auth::user()->Sanggar->where('status_konfirmasi_akun','disetujui')->count() != 0){
                                 return redirect()->route('select-account')->with([
@@ -73,7 +73,7 @@ class Permission
                         ]);;
                     }
                 case('sanggar'):
-                    if($user->Role()->where('nama_role','Sanggar')->exists()){
+                    if($user->Role()->where('nama_role','sanggar')->exists()){
 
                     }else{
                         return redirect()->route('krama.dashboard')->with([

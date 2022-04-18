@@ -22,7 +22,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-switch" class="nav-link">
+                            <a id="side-switch" onclick="switchAccount()" class="nav-link">
                                 <i class="far fa-circle nav-icon mr-1"></i>
                                 <p>Switch Account</p>
                             </a>
@@ -119,13 +119,14 @@
                 <li class="nav-item">
                     <a href="pages/gallery.html" class="nav-link p-2">
                         <i class="far bi-geo-alt-fill nav-icon mr-1"></i>
-                        <p>Lokasi Pemuput Karya</p>
+                        <p>Lokasi Pemuput</p>
                     </a>
                 </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
+
     <!-- /.sidebar -->
 </aside>
 <input id="countReservasi" type="hidden" value='{{count(Auth::user()->Upacaraku)}}'>
@@ -163,6 +164,57 @@
     </div>
 @endif
 
+{{-- <div class="modal fade" id="switchAccount" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="card-body box-profile align-content-center">
+                    <div class="text-center">
+                    <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
+                    </div>
+                    <h3 class="text-center bold mb-0 mt-3">Ganti Akun</h3>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <p style="width: 65%" class="text-center mb-1 mt-1 ">Anda dapat mengganti role akun yang anda miliki:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" id="dataSulinggih">
+                @foreach (Auth::user()->Role as $data)
+                    <div class="card shadow collapsed-card mt-3">
+                        <div class="card-header">
+                            <div class="user-block">
+                                <img class="img-circle"
+                                @if ($data->nama_role == 'krama')  src="{{asset("base-template/dist/img/marker/griya.png")}}"
+                                @elseif ($data->nama_role == 'pemuput_karya')  src="{{asset("base-template/dist/img/marker/pemuput.png")}}"
+                                @elseif ($data->nama_role == 'sanggar')  src="{{asset("base-template/dist/img/marker/sanggar.png")}}"
+                                @endif
+                                alt="User Image">
+                                <span class="username"><a class="stretched-link  ml-2 p-0 btn btn-link"
+                                    @if ($data->nama_role == 'krama') href="{{route('krama.dashboard')}}" >Krama</a></span>
+                                    @elseif ($data->nama_role == 'pemuput_karya') href="{{route('pemuput-karya.dashboard')}}" >Pemuput Karya </a></span>
+                                    @elseif ($data->nama_role == 'sanggar') href="{{route('sanggar.dashboard')}}" >Sanggar </a></span>
+                                    @endif
+                                <span class="description">
+                                    <div class="ml-2">
+                                        @if ($data->nama_role == 'krama') {{Auth::user()->Penduduk->nama}}
+                                        @elseif ($data->nama_role == 'pemuput_karya') {{Auth::user()->PemuputKarya->nama_pemuput}}
+                                        @elseif ($data->nama_role == 'sanggar') {{Auth::user()->Penduduk->nama}}
+                                        @endif
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+
 
 @push('js')
     <!-- Select2 -->
@@ -187,6 +239,11 @@
             var data = $("#jenis_upacara").val();
             location.href = "{{route('krama.manajemen-reservasi.create')}}/"+data;
         }
+
+        function switchAccount(){
+            $('#switchAccount').modal()
+        }
+
 
     </script>
 @endpush

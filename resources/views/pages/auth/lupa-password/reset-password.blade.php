@@ -82,6 +82,7 @@
                 email : email
             },
             success:function(response){
+                console.log(response)
                 $("#email" ).removeClass('is-invalid');
                 $("#email_error" ).text("");
                 $("#text-header").empty();

@@ -46,7 +46,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-sm-6" style="width: ">
-                                <img src="{{route('get-image.upacara',$dataUpacara->id)}}" style="height: 400px; width:100%" class=" d-flex img-fluid pad img-thumbnail"  alt="Responsive image">
+                                <img src="{{asset('base-template/ngenteglinggih.jpg')}}" style="height: 400px; width:100%" class=" d-flex img-fluid pad img-thumbnail"  alt="Responsive image">
                             </div>
                             <div class="col-12 col-sm-6 justify-content-center align-items-center d-flex">
                                 <div class=" text-center ">
