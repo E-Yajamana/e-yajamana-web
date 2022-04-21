@@ -172,6 +172,7 @@ class MasterDataUpacaraController extends Controller
                     ]);
                 }
                 $upacara->TahapanUpacara()->saveMany($tahapanUpacara);
+
                 DB::commit();
             // END LOGIC
 

@@ -103,7 +103,7 @@
                         <li class="nav-item ml-3">
                             <a id="side-desa-adat" href="{{route('admin.master-data.desa-adat.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Desa Adat</p>
+                            <p>Banjar Dinas</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
