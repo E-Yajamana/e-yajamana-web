@@ -98,6 +98,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // KRAMA PROFILE FRAGMENT
         Route::get('profile', [KramaProfileController::class, 'index']);
+        Route::get('detail/profile', [KramaProfileController::class, 'detail']);
         // END
 
         // KRAMA UPCARA
