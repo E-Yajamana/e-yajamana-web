@@ -112,6 +112,15 @@
                                                     </tr>
                                                 @endforeach
                                             </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Nama Walaka</th>
+                                                    <th>Nama Sulinggih</th>
+                                                    <th>Tanggal Mendaftar</th>
+                                                    <th>Tindakan</th>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\web\admin\manajemen_akun;
 
 use App\Http\Controllers\Controller;
+use App\Models\PemuputKarya;
 use App\Models\Sanggar;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Sulinggih;
 use Exception;
 use ErrorException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -19,8 +19,9 @@ class ManajemenAkunController extends Controller
     // VIEW INDEX VERIFIKASI DATA
     public function indexVerifikasi(Request $request)
     {
-        $dataSulinggih = Sulinggih::where('status_konfirmasi_akun', 'pending')->where('status', 'sulinggih')->get();
-        $dataPemangku = Sulinggih::with('User')->where('status_konfirmasi_akun', 'pending')->where('status', 'pemangku')->get();
+
+        $dataSulinggih = PemuputKarya::whereStatusKonfirmasiAkunAndTipe('pending','sulinggih')->get();
+        $dataPemangku = PemuputKarya::with('User')->where('status_konfirmasi_akun', 'pending')->where('tipe', 'pemangku')->get();
         $dataSanggar = Sanggar::where('status_konfirmasi_akun', 'pending')->get();
         return view('pages.admin.manajemen-akun.pengaturan-akun.verifikasi-akun-index', compact(['dataSulinggih', 'dataPemangku', 'dataSanggar']));
     }
@@ -119,9 +120,10 @@ class ManajemenAkunController extends Controller
     // DETAIL DATA VERIFIKASI AKUN PEMUPUT KARYA (SULINGGIHN DAN PEMANGKU)
     public function detailDataVerifikasiPemuputKarya(Request $request)
     {
+
         // SECURITY
         $validator = Validator::make(['id' => $request->id], [
-            'id' => 'required|exists:tb_sulinggih,id',
+            'id' => 'required|exists:tb_pemuput_karya,id',
         ]);
 
         if ($validator->fails()) {
@@ -136,9 +138,9 @@ class ManajemenAkunController extends Controller
 
         // MAIN LOGIC
         try {
-            $dataSulinggih = Sulinggih::where('status_konfirmasi_akun', 'pending')->with(['User.Penduduk' => function ($query) {
+            $dataSulinggih = PemuputKarya::with(['User.Penduduk' => function ($query) {
                 $query->with(['Profesi', 'Pendidikan'])->whereHas('Profesi')->whereHas('Pendidikan');
-            }, 'GriyaRumah.BanjarDinas.DesaDinas.Kecamatan.Kabupaten', 'Nabe', 'Pasangan'])->findOrFail($request->id);
+            }, 'GriyaRumah.BanjarDinas.DesaDinas.Kecamatan.Kabupaten'])->whereStatusKonfirmasiAkun('pending')->findOrFail($request->id);
         } catch (ModelNotFoundException | Exception $err) {
             return redirect()->back()->with([
                 'status' => 'fail',

@@ -13,6 +13,7 @@ use App\Models\User;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use PDOException;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -91,7 +92,6 @@ class AjaxController extends Controller
             $validator = Validator::make(['nik' => $nik],[
                 'nik' => 'required|exists:tb_penduduk,nik',
             ]);
-
             if($validator->fails()){
                 return response()->json([
                     'status' => 400,
@@ -108,25 +108,31 @@ class AjaxController extends Controller
                 // GET DATA PENDUDUK BY NIK
                 $penduduk = Penduduk::with(['User.Role'])->whereNik($nik)->firstOrFail();
 
-                // LOGIC CEK USER
+                // LOGIC HAS CEK USER
                 if($penduduk->User()->exists()){
-                    if($penduduk->User->Role()->where('id_role',3)->exists()){
+                    // CEK HAS USER PEMUPUT
+                    $hasRole =$penduduk->User->Role()->pluck('id_role')->toArray();
+                    $existsRole = in_array(3, $hasRole);
+                    if($existsRole){
                         $statusCode = 409;
                         $result = [
                             'status' => 409,
                             'icon' => 'warning',
                             'title' => 'Pemberitahuan',
-                            'message' => 'Anda sudah mempunyai Akun, dengan email : '.$penduduk->User->email,
+                            'message' => 'Anda tidak dapat mendaftar kembali sebagai Pemuput Karya, karena Anda sudah mempunyai akun dengan email : '.$penduduk->User->email,
+                            // 'footer' => "{{route('auth.login')}}"
+
+                        ];
+                    }else{
+                        $statusCode = 200;
+                        $result = [
+                            'status' => 200,
+                            'icon' => 'info',
+                            'title' => 'Pemberitahuan',
+                            'message' => 'Anda sudah mempunyai akun E-Yajamana, Anda dapat mengabaikan form input data user pada step 2',
+                            'data' =>$penduduk
                         ];
                     }
-                    $statusCode = 200;
-                    $result = [
-                        'status' => 200,
-                        'icon' => 'info',
-                        'title' => 'Pemberitahuan',
-                        'message' => 'Anda sudah mempunyai akun, abaikan form step isi data User',
-                        'data' =>$penduduk
-                    ];
                 }else{
                     $statusCode = 200;
                     $result = [
@@ -137,6 +143,7 @@ class AjaxController extends Controller
                         'data' =>$penduduk
                     ];
                 }
+                // LOGIC HAS CEK USER
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 return response()->json([
                     'status' => 400,

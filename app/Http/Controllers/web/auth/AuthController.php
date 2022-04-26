@@ -66,7 +66,6 @@ class AuthController extends Controller
             try{
                 if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
                     $user = Auth::user();
-
                     if($user->Role->count()== 1 && $user->Role->first()->nama_role == "admin"){
                         return redirect(route('admin.dashboard'));
                     }elseif($user->Role->count() == 1 && $user->Role->first()->nama_role == "krama"){

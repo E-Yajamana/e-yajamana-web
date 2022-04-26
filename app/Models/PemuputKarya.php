@@ -53,6 +53,7 @@ class PemuputKarya extends Model
 		'id_pasangan',
 		'id_atribut',
 		'nama_pemuput',
+		'tipe',
 		'status_konfirmasi_akun',
 		'keterangan_konfirmasi_akun'
 	];
