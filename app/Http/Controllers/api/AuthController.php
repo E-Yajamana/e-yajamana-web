@@ -222,7 +222,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
-                'data' => (object)[],
+                'data' => $err,
             ], 500);
         }
         // END

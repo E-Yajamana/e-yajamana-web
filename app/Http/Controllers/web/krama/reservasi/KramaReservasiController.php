@@ -8,8 +8,6 @@ use App\Models\DetailReservasi;
 use App\Models\GriyaRumah;
 use App\Models\Reservasi;
 use App\Models\Sanggar;
-use App\Models\Sulinggih;
-use App\Models\TahapanUpacara;
 use App\Models\Upacaraku;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -152,8 +150,10 @@ class KramaReservasiController extends Controller
                         'status' => 'pending',
                     ];
                 }
+
                 $reservasi->DetailReservasi()->createMany($dataDetailReservasi);
 
+                dd($request->all());
                 $relasi = User::findOrFail($request->id_relasi);
                 $user = Auth::user();
 
@@ -170,18 +170,18 @@ class KramaReservasiController extends Controller
                     ],
                     $relasi
                 );
-                NotificationHelper::sendNotification(
-                    [
-                        'title' => "PERMOHONAN RESERVASI DIBUAT",
-                        'body' => "Permohonan reservasi kepada " . $relasi->getRelasi($request->tipe)->nama . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
-                        'status' => "new",
-                        'image' => "sulinggih",
-                        'notifiable_id' => $user->id,
-                        'formated_created_at' => date('Y-m-d H:i:s'),
-                        'formated_updated_at' => date('Y-m-d H:i:s'),
-                    ],
-                    $user
-                );
+                // NotificationHelper::sendNotification(
+                //     [
+                //         'title' => "PERMOHONAN RESERVASI DIBUAT",
+                //         'body' => "Permohonan reservasi kepada " . $relasi->getRelasi($request->tipe)->nama . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
+                //         'status' => "new",
+                //         'image' => "sulinggih",
+                //         'notifiable_id' => $user->id,
+                //         'formated_created_at' => date('Y-m-d H:i:s'),
+                //         'formated_updated_at' => date('Y-m-d H:i:s'),
+                //     ],
+                //     $user
+                // );
                 // END SEND NOTIFICATION
 
                 DB::commit();

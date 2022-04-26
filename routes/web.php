@@ -59,11 +59,10 @@ Route::prefix('auth')->group(function () {
         Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
         Route::get('{akun}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
 
-        Route::post('sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
-        Route::post('sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
-        Route::post('pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
-        Route::post('krama', [RegisterController::class, 'storeNewRegisKrama'])->name('auth.register.akun.krama.store');
-        Route::post('serati', [RegisterController::class, 'storeNewRegisSerati'])->name(' ');
+        Route::post('sulinggih', [RegisterController::class, 'storeRegisSulinggih'])->name('auth.register.akun.sulinggih.store');
+        Route::post('sanggar', [RegisterController::class, 'storeRegisSanggar'])->name('auth.register.akun.sanggar.store');
+        Route::post('pemangku', [RegisterController::class, 'storeRegisPemangku'])->name('auth.register.akun.pemangku.store');
+        Route::post('krama', [RegisterController::class, 'storeRegisKrama'])->name('auth.register.akun.krama.store');
 
     });
 
@@ -125,7 +124,7 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
         // MASTER DATA WILAYAH SISTEM
         Route::prefix('wilayah')->group(function () {
             Route::get('desa', [MasterDataWilayahController::class, 'indexDesaDinas'])->name('admin.master-data.desa.index');
-            Route::get('desa-adat', [MasterDataWilayahController::class, 'indexDesaAdat'])->name('admin.master-data.desa-adat.index');
+            Route::get('banjar', [MasterDataWilayahController::class, 'indexBanjar'])->name('admin.master-data.banjar.index');
             Route::get('kecamatan', [MasterDataWilayahController::class, 'indexKecamatan'])->name('admin.master-data.kecamatan.index');
             Route::get('kabupaten', [MasterDataWilayahController::class, 'indexKabupaten'])->name('admin.master-data.kabupaten.index');
         });
@@ -164,6 +163,7 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
 });
 // ROUTE ADMIN
 
+// ROUTE KRAMA
 Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
@@ -192,6 +192,7 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     });
 
 });
+// ROUTE KRAMA
 
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
 Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], function ()  {
@@ -260,10 +261,16 @@ Route::prefix('ajax')->group(function () {
         Route::get('tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
     });
 
-
     Route::get('data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
 
-    Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
+
+    Route::prefix('user')->group(function () {
+        Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
+
+    });
+
+
+
 
 });
 // END SERVICE AJAX SISTEM

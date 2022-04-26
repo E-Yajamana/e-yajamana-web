@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <div class="bs-stepper-content">
-                        <form method="POST" action="{{route('auth.register.akun.sulinggih.new.store')}}" enctype="multipart/form-data" id="formRegister">
+                        <form method="POST" action="{{route('auth.register.akun.sulinggih.store')}}" enctype="multipart/form-data" id="formRegister">
                             @csrf
                             <!-- STEPPER 1 PILIH YADNYA -->
                             <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
@@ -79,9 +79,6 @@
                                         <p class="m-1 text-sm">(Apabila NIK tidak ditemukan, Lakukan Pendataan terlebih dahulu <a href="">disini)</a></p>
                                     </div>
                                     <div class="form-group mt-lg-4 mb-0" id="buttonFormNIK">
-                                        @if (old('nik') != null)
-                                            <button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -227,9 +224,8 @@
                                             <div class="input-group">
                                                 <select name="id_nabe" id="nabe" class="select2bs4 nabe @error('id_nabe') is-invalid @enderror" style="width: 100%;" value="{{old('id_nabe')}}">
                                                     <option value="0" disabled selected>Pilih Nabe</option>
-                                                    <option @if (old('nama_nabe') != null) selected @endif value="">Pilih Nabe Lainnya..</option>
                                                     @foreach ($dataSulinggih as $data)
-                                                        <option value="{{$data->id}}" >{{$data->nama_sulinggih}}</option>
+                                                        <option value="{{$data->id}}" >{{$data->nama_pemuput}}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('id_nabe')
@@ -396,7 +392,7 @@
 
                                     <div class="form-group mb-0">
                                         <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
-                                        <button type="submit" class="btn btn-primary float-sm-right">Buat Akun</button>
+                                        <button type="button" class="btn btn-primary float-sm-right">Buat Akun</button>
                                     </div>
                                 </div>
                             </div>
@@ -426,7 +422,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                    <button type="submit" data-dismiss="modal" class="btn btn-primary">Simpan Pemetaan Lokasi</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Simpan Pemetaan Lokasi</button>
                 </div>
             </div>
         </div>
@@ -488,33 +484,40 @@
     <script>
         // FUNGSI CEK NIK PADA SISTEM
         function cekNIK(){
-            var nik = $("#nik").val();
+            let nik = $("#nik").val();
+            if(nik == ''){
+                nik = 0
+            }
             $.ajax({
                 url: '{{route('ajax.get.data-penduduk')}}/' + nik,
                 type: "GET",
                 dataType: "json",
                 success: function (response) {
                     console.log(response);
-                    if (response.data != 0) {
-                        $('#id_penduduk').val(response.data.id);
-                        $('#buttonFormNIK').empty();
-                        Swal.fire({
-                            icon: response.icon,
-                            title: response.tittle,
-                            text: response.message,
-                        });
-                        $('#buttonFormNIK').append('<button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>')
-                    }else {
-                        $('#nik').val();
+                    if (response.data.user != null) {
+                        $('#nomor_telepon').val(response.data.user.nomor_telepon);
+                        $('#email').val(response.data.user.email);
+                        $("#email").prop('disabled', true);
+                        $("#nomor_telepon").prop('disabled', true);
+                        $("#password").prop('disabled', true);
+                        $("#password_confirmation").prop('disabled', true);
                     }
+                    $('#buttonFormNIK').empty();
+                    $('#buttonFormNIK').append('<button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>')
+                    Swal.fire({
+                        icon: response.icon,
+                        title: response.title,
+                        text: response.message,
+                    });
                 },
                 error: function(response, error){
                     console.log(response)
                     $('#buttonFormNIK').empty()
+                    console.log(response)
                     Swal.fire({
-                        icon: 'warning',
-                        title: 'Gagal menemukan data penduduk...',
-                        text: 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKEDAT terlebih dahulu.. !!',
+                        icon: response.responseJSON.icon,
+                        title: response.responseJSON.title,
+                        text: response.responseJSON.message,
                         footer: '<a href="#">Lakukan Pendataan telebih dahulu disini</a>'
                     })
                 }
@@ -528,38 +531,6 @@
         })
         // KEYUP FORM INPUT NIK
 
-    </script>
-@endpush
-
-{{-- SET UP FORM INPUT REGISTER --}}
-@push('js')
-    <script>
-          $("#pasangan").on('change',function(){
-            var value = $(this).val();
-            console.log(pasangan)
-            if(value == null || value == ""){
-                $('.rowPasangan').remove();
-                $("#formPasangan").removeClass('col-12').addClass('col-6');
-                $("#rowPasangan").append('<div class="form-group col-6 rowPasangan"><label>Nama Pasangan <span class="text-danger">*</span></label><div class="input-group"> <input type="text" name="nama_pasangan" autocomplete="off" class="form-control" placeholder="Masukan Nama Pasangan Sulinggih"></div></div>');
-            }else{
-                $('.rowPasangan').remove();
-                $("#formPasangan").removeClass('col-6').addClass('col-12');
-            }
-        })
-
-        $("#nabe").on('change',function(){
-            var value = $(this).val();
-            console.log(pasangan)
-            if(value == null || value == ""){
-                $('.rowNabe').remove();
-                $("#formNabe").removeClass('col-12').addClass('col-6');
-                $("#rowNabe").append('<div class="form-group col-6 rowNabe"><label>Nama Nabe <span class="text-danger">*</span></label><div class="input-group"> <input type="text" name="nama_nabe" autocomplete="off" class="form-control" placeholder="Masukan Nama Nabe"></div></div>');
-            }else{
-                $('.rowNabe').remove();
-                $("#formNabe").removeClass('col-6').addClass('col-12');
-            }
-        })
-
         $("#lokasi_griya").on('change',function(){
             var value = $(this).val();
             console.log(pasangan)
@@ -571,7 +542,12 @@
                 $("#id_banjar_dinas").val();
             }
         })
+    </script>
+@endpush
 
+{{-- SET UP FORM INPUT REGISTER --}}
+@push('js')
+    <script>
         $(document).ready(function() {
             //--------------START Deklarasi awal seperti icon pembuatan map-------------//
             var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 9);

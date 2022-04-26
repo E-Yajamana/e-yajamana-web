@@ -9,6 +9,7 @@ use App\Models\Reservasi;
 use App\Models\TahapanUpacara;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Upacara;
+use App\Models\User;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use PDOException;
@@ -94,7 +95,9 @@ class AjaxController extends Controller
             if($validator->fails()){
                 return response()->json([
                     'status' => 400,
-                    'message' => 'Validation Error',
+                    'icon' => 'warning',
+                    'title' => 'Gagal menemukan data penduduk...',
+                    'message' => 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKEDAT terlebih dahulu.. !!',
                     'data' => (Object)[],
                 ],400);
             }
@@ -102,26 +105,51 @@ class AjaxController extends Controller
 
         // MAIN LOGIC
             try{
-                // $penduduk = Penduduk::where('nik','like','%'.$nik.'%')->get();
-                $penduduk = Penduduk::whereNik($nik)->firstOrFail();
+                // GET DATA PENDUDUK BY NIK
+                $penduduk = Penduduk::with(['User.Role'])->whereNik($nik)->firstOrFail();
+
+                // LOGIC CEK USER
+                if($penduduk->User()->exists()){
+                    if($penduduk->User->Role()->where('id_role',3)->exists()){
+                        $statusCode = 409;
+                        $result = [
+                            'status' => 409,
+                            'icon' => 'warning',
+                            'title' => 'Pemberitahuan',
+                            'message' => 'Anda sudah mempunyai Akun, dengan email : '.$penduduk->User->email,
+                        ];
+                    }
+                    $statusCode = 200;
+                    $result = [
+                        'status' => 200,
+                        'icon' => 'info',
+                        'title' => 'Pemberitahuan',
+                        'message' => 'Anda sudah mempunyai akun, abaikan form step isi data User',
+                        'data' =>$penduduk
+                    ];
+                }else{
+                    $statusCode = 200;
+                    $result = [
+                        'status' => 200,
+                        'icon' => 'success',
+                        'title' => 'NIK terdaftar',
+                        'message' => 'Berhasil menemukan data NIK, Anda dapat langsung membuat akun E-Yajamana',
+                        'data' =>$penduduk
+                    ];
+                }
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
-                return redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'fail',
-                    'tittle' => 'Hapus Data Gagal!',
-                    'message' => 'Hapus data gagal, mohon hubungi developer untuk lebih lanjut!!'
-                ]);
+                return response()->json([
+                    'status' => 400,
+                    'icon' => 'warning',
+                    'title' => 'Gagal menemukan data penduduk...',
+                    'message' => 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKEDAT terlebih dahulu.. !!',
+                    'data' => $err,
+                ],400);
             }
         // END LOGIC
 
         // RETURN
-            return response()->json([
-                'status' => 200,
-                'icon' => 'success',
-                'tittle' => 'NIK Terdaftar',
-                'message' => 'Berhasil mengambil data nik,anda dapat membuat akun E-Yajamana',
-                'data' => $penduduk
-            ],200);
+            return response()->json($result,$statusCode);
         // END
     }
 

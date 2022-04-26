@@ -96,7 +96,7 @@ class Penduduk extends Model
 	];
 
     public function User(){
-		return $this->hasMany(User::class,'id_penduduk','id');
+		return $this->hasOne(User::class,'id_penduduk','id');
 	}
 
 	public function AyahKandung(){

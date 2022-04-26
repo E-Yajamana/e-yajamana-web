@@ -45,38 +45,30 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Kode Desa Adat</th>
-                                        <th>Nama Desa Adat</th>
-                                        <th>Nama Bendesa</th>
-                                        <th>Status Desa</th>
+                                        <th>Kode Banjar Dinas</th>
+                                        <th>Nama Banjar Dinas</th>
+                                        <th>Jenis Banjar</th>
+                                        <th>Desa Dinas</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($desaAdat as $data)
+                                    @foreach ($banjarDinas as $data)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$data->desadat_kode}}</td>
-                                            <td>{{$data->desadat_nama}}</td>
-                                            <td>{{$data->desadat_bendesa_nama}}</td>
-                                            <td>
-
-                                                @if ($data->desadat_status_aktif ==1)
-                                                    <div class=" bg-primary btn-sm text-center" style="border-radius: 5px; width:70px;">Aktif</div>
-                                                @else
-                                                    <div class=" bg-danger btn-sm text-center" style="border-radius: 5px; width:70px;">In Aktif</div>
-                                                @endif
-
-                                            </td>
+                                            <td>{{$data->kode_banjar_dinas}}</td>
+                                            <td>{{$data->nama_banjar_dinas}}</td>
+                                            <td>{{$data->jenis_banjar_dinas}}</td>
+                                            <td>{{$data->DesaDinas->name}}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th>No</th>
-                                        <th>Kode Desa Adat</th>
-                                        <th>Nama Desa Adat</th>
-                                        <th>Nama Bendesa</th>
-                                        <th>Status Desa</th>
+                                        <th>Kode Banjar Dinas</th>
+                                        <th>Nama Banjar Dinas</th>
+                                        <th>Jenis Banjar</th>
+                                        <th>Desa Dinas</th>
                                     </tr>
                                 </tfoot>
                             </table>
