@@ -206,7 +206,7 @@
             table.draw();
         });
 
-        $('#filterStatus a').click(function(e) {
+        $('#filterStatus').click(function(e) {
             statusUpacara = $(this).text()
             table.draw();
         });

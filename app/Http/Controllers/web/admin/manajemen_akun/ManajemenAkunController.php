@@ -20,9 +20,9 @@ class ManajemenAkunController extends Controller
     public function indexVerifikasi(Request $request)
     {
 
-        $dataSulinggih = PemuputKarya::whereStatusKonfirmasiAkunAndTipe('pending','sulinggih')->get();
-        $dataPemangku = PemuputKarya::with('User')->where('status_konfirmasi_akun', 'pending')->where('tipe', 'pemangku')->get();
-        $dataSanggar = Sanggar::where('status_konfirmasi_akun', 'pending')->get();
+        $dataSulinggih = PemuputKarya::with(['User.Penduduk'])->whereHas('User.Penduduk')->whereStatusKonfirmasiAkunAndTipe('pending','sulinggih')->get();
+        $dataPemangku = PemuputKarya::with(['User.Penduduk'])->whereHas('User.Penduduk')->whereStatusKonfirmasiAkunAndTipe('pending','pemangku')->get();
+        $dataSanggar = Sanggar::whereStatusKonfirmasiAkun('pending')->get();
         return view('pages.admin.manajemen-akun.pengaturan-akun.verifikasi-akun-index', compact(['dataSulinggih', 'dataPemangku', 'dataSanggar']));
     }
     // VIEW INDEX VERIFIKASI DATA
@@ -284,6 +284,65 @@ class ManajemenAkunController extends Controller
 
     }
     // DETAIL DATA VERIFIKASI AKUN PEMUPUT KARYA (SULINGGIHN DAN PEMANGKU)
+
+
+    public function konfirmasiAkunPemuput(Request $request)
+    {
+        // SECURITY
+            $rules = [
+                'id' => 'required|exists:tb_pemuput_karya,id',
+                'status' => 'required|in:disetujui,ditolak',
+            ];
+            $message = ['id.required' => "ID Wajib diisi",'id.exists' =>"ID Tidak sesuai pada sistem",];
+            if($request->status != 'disetujui'){
+                $rules += [
+                    'text_penolakan' => 'required|min:3|max:150'
+                ];
+                $message += [
+                    'nama_upacara.required' => "Nama upacara wajib diisi",
+                    'nama_upacara.regex' => "Format nama upacara tidak sesuai",
+                    'nama_upacara.min' => "Nama upacara minimal berjumlah 5 karakter",
+                    'nama_upacara.max' => "Nama upacara maksimal berjumlah 50 karakter",
+                ];
+            }
+            $validator = Validator::make($request->all(),$rules,$message);
+
+            if($validator->fails()) {
+                return redirect()->route('admin.manajemen-akun.verifikasi.index')->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Validasi Error!',
+                    'message' => 'Data Pemuput Karya tidak ditemukan, pilihlah data dengan benar !',
+                ]);
+            }
+        // END SECURITY
+
+        // MAIN LOGIC & RETURN
+            try {
+                PemuputKarya::findOrFail($request->id)->update([
+                    'status_konfirmasi_akun' => $request->status,
+                    'keterangan_konfirmasi_akun' => $request->text_penolakan
+                ]);
+            }catch (ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err) {
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Sistem Gagal Menemukan Akun Pemuput Karya !',
+                    'message' => 'sistem gagal menemukan Akun Pemuput Karya, mohon untuk menghubungi developer sistem !',
+                ]);
+            }
+        // END MAIN LOGIC & RETURN
+
+        // RETRUN
+            return redirect()->back()->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Data Akun Pemuput Karya Berhasil Diperbarui',
+                'message' => 'Data Akun Pemuput Karya Berhasil Diperbarui, cek kembali data akun ',
+            ]);
+        // END RETURN
+
+    }
 
 
 }

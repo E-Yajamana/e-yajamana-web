@@ -90,25 +90,21 @@
                                                 @foreach ($dataSulinggih as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
-                                                        <td>{{$data->nama_walaka}}</td>
-                                                        <td>{{$data->nama_sulinggih}}</td>
+                                                        <td>{{$data->User->Penduduk->nama_alias}}</td>
+                                                        <td>{{$data->nama_pemuput}}</td>
                                                         <td>{{date('d F Y',strtotime($data->created_at))}}</td>
                                                         <td>
                                                             <a href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                                            <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                                            <a onclick="terimaPemuput({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                            <a onclick="tolakPemuput({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
-                                                        <form id="{{"update-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya')}}" method="post">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <input type="hidden" name="id" value="{{$data->id}}">
-                                                        </form>
+                                                        {{--
                                                         <form id="{{"tolakPemuput-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya.tolak')}}" method="post">
                                                             @csrf
                                                             @method('PUT')
                                                             <input type="hidden" name="id" value="{{$data->id}}">
                                                             <input type="hidden" name="text_penolakan" id={{"text_penolakan".$data->id}} value="">
-                                                        </form>
+                                                        </form> --}}
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -126,6 +122,7 @@
                                 </div>
                             </div>
                             {{-- End Data Table Sulinggih --}}
+
 
                             {{-- Start Data Table Pemangku --}}
                             <div class="tab-pane fade" id="pemangku-table" role="tabpanel" aria-labelledby="pemangku-tabs">
@@ -225,58 +222,14 @@
         </div>
     </div>
 
+    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-akun')
+
 @endsection
 
 @push('js')
 
     <!-- Fungsi Verifikasi Data Akun Pemuput Karya dan Sanggar -->
     <script type="text/javascript">
-        // TERIMA VERIFIKASI PEMUPUT KARYA
-        function verifikasiPemuputKarya(index)
-        {
-            Swal.fire({
-                title: 'Verifikasi',
-                text : 'Apakah anda yakin akan mengkonfirmasi akun pemuput karya tersebut?',
-                icon:'question',
-                showDenyButton: true,
-                showCancelButton: false,
-                denyButtonText: `Tidak`,
-                confirmButtonText: `iya`,
-                confirmButtonColor: '#3085d6',
-                denyButtonColor: '#d33',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#update-'+index).submit();
-                    } else if (result.isDenied) {
-
-                    }
-                })
-        }
-        // TERIMA VERIFIKASI PEMUPUT KARYA
-
-        // TERIMA VERIFIKASI SANGGAR
-        function verifikasiSanggar(index)
-        {
-            Swal.fire({
-                title: 'Verifikasi',
-                text : 'Apakah anda yakin akan mengkonfirmasi akun Sanggar tersebut?',
-                icon:'question',
-                showDenyButton: true,
-                showCancelButton: false,
-                denyButtonText: `Tidak`,
-                confirmButtonText: `iya`,
-                confirmButtonColor: '#3085d6',
-                denyButtonColor: '#d33',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#updateSanggar-'+index).submit();
-                    } else if (result.isDenied) {
-
-                    }
-                })
-        }
-        // TERIMA VERIFIKASI SANGGAR
-
         // TOLAK VERIFIKASI PEMUPUT KARYA
         function tolakPemuputKarya(index)
         {
