@@ -28,8 +28,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Verifikasi Sulinggih</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">List Data Verifikasi</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Detail</a></li>
                     </ol>
                 </div>
             </div>
@@ -41,7 +42,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div @if ($dataSulinggih->status == 'sulinggih') class="col-12 col-md-6" @endif class="col-12">
+                <div @if ($dataSulinggih->tipe == 'sulinggih') class="col-12 col-md-6" @endif class="col-12">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Data Akun User</h3>
@@ -62,7 +63,7 @@
                         </div>
                     </div>
                 </div>
-                @if ($dataSulinggih->status == 'sulinggih')
+                @if ($dataSulinggih->tipe == 'sulinggih')
                     <div class="col-12 col-md-6">
                         <div class="card">
                             <div class="card-header">
@@ -80,7 +81,7 @@
 
             <div class="card card-default">
                 <div class="card-header">
-                    <h3 class="card-title">@if ($dataSulinggih->status == 'sulinggih') Lokasi Griya @else Lokasi Pemangku @endif</h3>
+                    <h3 class="card-title">@if ($dataSulinggih->tipe == 'sulinggih') Lokasi Griya @else Lokasi Pemangku @endif</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -97,7 +98,7 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">@if ($dataSulinggih->status == 'sulinggih') Nama Griya @else Nama Puri @endif</label>
+                                <label for="exampleInputEmail1">@if ($dataSulinggih->tipe == 'sulinggih') Nama Griya @else Nama Puri @endif</label>
                                 <input disabled type="text" name="nama_griya" class="form-control" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{$dataSulinggih->GriyaRumah->nama_griya_rumah}}">
                             </div>
                             <div class="form-group">
@@ -105,7 +106,7 @@
                                 <input disabled type="text" name="nama_griya" class="form-control" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{$dataSulinggih->GriyaRumah->BanjarDinas->nama_banjar_dinas}}">
                             </div>
                             <div class="form-group">
-                                <label>@if ($dataSulinggih->status == 'sulinggih') Alamat Lengkap Griya @else Alamat Lengkap Puri @endif <span class="text-danger">*</span></label>
+                                <label>@if ($dataSulinggih->tipe == 'sulinggih') Alamat Lengkap Griya @else Alamat Lengkap Puri @endif <span class="text-danger">*</span></label>
                                 <textarea disabled name="alamat_griya" class="form-control" rows="5" placeholder="Masukan Alamat Lengkap Griya" >{{$dataSulinggih->GriyaRumah->alamat_griya_rumah}}, Desa {{Str::ucfirst(Str::lower($dataSulinggih->GriyaRumah->BanjarDinas->DesaDinas->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataSulinggih->GriyaRumah->BanjarDinas->DesaDinas->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataSulinggih->GriyaRumah->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataSulinggih->GriyaRumah->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->Provinsi->name))}} </textarea>
                             </div>
                         </div>
@@ -116,7 +117,7 @@
 
             <div class="card card-default">
                 <div class="card-header">
-                    <h3 class="card-title">@if ($dataSulinggih->status == 'sulinggih') Data Sulinggih @else  Data Pemangku @endif</h3>
+                    <h3 class="card-title">@if ($dataSulinggih->tipe == 'sulinggih') Data Sulinggih @else  Data Pemangku @endif</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
@@ -142,24 +143,24 @@
                                 <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSulinggih->User->Penduduk->nomor_induk_krama}}" disabled>
                             </div>
                         </div>
-                        @if ($dataSulinggih->status == 'sulinggih')
+                        @if ($dataSulinggih->tipe == 'sulinggih')
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nama Sulinggih</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSulinggih->nama_sulinggih}}" disabled>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSulinggih->nama_pemuput}}" disabled>
                                 </div>
                             </div>
                         @endif
                         <div class="col-12 col-md-6">
-                            @if ($dataSulinggih->status == 'sulinggih')
+                            @if ($dataSulinggih->tipe == 'sulinggih')
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nama Nabe</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSulinggih->getNabeAndPasangan()->nama_nabe}}" disabled>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="#" disabled>
                                 </div>
                             @endif
                             <div class="form-group">
-                                <label for="exampleInputEmail1"> @if ($dataSulinggih->status == 'sulinggih') Nama Walaka @else Nama Pemangku @endif</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSulinggih->nama_walaka}}" disabled>
+                                <label for="exampleInputEmail1"> @if ($dataSulinggih->tipe == 'sulinggih') Nama Walaka @else Nama Pemangku @endif</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSulinggih->User->Penduduk->nama_asli}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Tempat/Tanggal Lahir</label>
@@ -172,15 +173,15 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="'card-body">
-                                @if ($dataSulinggih->status == 'sulinggih')
+                                @if ($dataSulinggih->tipe == 'sulinggih')
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Tanggal Diksha</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSulinggih->nama_walaka}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{date('d F Y',strtotime($dataSulinggih->AtributPemuput->tanggal_diksha))}}" disabled>
                                     </div>
                                 @endif
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">@if ($dataSulinggih->User->Penduduk->jenis_kelamin == 'laki-laki') Nama Istri @else Nama Suami @endif</label>
-                                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" value="{{$dataSulinggih->getNabeAndPasangan()->nama_pasangan}}" disabled>
+                                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" value="{{($dataSulinggih->Pasangan->nama_pemuput)}}" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Jenis Kelamin</label>
@@ -201,51 +202,16 @@
                         <a href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="btn btn-secondary btn-sm">Kembali</a>
                     </div>
                     <div class="float-lg-right">
-                        <button onclick="verifikasiPemuputKarya({{$dataSulinggih->id}})" type="button" class="btn btn-primary btn-sm ">Setujui</button>
-                        <button class="btn btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-default">Tolak</button>
+                        <button onclick="terimaPemuput({{$dataSulinggih->id}})" type="button" class="btn btn-primary btn-sm ">Setujui</button>
+                        <button onclick="tolakPemuput({{$dataSulinggih->id}})" class="btn btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-default">Tolak</button>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.container-fluid -->
-        <form id="{{"update-".$dataSulinggih->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya')}}" method="post">
-            @csrf
-            @method('PUT')
-            <input type="hidden" name="id" value="{{$dataSulinggih->id}}">
-        </form>
-
-        <!-- /.modal-content -->
-        <div class="modal fade" id="modal-default">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Penolakan Akun</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya.tolak')}}" method="post">
-                        @csrf
-                        @method('PUT')
-                        <div class="modal-body">
-                            <input type="hidden" name="id" value="{{$dataSulinggih->id}}">
-                            <div class="form-group">
-                                <label for="message-text" class="col-form-label" placeholder="Masukan keterangan penolakan akun.....">Keterangan Penolakan</label>
-                                <textarea class="form-control" rows="3"  id="message-text" name="text_penolakan"></textarea>
-                            </div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-danger" >Submit</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
     </section>
 
     <input id="dataGriya" type="hidden" class="d-none" value='@json($dataSulinggih->GriyaRumah)'>
-
+    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-akun')
 @endsection
 
 @push('js')
@@ -277,32 +243,6 @@
             $('#side-pengaturan-akun').addClass('menu-open');
             $('#side-konfirmasi-sulinggih').addClass('active');
         });
-    </script>
-
-    <script>
-        // TERIMA VERIFIKASI PEMUPUT KARYA
-        function verifikasiPemuputKarya(index)
-        {
-            Swal.fire({
-                title: 'Verifikasi',
-                text : 'Apakah anda yakin akan mengkonfirmasi akun pemuput karya tersebut?',
-                icon:'question',
-                showDenyButton: true,
-                showCancelButton: false,
-                denyButtonText: `Tidak`,
-                confirmButtonText: `Setujui`,
-                confirmButtonColor: '#3085d6',
-                denyButtonColor: '#d33',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#update-'+index).submit();
-                    } else if (result.isDenied) {
-
-                    }
-                })
-        }
-        // TERIMA VERIFIKASI PEMUPUT KARYA
-
     </script>
 
 @endpush

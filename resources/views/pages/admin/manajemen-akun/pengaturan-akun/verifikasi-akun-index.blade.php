@@ -98,13 +98,6 @@
                                                             <a onclick="terimaPemuput({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                             <a onclick="tolakPemuput({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
-                                                        {{--
-                                                        <form id="{{"tolakPemuput-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya.tolak')}}" method="post">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <input type="hidden" name="id" value="{{$data->id}}">
-                                                            <input type="hidden" name="text_penolakan" id={{"text_penolakan".$data->id}} value="">
-                                                        </form> --}}
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -122,7 +115,6 @@
                                 </div>
                             </div>
                             {{-- End Data Table Sulinggih --}}
-
 
                             {{-- Start Data Table Pemangku --}}
                             <div class="tab-pane fade" id="pemangku-table" role="tabpanel" aria-labelledby="pemangku-tabs">
@@ -142,28 +134,26 @@
                                                 @foreach ($dataPemangku as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
-                                                        <td>{{$data->nama_sulinggih}}</td>
+                                                        <td>{{$data->nama_pemuput}}</td>
                                                         <td>{{$data->User->nomor_telepon}}</td>
                                                         <td>{{date('d F Y',strtotime($data->created_at))}}</td>
                                                         <td>
                                                             <a href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                                            <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                                            <a onclick="terimaPemuput({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                            <a onclick="tolakPemuput({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
-                                                        <form id="{{"update-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya')}}" method="post">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <input type="hidden" name="id" value="{{$data->id}}">
-                                                        </form>
-                                                        <form id="{{"tolakPemuput-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya.tolak')}}" method="post">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <input type="hidden" name="id" value="{{$data->id}}">
-                                                            <input type="hidden" id={{"text_penolakan".$data->id}} value="" name="text_penolakan">
-                                                        </form>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Nama Pemangku</th>
+                                                    <th>Nomor Telepon</th>
+                                                    <th>Tanggal Mendaftar</th>
+                                                    <th>Tindakan</th>
+                                                </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>

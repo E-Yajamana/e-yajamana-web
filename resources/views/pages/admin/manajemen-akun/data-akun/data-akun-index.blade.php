@@ -103,7 +103,7 @@
                                                 @foreach ($dataSulinggih as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
-                                                        <td>{{$data->nama_sulinggih}}</td>
+                                                        <td>{{$data->nama_pemuput}}</td>
                                                         <td>{{$data->GriyaRumah->nama_griya_rumah}}</td>
                                                         <td class="text-center">
                                                             <div  @if ($data->status_konfirmasi_akun == 'pending') class="bg-secondary btn-sm" @elseif ($data->status_konfirmasi_akun == 'ditolak') class="bg-danger btn-sm" @elseif ($data->status_konfirmasi_akun == 'disetujui') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:90px;">{{ucfirst($data->status_konfirmasi_akun)}}</div>
@@ -113,17 +113,6 @@
                                                             @if ($data->status_konfirmasi_akun == 'pending')
                                                                 <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                                 <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times px-1"></i></a>
-                                                                <form id="{{"update-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya')}}" method="post">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <input type="hidden" name="id" value="{{$data->id}}">
-                                                                </form>
-                                                                <form id="{{"tolakPemuput-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya.tolak')}}" method="post">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <input type="hidden" name="id" value="{{$data->id}}">
-                                                                    <input type="hidden" id={{"text_penolakan".$data->id}} value="" name="text_penolakan">
-                                                                </form>
                                                             @elseif ($data->status_konfirmasi_akun == 'disetujui')
                                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                                 <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
@@ -169,17 +158,6 @@
                                                             @if ($data->status_konfirmasi_akun == 'pending')
                                                                 <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                                 <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times px-1"></i></a>
-                                                                <form id="{{"update-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya')}}" method="post">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <input type="hidden" name="id" value="{{$data->id}}">
-                                                                </form>
-                                                                <form id="{{"tolakPemuput-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.pemuput-karya.tolak')}}" method="post">
-                                                                    @csrf
-                                                                    @method('PUT')
-                                                                    <input type="hidden" name="id" value="{{$data->id}}">
-                                                                    <input type="hidden" id={{"text_penolakan".$data->id}} value="" name="text_penolakan">
-                                                                </form>
                                                             @elseif ($data->status_konfirmasi_akun == 'disetujui')
                                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                                 <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
@@ -216,7 +194,7 @@
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_sanggar}}</td>
-                                                        <td>{{$data->User->nomor_telepon}}</td>
+                                                        <td>{{$data->nomor_telepon}}</td>
                                                         <td class="text-center">
                                                             <div  @if ($data->status_konfirmasi_akun == 'pending') class="bg-secondary btn-sm" @elseif ($data->status_konfirmasi_akun == 'ditolak') class="bg-danger btn-sm" @elseif ($data->status_konfirmasi_akun == 'disetujui') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:90px;">{{ucfirst($data->status_konfirmasi_akun)}}</div>
                                                         </td>
@@ -269,7 +247,7 @@
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->User->Penduduk->nama}}</td>
-                                                        <td>{{$data->User->nomor_telepon}}</td>
+                                                        <td>{{$data->nomor_telepon}}</td>
                                                         <td class="text-center">
                                                             <div  @if ($data->status_konfirmasi_akun == 'pending') class="bg-secondary btn-sm" @elseif ($data->status_konfirmasi_akun == 'ditolak') class="bg-danger btn-sm" @elseif ($data->status_konfirmasi_akun == 'disetujui') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:90px;">{{ucfirst($data->status_konfirmasi_akun)}}</div>
                                                         </td>
@@ -305,9 +283,9 @@
                                                 @foreach ($dataKrama as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
-                                                        <td>{{$data->User->Penduduk->nama}}</td>
-                                                        <td>{{$data->User->nomor_telepon}}</td>
-                                                        <td>{{$data->User->Penduduk->alamat}}</td>
+                                                        <td>{{$data->Penduduk->nama}}</td>
+                                                        <td>{{$data->nomor_telepon}}</td>
+                                                        <td>{{$data->Penduduk->alamat}}</td>
                                                         <td>
                                                             <a href="{{route('admin.manajemen-akun.data-akun.krama.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
