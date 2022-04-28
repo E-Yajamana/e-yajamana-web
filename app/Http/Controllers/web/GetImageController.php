@@ -39,6 +39,9 @@ class GetImageController extends Controller
         // MAIN LOGIC
             try{
                 $path = User::findOrFail($id)->user_profile;
+                if($path == null){
+                    $path = 'app/default/profile/user.jpg';
+                }
                 return ImageHelper::getImage($path);
             }catch(\Exception | ModelNotFoundException $err){
                 return redirect()->back()->with([
@@ -73,6 +76,9 @@ class GetImageController extends Controller
         // MAIN LOGIC
             try{
                 $path = AtributPemuput::findOrFail($id)->sk_pemuput;
+                if($path == null){
+                    $path = 'default.jpg';
+                }
                 return ImageHelper::getImage($path);
             }catch(\Exception | ModelNotFoundException $err){
                 return redirect()->back()->with([
@@ -108,6 +114,9 @@ class GetImageController extends Controller
         // MAIN LOGIC
             try{
                 $path = Upacara::findOrFail($id)->image;
+                if($path == null){
+                    $path = 'default.jpg';
+                }
                 return ImageHelper::getImage($path);
             }catch(\Exception | ModelNotFoundException $err){
                 return redirect()->back()->with([
@@ -142,6 +151,9 @@ class GetImageController extends Controller
         // MAIN LOGIC
             try{
                 $path = TahapanUpacara::findOrFail($id)->image;
+                if($path == null){
+                    $path = 'dafault.jpg';
+                }
                 return ImageHelper::getImage($path);
             }catch(\Exception | ModelNotFoundException $err){
                 return redirect()->back()->with([

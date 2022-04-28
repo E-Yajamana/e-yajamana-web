@@ -176,7 +176,6 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
         Route::get('edit/{id}', [KramaUpacarakuController::class, 'editUpacaraku'])->name('krama.manajemen-upacara.upacaraku.edit');
         Route::put('update', [KramaUpacarakuController::class, 'updateUpacaraku'])->name('krama.manajemen-upacara.upacaraku.update');
         Route::put('delete', [KramaUpacarakuController::class, 'deleteUpacaraku'])->name('krama.manajemen-upacara.upacaraku.delete');
-
     });
 
     Route::prefix('manajemen-reservasi')->group(function () {
@@ -278,9 +277,6 @@ Route::prefix('ajax')->group(function () {
         Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
 
     });
-
-
-
 
 });
 // END SERVICE AJAX SISTEM

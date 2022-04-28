@@ -28,13 +28,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Upacaraku</h1>
+                    <h1>Edit Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Data Upacaraku</a></li>
-                        <li class="breadcrumb-item active">Edit Upacaraku</li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item active">Edit Upacara</li>
                     </ol>
                 </div>
             </div>
@@ -286,19 +286,9 @@
         let parseData = (JSON.parse(article));
         console.log(parseData);
 
-
-        $('#daterange').daterangepicker({
-            "minDate": moment(Date ()).add(1, 'D').format('DD MMMM YYYY'),
-            "maxDate": moment(Date ()).add(2, 'Y').format('DD MMMM YYYY'),
-            locale: {
-                format: 'DD MMMM YYYY',
-            },
-            drops: "up",
-        });
-
         $('#reservationtime').daterangepicker({
             "autoApply": true,
-            "minDate": moment(Date ()).add(1, 'D').format('DD MMMM YYYY'),
+            "minDate": moment(Date ()).add(-2, 'M').format('DD MMMM YYYY'),
             "maxDate": moment(Date ()).add(2, 'Y').format('DD MMMM YYYY'),
             startDate: moment(parseData.tanggal_mulai).format('DD MMMM YYYY'),
             endDate:moment(parseData.tanggal_selesai).format('DD MMMM YYYY'),

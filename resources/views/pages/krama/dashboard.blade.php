@@ -118,7 +118,7 @@ crossorigin=""></script>
                                 @foreach ($dataUpacaraKrama as $data)
                                     <li class="item">
                                         <div class="ml-3 product-info">
-                                            <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="product-title ">{{$data->Upacara->kategori_upacara}} | Upacarar Rismawan
+                                            <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="product-title description ">{{$data->Upacara->kategori_upacara}} | {{Str::limit($data->nama_upacara, 15, $end='.......')}}
                                                 <span class="badge badge-secondary float-right">{{Str::ucfirst($data->status)}}</span>
                                             </a>
                                             <span class="product-description">
@@ -140,9 +140,6 @@ crossorigin=""></script>
                                 </div>
                             </div>
                         @endif
-
-
-
                     </div>
                     <div class="card-footer text-center">
                         <a href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="uppercase">Lihat Semua Upacara Krama</a>

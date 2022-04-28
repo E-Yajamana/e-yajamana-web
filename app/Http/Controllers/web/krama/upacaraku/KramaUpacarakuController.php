@@ -56,7 +56,7 @@ class KramaUpacarakuController extends Controller
                 'daterange' => 'required',
                 'nama_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
                 'lokasi' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
-                'deskripsi_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
+                // 'deskripsi_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
                 'lat' => 'required|numeric|regex:/^[0-9.-]+$/i',
                 'lng' => 'required|numeric|regex:/^[0-9.-]+$/i',
             ],
@@ -117,7 +117,7 @@ class KramaUpacarakuController extends Controller
                 NotificationHelper::sendNotification(
                     [
                         'title' => "UPACARA DIBUAT",
-                        'body' => "Upacara dengan nama ".$request->nama_upacara." telah berhasil dibuat, silahkan melakukan reservasi sulinggih untuk memputu upacara",
+                        'body' => "Upacara dengan nama ".$request->nama_upacara." telah berhasil dibuat, silahkan melakukan reservasi Pemuput Karya atau Sanggar untuk muput upacara adat",
                         'status' => "new",
                         'image' => "normal",
                         'notifiable_id' => $user->id,
@@ -242,7 +242,7 @@ class KramaUpacarakuController extends Controller
                 'id_banjar_dinas' => 'required|exists:tb_m_banjar_dinas,id',
                 'nama_upacara' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
                 'alamat_upacaraku' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
-                'deskripsi_upacaraku' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
+                // 'deskripsi_upacaraku' => 'required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100',
                 'lat' => 'required|numeric|regex:/^[0-9.-]+$/i',
                 'lng' => 'required|numeric|regex:/^[0-9.-]+$/i',
             ],
@@ -360,7 +360,7 @@ class KramaUpacarakuController extends Controller
                 if($dataUpacaraku->reservasi_count == 0){
                     $dataUpacaraku->update(['status'=>'batal']);
                     if($request->reservasi_count != 0){
-                        $dataUpacaraku->Reservasi()->update(['status'=>'batal']);
+                        $dataUpacaraku->Reservasi()->update(['status'=>'batal','keterangan'=> $request->alasan_pembatalan]);
                         foreach($dataUpacaraku->Reservasi as $data){
                             $relasi = User::findOrFail($data->id_relasi);
                             // SEND NOTIFICATION TO HAVE RESERVASITON

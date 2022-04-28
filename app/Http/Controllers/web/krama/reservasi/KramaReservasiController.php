@@ -80,12 +80,13 @@ class KramaReservasiController extends Controller
 
                 $dataPemuputKarya = GriyaRumah::query();
                 $sulinggihQuery = function($sulinggihQuery) use ($dataUserReservasi){
-                    $sulinggihQuery->with(['AtributPemuput','User'])->where('status_konfirmasi_akun','disetujui')->whereNotIn('id_user',$dataUserReservasi);
+                    $sulinggihQuery->with(['AtributPemuput','User.Penduduk'])->where('status_konfirmasi_akun','disetujui')->whereNotIn('id_user',$dataUserReservasi);
                 };
                 $dataPemuputKarya->with([
                     'PemuputKarya' => $sulinggihQuery
                     ])->whereHas('PemuputKarya',$sulinggihQuery);
                 $dataPemuputKarya = $dataPemuputKarya->get();
+                // dd($dataPemuputKarya);
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 return redirect()->back()->with([
                     'status' => 'fail',
@@ -153,7 +154,6 @@ class KramaReservasiController extends Controller
 
                 $reservasi->DetailReservasi()->createMany($dataDetailReservasi);
 
-                dd($request->all());
                 $relasi = User::findOrFail($request->id_relasi);
                 $user = Auth::user();
 
@@ -170,18 +170,18 @@ class KramaReservasiController extends Controller
                     ],
                     $relasi
                 );
-                // NotificationHelper::sendNotification(
-                //     [
-                //         'title' => "PERMOHONAN RESERVASI DIBUAT",
-                //         'body' => "Permohonan reservasi kepada " . $relasi->getRelasi($request->tipe)->nama . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
-                //         'status' => "new",
-                //         'image' => "sulinggih",
-                //         'notifiable_id' => $user->id,
-                //         'formated_created_at' => date('Y-m-d H:i:s'),
-                //         'formated_updated_at' => date('Y-m-d H:i:s'),
-                //     ],
-                //     $user
-                // );
+                NotificationHelper::sendNotification(
+                    [
+                        'title' => "PERMOHONAN RESERVASI DIBUAT",
+                        'body' => "Permohonan reservasi kepada " . $relasi->PemuputKarya->nama_pemuput . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak pemuput karya",
+                        'status' => "new",
+                        'image' => "sulinggih",
+                        'notifiable_id' => $user->id,
+                        'formated_created_at' => date('Y-m-d H:i:s'),
+                        'formated_updated_at' => date('Y-m-d H:i:s'),
+                    ],
+                    $user
+                );
                 // END SEND NOTIFICATION
 
                 DB::commit();

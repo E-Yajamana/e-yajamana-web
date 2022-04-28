@@ -35,9 +35,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">List Upacara Krama</a></li>
-                    <li class="breadcrumb-item active">Tambah Upacara Krama</li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item active">Tambah Upacara</li>
                     </ol>
                 </div>
             </div>
@@ -492,7 +492,7 @@
 
         $('#daterange').daterangepicker({
             // dateLimit: { days: 7 },
-            "minDate": moment(Date ()).add(1, 'D').format('DD MMMM YYYY'),
+            "minDate": moment(Date ()).add(-2, 'M').format('DD MMMM YYYY'),
             "maxDate": moment(Date ()).add(2, 'Y').format('DD MMMM YYYY'),
             locale: {
                 format: 'DD MMMM YYYY',
@@ -549,9 +549,9 @@
                     required: true,
                     number: true
                 },
-                deskripsi_upacara: {
-                    required: true,
-                },
+                // deskripsi_upacara: {
+                //     required: true,
+                // },
             },
             messages: {
                 nama_upacara: {
@@ -588,10 +588,10 @@
                 lng: {
                     required: "Pemetaan Lokasi Upakara Wajib diisi!",
                 },
-                deskripsi_upacara: {
-                    required: "Deskripsi Upacara Wajib diisi",
-                    minlength: "Deskripsi Upacara minimal berjumlah 3 karakter"
-                },
+                // deskripsi_upacara: {
+                //     required: "Deskripsi Upacara Wajib diisi",
+                //     minlength: "Deskripsi Upacara minimal berjumlah 3 karakter"
+                // },
 
             },
             errorElement: 'div',

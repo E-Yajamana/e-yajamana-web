@@ -131,7 +131,7 @@
 </aside>
 <input id="countReservasi" type="hidden" value='{{count(Auth::user()->Upacaraku)}}'>
 
-@if (count(Auth::user()->Upacaraku) != 0)
+@if (count(Auth::user()->Upacaraku->whereNotIn('status',['batal','selesai'])) != 0)
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -148,7 +148,7 @@
                         <label>Pilih Upacara yang akan direservasi <span class="text-danger">*</span></label>
                         <select id="jenis_upacara" name="id_upacara" class="form-control select2bs4" style="width: 100%;">
                             <option value="0" disabled selected>Pilih Upacara</option>
-                            @foreach (Auth::user()->Upacaraku as $data)
+                            @foreach (Auth::user()->Upacaraku->whereNotIn('status',['batal','selesai']) as $data)
                                 <option value="{{$data->id}}">{{$data->nama_upacara}}</option>
                             @endforeach
                         </select>

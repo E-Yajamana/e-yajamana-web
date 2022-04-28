@@ -1,5 +1,5 @@
 @extends('layouts.krama.krama-layout')
-@section('tittle','Data Upacaraku')
+@section('tittle','Data Upacara')
 
 @push('css')
     <!-- DataTables -->
@@ -16,12 +16,12 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>List Data Upacaraku</h1>
+                    <h1>List Data Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Data Upacaraku</li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Data Upacara</li>
                     </ol>
                 </div>
             </div>
