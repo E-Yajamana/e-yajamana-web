@@ -100,9 +100,9 @@
                             <div class="col-6">
                                 <h3 class="card-title my-auto">Rentetan Upacara</h3>
                             </div>
-                            <div class="col-6">
+                            {{-- <div class="col-6">
                                 <a data-toggle="modal" data-target="#exampleModal" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Tambah</a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="card-body">
@@ -125,7 +125,7 @@
                                         <td>{{$data->nama_tahapan}}</td>
                                         <td style="width: 25%;">{{$data->deskripsi_tahapan}}</td>
                                         <td>{{$data->status_tahapan}}</td>
-                                        <td style="width: 20%;height: 10%" ><img style="width: 100%;height: 150px" src="{{route('get-image.tahapan-upacara',$data->id)}}" class="img-fluid pad img-thumbnail"  alt="Responsive image"></td>
+                                        <td style="width: 20%;height: 10%" ><img style="width: 100%;height: 150px" src="{{route('image.tahapan-upacara',$data->id)}}" class="img-fluid pad img-thumbnail"  alt="Responsive image"></td>
                                         <td>
                                             <a href="{{route('admin.master-data.upacara.tahapan.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                             <button type="button" onclick="editTahapan({{$data->id}},'{{$data->nama_tahapan}}','{{$data->deskripsi_tahapan}}','{{$data->status_tahapan}}','{{$data->image}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
@@ -326,40 +326,6 @@
 @push('js')
     <script type="text/javascript">
         let id = $("#id_upacara").val();
-        // getDataTahapan()
-        // function getDataTahapan(){
-        //     console.log(id)
-        //     $.ajax({
-        //         url: "{{route('ajax.get.tahapan-upacara')}}/"+id,
-        //         type: "GET",
-        //         dataType: "json",
-        //         success: function (dataTahapan) {
-        //             $.each(dataTahapan.data, function (key, data) {
-        //                 key++
-        //                 $('#dataTahapan').append("<tr><td>"+key+"</td><td>"+data.nama_tahapan+"</td><td style='width: 25%;'>"+data.deskripsi_tahapan+"</td><td>"+data.status_tahapan+"</td><td style='width: 20%;height: 10%' ><img style='width: 100%;height: 150px' src='{{route('get-image.tahapan-upacara',"+data.id+")}}' class='img-fluid pad img-thumbnail'  alt='Responsive image'></td><td><a href='{{route('admin.master-data.upacara.tahapan.detail',"+data.id+")}}' class='btn btn-info btn-sm'><i class='fas fa-eye'></i></a><button type='button' onclick='editTahapan("+data.id+",'"+data.nama_tahapan+"','"+data.deskripsi_tahapan+"','"+data.status_tahapan+"','"+data.image+"')' class='btn btn-primary btn-sm'><i class='fas fa-edit'></i></button><a onclick='deleteData("+data.id+")' class='btn btn-danger btn-sm'><i class='fas fa-trash'></i></a></td></form>");
-        //             });
-
-
-        //             // console.log(dataDesa.data.desas.length != 0);
-
-        //             // if (dataDesa.data.desas) {
-        //             //     $('#desa_dinas').empty();
-        //             //     $('#id_banjar_dinas').empty();
-        //             //     $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
-        //             //     $('#id_banjar_dinas').append('<option value="0" disabled selected>Pilih Banjar Dinas</option>');
-        //             //     $.each(dataDesa.data.desas, function (key, data) {
-        //             //         $('#desa_dinas').append('<option value="' + data.id + '">' + data.name + '</option>');
-        //             //     });
-        //             // } else {
-        //             //     $('#desa_dinas').empty();
-        //             //     $('#desa_dinas').append('<option value="0" disabled selected>Belum terdapat data Desa Dinas pada Kecamatan tersebut!</option>');
-        //             // }
-        //         }
-        //     })
-        // }
-
-
-
 
 
         function simpanData(){

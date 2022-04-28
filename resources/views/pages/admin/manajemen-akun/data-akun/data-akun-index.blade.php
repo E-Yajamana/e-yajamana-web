@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
                     <li class="breadcrumb-item active">Data Akun User</li>
                     </ol>
                 </div>
@@ -77,11 +77,11 @@
                             <div class="card-header my-auto">
                                 <div class="row">
                                     <div class="col-6">
-                                        <h3 class="card-title my-auto">Preview List Data Akun</h3>
+                                        <h3 class="card-title my-auto">List Data Akun</h3>
                                     </div>
-                                    <div class="col-6">
+                                    {{-- <div class="col-6">
                                         <a class="btn btn-primary float-right" href=""><i class="fa fa-plus"></i> Tambah</a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
 
@@ -117,8 +117,6 @@
                                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                                 <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                             @else
-                                                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -148,7 +146,7 @@
                                                 @foreach ($dataPemangku as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
-                                                        <td>{{$data->nama_sulinggih}}</td>
+                                                        <td>{{$data->nama_pemuput}}</td>
                                                         <td>{{$data->GriyaRumah->nama_griya_rumah}}</td>
                                                         <td class="text-center">
                                                             <div  @if ($data->status_konfirmasi_akun == 'pending') class="bg-secondary btn-sm" @elseif ($data->status_konfirmasi_akun == 'ditolak') class="bg-danger btn-sm" @elseif ($data->status_konfirmasi_akun == 'disetujui') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:90px;">{{ucfirst($data->status_konfirmasi_akun)}}</div>

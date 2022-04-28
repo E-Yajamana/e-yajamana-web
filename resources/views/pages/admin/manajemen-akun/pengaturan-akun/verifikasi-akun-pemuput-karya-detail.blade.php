@@ -181,7 +181,7 @@
                                 @endif
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">@if ($dataSulinggih->User->Penduduk->jenis_kelamin == 'laki-laki') Nama Istri @else Nama Suami @endif</label>
-                                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" value="{{($dataSulinggih->Pasangan->nama_pemuput)}}" disabled>
+                                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" value="#" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Jenis Kelamin</label>

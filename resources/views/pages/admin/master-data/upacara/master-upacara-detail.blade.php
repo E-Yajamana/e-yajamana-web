@@ -17,9 +17,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
-                    <li class="breadcrumb-item active">Data Detail Upacara</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item active">Detail Upacara</li>
                     </ol>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-sm-6" style="width: ">
-                                <img src="{{asset('base-template/ngenteglinggih.jpg')}}" style="height: 400px; width:100%" class=" d-flex img-fluid pad img-thumbnail"  alt="Responsive image">
+                                <img src="{{route('image.upacara',$dataUpacara->id)}}" style="height: 400px; width:100%" class=" d-flex img-fluid pad img-thumbnail"  alt="Responsive image">
                             </div>
                             <div class="col-12 col-sm-6 justify-content-center align-items-center d-flex">
                                 <div class=" text-center ">

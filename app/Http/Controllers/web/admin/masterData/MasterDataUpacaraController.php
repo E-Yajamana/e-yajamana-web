@@ -193,7 +193,7 @@ class MasterDataUpacaraController extends Controller
     // DETAIL DATA UPACARA
     public function detailDataUpacara(Request $request)
     {
-         // SECURITY
+        // SECURITY
             $validator = Validator::make(['id' =>$request->id],[
                 'id' => 'required|exists:tb_upacara,id',
             ]);

@@ -55,17 +55,6 @@
                                     </div>
                                 @enderror
                             </div>
-                            {{-- <div class="form-group">
-                                <label>Provinsi <span class="text-danger">*</span></label>
-                                <select disabled class="form-control select2bs4  @error('penerbit') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
-                                    <option disabled selected value="Bali">BALI</option>
-                                </select>
-                                @error('penerbit')
-                                    <div class="invalid-feedback text-start">
-                                        {{$errors->first('penerbit') }}
-                                    </div>
-                                @enderror
-                            </div> --}}
                             <div class="form-group">
                                 <label>Kabupaten/Kota <span class="text-danger">*</span></label>
                                 <select id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
@@ -241,64 +230,7 @@
 
     <!-- Fungsi Ajax Get Data  -->
     <script language="javascript" type="text/javascript">
-        $('#kabupaten').on('change', function() {
-            var kabupatenID = $(this).val();
-            if(kabupatenID){
-                $.ajax({
-                       url: '/ajax/kecamatan/'+kabupatenID,
-                       type: "GET",
-                       data : {"_token":"{{ csrf_token() }}"},
-                       dataType: "json",
-                       success:function(dataKecamatan)
-                        {
-                            console.log(kabupatenID);
-                            console.log(dataKecamatan.data.kecamatans);
 
-                            if(dataKecamatan.data.kecamatans){
-                                $('#kecamatan').empty();
-                                $('#desa_dinas').empty();
-                                $('#kecamatan').append('<option value="0" disabled selected>Pilih Kecamatan</option>');
-                                $.each(dataKecamatan.data.kecamatans, function(key, data){
-                                    $('#kecamatan').append('<option value="'+ data.id_kecamatan +'">' + data.name+ '</option>');
-                                });
-                            }else{
-                                $('#course').empty();
-                            }
-                        }
-                    })
-            }else{
-                $('#course').empty();
-            }
-        })
-
-        $('#kecamatan').on('change', function() {
-            var kecamatanID = $(this).val();
-            if(kecamatanID){
-                $.ajax({
-                       url: '/ajax/desa/'+kecamatanID,
-                       type: "GET",
-                       data : {"_token":"{{ csrf_token() }}"},
-                       dataType: "json",
-                       success:function(dataDesa)
-                        {
-                            console.log(kecamatanID);
-                            console.log(dataDesa.data.desas);
-
-                            if(dataDesa.data.desas){
-                                $('#desa_dinas').empty();
-                                $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
-                                $.each(dataDesa.data.desas, function(key, data){
-                                    $('#desa_dinas').append('<option value="'+ data.id_desa +'">' + data.name+ '</option>');
-                                });
-                            }else{
-                                $('#course').empty();
-                            }
-                        }
-                    })
-            }else{
-                $('#course').empty();
-            }
-        })
     </script>
     <!-- Fungsi Ajax Get Data  -->
 

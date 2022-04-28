@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="{{asset('base-template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
     <!-- Toastr -->
   <link rel="stylesheet" href="{{asset('base-template/plugins/toastr/toastr.min.css')}}">
-  
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
   crossorigin=""/>
@@ -158,7 +158,7 @@
 
 @endsection
 
-@push('js') 
+@push('js')
 
     <script>
         // TERIMA VERIFIKASI PEMUPUT KARYA
@@ -216,6 +216,6 @@
         });
     </script>
 
-    
+
 
 @endpush

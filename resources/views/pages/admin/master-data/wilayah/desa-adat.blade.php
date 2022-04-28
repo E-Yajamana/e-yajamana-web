@@ -13,12 +13,12 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Desa Adat</h1>
+                    <h1>Data Banjar</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">E-Yajamana</a></li>
-                    <li class="breadcrumb-item active">Data Desa Adat</li>
+                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
+                    <li class="breadcrumb-item active">Data Banjar</li>
                     </ol>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6">
-                                    <h3 class="card-title">Data Desa Adat Sistem E-Yajamana</h3>
+                                    <h3 class="card-title">Data Banjar</h3>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                                             <td>{{$loop->iteration}}</td>
                                             <td>{{$data->kode_banjar_dinas}}</td>
                                             <td>{{$data->nama_banjar_dinas}}</td>
-                                            <td>{{$data->jenis_banjar_dinas}}</td>
+                                            <td>{{ucfirst($data->jenis_banjar_dinas)}}</td>
                                             <td>{{$data->DesaDinas->name}}</td>
                                         </tr>
                                     @endforeach
