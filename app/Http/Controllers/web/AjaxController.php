@@ -86,6 +86,7 @@ class AjaxController extends Controller
     }
 
 
+    // NIK REGIS
     public function getDataPenduduk($nik)
     {
         // SECURITY
@@ -96,8 +97,9 @@ class AjaxController extends Controller
                 return response()->json([
                     'status' => 400,
                     'icon' => 'warning',
-                    'title' => 'Gagal menemukan data penduduk...',
-                    'message' => 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKEDAT terlebih dahulu.. !!',
+                    'title' => 'Gagal Menemukan Data Penduduk...',
+                    'message' => 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKERAMAT terlebih dahulu.. !!',
+                    'footer' =>'<a href="'.route('auth.login').'">Lakukan Pendataan telebih dahulu..!!</a>',
                     'data' => (Object)[],
                 ],400);
             }
@@ -120,8 +122,7 @@ class AjaxController extends Controller
                             'icon' => 'warning',
                             'title' => 'Pemberitahuan',
                             'message' => 'Anda tidak dapat mendaftar kembali sebagai Pemuput Karya, karena Anda sudah mempunyai akun dengan email : '.$penduduk->User->email,
-                            // 'footer' => "{{route('auth.login')}}"
-
+                            'footer' =>'<a href="'.route('auth.login').'">Halaman Login Sistem...!!</a>',
                         ];
                     }else{
                         $statusCode = 200;
@@ -149,7 +150,7 @@ class AjaxController extends Controller
                     'status' => 400,
                     'icon' => 'warning',
                     'title' => 'Gagal menemukan data penduduk...',
-                    'message' => 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKEDAT terlebih dahulu.. !!',
+                    'message' => 'Untuk membuat data akun E-Yajamana, lakukan pendataan penduduk pada sistem SIKERAMAT terlebih dahulu.. !!',
                     'data' => $err,
                 ],400);
             }
@@ -159,6 +160,7 @@ class AjaxController extends Controller
             return response()->json($result,$statusCode);
         // END
     }
+    // NIK REGIS
 
 
 

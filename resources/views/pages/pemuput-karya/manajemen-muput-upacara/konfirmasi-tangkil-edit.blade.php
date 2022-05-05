@@ -276,7 +276,7 @@
                                             <div class="card shadow mb-4 card-info card-outline ">
                                                 <div class="card-header" aria-expanded="false">
                                                     <div class="user-block">
-                                                        <img class="img-circle" src="{{route('get-image.profile.pemuput-karya',2)}}" alt="User Image">
+                                                        <img class="img-circle" src="{{route('image.profile.user',$data->Relasi->id)}}" alt="User Image">
                                                         <span class="username">
                                                             <a class="ml-2" href="#">{{$data->Relasi->PemuputKarya->nama_pemuput}}</a> | {{strtoupper($data->status)}}
                                                         </span>

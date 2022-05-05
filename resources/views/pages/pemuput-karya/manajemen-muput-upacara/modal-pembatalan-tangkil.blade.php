@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content ">
             <div class="modal-header align-content-center text-center">
-                <label class="modal-title h4 align-content-center w-100" id="exampleModalLabel">Pembatalan Tabgkil</label>
+                <label class="modal-title h4 align-content-center w-100" id="exampleModalLabel">Pembatalan Tangkil</label>
                 <button type="button" class="pl-0 close float-lg-right"  data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

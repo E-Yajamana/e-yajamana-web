@@ -14,12 +14,12 @@ class TbPemuputKaryaTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('tb_pemuput_karya')->delete();
-        
+
         \DB::table('tb_pemuput_karya')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
                 'id_user' => 2,
@@ -33,7 +33,7 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 22:54:38',
                 'updated_at' => '2022-01-18 22:54:40',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 5,
                 'id_user' => 4,
@@ -47,7 +47,7 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 22:54:55',
                 'updated_at' => '2022-01-22 15:33:22',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 6,
                 'id_user' => 2,
@@ -61,7 +61,7 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'created_at' => '2022-01-19 01:36:55',
                 'updated_at' => '2022-01-19 01:37:00',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 54,
                 'id_user' => 49,
@@ -75,8 +75,50 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            4 =>
+            array (
+                'id' => 55,
+                'id_user' => 3,
+                'id_griya' => 7,
+                'id_pasangan' => 5,
+                'id_atribut' => 2,
+                'nama_pemuput' => 'Ida Gede Dalem Jineng',
+                'status_konfirmasi_akun' => 'disetujui',
+                'keterangan_konfirmasi_akun' => NULL,
+                'tipe' => 'pemangku',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            5 =>
+            array (
+                'id' => 57,
+                'id_user' => 58,
+                'id_griya' => 4,
+                'id_pasangan' => NULL,
+                'id_atribut' => 6,
+                'nama_pemuput' => 'ida pedande',
+                'status_konfirmasi_akun' => 'disetujui',
+                'keterangan_konfirmasi_akun' => NULL,
+                'tipe' => 'sulinggih',
+                'created_at' => '2022-04-29 08:08:25',
+                'updated_at' => '2022-04-29 10:08:41',
+            ),
+            6 =>
+            array (
+                'id' => 58,
+                'id_user' => 59,
+                'id_griya' => 7,
+                'id_pasangan' => NULL,
+                'id_atribut' => 7,
+                'nama_pemuput' => 'Sulinggih A',
+                'status_konfirmasi_akun' => 'pending',
+                'keterangan_konfirmasi_akun' => NULL,
+                'tipe' => 'sulinggih',
+                'created_at' => '2022-04-29 11:27:23',
+                'updated_at' => '2022-04-29 11:27:23',
+            ),
         ));
-        
-        
+
+
     }
 }

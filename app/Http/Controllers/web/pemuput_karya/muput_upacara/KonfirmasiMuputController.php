@@ -82,15 +82,15 @@ class KonfirmasiMuputController extends Controller
             [
                 'id_detail_reservasi' => 'required|exists:tb_detail_reservasi,id',
                 'id_upacaraku' => 'required|exists:tb_upacaraku,id',
-                'file' => 'required|image|mimes:png,jpg,jpeg|max:2500',
+                // 'file' => 'required|image|mimes:png,jpg,jpeg|max:2500',
             ],
             [
                 'id_detail_reservasi.required' => "ID Detail Reservasi wajib diisi",
                 'id_detail_reservasi.exists' => "ID Detail Reservasi tidak sesuai",
-                'file.required' => "Bukti muput wajib diisi",
-                'file.image' => "Gambar harus berupa foto",
-                'file.mimes' => "Format gambar harus jpeg, png atau jpg",
-                'file.size' => "Gambar maksimal berukuran 2.5 Mb",
+                // 'file.required' => "Bukti muput wajib diisi",
+                // 'file.image' => "Gambar harus berupa foto",
+                // 'file.mimes' => "Format gambar harus jpeg, png atau jpg",
+                // 'file.size' => "Gambar maksimal berukuran 2.5 Mb",
             ]
         );
 
@@ -108,13 +108,17 @@ class KonfirmasiMuputController extends Controller
         try {
             DB::beginTransaction();
             $sulinggih = Auth::user();
-            $folder = 'app/sulinggih/bukti-muput/upacara/';
-            $filename =  ImageHelper::moveImage($request->file, $folder);
             $detailReservasi = DetailReservasi::with(['Reservasi'])->findOrFail($request->id_detail_reservasi);
+
+            if($request->file != null){
+                $folder = 'app/sulinggih/bukti-muput/upacara/';
+                $filename =  ImageHelper::moveImage($request->file, $folder);
+                $detailReservasi->Gambar()->create(['image' => $filename]);
+
+            }
             $upacaraku = Upacaraku::findOrFail($request->id_upacaraku);
             $krama = User::findOrFail($upacaraku->id_krama);
 
-            $detailReservasi->Gambar()->create(['image' => $filename]);
             $detailReservasi->update(['status' => 'selesai']);
             $countDetailReservasi = DetailReservasi::whereIdReservasi($detailReservasi->id_reservasi)->whereIn('status', ['diterima'])->count();
             $jumlahReservasi = Reservasi::whereIdUpacaraku($detailReservasi->Reservasi->id_upacaraku)->whereIn('status', ['pending','proses tangkil', 'proses muput'])->whereNotIn('id', [$detailReservasi->id_reservasi])->count();
@@ -143,7 +147,7 @@ class KonfirmasiMuputController extends Controller
             NotificationHelper::sendNotification(
                 [
                     'title' =>"MUPUT UPACARA SELESAI",
-                    'body' => "Halo Krama Bali !, ".$sulinggih->PemuputKarya->nama_pemuput." sudah menyelesaikan Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." ! ",
+                    'body' => "Halo Krama Bali !!, ".$sulinggih->PemuputKarya->nama_pemuput." sudah menyelesaikan Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." ! ",
                     'status' => "new",
                     'image' => "normal",
                     'notifiable_id' => $krama->id,
@@ -224,7 +228,7 @@ class KonfirmasiMuputController extends Controller
                 NotificationHelper::sendNotification(
                     [
                         'title' => 'BATAL MUPUT UPACARA',
-                        'body' => 'Halo '.$sulinggih->PemuputKarya->nama_pemuput." !, pembatalan Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." berhasil dilakukan!",
+                        'body' => 'Halo '.$sulinggih->PemuputKarya->nama_pemuput." !!, pembatalan muput upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." berhasil dilakukan!",
                         'status' => "new",
                         'image' => "normal",
                         'notifiable_id' => $sulinggih->id,
@@ -237,7 +241,7 @@ class KonfirmasiMuputController extends Controller
                 NotificationHelper::sendNotification(
                     [
                         'title' =>"PEMBATALAN MUPUT UPACARA",
-                        'body' => "Halo Krama Bali !, ".$sulinggih->PemuputKarya->nama_pemuput." membatalkan tahapan Upacara ".$detailReservasi->TahapanUpacara->nama_tahapan." dengan alasan pembatalan : ".$request->alasan_pembatalan,
+                        'body' => "Halo Krama Bali !!, ".$sulinggih->PemuputKarya->nama_pemuput." membatalkan tahapan Upacara ".$detailReservasi->TahapanUpacara->nama_tahapan." dengan alasan pembatalan : ".$request->alasan_pembatalan,
                         'status' => "new",
                         'image' => "normal",
                         'notifiable_id' => $krama->id,

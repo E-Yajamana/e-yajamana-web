@@ -472,9 +472,15 @@
 @push('js')
     <script>
         function setDataAkun(data,status){
-            console.log(status)
-            $('#nomor_telepon').val(data.nomor_telepon);
-            $('#email').val(data.email);
+            console.log(data)
+            if(data != ''){
+                $('#nomor_telepon').val(data.user.nomor_telepon);
+                $('#email').val(data.user.email);
+            }else{
+                $('#nomor_telepon').val('');
+                $('#email').val('');
+            }
+
             $("#email").prop('disabled', status);
             $("#nomor_telepon").prop('disabled', status);
             $("#password").prop('disabled', status);
@@ -500,12 +506,16 @@
                 dataType: "json",
                 success: function (response) {
                     if (response.data.user != null) {
-                        setDataAkun(response.data.user,true)
+                        setDataAkun(response.data,true)
                         $("#id_user").val(response.data.user.id)
                     }else{
                         $("#id_penduduk").val(response.data.id)
+                        $("#id_user").val('')
                         setDataAkun('',false)
                     }
+                    $("#nama_walaka").prop('disabled', true);
+                    $('#nama_walaka').val(response.data.nama_alias);
+
                     $('#buttonFormNIK').empty();
                     $('#buttonFormNIK').append('<button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>')
                     Swal.fire({
@@ -517,11 +527,12 @@
                 error: function(response, error){
                     console.log(response)
                     $('#buttonFormNIK').empty()
+                    console.log(response.responseJSON.link)
                     Swal.fire({
                         icon: response.responseJSON.icon,
                         title: response.responseJSON.title,
                         text: response.responseJSON.message,
-                        // footer:'<a href="'+response.responseJSON.footer+'">Lakukan Pendataan telebih dahulu disini</a>'
+                        footer: response.responseJSON.footer
                     })
                 }
             })
