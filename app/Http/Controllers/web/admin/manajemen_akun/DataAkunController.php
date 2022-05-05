@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 
 class DataAkunController extends Controller
 {
+    // INDEX
     public function index(Request $request)
     {
         $dataKrama = User::with('Penduduk')->whereHas('Penduduk')->get();
@@ -23,12 +24,16 @@ class DataAkunController extends Controller
 
         return view('pages.admin.manajemen-akun.data-akun.data-akun-index',compact('dataKrama','dataSanggar','dataSerati','dataPemangku','dataSulinggih'));
     }
+    // INDEX
 
+    // PEMUPUT DETAIL
     public function detailPemuputKarya(Request $request)
     {
         $dataPemuput = PemuputKarya::with(['User.Penduduk','GriyaRumah.BanjarDinas.DesaDinas.Kecamatan.Kabupaten'])->findOrFail($request->id);
         return view('pages.admin.manajemen-akun.data-akun.data-akun-pemuput-karya-detail',compact('dataPemuput'));
     }
+    // PEMUPUT DETAIL
+
 
     public function detailSanggar(Request $request)
     {

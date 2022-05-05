@@ -15,11 +15,11 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data List Upacara E-Yajamana</h1>
+                    <h1>Data Upacara Agama Hindu</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="">E-Yajamana</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item active">Data Upacara</li>
                      </ol>
                 </div>
@@ -35,7 +35,7 @@
                     <div class="col-md-3">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Katagori Yadnya</h3>
+                                <h3 class="card-title">Kategori Yadnya</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -80,7 +80,7 @@
                             <div class="card-header my-auto">
                                 <div class="row">
                                     <div class="col-6">
-                                        <h3 class="card-title my-auto">Preview List Data Upacara</h3>
+                                        <h3 class="card-title my-auto">List Data Upacara Agama Hindu</h3>
                                     </div>
                                     <div class="col-6">
                                         <a class="btn btn-primary float-right" href="{{route('admin.master-data.upacara.create')}}"><i class="fa fa-plus"></i> Tambah</a>

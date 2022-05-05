@@ -27,7 +27,6 @@ class ManajemenAkunController extends Controller
     }
     // VIEW INDEX VERIFIKASI DATA
 
-
     // DETAIL DATA VERIFIKASI AKUN PEMUPUT KARYA (SULINGGIHN DAN PEMANGKU)
     public function detailPemuput($id)
     {

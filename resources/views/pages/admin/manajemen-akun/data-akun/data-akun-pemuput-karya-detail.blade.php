@@ -25,9 +25,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}}}">E-Yajamana</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="{{route('admin.manajemen-akun.data-akun.index')}}">Data Akun</a></li>
-                        <li class="breadcrumb-item active">Detail Akun</li>
+                        <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
             </div>
@@ -215,21 +215,19 @@
                 </div>
                 <div class="card-footer mt-2">
                     <div class="float-lg-left">
-                        <a href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="btn btn-secondary btn-sm">Kembali</a>                    </div>
+                        <a href="{{route('admin.manajemen-akun.data-akun.index')}}" class="btn btn-secondary btn-sm">Kembali</a>
+                    </div>
                     <div class="float-lg-right">
                         @if ($dataPemuput->status_konfirmasi_akun == 'pending')
                             <button onclick="verifikasiPemuputKarya({{$dataPemuput->id}})" type="button" class="btn btn-primary btn-sm ">Setujui</button>
                             <button class="btn btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-default">Tolak</button>
-                        @elseif ($dataPemuput->status_konfirmasi_akun == 'disetujui')
-                            {{-- <button onclick="verifikasiPemuputKarya({{$dataPemuput->id}})" type="button" class="btn btn-danger btn-sm  mx-1">Hapus Data</button>
-                            <button class="btn btn btn-primary btn-sm mx-1" data-toggle="modal" data-target="#modal-default">Edit Data</button> --}}
-                        @else
-
                         @endif
                     </div>
                 </div>
             </div>
     </section>
+    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-akun')
+
     <input id="dataGriya" type="hidden" class="d-none" value='@json($dataPemuput->GriyaRumah)'>
 
 @endsection

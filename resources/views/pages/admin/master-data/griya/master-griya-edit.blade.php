@@ -1,5 +1,5 @@
 @extends('layouts.admin.admin-layout')
-@section('tittle','Tambah Data Upacara')
+@section('tittle','Ubah Data Griya / Puri')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -21,13 +21,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Data {{$dataGriya->nama_griya_rumah}}</h1>
+                    <h1>Ubah Data {{$dataGriya->nama_griya_rumah}}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Data Griya</a></li>
-                        <li class="breadcrumb-item active">Edit</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.griya.index')}}">Data Griya & Puri</a></li>
+                        <li class="breadcrumb-item active">Ubah</li>
                     </ol>
                 </div>
             </div>
@@ -42,12 +42,12 @@
                     @csrf
                     <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
-                            <h3 class="card-title my-auto">Form Tambah Data Upacara</h3>
+                            <h3 class="card-title my-auto">Form Ubah Data</h3>
                         </div>
                         <input class="d-none" hidden name="id" value="{{$dataGriya->id}}">
                         <div class="card-body p-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Nama Griya <span class="text-danger">*</span></label>
+                                <label for="exampleInputEmail1">Nama Griya / Puri <span class="text-danger">*</span></label>
                                 <input type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{$dataGriya->nama_griya_rumah}}">
                                 @error('nama_griya')
                                     <div class="invalid-feedback text-start">
@@ -135,7 +135,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Alamat Lengkap Griya <span class="text-danger">*</span></label>
+                                <label>Alamat Lengkap Griya / Puri <span class="text-danger">*</span></label>
                                 <textarea name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya" value="" >{{ $dataGriya->alamat_griya_rumah }}</textarea>
                                 @error('alamat_griya')
                                     <div class="invalid-feedback text-start">
@@ -144,7 +144,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Pemetaan Lokasi Griya</label>
+                                <label>Pemetaan Lokasi Griya / Puri</label>
                                 <div class="input-group mb-3">
                                     <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" readonly="readonly" value="{{ $dataGriya->lat }}">
                                     @error('lat')

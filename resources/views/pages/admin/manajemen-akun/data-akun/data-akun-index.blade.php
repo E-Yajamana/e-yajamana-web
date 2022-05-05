@@ -15,12 +15,12 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Akun User E-Yajamana</h1>
+                    <h1>Data Akun E-Yajamana</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
-                    <li class="breadcrumb-item active">Data Akun User</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Data Akun</li>
                     </ol>
                 </div>
             </div>

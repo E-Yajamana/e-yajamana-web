@@ -17,14 +17,14 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Data Upacara</h1>
+                    <h1>Ubah Data Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.detail',$dataUpacara->id)}}">{{$dataUpacara->nama_upacara}}</a></li>
-                    <li class="breadcrumb-item active">Edit</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.detail',$dataUpacara->id)}}">{{$dataUpacara->nama_upacara}}</a></li>
+                        <li class="breadcrumb-item active">Ubah</li>
                     </ol>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     @csrf
                     <div class="card tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
-                            <h3 class="card-title my-auto">Form Edit Data Upacara</h3>
+                            <h3 class="card-title my-auto">Form Ubah Data Upacara</h3>
                         </div>
                         <div class="card-body p-4">
                             <input class="d-none" type="hidden" name="id" value="{{$dataUpacara->id}}">
@@ -98,7 +98,7 @@
                     <div class="card-header my-auto">
                         <div class="row">
                             <div class="col-6">
-                                <h3 class="card-title my-auto">Rentetan Upacara</h3>
+                                <label class="card-title my-auto">Rentetan Upacara</label>
                             </div>
                             {{-- <div class="col-6">
                                 <a data-toggle="modal" data-target="#exampleModal" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Tambah</a>

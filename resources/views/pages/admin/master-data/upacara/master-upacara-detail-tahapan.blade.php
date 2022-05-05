@@ -7,13 +7,14 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Detail Tahapan Upacara</h1>
+                    <h1>Detail Tahapan Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
-                    <li class="breadcrumb-item active">Data Detail Upacara</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.detail',$dataTahapan->Upacara->id)}}">{{$dataTahapan->Upacara->nama_upacara}}</a></li>
+                        <li class="breadcrumb-item active">Detail Tahapan</li>
                     </ol>
                 </div>
             </div>
@@ -58,7 +59,7 @@
                         <div class="col-md-12 my-2">
                             <a href="{{route('admin.master-data.upacara.detail',$dataTahapan->id_upacara)}}" class="btn btn-secondary">Kembali</a>
                             <a onclick="deleteData({{$dataTahapan->id}})" class="btn btn-danger float-right ml-2">Hapus Tahapan Upacara</a>
-                            <button onclick="editTahapan({{$dataTahapan->id}},'{{$dataTahapan->nama_tahapan}}','{{$dataTahapan->deskripsi_tahapan}}','{{$dataTahapan->status_tahapan}}','{{$dataTahapan->image}}')" class="btn btn-info float-right mr-2">Edit Data Tahapan<a>
+                            <button onclick="editTahapan({{$dataTahapan->id}},'{{$dataTahapan->nama_tahapan}}','{{$dataTahapan->deskripsi_tahapan}}','{{$dataTahapan->status_tahapan}}','{{$dataTahapan->image}}')" class="btn btn-info float-right mr-2">Ubah Data Tahapan<a>
                         </div>
                     </div>
                 </div>
@@ -75,7 +76,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Edit Tahapan Upacara</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Form Ubah Tahapan Upacara</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

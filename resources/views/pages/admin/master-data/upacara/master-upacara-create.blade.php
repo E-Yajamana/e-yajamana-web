@@ -12,12 +12,12 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Tambah Master Data Upacara</h1>
+                    <h1>Tambah Master Data Upacara Agama Hindu</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Data Upacara</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
                         <li class="breadcrumb-item active">Tambah</li>
                     </ol>
                 </div>
@@ -32,7 +32,7 @@
                     @csrf
                     <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
-                            <h3 class="card-title my-auto">Form Tambah Data Upacara</h3>
+                            <h3 class="card-title my-auto">Form Tambah Upacara Agama Hindu</h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
@@ -45,9 +45,9 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Katagori Upacara <span class="text-danger">*</span></label>
+                                <label>Kategori Upacara <span class="text-danger">*</span></label>
                                 <select name="katagori" class=" select2bs4  @error('katagori') is-invalid @enderror" style="width: 100%;" aria-placeholder="">
-                                    <option disabled selected>Pilih Katagori Upacara</option>
+                                    <option disabled selected>Pilih Kategori Upacara</option>
                                     <option value="Dewa Yadnya" >Dewa Yadnya</option>
                                     <option value="Pitra Yadnya" >Pitra Yadnya</option>
                                     <option value="Manusa Yadnya" >Manusa Yadnya</option>
@@ -84,20 +84,20 @@
                                 @enderror
                             </div>
                             <div id="button-remove" class="row justify-content-end mr-1">
-                                <button id="buatTahapan" type="button" class="btn mx-1 btn-primary">Buat Tahapan Upacara</button>
+                                <button id="buatTahapan" type="button" class="btn mx-1 btn-primary">Tambah Tahapan Upacara</button>
                                 <button type="submit" class=" mx-1 btn btn-primary">Simpan Upacara</button>
                             </div>
 
                             <div id="tahapan-upacara" class="d-none">
                                 <div class="card-header p-0 mt-4 mb-2">
-                                    <h3 class="card-title my-auto">Form Tambah Tahapana Upacara</h3>
+                                    <h3 class="card-title my-auto">Form Tambah Tahapan Upacara</h3>
                                 </div>
                                 <div class="card-body p-2">
                                     <table class="table" >
                                         <thead>
-                                            <th>Nama Tahapan</th>
-                                            <th>Deskripsi Tahapan</th>
-                                            <th>Status Tahapan</th>
+                                            <th>Nama Tahapan <span class="text-danger">*</span></th>
+                                            <th>Deskripsi Tahapan <span class="text-danger">*</span></th>
+                                            <th>Status Tahapan <span class="text-danger">*</span></th>
                                             <th>Foto Tahapan</th>
                                             <th>Tindakan</th>
                                         </thead>
@@ -106,11 +106,11 @@
                                     </table>
                                     <div class="row mt-3">
                                         <div class="col-6">
-                                            <button type="button" class="ml-2 btn btn-secondary">Kembali</button>
+                                            <a href="{{route('admin.master-data.upacara.index')}}" type="button" class="ml-2 btn btn-secondary">Kembali</a>
                                         </div>
                                         <div class="row col-6 justify-content-end">
                                             <button type="button" id="addRemoveIp" class=" mx-1 btn btn-info">Tambah Tahapan</button>
-                                            <button type="submit" class=" mx-1 btn btn-primary">Simpan Upacara</button>
+                                            <button type="submit" class=" mx-1 btn btn-primary">Simpan Data</button>
                                         </div>
                                     </div>
                                 </div>
@@ -132,7 +132,7 @@
             $("#buatTahapan").click(function(){
                 $("#tahapan-upacara").removeClass("d-none");
                 $("#button-remove").addClass("d-none");
-                $("#multiForm").append("<tr><td><input type='text' name='dataTahapan[0][nama_tahapan]' class='form-control ' placeholder='Masukan Nama Tahapan'/></td><td><input type='text' name='dataTahapan[0][desc_tahapan]' placeholder='Masukan Deskripsi Tahapan' class='form-control'/></td><td><select name='dataTahapan[0][status]' class='form-control select2bs4' style='width: 100%;' ><option disabled value='' selected>Pilih Status Tahapan</option> <option value='awal'>Awal</option> <option value='puncak'>Puncak</option><option value='akhir'>Akhir</option></select></td><td><div class='custom-file'> <input type='file' class='custom-file-input form-control' name='dataTahapan[0][foto_tahapan]' id='customFile-0'><label class='custom-file-label ' for='customFile'>Foto Upacara</label></div></td><td><button type='button' class='remove-item btn btn-danger '>Hapus</button></td></tr>");
+                $("#multiForm").append("<tr><td><input type='text' name='dataTahapan[0][nama_tahapan]' class='form-control ' placeholder='Masukan Nama Tahapan'/></td><td><input type='text' name='dataTahapan[0][desc_tahapan]' placeholder='Masukan Deskripsi Tahapan' class='form-control'/></td><td><select name='dataTahapan[0][status]' class='form-control select2bs4' style='width: 100%;' ><option disabled value='' selected>Pilih Status Tahapan</option> <option value='awal'>Awal</option> <option value='puncak'>Puncak</option><option value='akhir'>Akhir</option></select></td><td><div class='custom-file'> <input type='file' class='custom-file-input ' name='dataTahapan[0][foto_tahapan]' id='customFile-0'><label class='custom-file-label ' for='customFile'>Foto Upacara</label></div></td><td><button type='button' class='remove-item btn btn-danger '>Hapus</button></td></tr>");
 
                 $(".form-control").each(function () {
                     $(this).rules('add', {
@@ -153,7 +153,7 @@
             var i = 0;
             $("#addRemoveIp").click(function () {
                 ++i;
-                $("#multiForm").append('<tr><td><input  type="text" name="dataTahapan['+i+'][nama_tahapan]" class="form-control" placeholder="Masukan Nama Tahapan"/></td><td><input  type="text" name="dataTahapan['+i+'][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select  name="dataTahapan['+i+'][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input id="customFile-'+i+'" type="file" class="custom-file-input form-control" name="dataTahapan['+i+'][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
+                $("#multiForm").append('<tr><td><input  type="text" name="dataTahapan['+i+'][nama_tahapan]" class="form-control" placeholder="Masukan Nama Tahapan"/></td><td><input  type="text" name="dataTahapan['+i+'][desc_tahapan]" placeholder="Masukan Deskripsi Tahapan" class="form-control"/></td><td><select  name="dataTahapan['+i+'][status]" class="form-control select2bs4" style="width: 100%;" ><option disabled selected>Pilih Status Tahapan</option> <option value="awal">Awal</option> <option value="puncak">Puncak</option><option value="akhir">Akhir</option></select></td><td><div class="custom-file"> <input id="customFile-'+i+'" type="file" class="custom-file-input " name="dataTahapan['+i+'][foto_tahapan]" id="customFile"><label class="custom-file-label " for="customFile">Foto Upacara</label></div></td><td><button type="button" class="remove-item btn btn-danger ">Hapus</button></td></tr>');
 
                 $(".form-control").each(function () {
                     $(this).rules('add', {

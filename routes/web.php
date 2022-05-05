@@ -236,19 +236,15 @@ Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function 
 
 
 Route::prefix('get-image')->group(function () {
-
     Route::prefix('upacara')->group(function () {
         Route::get('{id?}', [GetImageController::class, 'upacara'])->name('image.upacara');
         Route::get('tahapan-upacara/{id?}', [GetImageController::class, 'tahapanUpacara'])->name('image.tahapan-upacara');
-
     });
 
     Route::prefix('user')->group(function () {
         Route::get('profile/{id?}', [GetImageController::class, 'profile'])->name('image.profile.user');
         Route::get('sk-pemuput/{id?}', [GetImageController::class, 'skPemuput'])->name('image.sk-pemuput');
-
     });
-
 });
 
 // SERVICE AJAX SISTEM
