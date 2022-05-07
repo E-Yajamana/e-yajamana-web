@@ -20,7 +20,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">List Data Verifikasi</li>
+                    <li class="breadcrumb-item active"> Data Verifikasi</li>
                     </ol>
                 </div>
             </div>
@@ -57,6 +57,11 @@
                                             Sanggar <span class="badge bg-warning float-right">{{count($dataSanggar)}}</span>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a id="sanggar-tabs" href="#sanggar-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="sanggar-table" aria-selected="false">
+                                            Serati <span class="badge bg-warning float-right">{{count($dataSanggar)}}</span>
+                                        </a>
+                                    </li>
                                   </ul>
                             </div>
                         </div>
@@ -80,8 +85,8 @@
                                             <thead >
                                                 <tr>
                                                     <th>No</th>
-                                                    <th>Nama Walaka</th>
                                                     <th>Nama Sulinggih</th>
+                                                    <th>Lokasi Griya</th>
                                                     <th>Tanggal Mendaftar</th>
                                                     <th>Tindakan</th>
                                                 </tr>
@@ -90,8 +95,8 @@
                                                 @foreach ($dataSulinggih as $data)
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
-                                                        <td>{{$data->User->Penduduk->nama_alias}}</td>
                                                         <td>{{$data->nama_pemuput}}</td>
+                                                        <td>{{$data->GriyaRumah->nama_griya_rumah}}</td>
                                                         <td>{{date('d F Y',strtotime($data->created_at))}}</td>
                                                         <td>
                                                             <a href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
@@ -104,8 +109,8 @@
                                             <tfoot>
                                                 <tr>
                                                     <th>No</th>
-                                                    <th>Nama Walaka</th>
                                                     <th>Nama Sulinggih</th>
+                                                    <th>Lokasi Griya</th>
                                                     <th>Tanggal Mendaftar</th>
                                                     <th>Tindakan</th>
                                                 </tr>

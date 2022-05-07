@@ -63,6 +63,7 @@ Route::prefix('auth')->group(function () {
         Route::post('sanggar', [RegisterController::class, 'storeRegisSanggar'])->name('auth.register.akun.sanggar.store');
         Route::post('pemangku', [RegisterController::class, 'storeRegisPemangku'])->name('auth.register.akun.pemangku.store');
         Route::post('krama', [RegisterController::class, 'storeRegisKrama'])->name('auth.register.akun.krama.store');
+        Route::post('serati', [RegisterController::class, 'storeRegisSerati'])->name('auth.register.akun.serati.store');
 
     });
 
@@ -138,8 +139,8 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
         // VERIFIKASI DATA AKUN
         Route::prefix('verifikasi')->group(function () {
             Route::get('index', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
-            Route::put('sanggar/terima', [ManajemenAkunController::class, 'updateStatusAkunSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar');
-            Route::put('sanggar/tolak', [ManajemenAkunController::class, 'updateStatusTolakAkunSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar.tolak');
+            // Route::put('sanggar/terima', [ManajemenAkunController::class, 'updateStatusAkunSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar');
+            // Route::put('sanggar/tolak', [ManajemenAkunController::class, 'updateStatusTolakAkunSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar.tolak');
             Route::put('pemuput-karya/konfiramsi', [ManajemenAkunController::class, 'konfirmasiAkunPemuput'])->name('admin.manajemen-akun.verifikasi.pemuput-karya');
 
             Route::get('sanggar/detail/{id?}', [ManajemenAkunController::class, 'detailDataVerifikasiSanggar'])->name('admin.manajemen-akun.verifikasi.detail.sanggar');

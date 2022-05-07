@@ -34,13 +34,13 @@ class Sanggar extends Model
 	protected $table = 'tb_sanggar';
 
 	protected $casts = [
-		'id_banjar_dinas' => 'int',
+		'id_desa' => 'int',
 		'lat' => 'float',
 		'lng' => 'float'
 	];
 
 	protected $fillable = [
-		'id_banjar_dinas',
+		'id_desa_dinas',
 		'nama_sanggar',
 		'alamat_sanggar',
 		'sk_tanda_usaha',

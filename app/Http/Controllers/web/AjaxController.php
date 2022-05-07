@@ -112,16 +112,17 @@ class AjaxController extends Controller
 
                 // LOGIC HAS CEK USER
                 if($penduduk->User()->exists()){
-                    // CEK HAS USER PEMUPUT
+                    // CEK HAS ROLE
                     $hasRole =$penduduk->User->Role()->pluck('id_role')->toArray();
-                    $existsRole = in_array(3, $hasRole);
-                    if($existsRole){
+                    $existsRoleSulinggih = in_array(3, $hasRole);
+                    $existsRoleSerati = in_array(5, $hasRole);
+                    if($existsRoleSulinggih && $existsRoleSerati){
                         $statusCode = 409;
                         $result = [
                             'status' => 409,
                             'icon' => 'warning',
                             'title' => 'Pemberitahuan',
-                            'message' => 'Anda tidak dapat mendaftar kembali sebagai Pemuput Karya, karena Anda sudah mempunyai akun dengan email : '.$penduduk->User->email,
+                            'message' => 'Anda tidak dapat mendaftar kembali, sistem mendeteksi anda sudah mempunyai akun dengan email : '.$penduduk->User->email,
                             'footer' =>'<a href="'.route('auth.login').'">Halaman Login Sistem...!!</a>',
                         ];
                     }else{
@@ -131,6 +132,7 @@ class AjaxController extends Controller
                             'icon' => 'info',
                             'title' => 'Pemberitahuan',
                             'message' => 'Anda sudah mempunyai akun E-Yajamana, Anda dapat mengabaikan form input data user pada step 2',
+                            'role' => $hasRole,
                             'data' =>$penduduk
                         ];
                     }
@@ -141,7 +143,8 @@ class AjaxController extends Controller
                         'icon' => 'success',
                         'title' => 'NIK terdaftar',
                         'message' => 'Berhasil menemukan data NIK, Anda dapat langsung membuat akun E-Yajamana',
-                        'data' =>$penduduk
+                        'data' =>$penduduk,
+                        'role' =>''
                     ];
                 }
                 // LOGIC HAS CEK USER

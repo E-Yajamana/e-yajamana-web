@@ -127,9 +127,9 @@
                                         <td>{{$data->status_tahapan}}</td>
                                         <td style="width: 20%;height: 10%" ><img style="width: 100%;height: 150px" src="{{route('image.tahapan-upacara',$data->id)}}" class="img-fluid pad img-thumbnail"  alt="Responsive image"></td>
                                         <td>
-                                            <a href="{{route('admin.master-data.upacara.tahapan.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <button type="button" onclick="editTahapan({{$data->id}},'{{$data->nama_tahapan}}','{{$data->deskripsi_tahapan}}','{{$data->status_tahapan}}','{{$data->image}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                            <a title="Detail Data" href="{{route('admin.master-data.upacara.tahapan.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <button title="Ubah Data" type="button" onclick="editTahapan({{$data->id}},'{{$data->nama_tahapan}}','{{$data->deskripsi_tahapan}}','{{$data->status_tahapan}}','{{$data->image}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                            <a title="Hapus Data" onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                         </td>
                                         <form hidden id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.tahapan.delete')}}" method="post">
                                             @csrf

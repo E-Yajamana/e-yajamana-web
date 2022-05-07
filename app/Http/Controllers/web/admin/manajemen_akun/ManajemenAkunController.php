@@ -19,7 +19,6 @@ class ManajemenAkunController extends Controller
     // VIEW INDEX VERIFIKASI DATA
     public function indexVerifikasi(Request $request)
     {
-
         $dataSulinggih = PemuputKarya::with(['User.Penduduk'])->whereHas('User.Penduduk')->whereStatusKonfirmasiAkunAndTipe('pending','sulinggih')->get();
         $dataPemangku = PemuputKarya::with(['User.Penduduk'])->whereHas('User.Penduduk')->whereStatusKonfirmasiAkunAndTipe('pending','pemangku')->get();
         $dataSanggar = Sanggar::whereStatusKonfirmasiAkun('pending')->get();
@@ -47,7 +46,7 @@ class ManajemenAkunController extends Controller
 
         // MAIN LOGIC
         try{
-            $dataSulinggih = PemuputKarya::with(['User.Penduduk'=> function ($query) {
+            $dataPemuput = PemuputKarya::with(['User.Penduduk'=> function ($query) {
                 $query->with(['Profesi', 'Pendidikan'])->whereHas('Profesi')->whereHas('Pendidikan');
             }, 'GriyaRumah.BanjarDinas.DesaDinas.Kecamatan.Kabupaten'])
             ->whereHas('GriyaRumah.BanjarDinas.DesaDinas.Kecamatan.Kabupaten')
@@ -64,7 +63,7 @@ class ManajemenAkunController extends Controller
         // END
 
         // RETURN
-            return view('pages.admin.manajemen-akun.pengaturan-akun.verifikasi-akun-pemuput-karya-detail', compact('dataSulinggih'));
+            return view('pages.admin.manajemen-akun.pengaturan-akun.verifikasi-akun-pemuput-karya-detail', compact('dataPemuput'));
         // END RETURN
 
     }

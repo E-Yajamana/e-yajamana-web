@@ -29,7 +29,7 @@
             <div class="card-header bg-white text-center">
                 <img class="rounded mx-auto d-block" src="{{ asset('base-template/dist/img/logo-01.png') }}" alt="sipandu logo" width="100" height="100">
                 <a href="" class="text-decoration-none h4 fw-bold mb-1">E-Yajamana</a>
-                <p class="mt-1 fs-5 mb-1">Form Pendaftaran Akun Sulinggih </p>
+                <p class="mt-1 fs-5 mb-1">Form Pendaftaran Akun Krama </p>
                 <p class="text-center mb-2">Silahkan lengkapi data di bawah ini</p>
             </div>
             <div class="card-body">

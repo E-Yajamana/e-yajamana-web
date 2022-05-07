@@ -108,9 +108,9 @@
                                                         <td>{{$data->nama_upacara}}</td>
                                                         <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a title="Detail Data" href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a title="Ubah Data" href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a title="Hapus Data" onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                             <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -146,9 +146,9 @@
                                                         <td>{{$data->nama_upacara}}</td>
                                                         <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a title="Detail Data" href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a title="Ubah Data" href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a title="Hapus Data" onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                             <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
                                                                 @csrf
                                                                 @method('DELETE')
@@ -184,9 +184,9 @@
                                                     <td>{{$data->nama_upacara}}</td>
                                                     <td>{{count($data->TahapanUpacara)}}</td>
                                                     <td>
-                                                        <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                        <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                        <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                        <a title="Detail Data" href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                        <a title="Ubah Data" href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                        <a title="Hapus Data" onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
                                                             @csrf
                                                             @method('DELETE')
@@ -222,9 +222,9 @@
                                                         <td>{{$data->nama_upacara}}</td>
                                                         <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a title="Detail Data" href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a title="Ubah Data" href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a title="Hapus Data" onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
                                                         <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
                                                             @csrf
@@ -260,9 +260,9 @@
                                                         <td>{{$data->nama_upacara}}</td>
                                                         <td>{{count($data->TahapanUpacara)}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            <a title="Detail Data" href="{{route('admin.master-data.upacara.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a title="Ubah Data" href="{{route('admin.master-data.upacara.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a title="Hapus Data" onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                         </td>
                                                         <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.delete')}}" method="post">
                                                             @csrf

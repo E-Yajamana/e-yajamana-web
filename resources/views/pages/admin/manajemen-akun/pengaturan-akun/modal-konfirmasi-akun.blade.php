@@ -32,12 +32,12 @@
                     </div>
                     <div class="form-group px-2">
                         <label>Alasan Penolakan Akun? <span class="text-danger">*</span></label>
-                        <select id="alasan_pembatalan" name="text_penolakan" class="select2bs4 form-control " style="width: 100%;">
-                             <option disabled selected>Pilih Alasan</option>
-                             <option value="SK tidak sesuai">SK tidak sesuai</option>
-                             <option value="Pemuput karya tidak terdata pada PHDI">Pemuput karya tidak terdata pada PHDI</option>
-                             <option value="Terdapat data yang tidak sesuai dimasukan">Terdapat data yang tidak sesuai dimasukan</option>
-                             <option value="">Lainnya</option>
+                        <select id="alasan_pembatalan" name="text_penolakan" class="select2bs4 form-control " style="widtb h: 100%;">
+                                 <option disabled selected>Pilih Alasan</option>
+                                {{-- <option value="SK tidak sesuai">SK tidak sesuai</option> --}}
+                                <option value="Pemuput karya tidak terdata pada PHDI">Pemuput karya tidak terdata pada PHDI</option>
+                                <option value="Terdapat data yang tidak sesuai dimasukan">Terdapat data yang tidak sesuai dimasukan</option>
+                                <option value="">Lainnya</option>
                         </select>
                     </div>
                     <div id="alasanLainnya" class="px-2"></div>
