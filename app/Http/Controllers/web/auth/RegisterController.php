@@ -368,10 +368,15 @@ class RegisterController extends Controller
                 }
 
                 $filename =  ImageHelper::moveImage($request->file,'app/sanggar/sk_tanda_usaha/');
+                $profileSanggar = null;
+                if($request->profile != null){
+                    $profileSanggar =  ImageHelper::moveImage($request->profile,'app/sanggar/profile/');
+                }
                 $sanggar = Sanggar::create([
                     'id_desa_dinas'=>$request->id_desa,
                     'nama_sanggar'=>$request->nama_sanggar,
                     'alamat_sanggar'=>$request->alamat_sanggar,
+                    'profile' =>$profileSanggar,
                     'sk_tanda_usaha'=>$filename,
                     'lat'=>$request->lat,
                     'lng'=>$request->lng,
@@ -758,7 +763,4 @@ class RegisterController extends Controller
 
     }
     // SERATI STORE AKUN NEW INTEGERATION
-
-
-
 }

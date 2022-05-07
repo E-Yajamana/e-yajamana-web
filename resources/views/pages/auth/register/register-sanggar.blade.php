@@ -179,6 +179,20 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label>Logo Sanggar</label>
+                                                <div class="input-group mb-2">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input @error('file') is-invalid @enderror" name="profile" id="customFile" value="{{old('profile')}}">
+                                                        <label class="custom-file-label " for="customFile">@if (old('profile')!= null) {{old('profile')}} @endif Logo Sanggar</label>
+                                                    </div>
+                                                </div>
+                                                @error('file')
+                                                    <div class="invalid-feedback text-start">
+                                                        {{ $errors->first('file') }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
                                                 <label>Lampiran SK Tanda Usaha <span class="text-danger">*</span></label>
                                                 <div class="input-group mb-2">
                                                     <div class="custom-file">

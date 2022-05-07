@@ -35,6 +35,22 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            2 => 
+            array (
+                'id' => 8,
+                'id_sanggar' => 8,
+                'id_user' => 64,
+                'created_at' => '2022-05-07 11:57:04',
+                'updated_at' => '2022-05-07 11:57:04',
+            ),
+            3 => 
+            array (
+                'id' => 9,
+                'id_sanggar' => 9,
+                'id_user' => 64,
+                'created_at' => '2022-05-07 11:58:39',
+                'updated_at' => '2022-05-07 11:58:39',
+            ),
         ));
         
         

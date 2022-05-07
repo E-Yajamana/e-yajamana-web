@@ -15,7 +15,7 @@ class CreateTbAtributPemuputTable extends Migration
     {
         Schema::create('tb_atribut_pemuput', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_nabe')->index('id_nabe');
+            $table->integer('id_nabe')->nullable()->index('id_nabe');
             $table->string('sk_pemuput', 100)->nullable();
             $table->date('tanggal_diksha')->nullable();
         });

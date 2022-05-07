@@ -1,26 +1,24 @@
 @extends('layouts.admin.admin-layout')
-@section('tittle','Detail Verify')
+@section('tittle','Detail Verifikasi')
 
 @push('css')
-  <!-- SweetAlert2 -->
-  <link rel="stylesheet" href="{{asset('base-template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
     <!-- Toastr -->
-  <link rel="stylesheet" href="{{asset('base-template/plugins/toastr/toastr.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/toastr/toastr.min.css')}}">
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-  crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
 
-  <!-- Make sure you put this AFTER Leaflet's CSS -->
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-  crossorigin=""></script>
-
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
 
 @endpush
 
 @section('content')
-
     <section class="content-header">
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
@@ -29,8 +27,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Verifikasi Sanggar</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.manajemen-akun.verifikasi.index')}}">Data Verifikasi</a></li>
+                        <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
             </div>
@@ -38,39 +37,78 @@
         <!-- /.container-fluid -->
     </section>
 
-    <!-- Main content -->
-    <section class="content">
+    <section>
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-12 col-md-6">
+            <div class="row" >
+                <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Data Akun User</h3>
+                            <h3 class="card-title">Data Pemilik Sanggar</h3>
                         </div>
                         <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->User->email}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Nomor Telepon</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataSanggar->User->nomor_telepon}}">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Mendaftar Pada Tanggal</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" disabled value="{{date('d-M-Y',strtotime($dataSanggar->User->created_at))}}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">SK Tanda Usaha</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="">
-                                <img style="width: 100%;height: 258px" src="{{route('get-image.tahapan-upacara',12)}}" class="img-fluid pad img-thumbnail"  alt="Responsive image">
+                            <div class="row m-2">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->User[0]->email}}" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Nomor Telepon</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataSanggar->User[0]->nomor_telepon}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Mendaftar Pada Tanggal</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" disabled value="{{date('d F Y',strtotime($dataSanggar->created_at))}}">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">NIK</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->User[0]->Penduduk->nik}}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nomor Induk Krama</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->User[0]->Penduduk->nomor_induk_krama}}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nama</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->User[0]->Penduduk->nama}}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Nama Sanggar</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->nama_sanggar}}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Jenis Kelamin</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataSanggar->User[0]->Penduduk->jenis_kelamin}}">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Tempat/Tanggal Lahir</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataSanggar->User[0]->Penduduk->tempat_lahir}}, {{date('d F Y',strtotime($dataSanggar->User[0]->Penduduk->tanggal_lahir))}}">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Pendidikan</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pendidikan" disabled value="{{$dataSanggar->User[0]->Penduduk->Pendidikan->jenjang_pendidikan}}">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Pekerjaan</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password"disabled value="{{$dataSanggar->User[0]->Penduduk->Profesi->profesi}}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -79,125 +117,56 @@
 
             <div class="card card-default">
                 <div class="card-header">
-                    <h3 class="card-title">Lokasi Sanggar</h3>
+                    <h3 class="card-title"> Lokasi Sanggar</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-12 col-md-6">
+                        <div class="col-12">
                             <div class="mt-2" id="gmaps" style="height: 330px;"></div>
+                            <div class="form-group mt-4">
+                                <textarea disabled name="alamat_griya" class="form-control" rows="5" placeholder="Masukan Alamat Lengkap Griya" >{{$dataSanggar->alamat_sanggar}}, Desa {{Str::ucfirst(Str::lower($dataSanggar->DesaDinas->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataSanggar->DesaDinas->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataSanggar->DesaDinas->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataSanggar->DesaDinas->Kecamatan->Kabupaten->Provinsi->name))}}</textarea>
+                            </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nama Sanggar</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->User->email}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nama Pengelola</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->nama_pengelola}}" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label> Alamat Lengkap Sanggar <span class="text-danger">*</span></label>
-                                <textarea disabled name="alamat_griya" class="form-control" rows="5" placeholder="Masukan Alamat Lengkap Griya" >{{$dataSanggar->alamat_sanggar}}, Desa {{Str::ucfirst(Str::lower($dataSanggar->Desa->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataSanggar->Desa->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataSanggar->Desa->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataSanggar->Desa->Kecamatan->Kabupaten->Provinsi->name))}} </textarea>
-                            </div>
                         </div>
                     </div>
-                    <div class="mt-2">
-                        <div class="float-lg-left">
+                </div>
+                <div class="card-footer ">
+                    <div class="row">
+                        <div class="col-6 ">
                             <a href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="btn btn-secondary btn-sm">Kembali</a>
                         </div>
-                        <div class="float-lg-right">
-                            <button onclick="verifikasiPemuputKarya({{$dataSanggar->id}})" type="button" class="btn btn-primary btn-sm ">Setujui</button>
-                            <button class="btn btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-default">Tolak</button>
+                        <div class="col-6 d-flex flex-row-reverse ">
+                            <button onclick="terimaSanggar({{$dataSanggar->id}})" type="button" class="btn btn-primary btn-sm ">Setujui</button>
+                            <button onclick="tolakSanggar({{$dataSanggar->id}})" class="mr-2 btn btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-default">Tolak</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.modal-content -->
-            <div class="modal fade" id="modal-default">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Penolakan Akun</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form action="{{route('admin.manajemen-akun.verifikasi.sanggar.tolak')}}" method="post">
-                            @csrf
-                            @method('PUT')
-                            <div class="modal-body">
-                                <input type="hidden" name="id" value="{{$dataSanggar->id}}">
-                                <div class="form-group">
-                                    <label for="message-text" class="col-form-label" placeholder="Masukan keterangan penolakan akun.....">Keterangan Penolakan</label>
-                                    <textarea class="form-control" rows="3"  id="message-text" name="text_penolakan"></textarea>
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                <button type="submit" class="btn btn-danger" >Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        </div>
     </section>
-    <form id="{{"updateSanggar-".$dataSanggar->id}}" class="d-none"  action="{{route('admin.manajemen-akun.verifikasi.sanggar')}}" method="post">
-        @csrf
-        @method('PUT')
-        <input type="hidden" name="id" value="{{$dataSanggar->id}}">
-    </form>
 
 
+    <input id="lat" type="hidden" class="d-none" value="{{$dataSanggar->lat}}">
+    <input id="lng" type="hidden" class="d-none" value="{{$dataSanggar->lng}}">
+
+    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-sanggar')
 @endsection
 
 @push('js')
-
-    <script>
-        // TERIMA VERIFIKASI PEMUPUT KARYA
-        function verifikasiPemuputKarya(index)
-        {
-            Swal.fire({
-                title: 'Verifikasi',
-                text : 'Apakah anda yakin akan mengkonfirmasi akun sanggar tersebut?',
-                icon:'question',
-                showDenyButton: true,
-                showCancelButton: false,
-                denyButtonText: `Tidak`,
-                confirmButtonText: `iya`,
-                confirmButtonColor: '#3085d6',
-                denyButtonColor: '#d33',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $('#updateSanggar-'+index).submit();
-                    } else if (result.isDenied) {
-
-                    }
-                })
-        }
-        // TERIMA VERIFIKASI PEMUPUT KARYA
-
-    </script>
-
     <!-- Bootstrap 4 -->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <script type="text/javascript">
-        $(document).ready(function(){
-            $('#side-pengaturan-akun').addClass('menu-open');
-            $('#side-konfirmasi-sulinggih').addClass('active');
-        });
+        let lat = $('#lat').val();
+        let lng = $('#lng').val();
 
-    </script>
 
-    <script type="text/javascript">
         $(document).ready(function(){
             var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 10);
 
@@ -211,11 +180,14 @@
             }).addTo(mymap);
 
             // var curLocation = [$dataGriya->lat, $dataGriya->lng];
-            var marker = new L.marker([<?=$dataSanggar->lat ?>, <?=$dataSanggar->lng ?>]);
+            var marker = new L.marker([lat,lng]);
             mymap.addLayer(marker);
         });
+
+        $(document).ready(function(){
+            $('#side-pengaturan-akun').addClass('menu-open');
+            $('#side-konfirmasi-sulinggih').addClass('active');
+        });
     </script>
-
-
 
 @endpush

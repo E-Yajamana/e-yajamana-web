@@ -58,8 +58,8 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a id="sanggar-tabs" href="#sanggar-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="sanggar-table" aria-selected="false">
-                                            Serati <span class="badge bg-warning float-right">{{count($dataSanggar)}}</span>
+                                        <a id="serati-tabs" href="#serati-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="serati-table" aria-selected="false">
+                                            Serati <span class="badge bg-warning float-right">{{count($dataSerati)}}</span>
                                         </a>
                                     </li>
                                   </ul>
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
 
-                            {{-- Start Data Table Sulinggih --}}
+                            {{-- SULINGGIH --}}
                             <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
                                 <div class="card-body p-0">
                                     <div class="table-responsive mailbox-messages p-2">
@@ -99,9 +99,9 @@
                                                         <td>{{$data->GriyaRumah->nama_griya_rumah}}</td>
                                                         <td>{{date('d F Y',strtotime($data->created_at))}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a onclick="terimaPemuput({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                                            <a onclick="tolakPemuput({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                                            <a title="Detail Data" href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a title="Terima Akun" onclick="terimaPemuput({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                            <a title="Tolak Akun" onclick="tolakPemuput({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -119,9 +119,9 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- End Data Table Sulinggih --}}
+                            {{-- SULINGGIH --}}
 
-                            {{-- Start Data Table Pemangku --}}
+                            {{-- PEMANGKU --}}
                             <div class="tab-pane fade" id="pemangku-table" role="tabpanel" aria-labelledby="pemangku-tabs">
                                 <div class="card-body p-0">
                                     <div class="table-responsive mailbox-messages p-2">
@@ -143,9 +143,9 @@
                                                         <td>{{$data->User->nomor_telepon}}</td>
                                                         <td>{{date('d F Y',strtotime($data->created_at))}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a onclick="terimaPemuput({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                                            <a onclick="tolakPemuput({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                                            <a title="Detail Data" href="{{route('admin.manajemen-akun.verifikasi.detail.pemuput-karya',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a title="Terima Akun" onclick="terimaPemuput({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                            <a title="Tolak Akun" onclick="tolakPemuput({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -163,9 +163,9 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- END Data Table Pemangku --}}
+                            {{-- PEMANGKU --}}
 
-                            {{-- Start Data Table Sanggar --}}
+                            {{-- SANGGAR --}}
                             <div class="tab-pane fade" id="sanggar-table" role="tabpanel" aria-labelledby="sanggar-tabs">
                                 <div class="card-body p-0">
                                     <div class="table-responsive mailbox-messages p-2">
@@ -174,7 +174,7 @@
                                                 <tr>
                                                     <th>No</th>
                                                     <th>Nama Sanggar</th>
-                                                    <th>Nama Pengelola</th>
+                                                    <th>Alamat Sanggar</th>
                                                     <th>Tanggal Mendaftar</th>
                                                     <th>Tindakan</th>
                                                 </tr>
@@ -184,24 +184,13 @@
                                                     <tr>
                                                         <td>{{$loop->iteration}}</td>
                                                         <td>{{$data->nama_sanggar}}</td>
-                                                        <td>{{$data->nama_pengelola}}</td>
+                                                        <td>{{$data->alamat_sanggar}}</td>
                                                         <td>{{date('d F Y',strtotime($data->created_at))}}</td>
                                                         <td>
-                                                            <a href="{{route('admin.manajemen-akun.verifikasi.detail.sanggar',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a onclick="verifikasiSanggar({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                                            <a onclick="tolakSanggar({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                                            <a title="Detail Data" href="{{route('admin.manajemen-akun.verifikasi.detail.sanggar',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a title="Terima Akun" onclick="terimaSanggar({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                            <a title="Tolak Akun" onclick="tolakSanggar({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                                         </td>
-                                                        <form id="{{"updateSanggar-".$data->id}}" class="d-none"  action="{{route('admin.manajemen-akun.verifikasi.sanggar')}}" method="post">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <input type="hidden" name="id" value="{{$data->id}}">
-                                                        </form>
-                                                        <form id="{{"tolakSanggar-".$data->id}}" class="d-none" action="{{route('admin.manajemen-akun.verifikasi.sanggar.tolak')}}" method="post">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <input type="hidden" name="id" value="{{$data->id}}">
-                                                            <input type="hidden" name="text_penolakan" id={{"text_penolakan".$data->id}} value="">
-                                                        </form>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -209,7 +198,44 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- End Data Table Sanggar --}}
+                            {{-- SANGGAR --}}
+
+
+                            {{-- SERATI --}}
+                            <div class="tab-pane fade" id="serati-table" role="tabpanel" aria-labelledby="serati-tabs">
+                                <div class="card-body p-0">
+                                    <div class="table-responsive mailbox-messages p-2">
+                                        <table id="tb-serati" class="table table-hover mx-auto table-responsive-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Nama Walaka</th>
+                                                    <th>Nama Serati</th>
+                                                    <th>Tanggal Mendaftar</th>
+                                                    <th>Tindakan</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($dataSerati as $data)
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+                                                        <td>{{$data->User->Penduduk->nama}}</td>
+                                                        <td>{{$data->nama_serati}}</td>
+                                                        <td>{{date('d F Y',strtotime($data->created_at))}}</td>
+                                                        <td>
+                                                            <a title="Detail Data" href="{{route('admin.manajemen-akun.verifikasi.detail.serati',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a title="Terima Akun" onclick="terimaSerati({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                            <a title="Tolak Akun" onclick="tolakSerati({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- SERATI --}}
+
                         </div>
                     </div>
                   </div>
@@ -217,73 +243,14 @@
         </div>
     </div>
 
-    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-akun')
+    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-pemuput')
+    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-sanggar')
+    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-serati')
+
 
 @endsection
 
 @push('js')
-
-    <!-- Fungsi Verifikasi Data Akun Pemuput Karya dan Sanggar -->
-    <script type="text/javascript">
-        // TOLAK VERIFIKASI PEMUPUT KARYA
-        function tolakPemuputKarya(index)
-        {
-            var data ="";
-            Swal.fire({
-                input: 'textarea',
-                title: 'Tolak Permintaan Akun',
-                text : 'Masukan alasan penolakan?',
-                showDenyButton: true,
-                showCancelButton: false,
-                denyButtonText: `Batal`,
-                confirmButtonText: `iya`,
-                confirmButtonColor: '#3085d6',
-                denyButtonColor: '#d33',
-                preConfirm: function (email) {
-                    data = email ;
-                },
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("#text_penolakan"+index).val(data);
-                        $('#tolakPemuput-'+index).submit();
-                    } else if (result.isDenied) {
-
-                    }
-            })
-        }
-        // TOLAK VERIFIKASI PEMUPUT KARYA
-
-        // TOLAK VERIFIKASI PEMUPUT KARYA
-        function tolakSanggar(index)
-        {
-            var data ="";
-            Swal.fire({
-                input: 'textarea',
-                title: 'Tolak Permintaan Akun',
-                text : 'Masukan alasan penolakan?',
-                showDenyButton: true,
-                showCancelButton: false,
-                denyButtonText: `Batal`,
-                confirmButtonText: `iya`,
-                confirmButtonColor: '#3085d6',
-                denyButtonColor: '#d33',
-                preConfirm: function (email) {
-                    data = email ;
-                },
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $("#text_penolakan"+index).val(data);
-                        $('#tolakSanggar-'+index).submit();
-                    } else if (result.isDenied) {
-
-                    }
-            })
-        }
-        // TOLAK VERIFIKASI PEMUPUT KARYA
-
-    </script>
-    <!-- Fungsi Verifikasi Data Akun Pemuput Karya dan Sanggar -->
-
     <!-- Library Template yang digunkanan -->
     <script type="text/javascript">
         $(document).ready(function(){
@@ -348,7 +315,24 @@
                     "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
                 }
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-
+            $("#tb-serati").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "oLanguage": {
+                    "sSearch": "Cari:",
+                    "sZeroRecords": "Data Tidak Ditemukan",
+                    "emptyTable": "Tidak Terdapat Data Akun Sanggar",
+                    "sSearchPlaceholder": "Cari data....",
+                    "infoEmpty": "Menampilkan 0 Data",
+                    "infoFiltered": "(dari _MAX_ data)",
+                },
+                "language": {
+                    "paginate": {
+                        "previous": 'Sebelumnya',
+                        "next": 'Berikutnya'
+                    },
+                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+                }
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
     </script>
     <!-- Library Template yang digunkanan -->

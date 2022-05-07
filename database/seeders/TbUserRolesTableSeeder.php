@@ -131,6 +131,110 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            14 => 
+            array (
+                'id' => 53,
+                'id_user' => 51,
+                'id_role' => 3,
+                'created_at' => '2022-05-05 08:27:53',
+                'updated_at' => '2022-05-05 08:27:53',
+            ),
+            15 => 
+            array (
+                'id' => 54,
+                'id_user' => 60,
+                'id_role' => 2,
+                'created_at' => '2022-05-05 09:47:22',
+                'updated_at' => '2022-05-05 09:47:22',
+            ),
+            16 => 
+            array (
+                'id' => 55,
+                'id_user' => 60,
+                'id_role' => 3,
+                'created_at' => '2022-05-05 09:47:22',
+                'updated_at' => '2022-05-05 09:47:22',
+            ),
+            17 => 
+            array (
+                'id' => 56,
+                'id_user' => 61,
+                'id_role' => 2,
+                'created_at' => '2022-05-05 09:48:20',
+                'updated_at' => '2022-05-05 09:48:20',
+            ),
+            18 => 
+            array (
+                'id' => 57,
+                'id_user' => 61,
+                'id_role' => 3,
+                'created_at' => '2022-05-05 09:48:20',
+                'updated_at' => '2022-05-05 09:48:20',
+            ),
+            19 => 
+            array (
+                'id' => 58,
+                'id_user' => 62,
+                'id_role' => 2,
+                'created_at' => '2022-05-06 04:18:02',
+                'updated_at' => '2022-05-06 04:18:02',
+            ),
+            20 => 
+            array (
+                'id' => 59,
+                'id_user' => 62,
+                'id_role' => 3,
+                'created_at' => '2022-05-06 04:18:02',
+                'updated_at' => '2022-05-06 04:18:02',
+            ),
+            21 => 
+            array (
+                'id' => 61,
+                'id_user' => 63,
+                'id_role' => 2,
+                'created_at' => '2022-05-06 22:54:31',
+                'updated_at' => '2022-05-06 22:54:31',
+            ),
+            22 => 
+            array (
+                'id' => 65,
+                'id_user' => 63,
+                'id_role' => 3,
+                'created_at' => '2022-05-07 06:05:31',
+                'updated_at' => '2022-05-07 06:05:31',
+            ),
+            23 => 
+            array (
+                'id' => 66,
+                'id_user' => 62,
+                'id_role' => 5,
+                'created_at' => '2022-05-07 06:52:45',
+                'updated_at' => '2022-05-07 06:52:45',
+            ),
+            24 => 
+            array (
+                'id' => 67,
+                'id_user' => 64,
+                'id_role' => 2,
+                'created_at' => '2022-05-07 06:53:29',
+                'updated_at' => '2022-05-07 06:53:29',
+            ),
+            25 => 
+            array (
+                'id' => 68,
+                'id_user' => 64,
+                'id_role' => 5,
+                'created_at' => '2022-05-07 06:53:29',
+                'updated_at' => '2022-05-07 06:53:29',
+            ),
+            26 => 
+            array (
+                'id' => 69,
+                'id_user' => 64,
+                'id_role' => 3,
+                'created_at' => '2022-05-07 12:01:34',
+                'updated_at' => '2022-05-07 12:01:34',
+            ),
         ));
         
         

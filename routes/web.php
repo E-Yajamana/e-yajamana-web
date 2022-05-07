@@ -139,11 +139,13 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
         // VERIFIKASI DATA AKUN
         Route::prefix('verifikasi')->group(function () {
             Route::get('index', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
-            // Route::put('sanggar/terima', [ManajemenAkunController::class, 'updateStatusAkunSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar');
-            // Route::put('sanggar/tolak', [ManajemenAkunController::class, 'updateStatusTolakAkunSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar.tolak');
-            Route::put('pemuput-karya/konfiramsi', [ManajemenAkunController::class, 'konfirmasiAkunPemuput'])->name('admin.manajemen-akun.verifikasi.pemuput-karya');
 
-            Route::get('sanggar/detail/{id?}', [ManajemenAkunController::class, 'detailDataVerifikasiSanggar'])->name('admin.manajemen-akun.verifikasi.detail.sanggar');
+            Route::put('serati/konfiramsi', [ManajemenAkunController::class, 'konfirmasiSerati'])->name('admin.manajemen-akun.verifikasi.serati');
+            Route::put('sanggar/konfiramsi', [ManajemenAkunController::class, 'konfirmasiSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar');
+            Route::put('pemuput-karya/konfiramsi', [ManajemenAkunController::class, 'konfirmasiPemuput'])->name('admin.manajemen-akun.verifikasi.pemuput-karya');
+
+            Route::get('serati/detail/{id?}', [ManajemenAkunController::class, 'detailSerati'])->name('admin.manajemen-akun.verifikasi.detail.serati');
+            Route::get('sanggar/detail/{id?}', [ManajemenAkunController::class, 'detailSangar'])->name('admin.manajemen-akun.verifikasi.detail.sanggar');
             Route::get('pemuput-karya/detail/{id?}', [ManajemenAkunController::class, 'detailPemuput'])->name('admin.manajemen-akun.verifikasi.detail.pemuput-karya');
 
         });

@@ -23,8 +23,8 @@ class CreateTbUserEyajamanaTable extends Migration
             $table->text('json_token_lupa_password')->nullable();
             $table->text('fcm_token_key')->nullable();
             $table->text('fcm_token_web')->nullable();
-            $table->decimal('lat', 20, 18)->nullable();
-            $table->decimal('lng', 21, 18)->nullable();
+            $table->decimal('lat', 20, 18)->nullable()->default(-8.578768);
+            $table->decimal('lng', 21, 18)->nullable()->default(115.213947);
             $table->timestamps();
         });
     }

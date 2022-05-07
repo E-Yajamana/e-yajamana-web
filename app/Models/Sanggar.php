@@ -44,6 +44,7 @@ class Sanggar extends Model
 		'nama_sanggar',
 		'alamat_sanggar',
 		'sk_tanda_usaha',
+		'profile',
 		'lat',
 		'lng',
 		'status_konfirmasi_akun',
@@ -57,7 +58,12 @@ class Sanggar extends Model
 
     public function Reservasi()
 	{
-		return $this->hasMany(Reservasi::class, 'id_relasi','id');
+		return $this->hasMany(Reservasi::class, 'id_sanggar','id');
+	}
+
+    public function DesaDinas()
+	{
+		return $this->belongsTo(DesaDinas::class, 'id_desa_dinas','id');
 	}
 
 }

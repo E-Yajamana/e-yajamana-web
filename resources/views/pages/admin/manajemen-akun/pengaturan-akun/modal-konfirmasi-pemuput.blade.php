@@ -36,7 +36,7 @@
                                  <option disabled selected>Pilih Alasan</option>
                                 {{-- <option value="SK tidak sesuai">SK tidak sesuai</option> --}}
                                 <option value="Pemuput karya tidak terdata pada PHDI">Pemuput karya tidak terdata pada PHDI</option>
-                                <option value="Terdapat data yang tidak sesuai dimasukan">Terdapat data yang tidak sesuai dimasukan</option>
+                                <option value="Terdapat data yang tidak sesuai">Terdapat data yang tidak sesuai</option>
                                 <option value="">Lainnya</option>
                         </select>
                     </div>

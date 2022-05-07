@@ -58,7 +58,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Mendaftar Pada Tanggal</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" disabled value="{{date('d F Y',strtotime($dataPemuput->User->created_at))}}">
+                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" disabled value="{{date('d F Y',strtotime($dataPemuput->created_at))}}">
                             </div>
                         </div>
                     </div>
@@ -198,18 +198,19 @@
                                 <label for="exampleInputPassword1">Pekerjaan</label>
                                 <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password"disabled value="{{$dataPemuput->User->Penduduk->Profesi->profesi}}">
                             </div>
-
                         </div>
                     </div>
 
                 </div>
                 <div class="card-footer mt-2">
-                    <div class="float-lg-left">
-                        <a href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="btn btn-secondary btn-sm">Kembali</a>
-                    </div>
-                    <div class="float-lg-right">
-                        <button onclick="terimaPemuput({{$dataPemuput->id}})" type="button" class="btn btn-primary btn-sm ">Setujui</button>
-                        <button onclick="tolakPemuput({{$dataPemuput->id}})" class="btn btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-default">Tolak</button>
+                    <div class="row">
+                        <div class="col-6 ">
+                            <a href="{{route('admin.manajemen-akun.verifikasi.index')}}" class="btn btn-secondary btn-sm">Kembali</a>
+                        </div>
+                        <div class="col-6 d-flex flex-row-reverse ">
+                            <button onclick="terimaPemuput({{$dataPemuput->id}})" type="button" class="btn btn-primary btn-sm ">Setujui</button>
+                            <button onclick="tolakPemuput({{$dataPemuput->id}})" class="mr-2 btn btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-default">Tolak</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,7 +218,7 @@
     </section>
 
     <input id="dataGriya" type="hidden" class="d-none" value='@json($dataPemuput->GriyaRumah)'>
-    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-akun')
+    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-pemuput')
 @endsection
 
 @push('js')

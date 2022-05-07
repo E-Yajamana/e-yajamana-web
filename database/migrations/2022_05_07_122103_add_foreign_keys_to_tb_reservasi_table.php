@@ -15,8 +15,8 @@ class AddForeignKeysToTbReservasiTable extends Migration
     {
         Schema::table('tb_reservasi', function (Blueprint $table) {
             $table->foreign(['id_relasi'], 'tb_reservasi_ibfk_6')->references(['id'])->on('tb_user_eyajamana');
-            $table->foreign(['id_upacaraku'], 'tb_reservasi_ibfk_7')->references(['id'])->on('tb_upacaraku');
             $table->foreign(['id_sanggar'], 'tb_reservasi_ibfk_8')->references(['id'])->on('tb_sanggar');
+            $table->foreign(['id_upacaraku'], 'tb_reservasi_ibfk_7')->references(['id'])->on('tb_upacaraku');
         });
     }
 
@@ -29,8 +29,8 @@ class AddForeignKeysToTbReservasiTable extends Migration
     {
         Schema::table('tb_reservasi', function (Blueprint $table) {
             $table->dropForeign('tb_reservasi_ibfk_6');
-            $table->dropForeign('tb_reservasi_ibfk_7');
             $table->dropForeign('tb_reservasi_ibfk_8');
+            $table->dropForeign('tb_reservasi_ibfk_7');
         });
     }
 }
