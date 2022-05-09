@@ -1,5 +1,5 @@
 @extends('layouts.krama.krama-layout')
-@section('tittle','Edit Upacaraku')
+@section('tittle','Ubah Upacara')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -28,13 +28,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Upacara</h1>
+                    <h1>Ubah Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('krama.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacara</a></li>
-                        <li class="breadcrumb-item active">Edit Upacara</li>
+                        <li class="breadcrumb-item active">Ubah Upacara</li>
                     </ol>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                     @if ($dataUpacaraku->reservasi_count != 0)
                         <div class="callout callout-danger container-fluid">
                             <h5><i class="fas fa-info"></i> Catatan:</h5>
-                            Anda tidak dapat kembali merubah Jenis Yadnya, Jenis Upacara, dan Tanggal Mulai - Selesai Upacara, karenakan sudah terdapat reservasi yang sedang berlangsung / Selesai.
+                            Anda tidak dapat kembali merubah data <strong>Jenis Yadnya, Jenis Upacara, dan Tanggal Mulai - Selesai Upacara</strong> , karenakan sudah terdapat reservasi yang sedang berlangsung / Selesai.
                         </div>
                     @endif
                     <form action="{{route('krama.manajemen-upacara.upacaraku.update')}}" method="POST">
@@ -58,7 +58,7 @@
                         <input name="id_upacaraku" value="{{$dataUpacaraku->id}}" type="hidden" class="d-none">
                         <div class="card">
                             <div class="card-header my-auto">
-                                <label class="card-title my-auto">Form Edit Data Upacara</label>
+                                <label class="card-title my-auto">Form Ubah Upacara Krama</label>
                             </div>
                             <div class="card-body p-4">
                                 <div class="form-group">
@@ -117,8 +117,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>Deskripsi Upacara <span class="text-danger">*</span></label>
-                                    <textarea  @if ($dataUpacaraku->reservasi_count != 0) disabled @endif name="deskripsi_upacaraku" class="form-control  @error('deskripsi_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->deskripsi_upacaraku}}</textarea>
+                                    <label>Deskripsi Upacara</label>
+                                    <textarea  @if ($dataUpacaraku->reservasi_count != 0) disabled @endif name="deskripsi_upacaraku" class="form-control  @error('deskripsi_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Deskripsi Upacara Krama">{{$dataUpacaraku->deskripsi_upacaraku}}</textarea>
                                     @error('deskripsi_upacaraku')
                                         <div class="invalid-feedback text-start">
                                             {{$errors->first('deskripsi_upacaraku') }}
@@ -288,7 +288,7 @@
 
         $('#reservationtime').daterangepicker({
             "autoApply": true,
-            "minDate": moment(Date ()).add(-2, 'M').format('DD MMMM YYYY'),
+            "minDate": moment(Date ()).add(1, 'D').format('DD MMMM YYYY'),
             "maxDate": moment(Date ()).add(2, 'Y').format('DD MMMM YYYY'),
             startDate: moment(parseData.tanggal_mulai).format('DD MMMM YYYY'),
             endDate:moment(parseData.tanggal_selesai).format('DD MMMM YYYY'),

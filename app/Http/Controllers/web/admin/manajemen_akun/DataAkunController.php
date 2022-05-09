@@ -27,9 +27,9 @@ class DataAkunController extends Controller
     // INDEX
 
     // PEMUPUT DETAIL
-    public function detailPemuputKarya(Request $request)
+    public function detailPemuput(Request $request)
     {
-        $dataPemuput = PemuputKarya::with(['User.Penduduk','GriyaRumah.BanjarDinas.DesaDinas.Kecamatan.Kabupaten'])->findOrFail($request->id);
+        $dataPemuput = PemuputKarya::with(['User.Penduduk','GriyaRumah.BanjarDinas.DesaDinas.Kecamatan.Kabupaten'])->whereHas('User.Penduduk')->whereHas('GriyaRumah.BanjarDinas.DesaDinas.Kecamatan.Kabupaten')->findOrFail($request->id);
         return view('pages.admin.manajemen-akun.data-akun.data-akun-pemuput-karya-detail',compact('dataPemuput'));
     }
     // PEMUPUT DETAIL

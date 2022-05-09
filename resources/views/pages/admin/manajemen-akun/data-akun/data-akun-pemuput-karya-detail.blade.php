@@ -156,7 +156,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nomor Induk Krama</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataPemuput->User->Penduduk->nomor_induk_krama}}" disabled>
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Masukan Nomor Induk Krama" value="{{$dataPemuput->User->Penduduk->nomor_induk_krama}}" disabled>
                             </div>
                         </div>
                         @if ($dataPemuput->tipe == 'sulinggih')
@@ -226,7 +226,7 @@
                 </div>
             </div>
     </section>
-    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-akun')
+    @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-pemuput')
 
     <input id="dataGriya" type="hidden" class="d-none" value='@json($dataPemuput->GriyaRumah)'>
 

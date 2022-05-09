@@ -32,7 +32,7 @@ class KramaUpacarakuController extends Controller
     {
         $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi'])->withCount(['Reservasi'=> function($query){
             $query->whereIn('status',['pending','proses tangkil']);
-        }])->where('id_krama',Auth::user()->id)->get();
+        }])->whereIdKrama(Auth::user()->id)->get();
         return view('pages.krama.manajemen-upacara.upacaraku-index', compact('dataUpacaraku'));
     }
     // INDEX UPACARAKU
@@ -183,7 +183,6 @@ class KramaUpacarakuController extends Controller
                 ]);
             }
         // END MAIN LOGIC
-
         // RETURN
             return view('pages.krama.manajemen-upacara.upacaraku-detail',compact('dataUpacaraku'));
         // RETURN
@@ -212,7 +211,7 @@ class KramaUpacarakuController extends Controller
             try{
                 $dataUpacaraku = Upacaraku::with('Upacara')->withCount(['Reservasi'=>function ($query) {
                     $query->whereIn('status', ['proses muput','selesai']);
-                }])->whereIdKrama(Auth::user()->id)->findOrFail($request->id);
+                }])->whereIdKrama(Auth::user()->id)->whereStatus('pending')->findOrFail($request->id);
                 $dataKabupaten = Kabupaten::where('provinsi_id',51)->get();
                 $dataKecamatan = Kecamatan::all();
                 $dataDesa = DesaDinas::all();
@@ -272,8 +271,8 @@ class KramaUpacarakuController extends Controller
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Gagal Menambahkan Data Upacaraku',
-                    'message' => 'Gagal Menambahkan Data Upacaraku, silakan periksa kembali form input anda!'
+                    'title' => 'Gagal Menambahkan Data Upacara',
+                    'message' => 'Gagal Menambahkan Data Upacara, silakan periksa kembali form input anda!'
                 ])->withInput($request->all())->withErrors($validator->errors());
             }
         // END

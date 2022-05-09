@@ -2,14 +2,24 @@
 @section('tittle','Data Reservasi')
 
 @push('css')
-    <!-- DataTables -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-    {{-- <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/jquery.dataTables.min.css')}}"> --}}
+
+    <!-- DataTablbase-template Plugins -->
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.js')}}"></script>
+
+
+
+    <script src="{{asset('dataTables.rowsGroup.js')}}"></script>
 @endpush
 
 @section('content')
-
     <section class="content-header">
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
@@ -27,8 +37,7 @@
         <!-- /.container-fluid -->
     </section>
 
-    <!-- Main content -->
-    <section class="content">
+    <section>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
@@ -72,133 +81,136 @@
                     <!-- /.card -->
 
                     <div class="card tab-content" id="v-pills-tabContent">
-                        {{-- Start Data Table Sulinggih --}}
+                        <!-- Main content -->
                         <div class="card-header my-auto">
-                            <h3 class="card-title my-auto">List Data Upacara</h3>
+                            <h3 class="card-title my-auto">List Data Reservasi</h3>
                         </div>
                         <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
                             <div class="card-body p-0">
                                 <div class="table-responsive mailbox-messages p-2">
-                                    <table id="example2" class="table mx-auto table-responsive-sm">
+                                    <table id="curriculum-students-dataTable" class="table mx-auto table-responsive-sm">
                                         <thead>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Nama Upacara</th>
-                                                <th>Pemuput Upacara</th>
-                                                <th class='d-flex justify-content-center text-center'>Status Reservasi</th>
-                                                <th>Tahapan Reservasi</th>
-                                                <th>Tindakan</th>
+                                                <th class="tableColumnMediumWidth">Name</th>
+                                                <th class="tableColumnMediumWidth">StudentID</th>
+                                                <th class="tableColumnMediumWidth">Email</th>
+                                                <th class="tableColumnMediumWidth">Unit</th>
+                                                <th class="tableColumnMediumWidth">Placement</th>
+                                                <th class="tableColumnMediumWidth">Site</th>
+                                                <th class="tableColumnMediumWidth">Section</th>
+                                                <th class="tableColumnMediumWidth">AdvisorSection</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            @if ($dataReservasi->count() != 0)
-                                                @foreach ($dataReservasi as $index => $data)
-                                                    <tr>
-                                                        <td rowspan="{{count($data->Reservasi)}}">{{$index+1}}</td>
-                                                        <td style="width: 18%" rowspan="{{count($data->Reservasi)}}">{{$data->nama_upacara}}</td>
-                                                        <td style="width: 18%" class="pl-4">
-                                                            @if ($data->Reservasi[0]->Relasi->PemuputKarya != null)
-                                                                {{$data->Reservasi[0]->Relasi->PemuputKarya->nama_pemuput}}</td>
-                                                            @else
-                                                                {{$data->Reservasi[0]->Relasi->Sanggar->nama_sanggar}}</td>
-                                                            @endif
-                                                        <td class='d-flex justify-content-center text-center'>
-                                                            <span @if ($data->Reservasi[0]->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->Reservasi[0]->status == 'proses tangkil' || $data->Reservasi[0]->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->Reservasi[0]->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->Reservasi[0]->status)}}</span>
-                                                        </td>
-                                                        <td>
-                                                            @foreach ($data->Reservasi[0]->DetailReservasi as $dataDetailReservasi)
-                                                                <li>{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}} | {{strtoupper($dataDetailReservasi->status)}}</li>
-                                                            @endforeach
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[0]->id)}}" class="btn btn-info btn-sm">
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
-                                                            @if ($data->Reservasi[0]->status == 'pending' || $data->Reservasi[0]->status == 'proses tangkil')
-                                                                <button onclick="batalReservasi({{$data->Reservasi[0]->id}})" class="btn btn-danger btn-sm">
-                                                                    <i class="fas fa-times"></i>
-                                                                </button>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    @for($i=1; $i < count($data->Reservasi); $i++ )
-                                                        <tr>
-                                                            <td>
-                                                                @if ($data->Reservasi[$i]->Relasi->PemuputKarya != null)
-                                                                    {{$data->Reservasi[$i]->Relasi->PemuputKarya->nama_pemuput}}</td>
-                                                                @else
-                                                                    {{$data->Reservasi[$i]->Relasi->Sanggar->nama_sanggar}}</td>
-                                                                @endif
-                                                            </td>
-                                                            <td class='d-flex justify-content-center text-center'>
-                                                                <span @if ($data->Reservasi[$i]->status  == 'pending') class="bg-secondary btn-sm" @elseif ($data->Reservasi[$i]->status == 'proses tangkil' || $data->Reservasi[$i]->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->Reservasi[$i]->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->Reservasi[$i]->status)}}</span>
-                                                            </td>
-                                                            <td>
-                                                                @foreach ($data->Reservasi[$i]->DetailReservasi as $dataDetailReservasi)
-                                                                    <li>{{$dataDetailReservasi->TahapanUpacara->nama_tahapan}} | {{strtoupper($dataDetailReservasi->status)}}</li>
-                                                                @endforeach
-                                                            </td>
-                                                            <td>
-                                                                <a href="{{route('krama.manajemen-reservasi.detail',$data->Reservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
-                                                                @if ($data->Reservasi[$i]->status == 'pending' || $data->Reservasi[$i]->status == 'proses tangkil')
-                                                                    <a onclick="batalReservasi({{$data->Reservasi[$i]->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    @endfor
-                                                @endforeach
-                                            @else
-                                                <tr class="odd">`
-                                                    <td valign="top" colspan="6" class="dataTables_empty text-center m-4">Tidak Terdapat Reservasi</td>
-                                                </tr>
-                                            @endif
-
-                                        </tbody>
+                                        <tbody></tbody>
                                         <tfoot>
                                             <tr>
-                                                <th>No</th>
-                                                <th>Nama Upakara</th>
-                                                <th>Pemuput Upakara</th>
-                                                <th class='d-flex justify-content-center text-center'>Status Reservasi</th>
-                                                <th>Tahapan Reservasi</th>
-                                                <th>Tindakan</th>
+                                                <th class="tableColumnMediumWidth">Name</th>
+                                                <th class="tableColumnMediumWidth">StudentID</th>
+                                                <th class="tableColumnMediumWidth">Email</th>
+                                                <th class="tableColumnMediumWidth">Unit</th>
+                                                <th class="tableColumnMediumWidth">Placement</th>
+                                                <th class="tableColumnMediumWidth">Site</th>
+                                                <th class="tableColumnMediumWidth">Section</th>
+                                                <th class="tableColumnMediumWidth">AdvisorSection</th>
                                             </tr>
                                         </tfoot>
                                     </table>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
         </div>
-    <!-- /.container-fluid -->
+
     </section>
-    <!-- /.content -->
-
-    @include('pages.krama.manajemen-reservasi.modal-batal-reservasi')
-
 @endsection
 
 @push('js')
-    <!-- Bootstrabase-template-->
-    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- DataTablbase-template Plugins -->
-    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<script type="text/javascript">
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#side-reservasi').addClass('menu-open');
-            $('#side-data-reservasi').addClass('active');
-            $('#example2').DataTable();
-        });
-    </script>
+    var model=[{"UserId":1311,"Email":"Carlos.Lopez@humbermail.ca.co","Password":null,"LastName":"Lopez","FirstName":"Carlos","StudentOrTeacherRegistrationNumber":"805687001","Section":"2","AdvisorSection":"0","Placement":"NoPlacement","Site":"NoSite","Unit":"NoUnit","UnitId":233,"StudentOrTeacherUnitId":3520},
+    {"UserId":1319,"Email":"David.Griffin@humbermail.ca.co","Password":null,"LastName":"Griffin","FirstName":"David","StudentOrTeacherRegistrationNumber":"804790491 ","Section":"7930sdd","AdvisorSection":"0ass","Placement":"NoPlacement","Site":"NoSite","Unit":"NoUnit","UnitId":233,"StudentOrTeacherUnitId":3502},
+    {"UserId":1648,"Email":"Scott.Meyer@humbermail.ca.co","Password":null,"LastName":"Meyer","FirstName":"Scott","StudentOrTeacherRegistrationNumber":"N00686366 ","Section":"7930","AdvisorSection":"0","Placement":"Agency","Site":"Bridgepoint","Unit":"2155-8","UnitId":177,"StudentOrTeacherUnitId":3503},
+    {"UserId":1693,"Email":"Robin.Long@humbermail.ca.co","Password":null,"LastName":"Long","FirstName":"Robin","StudentOrTeacherRegistrationNumber":"bllk0246","Section":"7930","AdvisorSection":"0","Placement":"NoPlacement","Site":"NoSite","Unit":"NoUnit","UnitId":233,"StudentOrTeacherUnitId":3504},
+    {"UserId":1738,"Email":"Robin.Long@humbermail.ca.co","Password":null,"LastName":"Long","FirstName":"Robin","StudentOrTeacherRegistrationNumber":"bllk0246","Section":"7930","AdvisorSection":"0","Placement":"Agency","Site":"Bridgepoint","Unit":"2155-8","UnitId":177,"StudentOrTeacherUnitId":3505},
+    {"UserId":1739,"Email":"Michael.Long@humbermail.ca.co","Password":null,"LastName":"Long","FirstName":"Michael","StudentOrTeacherRegistrationNumber":"bkrj0147  ","Section":"7930","AdvisorSection":"0","Placement":"Agency","Site":"Bridgepoint","Unit":"2155-8","UnitId":177,"StudentOrTeacherUnitId":3506},
+    {"UserId":1740,"Email":"Ernest.Ray@humbermail.ca.co","Password":null,"LastName":"Ray","FirstName":"Ernest","StudentOrTeacherRegistrationNumber":"dmch0050  ","Section":"7930","AdvisorSection":"0","Placement":"Agency","Site":"Bridgepoint","Unit":"2155-8","UnitId":177,"StudentOrTeacherUnitId":3507},
+    {"UserId":1755,"Email":"Joyce.Robertson@humbermail.ca.co","Password":null,"LastName":"Robertson","FirstName":"Joyce","StudentOrTeacherRegistrationNumber":"brdm0412  ","Section":"7930","AdvisorSection":"0","Placement":"Agency","Site":"Bridgepoint","Unit":"2155-8","UnitId":177,"StudentOrTeacherUnitId":3508},
+    {"UserId":1877,"Email":"Clarence.Wells@humbermail.ca.co","Password":null,"LastName":"Wells","FirstName":"Clarence","StudentOrTeacherRegistrationNumber":"dmmr0027  ","Section":"7930","AdvisorSection":"0","Placement":"Agency","Site":"Bridgepoint","Unit":"2155-8","UnitId":177,"StudentOrTeacherUnitId":3509},
+    {"UserId":2093,"Email":"Jeremy.Mills@humbermail.ca.co","Password":null,"LastName":"Mills","FirstName":"Jeremy","StudentOrTeacherRegistrationNumber":"N00397173 ","Section":"7930","AdvisorSection":"0","Placement":"Agency","Site":"Bridgepoint","Unit":"2155-8","UnitId":177,"StudentOrTeacherUnitId":3510},
+    {"UserId":2307,"Email":"Rachel.Parker@humbermail.ca.co","Password":null,"LastName":"Parker","FirstName":"Rachel","StudentOrTeacherRegistrationNumber":"N00118511 ","Section":"7930","AdvisorSection":"0","Placement":"Agency","Site":"Bridgepoint","Unit":"2155-8","UnitId":177,"StudentOrTeacherUnitId":3511},
+    {"UserId":2350,"Email":"Frank.Wright@humbermail.ca.co","Password":null,"LastName":"Wright","FirstName":"Frank","StudentOrTeacherRegistrationNumber":"N00307407 ","Section":"7930","AdvisorSection":"0","Placement":"Agency","Site":"Bridgepoint","Unit":"2155-8","UnitId":177,"StudentOrTeacherUnitId":3512},
+    {"UserId":2434,"Email":"Charles.Harvey@humbermail.ca.co","Password":null,"LastName":"Harvey","FirstName":"Charles","StudentOrTeacherRegistrationNumber":"N00581144 ","Section":"7930","AdvisorSection":"0","Placement":"Agency","Site":"Bridgepoint","Unit":"2155-8","UnitId":177,"StudentOrTeacherUnitId":3513},
+    {"UserId":4812,"Email":"fs12.lns12@yah.com","Password":null,"LastName":"lns12","FirstName":"fs12","StudentOrTeacherRegistrationNumber":"22","Section":"12","AdvisorSection":"34","Placement":"Agency","Site":"Dixon Grove JMS","Unit":"U8","UnitId":59,"StudentOrTeacherUnitId":3525},
+    {"UserId":4812,"Email":"fs12.lns12@yah.com","Password":null,"LastName":"lns12","FirstName":"fs12","StudentOrTeacherRegistrationNumber":"22","Section":"2","AdvisorSection":"2","Placement":"NoPlacement","Site":"NoSite","Unit":"NoUnit","UnitId":233,"StudentOrTeacherUnitId":3514},
+    {"UserId":4812,"Email":"fs12.lns12@yah.com","Password":null,"LastName":"lns12","FirstName":"fs12","StudentOrTeacherRegistrationNumber":"22","Section":"45","AdvisorSection":"56","Placement":"Agency","Site":"AIDS Committee of Toronto (ACT)","Unit":"U3","UnitId":53,"StudentOrTeacherUnitId":3524},
+    {"UserId":4813,"Email":"fs13.lns13@yah.com","Password":null,"LastName":"lns13","FirstName":"fs13","StudentOrTeacherRegistrationNumber":"3","Section":"2","AdvisorSection":"33","Placement":"NoPlacement","Site":"NoSite","Unit":"NoUnit","UnitId":233,"StudentOrTeacherUnitId":3515},
+    {"UserId":4813,"Email":"fs13.lns13@yah.com","Password":null,"LastName":"lns13","FirstName":"fs13","StudentOrTeacherRegistrationNumber":"3","Section":"gh","AdvisorSection":"hj","Placement":"Kindergarten","Site":"Claireville \u0026 James Bell","Unit":"K8","UnitId":97,"StudentOrTeacherUnitId":3526},
+    {"UserId":4815,"Email":"fs15.lns15@yah.com","Password":null,"LastName":"lns15","FirstName":"fs15","StudentOrTeacherRegistrationNumber":"5","Section":"2","AdvisorSection":"5","Placement":"NoPlacement","Site":"NoSite","Unit":"NoUnit","UnitId":233,"StudentOrTeacherUnitId":3516},
+    {"UserId":4816,"Email":"fs16.lns16@yah.com","Password":null,"LastName":"lns16","FirstName":"fs16","StudentOrTeacherRegistrationNumber":"6","Section":"2","AdvisorSection":"77","Placement":"NoPlacement","Site":"NoSite","Unit":"NoUnit","UnitId":233,"StudentOrTeacherUnitId":3517},
+    {"UserId":5068,"Email":"raaaaa@raaaaa.ro","Password":null,"LastName":"raaaaa","FirstName":"raaaraa","StudentOrTeacherRegistrationNumber":"666","Section":"2","AdvisorSection":"asdsa","Placement":"NoPlacement","Site":"NoSite","Unit":"NoUnit","UnitId":233,"StudentOrTeacherUnitId":3518},
+    {"UserId":5072,"Email":"hsdhsd@dfsa.ro","Password":null,"LastName":"dfhdshs","FirstName":"fdhdfe","StudentOrTeacherRegistrationNumber":"455235","Section":"2","AdvisorSection":"asdsa","Placement":"NoPlacement","Site":"NoSite","Unit":"NoUnit","UnitId":233,"StudentOrTeacherUnitId":3519}];
 
+   var curriculumStudentsDataTable;
+
+
+
+
+   $(document).ready(function () {
+
+           DisplayStudentsCurriculumTableData(model);
+
+       });
+
+   function DisplayStudentsCurriculumTableData(model) {
+       curriculumStudentsDataTable = $('#curriculum-students-dataTable').dataTable({
+           //"bRetrieve": true,
+           "sPaginationType": "full_numbers",
+           paging: true,
+           //"bProcessing": true,
+           //"bAutoWidth": false,
+           //"bStateSave": true,
+           "aaSorting": [[1, 'asc']],
+           "aaData": model,
+           rowsGroup: [0,1,2],
+           "aoColumns": [
+           {
+               "data": function (data) {
+                       return data.LastName+ ', ' +data.FirstName;
+                   },
+               sDefaultContent: ""
+           },
+           {
+               "data": "StudentOrTeacherRegistrationNumber",
+               sDefaultContent: ""
+           },
+           {
+               "data": "Email",
+               sDefaultContent: ""
+           },
+           {
+               "data": "Unit",
+               sDefaultContent: ""
+           },
+           {
+               "data": "Placement",
+               sDefaultContent: ""
+           },
+           {
+               "data": "Site",
+               sDefaultContent: ""
+           },
+           {
+               "data": "Section",
+               sDefaultContent: ""
+           },
+           {
+               "data": "AdvisorSection",
+               sDefaultContent: ""
+           }
+           ]
+       });
+   }
+   </script>
 @endpush

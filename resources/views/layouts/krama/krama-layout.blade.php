@@ -30,6 +30,8 @@
     <script src="{{asset('base-template\dist\js\sweetalert2.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('base-template\dist\css\sweetalert2.min.css')}}">
     <link rel="icon" type="image/png" href="{{ asset('base-template/dist/img/logo-01.png') }}">
+    <!-- jQuery -->
+    <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
 
     @stack('css')
 
@@ -47,8 +49,7 @@
 
     </div>
 
-    <!-- jQuery -->
-    <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
+
     <!-- Bootstrabase-template-->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
