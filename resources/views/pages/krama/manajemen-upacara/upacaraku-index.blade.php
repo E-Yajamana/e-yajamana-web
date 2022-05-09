@@ -185,7 +185,7 @@
             }
         });
 
-        table.on( 'order.dt search.dt', function () {
+        table.on('order.dt search.dt', function () {
             table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
                 cell.innerHTML = i+1;
             } );
@@ -195,13 +195,9 @@
         $.fn.dataTable.ext.search.push(
             function( settings, data, dataIndex ) {
                 jenisYadnya =  $('#filterJenisYadnya').find(":selected").val();
-                var test  = $('#filterStatus li').find('a.active').text();
 
                 var jenisUpacaraData = data[2];
                 var statusData = data[3];
-
-                console.log(test)
-                // console.log(statusData)
 
                 if((jenisYadnya == "Semua"  && statusUpacara == null  ) || (jenisYadnya == "Semua" && statusUpacara == statusData ) || (statusUpacara == "Semua" && jenisUpacaraData == jenisYadnya) || (statusUpacara == "Semua" && jenisYadnya == "Semua")){
                     return true;

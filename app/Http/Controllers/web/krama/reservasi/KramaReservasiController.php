@@ -31,9 +31,46 @@ class KramaReservasiController extends Controller
         // MAIN LOGIC
             try{
                 $idKrama = Auth::user()->id;
-                $dataReservasi = Upacaraku::with(['Reservasi.DetailReservasi','Reservasi.Relasi'=>function($query){
+                $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi.DetailReservasi','Reservasi.Relasi'=>function($query){
                     $query->with(['PemuputKarya','Sanggar']);
                 }])->whereHas('Reservasi.DetailReservasi')->whereHas('Reservasi.Relasi')->where('id_krama',$idKrama)->get();
+                // dd($dataUpacaraku);
+
+                $data = [];
+                foreach($dataUpacaraku as $index=>$upacara){
+                    foreach($upacara->Reservasi as $reservasi){
+                        $dataDetail =  '<label>'.$upacara->Upacara->nama_upacara.' | '.$upacara->Upacara->kategori_upacara.'</label>';
+                        foreach($reservasi->DetailReservasi as $detailReservasi){
+                            $dataDetail .= '<li>'.$detailReservasi->TahapanUpacara->nama_tahapan.' | '.Str::upper($detailReservasi->status).'</li>';
+                        }
+                        $tindakan = '<a title="Detail Reservasi" href="'.route('krama.manajemen-reservasi.detail',$reservasi->id).'" class="btn btn-info btn-sm mr-1"><i class="fas fa-edit"></i></a>';
+                        if($reservasi->status == 'pending' || $reservasi->status == 'proses tangkil' ){
+                        }
+
+                        if($reservasi->status == 'pending'){
+                            $status = 'class="bg-secondary btn-sm"';
+                            $tindakan .= '<button title="Batalkan Reservasi" onclick="batalReservasi('.$reservasi->id.')" class="btn btn-danger btn-sm"> <i class="fas fa-times"></i></button>';
+                        }elseif($reservasi->status == 'proses tangkil' || $reservasi->status == 'proses muput' ){
+                            $status = 'class="bg-primary btn-sm"';
+                            if($reservasi->status == 'proses tangkil'){
+                                $tindakan .= '<button title="Batalkan Reservasi" onclick="batalReservasi('.$reservasi->id.')" class="btn btn-danger btn-sm"> <i class="fas fa-times"></i></button>';
+                            }
+                        }elseif($reservasi->status == 'selesai'){
+                            $status = 'class="bg-success btn-sm"';
+                        }else{
+                            $status = 'class="bg-danger btn-sm"';
+                        }
+                        $data[] = ((object)[
+                            "No" => $index+1,
+                            "NamaUpacara" => Str::headline($upacara->nama_upacara),
+                            "PemuputUpacara" => Str::headline($reservasi->Relasi->PemuputKarya->nama_pemuput),
+                            "statusReservasi" => '<div class="d-flex justify-content-center text-center"><span '.$status.' style="border-radius: 5px; width:110px;">'.Str::headline($reservasi->status).'</span></div>',
+                            "tahapanReservasi" => $dataDetail,
+                            "tindakan" => $tindakan,
+                        ]);
+                    }
+
+                }
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 return redirect()->back()->with([
                     'status' => 'fail',
@@ -45,11 +82,12 @@ class KramaReservasiController extends Controller
         // END MAIN LOGIC
 
         // RETURN
-            return view('pages.krama.manajemen-reservasi.krama-reservasi-index',compact('dataReservasi'));
+            return view('pages.krama.manajemen-reservasi.krama-reservasi-index',compact('data'));
         // END RETURN
 
     }
     // INDEX RESERVASI KRAMA
+
 
     // CRAETE RESERVASI KRAMA
     public function createReservasi(Request $request)
