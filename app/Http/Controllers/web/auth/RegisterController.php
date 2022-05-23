@@ -363,7 +363,7 @@ class RegisterController extends Controller
                         'nomor_telepon'=> $request->nomor_telepon,
                         'user_profile'=> 'app/default/profile/user.jpg',
                     ]);
-                    $role = [2,5];
+                    $role = [2,4];
                     $user->Role()->attach($role);
                 }
 

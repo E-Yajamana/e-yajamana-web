@@ -24,7 +24,7 @@
                             </div>
                         </a>
                     </div>
-                    @if (Auth::user()->PemuputKarya != null && Auth::user()->Role()->where('nama_role','Pemuput_karya')->exists())
+                    @if (Auth::user()->PemuputKarya != null && Auth::user()->Role()->where('nama_role','pemuput_karya')->exists())
                         @if (Auth::user()->PemuputKarya->status_konfirmasi_akun == 'disetujui')
                             <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
                                 <a style="text-decoration: none;" href="{{route('pemuput-karya.dashboard')}}">
@@ -37,53 +37,57 @@
                         @endif
                     @endif
 
-                    @if (Auth::user()->Sanggar->where('status_konfirmasi_akun','disetujui')->count() != 0 )
-                        <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
-                            <a style="text-decoration: none;" onclick="showModal()">
-                                <div class="card p-2 shadow cursor" role="button">
-                                    <label class="text-center m-0 p-1 text-dark">SANGGAR</label>
-                                    <img src="{{asset('base-template/dist/img/jenis-user/sanggar.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="modal fade" id="myModal" role="dialog">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <div class="card-body box-profile align-content-center">
-                                            <div class="text-center">
-                                            <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
-                                            </div>
-                                            <h3 class="text-center bold mb-0 mt-3">Pilih Akun Sanggar</h3>
-                                            <p class="text-center mb-1 mt-1">Anda dapat Mengelola Reservasi Sebagai Sanggar :</p>
-                                        </div>
+
+                    @if (Auth::user()->Role()->where('nama_role','sanggar')->exists())
+                        @if (Auth::user()->Sanggar->where('status_konfirmasi_akun','disetujui')->count() != 0 )
+                            <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
+                                <a style="text-decoration: none;" onclick="showModal()">
+                                    <div class="card p-2 shadow cursor" role="button">
+                                        <label class="text-center m-0 p-1 text-dark">SANGGAR</label>
+                                        <img src="{{asset('base-template/dist/img/jenis-user/sanggar.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
                                     </div>
-                                    <div class="modal-body" id="dataSulinggih">
-                                        @foreach (Auth::user()->Sanggar->where('status_konfirmasi_akun','disetujui') as $data)
-                                            <form action="{{route('sanggar.session')}}" method="POST">
-                                                @csrf
-                                                <input value="{{$data->id}}" type="hidden" class="d-none" name="id">
-                                                <div class="card shadow collapsed-card mt-3">
-                                                    <div class="card-header">
-                                                        <div class="user-block">
-                                                            <img class="img-circle" src="{{route("get-image.profile.pemuput-karya")}}/2" alt="User Image">
-                                                            <span class="username"><button class="ml-2 p-0 btn btn-link" type="submit"> {{$data->nama_sanggar}}</button></span>
-                                                            <span class="description">
-                                                                <div class="ml-2"> {{$data->alamat_sanggar}}</div>
-                                                            </span>
+                                </a>
+                            </div>
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="card-body box-profile align-content-center">
+                                                <div class="text-center">
+                                                <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
+                                                </div>
+                                                <h3 class="text-center bold mb-0 mt-3">Pilih Akun Sanggar</h3>
+                                                <p class="text-center mb-1 mt-1">Anda dapat Mengelola Reservasi Sebagai Sanggar :</p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-body" id="dataSulinggih">
+                                            @foreach (Auth::user()->Sanggar->where('status_konfirmasi_akun','disetujui') as $data)
+                                                <form action="{{route('sanggar.session')}}" method="POST">
+                                                    @csrf
+                                                    <input value="{{$data->id}}" type="hidden" class="d-none" name="id">
+                                                    <div class="card shadow collapsed-card mt-3">
+                                                        <div class="card-header">
+                                                            <div class="user-block">
+                                                                <img class="img-circle" src="{{route("image.profile.sanggar",$data->id)}}" alt="User Image">
+                                                                <span class="username"><button class="ml-2 p-0 btn btn-link" type="submit"> {{$data->nama_sanggar}}</button></span>
+                                                                <span class="description">
+                                                                    <div class="ml-2"> {{$data->alamat_sanggar}}</div>
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </form>
-                                        @endforeach
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                                                </form>
+                                            @endforeach
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     @endif
+
                     @if (Auth::user()->Serati != null || Auth::user()->Serati != "")
                         <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
                             <a style="text-decoration: none;" href="{{route('auth.register.form.akun','serati')}}">

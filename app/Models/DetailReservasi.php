@@ -78,6 +78,6 @@ class DetailReservasi extends Model
 
     public function Gambar()
 	{
-		return $this->hasMany(Gambar::class, 'id_detail_reservarsi');
+		return $this->hasOne(Gambar::class, 'id_detail_reservarsi');
 	}
 }

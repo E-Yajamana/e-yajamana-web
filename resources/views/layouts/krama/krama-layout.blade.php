@@ -132,12 +132,18 @@
 
         messaging.onMessage(function (payload) {
             console.log(payload)
-            const title = payload.data.title;
-            const options = {
+            const notificationTitle  = payload.data.title;
+            const notificationOptions  = {
                 body: payload.data.body,
-                // icon: payload.notification.icon,
+                icon: payload.data.image,
             };
-            new Notification(title, options);
+            new Notification(notificationTitle, notificationOptions);
+        });
+
+        self.addEventListener('notificationclick', function (event) {
+            // var url = event.notification.data;
+            console.log(event)
+            console.log('On notification click: ', event);
         });
     </script>
 

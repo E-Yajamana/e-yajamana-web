@@ -1,8 +1,11 @@
 <?php
 
+use App\Models\Sanggar;
 use App\Models\User;
 use App\Notifications\UserNotification;
+use Illuminate\Support\Facades\Notification;
 use GuzzleHttp\Client;
+use Illuminate\Database\Eloquent\Collection;
 
 class NotificationHelper
 {
@@ -28,9 +31,11 @@ class NotificationHelper
                 'status' => $data['status'] != null ? $data['status'] : "new",
                 'image' => $data['image'] != null ? $data['image'] : "normal",
                 'notifiable_id' => $userTarget->id,
+                'type' => $data['type'] != null ? $data['type'] : "type",
                 'formated_created_at' => date("Y-m-d H:i:s"),
                 'formated_updated_at' => date("Y-m-d H:i:s"),
             ],
+
         ];
         $fields = json_encode($fields);
         $client = new Client();
@@ -57,4 +62,49 @@ class NotificationHelper
         }
         return $randomString;
     }
+
+    public static function sendMultipleNotification(array $data, Collection $user)
+    {
+        foreach($user as $as){
+            $token[] = $as->fcm_token_key;
+            $token[] = $as->fcm_token_web;
+        }
+
+        Notification::send($user, new UserNotification($data));
+        $serverKey = config('firebase.key');
+        $headers = [
+            'Authorization' => 'key=' . $serverKey,
+            'Content-Type'  => 'application/json',
+        ];
+        $fields = [
+            'registration_ids' => $token,
+            'content-available' => true,
+            'priority' => 'high',
+            'data' => [
+                'title' => $data['title'] != null ? $data['title'] : "Title",
+                'body' => $data['body'] != null ? $data['body'] : "Body",
+                'id' => NotificationHelper::generateRandomString(),
+                'status' => $data['status'] != null ? $data['status'] : "new",
+                'image' => $data['image'] != null ? $data['image'] : "normal",
+                // 'notifiable_id' => $userTarget->id,
+                'formated_created_at' => date("Y-m-d H:i:s"),
+                'formated_updated_at' => date("Y-m-d H:i:s"),
+            ],
+        ];
+        $fields = json_encode($fields);
+        $client = new Client();
+
+        $guzzleResponse = $client->post("https://fcm.googleapis.com/fcm/send", [
+            'headers' => $headers,
+            "body" => $fields,
+        ]);
+
+        if ($guzzleResponse->getStatusCode() == 200) {
+            return $guzzleResponse->getBody();
+        } else {
+            return null;
+        }
+    }
+
+
 }

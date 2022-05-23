@@ -47,7 +47,6 @@
                                     <th>Nama Krama </th>
                                     <th>Lokasi Upacara</th>
                                     <th>Waktu Tangkil</th>
-                                    <th>Jenis Yadnya</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
@@ -61,14 +60,13 @@
                                         </td>
                                         <td style="width: 18%"> {{$data->Upacaraku->alamat_upacaraku}}</td>
                                         <td>{{date('d F Y | H:i ',strtotime($data->tanggal_tangkil))}}</td>
-                                        <td>{{$data->Upacaraku->Upacara->kategori_upacara}}</td>
                                         <td>
-                                            <label>{{$data->Upacaraku->Upacara->nama_upacara}}</label>
+                                            <label>{{$data->Upacaraku->Upacara->kategori_upacara}} | {{$data->Upacaraku->Upacara->nama_upacara}}</label>
                                             @foreach ($data->DetailReservasi as $dataDetail)
                                                 <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
                                             @endforeach
                                         </td>
-                                        <td style="width: 12%">
+                                        <td style="width: 15%">
                                             <a title="Detail Data" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail',$data->id)}}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a>
                                             <a title="Edit Data" @if (date('Y-m-d') > date('Y-m-d',strtotime($data->tanggal_tangkil)) || date('Y-m-d') == date('Y-m-d',strtotime($data->tanggal_tangkil)) )  href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->id)}}" @else onclick="cekTanggalTangkil('{{$data->tanggal_tangkil}}')" @endif class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                             <a title="Konfirmasi Tangkil" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
@@ -82,7 +80,6 @@
                                     <th>Nama Krama </th>
                                     <th>Lokasi Upacara</th>
                                     <th>Waktu Tangkil</th>
-                                    <th>Jenis Yadnya</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>

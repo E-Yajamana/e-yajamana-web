@@ -19,17 +19,23 @@ crossorigin=""></script>
 @endpush
 
 @section('content')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h3 col-lg-auto text-center text-md-start">Data Profile</h1>
-        <div class="col-auto ml-auto text-right mt-n1">
-            <nav aria-label="breadcrumb text-center">
-                <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
-                    <li class="breadcrumb-item"><a class="text-decoration-none" href="#">E-Yajamana</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Data Profile</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
+
+    <section class="content-header">
+        <div class="container-fluid border-bottom">
+            <div class="row mb-1">
+                <div class="col-sm-6">
+                    <h1>Data Profile</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{route('krama.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Profile Krama</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
     <div class="container-fluid px-0">
         <div class="row">
             @if ($errors->any())
@@ -185,10 +191,10 @@ crossorigin=""></script>
                 <div class="card card-primary card-outline card-outline-tabs">
                     <div class="card-header border-bottom-0 p-2">
                         <ul class="nav nav-tabs">
-                            <li class="nav-item"><a class="nav-link active text-dark" href="#dataDiri" data-toggle="tab">Data Diri</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" href="#akun" data-toggle="tab">Akun</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark @if (!Session::has('notify')) active @endif" href="#dataDiri" data-toggle="tab">Data Diri</a></li>
+                            <li class="nav-item"><a class="nav-link  text-dark" href="#akun" data-toggle="tab">Akun</a></li>
                             <li class="nav-item"><a class="nav-link text-dark" id="pemetaanTabs" href="#pemetaan" data-toggle="tab">Pemetaan Lokasi</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" href="#notifikasi" data-toggle="tab">Notifikasi</a></li>
+                            <li class="nav-item"><a class="nav-link @if (Session::has('notify')) {{session()->get('notify')}} @endif text-dark" href="#notifikasi" data-toggle="tab">Notifikasi</a></li>
                             <li class="nav-item"><a class="nav-link text-dark" href="#ubahPassword" data-toggle="tab">Ubah Password</a></li>
                         </ul>
                     </div>
@@ -196,7 +202,7 @@ crossorigin=""></script>
                         <div class="tab-content">
 
                             <!---- DATA DIRI TABS ------>
-                            <div class="tab-pane active" id="dataDiri">
+                            <div class="tab-pane @if (!Session::has('notify')) active @endif" id="dataDiri">
                                 <div class="ml-2 fs-4">
                                     <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Data Diri</label>
                                     <p>Kelola data diri Anda agar lebih mudah mendapatkan informasimu</p>
@@ -485,7 +491,7 @@ crossorigin=""></script>
                             <!---- PEMETAAN TABS ------>
 
                             <!---- NOTIFIKASI TABS ------>
-                            <div class="tab-pane" id="notifikasi">
+                            <div class="tab-pane @if (Session::has('notify')) {{session()->get('notify')}} @endif" id="notifikasi">
                                 <div class="ml-2 fs-4">
                                     <label class="fw-bold text-center d-grid text-lg mb-1">Notifikasi</label>
                                     <p class="mb-0">Kelola notifikasi yang masuk ke akun Anda...</p>
@@ -499,27 +505,29 @@ crossorigin=""></script>
                                     <div class="tab-content">
                                         <div class="tab-pane active" id="notifikasiBaru">
                                             @if (count($dataNotifikasi['new']) != 0)
-                                                @foreach ($dataNotifikasi['new'] as $data)
-                                                    <div class="card mt-3">
-                                                        <div class="card-header" aria-expanded="false">
-                                                            <div class="card-tools mr-0">
-                                                                <div class="input-group-prepend">
-                                                                    <button type="button" class="btn btn-tool float-right px-0" data-toggle="dropdown">
-                                                                        <i class="fas fa-ellipsis-v float-lg-right mt-2"></i>
-                                                                    </button>
-                                                                    <ul class="dropdown-menu">
-                                                                        <a href="#" class="dropdown-item text-dark">Baca Notifikasi</a></li>
-                                                                        {{-- <li class="dropdown-divider"></li> --}}
-                                                                        <a href="#" class="text-dark dropdown-item">Delete Notifikasi</a></li>
-                                                                    </ul>
+                                                <div class="direct-chat-messages p-2">
+                                                    @foreach ($dataNotifikasi['new'] as $data)
+                                                        <div class="card mt-3">
+                                                            <div class="card-header" aria-expanded="false">
+                                                                <div class="card-tools mr-0">
+                                                                    <div class="input-group-prepend">
+                                                                        <button type="button" class="btn btn-tool float-right px-0" data-toggle="dropdown">
+                                                                            <i class="fas fa-ellipsis-v float-lg-right mt-2"></i>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <a href="#" class="dropdown-item text-dark">Baca Notifikasi</a></li>
+                                                                            {{-- <li class="dropdown-divider"></li> --}}
+                                                                            <a href="#" class="text-dark dropdown-item">Delete Notifikasi</a></li>
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
+                                                                <span class="text-xs text-primary my-4"><i class="fas fa-info-circle"></i> Informasi | {{date('d F Y | H:m',strtotime($data->created_at))}}</span>
+                                                                <p class="text-md mb-0 text-bold">{{$data->parseDataToArray()->title}}</p>
+                                                                <p class="text-xs mb-1">{{$data->parseDataToArray()->body}}</p>
                                                             </div>
-                                                            <span class="text-xs text-primary my-4"><i class="fas fa-info-circle"></i> Informasi | {{date('d F Y | H:m',strtotime($data->created_at))}}</span>
-                                                            <p class="text-md mb-0 text-bold">{{$data->parseDataToArray()->title}}</p>
-                                                            <p class="text-xs mb-1">{{$data->parseDataToArray()->body}}</p>
                                                         </div>
-                                                    </div>
-                                                @endforeach
+                                                    @endforeach
+                                                </div>
                                             @else
                                                 <div class="h-100 d-flex justify-content-center align-items-center mt-4">
                                                     <div class="media">
@@ -702,18 +710,6 @@ crossorigin=""></script>
 <!-- AJAX PEMROSEAN  -->
 @push('js')
     <script>
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

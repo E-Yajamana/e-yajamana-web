@@ -50,7 +50,7 @@
             <div class="col-md-12">
                 <div class="callout callout-info container-fluid">
                     <h5><i class="fas fa-info"></i> Catatan:</h5>
-                     Pembuatan Upacara yang dilakukan dari jauh hari, semakin baik untuk proses reservasi kedepannya..!!!
+                     Pembuatan Upacara yang dilakukan dari jauh hari, akan semakin baik untuk proses Reservasi kedepannya..!!!
                 </div>
                 <div class="card card-default">
                     <div class="card-header">
@@ -292,7 +292,7 @@
 
                                         <div class="form-group">
                                             <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
-                                            <button id="submitToRangkuman" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>
+                                            <a href="#logins-part" id="submitToRangkuman" type="button" class="btn btn-primary float-sm-right">Selanjutnya</a>
                                         </div>
                                     </form>
                                 </div>

@@ -212,12 +212,12 @@
 
     $('#filterStatus li a').click(function(e) {
         $(".nav-link").removeClass("active");
+        $('#side-data-reservasi').addClass('active');
         $(this).addClass("active");
         statusReservasi  = $('#filterStatus li').find('a.active').text();
         table.draw();
 
     });
-
 
 </script>
 @endpush

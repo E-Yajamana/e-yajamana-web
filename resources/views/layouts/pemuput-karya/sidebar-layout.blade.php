@@ -21,6 +21,12 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
+                            <a id="side-switch" onclick="switchAccount()" class="nav-link">
+                                <i class="far fa-circle nav-icon mr-1"></i>
+                                <p>Switch Account</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
                             <a id="side-profile" href="{{route('pemuput-karya.profile')}}" class="nav-link">
                                 <i  class="far fa-circle nav-icon"></i>
                                 <p>Profile</p>
@@ -143,3 +149,6 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+
+@include('layouts.modal-switch-account')
+

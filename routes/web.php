@@ -44,14 +44,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pages.auth.login');
-    // return view('welcome');
-});
+})->middleware(['guest']);
 
 //AUTH SISTEM
 Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
     Route::get('login/select-account', [AuthController::class, 'selectAccount'])->name('select-account')->middleware('permission:login');
+    Route::get('switch/account/{tipe}', [AuthController::class, 'switchAccount'])->name('switch-account')->middleware('permission:login');
 
     Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
@@ -169,6 +169,8 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
 // ROUTE KRAMA
 Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
+    Route::get('notification', [KramaController::class, 'notificationIndex'])->name('notification.krama');
+    Route::get('send/notif', [KramaController::class, 'sendNotif']);
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
 
     Route::prefix('manajemen-upacara')->group(function () {
@@ -208,7 +210,8 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], fun
         Route::get('reservasi-masuk/detail/{id}', [ReservasiMasukController::class, 'detailReservasi'])->name('pemuput-karya.manajemen-reservasi.detail');
         Route::put('reservasi-masuk/update', [ReservasiMasukController::class, 'update'])->name('pemuput-karya.manajemen-reservasi.verifikasi.update');
 
-        Route::get('riwayat-reservasi/index', [RiwayatReservasiController::class, 'index'])->name('pemuput-karya.manajemen-reservasi.riwayat.index');
+        Route::get('riwayat/index', [RiwayatReservasiController::class, 'index'])->name('pemuput-karya.manajemen-reservasi.riwayat.index');
+        Route::get('riwayat/detail/{id}', [RiwayatReservasiController::class, 'detail'])->name('pemuput-karya.manajemen-reservasi.riwayat.detail');
     });
 
 
@@ -232,7 +235,7 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], fun
 // SANGGAR
 Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function ()  {
     Route::get('dashboard', [SanggarDashboardController::class, 'index'])->name('sanggar.dashboard');
-    Route::post('set-session', [SanggarController::class, 'setSession'])->name('sanggar.session');
+    Route::post('set-session', [SanggarController::class, 'setSession'])->name('sanggar.session')->withoutMiddleware('permission:sanggar');
 
 });
 // SANGGAR
@@ -244,8 +247,13 @@ Route::prefix('get-image')->group(function () {
         Route::get('tahapan-upacara/{id?}', [GetImageController::class, 'tahapanUpacara'])->name('image.tahapan-upacara');
     });
 
+    Route::prefix('reservasi')->group(function () {
+        Route::get('bukti-muput/{id?}', [GetImageController::class, 'buktiMuput'])->name('image.bukti-upacara');
+    });
+
     Route::prefix('user')->group(function () {
         Route::get('profile/{id?}', [GetImageController::class, 'profile'])->name('image.profile.user');
+        Route::get('profile/sanggar/{id?}', [GetImageController::class, 'profileSanggar'])->name('image.profile.sanggar');
         Route::get('sk-pemuput/{id?}', [GetImageController::class, 'skPemuput'])->name('image.sk-pemuput');
     });
 });

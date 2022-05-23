@@ -74,14 +74,94 @@ class Permission
                     }
                 case('sanggar'):
                     if($user->Role()->where('nama_role','sanggar')->exists()){
+                        $exitsSanggar = Auth::user()->Sanggar->where('status_konfirmasi_akun','disetujui')->count();
+                        if($exitsSanggar != 0){
+                            if($request->session()->missing('id_sanggar') && $exitsSanggar > 1){
+                                return redirect()->route('select-account')->with([
+                                    'status' => 'fail',
+                                    'icon' => 'error',
+                                    'title' => 'Pemberitahuan!',
+                                    'message' => 'Pilih akun Sanggar mana yang akan digunakan!',
+                                ]);
+                            }else{
+                                session(['id_sanggar' => Auth::user()->Sanggar[0]->id]);
+                                return $next($request);
+                            }
+                        }else{
+                            if(Auth::user()->Role()->where('nama_role','serati')->exists() ){
+                                if(Auth::user()->Serati->where('status_konfirmasi_akun','disetujui')->exists()){
+                                    $hasRole = true;
+                                }else{
+                                    $hasRole = false;
+                                }
+                            }elseif(Auth::user()->Role()->where('nama_role','pemuput_karya')->exists()){
+                                if(Auth::user()->PemuputKarya->where('status_konfirmasi_akun','disetujui')->exists()){
+                                    $hasRole = true;
+                                }else{
+                                    $hasRole = false;
+                                }
+                            }else{
+                                return redirect()->route('krama.dashboard')->with([
+                                    'status' => 'fail',
+                                    'icon' => 'error',
+                                    'title' => 'Hak Akses Dibatasi !',
+                                    'message' => 'Anda tidak dapat mengakses menu tersebut, akun Anda tidak mendukung menu tersebut!!',
+                                ]);
+                            }
 
+                            if($hasRole){
+                                return redirect()->route('select-account')->with([
+                                    'status' => 'fail',
+                                    'icon' => 'error',
+                                    'title' => 'Gagal Masuk !',
+                                    'message' => 'Hak akses dibatasi, Anda tidak dapat mengakses menu tersebut!',
+                                ]);
+                            }else{
+                                return redirect()->route('krama.dashboard')->with([
+                                    'status' => 'fail',
+                                    'icon' => 'error',
+                                    'title' => 'Hak Akses Dibatasi !',
+                                    'message' => 'Anda tidak dapat mengakses menu tersebut, akun Anda tidak mendukung menu tersebut!!',
+                                ]);
+                            }
+                        }
                     }else{
-                        return redirect()->route('krama.dashboard')->with([
-                            'status' => 'fail',
-                            'icon' => 'error',
-                            'title' => 'Hak Akses Dibatasi !',
-                            'message' => 'Anda tidak dapat mengakses menu tersebut!',
-                        ]);;
+                        if(Auth::user()->Role()->where('nama_role','serati')->exists() ){
+                            if(Auth::user()->Serati->where('status_konfirmasi_akun','disetujui')->exists()){
+                                $hasRole = true;
+                            }else{
+                                $hasRole = false;
+                            }
+                        }elseif(Auth::user()->Role()->where('nama_role','pemuput_karya')->exists()){
+                            if(Auth::user()->PemuputKarya->where('status_konfirmasi_akun','disetujui')->exists()){
+                                $hasRole = true;
+                            }else{
+                                $hasRole = false;
+                            }
+                        }else{
+                            return redirect()->route('krama.dashboard')->with([
+                                'status' => 'fail',
+                                'icon' => 'error',
+                                'title' => 'Hak Akses Dibatasi !',
+                                'message' => 'Anda tidak dapat mengakses menu tersebut, akun Anda tidak mendukung menu tersebut!!',
+                            ]);
+                        }
+
+                        if($hasRole){
+                            return redirect()->route('select-account')->with([
+                                'status' => 'fail',
+                                'icon' => 'error',
+                                'title' => 'Gagal Masuk !',
+                                'message' => 'Hak akses dibatasi, Anda tidak dapat mengakses menu tersebut!',
+                            ]);
+                        }else{
+                            return redirect()->route('krama.dashboard')->with([
+                                'status' => 'fail',
+                                'icon' => 'error',
+                                'title' => 'Hak Akses Dibatasi !',
+                                'message' => 'Anda tidak dapat mengakses menu tersebut, akun Anda tidak mendukung menu tersebut!!',
+                            ]);
+                        }
                     }
                 case('login'):
                     return $next($request);
@@ -89,11 +169,12 @@ class Permission
                     return redirect()->route('select-account')->with([
                         'status' => 'fail',
                         'icon' => 'error',
-                        'title' => 'Gagal Login !',
+                        'title' => 'Gagal Masuk !',
                         'message' => 'Hak akses dibatasi, Anda tidak dapat mengakses menu tersebut!',
                     ]);
             }
         }else{
+            Auth::logout();
             return redirect()->route('auth.login')->with([
                 'status' => 'fail',
                 'icon' => 'error',

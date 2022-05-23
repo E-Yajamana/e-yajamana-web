@@ -14,6 +14,10 @@
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 
     <!-- Font Awesome -->
@@ -26,6 +30,8 @@
     <script src="{{asset('base-template\dist\js\sweetalert2.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('base-template\dist\css\sweetalert2.min.css')}}">
     <link rel="icon" type="image/png" href="{{ asset('base-template/dist/img/logo-01.png') }}">
+    <!-- jQuery -->
+    <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
 
     @stack('css')
 
@@ -43,17 +49,14 @@
 
     </div>
 
-    <!-- jQuery -->
-    <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
-
     <!-- overlayScrollbars -->
     <script src="{{asset('base-template/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('base-template/dist/js/adminlte.js')}}"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <script src="{{asset('base-template\dist\js\sweetalert2.all.min.js')}}"></script>
+    <!-- Bootstrabase-template-->
+    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
 
     @stack('js')
 

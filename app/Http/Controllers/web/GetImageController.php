@@ -8,6 +8,9 @@ use App\ImageHelper;
 use App\Models\PemuputKarya;
 use App\Models\TahapanUpacara;
 use App\Models\AtributPemuput;
+use App\Models\DetailReservasi;
+use App\Models\Gambar;
+use App\Models\Sanggar;
 use App\Models\Upacara;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -164,12 +167,84 @@ class GetImageController extends Controller
                 ]);
             }
         // END LOGIC
-       }
-       // TAHAPAN UPACARA
+    }
+    // TAHAPAN UPACARA
+
+    // PROFILE
+    public function profileSanggar($id)
+    {
+        // SECURITY
+            $validator = Validator::make(['id' =>$id],[
+                'id' => 'required|exists:tb_sanggar,id',
+            ]);
+
+            if($validator->fails()){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Mengambil Gambar',
+                    'message' => 'Gagal Mengambil Gambar, Terdapat kendala pada sistem !!',
+                ]);
+            }
+        // END SECURITY
+
+        // MAIN LOGIC
+            try{
+                $path = Sanggar::findOrFail($id)->profile;
+                if($path == null){
+                    $path = 'app/default/profile/user.jpg';
+                }
+                return ImageHelper::getImage($path);
+            }catch(\Exception | ModelNotFoundException $err){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Mengambil Gambar',
+                    'message' => 'Gagal Membuat Gambar, apabila diperlukan mohon hubungi developer sistem`',
+                ]);
+            }
+        // END LOGIC
+    }
+    // PROFILE
 
 
+    // PROFILE
+    public function buktiMuput($id)
+    {
+        // SECURITY
+            $validator = Validator::make(['id' =>$id],[
+                'id' => 'required|exists:tb_detail_reservasi,id',
+            ]);
 
+            if($validator->fails()){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Mengambil Gambar',
+                    'message' => 'Gagal Mengambil Gambar, Terdapat kendala pada sistem !!',
+                ]);
+            }
+        // END SECURITY
 
+        // MAIN LOGIC
+            try{
+                $detailReservasi = DetailReservasi::with('Gambar')->findOrFail($id);
+                $path = $detailReservasi->Gambar->image;
+                if($path == null){
+                    $path = 'app/default/profile/user.jpg';
+                }
+                return ImageHelper::getImage($path);
+            }catch(\Exception | ModelNotFoundException $err){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Mengambil Gambar',
+                    'message' => 'Gagal Membuat Gambar, apabila diperlukan mohon hubungi developer sistem`',
+                ]);
+            }
+          // END LOGIC
+      }
+      // PROFILE
 
 
 }

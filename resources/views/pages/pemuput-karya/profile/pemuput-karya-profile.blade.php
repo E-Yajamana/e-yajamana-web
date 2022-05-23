@@ -25,7 +25,7 @@ crossorigin=""></script>
             <nav aria-label="breadcrumb text-center">
                 <ol class="breadcrumb bg-transparent p-0 mt-1 mb-0">
                     <li class="breadcrumb-item"><a class="text-decoration-none" href="#">E-Yajamana</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Data Profile</li>
+                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
                 </ol>
             </nav>
         </div>
