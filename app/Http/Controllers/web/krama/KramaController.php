@@ -48,13 +48,6 @@ class KramaController extends Controller
     }
 
 
-    public function notificationIndex(Request $request)
-    {
-        $request->session()->flash('notify', 'active');
-        return redirect()->route('krama.profile');
-    }
-
-
     public function sendNotif(Request $request)
     {
         $user = Auth::user();

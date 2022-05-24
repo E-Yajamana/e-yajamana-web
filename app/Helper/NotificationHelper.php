@@ -31,7 +31,7 @@ class NotificationHelper
                 'status' => $data['status'] != null ? $data['status'] : "new",
                 'image' => $data['image'] != null ? $data['image'] : "normal",
                 'notifiable_id' => $userTarget->id,
-                'type' => $data['type'] != null ? $data['type'] : "type",
+                'type' => $data['type'] != null ? $data['type'] : "krama",
                 'formated_created_at' => date("Y-m-d H:i:s"),
                 'formated_updated_at' => date("Y-m-d H:i:s"),
             ],

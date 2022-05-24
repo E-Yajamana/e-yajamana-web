@@ -169,7 +169,6 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
 // ROUTE KRAMA
 Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
-    Route::get('notification', [KramaController::class, 'notificationIndex'])->name('notification.krama');
     Route::get('send/notif', [KramaController::class, 'sendNotif']);
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
 

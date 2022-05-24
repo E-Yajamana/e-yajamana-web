@@ -34,6 +34,7 @@
     <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
 
     @stack('css')
+    @livewireStyles
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
@@ -49,7 +50,7 @@
 
     </div>
 
-
+    @livewireScripts
     <!-- Bootstrabase-template-->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
