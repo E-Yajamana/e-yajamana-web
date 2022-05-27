@@ -140,13 +140,13 @@
                         <div class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Nomor Induk Krama</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataPemuput->User->Penduduk->nomor_induk_krama}}" disabled>
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="@if(!empty($dataPemuput->User->Penduduk->nomor_induk_krama)){{$dataPemuput->User->Penduduk->nomor_induk_krama}}@else Nomor Induk Krama Belum Terdata @endif" disabled>
                             </div>
                         </div>
                         <div class="col-12  @if($dataPemuput->tipe != 'sulinggih') col-md-6 @endif">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">@if($dataPemuput->tipe != 'sulinggih') Nama Pemangku @else  Nama Sulinggih @endif </label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataPemuput->nama_pemuput}}" disabled>
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{ucfirst($dataPemuput->nama_pemuput)}}" disabled>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
@@ -159,26 +159,26 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nama Nabe</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" @if(!empty($dataPemuput->AtributPemuput->Nabe)) value="{{$dataPemuput->AtributPemuput->Nabe->nama_pemuput}}" @else value="Belum Terdaftar Pada Sistem" @endif disabled>
+                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" @if(!empty($dataPemuput->AtributPemuput->Nabe)) value="{{ucfirst($dataPemuput->AtributPemuput->Nabe->nama_pemuput)}}" @else value="Belum Terdaftar Pada Sistem" @endif disabled>
                                 </div>
                             </div>
                         @endif
                         <div class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">@if ($dataPemuput->User->Penduduk->jenis_kelamin == 'laki-laki') Nama Istri @else Nama Suami @endif</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nama Pasangan" @if(!empty($dataPemuput->Pasangan)) value="{{$dataPemuput->Pasangan->nama_pemuput}}" @else value="Belum Terdaftar Pada Sistem" @endif disabled>
+                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nama Pasangan" @if(!empty($dataPemuput->Pasangan)) value="{{ucfirst($dataPemuput->Pasangan->nama_pemuput)}}" @else value="Belum Terdaftar Pada Sistem" @endif disabled>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="exampleInputEmail1"> Nama Walaka </label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Nama Panggilan" value="{{$dataPemuput->User->Penduduk->nama_asli}}" disabled>
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Nama Panggilan" value="@if(!empty($dataPemuput->User->Penduduk->nama_asli)) {{ucfirst($dataPemuput->User->Penduduk->nama_asli)}} @else Nama Walaka Belum Terdata @endif" disabled>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Jenis Kelamin</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataPemuput->User->Penduduk->jenis_kelamin}}">
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{ucfirst($dataPemuput->User->Penduduk->jenis_kelamin)}}">
                             </div>
                         </div>
                         <div class="col-12 col-md-6">

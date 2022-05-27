@@ -24,6 +24,7 @@ class CreateTbUpacarakuTable extends Migration
             $table->date('tanggal_selesai')->nullable();
             $table->text('deskripsi_upacaraku')->nullable();
             $table->enum('status', ['pending', 'berlangsung', 'selesai', 'batal'])->nullable();
+            $table->text('keterangan')->nullable();
             $table->decimal('lat', 20, 18)->nullable();
             $table->decimal('lng', 21, 18)->nullable();
             $table->timestamps();

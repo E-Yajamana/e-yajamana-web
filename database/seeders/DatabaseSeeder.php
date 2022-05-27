@@ -52,6 +52,9 @@ class DatabaseSeeder extends Seeder
         $this->call(TbAtributPemuputTableSeeder::class);
         $this->call(TbDetailReservasiTableSeeder::class);
         $this->call(TbReservasiTableSeeder::class);
+        $this->call(TbGambarTableSeeder::class);
+        $this->call(TbKeteranganKonfirmasiTableSeeder::class);
+
         Schema::enableForeignKeyConstraints();
 
 

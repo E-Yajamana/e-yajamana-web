@@ -19,6 +19,7 @@ class CreateTbSanggarTable extends Migration
             $table->string('nama_sanggar', 100)->nullable();
             $table->text('alamat_sanggar')->nullable();
             $table->string('sk_tanda_usaha', 255)->nullable();
+            $table->string('profile', 255)->nullable();
             $table->decimal('lat', 20, 18)->nullable();
             $table->decimal('lng', 21, 18)->nullable();
             $table->enum('status_konfirmasi_akun', ['pending', 'disetujui', 'ditolak'])->nullable();

@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class TbReservasiTableSeeder extends Seeder
+class TbKeteranganKonfirmasiTableSeeder extends Seeder
 {
 
     /**
@@ -16,7 +16,7 @@ class TbReservasiTableSeeder extends Seeder
     {
         
 
-        \DB::table('tb_reservasi')->delete();
+        \DB::table('tb_keterangan_konfirmasi')->delete();
         
         
         

@@ -369,7 +369,7 @@
                                                 </div>
                                                 <span class="text-xs text-primary my-4"><i class="fas fa-info-circle"></i> Informasi | {{date('d F Y | H:m',strtotime($data['created_at']))}}</span>
                                                 <p class="text-md mb-0 text-bold">{{$data['data']['title']}}</p>
-                                                <p class="text-xs mb-1">{{$data['data']['body']}}</p>
+                                                <p class="text-xs mb-1 col-12 col-md-6">{{$data['data']['body']}}</p>
                                             </div>
                                         </div>
                                     @empty

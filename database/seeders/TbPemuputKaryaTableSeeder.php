@@ -83,7 +83,7 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'id_pasangan' => 5,
                 'id_atribut' => 2,
                 'nama_pemuput' => 'Ida Gede Dalem Jineng',
-                'status_konfirmasi_akun' => 'disetujui',
+                'status_konfirmasi_akun' => 'pending',
                 'keterangan_konfirmasi_akun' => NULL,
                 'tipe' => 'pemangku',
                 'created_at' => NULL,
@@ -125,11 +125,11 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'id_pasangan' => NULL,
                 'id_atribut' => 10,
                 'nama_pemuput' => 'testingSulinggih',
-                'status_konfirmasi_akun' => 'pending',
+                'status_konfirmasi_akun' => 'disetujui',
                 'keterangan_konfirmasi_akun' => NULL,
                 'tipe' => 'sulinggih',
                 'created_at' => '2022-05-05 09:47:22',
-                'updated_at' => '2022-05-05 09:47:22',
+                'updated_at' => '2022-05-07 21:47:13',
             ),
             8 => 
             array (
@@ -143,7 +143,7 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'keterangan_konfirmasi_akun' => NULL,
                 'tipe' => 'sulinggih',
                 'created_at' => '2022-05-05 09:48:20',
-                'updated_at' => '2022-05-05 09:48:20',
+                'updated_at' => '2022-05-20 12:16:57',
             ),
             9 => 
             array (
@@ -157,7 +157,7 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'keterangan_konfirmasi_akun' => NULL,
                 'tipe' => 'pemangku',
                 'created_at' => '2022-05-06 04:18:02',
-                'updated_at' => '2022-05-06 04:53:38',
+                'updated_at' => '2022-05-25 21:25:46',
             ),
             10 => 
             array (
@@ -167,7 +167,7 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'id_pasangan' => 5,
                 'id_atribut' => 1,
                 'nama_pemuput' => 'Testung',
-                'status_konfirmasi_akun' => 'disetujui',
+                'status_konfirmasi_akun' => 'pending',
                 'keterangan_konfirmasi_akun' => NULL,
                 'tipe' => 'sulinggih',
                 'created_at' => '2022-05-07 06:05:31',

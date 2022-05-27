@@ -70,25 +70,25 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nomor Induk Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->User[0]->Penduduk->nomor_induk_krama}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="@if(!empty($$dataSanggar->User[0]->Penduduk->nomor_induk_krama)){{$dataSanggar->User[0]->Penduduk->nomor_induk_krama}} @else Nomor Induk Krama Belum Terdata @endif " disabled>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->User[0]->Penduduk->nama}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{ucfirst($dataSanggar->User[0]->Penduduk->nama)}}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nama Sanggar</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataSanggar->nama_sanggar}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{ucfirst($dataSanggar->nama_sanggar)}}" disabled>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Jenis Kelamin</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataSanggar->User[0]->Penduduk->jenis_kelamin}}">
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{ucfirst($dataSanggar->User[0]->Penduduk->jenis_kelamin)}}">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">

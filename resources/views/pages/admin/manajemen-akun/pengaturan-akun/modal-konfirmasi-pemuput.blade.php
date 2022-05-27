@@ -11,12 +11,12 @@
 </form>
 
 
- <!-- /.content -->
- <div class="modal fade" id="modalPembatalan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- /.content -->
+<div class="modal fade" id="modalPembatalan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content ">
             <div class="modal-header align-content-center text-center">
-                <label class="modal-title h4 align-content-center w-100" id="exampleModalLabel">Pembatalan Upacara</label>
+                <label class="modal-title h4 align-content-center w-100" id="exampleModalLabel">Verifikasi Akun</label>
                 <button type="button" class="pl-0 close float-lg-right"  data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -28,7 +28,7 @@
                 <input type="hidden" id="status_tolak_pemuput" class="d-none" value="" name="status">
                 <div class="modal-body">
                     <div class="callout callout-info mx-1">
-                        <p class="text-xs"> Penentuan verifiaksi Akun, bersifat permanen,  Anda tidak dapat kembali mengubah status verifikasi akun yang sudah ditentukan.</p>
+                        <p class="text-xs"> Penentuan verifikasi Akun bersifat permanen,  Anda tidak dapat kembali mengubah status verifikasi akun yang sudah ditentukan.</p>
                     </div>
                     <div class="form-group px-2">
                         <label>Alasan Penolakan Akun? <span class="text-danger">*</span></label>

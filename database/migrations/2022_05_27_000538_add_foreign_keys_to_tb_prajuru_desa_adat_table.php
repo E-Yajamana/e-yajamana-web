@@ -14,9 +14,9 @@ class AddForeignKeysToTbPrajuruDesaAdatTable extends Migration
     public function up()
     {
         Schema::table('tb_prajuru_desa_adat', function (Blueprint $table) {
-            $table->foreign(['krama_mipil_id'], 'tb_prajuru_desa_adat_ibfk_2')->references(['id'])->on('tb_krama_mipil_desa_adat');
             $table->foreign(['desa_adat_id'], 'tb_prajuru_desa_adat_ibfk_4')->references(['id'])->on('tb_m_desa_adat');
             $table->foreign(['user_id'], 'tb_prajuru_desa_adat_ibfk_3')->references(['id'])->on('tb_user');
+            $table->foreign(['krama_mipil_id'], 'tb_prajuru_desa_adat_ibfk_2')->references(['id'])->on('tb_krama_mipil_desa_adat');
         });
     }
 
@@ -28,9 +28,9 @@ class AddForeignKeysToTbPrajuruDesaAdatTable extends Migration
     public function down()
     {
         Schema::table('tb_prajuru_desa_adat', function (Blueprint $table) {
-            $table->dropForeign('tb_prajuru_desa_adat_ibfk_2');
             $table->dropForeign('tb_prajuru_desa_adat_ibfk_4');
             $table->dropForeign('tb_prajuru_desa_adat_ibfk_3');
+            $table->dropForeign('tb_prajuru_desa_adat_ibfk_2');
         });
     }
 }

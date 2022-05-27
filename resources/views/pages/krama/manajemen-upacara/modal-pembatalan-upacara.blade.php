@@ -51,7 +51,6 @@
 
     // BATAL/ DELETE ACTION
     function deleteUpacara(id,countReservasi){
-        console.log(countReservasi)
         Swal.fire({
             title: 'Peringatan',
             text : 'Apakah anda yakin akan membatalkan Upacara?',

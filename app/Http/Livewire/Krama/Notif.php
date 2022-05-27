@@ -13,7 +13,6 @@ class Notif extends Component
 
     public function showNotif()
     {
-
         session()->flash('notify','active');
         return redirect()->route('krama.profile');
     }
@@ -40,7 +39,11 @@ class Notif extends Component
         }, $dataArray);
 
         $notifKrama = array_filter($dataNotif, function ($var) {
-            return ($var['data']['type'] == 'krama');
+            if(array_key_exists('type',$var['data'])){
+                return ($var['data']['type'] == 'krama');
+            }else{
+                return $var;
+            }
         });
 
         $this->dataNotifKrama = collect($notifKrama);

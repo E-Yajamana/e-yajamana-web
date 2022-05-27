@@ -34,10 +34,10 @@ class TbSeratiTableSeeder extends Seeder
                 'id' => 2,
                 'id_user' => 62,
                 'nama_serati' => 'Serati testing',
-                'status_konfirmasi_akun' => 'pending',
-                'keterangan_konfirmasi_akun' => NULL,
+                'status_konfirmasi_akun' => 'ditolak',
+                'keterangan_konfirmasi_akun' => 'Terdapat kecurangan data',
                 'created_at' => '2022-05-07 06:52:45',
-                'updated_at' => '2022-05-07 06:52:45',
+                'updated_at' => '2022-05-07 21:42:57',
             ),
             2 => 
             array (
@@ -47,7 +47,7 @@ class TbSeratiTableSeeder extends Seeder
                 'status_konfirmasi_akun' => 'pending',
                 'keterangan_konfirmasi_akun' => NULL,
                 'created_at' => '2022-05-07 06:53:29',
-                'updated_at' => '2022-05-07 06:53:29',
+                'updated_at' => '2022-05-07 21:43:34',
             ),
         ));
         

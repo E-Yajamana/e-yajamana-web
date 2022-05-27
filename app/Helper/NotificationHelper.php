@@ -6,9 +6,11 @@ use App\Notifications\UserNotification;
 use Illuminate\Support\Facades\Notification;
 use GuzzleHttp\Client;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 
 class NotificationHelper
 {
+
     public static function sendNotification(array $data, User $userTarget)
     {
         $userTarget->notify(new UserNotification($data));
@@ -30,12 +32,11 @@ class NotificationHelper
                 'id' => NotificationHelper::generateRandomString(),
                 'status' => $data['status'] != null ? $data['status'] : "new",
                 'image' => $data['image'] != null ? $data['image'] : "normal",
-                'notifiable_id' => $userTarget->id,
                 'type' => $data['type'] != null ? $data['type'] : "krama",
+                'notifiable_id' => $userTarget->id,
                 'formated_created_at' => date("Y-m-d H:i:s"),
                 'formated_updated_at' => date("Y-m-d H:i:s"),
             ],
-
         ];
         $fields = json_encode($fields);
         $client = new Client();
@@ -63,21 +64,22 @@ class NotificationHelper
         return $randomString;
     }
 
-    public static function sendMultipleNotification(array $data, Collection $user)
+    public static function sendMultipleNotification(array $data, array $user)
     {
         foreach($user as $as){
-            $token[] = $as->fcm_token_key;
-            $token[] = $as->fcm_token_web;
+            $token [] = array( $as->fcm_token_key,$as->fcm_token_web);
         }
+        $mergeToken = Arr::collapse($token);
 
         Notification::send($user, new UserNotification($data));
+
         $serverKey = config('firebase.key');
         $headers = [
             'Authorization' => 'key=' . $serverKey,
             'Content-Type'  => 'application/json',
         ];
         $fields = [
-            'registration_ids' => $token,
+            'registration_ids' =>  $mergeToken,
             'content-available' => true,
             'priority' => 'high',
             'data' => [
@@ -86,7 +88,7 @@ class NotificationHelper
                 'id' => NotificationHelper::generateRandomString(),
                 'status' => $data['status'] != null ? $data['status'] : "new",
                 'image' => $data['image'] != null ? $data['image'] : "normal",
-                // 'notifiable_id' => $userTarget->id,
+                'type' => $data['type'] != null ? $data['type'] : "krama",
                 'formated_created_at' => date("Y-m-d H:i:s"),
                 'formated_updated_at' => date("Y-m-d H:i:s"),
             ],

@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacara</a></li>
                         <li class="breadcrumb-item active">Detail Upacara</li>
                     </ol>
@@ -41,7 +41,7 @@
                 <div class="col-12">
                     <div class="callout callout-danger container-fluid">
                         <h5><i class="fas fa-info"></i> Catatan:</h5>
-                        Anda tidak dapat menghapus sebuah upacara yang sudah terdapat reservasi berstatus <strong>Proses Muput...!</strong>
+                        Anda tidak dapat membatalkan sebuah upacara, apabila sudah terdapat reservasi dengan status <strong>Proses Muput...!</strong>
                     </div>
                     <div class="card tab-content">
                         <!-- /.card-header -->
@@ -207,13 +207,9 @@
                                     <div class="card shadow collapsed-card">
                                         <div class="card-header" aria-expanded="false">
                                             <div class="user-block">
-                                                <img class="img-circle mt-1" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
+                                                <img class="img-circle mt-1" @if ($data->tipe != null &&  $data->tipe == 'sanggar') src="{{route('image.profile.sanggar',$data->id_sanggar)}}" @else src="{{route('image.profile.user',$data->id_relasi)}}" @endif  alt="Profile Pemuput">
                                                 <span class="username">
-                                                    @if ($data->Relasi->PemuputKarya != null)
-                                                        <a class="ml-2" href="#">{{$data->Relasi->PemuputKarya->nama_pemuput}}</a>
-                                                    @else
-                                                        <a class="ml-2" href="#">{{$data->Relasi->Sanggar->nama_sanggar}}</a>
-                                                    @endif
+                                                    <a class="ml-2" href="#">{{$data->getRelasi()->nama}}</a>
                                                 </span>
                                                 <span class="description">
                                                     <div @if ($data->status == 'pending') class="bg-secondary btn-sm text-center p-1 mt-1 ml-2" @elseif ($data->status == 'proses tangkil' || $data->status == 'proses muput')  class="bg-info btn-sm text-center p-1 mt-1 ml-2" @elseif ($data->status == 'batal') class="bg-danger btn-sm text-center p-1 mt-1 ml-2"  @elseif ($data->status == 'selesai') class="bg-success btn-sm text-center p-1 mt-1 ml-2" @else class="bg-info btn-sm text-center p-1 mt-1 ml-2"  @endif style="border-radius: 5px; width:120px; ">{{ucfirst($data->status)}}</div>

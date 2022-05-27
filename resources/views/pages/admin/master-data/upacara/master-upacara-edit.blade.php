@@ -156,7 +156,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Edit Tahapan Upacara</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Form Ubah Tahapan Upacara</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -167,7 +167,7 @@
                         @method('PUT')
                         <input id="id_tahapan" name="id" value="" type="hidden" class="d-none">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Tahpan Upacara<span class="text-danger">*</span></label>
+                            <label for="exampleInputEmail1">Nama Tahapan Upacara<span class="text-danger">*</span></label>
                             <input id="nama_tahapan" type="text" name="nama_tahapan" class="form-control @error('nama_tahapan') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{old('nama_tahapan')}}">
                             @error('nama_tahapan')
                                 <div class="invalid-feedback text-start">

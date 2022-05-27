@@ -87,7 +87,7 @@
                         @method('PUT')
                         <input id="id_tahapan" name="id" value="" type="hidden" class="d-none">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Tahpan Upacara<span class="text-danger">*</span></label>
+                            <label for="exampleInputEmail1">Nama Tahapan Upacara<span class="text-danger">*</span></label>
                             <input id="nama_tahapan" type="text" name="nama_tahapan" class="form-control @error('nama_tahapan') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{old('nama_tahapan')}}">
                             @error('nama_tahapan')
                                 <div class="invalid-feedback text-start">

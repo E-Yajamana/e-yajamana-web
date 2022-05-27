@@ -136,7 +136,7 @@
             const notificationTitle  = payload.data.title;
             const notificationOptions  = {
                 body: payload.data.body,
-                icon: payload.data.image,
+                // icon: payload.data.image,
             };
             new Notification(notificationTitle, notificationOptions);
         });

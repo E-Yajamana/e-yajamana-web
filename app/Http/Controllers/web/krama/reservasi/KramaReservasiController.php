@@ -16,6 +16,7 @@ use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Support\Str;
 use PDOException;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use ErrorException;
@@ -171,15 +172,7 @@ class KramaReservasiController extends Controller
         // MAIN LOGIC
             try{
                 DB::beginTransaction();
-                switch($request->tipe){
-                    case 'pemuput_karya':
-                        $tipe = 'id_relasi';
-                        break;
-                    case 'sanggar':
-                        $tipe = 'id_sanggar';
-                        break;
-                    default:
-                }
+                $request->tipe == 'sanggar'? $tipe = 'id_sanggar' : $tipe = 'id_relasi';
 
                 $reservasi = Reservasi::create([
                     $tipe => $request->id_relasi,
@@ -198,62 +191,64 @@ class KramaReservasiController extends Controller
                         'status' => 'pending',
                     ];
                 }
-
                 $reservasi->DetailReservasi()->createMany($dataDetailReservasi);
+                // NOTIFICATION
+                    switch($request->tipe){
+                        case 'pemuput_karya':
+                            $relasi = User::findOrFail($request->id_relasi);
+                            NotificationHelper::sendNotification(
+                                [
+                                    'title' => "RESERVASI BARU",
+                                    'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
+                                    'status' => "new",
+                                    'image' => "krama",
+                                    'type' => "pemuput",
+                                    'notifiable_id' => $relasi->id,
+                                    'formated_created_at' => date('Y-m-d H:i:s'),
+                                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                                ],
+                                $relasi
+                            );
+                            $namaReservasi = $relasi->PemuputKarya->nama_pemuput;
+                            break;
+                        case 'sanggar':
+                            $dataUserSanggar = collect([]);
+                            $dataSanggar = Sanggar::with(['User'])->whereHas('User')->findOrFail($request->id_relasi);
+                            $dataUserSanggar->push(collect($dataSanggar->User));
+                            $sanggar = (Arr::collapse($dataUserSanggar));
+                            NotificationHelper::sendMultipleNotification(
+                                [
+                                    'title' => "RESERVASI BARU",
+                                    'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
+                                    'status' => "new",
+                                    'image' => "krama",
+                                    'type' => "sanggar",
+                                    'formated_created_at' => date('Y-m-d H:i:s'),
+                                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                                ],
+                                $sanggar
+                            );
+                            $namaReservasi = $dataSanggar->nama_sanggar;
+                            break;
+                        default:
+                    }
+                    $user = Auth::user();
+                    NotificationHelper::sendNotification(
+                        [
+                            'title' => "PERMOHONAN RESERVASI DIBUAT",
+                            'body' => "Permohonan reservasi kepada telah berhasil dilakukan, dimohon untuk menunggu konfirmasi reservasi.",
+                            'status' => "new",
+                            'image' => "/logo-eyajamana.png",
+                            'type' => "krama",
+                            'url' => ''.route('krama.manajemen-upacara.upacaraku.index').'',
+                            'notifiable_id' => $user->id,
+                            'formated_created_at' => date('Y-m-d H:i:s'),
+                            'formated_updated_at' => date('Y-m-d H:i:s'),
+                        ],
+                        $user
+                    );
 
-                $user = Auth::user();
-                // SEND NOTIFICATION
-                switch($request->tipe){
-                    case 'pemuput_karya':
-                        $relasi = User::findOrFail($request->id_relasi);
-                        NotificationHelper::sendNotification(
-                            [
-                                'title' => "RESERVASI BARU",
-                                'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
-                                'status' => "new",
-                                'image' => "krama",
-                                'notifiable_id' => $relasi->id,
-                                'formated_created_at' => date('Y-m-d H:i:s'),
-                                'formated_updated_at' => date('Y-m-d H:i:s'),
-                            ],
-                            $relasi
-                        );
-                        $namaReservasi = $relasi->PemuputKarya->nama_pemuput;
-                        break;
-                    case 'sanggar':
-                        $dataSanggar = Sanggar::with(['User'])->whereHas('User')->findOrFail($request->id_relasi);
-                        $dataUser = $dataSanggar->User;
-                        NotificationHelper::sendMultipleNotification(
-                            [
-                                'title' => "RESERVASI BARU",
-                                'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
-                                'status' => "new",
-                                'image' => "krama",
-                                // 'notifiable_id' => $relasi->id,
-                                'formated_created_at' => date('Y-m-d H:i:s'),
-                                'formated_updated_at' => date('Y-m-d H:i:s'),
-                            ],
-                            $dataUser
-                        );
-                        $namaReservasi = $dataSanggar->nama_sanggar;
-                        break;
-                    default:
-                        break;
-
-                }
-                NotificationHelper::sendNotification(
-                    [
-                        'title' => "PERMOHONAN RESERVASI DIBUAT",
-                        'body' => "Permohonan reservasi kepada " . $namaReservasi . " telah berhasil dilakukan, dimohon untuk menunggku konfirmasi dari pihak". $request->tipe,
-                        'status' => "new",
-                        'image' => "sulinggih",
-                        'notifiable_id' => $user->id,
-                        'formated_created_at' => date('Y-m-d H:i:s'),
-                        'formated_updated_at' => date('Y-m-d H:i:s'),
-                    ],
-                    $user
-                );
-                // END SEND NOTIFICATION
+                // NOTIFICATION
                 DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 DB::rollback();
@@ -264,14 +259,14 @@ class KramaReservasiController extends Controller
                     'message' => $err,
                 ]);
             }
-        // END LOGIC
+        // MAIN LOGIC
 
         // RETURN
-            return redirect()->route('krama.manajemen-reservasi.index')->with([
+            return redirect()->route('krama.manajemen-upacara.upacaraku.detail',$request->id_upacaraku)->with([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Berhasil Membuat Data Upacara',
-                'message' => 'Berhasil membuat data upacara, mohon diperiksa kembali',
+                'title' => 'Berhasil Membuat Data Reservasi',
+                'message' => 'Berhasil membuat data Reservasi, data reservasi dapat dilihat pada detail upacara Krama',
             ]);
         // END RETURN
 

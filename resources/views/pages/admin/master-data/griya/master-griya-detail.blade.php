@@ -37,7 +37,7 @@
                 <div class="col-12 col-md-6">
                     <div class="card card-outline tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
-                            <label class="card-title my-auto">Data Detail Griya / Puri</label>
+                            <label class="card-title my-auto">Detail Data Griya / Puri</label>
                         </div>
                         <div class="card-body p-4">
                             <div class="form-group">
