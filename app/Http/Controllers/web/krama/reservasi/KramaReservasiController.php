@@ -221,22 +221,26 @@ class KramaReservasiController extends Controller
                                     'title' => "RESERVASI BARU",
                                     'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
                                     'status' => "new",
-                                    'image' => "krama",
+                                    'image' => "/logo-eyajamana.png",
                                     'type' => "sanggar",
+                                    'id_sanggar' => array($request->id_relasi),
                                     'formated_created_at' => date('Y-m-d H:i:s'),
                                     'formated_updated_at' => date('Y-m-d H:i:s'),
                                 ],
                                 $sanggar
                             );
+
                             $namaReservasi = $dataSanggar->nama_sanggar;
                             break;
                         default:
                     }
+
                     $user = Auth::user();
+
                     NotificationHelper::sendNotification(
                         [
                             'title' => "PERMOHONAN RESERVASI DIBUAT",
-                            'body' => "Permohonan reservasi kepada telah berhasil dilakukan, dimohon untuk menunggu konfirmasi reservasi.",
+                            'body' => "Permohonan reservasi kepada ". $namaReservasi ." telah berhasil dilakukan, dimohon untuk menunggu konfirmasi reservasi.",
                             'status' => "new",
                             'image' => "/logo-eyajamana.png",
                             'type' => "krama",
@@ -247,7 +251,6 @@ class KramaReservasiController extends Controller
                         ],
                         $user
                     );
-
                 // NOTIFICATION
                 DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
@@ -652,8 +655,4 @@ class KramaReservasiController extends Controller
         // END RETURN
     }
     // AJAX DELETE RESERVASI
-
-
-
-
 }

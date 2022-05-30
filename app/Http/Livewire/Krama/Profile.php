@@ -73,7 +73,11 @@ class Profile extends Component
             return ($var['data']['type'] == 'krama');
         });
         $readNotif = array_filter($readNotif, function ($var) {
-            return ($var['data']['type'] == 'krama');
+            if(array_key_exists('type',$var['data'])){
+                return ($var['data']['type'] == 'krama');
+            }else{
+                return $var;
+            }
         });
 
         $this->undReadNotif = collect($notifUnRead);

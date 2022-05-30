@@ -19,6 +19,25 @@ crossorigin=""></script>
 
 @section('content')
     <div class="container-fluid">
+        @include('template')
+{{--
+        <div class="col-12" id="accordion">
+            <div class="card card-primary card-outline">
+                <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
+                    <div class="card-header">
+                        <h4 class="card-title w-100">
+                            1. Lorem ipsum dolor sit amet
+                        </h4>
+                    </div>
+                </a>
+                <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                    <div class="card-body">
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                    </div>
+                </div>
+            </div>
+        </div> --}}
+
         <!-- COUNT DATA -->
         <div class="row mt-2">
             <div class="col-lg-3 col-6">
@@ -246,12 +265,12 @@ crossorigin=""></script>
         <!-- BAGIAN 4 MAP-->
 
     </div>
-    <input id="countJenisYadnya" value="@json($dataCountJenisYadnya)">
+
+
 
 @endsection
 
 @push('js')
-
 <!-- ChartJS -->
 <script src="{{asset('base-template/plugins/chart.js/Chart.min.js')}}"></script>
 <!-- fullCalendar 2.2.5 -->
