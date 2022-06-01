@@ -353,7 +353,6 @@ class KramaReservasiController extends Controller
             ], 403);
         } catch (\Throwable | \Exception $err) {
             DB::rollBack();
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',

@@ -18,7 +18,7 @@ class AdminDataAkunUserController extends Controller
         $validator = Validator::make([
             'status' => $status
         ], [
-            'status' => 'nullable|in:sulinggih,pemangku,sanggar,serati,krama,semua'
+            'status' => 'nullable|in:sulinggih,pemangku,sanggar,serati,krama'
         ]);
 
         if ($validator->fails()) {

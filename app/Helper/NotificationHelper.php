@@ -32,7 +32,7 @@ class NotificationHelper
                 'id' => NotificationHelper::generateRandomString(),
                 'status' => $data['status'] != null ? $data['status'] : "new",
                 'image' => $data['image'] != null ? $data['image'] : "normal",
-                'type' => $data['type'] != null ? $data['type'] : "krama",
+                'type' => isset($data['type']) ? $data['type'] : "krama",
                 'notifiable_id' => $userTarget->id,
                 'formated_created_at' => date("Y-m-d H:i:s"),
                 'formated_updated_at' => date("Y-m-d H:i:s"),
@@ -66,8 +66,8 @@ class NotificationHelper
 
     public static function sendMultipleNotification(array $data, array $user)
     {
-        foreach($user as $as){
-            $token [] = array( $as->fcm_token_key,$as->fcm_token_web);
+        foreach ($user as $as) {
+            $token[] = array($as->fcm_token_key, $as->fcm_token_web);
         }
         $mergeToken = Arr::collapse($token);
 
@@ -107,6 +107,4 @@ class NotificationHelper
             return null;
         }
     }
-
-
 }

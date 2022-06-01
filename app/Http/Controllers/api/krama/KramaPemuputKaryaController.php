@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api\krama;
 use App\Http\Controllers\Controller;
 use App\Models\GriyaRumah;
 use App\Models\Sanggar;
-use App\Models\Sulinggih;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
