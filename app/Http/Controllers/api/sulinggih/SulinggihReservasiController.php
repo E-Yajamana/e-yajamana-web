@@ -182,7 +182,7 @@ class SulinggihReservasiController extends Controller
                     break;
                 }
 
-                if ($value['status'] == 'ditolak') {
+                if ($value['status'] == 'ditolak' && $status != 'diterima') {
                     $ditolak += 1;
                     if ($ditolak == count($array_detail_reservasi)) {
                         $status = 'batal';
@@ -210,6 +210,7 @@ class SulinggihReservasiController extends Controller
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             DB::rollback();
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
@@ -224,6 +225,49 @@ class SulinggihReservasiController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Berhasil memperbaharui data reservasi',
+            'data' => (object)[],
+        ], 200);
+        // END
+    }
+
+    public function tolakReservasi(Request $request)
+    {
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'id_reservasi' => 'required|numeric',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 40,
+                'message' => 'Validation Error',
+                'data' => $validator->errors(),
+            ], 40);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            DB::beginTransaction();
+            Reservasi::findOrFail($request->id_reservasi)->update(['status' => 'ditolak']);
+            DetailReservasi::where('id_reservasi', $request->id_reservasi)->update(['status' => 'ditolak']);
+            DB::commit();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            DB::rollBack();
+            return $err;
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil menolak reservasi',
             'data' => (object)[],
         ], 200);
         // END

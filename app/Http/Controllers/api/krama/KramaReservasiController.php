@@ -78,6 +78,7 @@ class KramaReservasiController extends Controller
             $reservasi = Reservasi::create([
                 'id_relasi' => $request->id_relasi,
                 'id_upacaraku' => $request->id_upacaraku,
+                'tipe' => 'pemuput_karya',
                 'status' => 'pending'
             ]);
 

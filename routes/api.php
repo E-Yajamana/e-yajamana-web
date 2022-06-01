@@ -131,6 +131,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // SULINGGIH RESERVASI FRAGMENT
         Route::post('reservasi', [SulinggihReservasiController::class, 'index']);
         Route::post('reservasi/update', [SulinggihReservasiController::class, 'update']);
+        Route::post('reservasi/tolak', [SulinggihReservasiController::class, 'tolakReservasi']);
         Route::get('reservasi/detail/{id_reservasi}', [SulinggihReservasiController::class, 'show']);
         // END
 

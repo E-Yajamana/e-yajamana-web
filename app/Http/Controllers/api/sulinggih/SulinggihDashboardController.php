@@ -24,7 +24,7 @@ class SulinggihDashboardController extends Controller
 
             $reservasis = $user
                 ->Reservasi()
-                ->with(['Upacaraku' => $reservasiQuery])
+                ->with(['Upacaraku' => $reservasiQuery, 'DetailReservasi'])
                 ->whereHas('Upacaraku', $reservasiQuery)->get();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             return $err;
