@@ -70,7 +70,11 @@ class ReservasiMasukController extends Controller
         // MAIN LOGIC
             try{
                 $idUser = Auth::user()->id;
-                $dataReservasi = Reservasi::with(['Upacaraku.User.Penduduk','DetailReservasi.TahapanUpacara'])->whereIdRelasi($idUser)->whereHas('Upacaraku.User.Penduduk')->whereStatus('pending')->findOrFail($request->id);
+                $dataReservasi = Reservasi::with(['Upacaraku.User.Penduduk','DetailReservasi.TahapanUpacara'])
+                    ->whereIdRelasi($idUser)
+                    ->whereHas('Upacaraku.User.Penduduk')
+                    ->whereStatus('pending')
+                    ->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->route('pemuput-karya.manajemen-reservasi.index')->with([
                     'status' => 'fail',
@@ -119,6 +123,7 @@ class ReservasiMasukController extends Controller
         // MAIN LOGIC
         try{
             DB::beginTransaction();
+
             $reservasi = Reservasi::findOrFail($request->id_reservasi);
 
             $user = Auth::user();
@@ -127,6 +132,7 @@ class ReservasiMasukController extends Controller
             $keterangan = null;
             switch($type){
                 case 'specific':
+
                     $dataDetailReservasi = [];
                     foreach ($request->id_tahapan as $key => $value) {
                         $dataDetailReservasi[] = [
@@ -141,6 +147,7 @@ class ReservasiMasukController extends Controller
                     foreach ($request->status as $value) {
                         if ($value == 'diterima') {
                             $statusReservasi = 'proses tangkil';
+
                             $tanggal_tangkil = DateRangeHelper::parseSingleDate($request->tanggal_tangkil);
                             break;
                         }
@@ -206,17 +213,20 @@ class ReservasiMasukController extends Controller
                     'status' => "new",
                     'image' => "normal",
                     'notifiable_id' => $user->id,
+                    'type' => "pemuput",
                     'formated_created_at' => date('Y-m-d H:i:s'),
                     'formated_updated_at' => date('Y-m-d H:i:s'),
                 ],
                 $user
             );
+
             NotificationHelper::sendNotification(
                 [
                     'title' => $title,
                     'body' => $messageKrama,
                     'status' => "new",
                     'image' => "sulinggih",
+                    'type' => "krama",
                     'notifiable_id' => $relasi->id,
                     'formated_created_at' => date('Y-m-d H:i:s'),
                     'formated_updated_at' => date('Y-m-d H:i:s'),

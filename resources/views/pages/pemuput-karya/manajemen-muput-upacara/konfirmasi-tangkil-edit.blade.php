@@ -1,5 +1,5 @@
 @extends('layouts.pemuput-karya.pemuput-karya-layout')
-@section('tittle','Reservasi Krama Masuk')
+@section('tittle','Konfirmasi Tangkil Detail')
 
 @push('css')
     <!-- daterange picker -->
@@ -30,13 +30,13 @@
         <div class="container-fluid border-bottom mt-2">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Konfirmasi Tangkil</h1>
+                    <h1>Konfirmasi Detail Tangkil Krama</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}">Data Tangkil Krama</a></li>
-                        <li class="breadcrumb-item active">Detail</li>
+                        <li class="breadcrumb-item active">Konfirmasi Detail</li>
                     </ol>
                 </div>
             </div>
@@ -107,7 +107,7 @@
 
                 <div class="col-12">
                     {{-- ACTION FORM INPUT DATA --}}
-                    <form action="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.update.terima')}}" method="POST" id="postData">
+                    <form id="formTangkil" action="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.update.terima')}}" method="POST" id="postData">
                         @csrf
                         @method('PUT')
                         <input name="id_reservasi" value="{{$dataReservasi->id}}" type="hidden" class="d-none">
@@ -138,7 +138,7 @@
                                                 <input type="hidden" class="d-none" name="data_upacara[0][id]" value="{{$dataReservasi->Upacaraku->id}}">
                                                 <div class="form-group">
                                                     <label>Nama Upacara</label>
-                                                    <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->nama_upacara}}">
+                                                    <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->nama_upacara}}" readonly>
                                                     @error('data_upacara[0][nama_upacara]')
                                                         <div class="invalid-feedback text-start">
                                                             {{ $errors->first('data_upacara[0][nama_upacara]') }}
@@ -147,7 +147,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Deskripsi Upacara</label>
-                                                    <textarea class="form-control @error('data_upacara[0][deskripsi_upacara]') is-invalid @enderror" rows="3" name="data_upacara[0][deskripsi_upacara]">{{$dataReservasi->Upacaraku->deskripsi_upacaraku}}</textarea>
+                                                    <textarea readonly class="form-control @error('data_upacara[0][deskripsi_upacara]') is-invalid @enderror" rows="3" name="data_upacara[0][deskripsi_upacara]">{{$dataReservasi->Upacaraku->deskripsi_upacaraku}}</textarea>
                                                     @error('data_upacara[0][deskripsi_upacara]')
                                                         <div class="invalid-feedback text-start">
                                                             {{ $errors->first('data_upacara[0][deskripsi_upacara]') }}
@@ -162,7 +162,7 @@
                                                                 <i class="far fa-calendar-alt"></i>
                                                             </span>
                                                         </div>
-                                                        <input name="data_upacara[0][daterange]"  id="dateUpacara" type='text' class='form-control float-right' value='{{date('d F Y ',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}}  {{date('d F Y ',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}'>
+                                                        <input disabled name="data_upacara[0][daterange]"  id="dateUpacara" type='text' class='form-control float-right' value='{{date('d F Y ',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}}  {{date('d F Y ',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}'>
                                                         @error('data_upacara[0][daterange]')
                                                             <div class="invalid-feedback text-start">
                                                                 {{ $errors->first('data_upacara[0][daterange]') }}
@@ -207,7 +207,7 @@
                                     <div class="card-body px-lg-4 mt-1" id="">
                                         <div class="callout callout-info container-fluid mb-4">
                                             <h5><i class="fas fa-info"></i> Catatan:</h5>
-                                            <p class=" text-md">Pemuput Upacara dapat melakukan perubahan semua Data Reservasi, baik itu Reservasinya sendiri maupun Reservasi Pemuput Karya lain yang berstatus Proses Tangkil.</p>
+                                            <p class=" text-md">Pemuput Upacara dapat melakukan perubahan semua Data Reservasi, baik itu Reservasinya sendiri maupun Reservasi Pemuput Karya lain yang berstatus Proses Tangkil atau Pending.</p>
                                         </div>
 
                                         {{-- Reservasi Sulinggih --}}
@@ -249,8 +249,9 @@
                                                                             <div class="form-group">
                                                                                 <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" readonly name="data_user_reservasi[{{$loop->iteration}}][keterangan]" value="{{$data->keterangan}}" placeholder="Masukan alasan penolakan">
                                                                             </div>
+                                                                        @elseif ($data->status == 'pending')
+                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
                                                                         @else
-                                                                                    <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
                                                                                     <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @else value="diterima" @endif >Setujui</option>
                                                                                     <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
                                                                                 </select>
@@ -276,9 +277,15 @@
                                             <div class="card shadow mb-4 card-info card-outline ">
                                                 <div class="card-header" aria-expanded="false">
                                                     <div class="user-block">
-                                                        <img class="img-circle" src="{{route('image.profile.user',$data->Relasi->id)}}" alt="User Image">
+                                                        <img class="img-circle"
+                                                        @if ($data->tipe == 'sanggar')
+                                                            src="{{route('image.profile.sanggar',$data->id_sanggar)}}"
+                                                        @else
+                                                            src="{{route('image.profile.user',$data->id_relasi)}}"
+                                                        @endif
+                                                        alt="User Image">
                                                         <span class="username">
-                                                            <a class="ml-2" href="#">{{$data->Relasi->PemuputKarya->nama_pemuput}}</a> | {{strtoupper($data->status)}}
+                                                            <a class="ml-2" href="#">{{$data->getRelasi()->nama}}</a> | {{strtoupper($data->status)}}
                                                         </span>
                                                         <span class="description">
                                                             <label class="ml-2">Tanggal Tangkil : {{$data->tanggal_tangkil}} </label>
@@ -335,7 +342,7 @@
                                         <div class="row">
                                             <div class="col-md-12 my-1 px-4">
                                                 <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}" class="btn btn-secondary">Kembali</a>
-                                                <button type="submit" class="btn m-1 btn-primary float-right ml-2">Konfimasi Tangkil</button>
+                                                <button onclick="konfirmasiReservasi()" type="button" class="btn m-1 btn-primary float-right ml-2">Konfimasi Tangkil</button>
                                                 <button onclick="batalTangkil({{$dataReservasi->id}},{{$dataReservasi->Upacaraku->id_krama}})" type="button" class="btn m-1 btn-danger float-right ml-2">Batal Tangkil</button>
                                             </div>
                                         </div>
@@ -357,7 +364,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Detail Transaksi</h4>
+                    <h4 class="modal-title">Detail Keterangan</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -389,7 +396,6 @@
         </div>
     </div>
     <!-- /.modal -->
-
 
     @include('pages.pemuput-karya.manajemen-muput-upacara.modal-pembatalan-tangkil')
 
@@ -450,6 +456,27 @@
 @push('js')
     <script type="text/javascript">
 
+        //KONFIRMASI TANGKIL
+        function konfirmasiReservasi(){
+            Swal.fire({
+                title: 'Pemberitahuan',
+                text : 'Apakah anda ingin mengkonfirmasi tangkil reservasi tersebut?',
+                icon:'question',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: `Iya`,
+                denyButtonText: `Batal`,
+                confirmButtonColor: '#3085d6',
+                denyButtonColor : '#d33',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#formTangkil").submit();
+                }
+            })
+        }
+        //KONFIRMASI TANGKIL
+
+
         // DEKLARASI DATA RESERVASI
         let dataUpacara,dataReservasi, tanggalTangkil;
         let jsonDataUpacara = $('#jsonDataUpacara').val();
@@ -479,10 +506,10 @@
             $('#dateUser-'+data.id).daterangepicker({
                 timePicker: true,
                 timePicker24Hour: true,
-                startDate: moment(data.tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
-                endDate:moment(data.tanggal_selesai).format('DD MMMM YYYY hh:mm A'),
-                minDate: moment(tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
-                maxDate: moment(tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMMM YYYY hh:mm A'),
+                startDate: moment(data.tanggal_mulai).format('DD MMMM YYYY H:mm'),
+                endDate:moment(data.tanggal_selesai).format('DD MMMM YYYY H:mm'),
+                minDate: moment(tanggal_mulai).format('DD MMMM YYYY H:mm'),
+                maxDate: moment(tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMMM YYYY H:mm'),
                 locale: {
                     format: 'DD MMMM YYYY H:mm',
                 },
@@ -500,9 +527,9 @@
                 $('#datePemuput-'+data_detail_reservasi.id).daterangepicker({
                     timePicker: true,
                     timePicker24Hour: true,
-                    startDate: moment(data_detail_reservasi.tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
-                    endDate:moment(data_detail_reservasi.tanggal_selesai).format('DD MMMM YYYY hh:mm A'),
-                    minDate: moment(tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
+                    startDate: moment(data_detail_reservasi.tanggal_mulai).format('DD MMMM YYYY H:mm'),
+                    endDate:moment(data_detail_reservasi.tanggal_selesai).format('DD MMMM YYYY H:mm'),
+                    minDate: moment(tanggal_mulai).format('DD MMMM YYYY H:mm'),
                     maxDate: moment(tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMMM YYYY H:mm'),
                     locale: {
                         format: 'DD MMMM YYYY H:mm',
@@ -612,19 +639,19 @@
                         $.each(response.data, function(key, data){
                             let tanggal;
                             console.log(response.data.length);
-                            tanggal = moment(data.created_at).format('DD MMMM YYYY hh:mm A');
+                            tanggal = moment(data.created_at).format('DD MMMM YYYY H:mm');
                             $('#timeline').append(
                                 "<div><i class='fas fa-user bg-blue'></i><div class='timeline-item'>"+
                                 "<h3 class='timeline-header'><a href='#'>"+data.relasi.sulinggih.nama_sulinggih+"</a> <p class='m-0 mt-1'>"+tanggal+"</p></h3>"+
                                 "<div class='timeline-body'> Perubahan Reservasi : "+data.keterangan+" </div></div></div>"+
-                                (key == response.data.length-1 ?  "<div><i class='fas fa-calendar-plus bg-green'></i><div class='timeline-item'><h3 class='timeline-header no-border'><a href='#'>"+dataReservasi.upacaraku.user.penduduk.nama+"</a> Membuat Upacara <p class='m-0 mt-1'>"+moment(dataReservasi.upacaraku.created_at).format('DD MMMM YYYY hh:mm A')+"</p></h3></div></div>" : "")+
+                                (key == response.data.length-1 ?  "<div><i class='fas fa-calendar-plus bg-green'></i><div class='timeline-item'><h3 class='timeline-header no-border'><a href='#'>"+dataReservasi.upacaraku.user.penduduk.nama+"</a> Membuat Upacara <p class='m-0 mt-1'>"+moment(dataReservasi.upacaraku.created_at).format('DD MMMM YYYY H:mm')+"</p></h3></div></div>" : "")+
                                 (key == response.data.length-1 ? "<div><i class='fas fa-clock bg-gray'></i></div>" : "")
 
                             );
                         });
                     }else{
                         $('#timeline').empty();
-                        $('#timeline').append("<div><i class='fas fa-calendar-plus bg-green'></i><div class='timeline-item'><h3 class='timeline-header no-border'><a href='#'>"+dataReservasi.upacaraku.user.penduduk.nama+"</a> Membuat Upacara <p class='m-0 mt-1'>"+moment(dataReservasi.upacaraku.created_at).format('DD MMMM YYYY hh:mm A')+"</p></h3></div></div><div><i class='fas fa-clock bg-gray'></i></div>");
+                        $('#timeline').append("<div><i class='fas fa-calendar-plus bg-green'></i><div class='timeline-item'><h3 class='timeline-header no-border'><a href='#'>"+dataReservasi.upacaraku.user.penduduk.nama+"</a> Membuat Upacara <p class='m-0 mt-1'>"+moment(dataReservasi.upacaraku.created_at).format('DD MMMM YYYY H:mm')+"</p></h3></div></div><div><i class='fas fa-clock bg-gray'></i></div>");
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {

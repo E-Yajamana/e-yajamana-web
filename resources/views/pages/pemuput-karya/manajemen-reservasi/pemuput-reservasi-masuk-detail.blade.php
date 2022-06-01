@@ -224,14 +224,14 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Form Verifikasi Reservasi</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Form Penentuan Tanggal Tangkil</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="callout callout-info mx-1 px-2">
-                                                <p class="text-xs">Tentukan tanggal tangkil, yang bertujuan untuk menentukan kedatangan Krama Bali untuk berdiskusi terkair Muput Upacara.</p>
+                                                <p class="text-xs">Tentukan tanggal tangkil, yang bertujuan untuk menentukan kedatangan Krama Bali untuk berdiskusi tekait dengan Muput Upacara.</p>
                                             </div>
                                             <div class="form-group px-2">
                                                 <label>Tentukan Tanggal Tangkil:</label>
@@ -351,10 +351,11 @@
         $('#date').daterangepicker({
             timePicker: true,
             "singleDatePicker": true,
+            timePicker24Hour: true,
             "minDate": moment(Date ()).format('DD MMMM YYYY'),
             "maxDate": moment(data_reservasi.upacaraku.tanggal_mulai).format('DD MMMM YYYY'),
             locale: {
-                format: 'DD MMMM YYYY h:mm A',
+                format: 'DD MMMM YYYY H:mm',
             },
         });
 

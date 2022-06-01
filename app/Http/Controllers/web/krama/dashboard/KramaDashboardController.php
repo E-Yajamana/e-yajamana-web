@@ -18,7 +18,6 @@ class KramaDashboardController extends Controller
     public function index(Request $request)
     {
         $request->session()->forget('id_sanggar');
-
         $user = Auth::user();
         $upacara = Upacara::all();
         $upacaraKrama = Upacaraku::with(['Upacara','Reservasi'])->withCount('Reservasi')->whereIdKrama($user->id);

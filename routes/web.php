@@ -26,8 +26,10 @@ use App\Http\Controllers\web\pemuput_karya\muput_upacara\KonfirmasiTangkilContro
 use App\Http\Controllers\web\pemuput_karya\PemuputKaryaController;
 use App\Http\Controllers\web\sanggar\dashboard\DashboardController;
 use App\Http\Controllers\web\sanggar\dashboard\SanggarDashboardController;
+use App\Http\Controllers\web\sanggar\manajemen_reservasi\ReservasiMasukController as SanggarReservasiController;
 use App\Http\Controllers\web\sanggar\SanggarController;
 use App\Http\Controllers\WilayahController;
+use App\Http\Livewire\Krama\CreateReservasi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -172,6 +174,8 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::get('send/notif', [KramaController::class, 'sendNotif']);
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
 
+    Route::get('create/{id}', CreateReservasi::class);
+
     Route::prefix('manajemen-upacara')->group(function () {
         Route::get('index', [KramaUpacarakuController::class, 'indexUpacaraku'])->name('krama.manajemen-upacara.upacaraku.index');
         Route::get('create', [KramaUpacarakuController::class, 'createUpacaraku'])->name('krama.manajemen-upacara.upacaraku.create');
@@ -233,8 +237,17 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], fun
 
 // SANGGAR
 Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function ()  {
+    Route::get('', [SanggarController::class, 'testing']);
     Route::get('dashboard', [SanggarDashboardController::class, 'index'])->name('sanggar.dashboard');
     Route::post('set-session', [SanggarController::class, 'setSession'])->name('sanggar.session')->withoutMiddleware('permission:sanggar');
+
+    Route::prefix('manajemen-reservasi')->group(function () {
+        Route::get('reservasi-masuk/index', [SanggarReservasiController::class, 'index'])->name('sanggar.manajemen-reservasi.index');
+        Route::get('reservasi-masuk/detail/{id}', [SanggarReservasiController::class, 'detailReservasi'])->name('sanggar.manajemen-reservasi.detail');
+        Route::put('reservasi-masuk/update', [SanggarReservasiController::class, 'update'])->name('sanggar.manajemen-reservasi.verifikasi.update');
+    });
+
+
 
 });
 // SANGGAR
@@ -264,7 +277,6 @@ Route::prefix('ajax')->group(function () {
     Route::get('kabupaten/{id?}', [LocationController::class, 'getKabupaten']);
     Route::get('kecamatan/{id}', [LocationController::class, 'getKecamatan']);
     Route::get('banjar-dinas/{id?}', [LocationController::class, 'getBanjarDinas'])->name('ajax.get-banjar-dinas');
-
 
     Route::prefix('upacara')->group(function () {
         Route::get('jenis-yadnya/{jenis?}', [AjaxController::class, 'jenisYadnya'])->name('ajax.get.jenis-yadnya');

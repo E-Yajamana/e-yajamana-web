@@ -20,8 +20,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.index')}}">List Jadwal Muput Upacara</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.index')}}">Data Muput Upacara</a></li>
                         <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
@@ -132,7 +132,6 @@
     <input id='lat' value="{{$dataDetailReservasi->Reservasi->Upacaraku->lat}}" type="hidden">
     <input id='alamat' value="{{$dataDetailReservasi->Reservasi->Upacaraku->alamat_upacaraku}}" type="hidden">
     <input id='lng' value="{{$dataDetailReservasi->Reservasi->Upacaraku->lng}}" type="hidden">
-
 
     @include('pages.pemuput-karya.manajemen-muput-upacara.modal-konfirmasi-muput')
 

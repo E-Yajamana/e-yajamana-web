@@ -13,7 +13,7 @@
                 @method('PUT')
                 <div class="modal-body">
                     <div class="callout callout-info mx-1 px-2">
-                        <p class="text-xs">Tentukan tanggal tangkil, yang bertujuan untuk menentukan kedatangan Krama Bali untuk berdiskusi tekait dengan Muput Upacara.</p>
+                        <p class="text-xs">Tentukan tanggal tangkil, yang bertujuan untuk menentukan kedatangan Krama Bali untuk berdiskusi terkair Muput Upacara.</p>
                     </div>
                     <input class="d-none" name="id_reservasi" id="idReservasiTerima" value="" type="hidden">
                     <input class="d-none" name="status" value="diterima" type="hidden">
@@ -31,7 +31,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>
@@ -64,7 +64,7 @@
                             <option disabled selected>Pilih Alasan</option>
                             <option value="Lokasi upacara tidak memadai">Lokasi upacara tidak memadai</option>
                             <option value="Sudah memiliki jadwal muput pada hari tersebut">Sudah memiliki jadwal Muput pada hari tersebut</option>
-                            <option value="Tidak dapat melakukan Muput Jenis Upacara tersebut">Tidak dapat melakukan Muput Jenis Upacara tersebut</option>
+                            <option value="Ingin melakukan pencarian Pemuput Karya secara Offline">Tidak dapat Memuput Jenis Upacara tersebut</option>
                             <option value="">Lainnya</option>
                         </select>
                     </div>
@@ -106,11 +106,10 @@
                 $('#dateTangkil').daterangepicker({
                     timePicker: true,
                     "singleDatePicker": true,
-                    timePicker24Hour: true,
-                    "minDate": moment(Date ()).format('DD MMMM YYYY H:mm'),
-                    "maxDate": moment(tanggal_mulai).add(23,'hours').add(59,'minutes').format('DD MMMM YYYY H:mm'),
+                    "minDate": moment(Date ()).format('DD MMMM YYYY'),
+                    "maxDate": moment(tanggal_mulai).format('DD MMMM YYYY'),
                     locale: {
-                        format: 'DD MMMM YYYY H:mm',
+                        format: 'DD MMMM YYYY h:mm A',
                     },
                 });
                 $("#modalKonfirmasi").modal();

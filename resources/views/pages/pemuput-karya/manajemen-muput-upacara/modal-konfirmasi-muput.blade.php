@@ -2,6 +2,10 @@
     <!-- Select2 -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+
+    <!-- Filepond stylesheet -->
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+
 @endpush
 
 <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
@@ -27,7 +31,7 @@
                         <label>Foto Bukti Muput Upacara</label>
                         <div class="input-group mb-2">
                             <div class="custom-file">
-                                <input type="file" id="file" class="custom-file-input @error('file') is-invalid @enderror" name="file" id="customFile" value="{{old('file')}}" >
+                                <input type="file" id="file" class="custom-file-input @error('file') is-invalid @enderror" name="file[]" multiple id="customFile" value="{{old('file')}}" >
                                 <label class="custom-file-label " for="customFile">Masukan Foto Bukti Muput Upacara</label>
                             </div>
                         </div>
@@ -64,7 +68,7 @@
                         <p class="text-xs">Reservasi yang sudah ditolak, tidak dapat diubah kembali. Masukan alasan penolakan untuk menginformasikan kembali kepada Krama.</p>
                     </div>
                     <div class="form-group px-2">
-                        <label>Alasan Menolak Reservasi? <span class="text-danger">*</span></label>
+                        <label>Alasan Balat Muput Upacara? <span class="text-danger">*</span></label>
                         <select id="alasan_pembatalan" onchange="getVal()" name="alasan_pembatalan" class="select2bs4 form-control " style="width: 100%;">
                             <option disabled selected>Pilih Alasan</option>
                             <option value="Kondisi tidak memungkinkan untuk Muput">Kondisi tidak memungkinkan untuk Muput</option>

@@ -213,7 +213,7 @@ class GetImageController extends Controller
     {
         // SECURITY
             $validator = Validator::make(['id' =>$id],[
-                'id' => 'required|exists:tb_detail_reservasi,id',
+                'id' => 'required|exists:tb_gambar,id',
             ]);
 
             if($validator->fails()){
@@ -228,8 +228,7 @@ class GetImageController extends Controller
 
         // MAIN LOGIC
             try{
-                $detailReservasi = DetailReservasi::with('Gambar')->findOrFail($id);
-                $path = $detailReservasi->Gambar->image;
+                $path = Gambar::findOrFail($id)->image;
                 if($path == null){
                     $path = 'app/default/profile/user.jpg';
                 }

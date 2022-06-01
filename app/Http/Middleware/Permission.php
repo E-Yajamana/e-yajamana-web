@@ -84,7 +84,6 @@ class Permission
                                     'message' => 'Pilih akun Sanggar mana yang akan digunakan!',
                                 ]);
                             }else{
-                                session(['id_sanggar' => Auth::user()->Sanggar[0]->id]);
                                 return $next($request);
                             }
                         }else{

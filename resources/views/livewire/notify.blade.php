@@ -2,15 +2,15 @@
     <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
             <i class="far fa-bell"></i>
-            @if (!$dataNotifKrama->isEmpty())
-                <span class="badge badge-danger navbar-badge">{{count($dataNotifKrama)}}</span>
+            @if (!$dataNotif->isEmpty())
+                <span class="badge badge-danger navbar-badge">{{count($dataNotif)}}</span>
             @endif
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <span class="dropdown-item dropdown-header">Notifications</span>
             <div class="dropdown-divider"></div>
-            <div  @if (!$dataNotifKrama->isEmpty() && $dataNotifKrama->count() > 2 )  class="direct-chat-messages p-0" style="height: 340px"  @endif >
-                @forelse ($dataNotifKrama as $notif)
+            <div  @if (!$dataNotif->isEmpty() && $dataNotif->count() > 2 )  class="direct-chat-messages p-0" style="height: 340px"  @endif >
+                @forelse ($dataNotif as $notif)
                     <a href="#" class="dropdown-item">
                         <div class="media">
                             <div class="media-body">
@@ -42,5 +42,4 @@
                 </div>
             </div>
         </div>
-    </li>
-</div>
+    </li></div>

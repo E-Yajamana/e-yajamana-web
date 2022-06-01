@@ -60,7 +60,7 @@ class UserNotification extends Notification
             'image' => $this->data['image'] != null ? $this->data['image'] : "normal",
             'title' => $this->data['title'] != null ? $this->data['title'] : "title",
             'body' => $this->data['body'] != null ? $this->data['body'] : "body",
-            'type' => $this->data['type'] != null ? $this->data['type'] : "krama",
+            'type' => array_key_exists('type',$this->data) && $this->data['type'] != null ? $this->data['type'] : "krama",
             'id_sanggar' => array_key_exists('id_sanggar',$this->data) && $this->data['type'] != null  ? $this->data['id_sanggar'] : array(0),
         ];
     }

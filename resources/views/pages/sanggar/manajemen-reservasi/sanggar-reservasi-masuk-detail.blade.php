@@ -1,5 +1,5 @@
 @extends('layouts.pemuput-karya.pemuput-karya-layout')
-@section('tittle','Reservasi Krama Masuk')
+@section('tittle','Reservasi Masuk')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -29,12 +29,12 @@
         <div class="container-fluid border-bottom mt-2">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Detail Data Krama Tangkil</h1>
+                    <h1>Detail Reservasi Masuk</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.manajemen-reservasi.index')}}">Data Krama Tangkil</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.manajemen-reservasi.index')}}">Data Reservasi Masuk</a></li>
                     <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
@@ -46,81 +46,43 @@
         <div class="container-fluid">
             <div class="callout callout-info container-fluid">
                 <h5><i class="fas fa-info"></i> Catatan:</h5>
-                Anda dapat menggubah kembali data status reservasi dan tanggal tangkil Krama.
+                Harap melihat dan menentukan dengan detail semua status Tahapan Reservasi ketika ingin menyimpan data.<br>
+                <div class="d-flex">
+                    Batas Konfirmasi Reservasi : <small class="ml-2 pt-1 badge badge-danger" id="demo"></small>
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.update-data')}}" method="POST" id="simpanData">
-                        @csrf
-                        @method('PUT')
-                        <input class="d-none" name="id_reservasi" id="idReservasi" value="{{$dataReservasi->id}}" type="hidden">
-                        <div class="card tab-content">
-                            <div class="card-body pb-0">
-                                <div class="form-group  px-lg-3 mb-0">
-                                    <label class="mb-2">Tanggal Tangkil Reservasi</label>
-                                    <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="far fa-calendar-alt"></i>
-                                            </span>
-                                        </div>
-                                        <input type="text" class="form-control" id="date" name="tanggal_tangkil" placeholder="Enter email" value="{{date('d F Y H:i ',strtotime($dataReservasi->tanggal_tangkil))}}">
+                    <div class="card tab-content">
+                        <div class="card-header my-auto">
+                            <label class="card-title my-auto">Data Krama Pemesan</label>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label>Nama Krama</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->nama}}" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label></label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->alamat}}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->email}}" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nomor Telepon</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->nomor_telepon}}" disabled>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-header">
-                            </div>
-                            <div class="card-body py-0">
-                                <div class="table-responsive mailbox-messages p-3">
-                                    <label class="text-md">Tahapan yang direservasi</label>
-                                    <table id="" class="table table-bordered table-hover mx-auto table-responsive-sm mb-4">
-                                        <thead >
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Tahapan</th>
-                                                <th>Waktu Mulai Tahapan</th>
-                                                <th>Waktu Selesai Tahapan</th>
-                                                <th>Tentukan Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($dataReservasi->DetailReservasi as $data)
-                                                <tr>
-                                                    <td>{{$loop->iteration}}</td>
-                                                    <td>{{$data->TahapanUpacara->nama_tahapan}}</td>
-                                                    <td>{{date('d F Y | H:i',strtotime($data->tanggal_mulai))}}</td>
-                                                    <td>{{date('d F Y | H:i',strtotime($data->tanggal_selesai))}}</td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <select name="status[]" class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true" id="status-{{$data->id}}">
-                                                                @if ($data->status == 'batal')
-                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'batal') value="batal" selected @else value="batal" @endif>Batal</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
-                                                                    <div class="form-group">
-                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" readonly name="alasan_penolakan[]" value="{{$data->keterangan}}" placeholder="Masukan alasan penolakan">
-                                                                    </div>
-                                                                @else
-                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
-                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @else value="diterima" @endif >Setujui</option>
-                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
-                                                                    <div class="form-group">
-                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" name="alasan_penolakan[]" value="" placeholder="Masukan alasan penolakan">
-                                                                    </div>
-                                                                @endif
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
 
                 <div class="col-12 col-sm-6">
@@ -191,50 +153,125 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-12">
-                    <div class="card tab-content">
-                        <div class="card-header my-auto">
-                            <label class="card-title my-auto">Data Krama Pemesan</label>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label>Nama Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->nama}}" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Alamat Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->alamat}}" disabled>
-                                    </div>
+                    <form action="{{route('pemuput-karya.manajemen-reservasi.verifikasi.update')}}" method="POST" id="inputdata">
+                        @csrf
+                        @method('PUT')
+                        <input class="d-none" name="id_reservasi" id="idReservasi" value="{{$dataReservasi->id}}" type="hidden">
+                        <div class="card tab-content">
+                            <div class="card-header my-auto">
+                                <label class="card-title my-auto">Tahapan yang Direservasi</label>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive mailbox-messages p-2">
+                                    <table id="" class="table table-bordered table-hover mx-auto table-responsive-sm">
+                                        <thead >
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Tahapan</th>
+                                                <th>Waktu Mulai Tahapan</th>
+                                                <th>Waktu Selesai Tahapan</th>
+                                                <th>Tentukan Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($dataReservasi->DetailReservasi as $data)
+                                                <tr>
+                                                    <td>{{$loop->iteration}}</td>
+                                                    <td>{{$data->TahapanUpacara->nama_tahapan}}</td>
+                                                    <td>{{date('d F Y | H:i',strtotime($data->tanggal_mulai))}}</td>
+                                                    <td>{{date('d F Y | H:i',strtotime($data->tanggal_selesai))}}</td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <select name="status[]" class="form-control select2bs4" style="width: 100%;" tabindex="-1" aria-hidden="true" id="status-{{$data->id}}">
+                                                                @if ($data->status == 'batal')
+                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'batal') value="batal" selected @else value="batal" @endif>Batal</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
+                                                                    <div class="form-group">
+                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" readonly name="alasan_pembatalan[]" value="{{$data->keterangan}}" placeholder="Masukan alasan penolakan">
+                                                                    </div>
+                                                                @else
+                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'pending') value="pending" selected @else value="pending" @endif >Pending</option>
+                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'diterima') value="diterima" selected @else value="diterima" @endif >Setujui</option>
+                                                                            <option data-id="{{$data->id}}" @if ($data->status == 'ditolak') value="ditolak" selected @else value="ditolak" @endif>Tolak</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <input value="{{$data->id}}" type="hidden" class="d-none" name="id_tahapan[]">
+                                                                    <div class="form-group">
+                                                                        <input id="text_penolakan-{{$data->id}}" type="hidden" class="alasanPenolakan form-control" name="alasan_pembatalan[]" value="" placeholder="Masukan alasan penolakan">
+                                                                    </div>
+                                                                @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Nama Tahapan</th>
+                                                <th>Waktu Mulai Tahapan</th>
+                                                <th>Waktu Selesai Tahapan</th>
+                                                <th>Tentukan Status</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <div class="form-group">
-                                        <label>Email</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->email}}" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nomor Telepon</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->nomor_telepon}}" disabled>
+                            </div>
+                            <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
+                            <div class="modal fade" id="modalInputTangkil" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Form Verifikasi Reservasi</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="callout callout-info mx-1 px-2">
+                                                <p class="text-xs">Tentukan tanggal tangkil, yang bertujuan untuk menentukan kedatangan Krama Bali untuk berdiskusi terkair Muput Upacara.</p>
+                                            </div>
+                                            <div class="form-group px-2">
+                                                <label>Tentukan Tanggal Tangkil:</label>
+                                                <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="far fa-calendar-alt"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input name="tanggal_tangkil" id="date" type='text' class='form-control float-right' >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                                            <button onclick="inputData()" class="btn btn-primary">Submit</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
-                        <div class="card-footer">
-                            <div class="col-md-12 my-2">
-                                <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}" class="btn btn-secondary">Kembali</a>
-                                <button onclick="simpanData()" type="button" class="btn btn-primary float-right ml-2 m-1">Ubah Data</button>
+                            <!-- MODAL KONFIRMASI TERIMA SEMUA DATA -->
+                            <div class="card-footer">
+                                <div class="col-md-12 my-2">
+                                    <a href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
+                                    <button type="submit" class="btn btn-primary float-right ml-2 m-1">Simpan Data</button>
+                                    <a onclick="konfirmasiReservasi({{$dataReservasi->id}},'{{$dataReservasi->tanggal_mulai}}')" class="btn btn-secondary m-1 float-right " align-self="end">Setujui Semua</a>
+                                    <a onclick="tolakReservasi({{$dataReservasi->id}})" class=" btn btn-danger m-1 float-right " align-self="end">Tolak Semua</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </section>
 
     <input id="jsonData" type="hidden" value='@json($dataReservasi)'>
+
+    @include('pages.pemuput-karya.manajemen-reservasi.modal-konfirmasi-reservasi')
+
 @endsection
 
 @push('js')
@@ -251,19 +288,17 @@
     <!-- Bootstrabase-template-->
     <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
     <!-- jquery-validation -->
     <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
 
-    <!-- date-range-picker -->
-    <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <!-- daterangepicker -->
-
     <!-- Fungsi Form Input  -->
     <script type="text/javascript">
-        $('#side-manajemen-muput-upacara').addClass('menu-open');
-        $('#side-manajemen-muput-upacara-konfirmasi-tangkil').addClass('active');
+        $('#side-manajemen-reservasi').addClass('menu-open');
+        $('#side-manajemen-reservasi-index').addClass('active');
 
         $('#mySelect2').select2('data');
         $('.select2').select2()
@@ -275,6 +310,9 @@
     <!-- Fungsi Form Input  -->
 @endpush
 
+
+
+
 @push('js')
     <script type="text/javascript">
         // DEKLARASI DATA RESERVASI
@@ -283,18 +321,40 @@
 
         console.log(data_reservasi)
 
-        function simpanData(){
-            $("#simpanData").submit();
-        }
+        var countDownDate = new Date(data_reservasi.upacaraku.tanggal_mulai).getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("demo").innerHTML = days + " Hari " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
 
         $('#date').daterangepicker({
             timePicker: true,
             "singleDatePicker": true,
-            timePicker24Hour: true,
             "minDate": moment(Date ()).format('DD MMMM YYYY'),
             "maxDate": moment(data_reservasi.upacaraku.tanggal_mulai).format('DD MMMM YYYY'),
             locale: {
-                format: 'DD MMMM YYYY H:mm',
+                format: 'DD MMMM YYYY h:mm A',
             },
         });
 
@@ -303,46 +363,34 @@
             dataDatabase.push(data.status);
         });
 
-        function alert(text){
-            Swal.fire({
-                title: 'Pemberitahuan',
-                text : text,
-                icon:'question',
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: `Terima`,
-                denyButtonText: `Batal`,
-                confirmButtonColor: '#3085d6',
-                denyButtonColor : '#d33',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // SET UP DATE UPACARA
-                    $("#simpanData")[0].submit();
-                }
-            })
+        // DEKLARASI DATA RESERVASI
+        function inputData(){
+            $("#inputdata")[0].submit();
         }
-
         // VALIDASI SEDERHANA DARI PENENTUAN STATUS TAHAPAN
         function validasiInputStatus(data){
             // console.log(data);
-            var tanggal_tangkil_database = moment(data_reservasi.tanggal_tangkil).format('DD MMMM YYYY h:mm A');
-            var tanggal_tangkil = $("#date").val();
-            console.log(tanggal_tangkil)
-            if(JSON.stringify(data) == JSON.stringify(dataDatabase) && tanggal_tangkil == tanggal_tangkil_database ){
+            if(JSON.stringify(data) == JSON.stringify(dataDatabase)){
                 Swal.fire({
                     icon:  'warning',
                     title: 'Warning',
                     text: 'Tidak terdapat perubahan apapun yang dilakukan !',
                 });
             }else if(data.indexOf("diterima") !== -1){
-                $("#simpanData")[0].submit();
+                if(data_reservasi.tanggal_tangkil == null){
+                    $("#modalInputTangkil").modal();
+                }else{
+                    $("#inputdata")[0].submit();
+                }
             }else if(data.indexOf("ditolak") !== -1){
                 if(data.every((val,u,arr)=>val === arr[0]) == true){
-                    alert('Apakah Anda yakin ingin membatalkan Reservasi tersebut?, data yang telah dibatalakan tidak dapat diedit kembali!')
+                    $("#inputdata")[0].submit();
+                }else{
+                    $("#inputdata")[0].submit();
                 }
             }else if (data.indexOf("pending") !== -1){
                 if(data.every((val,u,arr)=>val === arr[0]) == true){
-                    alert('Apakah Anda yakin ingin mengubah Reservasi menjadi Pending kembali?')
+                    $("#inputdata")[0].submit();
                 }
             }
         };
@@ -360,14 +408,14 @@
                     validasiInputStatus(status);
                 }
             });
-            $('#simpanData').validate({
+            $('#inputdata').validate({
                 rules: {
-                    'alasan_penolakan[]': {
+                    'alasan_pembatalan[]': {
                         required: true,
                     },
                 },
                 messages: {
-                    'alasan_penolakan[]': {
+                    'alasan_pembatalan[]': {
                         required: "Alasan Penolakan Wajib diisi",
                     },
                 },
@@ -383,7 +431,6 @@
                     $(element).removeClass('is-invalid');
                 }
             });
-
             $(".alasanPenolakan").rules("add", {
                 required:true,
                 minlength:3
@@ -445,10 +492,12 @@
         });
         // VIEW MARKER MAPS (**)
 
-        let status=[];
-        $('select[name="status[]"] option:selected').each(function() {
-            status.push($(this).val());
-        });
 
     </script>
+@endpush
+
+@push('js')
+<script>
+
+</script>
 @endpush

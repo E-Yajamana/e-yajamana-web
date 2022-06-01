@@ -12,12 +12,12 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="user-panel nav-item ">
-                    <a href="#" class="nav-link mb-2">
+                    <a href="#" class="nav-link mb-2 " style="width: 235px">
                         <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
-                        <p>
-                            {{Auth::user()->Penduduk->nama_alias}}
-                            <i class="fas fa-angle-left right mt-2"></i>
+                        <p class="progress-description">
+                            {{Auth::user()->sessionSanggar()->nama_sanggar}}
                         </p>
+                        <i class="fas fa-angle-left right mt-2"></i>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
@@ -104,7 +104,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-reservasi-index" href="{{route('pemuput-karya.manajemen-reservasi.index')}}" class="nav-link p-2">
+                            <a id="side-manajemen-reservasi-index" href="{{route('sanggar.manajemen-reservasi.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Reservasi Masuk @yield('count-reservasi-masuk')</p>
                             </a>

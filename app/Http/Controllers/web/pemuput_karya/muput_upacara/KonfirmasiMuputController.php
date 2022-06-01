@@ -111,10 +111,11 @@ class KonfirmasiMuputController extends Controller
             $detailReservasi = DetailReservasi::with(['Reservasi'])->findOrFail($request->id_detail_reservasi);
 
             if($request->file != null){
-                $folder = 'app/sulinggih/bukti-muput/upacara/';
-                $filename =  ImageHelper::moveImage($request->file, $folder);
-                $detailReservasi->Gambar()->create(['image' => $filename]);
-
+                foreach($request->file as $data){
+                    $folder = 'app/sulinggih/bukti-muput/upacara/';
+                    $filename[] = ['image'=>ImageHelper::moveImage($data, $folder)];
+                }
+                $detailReservasi->Gambar()->createMany($filename);
             }
             $upacaraku = Upacaraku::findOrFail($request->id_upacaraku);
             $krama = User::findOrFail($upacaraku->id_krama);
@@ -137,6 +138,7 @@ class KonfirmasiMuputController extends Controller
                     'body' => 'Halo '.$sulinggih->PemuputKarya->nama_pemuput.", Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." berhasil dilakukan!",
                     'status' => "new",
                     'image' => "normal",
+                    'type' => "pemuput",
                     'notifiable_id' => $sulinggih->id,
                     'formated_created_at' => date('Y-m-d H:i:s'),
                     'formated_updated_at' => date('Y-m-d H:i:s'),
@@ -150,6 +152,7 @@ class KonfirmasiMuputController extends Controller
                     'body' => "Halo Krama Bali !!, ".$sulinggih->PemuputKarya->nama_pemuput." sudah menyelesaikan Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." ! ",
                     'status' => "new",
                     'image' => "normal",
+                    'type' => "krama",
                     'notifiable_id' => $krama->id,
                     'formated_created_at' => date('Y-m-d H:i:s'),
                     'formated_updated_at' => date('Y-m-d H:i:s'),
@@ -157,16 +160,14 @@ class KonfirmasiMuputController extends Controller
                 $krama
             );
             // NOTIFICATION
-
-
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             DB::rollBack();
             return redirect()->back()->with([
                 'status' => 'fail',
                 'icon' => 'error',
-                'title' => 'Gagal Menambahkan Data Upacara',
-                'message' => 'Gagal menambahkan data upacara, apabila diperlukan mohon hubungi developer sistem`',
+                'title' => 'Gagal Mengkonformasi Muput',
+                'message' => 'Gagal Mengkonformasi Muput, apabila diperlukan mohon hubungi developer sistem`',
             ]);
         }
         // END LOGIC
