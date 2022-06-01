@@ -58,14 +58,14 @@ class PemuputKarya extends Model
 		'keterangan_konfirmasi_akun'
 	];
 
-    protected function serializeDate(DateTimeInterface $date)
+	protected function serializeDate(DateTimeInterface $date)
 	{
 		return $date->format('Y-m-d H:i:s');
 	}
 
 	public function User()
 	{
-		return $this->belongsTo(User::class, 'id_user','id');
+		return $this->belongsTo(User::class, 'id_user', 'id');
 	}
 
 	public function GriyaRumah()
@@ -73,7 +73,7 @@ class PemuputKarya extends Model
 		return $this->belongsTo(GriyaRumah::class, 'id_griya');
 	}
 
-    public function Pasangan()
+	public function Pasangan()
 	{
 		return $this->belongsTo(PemuputKarya::class, 'id_pasangan');
 	}
@@ -88,25 +88,29 @@ class PemuputKarya extends Model
 		return $this->hasMany(AtributPemuput::class, 'id_nabe');
 	}
 
-    public function getNabeAndPasangan()
-    {
-        $dataObj = new stdClass;
+	public function FavoritUser()
+	{
+		return $this->belongsToMany(User::class, 'tb_favorit', 'id_pemuput_karya', 'id_user');
+	}
 
-        if($this->id_nabe != null){
-            $relasi = $this->belongsTo(Sulinggih::class, 'id_nabe')->first();
-            $dataObj->nama_nabe = $relasi->nama_sulinggih;
-        }else{
-            $dataObj->nama_nabe = $this->nama_nabe;
-        }
+	public function getNabeAndPasangan()
+	{
+		$dataObj = new stdClass;
 
-        if($this->id_pasangan != null){
-            $relasi = $this->belongsTo(Sulinggih::class, 'id_pasangan')->first();
-            $dataObj->nama_pasangan = $relasi->nama_walaka;
-        }else{
-            $dataObj->nama_pasangan = $this->nama_pasangan;
-        }
+		if ($this->id_nabe != null) {
+			$relasi = $this->belongsTo(Sulinggih::class, 'id_nabe')->first();
+			$dataObj->nama_nabe = $relasi->nama_sulinggih;
+		} else {
+			$dataObj->nama_nabe = $this->nama_nabe;
+		}
 
-        return $dataObj;
-    }
+		if ($this->id_pasangan != null) {
+			$relasi = $this->belongsTo(Sulinggih::class, 'id_pasangan')->first();
+			$dataObj->nama_pasangan = $relasi->nama_walaka;
+		} else {
+			$dataObj->nama_pasangan = $this->nama_pasangan;
+		}
 
+		return $dataObj;
+	}
 }

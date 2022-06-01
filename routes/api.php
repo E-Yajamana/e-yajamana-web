@@ -96,6 +96,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('home', [KramaDashboardController::class, 'index']);
         // END
 
+        // KRAMA FAVORIT
+        Route::post('favorit', [KramaPemuputKaryaController::class, 'setFavorite']);
+        // END
+
         // KRAMA PROFILE FRAGMENT
         Route::get('profile', [KramaProfileController::class, 'index']);
         Route::get('detail/profile', [KramaProfileController::class, 'detail']);
