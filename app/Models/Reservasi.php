@@ -54,7 +54,8 @@ class Reservasi extends Model
 		'status',
 		'tipe',
 		'tanggal_tangkil',
-		'keterangan'
+		'keterangan',
+		'rating'
 	];
 
 	/**

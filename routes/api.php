@@ -120,6 +120,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('batal', [KramaReservasiController::class, 'destroy']);
             Route::post('update', [KramaReservasiController::class, 'update']);
             Route::get('show/{id_reservasi?}', [KramaReservasiController::class, 'show']);
+            Route::post('rating', [KramaReservasiController::class, 'setRating']);
         });
         // END
 

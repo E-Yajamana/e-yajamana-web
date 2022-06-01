@@ -369,4 +369,42 @@ class KramaReservasiController extends Controller
         ], 200);
         // END
     }
+
+    public function setRating(Request $request)
+    {
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'rating' => 'required|numeric',
+            'id' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation Error',
+                'data' => $validator->errors(),
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            Reservasi::findOrFail($request->id)->update(['rating' => $request->rating]);
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil memperbaharui rating',
+            'data' => (object)[],
+        ], 200);
+        // END
+    }
 }

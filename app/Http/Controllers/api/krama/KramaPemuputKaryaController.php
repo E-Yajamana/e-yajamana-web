@@ -27,14 +27,14 @@ class KramaPemuputKaryaController extends Controller
         $validator = Validator::make($request->all(), [
             'status' => 'nullable|in:sulinggih,pemangku,sanggar',
             'id_kecamatan' => 'nullable|numeric',
-            'isFavorit' => 'nullable|boolean'
+            'isFavorit' => 'nullable|in:true,false'
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
                 'message' => 'Validation error',
-                'data' => (object)[],
+                'data' => $validator->errors(),
             ], 400);
         }
         // END
