@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Mail\LupaPasswordMail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -13,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use PDOException;
 
@@ -308,7 +308,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
-                'data' => (object)[],
+                'data' => $err,
             ], 500);
         }
         // END

@@ -332,6 +332,7 @@ class KonfirmasiTangkilController extends Controller
                 }
                 // DETAIL RESERVASI
 
+
                 // UPDATE DATA RESERVASI PEMUPUT LAIN JIKA ADA
                 if($request->data_detail_reservasi != null){
                     $keteranganUbahPemuput = [];
@@ -372,8 +373,8 @@ class KonfirmasiTangkilController extends Controller
                             $relasi
                         );
                     }
+                    $reservasis->update(['status'=>'pending','tanggal_tangkil'=>null]);
 
-                    $reservasi->update(['status'=>'pending']);
                 }
                 // UPDATE DATA RESERVASI PEMUPUT LAIN JIKA ADA
 
@@ -386,7 +387,7 @@ class KonfirmasiTangkilController extends Controller
                 NotificationHelper::sendNotification(
                     [
                         'title' => "JADWAL MUPUT",
-                        'body' => "Halo Pemuput Karya ! Terdapat jadwal Muput Upacara Baru yang harus dilakukan. Untuk lebih lanjut dapat dilihat pada menu Konfirmasi Muput!",
+                        'body' => "Halo Pemuput Karya !! Terdapat jadwal Muput Upacara Baru yang harus dilakukan. Untuk lebih lanjut dapat dilihat pada menu Konfirmasi Muput!",
                         'status' => "new",
                         'image' => "normal",
                         'notifiable_id' => $sulinggih->id,
@@ -401,7 +402,7 @@ class KonfirmasiTangkilController extends Controller
                 NotificationHelper::sendNotification(
                     [
                         'title' => "TANGKIL BERHASIL DILAKUKAN",
-                        'body' => "Halo Krama Bali ! Reservasi dengan ID : ".$request->id_reservasi.", sudah berhasil melakukan Tangkil ke Griya, untuk proses selanjut hanya tinggal menunggu Pemuput Karya melakukan Muput Upacara pada masing-masing tahapan",
+                        'body' => "Halo Krama Bali !! Reservasi dengan ID : ".$request->id_reservasi.", sudah berhasil melakukan Tangkil ke Griya, untuk proses selanjutnya, menunggu Pemuput Karya melakukan Muput Upacara pada masing-masing tahapan",
                         'status' => "new",
                         'image' => "normal",
                         'notifiable_id' => $krama->id,
@@ -482,7 +483,7 @@ class KonfirmasiTangkilController extends Controller
                 NotificationHelper::sendNotification(
                     [
                         'title' => "RESERVASI BATAL",
-                        'body' => "Halo Pemuput Karya ! berhasil membatalkan Reservasi, semua data Reservasi dapat dilihat pada menu Riwayat Reservasi",
+                        'body' => "Halo Pemuput Karya !! berhasil membatalkan Reservasi, semua data Reservasi dapat dilihat pada menu Riwayat Reservasi",
                         'status' => "new",
                         'image' => "normal",
                         'notifiable_id' => $sulinggih->id,

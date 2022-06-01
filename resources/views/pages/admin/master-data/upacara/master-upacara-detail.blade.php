@@ -13,13 +13,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Detail Upacara</h1>
+                    <h1>Data Detail Upacara </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
-                    <li class="breadcrumb-item active">Data Detail Upacara</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="col-md-12">
                 <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
                     <div class="card-header my-auto">
-                        <h3 class="card-title my-auto">Deskripsi Upacara</h3>
+                        <h3 class="card-title my-auto"></h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                 <i class="fas fa-plus"></i>
@@ -46,7 +46,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-sm-6" style="width: ">
-                                <img src="{{asset('base-template/ngenteglinggih.jpg')}}" style="height: 400px; width:100%" class=" d-flex img-fluid pad img-thumbnail"  alt="Responsive image">
+                                <img src="{{route('image.upacara',$dataUpacara->id)}}" style="height: 400px; width:100%" class=" d-flex img-fluid pad img-thumbnail"  alt="Responsive image">
                             </div>
                             <div class="col-12 col-sm-6 justify-content-center align-items-center d-flex">
                                 <div class=" text-center ">
@@ -64,7 +64,7 @@
                     <div class="card-header my-auto">
                         <div class="row">
                             <div class="col-6">
-                                <h3 class="card-title my-auto">Rentetan Upacara</h3>
+                                <label class="card-title my-auto">Rentetan Upacara</label>
                             </div>
                             <div class="col-6">
                                 <a data-toggle="modal" data-target="#exampleModal" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Tambah</a>
@@ -109,8 +109,8 @@
                         <div class="row">
                             <div class="col-md-12 my-2">
                                 <a href="{{route('admin.master-data.upacara.index')}}" class="btn btn-secondary">Kembali</a>
-                                <a class="btn btn-danger float-right ml-2">Hapus DataUpacara</a>
-                                <a href="{{route('admin.master-data.upacara.edit',$dataUpacara->id)}}" class="btn btn-info float-right mr-2">Edit Data Upacara<a>
+                                <a class="btn btn-danger float-right ml-2">Hapus Data</a>
+                                <a href="{{route('admin.master-data.upacara.edit',$dataUpacara->id)}}" class="btn btn-info float-right mr-2">Ubah Data<a>
                             </div>
                         </div>
                     </div>

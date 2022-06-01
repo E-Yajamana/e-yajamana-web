@@ -228,6 +228,107 @@ class TbTahapanUpacaraTableSeeder extends Seeder
                 'created_at' => '2022-02-12 16:12:08',
                 'updated_at' => '2022-02-12 16:12:08',
             ),
+            19 => 
+            array (
+                'id' => 24,
+                'id_upacara' => 7,
+                'nama_tahapan' => 'Ngemargiang Pangresikan',
+                'deskripsi_tahapan' => 'Merupakan prosesi pembersihan areal yang akan dilaksanakan upacara mecaru tersebut.',
+                'status_tahapan' => 'awal',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            20 => 
+            array (
+                'id' => 25,
+                'id_upacara' => 7,
+                'nama_tahapan' => 'Puji Bhuta/Pejayan-jayan ring Bhuta',
+                'deskripsi_tahapan' => 'Memberikan puji kepada sang Bhuta untuk kelancaran upacara Mecaru tersebut.',
+                'status_tahapan' => 'puncak',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            21 => 
+            array (
+                'id' => 26,
+                'id_upacara' => 7,
+                'nama_tahapan' => 'Ngayab Caru',
+            'deskripsi_tahapan' => 'Merupakan prosesi ngayab (menghaturkan) banten Caru yang telah dipersiapkan sebelumnya. Tujuannya adalah mempersembahkan banten caru kepada sang Bhuta',
+                'status_tahapan' => 'akhir',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            22 => 
+            array (
+                'id' => 27,
+                'id_upacara' => 7,
+                'nama_tahapan' => 'Ngelukat Caru',
+            'deskripsi_tahapan' => 'Menyucikan Bhuta menjadi Dewa (dari kasar menjadi alus)
+
+',
+                'status_tahapan' => 'akhir',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            23 => 
+            array (
+                'id' => 28,
+                'id_upacara' => 8,
+                'nama_tahapan' => 'Melukat',
+                'deskripsi_tahapan' => 'Melukat adalah upacara pembersihan pikiran dan jiwa secara spiritual dalam diri manusia. Upacara ini dilakukan secara turun-temurun oleh umat Hindu hingga saat ini. Pensucian secara rohani artinya menghilangkan pengaruh kotor/klesa dalam diri.',
+                'status_tahapan' => 'awal',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            24 => 
+            array (
+                'id' => 29,
+                'id_upacara' => 8,
+                'nama_tahapan' => 'Maprayascita',
+                'deskripsi_tahapan' => 'Maprayascita merupakan prosesi yang dipergunakan sebagai penyucian. Kesucian yang diperoleh adalah dengan memohon kekuatan-kekuatan yang dimiliki oleh para Dewa, khususnya Dewa Nawa Sanga, yang mana hal tersebut dilukiskan dengan “lis sanjata”.',
+                'status_tahapan' => 'awal',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            25 => 
+            array (
+                'id' => 31,
+                'id_upacara' => 8,
+                'nama_tahapan' => 'Mepedamel',
+                'deskripsi_tahapan' => 'Mepedamel merupakan prosesi dengan tujuan untuk memohon sarana upacara berupa “Madu Parka”, untuk dimakan. Tujuan dari Mepedamel ini diharapkan dengan mepedamel seseorang yang akan menjalani pewintenan sebagai orang suci nantinya diharapkan menunjung sifat kebijaksanaan',
+                'status_tahapan' => 'puncak',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            26 => 
+            array (
+                'id' => 32,
+                'id_upacara' => 8,
+                'nama_tahapan' => 'Metataban',
+                'deskripsi_tahapan' => 'Metataban merupakan prosesi yang bertujuan untuk mengembalikan para bhuta yang ada menganggu ke tempat asalnya semula, agar yang diwinten itu tetap bersih dan suci.',
+                'status_tahapan' => 'puncak',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            27 => 
+            array (
+                'id' => 33,
+                'id_upacara' => 3,
+                'nama_tahapan' => 'Nama tahapan akhir',
+                'deskripsi_tahapan' => 'Akhir deskripsi',
+                'status_tahapan' => 'akhir',
+                'image' => 'app/admin/master-data/upacara/tahapan/1651198366-screen-0jpg.jpg',
+                'created_at' => '2022-04-29 10:12:46',
+                'updated_at' => '2022-04-29 10:12:46',
+            ),
         ));
         
         

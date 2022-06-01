@@ -9,9 +9,11 @@ use App\Models\Reservasi;
 use App\Models\TahapanUpacara;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Upacara;
+use App\Models\User;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use PDOException;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -84,17 +86,20 @@ class AjaxController extends Controller
     }
 
 
+    // NIK REGIS
     public function getDataPenduduk($nik)
     {
         // SECURITY
             $validator = Validator::make(['nik' => $nik],[
                 'nik' => 'required|exists:tb_penduduk,nik',
             ]);
-
             if($validator->fails()){
                 return response()->json([
                     'status' => 400,
-                    'message' => 'Validation Error',
+                    'icon' => 'warning',
+                    'title' => 'Gagal Menemukan Data Penduduk...',
+                    'message' => 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKERAMAT terlebih dahulu.. !!',
+                    'footer' =>'<a href="'.route('auth.login').'">Lakukan Pendataan telebih dahulu..!!</a>',
                     'data' => (Object)[],
                 ],400);
             }
@@ -102,28 +107,63 @@ class AjaxController extends Controller
 
         // MAIN LOGIC
             try{
-                // $penduduk = Penduduk::where('nik','like','%'.$nik.'%')->get();
-                $penduduk = Penduduk::whereNik($nik)->firstOrFail();
+                // GET DATA PENDUDUK BY NIK
+                $penduduk = Penduduk::with(['User.Role'])->whereNik($nik)->firstOrFail();
+
+                // LOGIC HAS CEK USER
+                if($penduduk->User()->exists()){
+                    // CEK HAS ROLE
+                    $hasRole =$penduduk->User->Role()->pluck('id_role')->toArray();
+                    $existsRoleSulinggih = in_array(3, $hasRole);
+                    $existsRoleSerati = in_array(5, $hasRole);
+                    if($existsRoleSulinggih && $existsRoleSerati){
+                        $statusCode = 409;
+                        $result = [
+                            'status' => 409,
+                            'icon' => 'warning',
+                            'title' => 'Pemberitahuan',
+                            'message' => 'Anda tidak dapat mendaftar kembali, sistem mendeteksi anda sudah mempunyai akun dengan email : '.$penduduk->User->email,
+                            'footer' =>'<a href="'.route('auth.login').'">Halaman Login Sistem...!!</a>',
+                        ];
+                    }else{
+                        $statusCode = 200;
+                        $result = [
+                            'status' => 200,
+                            'icon' => 'info',
+                            'title' => 'Pemberitahuan',
+                            'message' => 'Anda sudah mempunyai akun E-Yajamana, Anda dapat mengabaikan form input data user pada step 2',
+                            'role' => $hasRole,
+                            'data' =>$penduduk
+                        ];
+                    }
+                }else{
+                    $statusCode = 200;
+                    $result = [
+                        'status' => 200,
+                        'icon' => 'success',
+                        'title' => 'NIK terdaftar',
+                        'message' => 'Berhasil menemukan data NIK, Anda dapat langsung membuat akun E-Yajamana',
+                        'data' =>$penduduk,
+                        'role' =>''
+                    ];
+                }
+                // LOGIC HAS CEK USER
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
-                return redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'fail',
-                    'tittle' => 'Hapus Data Gagal!',
-                    'message' => 'Hapus data gagal, mohon hubungi developer untuk lebih lanjut!!'
-                ]);
+                return response()->json([
+                    'status' => 400,
+                    'icon' => 'warning',
+                    'title' => 'Gagal menemukan data penduduk...',
+                    'message' => 'Untuk membuat data akun E-Yajamana, lakukan pendataan penduduk pada sistem SIKERAMAT terlebih dahulu.. !!',
+                    'data' => $err,
+                ],400);
             }
         // END LOGIC
 
         // RETURN
-            return response()->json([
-                'status' => 200,
-                'icon' => 'success',
-                'tittle' => 'NIK Terdaftar',
-                'message' => 'Berhasil mengambil data nik,anda dapat membuat akun E-Yajamana',
-                'data' => $penduduk
-            ],200);
+            return response()->json($result,$statusCode);
         // END
     }
+    // NIK REGIS
 
 
 

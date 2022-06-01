@@ -32,8 +32,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Home</a></li>
-                        <li class="breadcrumb-item active">Data Reservasi</li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Data Reservasi Masuk</li>
                     </ol>
                 </div>
             </div>
@@ -56,9 +56,9 @@
                                     <th>No</th>
                                     <th>Penyelenggara </th>
                                     {{-- <th>Jenis Upacara</th> --}}
-                                    <th>Lokasi Upacara</th>
-                                    <th>Tanggal Upacara</th>
+                                    <th>Alamat Upacara</th>
                                     <th>Tahapan Reservasi</th>
+                                    <th class="text-center">Konfirmasi Sebelum</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
@@ -69,13 +69,16 @@
                                         <td style="width: 15%">{{$data->Upacaraku->User->Penduduk->nama}}</td>
                                         {{-- <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td> --}}
                                         <td style="width: 20%">{{$data->Upacaraku->alamat_upacaraku}}</td>
-                                        <td>{{date('d F Y',strtotime($data->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($data->Upacaraku->tanggal_selesai))}}</td>
                                         <td>
+                                            <label>{{$data->Upacaraku->Upacara->nama_upacara}}</label>
                                             @foreach ($data->DetailReservasi as $dataDetail)
                                                 <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
                                             @endforeach
                                         </td>
-                                        <td>
+                                        <td style="width: 12%" class="text-center">
+                                            <small class="mt-2 badge badge-danger" id="date{{$data->id}}"><i class="fas fa-clock"></i> {{date('d F Y, H:m',strtotime($data->Upacaraku->tanggal_mulai))}}</small>
+                                        </td>
+                                        <td style="width: 15%">
                                             <a href="{{route('pemuput-karya.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                             <a onclick="konfirmasiReservasi({{$data->id}},'{{$data->Upacaraku->tanggal_mulai}}')" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                             <a onclick="tolakReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
@@ -88,9 +91,9 @@
                                     <th>No</th>
                                     <th>Penyelenggara </th>
                                     {{-- <th>Jenis Upacara</th> --}}
-                                    <th>Lokasi Upacara</th>
-                                    <th>Tanggal Upacara</th>
                                     <th>Tahapan Reservasi</th>
+                                    <th>Tanggal Upacara</th>
+                                    <th class="text-center">Konfirmasi Sebelum</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </tfoot>
@@ -171,7 +174,6 @@
         })
 
         $('#reservationdatetime').datetimepicker({
-
             format: 'DD MMMM YYYY h:mm A',
             date: new Date(),
             icons: {
@@ -181,11 +183,3 @@
 
     </script>
 @endpush
-
-
-
-
-
-
-
-

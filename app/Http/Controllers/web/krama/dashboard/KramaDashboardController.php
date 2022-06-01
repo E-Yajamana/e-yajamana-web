@@ -17,10 +17,12 @@ class KramaDashboardController extends Controller
     // VIEW DASHBOARD
     public function index(Request $request)
     {
+        $request->session()->forget('id_sanggar');
 
         $user = Auth::user();
         $upacara = Upacara::all();
-        $upacaraKrama = Upacaraku::with('Upacara')->whereIdKrama($user->id);
+        $upacaraKrama = Upacaraku::with(['Upacara','Reservasi'])->withCount('Reservasi')->whereIdKrama($user->id);
+        // dd($upacaraKrama->get());
 
         $queryPemuputStatus = function($queryPemuputStatus){
             $queryPemuputStatus->where('status_konfirmasi_akun','disetujui');

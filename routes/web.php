@@ -44,14 +44,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('pages.auth.login');
-    // return view('welcome');
-});
+})->middleware(['guest']);
 
 //AUTH SISTEM
 Route::prefix('auth')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('auth.login');
     Route::post('login', [AuthController::class, 'loginPost'])->name('auth.login.post');
     Route::get('login/select-account', [AuthController::class, 'selectAccount'])->name('select-account')->middleware('permission:login');
+    Route::get('switch/account/{tipe}', [AuthController::class, 'switchAccount'])->name('switch-account')->middleware('permission:login');
 
     Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 
@@ -59,11 +59,11 @@ Route::prefix('auth')->group(function () {
         Route::get('index', [RegisterController::class, 'regisIndex'])->name('auth.register.index');
         Route::get('{akun}', [RegisterController::class, 'regisFormAkun'])->name('auth.register.form.akun');
 
-        Route::post('sulinggih', [RegisterController::class, 'storeNewRegisSulinggih'])->name('auth.register.akun.sulinggih.new.store');
-        Route::post('sanggar', [RegisterController::class, 'storeNewRegisSanggar'])->name('auth.register.akun.sanggar.store');
-        Route::post('pemangku', [RegisterController::class, 'storeNewRegisPemangku'])->name('auth.register.akun.pemangku.store');
-        Route::post('krama', [RegisterController::class, 'storeNewRegisKrama'])->name('auth.register.akun.krama.store');
-        Route::post('serati', [RegisterController::class, 'storeNewRegisSerati'])->name(' ');
+        Route::post('sulinggih', [RegisterController::class, 'storeRegisSulinggih'])->name('auth.register.akun.sulinggih.store');
+        Route::post('sanggar', [RegisterController::class, 'storeRegisSanggar'])->name('auth.register.akun.sanggar.store');
+        Route::post('pemangku', [RegisterController::class, 'storeRegisPemangku'])->name('auth.register.akun.pemangku.store');
+        Route::post('krama', [RegisterController::class, 'storeRegisKrama'])->name('auth.register.akun.krama.store');
+        Route::post('serati', [RegisterController::class, 'storeRegisSerati'])->name('auth.register.akun.serati.store');
 
     });
 
@@ -125,7 +125,7 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
         // MASTER DATA WILAYAH SISTEM
         Route::prefix('wilayah')->group(function () {
             Route::get('desa', [MasterDataWilayahController::class, 'indexDesaDinas'])->name('admin.master-data.desa.index');
-            Route::get('desa-adat', [MasterDataWilayahController::class, 'indexDesaAdat'])->name('admin.master-data.desa-adat.index');
+            Route::get('banjar', [MasterDataWilayahController::class, 'indexBanjar'])->name('admin.master-data.banjar.index');
             Route::get('kecamatan', [MasterDataWilayahController::class, 'indexKecamatan'])->name('admin.master-data.kecamatan.index');
             Route::get('kabupaten', [MasterDataWilayahController::class, 'indexKabupaten'])->name('admin.master-data.kabupaten.index');
         });
@@ -139,12 +139,14 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
         // VERIFIKASI DATA AKUN
         Route::prefix('verifikasi')->group(function () {
             Route::get('index', [ManajemenAkunController::class, 'indexVerifikasi'])->name('admin.manajemen-akun.verifikasi.index');
-            Route::put('sanggar/terima', [ManajemenAkunController::class, 'updateStatusAkunSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar');
-            Route::put('sanggar/tolak', [ManajemenAkunController::class, 'updateStatusTolakAkunSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar.tolak');
-            Route::put('pemuput-karya/tolak', [ManajemenAkunController::class, 'updateStatusTolakAkunPemuputKarya'])->name('admin.manajemen-akun.verifikasi.pemuput-karya.tolak');
-            Route::put('pemuput-karya/terima', [ManajemenAkunController::class, 'updateStatusAkunPemuputKarya'])->name('admin.manajemen-akun.verifikasi.pemuput-karya');
-            Route::get('sanggar/detail/{id?}', [ManajemenAkunController::class, 'detailDataVerifikasiSanggar'])->name('admin.manajemen-akun.verifikasi.detail.sanggar');
-            Route::get('pemuput-karya/detail/{id?}', [ManajemenAkunController::class, 'detailDataVerifikasiPemuputKarya'])->name('admin.manajemen-akun.verifikasi.detail.pemuput-karya');
+
+            Route::put('serati/konfiramsi', [ManajemenAkunController::class, 'konfirmasiSerati'])->name('admin.manajemen-akun.verifikasi.serati');
+            Route::put('sanggar/konfiramsi', [ManajemenAkunController::class, 'konfirmasiSanggar'])->name('admin.manajemen-akun.verifikasi.sanggar');
+            Route::put('pemuput-karya/konfiramsi', [ManajemenAkunController::class, 'konfirmasiPemuput'])->name('admin.manajemen-akun.verifikasi.pemuput-karya');
+
+            Route::get('serati/detail/{id?}', [ManajemenAkunController::class, 'detailSerati'])->name('admin.manajemen-akun.verifikasi.detail.serati');
+            Route::get('sanggar/detail/{id?}', [ManajemenAkunController::class, 'detailSangar'])->name('admin.manajemen-akun.verifikasi.detail.sanggar');
+            Route::get('pemuput-karya/detail/{id?}', [ManajemenAkunController::class, 'detailPemuput'])->name('admin.manajemen-akun.verifikasi.detail.pemuput-karya');
 
         });
         // VERIFIKASI DATA AKUN
@@ -155,7 +157,7 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
             Route::get('detail/krama/{id?}', [DataAkunController::class, 'detailKrama'])->name('admin.manajemen-akun.data-akun.krama.detail');
             Route::get('detail/serati/{id?}', [DataAkunController::class, 'detailSerati'])->name('admin.manajemen-akun.data-akun.serati.detail');
             Route::get('detail/sanggar/{id?}', [DataAkunController::class, 'detailSanggar'])->name('admin.manajemen-akun.data-akun.sanggar.detail');
-            Route::get('detail/pemuput-karya/{id?}', [DataAkunController::class, 'detailPemuputKarya'])->name('admin.manajemen-akun.data-akun.pemuput-karya.detail');
+            Route::get('detail/pemuput-karya/{id?}', [DataAkunController::class, 'detailPemuput'])->name('admin.manajemen-akun.data-akun.pemuput-karya.detail');
 
         });
         // DATA AKUN USER
@@ -164,8 +166,10 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
 });
 // ROUTE ADMIN
 
+// ROUTE KRAMA
 Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
+    Route::get('send/notif', [KramaController::class, 'sendNotif']);
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
 
     Route::prefix('manajemen-upacara')->group(function () {
@@ -176,7 +180,6 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
         Route::get('edit/{id}', [KramaUpacarakuController::class, 'editUpacaraku'])->name('krama.manajemen-upacara.upacaraku.edit');
         Route::put('update', [KramaUpacarakuController::class, 'updateUpacaraku'])->name('krama.manajemen-upacara.upacaraku.update');
         Route::put('delete', [KramaUpacarakuController::class, 'deleteUpacaraku'])->name('krama.manajemen-upacara.upacaraku.delete');
-
     });
 
     Route::prefix('manajemen-reservasi')->group(function () {
@@ -192,6 +195,7 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     });
 
 });
+// ROUTE KRAMA
 
 // PEMUPUT KARYA (SULINGGIH & PEMANGKU)
 Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], function ()  {
@@ -205,7 +209,8 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], fun
         Route::get('reservasi-masuk/detail/{id}', [ReservasiMasukController::class, 'detailReservasi'])->name('pemuput-karya.manajemen-reservasi.detail');
         Route::put('reservasi-masuk/update', [ReservasiMasukController::class, 'update'])->name('pemuput-karya.manajemen-reservasi.verifikasi.update');
 
-        Route::get('riwayat-reservasi/index', [RiwayatReservasiController::class, 'index'])->name('pemuput-karya.manajemen-reservasi.riwayat.index');
+        Route::get('riwayat/index', [RiwayatReservasiController::class, 'index'])->name('pemuput-karya.manajemen-reservasi.riwayat.index');
+        Route::get('riwayat/detail/{id}', [RiwayatReservasiController::class, 'detail'])->name('pemuput-karya.manajemen-reservasi.riwayat.detail');
     });
 
 
@@ -229,16 +234,27 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], fun
 // SANGGAR
 Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function ()  {
     Route::get('dashboard', [SanggarDashboardController::class, 'index'])->name('sanggar.dashboard');
-    Route::post('set-session', [SanggarController::class, 'setSession'])->name('sanggar.session');
+    Route::post('set-session', [SanggarController::class, 'setSession'])->name('sanggar.session')->withoutMiddleware('permission:sanggar');
 
 });
 // SANGGAR
 
 
 Route::prefix('get-image')->group(function () {
-    Route::get('upacara/{id}', [GetImageController::class, 'getImageUpacara'])->name('get-image.upacara');
-    Route::get('tahapan-upacara/{id?}', [GetImageController::class, 'getImageTahapanUpacara'])->name('get-image.tahapan-upacara');
-    Route::get('profile/pemuput-karya/{id?}', [PemuputDashboardController::class, 'getProfilePemuput'])->name('get-image.profile.pemuput-karya');
+    Route::prefix('upacara')->group(function () {
+        Route::get('{id?}', [GetImageController::class, 'upacara'])->name('image.upacara');
+        Route::get('tahapan-upacara/{id?}', [GetImageController::class, 'tahapanUpacara'])->name('image.tahapan-upacara');
+    });
+
+    Route::prefix('reservasi')->group(function () {
+        Route::get('bukti-muput/{id?}', [GetImageController::class, 'buktiMuput'])->name('image.bukti-upacara');
+    });
+
+    Route::prefix('user')->group(function () {
+        Route::get('profile/{id?}', [GetImageController::class, 'profile'])->name('image.profile.user');
+        Route::get('profile/sanggar/{id?}', [GetImageController::class, 'profileSanggar'])->name('image.profile.sanggar');
+        Route::get('sk-pemuput/{id?}', [GetImageController::class, 'skPemuput'])->name('image.sk-pemuput');
+    });
 });
 
 // SERVICE AJAX SISTEM
@@ -260,10 +276,13 @@ Route::prefix('ajax')->group(function () {
         Route::get('tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
     });
 
-
     Route::get('data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
 
-    Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
+
+    Route::prefix('user')->group(function () {
+        Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
+
+    });
 
 });
 // END SERVICE AJAX SISTEM

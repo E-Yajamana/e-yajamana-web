@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}">Data Tangkil Krama</a></li>
                         <li class="breadcrumb-item active">Detail</li>
                     </ol>
@@ -276,7 +276,7 @@
                                             <div class="card shadow mb-4 card-info card-outline ">
                                                 <div class="card-header" aria-expanded="false">
                                                     <div class="user-block">
-                                                        <img class="img-circle" src="{{route('get-image.profile.pemuput-karya',2)}}" alt="User Image">
+                                                        <img class="img-circle" src="{{route('image.profile.user',$data->Relasi->id)}}" alt="User Image">
                                                         <span class="username">
                                                             <a class="ml-2" href="#">{{$data->Relasi->PemuputKarya->nama_pemuput}}</a> | {{strtoupper($data->status)}}
                                                         </span>
@@ -461,12 +461,6 @@
         let tanggal_selesai = dataReservasi.upacaraku.tanggal_selesai;
 
 
-
-        // function setUpDateRange (){
-
-        // }
-
-
          // SET UP DATE UPACARA
          $('#dateUpacara').daterangepicker({
             timePicker: true,
@@ -484,12 +478,13 @@
         dataReservasi.detail_reservasi.forEach(data => {
             $('#dateUser-'+data.id).daterangepicker({
                 timePicker: true,
+                timePicker24Hour: true,
                 startDate: moment(data.tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
                 endDate:moment(data.tanggal_selesai).format('DD MMMM YYYY hh:mm A'),
                 minDate: moment(tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
-                maxDate: moment(tanggal_selesai).format('DD MMMM YYYY hh:mm A'),
+                maxDate: moment(tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMMM YYYY hh:mm A'),
                 locale: {
-                    format: 'DD MMMM YYYY hh:mm A',
+                    format: 'DD MMMM YYYY H:mm',
                 },
                 drops: "up",
             },function(start, end) {
@@ -504,12 +499,13 @@
             data_reservasi.detail_reservasi.forEach(data_detail_reservasi => {
                 $('#datePemuput-'+data_detail_reservasi.id).daterangepicker({
                     timePicker: true,
+                    timePicker24Hour: true,
                     startDate: moment(data_detail_reservasi.tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
                     endDate:moment(data_detail_reservasi.tanggal_selesai).format('DD MMMM YYYY hh:mm A'),
                     minDate: moment(tanggal_mulai).format('DD MMMM YYYY hh:mm A'),
-                    maxDate: moment(tanggal_selesai).format('DD MMMM YYYY hh:mm A'),
+                    maxDate: moment(tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMMM YYYY H:mm'),
                     locale: {
-                        format: 'DD MMMM YYYY hh:mm A',
+                        format: 'DD MMMM YYYY H:mm',
                     },
                     drops: "up",
                 },function(start, end) {
@@ -519,7 +515,7 @@
 
                 $("#datePemuput-"+data_detail_reservasi.id).change(function () {
                     console.log(endDate)
-                    if(startDate.format('DD MMMM YYYY hh:mm A') != moment(data_detail_reservasi.tanggal_mulai).format('DD MMMM YYYY hh:mm A') || moment(data_detail_reservasi.tanggal_selesai).format('DD MMMM YYYY hh:mm A') != endDate.format('DD MMMM YYYY hh:mm A')){
+                    if(startDate.format('DD MMMM YYYY H:mm') != moment(data_detail_reservasi.tanggal_mulai).format('DD MMMM YYYY H:mm') || moment(data_detail_reservasi.tanggal_selesai).format('DD MMMM YYYY H:mm') != endDate.format('DD MMMM YYYY H:mm')){
                         $('#keterangan_penolakan-'+data_detail_reservasi.id).empty();
                         $("#id_detail-" + data_detail_reservasi.id).attr('name','data_detail_reservasi['+data_detail_reservasi.id+'][id]');
                         $("#id_reservasi-" + data_detail_reservasi.id).attr('name','data_detail_reservasi['+data_detail_reservasi.id+'][id_reservasi]');
@@ -535,16 +531,6 @@
 
             })
         })
-        // SET UP DATE RANGE RESERVASI SULINGGIH LAINNYA
-
-        // setUpDateRange()
-
-        // $('#dateUpacara').change(function () {
-        //     tanggal_mulai = $('#dateUpacara').data('daterangepicker').startDate ;
-        //     tanggal_selesai = $('#dateUpacara').data('daterangepicker').endDate;
-        //     setUpDateRange()
-        // })
-
 
     </script>
 @endpush

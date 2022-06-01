@@ -35,9 +35,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">List Upacara Krama</a></li>
-                    <li class="breadcrumb-item active">Tambah Upacara Krama</li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item active">Tambah Upacara</li>
                     </ol>
                 </div>
             </div>
@@ -50,7 +50,7 @@
             <div class="col-md-12">
                 <div class="callout callout-info container-fluid">
                     <h5><i class="fas fa-info"></i> Catatan:</h5>
-                    <strong> Tanggal Mulai - Tanggal Selesai Upacara </strong>hanya dapat dibuat 1 Bulan dari hari ini, upaya mencegah terjadinya batalnya sebuah Upacara Krama !
+                     Pembuatan Upacara yang dilakukan dari jauh hari, akan semakin baik untuk proses Reservasi kedepannya..!!!
                 </div>
                 <div class="card card-default">
                     <div class="card-header">
@@ -71,7 +71,7 @@
                                 <div class="step" data-target="#information-part">
                                     <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
                                         <span class="bs-stepper-circle">2</span>
-                                        <span class="bs-stepper-label">Data Detail</span>
+                                        <span class="bs-stepper-label">Detail Data Upacara</span>
                                     </button>
                                 </div>
                                 <div class="line"></div>
@@ -292,7 +292,7 @@
 
                                         <div class="form-group">
                                             <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
-                                            <button id="submitToRangkuman" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>
+                                            <a href="#logins-part" id="submitToRangkuman" type="button" class="btn btn-primary float-sm-right">Selanjutnya</a>
                                         </div>
                                     </form>
                                 </div>
@@ -353,8 +353,8 @@
                                                 <input disabled type="text" id="view_desa" name="nama_upacara" autocomplete="off" class="form-control" placeholder="Masukan Nama Upacara">
                                             </div>
                                             <div class="form-group">
-                                                <label>Desa Adat </label>
-                                                <input disabled type="text" id="view_desa_adat" name="nama_upacara" autocomplete="off" class="form-control" placeholder="Masukan Nama Upacara">
+                                                <label>Banjar Dinas </label>
+                                                <input disabled type="text" id="view_banjar_dinas" name="nama_upacara" autocomplete="off" class="form-control" placeholder="Masukan Nama Upacara">
                                             </div>
                                         </div>
                                     </div>
@@ -474,10 +474,6 @@
     <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
 
-    <!-- dropzonejs -->
-    <script src="{{asset('base-template/plugins/dropzone/min/dropzone.min.js')}}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{asset('base-template/dist/js/demo.js')}}"></script>
     <!-- ajax-get-wilayah -->
     <script src="{{asset('base-template/dist/js/pages/ajax-get-wilayah.js')}}"></script>
 
@@ -549,9 +545,9 @@
                     required: true,
                     number: true
                 },
-                deskripsi_upacara: {
-                    required: true,
-                },
+                // deskripsi_upacara: {
+                //     required: true,
+                // },
             },
             messages: {
                 nama_upacara: {
@@ -588,10 +584,10 @@
                 lng: {
                     required: "Pemetaan Lokasi Upakara Wajib diisi!",
                 },
-                deskripsi_upacara: {
-                    required: "Deskripsi Upacara Wajib diisi",
-                    minlength: "Deskripsi Upacara minimal berjumlah 3 karakter"
-                },
+                // deskripsi_upacara: {
+                //     required: "Deskripsi Upacara Wajib diisi",
+                //     minlength: "Deskripsi Upacara minimal berjumlah 3 karakter"
+                // },
 
             },
             errorElement: 'div',
@@ -650,12 +646,12 @@
             }
 
             // GET DATA IN FORM
-            jenis_upacara = $("#jenis_upacara option:selected").text()
+            jenis_upacara = $("#jenisupacara option:selected").text()
             nama_upacara = $("#nama_upacara").val()
             kabupaten = $("#kabupaten option:selected").text()
             kecamatan = $("#kecamatan option:selected").text()
             desa_dinas = $("#desa_dinas option:selected").text()
-            desa_adat = $("#desa_adat option:selected").text()
+            desa_adat = $("#id_banjar_dinas option:selected").text()
             alamat = $("#alamat").val()
             deskripsi = $("#deskripsi").val()
             daterange = $("#daterange").val()
@@ -667,7 +663,7 @@
             $("#view_kabupaten").val(kabupaten)
             $("#view_kecamatan").val(kecamatan)
             $("#view_desa").val(desa_dinas)
-            $("#view_desa_adat").val(desa_adat)
+            $("#view_banjar_dinas").val(desa_adat)
             $("#view_alamat").val(alamat)
             $("#view_desc").val(deskripsi)
         }

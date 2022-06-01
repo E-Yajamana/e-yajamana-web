@@ -1,5 +1,5 @@
 @extends('layouts.krama.krama-layout')
-@section('tittle','Edit Upacaraku')
+@section('tittle','Ubah Upacara')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -28,13 +28,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Upacaraku</h1>
+                    <h1>Ubah Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Data Upacaraku</a></li>
-                        <li class="breadcrumb-item active">Edit Upacaraku</li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item active">Ubah Upacara</li>
                     </ol>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                     @if ($dataUpacaraku->reservasi_count != 0)
                         <div class="callout callout-danger container-fluid">
                             <h5><i class="fas fa-info"></i> Catatan:</h5>
-                            Anda tidak dapat kembali merubah Jenis Yadnya, Jenis Upacara, dan Tanggal Mulai - Selesai Upacara, karenakan sudah terdapat reservasi yang sedang berlangsung / Selesai.
+                            Anda tidak dapat kembali merubah data <strong>Jenis Yadnya, Jenis Upacara, dan Tanggal Mulai - Selesai Upacara</strong> , dikarenakan sudah terdapat reservasi yang Sedang Berlangsung / Selesai.
                         </div>
                     @endif
                     <form action="{{route('krama.manajemen-upacara.upacaraku.update')}}" method="POST">
@@ -58,12 +58,12 @@
                         <input name="id_upacaraku" value="{{$dataUpacaraku->id}}" type="hidden" class="d-none">
                         <div class="card">
                             <div class="card-header my-auto">
-                                <label class="card-title my-auto">Form Edit Data Upacara</label>
+                                <label class="card-title my-auto">Form Ubah Upacara Krama</label>
                             </div>
                             <div class="card-body p-4">
                                 <div class="form-group">
                                     <label>Jenis Yadnya <span class="text-danger">*</span></label>
-                                    <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif  id="jenis_yadnya" class="form-control select2bs4 @error('jenis_yadnya') is-invalid @enderror" style="width: 100%;">
+                                    <select  @if ($dataUpacaraku->status == 'berlangsung') disabled @endif id="jenis_yadnya" class="form-control select2bs4 @error('jenis_yadnya') is-invalid @enderror" style="width: 100%;">
                                         <option value="0" >Pilih Jenis Yadnya</option>
                                         <option @if ($dataUpacaraku->Upacara->kategori_upacara == 'Manusa Yadnya') selected @endif value="Manusa Yadnya" >Manusa Yadnya</option>
                                         <option @if ($dataUpacaraku->Upacara->kategori_upacara == 'Dewa Yadnya') selected @endif value="Dewa Yadnya" >Dewa Yadnya</option>
@@ -80,7 +80,7 @@
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label>Jenis Upacara <span class="text-danger">*</span></label>
-                                        <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif id="jenisupacara" name="id_upacara" class="form-control select2bs4 @error('id_upacara') is-invalid @enderror" style="width: 100%;">
+                                        <select @if ($dataUpacaraku->status == 'berlangsung') disabled @endif  id="jenisupacara" name="id_upacara" class="form-control select2bs4 @error('id_upacara') is-invalid @enderror" style="width: 100%;">
                                             <option value="0" disabled selected>Pilih Jenis Upacara</option>
                                         </select>
                                         @error('id_upacara')
@@ -90,16 +90,16 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <input name="status" value="{{$dataUpacaraku->status}}" type="hidden" class="d-none">
+                                <input @if ($dataUpacaraku->status == 'berlangsung') disabled @endif name="status" value="{{$dataUpacaraku->status}}" type="hidden" class="d-none">
                                 <div class="form-group">
-                                    <label>Tanggal Mulai - Tanggal Selesai Upacara</label>
+                                    <label>Tanggal Mulai - Tanggal Selesai Upacara <span class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
                                                 <i class="far fa-calendar-alt"></i>
                                             </span>
                                         </div>
-                                        <input @if ($dataUpacaraku->reservasi_count != 0) disabled @endif name="daterange" id="reservationtime" type='text' class='form-control float-right'>
+                                        <input  name="daterange" id="reservationtime" type='text' class='form-control float-right'>
                                         @error('daterange')
                                             <div class="invalid-feedback text-start">
                                                 {{ $errors->first('daterange') }}
@@ -109,7 +109,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Nama Upacaraku <span class="text-danger">*</span></label>
-                                    <input  @if ($dataUpacaraku->reservasi_count != 0) disabled @endif type="text" name="nama_upacara" class="form-control @error('nama_upacara') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Upacaraku" value="{{$dataUpacaraku->nama_upacara}}">
+                                    <input @if ($dataUpacaraku->status == 'berlangsung') disabled @endif   type="text" name="nama_upacara" class="form-control @error('nama_upacara') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Upacaraku" value="{{$dataUpacaraku->nama_upacara}}">
                                     @error('nama_upacara')
                                         <div class="invalid-feedback text-start">
                                             {{ $errors->first('nama_upacara') }}
@@ -117,8 +117,8 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>Deskripsi Upacara <span class="text-danger">*</span></label>
-                                    <textarea  @if ($dataUpacaraku->reservasi_count != 0) disabled @endif name="deskripsi_upacaraku" class="form-control  @error('deskripsi_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->deskripsi_upacaraku}}</textarea>
+                                    <label>Deskripsi Upacara</label>
+                                    <textarea @if ($dataUpacaraku->status == 'berlangsung') disabled @endif   name="deskripsi_upacaraku" class="form-control  @error('deskripsi_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Deskripsi Upacara Krama">{{$dataUpacaraku->deskripsi_upacaraku}}</textarea>
                                     @error('deskripsi_upacaraku')
                                         <div class="invalid-feedback text-start">
                                             {{$errors->first('deskripsi_upacaraku') }}
@@ -149,7 +149,7 @@
                                     <div class="col-12 col-sm-6 p-3">
                                         <div class="form-group">
                                             <label>Kabupaten/Kota <span class="text-danger">*</span></label>
-                                            <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif @if ($dataUpacaraku->reservasi_count != 0) disabled @endif name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
+                                            <select @if ($dataUpacaraku->status == 'berlangsung') disabled @endif   name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
                                                 <option value="0" disabled selected>Pilih Kabupaten</option>
                                                 @foreach ($dataKabupaten as $data)
                                                     @if ($dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->id == $data->id)
@@ -168,7 +168,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Kecamatan <span class="text-danger">*</span></label>
-                                            <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                            <select @if ($dataUpacaraku->status == 'berlangsung') disabled @endif  id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
                                                 @foreach ($dataKecamatan->where('kabupaten_id',$dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->id) as $data)
                                                     @if ($data->id == $dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->id)
                                                         <option selected value="{{$data->id}}">{{$data->name}}</option>
@@ -186,7 +186,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Desa Dinas<span class="text-danger">*</span></label>
-                                            <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
+                                            <select @if ($dataUpacaraku->status == 'berlangsung') disabled @endif  id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
                                                 <option value="0" disabled selected>Pilih Desa Dinas</option>
                                                 @foreach ($dataDesa->where('kecamatan_id',$dataUpacaraku->BanjarDinas->DesaDinas->Kecamatan->id) as $data)
                                                     @if ($data->id == $dataUpacaraku->BanjarDinas->DesaDinas->id)
@@ -205,7 +205,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Banjar Dinas <span class="text-danger">*</span></label>
-                                            <select @if ($dataUpacaraku->reservasi_count != 0) disabled @endif id="id_banjar_dinas" name="id_banjar_dinas" class="form-control select2bs4 @error('id_banjar_dinas') is-invalid @enderror" style="width: 100%;">
+                                            <select @if ($dataUpacaraku->status == 'berlangsung') disabled @endif  id="id_banjar_dinas" name="id_banjar_dinas" class="form-control select2bs4 @error('id_banjar_dinas') is-invalid @enderror" style="width: 100%;">
                                                 <option value="0" disabled selected>Pilih Banjar Dinas</option>
                                                 @foreach ($dataBanjarDinas->where('id',$dataUpacaraku->BanjarDinas->id) as $data)
                                                     @if ($data->id == $dataUpacaraku->BanjarDinas->id)
@@ -223,8 +223,8 @@
                                             @enderror
                                         </div>
                                         <div class="form-group mb-0">
-                                            <label>Alamat Upacara</label>
-                                            <textarea @if ($dataUpacaraku->reservasi_count != 0) disabled @endif name="alamat_upacaraku" class="form-control  @error('alamat_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->alamat_upacaraku}}</textarea>
+                                            <label>Alamat Upacara <span class="text-danger">*</span></label>
+                                            <textarea @if ($dataUpacaraku->status == 'berlangsung') disabled @endif  name="alamat_upacaraku" class="form-control  @error('alamat_upacaraku') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya">{{$dataUpacaraku->alamat_upacaraku}}</textarea>
                                             @error('alamat_upacaraku')
                                                 <div class="invalid-feedback text-start">
                                                     {{$errors->first('alamat_upacaraku') }}
@@ -239,8 +239,10 @@
                                 <div class="row">
                                     <div class="col-md-12 my-1">
                                         <a href="{{route('krama.manajemen-upacara.upacaraku.index')}}" class="btn btn-secondary">Kembali</a>
-                                        <button type="submit" class="btn m-1 btn-primary float-right ml-2">Simpan Perubahan</button>
-                                        <button type="button" class="btn m-1 btn-danger float-right ml-2">Hapus Upacara</button>
+                                        @if ($dataUpacaraku->status == 'pending')
+                                            <button type="submit" class="btn m-1 btn-primary float-right ml-2">Simpan Perubahan</button>
+                                            <button onclick="deleteUpacara({{$dataUpacaraku->id}},{{{$dataUpacaraku->reservasi_count}}})" class="btn m-1 btn-danger float-right ml-2">Batalkan Upacara</button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -251,6 +253,8 @@
             </div>
         </div>
     </section>
+
+    @include('pages.krama.manajemen-upacara.modal-pembatalan-upacara')
 
 @endsection
 
@@ -285,16 +289,6 @@
         let article = $('#article').val();
         let parseData = (JSON.parse(article));
         console.log(parseData);
-
-
-        $('#daterange').daterangepicker({
-            "minDate": moment(Date ()).add(1, 'D').format('DD MMMM YYYY'),
-            "maxDate": moment(Date ()).add(2, 'Y').format('DD MMMM YYYY'),
-            locale: {
-                format: 'DD MMMM YYYY',
-            },
-            drops: "up",
-        });
 
         $('#reservationtime').daterangepicker({
             "autoApply": true,

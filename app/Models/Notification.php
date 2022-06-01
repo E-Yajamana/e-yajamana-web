@@ -69,11 +69,6 @@ class Notification extends Model
 		return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
 	}
 
-    public function parseDataToArray()
-    {
-        $array = json_decode($this->data);
-        return $array;
-    }
 
 
 

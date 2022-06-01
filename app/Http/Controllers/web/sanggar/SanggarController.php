@@ -10,7 +10,12 @@ class SanggarController extends Controller
     public function setSession (Request $request)
     {
         session(['id_sanggar' => $request->id]);
-        return redirect()->route('sanggar.dashboard');
+
+        return redirect()->route('sanggar.dashboard')->with([
+            'status-switch'=> 'success',
+            'icon' => 'success',
+            'title' => 'Berhasil masuk sebagai Sangar',
+        ]);;
 
     }
 }

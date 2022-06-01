@@ -18,14 +18,15 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Reservasi Upacara {{$dataReservasi->Upacaraku->nama_upacara}} </h1>
+                    <h1>Detail Reservasi </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Data Reservasi</a></li>
-                        <li class="breadcrumb-item active">Detail Reservasi</li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.manajemen-reservasi.index')}}">Data Reservasi</a></li>
+                        <li class="breadcrumb-item active">Detail Reservasi</a></li>
                     </ol>
+
                 </div>
             </div>
         </div>
@@ -37,13 +38,19 @@
             <div class="card-header">
                 <div class="card-body box-profile align-content-center">
                     <div class="text-center">
-                      <img class="profile-user-img img-fluid img-circle" src="{{route('get-image.profile.pemuput-karya',$dataReservasi->Relasi->id)}}" alt="User profile picture">
+                        <img class="profile-user-img img-fluid img-circle" src="{{route('image.profile.user',$dataReservasi->Relasi->id)}}" alt="User profile picture">
                     </div>
-                    <h3 class="text-center bold mb-0 ">{{$dataReservasi->Relasi->nama}}</h3>
-                    <p class="text-center">Tanggal Upacara : {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
+                    <h3 class="text-center bold mb-0 ">{{$dataReservasi->Relasi->PemuputKarya->nama_pemuput}}</h3>
+                    <p class="text-center mb-0" >Tanggal Upacara : {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
+                    @if ($dataReservasi->status == 'batal' || $dataReservasi->status == 'ditolak' )
+                        <div class="d-flex justify-content-center text-center">
+                            Alasan Pembatalan : {{$dataReservasi->keterangan}}
+                        </div>
+                    @endif
                     <div class="d-flex justify-content-center mt-2 text-center" id="view_status">
                         <div @if ($dataReservasi->status  == 'pending') class="bg-secondary btn-sm" @elseif ($dataReservasi->status == 'proses tangkil' || $dataReservasi->status == 'proses muput') class="bg-primary btn-sm" @elseif ($dataReservasi->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($dataReservasi->status)}}</div>
                     </div>
+
                 </div>
             </div>
             <div class="card-body">

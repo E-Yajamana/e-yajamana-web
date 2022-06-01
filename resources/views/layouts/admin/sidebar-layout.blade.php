@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-2">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link text-decoration-none mt-1">
+    <a href="{{route('admin.dashboard')}}" class="brand-link text-decoration-none mt-1">
         <img src="{{asset('base-template/dist/img/logo-01.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light fw-bold">E-Yajamana</span>
     </a>
@@ -22,12 +22,12 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
+                        {{-- <li class="nav-item ml-3">
                             <a  href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Profile</p>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item ml-3">
                             <a  href="{{route('auth.logout')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -38,7 +38,7 @@
                 </li>
 
                 <li class="nav-header font-weight-bold" >DASHBOARD</li>
-                <li class="nav-item">
+                <li class="nav-item" id="side-dashboard">
                     <a href="pages/gallery.html" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
@@ -83,6 +83,18 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
+                            <a id="side-upacara" href="{{route('admin.master-data.upacara.index')}}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Upacara</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-griya" href="{{route('admin.master-data.griya.index')}}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Lokasi Griya & Puri</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
                             <a id="side-kabupaten" href="{{route('admin.master-data.kabupaten.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Kabupaten</p>
@@ -101,23 +113,13 @@
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-desa-adat" href="{{route('admin.master-data.desa-adat.index')}}" class="nav-link">
+                            <a id="side-desa-adat" href="{{route('admin.master-data.banjar.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Banjar Dinas</p>
                             </a>
                         </li>
-                        <li class="nav-item ml-3">
-                            <a id="side-griya" href="{{route('admin.master-data.griya.index')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Lokasi Griya</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a id="side-upacara" href="{{route('admin.master-data.upacara.index')}}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Upacara</p>
-                            </a>
-                        </li>
+
+
                     </ul>
                 </li>
             </ul>

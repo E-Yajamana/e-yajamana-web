@@ -46,7 +46,11 @@
         <div class="container-fluid">
             <div class="callout callout-info container-fluid">
                 <h5><i class="fas fa-info"></i> Catatan:</h5>
-                Harap melihat dan menentukan dengan detail semua status Tahapan Reservasi ketika ingin menyimpan data.
+                Harap melihat dan menentukan dengan detail semua status Tahapan Reservasi ketika ingin menyimpan data.<br>
+                <div class="d-flex">
+                    Batas Konfirmasi Reservasi : <small class="ml-2 pt-1 badge badge-danger" id="demo"></small>
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-12">
@@ -306,6 +310,9 @@
     <!-- Fungsi Form Input  -->
 @endpush
 
+
+
+
 @push('js')
     <script type="text/javascript">
         // DEKLARASI DATA RESERVASI
@@ -313,6 +320,34 @@
         let data_reservasi = (JSON.parse(jsonData));
 
         console.log(data_reservasi)
+
+        var countDownDate = new Date(data_reservasi.upacaraku.tanggal_mulai).getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("demo").innerHTML = days + " Hari " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+
         $('#date').daterangepicker({
             timePicker: true,
             "singleDatePicker": true,
@@ -459,4 +494,10 @@
 
 
     </script>
+@endpush
+
+@push('js')
+<script>
+
+</script>
 @endpush

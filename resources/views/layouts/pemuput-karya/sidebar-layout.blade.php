@@ -11,8 +11,8 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="user-panel nav-item ">
-                    <a href="#" class="nav-link mb-2">
+                <li id="side-pengaturan-akun" class="user-panel nav-item ">
+                    <a id="side-pengaturan-akun" href="#" class="nav-link mb-2">
                         <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
                         <p>
                             {{Auth::user()->Penduduk->nama_alias}}
@@ -21,8 +21,14 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a href="{{route('pemuput-karya.profile')}}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
+                            <a id="side-switch" onclick="switchAccount()" class="nav-link">
+                                <i class="far fa-circle nav-icon mr-1"></i>
+                                <p>Switch Account</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-profile" href="{{route('pemuput-karya.profile')}}" class="nav-link">
+                                <i  class="far fa-circle nav-icon"></i>
                                 <p>Profile</p>
                             </a>
                         </li>
@@ -49,7 +55,7 @@
 
                 <li class="nav-header font-weight-bold pl-2">DASHBOARD</li>
                 <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link p-2">
+                    <a href="{{route('pemuput-karya.dashboard')}}" class="nav-link p-2">
                         <i class="mr-1 nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
@@ -143,3 +149,6 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+
+@include('layouts.modal-switch-account')
+

@@ -14,12 +14,12 @@ class TbUpacaraTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('tb_upacara')->delete();
-
+        
         \DB::table('tb_upacara')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 1,
                 'nama_upacara' => 'Potong Gigi',
@@ -29,7 +29,7 @@ class TbUpacaraTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2022-01-22 10:00:41',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'nama_upacara' => 'Ngenteg Linggi',
@@ -39,17 +39,17 @@ class TbUpacaraTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 3,
-                'nama_upacara' => 'Piodalan Ring Pura',
+                'nama_upacara' => 'Piodalan',
                 'kategori_upacara' => 'Dewa Yadnya',
                 'deskripsi_upacara' => 'Piodalan yang utamanya sebagai kelompok upacara Dewa Yadnya ini merupakan upacara yang ditujukan kehadapan Ida Sang Hyang Widhi Waça dengan segala manifestasinya yang pujawalinya dipimpin oleh seorang pemangku di tempat suci masing-masing.',
                 'image' => NULL,
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 5,
                 'nama_upacara' => 'testing upacara',
@@ -59,7 +59,7 @@ class TbUpacaraTableSeeder extends Seeder
                 'created_at' => '2022-01-29 19:01:47',
                 'updated_at' => '2022-01-29 19:01:47',
             ),
-            4 =>
+            4 => 
             array (
                 'id' => 6,
                 'nama_upacara' => 'Atma Wedana',
@@ -71,7 +71,7 @@ Melalui upacara Atma Wedana ini yang diawali dengan dilaksanakannya upacara ngan
                 'created_at' => '2022-02-12 16:06:30',
                 'updated_at' => '2022-02-12 16:06:30',
             ),
-            5 =>
+            5 => 
             array (
                 'id' => 7,
                 'nama_upacara' => 'Mecaru',
@@ -81,8 +81,28 @@ Melalui upacara Atma Wedana ini yang diawali dengan dilaksanakannya upacara ngan
                 'created_at' => '2022-02-12 16:12:08',
                 'updated_at' => '2022-02-12 16:12:08',
             ),
+            6 => 
+            array (
+                'id' => 8,
+                'nama_upacara' => 'Pawintenan ',
+                'kategori_upacara' => 'Rsi Yadnya',
+                'deskripsi_upacara' => 'Upacara Pawintenan berasal dari kata “mawi” dan “inten”. Mawi yang berasal dari bahasa Kawi yang berarti bersinar, dan Inten yang berarti intan atau permata. Dengan demikian, maka orang yang sudah mawinten diibaratkan sebagai permata yang berkilauan karena lahir batinnya sudah disucikan. Proses penyucian ini penting dalam pengangkatan Pemangku dikarenakan sebagai pelayan Ida Sang Hyang Widhi sekaligus pelayan masyarkat, seorang Pemangku harus bertanggung jawab atas kesucian Pura yang diemongnya.',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            7 => 
+            array (
+                'id' => 9,
+                'nama_upacara' => 'Pediksan',
+                'kategori_upacara' => 'Rsi Yadnya',
+            'deskripsi_upacara' => 'Diksa (atau juga disebut dengan "divya jnyana") adalah upacara untuk dapat menerima sinar suci ilmu pengetahuan yang berfungsi untuk melenyapkan kegelapan pikiran agar mencapai kesempurnaan yang merupakan salah satu bagian dari saptangga dharma yaitu dengan cara menjalankan upacara inisiasi agar dapat menunggalkan diri dengan Tuhan.',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
         ));
-
-
+        
+        
     }
 }

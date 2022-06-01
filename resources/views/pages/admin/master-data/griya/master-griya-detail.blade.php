@@ -1,5 +1,5 @@
 @extends('layouts.admin.admin-layout')
-@section('tittle','Detail Data Griya')
+@section('tittle','Detail Data Griya / Puri')
 
 @push('css')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -18,12 +18,12 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Detail Data Lokasi Griya</h1>
+                    <h1>Detail Data Lokasi Griya / Puri</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.griya.index')}}">Data Griya</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.griya.index')}}">Data Griya & Puri</a></li>
                         <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
@@ -37,11 +37,11 @@
                 <div class="col-12 col-md-6">
                     <div class="card card-outline tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
-                            <label class="card-title my-auto">Data Detail Griya</label>
+                            <label class="card-title my-auto">Detail Data Griya / Puri</label>
                         </div>
                         <div class="card-body p-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Nama Griya</label>
+                                <label for="exampleInputEmail1">Nama Griya / Puri</label>
                                 <input disabled type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{$dataGriya->nama_griya_rumah}}">
                                 @error('nama_griya')
                                     <div class="invalid-feedback text-start">
@@ -50,7 +50,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Desa Adat</label>
+                                <label for="exampleInputEmail1">Desa Dinas</label>
                                 <input disabled type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{$dataGriya->BanjarDinas->DesaAdat->desadat_nama}}">
                                 @error('nama_griya')
                                     <div class="invalid-feedback text-start">
@@ -59,7 +59,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Alamat Lengkap Griya</label>
+                                <label>Alamat Lengkap Griya / Puri</label>
                                 <textarea disabled name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="5" placeholder="Masukan Alamat Lengkap Griya" >{{$dataGriya->alamat_griya_rumah}}, Desa {{Str::ucfirst(Str::lower($dataGriya->BanjarDinas->DesaDinas->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataGriya->BanjarDinas->DesaDinas->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataGriya->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataGriya->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->Provinsi->name))}} </textarea>
                                 @error('alamat_griya')
                                     <div class="invalid-feedback text-start">
@@ -69,7 +69,7 @@
                             </div>
                             <div class="form-group mt-lg-5 mb-2">
                                 <a href="{{route('admin.master-data.griya.index')}}" class="btn btn-secondary">Kembali</a>
-                                <a href="{{route('admin.master-data.griya.edit',$dataGriya->id)}}" class="btn btn-primary float-sm-right">Edit Data</a>
+                                <a href="{{route('admin.master-data.griya.edit',$dataGriya->id)}}" class="btn btn-primary float-sm-right">Ubah Data</a>
                             </div>
                         </div>
 
@@ -79,7 +79,7 @@
                 <div class="col-12 col-sm-6">
                     <div class="card tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
-                            <label class="card-title my-auto">Pemetaan Lokasi Griya</label>
+                            <label class="card-title my-auto">Pemetaan Lokasi Griya / Puri</label>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                                     <i class="fas fa-minus"></i>

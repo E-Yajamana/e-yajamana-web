@@ -8,6 +8,7 @@ use App\Models\BanjarDinas;
 use App\Models\GriyaRumah;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
+use App\Models\PemuputKarya;
 use App\Models\Sulinggih;
 use ErrorException;
 use Illuminate\Http\Request;
@@ -166,7 +167,7 @@ class MasteDataGriyaController extends Controller
 
         // MAIN LOGIC & RETURN
             try{
-                $dataGriya = GriyaRumah::with(['BanjarDinas'])->findOrFail($request->id);
+                $dataGriya = GriyaRumah::with(['BanjarDinas.DesaDinas.Kecamatan.Kabupaten'])->findOrFail($request->id);
                 $dataKabupaten = Kabupaten::all();
                 $dataKecamatan = Kecamatan::all();
                 $dataDesa = DesaDinas::all();
@@ -282,17 +283,9 @@ class MasteDataGriyaController extends Controller
 
         // MAIN LOGIC
             try{
-                $useGriya = Sulinggih::where('id_griya',$request->id)->count();
+                $useGriya = PemuputKarya::where('id_griya',$request->id)->count();
                 if($useGriya == 0){
                     GriyaRumah::findOrFail($request->id)->delete();
-                    // RETURN
-                        return redirect()->back()->with([
-                            'status' => 'success',
-                            'icon' => 'success',
-                            'title' => 'Berhasil Menghapus Data Lokasi Griya',
-                            'message' => 'Data Griya berhasil terhapus dari sistem'
-                        ]);
-                    // END RETURN
                 }else{
                     // RETURN
                         return redirect()->back()->with([
@@ -312,6 +305,16 @@ class MasteDataGriyaController extends Controller
                 ]);
             }
         // END LOGIC
+
+        // RETURN
+             return redirect()->back()->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Berhasil Menghapus Data Lokasi Griya',
+                'message' => 'Data Griya berhasil terhapus dari sistem'
+            ]);
+        // END RETURN
+
     }
     // END DELETE INPUT DATABASE LOKASI GRIYA
 

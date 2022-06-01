@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use NotificationHelper;
 
 class KramaController extends Controller
 {
@@ -45,4 +46,32 @@ class KramaController extends Controller
 
         return view('pages.krama.profile.krama-profile',compact('rangkumanUpacara','rangkumanReservasi','dataNotifikasi'));
     }
+
+
+    public function sendNotif(Request $request)
+    {
+        $user = Auth::user();
+
+        NotificationHelper::sendNotification(
+            [
+                'title' => "UPACARA DIBUAT",
+                'body' => "Upacara dengan nama telah berhasil dibuat, silahkan melakukan reservasi Pemuput Karya atau Sanggar untuk muput upacara adat",
+                'status' => "new",
+                'image' => "/logo-eyajamana.png",
+                'type' => "krama",
+                'url' => ''.route('krama.manajemen-upacara.upacaraku.index').'',
+                'notifiable_id' => $user->id,
+                'formated_created_at' => date('Y-m-d H:i:s'),
+                'formated_updated_at' => date('Y-m-d H:i:s'),
+            ],
+            $user
+        );
+
+        return redirect()->route('krama.profile');
+
+
+    }
+
+
+
 }

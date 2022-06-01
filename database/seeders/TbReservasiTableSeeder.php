@@ -14,85 +14,55 @@ class TbReservasiTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('tb_reservasi')->delete();
-
+        
         \DB::table('tb_reservasi')->insert(array (
-            0 =>
+            0 => 
             array (
-                'id' => 1,
-                'id_relasi' => 2,
-                'id_upacaraku' => 21,
-                'tipe' => 'pemuput_karya',
+                'id' => 54,
+                'id_relasi' => NULL,
+                'id_sanggar' => 6,
+                'id_upacaraku' => 1,
+                'tipe' => 'sanggar',
                 'status' => 'pending',
                 'tanggal_tangkil' => NULL,
                 'keterangan' => NULL,
-                'created_at' => '2022-03-17 23:36:04',
-                'updated_at' => '2022-03-17 23:36:04',
+                'created_at' => '2022-05-27 11:11:26',
+                'updated_at' => '2022-05-27 11:11:26',
+                'rating' => NULL,
             ),
-            1 =>
+            1 => 
             array (
-                'id' => 2,
-                'id_relasi' => 4,
-                'id_upacaraku' => 24,
-                'tipe' => 'pemuput_karya',
+                'id' => 84,
+                'id_relasi' => NULL,
+                'id_sanggar' => 5,
+                'id_upacaraku' => 1,
+                'tipe' => 'sanggar',
                 'status' => 'pending',
                 'tanggal_tangkil' => NULL,
                 'keterangan' => NULL,
-                'created_at' => '2022-03-24 21:46:47',
-                'updated_at' => '2022-03-24 21:46:47',
+                'created_at' => '2022-05-27 12:57:24',
+                'updated_at' => '2022-05-27 12:57:24',
+                'rating' => NULL,
             ),
-            2 =>
+            2 => 
             array (
-                'id' => 3,
-                'id_relasi' => 2,
-                'id_upacaraku' => 25,
+                'id' => 85,
+                'id_relasi' => 58,
+                'id_sanggar' => NULL,
+                'id_upacaraku' => 1,
                 'tipe' => 'pemuput_karya',
                 'status' => 'pending',
                 'tanggal_tangkil' => NULL,
                 'keterangan' => NULL,
-                'created_at' => '2022-03-24 21:48:07',
-                'updated_at' => '2022-03-24 21:48:07',
-            ),
-            3 =>
-            array (
-                'id' => 5,
-                'id_relasi' => 49,
-                'id_upacaraku' => 25,
-                'tipe' => 'pemuput_karya',
-                'status' => 'pending',
-                'tanggal_tangkil' => NULL,
-                'keterangan' => NULL,
-                'created_at' => '2022-03-25 15:16:33',
-                'updated_at' => '2022-03-25 15:16:33',
-            ),
-            4 =>
-            array (
-                'id' => 6,
-                'id_relasi' => 49,
-                'id_upacaraku' => 21,
-                'tipe' => 'pemuput_karya',
-                'status' => 'pending',
-                'tanggal_tangkil' => NULL,
-                'keterangan' => NULL,
-                'created_at' => '2022-03-28 13:51:29',
-                'updated_at' => '2022-03-28 13:51:29',
-            ),
-            5 =>
-            array (
-                'id' => 7,
-                'id_relasi' => 2,
-                'id_upacaraku' => 22,
-                'tipe' => 'pemuput_karya',
-                'status' => 'pending',
-                'tanggal_tangkil' => NULL,
-                'keterangan' => NULL,
-                'created_at' => '2022-03-28 13:52:31',
-                'updated_at' => '2022-03-28 13:52:31',
+                'created_at' => '2022-05-27 13:03:02',
+                'updated_at' => '2022-05-27 13:03:02',
+                'rating' => NULL,
             ),
         ));
-
-
+        
+        
     }
 }

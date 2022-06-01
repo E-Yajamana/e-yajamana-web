@@ -13,6 +13,7 @@ class Serati extends Model
 
     protected $fillable = [
         'id_user',
+        'nama_serati',
         'status_konfirmasi_akun',
         'keterangan_konfirmasi_akun',
     ];

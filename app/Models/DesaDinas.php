@@ -23,4 +23,9 @@ class DesaDinas extends Model
     public function BanjarDinas(){
         return $this->hasMany(BanjarDinas::class,'desa_dinas_id','id');
     }
+
+    public function Sanggar(){
+        return $this->hasMany(Sanggar::class,'id_desa_dinas','id');
+    }
+
 }

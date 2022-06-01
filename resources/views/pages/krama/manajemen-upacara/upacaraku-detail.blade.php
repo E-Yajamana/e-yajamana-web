@@ -1,5 +1,5 @@
 @extends('layouts.krama.krama-layout')
-@section('tittle','Data Detail Upacaraku')
+@section('tittle','Detail Upacara')
 
 @push('css')
     <!-- DataTables -->
@@ -25,9 +25,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacara</a></li>
-                    <li class="breadcrumb-item active">Detail Upacara</li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('krama.manajemen-upacara.upacaraku.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item active">Detail Upacara</li>
                     </ol>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                 <div class="col-12">
                     <div class="callout callout-danger container-fluid">
                         <h5><i class="fas fa-info"></i> Catatan:</h5>
-                        Anda tidak dapat menghapus upacara saat sudah ada reservasi yang berstatus proses muput.
+                        Anda tidak dapat membatalkan sebuah upacara, apabila sudah terdapat reservasi dengan status <strong>Proses Muput...!</strong>
                     </div>
                     <div class="card tab-content">
                         <!-- /.card-header -->
@@ -51,7 +51,12 @@
                                   <img class="profile-user-img img-fluid img-circle" src="http://127.0.0.1:8000/base-template/dist/img/logo-01.png" alt="User profile picture">
                                 </div>
                                 <h3 class="text-center bold mb-0 ">{{$dataUpacaraku->Upacara->nama_upacara}}</h3>
-                                <p class="text-center mb-1">{{$dataUpacaraku->Upacara->kategori_upacara}}</p>
+                                <p class="text-center mb-1 text-lg">{{$dataUpacaraku->Upacara->kategori_upacara}}</p>
+                                <div class="text-center row justify-content-center ">
+                                    @if ($dataUpacaraku->status == 'batal')
+                                        <p style="width: 40%" class=" mb-2 align-content-center d-flex align-items-md-center "> Alasan Pembatalan :   @if ($dataUpacaraku->Reservasi->count() != 0){{$dataUpacaraku->Reservasi[0]->keterangan}} | {{date('d M Y',strtotime($dataUpacaraku->updated_at))}} @else Anda mebatalkan Upacara | {{date('d M Y',strtotime($dataUpacaraku->updated_at))}} @endif</p>
+                                    @endif
+                                </div>
                                 <div class="d-flex justify-content-center">
                                     <div @if ($dataUpacaraku->status == 'pending') class="bg-secondary btn-sm text-center" @elseif ($dataUpacaraku->status == 'berlangsung') class="bg-primary btn-sm text-center" @elseif ($dataUpacaraku->status == 'selesai') class="bg-success btn-sm text-center" @else class="bg-danger btn-sm text-center" @endif style="border-radius: 5px; width:120px;">{{Str::ucfirst($dataUpacaraku->status)}}</div>
                                 </div>
@@ -72,7 +77,7 @@
                                               <i class="far fa-calendar-alt"></i>
                                             </span>
                                           </div>
-                                          <input value="{{date('d-M-Y',strtotime($dataUpacaraku->tanggal_mulai))}} - {{date('d-M-Y',strtotime($dataUpacaraku->tanggal_selesai))}}" type="text" class="form-control float-right" id="reservation" disabled>
+                                          <input value="{{date('d M Y',strtotime($dataUpacaraku->tanggal_mulai))}} - {{date('d M Y',strtotime($dataUpacaraku->tanggal_selesai))}}" type="text" class="form-control float-right" id="reservation" disabled>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -125,7 +130,7 @@
                             <label class="card-title my-auto">Rentetan Upacara</label>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                    <i class="fas fa-plus"></i>
+                                    <i class="fas fa-minus"></i>
                                 </button>
                                 <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
                                     <i class="fas fa-times"></i>
@@ -182,9 +187,11 @@
                                 <div class="col-6">
                                     <label class="card-title my-auto">Reservasi Upacara</label>
                                 </div>
-                                <div class="col-6">
-                                    <a class="btn-sm btn-primary float-right" href="{{route('krama.manajemen-reservasi.create',$dataUpacaraku->id)}}"><i class="fa fa-plus"></i> Buat Reservasi</a>
-                                </div>
+                                @if ($dataUpacaraku->status != 'batal')
+                                    <div class="col-6">
+                                        <a class="btn-sm btn-primary float-right" href="{{route('krama.manajemen-reservasi.create',$dataUpacaraku->id)}}"><i class="fa fa-plus"></i> Buat Reservasi</a>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                         <div class="card-body">
@@ -192,7 +199,7 @@
                                 <div class=" px-lg-3 row align-items-center justify-content-center">
                                     <div class="callout callout-info container-fluid">
                                         <h5><i class="fas fa-info"></i> Pemberitahuan:</h5>
-                                        Belum terdapat dara reservasi pada upacara ini !
+                                        Belum terdapat Data Reservasi pada upacara ini !
                                     </div>
                                 </div>
                             @else
@@ -200,13 +207,9 @@
                                     <div class="card shadow collapsed-card">
                                         <div class="card-header" aria-expanded="false">
                                             <div class="user-block">
-                                                <img class="img-circle mt-1" src="{{asset('base-template/dist/img/user1-128x128.jpg')}}" alt="User Image">
+                                                <img class="img-circle mt-1" @if ($data->tipe != null &&  $data->tipe == 'sanggar') src="{{route('image.profile.sanggar',$data->id_sanggar)}}" @else src="{{route('image.profile.user',$data->id_relasi)}}" @endif  alt="Profile Pemuput">
                                                 <span class="username">
-                                                    @if ($data->Relasi->PemuputKarya != null)
-                                                        <a class="ml-2" href="#">{{$data->Relasi->PemuputKarya->nama_pemuput}}</a>
-                                                    @else
-                                                        <a class="ml-2" href="#">{{$data->Relasi->Sanggar->nama_sanggar}}</a>
-                                                    @endif
+                                                    <a class="ml-2" href="#">{{$data->getRelasi()->nama}}</a>
                                                 </span>
                                                 <span class="description">
                                                     <div @if ($data->status == 'pending') class="bg-secondary btn-sm text-center p-1 mt-1 ml-2" @elseif ($data->status == 'proses tangkil' || $data->status == 'proses muput')  class="bg-info btn-sm text-center p-1 mt-1 ml-2" @elseif ($data->status == 'batal') class="bg-danger btn-sm text-center p-1 mt-1 ml-2"  @elseif ($data->status == 'selesai') class="bg-success btn-sm text-center p-1 mt-1 ml-2" @else class="bg-info btn-sm text-center p-1 mt-1 ml-2"  @endif style="border-radius: 5px; width:120px; ">{{ucfirst($data->status)}}</div>
@@ -220,8 +223,6 @@
                                                     <ul class="dropdown-menu">
                                                         <a href="{{route('krama.manajemen-reservasi.detail',$data->id)}}" class="dropdown-item text-dark">Detail</a></li>
                                                         <a data-card-widget="collapse" data-toggle="tooltip" class="dropdown-item">Lihat Tahapan</a></li>
-                                                        <li class="dropdown-divider"></li>
-                                                        <a href="#" class="text-dark dropdown-item">Batal Reservasi</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -234,7 +235,7 @@
                                                             <i class="fas fa-info"></i>
                                                             <strong class="ml-1">Tanggal Tangkil :</strong>
                                                             @if ($data->tanggal_tangkil != null)
-                                                                {{$data->tanggal_tangkil}}
+                                                                {{date('d M Y |H:m ',strtotime($data->tanggal_tangkil))}}
                                                             @else
                                                                 Belum ditentukan
                                                             @endif
@@ -299,6 +300,8 @@
     <input id="lng" value="{{$dataUpacaraku->lng}}" type="hidden" class="d-none">
 
     @include('pages.krama.manajemen-upacara.modal-pembatalan-upacara')
+    @include('pages.krama.manajemen-reservasi.modal-batal-reservasi')
+
 
 @endsection
 

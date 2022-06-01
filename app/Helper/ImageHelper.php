@@ -27,9 +27,9 @@ class ImageHelper
             return response()->file(
                 storage_path($path)
             );
-        } else {
+        }else {
             return response()->file(
-                public_path('app/default/profile.jpg')
+                public_path('logo-eyajamana.png')
             );
         }
     }

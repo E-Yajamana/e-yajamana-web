@@ -1,5 +1,5 @@
 @extends('pages.auth.layout.master')
-@section('tittle','Register Akun Sulinggih')
+@section('tittle','Register Akun Krama')
 
 @push('css')
     <!-- daterange picker -->
@@ -29,7 +29,7 @@
             <div class="card-header bg-white text-center">
                 <img class="rounded mx-auto d-block" src="{{ asset('base-template/dist/img/logo-01.png') }}" alt="sipandu logo" width="100" height="100">
                 <a href="" class="text-decoration-none h4 fw-bold mb-1">E-Yajamana</a>
-                <p class="mt-1 fs-5 mb-1">Form Pendaftaran Akun Sulinggih </p>
+                <p class="mt-1 fs-5 mb-1">Form Pendaftaran Akun Krama </p>
                 <p class="text-center mb-2">Silahkan lengkapi data di bawah ini</p>
             </div>
             <div class="card-body">
@@ -60,7 +60,7 @@
                                     <div class="form-group">
                                         <label>NIK <span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <input type="text" id="nik" name="nik" autocomplete="off" class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik') }}" placeholder="Masukan NIK">
+                                            <input oninput='if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);' type='number'maxlength='16' type="text" id="nik" name="nik" autocomplete="off" class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik') }}" placeholder="Masukan NIK">
                                             <div class="input-group-append">
                                                 <button onclick="cekNIK()" type="button" class="btn btn-sm btn-default">
                                                     <i class="fa fa-search"></i>
@@ -85,7 +85,7 @@
                                     <div class="form-group">
                                         <label>Nomor Telepon <span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <input type="number" id="nomor_telepon" name="nomor_telepon" autocomplete="off" class="form-control @error('nomor_telepon') is-invalid @enderror" value="{{ old('nomor_telepon') }}" placeholder="Masukan Nomor Telepon">
+                                            <input type="number" oninput='if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);' maxlength='14' id="nomor_telepon" name="nomor_telepon" autocomplete="off" class="form-control @error('nomor_telepon') is-invalid @enderror" value="{{ old('nomor_telepon') }}" placeholder="Masukan Nomor Telepon">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <span class="fas fa-phone-alt"></span>
@@ -146,7 +146,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group"><label>Pemetaan Lokasi Griya <span class="text-danger">*</span></label>
+                                    <div class="form-group"><label>Pemetaan Lokasi Krama<span class="text-danger">*</span></label>
                                         <div class="input-group">
                                             <input readonly="readonly" type="text" id="lat" name="lat" autocomplete="off" class="form-control col-6 @error('lat') is-invalid @enderror" value="{{ old('lat') }}" placeholder="Latitude">
                                             <input readonly="readonly" type="text" id="lng" name="lng" autocomplete="off" class="form-control col-6 @error('lng') is-invalid @enderror" value="{{ old('lng') }}" placeholder="Longtitude">
@@ -159,7 +159,7 @@
 
                                     <div class="form-group mt-lg-4 mb-0">
                                         <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
-                                        <button onclick="step3()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>
+                                        <button onclick="submitData()" type="button" class="btn btn-primary float-sm-right">Simpan Data</button>
                                     </div>
                                 </div>
                             </div>
@@ -189,7 +189,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                    <button type="submit" data-dismiss="modal" class="btn btn-primary">Simpan Pemetaan Lokasi</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Simpan Pemetaan Lokasi</button>
                 </div>
             </div>
         </div>
@@ -241,32 +241,39 @@
         // FUNGSI CEK NIK PADA SISTEM
         function cekNIK(){
             var nik = $("#nik").val();
+            console.log(nik)
             $.ajax({
                 url: '{{route('ajax.get.data-penduduk')}}/' + nik,
                 type: "GET",
                 dataType: "json",
                 success: function (response) {
                     console.log(response);
-                    if (response.data != 0) {
+                    if (response.data.user != null) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Warning',
+                            text:   'Anda sudah mempunyai Akun Krama pada sistem, dengan Email : '+response.data.user.email,
+                            footer: '<a href="{{route('auth.login')}}">Lakukan Login Sistem disini</a>'
+                        })
+                        $('#nik').val();
+                    }else {
                         $('#id_penduduk').val(response.data.id);
                         $('#buttonFormNIK').empty();
                         Swal.fire({
                             icon: response.icon,
-                            title: response.tittle,
+                            title: response.title,
                             text: response.message,
                         });
                         $('#buttonFormNIK').append('<button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>')
-                    }else {
-                        $('#nik').val();
                     }
                 },
                 error: function(response, error){
                     console.log(response)
                     $('#buttonFormNIK').empty()
                     Swal.fire({
-                        icon: 'warning',
-                        title: 'Gagal menemukan data penduduk...',
-                        text: 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKEDAT terlebih dahulu.. !!',
+                        icon: response.responseJSON.icon,
+                        title: response.responseJSON.title,
+                        text:  response.responseJSON.message,
                         footer: '<a href="#">Lakukan Pendataan telebih dahulu disini</a>'
                     })
                 }
@@ -407,15 +414,13 @@
         });
         // VALIDASI FORM INPUT DATA
 
-        function step3(){
+        function submitData(){
             var form = $("#formRegister");
 
             if(form.valid()==true){
                 formRegister.submit();
             }
         }
-
-
     </script>
 @endpush
 {{-- VALIDASI FORM INPUT --}}

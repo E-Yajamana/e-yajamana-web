@@ -1,5 +1,5 @@
 @extends('pages.auth.layout.master')
-@section('tittle','Register Akun Sulinggih')
+@section('tittle','Register Akun Serati')
 
 @push('css')
     <!-- daterange picker -->
@@ -30,7 +30,7 @@
                 <img class="rounded mx-auto d-block" src="{{ asset('base-template/dist/img/logo-01.png') }}" alt="sipandu logo" width="100" height="100">
                 <a href="" class="text-decoration-none h4 fw-bold mb-1">E-Yajamana</a>
                 <p class="mt-1 fs-5 mb-1">Form Pendaftaran Akun Serati </p>
-                <p class="text-center mb-2">Silahkan lengkapi data di bawah ini</p>
+                <p class="text-center mb-2">Silahkan lengkapi data di bawah ini..</p>
             </div>
             <div class="card-body">
                 <div class="bs-stepper">
@@ -46,13 +46,23 @@
                         <div class="step" data-target="#information-part">
                             <button type="button" class="step-trigger" role="tab" aria-controls="information-part" id="information-part-trigger">
                                 <span class="bs-stepper-circle">2</span>
-                                <span class="bs-stepper-label">Data User & Pemetaan Lokasi</span>
+                                <span class="bs-stepper-label">Data User</span>
+                            </button>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step" data-target="#next-part">
+                            <button type="button" class="step-trigger" role="tab" aria-controls="next-part"
+                            id="next-part-trigger">
+                            <span class="bs-stepper-circle">3</span>
+                            <span class="bs-stepper-label">Data Serati</span>
                             </button>
                         </div>
                     </div>
                     <div class="bs-stepper-content">
                         <form method="POST" action="{{route('auth.register.akun.serati.store')}}" enctype="multipart/form-data" id="formRegister">
                             @csrf
+                            <input value="" name="id_user"  id="id_user" type="hidden" class="d-none"  value="{{ old('id_user') }}">
+                            <input id="id_penduduk" name="id_penduduk" type="hidden" class="d-none" value="{{ old('id_penduduk') }}" >
                             <!-- STEPPER 1 PILIH YADNYA -->
                             <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
                                 <div class="divider"></div>
@@ -60,20 +70,16 @@
                                     <div class="form-group">
                                         <label>NIK <span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <input type="text" id="nik" name="nik" autocomplete="off" class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik') }}" placeholder="Masukan NIK">
+                                            <input type="number" oninput='if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);' maxlength='16' id="nik" name="nik" autocomplete="off" class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik') }}" placeholder="Masukan NIK">
                                             <div class="input-group-append">
                                                 <button onclick="cekNIK()" type="button" class="btn btn-sm btn-default">
                                                     <i class="fa fa-search"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <input id="id_penduduk" name="id_penduduk" type="hidden" class="d-none" value="{{ old('id_penduduk') }}" >
                                         <p class="m-1 text-sm">(Apabila NIK tidak ditemukan, Lakukan Pendataan terlebih dahulu <a href="">disini)</a></p>
                                     </div>
                                     <div class="form-group mt-lg-4 mb-0" id="buttonFormNIK">
-                                        @if (old('nik') != null)
-                                            <button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +91,7 @@
                                     <div class="form-group">
                                         <label>Nomor Telepon <span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <input type="number" id="nomor_telepon" name="nomor_telepon" autocomplete="off" class="form-control @error('nomor_telepon') is-invalid @enderror" value="{{ old('nomor_telepon') }}" placeholder="Masukan Nomor Telepon">
+                                            <input type="number" oninput='if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);' maxlength='14' id="nomor_telepon" name="nomor_telepon" autocomplete="off" class="form-control @error('nomor_telepon') is-invalid @enderror" value="{{ old('nomor_telepon') }}" placeholder="Masukan Nomor Telepon">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">
                                                     <span class="fas fa-phone-alt"></span>
@@ -114,49 +120,50 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Password <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <input type="password" id="password" name="password" autocomplete="off" class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}" placeholder="Masukan Password">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-lock"></span>
+                                    <div id="akunPassword" class="">
+                                        <div class="form-group">
+                                            <label>Password <span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <input type="password" id="password" name="password" autocomplete="off" class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}" placeholder="Masukan Password">
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <span class="fas fa-lock"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            @error('password')
-                                                <div class="invalid-feedback text-start">
-                                                    {{$errors->first('password') }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Konfirmasi Password <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <input type="password" id="password_confirmation" name="password_confirmation" autocomplete="off" class="form-control @error('password_confirmation') is-invalid @enderror" value="{{ old('password_confirmation') }}" placeholder="Masukan Konfirmasi Password">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <span class="fas fa-lock"></span>
-                                                </div>
-                                            </div>
-                                            @error('password_confirmation')
-                                                <div class="invalid-feedback text-start">
-                                                    {{$errors->first('password_confirmation') }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <div class="form-group"><label>Pemetaan Lokasi Serati <span class="text-danger">*</span></label>
-                                        <div class="input-group">
-                                            <input readonly="readonly" type="text" id="lat" name="lat" autocomplete="off" class="form-control col-6 @error('lat') is-invalid @enderror" value="{{ old('lat') }}" placeholder="Latitude">
-                                            <input readonly="readonly" type="text" id="lng" name="lng" autocomplete="off" class="form-control col-6 @error('lng') is-invalid @enderror" value="{{ old('lng') }}" placeholder="Longtitude">
-                                            <div class="input-group-append">
-                                                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" id="modalMap" data-target="#modal-xl"><i class="fa fa-map-marked"></i>
-                                                </button>
+                                                @error('password')
+                                                    <div class="invalid-feedback text-start">
+                                                        {{$errors->first('password') }}
+                                                    </div>
+                                                @enderror
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Konfirmasi Password <span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <input type="password" id="password_confirmation" name="password_confirmation" autocomplete="off" class="form-control @error('password_confirmation') is-invalid @enderror" value="{{ old('password_confirmation') }}" placeholder="Masukan Konfirmasi Password">
+                                                <div class="input-group-append">
+                                                    <div class="input-group-text">
+                                                        <span class="fas fa-lock"></span>
+                                                    </div>
+                                                </div>
+                                                @error('password_confirmation')
+                                                    <div class="invalid-feedback text-start">
+                                                        {{$errors->first('password_confirmation') }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="form-group"><label>Pemetaan Lokasi Serati<span class="text-danger">*</span></label>
+                                            <div class="input-group">
+                                                <input readonly="readonly" type="text" id="lat" name="lat" autocomplete="off" class="form-control col-6 @error('lat') is-invalid @enderror" value="{{ old('lat') }}" placeholder="Latitude">
+                                                <input readonly="readonly" type="text" id="lng" name="lng" autocomplete="off" class="form-control col-6 @error('lng') is-invalid @enderror" value="{{ old('lng') }}" placeholder="Longtitude">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-sm btn-default" data-toggle="modal" id="modalMap" data-target="#modal-xl"><i class="fa fa-map-marked"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-
                                     <div class="form-group mt-lg-4 mb-0">
                                         <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
                                         <button onclick="step3()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>
@@ -164,6 +171,35 @@
                                 </div>
                             </div>
                             <!-- STEPPER 2 DATA USER -->
+
+                            <!-- STEPPER 3 DATA SULINGGIH -->
+                            <div id="next-part" class="content" role="tabpanel" aria-labelledby="next-part-trigger">
+                                <div class="container p-1 mt-2">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Nama Serati <span class="text-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <input type="text" id="nama_pemuput" name="nama_pemuput" autocomplete="off" class="form-control @error('nama_pemuput') is-invalid @enderror" value="{{ old('nama_pemuput') }}" placeholder="Masukan Nama Serati">
+                                                    @error('nama_pemuput')
+                                                        <div class="invalid-feedback text-start">
+                                                            {{$errors->first('nama_pemuput') }}
+                                                        </div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container p-1 mt-2">
+
+                                    </div>
+                                    <div class="form-group mb-0 mt-4">
+                                        <button type="button" class="btn btn-primary" onclick="stepper.previous()">Sebelumnya</button>
+                                        <button type="submit" class="btn btn-primary float-sm-right">Buat Akun</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- STEPPER 3 DATA SULINGGIH -->
                         </form>
                     </div>
                 </div>
@@ -189,7 +225,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                    <button type="submit" data-dismiss="modal" class="btn btn-primary">Simpan Pemetaan Lokasi</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-primary">Simpan Pemetaan Lokasi</button>
                 </div>
             </div>
         </div>
@@ -232,42 +268,93 @@
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
+
+        $('#demo').daterangepicker({
+            "singleDatePicker": true,
+            "drops": "up",
+            "minDate": "01 January 1800",
+            "maxDate": moment(Date ()).format('DD MMMM YYYY'),
+            locale: {
+                format: 'DD MMMM YYYY',
+            },
+        });
+
     </script>
 
 @endpush
 
 @push('js')
     <script>
+        function setDataAkun(data,status){
+            console.log(data)
+            if(data != ''){
+                $('#nomor_telepon').val(data.user.nomor_telepon);
+                $('#email').val(data.user.email);
+            }else{
+                $('#nomor_telepon').val('');
+                $('#email').val('');
+            }
+
+            $("#email").prop('disabled', status);
+            $("#nomor_telepon").prop('disabled', status);
+            $("#password").prop('disabled', status);
+            $("#password_confirmation").prop('disabled', status);
+            if(status != true){
+                $("#akunPassword").empty()
+                $("#akunPassword").append(
+                   '<div class="form-group"><label>Password <span class="text-danger">*</span></label><div class="input-group"><input type="password" id="password" name="password" autocomplete="off" class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}" placeholder="Masukan Password"> <div class="input-group-append"><div class="input-group-text"> <span class="fas fa-lock"></span></div></div>@error('password')<div class="invalid-feedback text-start"> {{$errors->first('password') }} </div>@enderror </div></div><div class="form-group"><label>Konfirmasi Password <span class="text-danger">*</span></label><div class="input-group"> <input type="password" id="password_confirmation" name="password_confirmation" autocomplete="off" class="form-control @error('password_confirmation') is-invalid @enderror" value="{{ old('password_confirmation') }}" placeholder="Masukan Konfirmasi Password"><div class="input-group-append"><div class="input-group-text"> <span class="fas fa-lock"></span></div> </div>@error('password_confirmation') <div class="invalid-feedback text-start">{{$errors->first('password_confirmation') }} </div>@enderror</div></div>'
+                );
+            }else{
+                $("#akunPassword").empty();
+            }
+        }
         // FUNGSI CEK NIK PADA SISTEM
         function cekNIK(){
-            var nik = $("#nik").val();
+            let nik = $("#nik").val();
+            if(nik == ''){
+                nik = 0
+            }
             $.ajax({
                 url: '{{route('ajax.get.data-penduduk')}}/' + nik,
                 type: "GET",
                 dataType: "json",
                 success: function (response) {
-                    console.log(response);
-                    if (response.data != 0) {
-                        $('#id_penduduk').val(response.data.id);
+                    if(response.role.includes(5)){
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Pemberitahuan',
+                            text: 'Anda tidak dapat mendaftar kembali, sistem mendeteksi anda sudah mempunyai akun dengan email : '+ response.data.user.email,
+                            footer:  '<a href="{{route('auth.login')}}">Halaman Login Sistem...!!</a>'
+                        });
+                    }else{
+                        if (response.data.user != null) {
+                            setDataAkun(response.data,true)
+                            $("#id_user").val(response.data.user.id)
+                        }else{
+                            $("#id_penduduk").val(response.data.id)
+                            $("#id_user").val('')
+                            setDataAkun('',false)
+                        }
+                        $("#nama_walaka").prop('disabled', true);
+                        $('#nama_walaka').val(response.data.nama_alias);
                         $('#buttonFormNIK').empty();
+                        $('#buttonFormNIK').append('<button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>')
                         Swal.fire({
                             icon: response.icon,
-                            title: response.tittle,
+                            title: response.title,
                             text: response.message,
                         });
-                        $('#buttonFormNIK').append('<button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>')
-                    }else {
-                        $('#nik').val();
                     }
                 },
                 error: function(response, error){
                     console.log(response)
                     $('#buttonFormNIK').empty()
+                    console.log(response.responseJSON.link)
                     Swal.fire({
-                        icon: 'warning',
-                        title: 'Gagal menemukan data penduduk...',
-                        text: 'Untuk membuat data akun E-Yajamana, anda diminta untuk melakukan pendataan penduduk pada sistem SIKEDAT terlebih dahulu.. !!',
-                        footer: '<a href="#">Lakukan Pendataan telebih dahulu disini</a>'
+                        icon: response.responseJSON.icon,
+                        title: response.responseJSON.title,
+                        text: response.responseJSON.message,
+                        footer: response.responseJSON.footer
                     })
                 }
             })
@@ -280,13 +367,37 @@
         })
         // KEYUP FORM INPUT NIK
 
+        $("#lokasi_griya").on('change',function(){
+            var value = $(this).val();
+            console.log(pasangan)
+            if(value == null || value == ""){
+                $("#formGriya").removeClass('d-none')
+            }else{
+                $("#formGriya").addClass('d-none');
+                $("#nama_griya").val();
+                $("#id_banjar_dinas").val();
+            }
+        })
+
+        $("#pasangan").on('change',function(){
+            var value = $(this).val();
+            console.log(value)
+            if(value != 0 || value == ""){
+                $("#atributPemuput").addClass('d-none');
+            }else{
+                $("#atributPemuput").removeClass('d-none');
+            }
+        })
+
+
+
+
     </script>
 @endpush
 
 {{-- SET UP FORM INPUT REGISTER --}}
 @push('js')
     <script>
-
         $(document).ready(function() {
             //--------------START Deklarasi awal seperti icon pembuatan map-------------//
             var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 9);
@@ -363,12 +474,6 @@
                     required: true,
                     minlength: 12
                 },
-                lat: {
-                    required: true,
-                },
-                lng: {
-                    required: true,
-                },
             },
             messages: {
                 email: {
@@ -385,12 +490,6 @@
                 password_confirmation: {
                     required: "Password Konfirmasi Wajib diisi",
                     minlength:"Password Konfirmasi minimal diisi dengan 3 karakter"
-                },
-                lat: {
-                    required: "Latitude Wajib diisi",
-                },
-                lng: {
-                    required: "Longtitude Wajib diisi",
                 },
             },
             errorElement: 'div',
@@ -409,13 +508,18 @@
 
         function step3(){
             var form = $("#formRegister");
-
             if(form.valid()==true){
-                formRegister.submit();
+                stepper.next();
+                $(".form-control").each(function () {
+                    $(this).rules('add', {
+                        required: true,
+                        messages: {
+                            required: "Kolom Wajib diisi"
+                        }
+                    });
+                });
             }
         }
-
-
     </script>
 @endpush
 {{-- VALIDASI FORM INPUT --}}

@@ -22,8 +22,8 @@ class DateRangeHelper
     public static function parseDateRangeTime($dateRange)
     {
         $parseDate = Str::of($dateRange)->explode(' - ');
-        $startDate = Carbon::createFromFormat('d M Y g:i A', $parseDate[0])->format('Y-m-d H:i:s');
-        $endDate = Carbon::createFromFormat('d M Y g:i A', $parseDate[1])->format('Y-m-d H:i:s');
+        $startDate = Carbon::createFromFormat('d M Y H:i', $parseDate[0])->format('Y-m-d H:i:s');
+        $endDate = Carbon::createFromFormat('d M Y H:i', $parseDate[1])->format('Y-m-d H:i:s');
         return [$startDate, $endDate];
     }
 

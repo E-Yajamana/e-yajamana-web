@@ -1,5 +1,5 @@
 @extends('pages.auth.layout.master')
-@section('tittle','Login')
+@section('tittle','Register Akun')
 
 @section('content')
 

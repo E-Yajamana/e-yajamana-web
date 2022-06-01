@@ -17,8 +17,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Data Reservasi</li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Data Riwayat Reservasi</li>
                     </ol>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                                 @foreach ($dataReservasi as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td style="width: 20%">{{$data->Upacaraku->Krama->User->Penduduk->nama}}</td>
+                                        <td style="width: 20%">{{$data->Upacaraku->User->Penduduk->nama}}</td>
                                         <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
                                         <td>
                                             @foreach ($data->DetailReservasi as $dataDetail)
@@ -88,9 +88,7 @@
                                             <div  @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'proses tangkil' || $data->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:110px;">{{ucfirst($data->status)}}</div>
                                         </td>
                                         <td>
-                                            <a href="#" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            {{-- <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                            <a onclick="" href="#" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a> --}}
+                                            <a href="{{route('pemuput-karya.manajemen-reservasi.riwayat.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
