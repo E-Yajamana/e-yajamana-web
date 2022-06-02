@@ -133,24 +133,30 @@ class KramaPemuputKaryaController extends Controller
 
             if ($request->id_kecamatan != null && $request->id_kecamatan != 0) {
                 // QUERY DESA
-                $griyaRumahQuery = function ($griyaRumahQuery) use ($request) {
-                    $griyaRumahQuery->with([
-                        'BanjarDinas' => function ($banjarDinasQuery) use ($request) {
-                            $banjarDinasQuery->with([
-                                'DesaDinas' => function ($desaDinasQuery) use ($request) {
-                                    $desaDinasQuery->with([
-                                        'Kecamatan' => function ($kecamatanQuery) use ($request) {
-                                            $kecamatanQuery->where('id', $request->id_kecamatan);
-                                        }
-                                    ]);
+                $banjarDinasQuery = function ($banjarDinasQuery) use ($request) {
+                    $banjarDinasQuery->with([
+                        'DesaDinas' => function ($desaDinasQuery) use ($request) {
+                            $desaDinasQuery->with([
+                                'Kecamatan' => function ($kecamatanQuery) use ($request) {
+                                    $kecamatanQuery->where('id', $request->id_kecamatan);
                                 }
-                            ]);
+                            ])->whereHas('Kecamatan', function ($kecamatanQuery) use ($request) {
+                                $kecamatanQuery->where('id', $request->id_kecamatan);
+                            });
                         }
-                    ]);
+                    ])->whereHas('DesaDinas', function ($desaDinasQuery) use ($request) {
+                        $desaDinasQuery->with([
+                            'Kecamatan' => function ($kecamatanQuery) use ($request) {
+                                $kecamatanQuery->where('id', $request->id_kecamatan);
+                            }
+                        ])->whereHas('Kecamatan', function ($kecamatanQuery) use ($request) {
+                            $kecamatanQuery->where('id', $request->id_kecamatan);
+                        });
+                    });
                 };
                 $griyaRumahs->with([
-                    'BanjarDinas' => $griyaRumahQuery,
-                ])->whereHas('BanjarDinas', $griyaRumahQuery);
+                    'BanjarDinas' => $banjarDinasQuery,
+                ])->whereHas('BanjarDinas', $banjarDinasQuery);
             } else {
                 $griyaRumahs->with(['BanjarDinas'])->whereHas('BanjarDinas');
             }
@@ -158,6 +164,7 @@ class KramaPemuputKaryaController extends Controller
             $sanggars = $sanggars->get();
             $griyaRumahs = $griyaRumahs->get();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
