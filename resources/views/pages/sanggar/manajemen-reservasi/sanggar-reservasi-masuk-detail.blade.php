@@ -1,5 +1,5 @@
 @extends('layouts.pemuput-karya.pemuput-karya-layout')
-@section('tittle','Reservasi Masuk')
+@section('tittle','Reservasi Krama Masuk')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -33,9 +33,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.manajemen-reservasi.index')}}">Data Reservasi Masuk</a></li>
-                    <li class="breadcrumb-item active">Detail</li>
+                        <li class="breadcrumb-item"><a href="{{route('sanggar.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('sanggar.manajemen-reservasi.index')}}">Data Reservasi Masuk</a></li>
+                        <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
             </div>
@@ -224,14 +224,14 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Form Verifikasi Reservasi</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Tentukan Tanggal Tangkil</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
                                             <div class="callout callout-info mx-1 px-2">
-                                                <p class="text-xs">Tentukan tanggal tangkil, yang bertujuan untuk menentukan kedatangan Krama Bali untuk berdiskusi terkair Muput Upacara.</p>
+                                                <p class="text-xs">Tentukan tanggal tangkil, yang bertujuan untuk menentukan kedatangan Krama Bali untuk berdiskusi tekait dengan Muput Upacara.</p>
                                             </div>
                                             <div class="form-group px-2">
                                                 <label>Tentukan Tanggal Tangkil:</label>
@@ -270,7 +270,7 @@
 
     <input id="jsonData" type="hidden" value='@json($dataReservasi)'>
 
-    @include('pages.pemuput-karya.manajemen-reservasi.modal-konfirmasi-reservasi')
+    @include('pages.sanggar.manajemen-reservasi.sanggar-modal-konfirmasi-reservasi')
 
 @endsection
 
@@ -351,10 +351,11 @@
         $('#date').daterangepicker({
             timePicker: true,
             "singleDatePicker": true,
+            timePicker24Hour: true,
             "minDate": moment(Date ()).format('DD MMMM YYYY'),
             "maxDate": moment(data_reservasi.upacaraku.tanggal_mulai).format('DD MMMM YYYY'),
             locale: {
-                format: 'DD MMMM YYYY h:mm A',
+                format: 'DD MMMM YYYY H:mm',
             },
         });
 
@@ -404,8 +405,23 @@
                     $('select[name="status[]"] option:selected').each(function() {
                         status.push($(this).val());
                     });
-                    console.log(status)
-                    validasiInputStatus(status);
+                    Swal.fire({
+                        title: 'Pemberitahuan',
+                        text : 'Apakah anda yakin akan menyimpan perubahan status pada tahapan reservasi tersebut?',
+                        icon:'question',
+                        showDenyButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: `Terima`,
+                        denyButtonText: `Batal`,
+                        confirmButtonColor: '#3085d6',
+                        denyButtonColor : '#d33',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            validasiInputStatus(status);
+                        }
+                    })
+
+
                 }
             });
             $('#inputdata').validate({

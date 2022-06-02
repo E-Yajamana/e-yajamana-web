@@ -1,5 +1,5 @@
 @extends('layouts.pemuput-karya.pemuput-karya-layout')
-@section('tittle','Konfirmasi Tangkil Detail')
+@section('tittle','Konfirmasi Detail Tangkil Krama')
 
 @push('css')
     <!-- daterange picker -->

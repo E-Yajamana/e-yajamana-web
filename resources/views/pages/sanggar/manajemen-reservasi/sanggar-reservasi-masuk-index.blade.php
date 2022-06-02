@@ -1,4 +1,4 @@
-@extends('layouts.pemuput-karya.pemuput-karya-layout')
+@extends('layouts.sanggar.sanggar-layout')
 @section('tittle','Reservasi Masuk')
 
 @push('css')
@@ -32,7 +32,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('sanggar.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item active">Data Reservasi Masuk</li>
                     </ol>
                 </div>
@@ -78,7 +78,7 @@
                                             <small class="mt-2 badge badge-danger" id="date{{$data->id}}"><i class="fas fa-clock"></i> {{date('d F Y, H:m',strtotime($data->Upacaraku->tanggal_mulai))}}</small>
                                         </td>
                                         <td style="width: 15%">
-                                            <a href="{{route('pemuput-karya.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a href="{{route('sanggar.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                                             <a onclick="konfirmasiReservasi({{$data->id}},'{{$data->Upacaraku->tanggal_mulai}}')" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                             <a onclick="tolakReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                         </td>

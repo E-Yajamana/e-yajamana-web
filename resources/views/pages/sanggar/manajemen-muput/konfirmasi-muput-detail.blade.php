@@ -1,4 +1,4 @@
-@extends('layouts.pemuput-karya.pemuput-karya-layout')
+@extends('layouts.sanggar.sanggar-layout')
 @section('tittle','Data Detail Muput Upacara')
 
 @push('css')
@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('sanggar.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.index')}}">Data Muput Upacara</a></li>
                         <li class="breadcrumb-item active">Detail</li>
                     </ol>

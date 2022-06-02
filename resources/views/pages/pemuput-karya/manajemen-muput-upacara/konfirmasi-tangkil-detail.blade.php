@@ -1,5 +1,5 @@
 @extends('layouts.pemuput-karya.pemuput-karya-layout')
-@section('tittle','Reservasi Krama Masuk')
+@section('tittle','Detail Data Krama Tangkil')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">

@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
+                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{route('pemuput-karya.manajemen-reservasi.index')}}">Data Reservasi Masuk</a></li>
                     <li class="breadcrumb-item active">Detail</li>
                     </ol>
@@ -224,7 +224,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Form Penentuan Tanggal Tangkil</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Tentukan Tanggal Tangkil</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>

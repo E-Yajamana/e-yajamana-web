@@ -27,6 +27,7 @@ use App\Http\Controllers\web\pemuput_karya\PemuputKaryaController;
 use App\Http\Controllers\web\sanggar\dashboard\DashboardController;
 use App\Http\Controllers\web\sanggar\dashboard\SanggarDashboardController;
 use App\Http\Controllers\web\sanggar\manajemen_reservasi\ReservasiMasukController as SanggarReservasiController;
+use App\Http\Controllers\web\sanggar\muput_upacara\KonfirmasiMuputController as SanggarKonfirmasiMuput;
 use App\Http\Controllers\web\sanggar\SanggarController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Livewire\Krama\CreateReservasi;
@@ -247,6 +248,10 @@ Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function 
         Route::put('reservasi-masuk/update', [SanggarReservasiController::class, 'update'])->name('sanggar.manajemen-reservasi.verifikasi.update');
     });
 
+    Route::prefix('muput-upacara')->group(function () {
+        Route::get('konfimasi-muput/index', [SanggarKonfirmasiMuput::class, 'index'])->name('sanggar.muput-upacara.konfirmasi-muput.index');
+        Route::get('konfimasi-muput/detail/{id?}', [SanggarKonfirmasiMuput::class, 'detail'])->name('sanggar.muput-upacara.konfirmasi-muput.detail');
+    });
 
 
 });

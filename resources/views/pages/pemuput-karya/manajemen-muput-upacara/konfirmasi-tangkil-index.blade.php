@@ -1,5 +1,5 @@
 @extends('layouts.pemuput-karya.pemuput-karya-layout')
-@section('tittle','Reservasi Krama Masuk')
+@section('tittle','Data Krama Tangkil')
 
 @push('css')
     <!-- DataTables -->

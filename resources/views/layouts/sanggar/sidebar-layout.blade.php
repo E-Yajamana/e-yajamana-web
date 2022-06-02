@@ -81,11 +81,11 @@
                         <li class="nav-item ml-3">
                             <a id="side-manajemen-muput-upacara-konfirmasi-tangkil" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
-                                <p>Konfirmasi Tangkil @yield('countTangkil')</p>
+                                <p>Konfirmasi Penguleman @yield('countTangkil')</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-muput-upacara-konfirmasi-muput-upacara" href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.index')}}" class="nav-link p-2">
+                            <a id="side-manajemen-muput-upacara-konfirmasi-muput-upacara" href="{{route('sanggar.muput-upacara.konfirmasi-muput.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Konfirmasi Muput  </p>
                             </a>

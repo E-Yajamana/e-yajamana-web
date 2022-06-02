@@ -8,7 +8,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{route('pemuput-karya.manajemen-reservasi.verifikasi.update')}}" method="POST" id="konfirmasiData">
+            <form action="{{route('sanggar.manajemen-reservasi.verifikasi.update')}}" method="POST" id="konfirmasiData">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
@@ -112,7 +112,6 @@
                         format: 'DD MMMM YYYY h:mm A',
                     },
                 });
-                $("#modalKonfirmasi").modal();
             }
         })
     }
