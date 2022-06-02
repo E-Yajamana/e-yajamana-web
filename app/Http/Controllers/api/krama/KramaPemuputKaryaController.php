@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api\krama;
 use App\Http\Controllers\Controller;
 use App\Models\Favorit;
 use App\Models\GriyaRumah;
-use App\Models\PemuputKarya;
 use App\Models\Sanggar;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -74,7 +73,7 @@ class KramaPemuputKaryaController extends Controller
                             ])
                             ->whereHas('User')
                             ->whereHas('AtributPemuput')
-                            ->where('status', $request->status);
+                            ->where('tipe', $request->status);
                         // FAVORIT FILTER
                         if ($request->isFavorit != null && $request->isFavorit != '') {
                             $sulinggihQuery->whereHas(
@@ -127,8 +126,7 @@ class KramaPemuputKaryaController extends Controller
 
                 $griyaRumahs->with([
                     'PemuputKarya' => $sulinggihQuery
-                ])
-                    ->whereHas('PemuputKarya', $sulinggihQuery);
+                ])->whereHas('PemuputKarya', $sulinggihQuery);
             }
 
             if ($request->id_kecamatan != null && $request->id_kecamatan != 0) {
