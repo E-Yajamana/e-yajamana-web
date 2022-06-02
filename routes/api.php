@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\api\admin\AdminDashboardController;
 use App\Http\Controllers\Api\admin\AdminDataAkunUserController;
+use App\Http\Controllers\api\admin\GriyaRumahController;
+use App\Http\Controllers\api\admin\PengaturanAkunController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\krama\KramaDashboardController;
 use App\Http\Controllers\api\krama\KramaPemuputKaryaController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\api\krama\KramaReservasiController;
 use App\Http\Controllers\api\krama\KramaUpacaraController;
 use App\Http\Controllers\api\location\LocationController;
 use App\Http\Controllers\api\NotificationController;
+use App\Http\Controllers\api\RegisController;
 use App\Http\Controllers\api\sulinggih\SulinggihDashboardController;
 use App\Http\Controllers\api\sulinggih\SulinggihMuputController;
 use App\Http\Controllers\api\sulinggih\SulinggihReservasiController;
@@ -26,6 +29,32 @@ Route::get('unathorized', [AuthController::class, 'unauthorized'])->name('api.un
 Route::post('request/email/token', [AuthController::class, 'lupaPassword']);
 Route::post('check/email/token', [AuthController::class, 'checkToken']);
 Route::post('create/new/password', [AuthController::class, 'createNewPassword']);
+// END
+
+// REGISTER
+Route::prefix('register')->group(function () {
+    Route::post('check/nik', [RegisController::class, 'checkNik']);
+    Route::post('post/krama', [RegisController::class, 'postRegisterKrama']);
+    Route::post('post/sulinggih', [RegisController::class, 'postRegisterSulinggih']);
+
+    Route::get('get/sulinggih', [RegisController::class, 'getAllSulinggih']);
+    Route::get('get/griya', [RegisController::class, 'getAllGriya']);
+
+    // LOCATION
+    Route::prefix('location')->group(function () {
+        Route::get('provinsi', [LocationController::class, 'getProvinsi']);
+        Route::get('kabupaten/{id_provinsi}', [LocationController::class, 'getKabupaten']);
+        Route::get('kecamatan/{id_kabupaten}', [LocationController::class, 'getKecamatan']);
+        Route::get('desadinas/{id_kecamatan}', [LocationController::class, 'getDesaDinas']);
+        Route::get('banjardinas/{id_desa_dinas}', [LocationController::class, 'getBanjarDinas']);
+        Route::get('desaadat', [LocationController::class, 'getDesaAdat']);
+
+        Route::get('kecamatanbyprovinsi/{id_provinsi}', [LocationController::class, 'getKecamatanByProvinsiId']);
+    });
+    // END
+});
+// END
+
 // END
 
 // SACTUM MIDDLEWARE
@@ -58,18 +87,22 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('show', [KramaPemuputKaryaController::class, 'index']);
         });
         // END
-
     });
     // END
 
     // KRAMA
-    Route::prefix('krama')->middleware(['ability:role:krama_bali'])->group(function () {
+    Route::prefix('krama')->middleware(['ability:role:krama'])->group(function () {
         // KRAMA HOME FRAGMENT
         Route::get('home', [KramaDashboardController::class, 'index']);
         // END
 
+        // KRAMA FAVORIT
+        Route::post('favorit', [KramaPemuputKaryaController::class, 'setFavorite']);
+        // END
+
         // KRAMA PROFILE FRAGMENT
         Route::get('profile', [KramaProfileController::class, 'index']);
+        Route::get('detail/profile', [KramaProfileController::class, 'detail']);
         // END
 
         // KRAMA UPCARA
@@ -77,12 +110,17 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('show', [KramaUpacaraController::class, 'index']);
             Route::post('create', [KramaUpacaraController::class, 'store']);
             Route::get('detail/{id_upacara?}', [KramaUpacaraController::class, 'show']);
+            Route::post('delete/{id_upacara?}', [KramaUpacaraController::class, 'destroy']);
         });
         // END
 
         // KRAMA RESERVASI
         Route::prefix('reservasi')->group(function () {
             Route::post('store', [KramaReservasiController::class, 'store']);
+            Route::post('batal', [KramaReservasiController::class, 'destroy']);
+            Route::post('update', [KramaReservasiController::class, 'update']);
+            Route::get('show/{id_reservasi?}', [KramaReservasiController::class, 'show']);
+            Route::post('rating', [KramaReservasiController::class, 'setRating']);
         });
         // END
 
@@ -90,7 +128,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // END
 
     // SULINGGIH
-    Route::prefix('sulinggih')->middleware(['ability:role:sulinggih'])->group(function () {
+    Route::prefix('sulinggih')->middleware(['ability:role:pemuput_karya'])->group(function () {
         // SULINGGIH HOME FRAGMENT
         Route::get('home', [SulinggihDashboardController::class, 'index']);
         // END
@@ -98,6 +136,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // SULINGGIH RESERVASI FRAGMENT
         Route::post('reservasi', [SulinggihReservasiController::class, 'index']);
         Route::post('reservasi/update', [SulinggihReservasiController::class, 'update']);
+        Route::post('reservasi/tolak', [SulinggihReservasiController::class, 'tolakReservasi']);
         Route::get('reservasi/detail/{id_reservasi}', [SulinggihReservasiController::class, 'show']);
         // END
 
@@ -122,6 +161,18 @@ Route::middleware('auth:sanctum')->group(function () {
         // DATA AKUN USER
         Route::get('dataakunuser/{status?}', [AdminDataAkunUserController::class, 'index']);
         // END
+
+        // MASTER DATA
+        Route::prefix('masterdata')->group(function () {
+            Route::get('griyarumah/{nama?}/{idBanjarDinas?}', [GriyaRumahController::class, 'index']);
+        });
+        // END
+
+        // PENGATURAN AKUN
+        Route::prefix('pengaturanakun')->group(function () {
+            Route::get('akun/{nama?}/{status?}', [PengaturanAkunController::class, 'index']);
+        });
+        // END
     });
     // END
 
@@ -135,6 +186,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // LOGOUT
     Route::post('logout', [AuthController::class, 'logoutUser']);
+    // END
+
+    // ASK NEW ROLE
+    Route::post('asknewrole', [AuthController::class, 'askForTokenRole']);
     // END
 
 });

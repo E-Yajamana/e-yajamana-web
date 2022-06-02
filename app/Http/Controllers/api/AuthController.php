@@ -8,11 +8,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use PDOException;
@@ -41,35 +39,42 @@ class AuthController extends Controller
         try {
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
                 $user = Auth::user();
+
+                // REVOKE USER TOKEN
+                $user->tokens()->where('tokenable_id', $user->id)->delete();
+
                 $user->update(['fcm_token_key' => $request->fcm_token_key]);
+                $penduduk = $user->Penduduk()->firstOrFail();
+                $roles = $user->Role;
 
-                // MENENTUKAN USER
-                $krama = null;
-                $sulinggih = null;
-                $penduduk = null;
+                if ($roles->count() == 1 && $roles->first()->nama_role == "krama") {
+                    $message = "Berhasil login sebagai krama";
+                    $token = $user->createToken('e-yajamana', ['role:krama'])->plainTextToken;
 
-                switch ($user->role) {
-                    case 'krama_bali':
-                        $krama = $user->Krama()->firstOrFail();
-                        $penduduk = $user->Penduduk()->firstOrFail();
+                    return response()->json([
+                        'status' => 200,
+                        'message' => $message,
+                        'data' => (object)[
+                            'token' => $token,
+                            'user' => $user,
+                            'penduduk' => $penduduk,
+                            'roles' => $roles
+                        ]
+                    ], 200);
+                } else {
+                    $message = "Multi Account Detected";
+                    $token = $user->createToken('e-yajamana', ['role:wild'])->plainTextToken;
 
-                        $token = $user->createToken('e-yajamana', ['role:krama_bali'])->plainTextToken;
-                        break;
-
-                    case 'sulinggih':
-                        $sulinggih = $user->Sulinggih()->with(['GriyaRumah'])->whereHas('GriyaRumah')->firstOrFail();
-                        $penduduk = $user->Penduduk()->firstOrFail();
-                        $token = $user->createToken('e-yajamana', ['role:sulinggih'])->plainTextToken;
-                        break;
-
-                    case 'admin':
-                        $penduduk = $user->Penduduk()->firstOrFail();
-                        $token = $user->createToken('e-yajamana', ['role:admin'])->plainTextToken;
-                        break;
-
-                    default:
-                        throw new Exception("Role tidak ditemukan");
-                        break;
+                    return response()->json([
+                        'status' => 200,
+                        'message' => $message,
+                        'data' => (object)[
+                            'token' => $token,
+                            'user' => $user,
+                            'penduduk' => $penduduk,
+                            'roles' => $roles
+                        ]
+                    ], 200);
                 }
             } else {
                 return response()->json([
@@ -87,17 +92,97 @@ class AuthController extends Controller
             ], 500);
         }
         // END
+    }
+
+    public function askForTokenRole(Request $request)
+    {
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'role' => 'required|exists:tb_role,nama_role'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation error',
+                'data' => (object)[],
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            $user = Auth::user();
+
+            $role = $user->Role()->where('nama_role', $request->role)->firstOrFail();
+
+            $user->currentAccessToken()->update(['abilities' => ['role:' . $request->role]]);
+
+            switch ($role->nama_role) {
+                case "krama":
+                    $penduduk = $user->Penduduk()->firstOrFail();
+
+                    return response()->json([
+                        'status' => 200,
+                        'message' => "Siccess update acceess token to krama",
+                        'data' => (object)[
+                            'user' => $user,
+                            'penduduk' => $penduduk,
+                            'role' => $role
+                        ]
+                    ], 200);
+                    break;
+
+                case "pemuput_karya":
+                    $penduduk = $user->Penduduk()->firstOrFail();
+                    $sulinggih = $user->PemuputKarya()->firstOrFail();
+
+                    return response()->json([
+                        'status' => 200,
+                        'message' => "Siccess update acceess token to krama",
+                        'data' => (object)[
+                            'user' => $user,
+                            'penduduk' => $penduduk,
+                            'role' => $role,
+                            'pemuput_karya' => $sulinggih
+                        ]
+                    ], 200);
+                    break;
+                case "admin":
+                    $penduduk = $user->Penduduk()->firstOrFail();
+
+                    return response()->json([
+                        'status' => 200,
+                        'message' => "Siccess update acceess token to krama",
+                        'data' => (object)[
+                            'user' => $user,
+                            'penduduk' => $penduduk,
+                            'role' => $role
+                        ]
+                    ], 200);
+                    break;
+            }
+        } catch (ModelNotFoundException $err) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Bad Request',
+                'data' => (object)[],
+            ], 403);
+        } catch (PDOException | QueryException | \Throwable | \Exception $err) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
 
         // RETURN
         return response()->json([
             'status' => 200,
-            'message' => 'Berhasil melakukan login',
-            'data' => (object)[
-                'token' => $token,
-                'user' => $user,
-                'penduduk' => $penduduk,
-                'krama' => $krama,
-                'sulinggih' => $sulinggih,
+            'message' => "Success update role access",
+            'data' => [
+                'role' => $role
             ]
         ], 200);
         // END
@@ -125,7 +210,6 @@ class AuthController extends Controller
                 throw new Exception("UNKNOWN ERROR");
             }
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
@@ -156,21 +240,21 @@ class AuthController extends Controller
     {
 
         // SECURITY
-            $validator = Validator::make($request->all(), [
-                'email' => 'required|email|exists:tb_user_eyajamana,email',
-            ],[
-                'email.required' => "Email tidak boleh kosong",
-                'email.email' => "Masukan email yang sesuai",
-                'email.exists' => "Email tidak sesuai dengan database sistem",
-            ]);
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:tb_user_eyajamana,email',
+        ], [
+            'email.required' => "Email tidak boleh kosong",
+            'email.email' => "Masukan email yang sesuai",
+            'email.exists' => "Email tidak sesuai dengan database sistem",
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => 400,
-                    'message' => 'Validation error',
-                    'data' =>$validator->errors(),
-                ], 400);
-            }
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation error',
+                'data' => $validator->errors(),
+            ], 400);
+        }
         // END
 
         // MAIN LOGIC
@@ -278,6 +362,7 @@ class AuthController extends Controller
                 throw new Exception("GAGAL CHECK TOKEN");
             }
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
@@ -303,14 +388,16 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'token' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 'status' => 400,
                 'message' => 'Validation error',
-                'data' => (object)[],
+                'data' => [
+                    $validator->errors()
+                ],
             ], 400);
         }
         // END

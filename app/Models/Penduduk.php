@@ -95,16 +95,19 @@ class Penduduk extends Model
 		'ibu_kandung_id'
 	];
 
-    public function User(){
-		return $this->hasOne(User::class,'id_penduduk','id');
+	public function User()
+	{
+		return $this->hasOne(User::class, 'id_penduduk', 'id');
 	}
 
-	public function AyahKandung(){
-		return $this->belongsTo(Penduduk::class,'ayah_kandung_id','id');
+	public function AyahKandung()
+	{
+		return $this->belongsTo(Penduduk::class, 'ayah_kandung_id', 'id');
 	}
 
-	public function IbuKandung(){
-		return $this->belongsTo(Penduduk::class,'ibu_kandung_id','id');
+	public function IbuKandung()
+	{
+		return $this->belongsTo(Penduduk::class, 'ibu_kandung_id', 'id');
 	}
 
 	public function Profesi()
@@ -122,7 +125,7 @@ class Penduduk extends Model
 		return $this->hasMany(KramaMipilDesaAdat::class, 'penduduk_id');
 	}
 
-    public function KramaTamiuDesaAdat()
+	public function KramaTamiuDesaAdat()
 	{
 		return $this->hasMany(KramaTamiuDesaAdat::class, 'penduduk_id');
 	}
@@ -142,13 +145,13 @@ class Penduduk extends Model
 	// 	return $this->hasMany(TbSuperAdmin::class, 'penduduk_id');
 	// }
 
-    // public function tb_keluarga_besars()
+	// public function tb_keluarga_besars()
 	// {
 	// 	return $this->hasMany(TbKeluargaBesar::class, 'kepala_keluarga_besar_id');
 	// }
 
-    // public function tb_mapera()
-    // {
-    // 	return $this->hasOne(TbMapera::class, 'penduduk_id');
-    // }
+	// public function tb_mapera()
+	// {
+	// 	return $this->hasOne(TbMapera::class, 'penduduk_id');
+	// }
 }

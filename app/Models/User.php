@@ -54,15 +54,15 @@ class User extends Authenticatable
 
     protected $fillable = [
         'id_penduduk',
-		'email',
-		'password',
-		'nomor_telepon',
-		'user_profile',
-		'json_token_lupa_password',
-		'fcm_token_key',
-		'fcm_token_web',
-		'lat',
-		'lng'
+        'email',
+        'password',
+        'nomor_telepon',
+        'user_profile',
+        'json_token_lupa_password',
+        'fcm_token_key',
+        'fcm_token_web',
+        'lat',
+        'lng'
     ];
 
     /**
@@ -72,7 +72,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-		'json_token_lupa_password'
+        'json_token_lupa_password'
     ];
 
     /**
@@ -82,8 +82,8 @@ class User extends Authenticatable
      */
     protected $casts = [
         'id_penduduk' => 'int',
-		'lat' => 'float',
-		'lng' => 'float'
+        'lat' => 'float',
+        'lng' => 'float'
     ];
 
     public function Penduduk()
@@ -112,18 +112,23 @@ class User extends Authenticatable
     }
 
     public function Upacaraku()
-	{
-		return $this->hasMany(Upacaraku::class, 'id_krama');
-	}
+    {
+        return $this->hasMany(Upacaraku::class, 'id_krama');
+    }
 
     public function Role()
     {
-        return $this->belongsToMany(Role::class,'tb_user_roles','id_user','id_role')->withTimestamps();
+        return $this->belongsToMany(Role::class, 'tb_user_roles', 'id_user', 'id_role')->withTimestamps();
+    }
+
+    public function FavoritPemuputKarya()
+    {
+        return $this->belongsToMany(PemuputKarya::class, 'tb_favorit', 'id_user', 'id_pemuput_karya');
     }
 
     public function Sanggar()
     {
-        return $this->belongsToMany(Sanggar::class,'tb_kepemilikan_sanggar','id_user','id_sanggar')->withTimestamps();
+        return $this->belongsToMany(Sanggar::class, 'tb_kepemilikan_sanggar', 'id_user', 'id_sanggar')->withTimestamps();
     }
 
     public function sessionSanggar()
@@ -131,6 +136,4 @@ class User extends Authenticatable
         $id = session('id_sanggar');
         return Sanggar::with(['User.Penduduk'])->find($id);
     }
-
-
 }
