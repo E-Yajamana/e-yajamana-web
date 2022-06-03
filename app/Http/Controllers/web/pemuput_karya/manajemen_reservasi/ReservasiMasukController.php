@@ -124,10 +124,10 @@ class ReservasiMasukController extends Controller
         try{
             DB::beginTransaction();
 
-            $reservasi = Reservasi::findOrFail($request->id_reservasi);
+            $reservasi = Reservasi::with('Upacaraku')->findOrFail($request->id_reservasi);
 
             $user = Auth::user();
-            $relasi = User::findOrFail($reservasi->id_relasi);
+            $krama = User::findOrFail($reservasi->Upacaraku->id_krama);
             $tanggal_tangkil = null;
             $keterangan = null;
             switch($type){
@@ -227,11 +227,11 @@ class ReservasiMasukController extends Controller
                     'status' => "new",
                     'image' => "sulinggih",
                     'type' => "krama",
-                    'notifiable_id' => $relasi->id,
+                    'notifiable_id' => $krama->id,
                     'formated_created_at' => date('Y-m-d H:i:s'),
                     'formated_updated_at' => date('Y-m-d H:i:s'),
                 ],
-                $relasi
+                $krama
             );
             // NOTIFICATION
 

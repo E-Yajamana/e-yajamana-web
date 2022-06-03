@@ -80,6 +80,7 @@ class KramaReservasiController extends Controller
                 ]);
             }
         // END MAIN LOGIC
+        // dd($data);
 
         // RETURN
             return view('pages.krama.manajemen-reservasi.krama-reservasi-index',compact('data'));
@@ -301,7 +302,8 @@ class KramaReservasiController extends Controller
                 $queryUpacaraku = function ($queryUpacaraku) use ($idUser){
                     $queryUpacaraku->with('Upacara','User')->whereIdKrama($idUser);
                 };
-                $dataReservasi = Reservasi::with(['Relasi.Penduduk','DetailReservasi.TahapanUpacara','Upacaraku'=> $queryUpacaraku])->whereHas('Relasi')->whereHas('Upacaraku',$queryUpacaraku)->whereHas('DetailReservasi.TahapanUpacara')->findOrFail($request->id);
+
+                $dataReservasi = Reservasi::with(['DetailReservasi.TahapanUpacara','Upacaraku'=> $queryUpacaraku])->whereHas('Upacaraku',$queryUpacaraku)->whereHas('DetailReservasi.TahapanUpacara')->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
                     'status' => 'fail',

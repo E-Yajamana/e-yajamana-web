@@ -49,7 +49,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="formAlasanPembatalan" action="{{route('pemuput-karya.manajemen-reservasi.verifikasi.update')}}" method="POST">
+            <form id="formAlasanPembatalan" action="{{route('sanggar.manajemen-reservasi.verifikasi.update')}}" method="POST">
                 @csrf
                 @method('put')
                 <input type="hidden" id="idReservasiBatal" class="d-none" value="" name="id_reservasi">
@@ -63,8 +63,8 @@
                         <select id="alasan_pembatalan" name="alasan_pembatalan" class="select2bs4 form-control " style="width: 100%;">
                             <option disabled selected>Pilih Alasan</option>
                             <option value="Lokasi upacara tidak memadai">Lokasi upacara tidak memadai</option>
-                            <option value="Sudah memiliki jadwal muput pada hari tersebut">Sudah memiliki jadwal Muput pada hari tersebut</option>
-                            <option value="Ingin melakukan pencarian Pemuput Karya secara Offline">Tidak dapat Memuput Jenis Upacara tersebut</option>
+                            <option value="Sudah memiliki jadwal pada hari tersebut">Sudah memiliki jadwal pada hari tersebut</option>
+                            <option value="Tidak dapat mengisi reservasi tersebut">Tidak dapat mengisi reservasi tersebut</option>
                             <option value="">Lainnya</option>
                         </select>
                     </div>
@@ -102,16 +102,18 @@
         }).then((result) => {
             if (result.isConfirmed) {
                 // SET UP DATE UPACARA
+                $('#dateTangkil').val(moment(tanggal_mulai).subtract(1, 'days').format('DD MMMM YYYY H:mm'))
                 $("#idReservasiTerima").val(idReservasi);
-                $('#dateTangkil').daterangepicker({
-                    timePicker: true,
-                    "singleDatePicker": true,
-                    "minDate": moment(Date ()).format('DD MMMM YYYY'),
-                    "maxDate": moment(tanggal_mulai).format('DD MMMM YYYY'),
-                    locale: {
-                        format: 'DD MMMM YYYY h:mm A',
-                    },
-                });
+                $("#konfirmasiData").submit();
+                // $('#dateTangkil').daterangepicker({
+                //     timePicker: true,
+                //     "singleDatePicker": true,
+                //     "minDate": moment(Date ()).format('DD MMMM YYYY'),
+                //     "maxDate": moment(tanggal_mulai).format('DD MMMM YYYY'),
+                //     locale: {
+                //         format: 'DD MMMM YYYY h:mm A',
+                //     },
+                // });
             }
         })
     }

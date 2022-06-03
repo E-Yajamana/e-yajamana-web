@@ -38,9 +38,9 @@
             <div class="card-header">
                 <div class="card-body box-profile align-content-center">
                     <div class="text-center">
-                        <img class="profile-user-img img-fluid img-circle" src="{{route('image.profile.user',$dataReservasi->Relasi->id)}}" alt="User profile picture">
+                        <img class="profile-user-img img-fluid img-circle" src="{{route('image.profile.user',2)}}" alt="User profile picture">
                     </div>
-                    <h3 class="text-center bold mb-0 ">{{$dataReservasi->Relasi->PemuputKarya->nama_pemuput}}</h3>
+                    <h3 class="text-center bold mb-0 ">{{$dataReservasi->getRelasi()->nama}}</h3>
                     <p class="text-center mb-0" >Tanggal Upacara : {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
                     @if ($dataReservasi->status == 'batal' || $dataReservasi->status == 'ditolak' )
                         <div class="d-flex justify-content-center text-center">
@@ -58,21 +58,21 @@
                     <div class='col-6'>
                         <div class='form-group'>
                             <label>Nama @if ($dataReservasi == 'sanggar') Sanggar @else Panggilan @endif</label>
-                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='{{$dataReservasi->Relasi->Penduduk->nama}}' disabled=''>
+                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='{{$dataReservasi->getRelasi()->nama}}' disabled=''>
                         </div>
                         <div class='form-group'>
                             <label>Nomer Handphone</label>
-                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='{{$dataReservasi->Relasi->nomor_telepon}}' disabled=''>
+                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='$' disabled=''>
                         </div>
                     </div>
                     <div class='col-6'>
                         <div class='form-group'>
                             <label>Alamat Lengkap</label>
-                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='{{$dataReservasi->Relasi->Penduduk->alamat}}' disabled=''>
+                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='#' disabled=''>
                         </div>
                         <div class='form-group'>
                             <label>Email</label>
-                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='{{$dataReservasi->Relasi->email}}' disabled=''>
+                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='#' disabled=''>
                         </div>
                     </div>
                 </div>

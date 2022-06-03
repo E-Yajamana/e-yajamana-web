@@ -27,7 +27,9 @@ use App\Http\Controllers\web\pemuput_karya\PemuputKaryaController;
 use App\Http\Controllers\web\sanggar\dashboard\DashboardController;
 use App\Http\Controllers\web\sanggar\dashboard\SanggarDashboardController;
 use App\Http\Controllers\web\sanggar\manajemen_reservasi\ReservasiMasukController as SanggarReservasiController;
+use App\Http\Controllers\web\sanggar\manajemen_reservasi\SanggarRiwayatReservasiController;
 use App\Http\Controllers\web\sanggar\muput_upacara\KonfirmasiMuputController as SanggarKonfirmasiMuput;
+use App\Http\Controllers\web\sanggar\muput_upacara\SanggarKonfirmasiPenguleman;
 use App\Http\Controllers\web\sanggar\SanggarController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Livewire\Krama\CreateReservasi;
@@ -246,11 +248,23 @@ Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function 
         Route::get('reservasi-masuk/index', [SanggarReservasiController::class, 'index'])->name('sanggar.manajemen-reservasi.index');
         Route::get('reservasi-masuk/detail/{id}', [SanggarReservasiController::class, 'detailReservasi'])->name('sanggar.manajemen-reservasi.detail');
         Route::put('reservasi-masuk/update', [SanggarReservasiController::class, 'update'])->name('sanggar.manajemen-reservasi.verifikasi.update');
+
+        Route::get('riwayat/index', [SanggarRiwayatReservasiController::class, 'index'])->name('sanggar.manajemen-reservasi.riwayat.index');
+        Route::get('riwayat/detail/{id}', [SanggarRiwayatReservasiController::class, 'detail'])->name('sanggar.manajemen-reservasi.riwayat.detail');
+
     });
 
     Route::prefix('muput-upacara')->group(function () {
+        Route::get('konfirmasi-penguleman/index', [SanggarKonfirmasiPenguleman::class, 'indexKonfirmasiTangkil'])->name('sanggar.muput-upacara.konfirmasi-tangkil.index');
+        Route::get('konfirmasi-penguleman/edit/{id?}', [SanggarKonfirmasiPenguleman::class, 'editKonfirmasiTangkil'])->name('sanggar.muput-upacara.konfirmasi-tangkil.edit');
+        Route::put('konfirmasi-penguleman/konfirmasi', [SanggarKonfirmasiPenguleman::class, 'updateKonfirmasi'])->name('sanggar.muput-upacara.konfirmasi-tangkil.update.terima');
+        Route::put('konfirmasi-penguleman/batal', [SanggarKonfirmasiPenguleman::class, 'updateBatal'])->name('sanggar.muput-upacara.konfirmasi-tangkil.update.batal');
+
         Route::get('konfimasi-muput/index', [SanggarKonfirmasiMuput::class, 'index'])->name('sanggar.muput-upacara.konfirmasi-muput.index');
         Route::get('konfimasi-muput/detail/{id?}', [SanggarKonfirmasiMuput::class, 'detail'])->name('sanggar.muput-upacara.konfirmasi-muput.detail');
+        Route::put('konfimasi-muput/konfirmasi', [SanggarKonfirmasiMuput::class, 'konfirmasiMuput'])->name('sanggar.muput-upacara.konfirmasi-muput.konfirmasi');
+        Route::put('konfimasi-muput/batal', [KonfirmasiMuputController::class, 'batalMuput'])->name('sanggar.muput-upacara.konfirmasi-muput.batal');
+
     });
 
 
