@@ -1,19 +1,23 @@
 <?php
 
-namespace App\Http\Livewire\Krama;
+namespace App\Http\Livewire;
 
+use Livewire\Component;
 use App\Models\Notification;
-use Carbon\Carbon;
+use App\Models\PemuputKarya;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Livewire\Component;
-
 
 class Profile extends Component
 {
-
     public $undReadNotif;
     public $readNotif;
+    public $nabe;
+
+    public function mount()
+    {
+        $this->nabe = PemuputKarya::whereTipe('sulinggih')->get();
+    }
 
     public function deleteNotif($id)
     {
@@ -64,7 +68,6 @@ class Profile extends Component
         ]);
     }
 
-
     public function render()
     {
         $notifUnRead = Auth::user()->unreadNotifications->toArray();
@@ -76,6 +79,7 @@ class Profile extends Component
                 return $var;
             }
         });
+
         $readNotif = array_filter($readNotif, function ($var) {
             if(array_key_exists('type',$var['data'])){
                 return ($var['data']['type'] == 'krama');
@@ -87,6 +91,6 @@ class Profile extends Component
         $this->undReadNotif = collect($notifUnRead);
         $this->readNotif = collect($readNotif);
 
-        return view('livewire.krama.profile');
+        return view('livewire.profile');
     }
 }

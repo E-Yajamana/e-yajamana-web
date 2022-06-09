@@ -177,8 +177,6 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::get('send/notif', [KramaController::class, 'sendNotif']);
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
 
-    Route::get('create/{id}', CreateReservasi::class);
-
     Route::prefix('manajemen-upacara')->group(function () {
         Route::get('index', [KramaUpacarakuController::class, 'indexUpacaraku'])->name('krama.manajemen-upacara.upacaraku.index');
         Route::get('create', [KramaUpacarakuController::class, 'createUpacaraku'])->name('krama.manajemen-upacara.upacaraku.create');
@@ -201,6 +199,7 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
         Route::put('ajax/delete', [KramaReservasiController::class, 'ajaxDeleteReservasi'])->name('krama.manajemen-reservasi.ajax.delete');
     });
 
+    Route::put('store/rating', [KramaReservasiController::class, 'storeRating'])->name('krama.store.rating');
 });
 // ROUTE KRAMA
 
@@ -266,8 +265,6 @@ Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function 
         Route::put('konfimasi-muput/batal', [KonfirmasiMuputController::class, 'batalMuput'])->name('sanggar.muput-upacara.konfirmasi-muput.batal');
 
     });
-
-
 });
 // SANGGAR
 

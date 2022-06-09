@@ -14,6 +14,11 @@
     </style>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
 
     <!-- Font Awesome -->
@@ -27,7 +32,12 @@
     <link rel="stylesheet" href="{{asset('base-template\dist\css\sweetalert2.min.css')}}">
     <link rel="icon" type="image/png" href="{{ asset('base-template/dist/img/logo-01.png') }}">
 
+    <!-- jQuery -->
+    <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
+
     @stack('css')
+    @livewireStyles
+
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
@@ -43,6 +53,7 @@
 
     </div>
 
+    @livewireScripts
     <!-- jQuery -->
     <script src="{{asset('base-template/plugins/jquery/jquery.min.js')}}"></script>
 

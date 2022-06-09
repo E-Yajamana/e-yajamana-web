@@ -154,7 +154,7 @@
             "lengthMenu":     "Show _MENU_ ",
             "infoFiltered": "(dari _MAX_ data)",
         },
-        rowsGroup: [0,1],
+        rowsGroup: [0],
         "aoColumns": [
             {
                 "data": "No",

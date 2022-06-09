@@ -15,7 +15,7 @@
                     <a id="side-pengaturan-akun" href="#" class="nav-link mb-2">
                         <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
                         <p>
-                            {{Auth::user()->Penduduk->nama_alias}}
+                            Pemuput Karya
                             <i class="fas fa-angle-left right mt-2"></i>
                         </p>
                     </a>

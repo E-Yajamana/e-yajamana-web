@@ -1,5 +1,5 @@
 @extends('layouts.krama.krama-layout')
-@section('tittle','Data Upacaraku')
+@section('tittle','Detail Reservasi')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{asset('base-template/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
+    <script src="{{asset('base-template/dist/js/rating.js')}}"></script>
 @endpush
 
 @section('content')
@@ -41,40 +42,61 @@
                         <img class="profile-user-img img-fluid img-circle" src="{{route('image.profile.user',2)}}" alt="User profile picture">
                     </div>
                     <h3 class="text-center bold mb-0 ">{{$dataReservasi->getRelasi()->nama}}</h3>
-                    <p class="text-center mb-0" >Tanggal Upacara : {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
+                    <p class="text-center mb-0" ><strong> Tanggal Upacara</strong>: {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
                     @if ($dataReservasi->status == 'batal' || $dataReservasi->status == 'ditolak' )
                         <div class="d-flex justify-content-center text-center">
-                            Alasan Pembatalan : {{$dataReservasi->keterangan}}
+                            <strong> Alasan Pembatalan </strong>: {{$dataReservasi->keterangan}}
                         </div>
                     @endif
+                    @isset($dataReservasi->rating)
+                        @isset($dataReservasi->keterangan_rating)
+                            <div class="justify-content-center w-50 mx-auto text-center">
+                                <strong> Review </strong> :  {{$dataReservasi->keterangan_rating}}
+                            </div>
+                        @endisset
+                        <div class="text-center">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= $dataReservasi->rating)
+                                    <i class="fas fa-star text-warning "></i>
+                                @else
+                                    <i class="fas fa-star "></i>
+                                @endif
+                            @endfor
+                        </div>
+                    @endisset
                     <div class="d-flex justify-content-center mt-2 text-center" id="view_status">
                         <div @if ($dataReservasi->status  == 'pending') class="bg-secondary btn-sm" @elseif ($dataReservasi->status == 'proses tangkil' || $dataReservasi->status == 'proses muput') class="bg-primary btn-sm" @elseif ($dataReservasi->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($dataReservasi->status)}}</div>
                     </div>
-
                 </div>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class='col-6'>
+                    <div class='col-12 col-sm-6'>
                         <div class='form-group'>
                             <label>Nama @if ($dataReservasi == 'sanggar') Sanggar @else Panggilan @endif</label>
                             <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='{{$dataReservasi->getRelasi()->nama}}' disabled=''>
                         </div>
-                        <div class='form-group'>
-                            <label>Nomer Handphone</label>
-                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='$' disabled=''>
-                        </div>
                     </div>
-                    <div class='col-6'>
+                    <div class='col-12 col-sm-6'>
                         <div class='form-group'>
                             <label>Alamat Lengkap</label>
-                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='#' disabled=''>
-                        </div>
-                        <div class='form-group'>
-                            <label>Email</label>
-                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='#' disabled=''>
+                            <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='@if ($dataReservasi->tipe === 'pemuput_karya') {{$dataReservasi->Relasi->Penduduk->alamat}} @else {{$dataReservasi->Sanggar->alamat_sanggar}} @endif' disabled>
                         </div>
                     </div>
+                    @if ($dataReservasi->tipe === 'pemuput_karya')
+                        <div class='col-12 col-sm-6'>
+                            <div class='form-group'>
+                                <label>Nomer Handphone</label>
+                                <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='{{$dataReservasi->Relasi->nomor_telepon}}' disabled>
+                            </div>
+                        </div>
+                        <div class='col-12 col-sm-6'>
+                            <div class='form-group'>
+                                <label>Email</label>
+                                <input type='text' class='form-control' id='exampleInputEmail1' placeholder='Enter email' value='{{$dataReservasi->Relasi->email}}' disabled>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -98,6 +120,8 @@
                                 <th class="text-center">Status</th>
                                 @if ($dataReservasi->status == 'pending' || $dataReservasi->status == 'proses tangkil')
                                     <th id="action" class="text-center">Tindakan</th>
+                                @elseif ($dataReservasi->status == 'proses muput' || $dataReservasi->status == 'selesai')
+                                    <th class="text-center">Bukti Muput</th>
                                 @endif
                             </tr>
                         </thead>
@@ -120,6 +144,12 @@
                                         @else
                                             <td class="text-center"></td>
                                         @endif
+                                    @elseif ($dataReservasi->status == 'proses muput' || $dataReservasi->status == 'selesai')
+                                        @isset($data->Gambar)
+                                            <td class="text-center">
+                                                <a data-toggle="modal" data-target="#exampleModal-{{$data->id}}" class="btn btn-secondary btn-sm" ><i class="fas fa-eye"></i></a>
+                                            </td>
+                                        @endisset
                                     @endif
                                 </tr>
                             @endforeach
@@ -128,11 +158,22 @@
                 </div>
             </div>
             <div class="card-footer">
-                <div class="col-md-12 my-2">
-                    <a href="{{route('krama.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
-                    @if ($dataReservasi->status == 'pending' || $dataReservasi->status == 'proses tangkil')
-                        <button id="addTahapanReservasi" onclick="modalAdd()" type="button" class="btn btn-primary float-right" align-self="end">Tambah Reservasi</button>
-                    @endif
+                <div class="row">
+                    <div class="col-6 my-2">
+                        <a href="{{route('krama.manajemen-reservasi.index')}}" class="btn btn-secondary">Kembali</a>
+                    </div>
+                    <div class="col-6 my-2">
+                        @if ($dataReservasi->status == 'pending' || $dataReservasi->status == 'proses tangkil')
+                            <button id="addTahapanReservasi" onclick="modalAdd()" type="button" class="btn btn-primary float-right" align-self="end">Tambah Reservasi</button>
+                        @endif
+                        @if ($dataReservasi->status == 'selesai')
+                            @if(!isset($dataReservasi->rating))
+                                <button  data-toggle="modal" data-target="#modalRanting" type="button" class="btn btn-primary float-right" align-self="end">
+                                    Beri Ulasan <i class="fas fa-star"></i>
+                                </button>
+                            @endif
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -191,6 +232,7 @@
         </div>
     </div>
     {{-- modal --}}
+
     <input type="hidden" id="tanggalMulai" value="{{$dataReservasi->Upacaraku->tanggal_mulai}}" class="d-none">
     <input type="hidden" id="tanggalSelesai" value="{{$dataReservasi->Upacaraku->tanggal_selesai}}" class="d-none">
 
@@ -229,6 +271,51 @@
     </div>
 
 
+    @if(!isset($dataReservasi->rating))
+        <div class="modal fade" id="modalRanting" tabindex="-1" role="dialog" aria-labelledby="modalRanting" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content ">
+                    <div class="modal-header align-content-center text-center">
+                        <label class="modal-title h4 align-content-center w-100" id="exampleModalLabel">Nilai Reservasi</label>
+                        <button type="button" class="pl-0 close float-lg-right"  data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{route('krama.store.rating')}}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" id="idTahapanReservasi" class="d-none" >
+                        <div class="modal-body">
+                            <div class="callout callout-info mx-1">
+                                <p class="text-xs">Berikan penilaian terhadap pemuput karya, agar krama lain juga dapat mengetahui hasil muput pemuput karya</p>
+                            </div>
+                            <div class="form-group px-2">
+                                <label>Bagaimana penilaian reservasi yang dilakukan? <span class="text-danger">*</span></label>
+                                <div class="col-12 col-md-6" style="font-size: 2em;">
+                                    <div id="review"></div>
+                                </div>
+                            </div>
+                            <input value="" name="rating" type="hidden" class="d-none" id="starsInput">
+                            <input value="{{$dataReservasi->id}}" name="id_reservasi_ranting" type="hidden" class="d-none">
+                            <div class="form-group  px-2">
+                                <label>Berikan ulasan terhadap pemuput.</label>
+                                <textarea name="keterangan_rating" class="form-control  @error('keterangan_rating') is-invalid @enderror" rows="3" placeholder="Masukan Ulasan krama">{{ old('keterangan_rating') }}</textarea>
+                                @error('keterangan_rating')
+                                    <div class="invalid-feedback text-start">
+                                        {{$errors->first('keterangan_rating') }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-block btn-light btn-lg px-2 text-md">Kirim Penilaian</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
+
 @endsection
 
 @push('js')
@@ -251,6 +338,14 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
+            $("#review").rating({
+                "value": 0,
+                "click": function (e) {
+                    console.log(e);
+                    $("#starsInput").val(e.stars);
+                }
+            });
+
             $('#side-reservasi').addClass('menu-open');
             $('#side-data-reservasi').addClass('active');
         });
