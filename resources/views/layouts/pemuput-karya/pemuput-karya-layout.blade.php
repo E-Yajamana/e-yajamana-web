@@ -70,6 +70,8 @@
 
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
     <script>
+
+
         var firebaseConfig = {
             apiKey: "AIzaSyAwDQm7M6h2Jm30yZ2VzyI1uPgW3ZeLfrI",
             authDomain: "e-yajamana.firebaseapp.com",

@@ -2,22 +2,36 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\GriyaRumah;
 use Livewire\Component;
 use App\Models\Notification;
 use App\Models\PemuputKarya;
+use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class Profile extends Component
 {
+    use WithFileUploads;
+
     public $undReadNotif;
     public $readNotif;
     public $nabe;
+
+    public $photo;
+    public $nama_sulinggih;
+
 
     public function mount()
     {
         $this->nabe = PemuputKarya::whereTipe('sulinggih')->get();
     }
+
+    public function updateDataSulinggih()
+    {
+        dd($this->nama_sulinggih);
+    }
+
 
     public function deleteNotif($id)
     {
@@ -68,6 +82,7 @@ class Profile extends Component
         ]);
     }
 
+
     public function render()
     {
         $notifUnRead = Auth::user()->unreadNotifications->toArray();
@@ -90,7 +105,6 @@ class Profile extends Component
 
         $this->undReadNotif = collect($notifUnRead);
         $this->readNotif = collect($readNotif);
-
         return view('livewire.profile');
     }
 }

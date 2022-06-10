@@ -166,12 +166,10 @@
                         @if ($dataReservasi->status == 'pending' || $dataReservasi->status == 'proses tangkil')
                             <button id="addTahapanReservasi" onclick="modalAdd()" type="button" class="btn btn-primary float-right" align-self="end">Tambah Reservasi</button>
                         @endif
-                        @if ($dataReservasi->status == 'selesai')
-                            @if(!isset($dataReservasi->rating))
-                                <button  data-toggle="modal" data-target="#modalRanting" type="button" class="btn btn-primary float-right" align-self="end">
-                                    Beri Ulasan <i class="fas fa-star"></i>
-                                </button>
-                            @endif
+                        @if(!isset($dataReservasi->rating) && $dataReservasi->status == 'selesai')
+                            <button  data-toggle="modal" data-target="#modalRanting" type="button" class="btn btn-primary float-right" align-self="end">
+                                Beri Ulasan
+                            </button>
                         @endif
                     </div>
                 </div>
@@ -270,8 +268,7 @@
         </div>
     </div>
 
-
-    @if(!isset($dataReservasi->rating))
+    @if(!isset($dataReservasi->rating) && $dataReservasi->status == 'selesai')
         <div class="modal fade" id="modalRanting" tabindex="-1" role="dialog" aria-labelledby="modalRanting" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content ">

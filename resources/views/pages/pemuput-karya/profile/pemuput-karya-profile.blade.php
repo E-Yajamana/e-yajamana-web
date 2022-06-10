@@ -75,57 +75,6 @@ crossorigin=""></script>
                     </div>
                 </div>
 
-                <!-- UPCARA RANGKUMAN -->
-                <div class="card  collapsed-card">
-                    <div class="card-header">
-                        <h3 class="card-title">Rangkuman Upacara</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                              <i class="fas fa-plus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                              <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <ul class="products-list product-list-in-card pl-2 pr-2">
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <i class="fa-3x fa bi-brightness-high-fill nav-icon mr-1"></i>
-                                        </div>
-                                        <div class="product-info">
-                                            <p class="product-title mb-0 text-xs">Jumlah Upacara</p>
-                                            <p class="text-lg">{{$rangkumanUpacara['jumlahUpacara']}}</p>
-                                        </div>
-                                    </li>
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <i class="fa-3x fa bi-brightness-alt-high-fill nav-icon mr-1"></i>
-                                        </div>
-                                        <div class="product-info">
-                                            <p class="product-title mb-0 text-xs">Jumlah Upacara Proses</p>
-                                            <p class="text-lg">{{$rangkumanUpacara['jumlahUpacaraProses']}}</p>
-                                        </div>
-                                    </li>
-                                    <li class="item">
-                                        <div class="product-img">
-                                            <i class="fa-3x fa bi-brightness-alt-low nav-icon mr-1"></i>
-                                        </div>
-                                        <div class="product-info">
-                                            <p class="product-title mb-0 text-xs">Jumlah Upacara Selesai</p>
-                                            <p class="text-lg">{{$rangkumanUpacara['jumlahUpacaraSelesai']}}</p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- UPCARA RANGKUMAN -->
-
                 <!-- RESERVASI RANGKUMAN -->
                 <div class="card collapsed-card">
                     <div class="card-header">
@@ -216,54 +165,62 @@ crossorigin=""></script>
             },
         });
 
+        $(function () {
+            bsCustomFileInput.init();
+            $('.select2').select2()
+            $('.select2bs4').select2({
+                theme: 'bootstrap4'
+            })
+        })
+
     </script>
 
     <!-- Maps Pemetaan  -->
     <script language="javascript" type="text/javascript">
         $(document).ready(function() {
             //--------------START Deklarasi awal seperti icon pembuatan map-------------//
-            var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 9);
-            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                attribution: 'Maps E-Yajamana',
-                maxZoom: 18,
-                minZoom: 9,
-                id: 'mapbox/streets-v11',
-                tileSize: 512,
-                zoomOffset: -1,
-                accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
-            }).addTo(mymap);
+            // var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 9);
+            // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            //     attribution: 'Maps E-Yajamana',
+            //     maxZoom: 18,
+            //     minZoom: 9,
+            //     id: 'mapbox/streets-v11',
+            //     tileSize: 512,
+            //     zoomOffset: -1,
+            //     accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
+            // }).addTo(mymap);
 
-            document.getElementById("pemetaanTabs").onclick = function () {
-                // document.getElementById('modal-xl').style.display = 'block';
-                setTimeout(function() {
-                    mymap.invalidateSize();
-                }, 100);c1
-            }
-            var curLocation = [0, 0];
-            if (curLocation[0] == 0 && curLocation[1] == 0) {
-                curLocation = [-8.4517916, 115.1970086];
-            }
-            var marker = new L.marker(curLocation, {
-                draggable: 'true'
-            });
-            marker.on('dragend', function(event) {
-                var position = marker.getLatLng();
-                marker.setLatLng(position, {
-                draggable: 'true'
-                }).bindPopup(position).update();
-                $("#lat").val(position.lat);
-                $("#lng").val(position.lng).keyup();
-                $("#view_lat").val(position.lat);
-                $("#view_lng").val(position.lng);
-            });
-            $("#Latitude, #Longitude").change(function() {
-                var position = [parseInt($("#Latitude").val()), parseInt($("#Longitude").val())];
-                marker.setLatLng(position, {
-                draggable: 'true'
-                }).bindPopup(position).update();
-                mymap.panTo(position);
-            });
-            mymap.addLayer(marker);
+            // document.getElementById("pemetaanTabs").onclick = function () {
+            //     // document.getElementById('modal-xl').style.display = 'block';
+            //     setTimeout(function() {
+            //         mymap.invalidateSize();
+            //     }, 100);c1
+            // }
+            // var curLocation = [0, 0];
+            // if (curLocation[0] == 0 && curLocation[1] == 0) {
+            //     curLocation = [-8.4517916, 115.1970086];
+            // }
+            // var marker = new L.marker(curLocation, {
+            //     draggable: 'true'
+            // });
+            // marker.on('dragend', function(event) {
+            //     var position = marker.getLatLng();
+            //     marker.setLatLng(position, {
+            //     draggable: 'true'
+            //     }).bindPopup(position).update();
+            //     $("#lat").val(position.lat);
+            //     $("#lng").val(position.lng).keyup();
+            //     $("#view_lat").val(position.lat);
+            //     $("#view_lng").val(position.lng);
+            // });
+            // $("#Latitude, #Longitude").change(function() {
+            //     var position = [parseInt($("#Latitude").val()), parseInt($("#Longitude").val())];
+            //     marker.setLatLng(position, {
+            //     draggable: 'true'
+            //     }).bindPopup(position).update();
+            //     mymap.panTo(position);
+            // });
+            // mymap.addLayer(marker);
         })
     </script>
     <!-- Maps Pemetaan  -->

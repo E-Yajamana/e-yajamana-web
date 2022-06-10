@@ -205,6 +205,102 @@
 
                 <!---- PEMUPUT DATA ------>
                 @if (Request::segment(1) === 'pemuput-karya')
+                <div class="tab-pane" id="dataSulinggih">
+                    <div class="ml-2 fs-4">
+                        <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Data Sulinggih</label>
+                        <p>Kelola data pemuput karya Anda agar krama lebih mudah mendapatkan informasimu</p>
+                    </div>
+                    <form wire:submit.prevent="updateDataSulinggih" enctype="multipart/form-data">
+                    <div class="dropdown-divider mb-3"></div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nama Sulinggih </label>
+                                    <input wire:model="nama_sulinggih" type="text" class="form-control data-diri" id="nama_sulinggih" placeholder="Masukan Nama Sulinggih" value="{{Auth::user()->PemuputKarya->nama_pemuput}}" >
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nama @if (Auth::user()->Penduduk->jenis_kelamin == 'laki-laki')Istri @else Suami @endif</label>
+                                    <input disabled  type="text" class="form-control data-diri" id="nama_pasangan" placeholder="Nomor Istri" value="@isset(Auth::user()->PemuputKarya->Pasangan) {{Auth::user()->PemuputKarya->Pasangan->nama_pemuput}} @else Pasangan belum terdaftar disistem @endisset">
+                                </div>
+                            </div>
+                            <div class="col-12 @if (Auth::user()->PemuputKarya->tipe === 'sulinggih') col-sm-6 @endif">
+                                <div class="form-group">
+                                    <label>SK Sulinggih <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input @error('file') is-invalid @enderror" wire:model="photo" id="customFile">
+                                            <label class="custom-file-label " for="customFile"> Ganti SK Kesulinggihan</label>
+                                        </div>
+                                    </div>
+                                    <a class="p-0 text-xs btn btn-link" data-toggle="modal" data-target="#skSulinggih">Lihat SK Sulinggih</a>
+                                    <div class="modal fade" id="skSulinggih" tabindex="-1" role="dialog" aria-labelledby="skSulinggih" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div id="skSulinggih" class="carousel slide" data-ride="carousel">
+                                                    <ol class="carousel-indicators">
+                                                        <li data-target="#skSulinggih" data-slide-to="0"  class="active"></li>
+                                                    </ol>
+                                                    <div class="carousel-inner">
+                                                        <div class="carousel-item active">
+                                                            <img class="d-block w-100" src="{{route('image.sk-pemuput',Auth::user()->PemuputKarya->AtributPemuput->id)}}" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Auth::user()->PemuputKarya->tipe === 'sulinggih')
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Nabe Sulinggih</label>
+                                        <select class="select2bs4 form-control data-diri" style="width: 100%;">
+                                            <option selected disabled>Pilih Nabe Sulinggih</option>
+                                            @foreach ($nabe as $dataNabe)
+                                                <option @if (Auth::user()->PemuputKarya->AtributPemuput->id_nabe === $dataNabe->id) selected @endif value="{{$dataNabe->id}}">{{$dataNabe->nama_pemuput}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        <!---- DATA GRIYA ATAU PURI ------>
+                        {{-- <div class="dropdown-divider mb-3"></div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nama Griya </label>
+                                    <select wire:model="id_griya" class="select2bs4 form-control data-diri" style="width: 100%;">
+                                        <option selected value="2">Pilih Griya</option>
+                                        @foreach ($griya as $dataGriya)
+                                            <option @if (Auth::user()->PemuputKarya->AtributPemuput->id_nabe === $dataNabe->id) selected @endif value="{{$dataNabe->id}}">{{$dataGriya->nama_griya_rumah}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Alamat Lengkap Griya </label>
+                                    <input  type="text" class="form-control data-diri" id="nama_sulinggih" placeholder="Masukan Nama Sulinggih" value="{{Auth::user()->PemuputKarya->nama_pemuput}}" >
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nama Sulinggih </label>
+                                    <input  type="text" class="form-control data-diri" id="nama_sulinggih" placeholder="Masukan Nama Sulinggih" value="{{Auth::user()->PemuputKarya->nama_pemuput}}" >
+                                </div>
+                            </div>
+                        </div>--}}
+                        <div class="form-group row">
+                            <div class="col-sm-12 text-end pr-4">
+                                <button type="submit" class="float-right btn btn-sm btn-outline-primary my-1">Simpan Data</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 @endif
                 <!---- PEMUPUT DATA ------>
 
