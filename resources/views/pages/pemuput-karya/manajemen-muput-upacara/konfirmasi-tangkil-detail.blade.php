@@ -1,5 +1,5 @@
 @extends('layouts.pemuput-karya.pemuput-karya-layout')
-@section('tittle','Reservasi Krama Masuk')
+@section('tittle','Detail Data Krama Tangkil')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -29,11 +29,11 @@
         <div class="container-fluid border-bottom mt-2">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Detail Data Tangkil</h1>
+                    <h1>Detail Data Krama Tangkil</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">E-Yajamana</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{route('pemuput-karya.manajemen-reservasi.index')}}">Data Krama Tangkil</a></li>
                     <li class="breadcrumb-item active">Detail</li>
                     </ol>
@@ -46,7 +46,7 @@
         <div class="container-fluid">
             <div class="callout callout-info container-fluid">
                 <h5><i class="fas fa-info"></i> Catatan:</h5>
-                Anda dapat menggubah kembali data status reservasi dan tanggal tangkil Krama tersebut!.
+                Anda dapat menggubah kembali data status reservasi dan tanggal tangkil Krama.
             </div>
             <div class="row">
                 <div class="col-12">
@@ -290,10 +290,11 @@
         $('#date').daterangepicker({
             timePicker: true,
             "singleDatePicker": true,
+            timePicker24Hour: true,
             "minDate": moment(Date ()).format('DD MMMM YYYY'),
             "maxDate": moment(data_reservasi.upacaraku.tanggal_mulai).format('DD MMMM YYYY'),
             locale: {
-                format: 'DD MMMM YYYY h:mm A',
+                format: 'DD MMMM YYYY H:mm',
             },
         });
 
@@ -301,8 +302,6 @@
         $.each(data_reservasi.detail_reservasi, function(key, data){
             dataDatabase.push(data.status);
         });
-
-        console.log(dataDatabase)
 
         function alert(text){
             Swal.fire({
@@ -450,8 +449,6 @@
         $('select[name="status[]"] option:selected').each(function() {
             status.push($(this).val());
         });
-        console.log(status)
-
 
     </script>
 @endpush

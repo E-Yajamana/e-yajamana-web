@@ -88,7 +88,6 @@ class NotificationHelper
                 'id' => NotificationHelper::generateRandomString(),
                 'status' => $data['status'] != null ? $data['status'] : "new",
                 'image' => $data['image'] != null ? $data['image'] : "normal",
-                'type' => $data['type'] != null ? $data['type'] : "krama",
                 'formated_created_at' => date("Y-m-d H:i:s"),
                 'formated_updated_at' => date("Y-m-d H:i:s"),
             ],

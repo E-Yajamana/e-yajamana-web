@@ -133,7 +133,7 @@ class User extends Authenticatable
 
     public function sessionSanggar()
     {
-        $session = session('id_sanggar');
-        return Sanggar::find($session);
+        $id = session('id_sanggar');
+        return Sanggar::with(['User.Penduduk'])->find($id);
     }
 }

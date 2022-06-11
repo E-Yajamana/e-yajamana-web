@@ -384,67 +384,55 @@ class KramaUpacarakuController extends Controller
                             }
                             $idDetailReservasi->push($data->DetailReservasi()->pluck('id'));
                         }
-
                         $sanggar = (Arr::collapse($dataUserSanggar));
+                        $pemuput = (Arr::collapse($dataUserPemuput));
 
-                        $pemuput = collect(Arr::collapse($dataUserPemuput));
                         $detailReservasi = collect(Arr::collapse($idDetailReservasi));
                         DetailReservasi::whereIn('id', $detailReservasi)->update(['status'=>'batal','keterangan'=>$request->alasan_pembatalan]);
 
-                        NotificationHelper::sendMultipleNotification(
-                            [
-                                'title' => "RESERVASI BARU",
-                                'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
-                                'status' => "new",
-                                'image' => "krama",
-                                'type' => "sanggar",
-                                'formated_created_at' => date('Y-m-d H:i:s'),
-                                'formated_updated_at' => date('Y-m-d H:i:s'),
-                            ],
-                            $sanggar
-                        );
+                        if(!empty($pemuput)){
+                            NotificationHelper::sendMultipleNotification(
+                                [
+                                    'title' => "PEMBATALAN RESERVASI",
+                                    'body' => $user->Penduduk->nama." membatalkan Reservasinya, dengan alasan ".$request->alasan_pembatalan.". Harap kembali melihat jadwal Mmuput terbaru!",
+                                    'status' => "new",
+                                    'image' => "krama",
+                                    'type' => "sanggar",
+                                    'id_sanggar' => $id_sanggar,
+                                    'formated_created_at' => date('Y-m-d H:i:s'),
+                                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                                ],
+                                $sanggar
+                            );
+                        }
+                        if(!empty($pemuput)){
+                            NotificationHelper::sendMultipleNotification(
+                                [
+                                    'title' => "PEMBATALAN RESERVASI",
+                                    'body' => $user->Penduduk->nama." membatalkan Reservasinya, dengan alasan ".$request->alasan_pembatalan.". Harap kembali melihat jadwal Mmuput terbaru!",
+                                    'status' => "new",
+                                    'image' => "pemuput",
+                                    'type' => "pemuput",
+                                    'formated_created_at' => date('Y-m-d H:i:s'),
+                                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                                ],
+                                $pemuput
+                            );
+                        }
 
 
-
-                        // // NOTIF
-                        //     NotificationHelper::sendMultipleNotification(
-                        //         [
-                        //             'title' => "PEMBATALAN UPACARA",
-                        //             'body' => "Pembatalan upacara berhasil dilakukan, data upacara dapat dilihat pada menu Data Upacara",
-                        //             'status' => "new",
-                        //             'image' => "krama",
-                        //             'type' => "sanggar",
-                        //             // 'id' => $id_sanggar,
-                        //             'formated_created_at' => date('Y-m-d H:i:s'),
-                        //             'formated_updated_at' => date('Y-m-d H:i:s'),
-                        //         ],
-                        //         $sanggar
-                        //     );
-
-                        //     NotificationHelper::sendMultipleNotification(
-                        //         [
-                        //             'title' => "PEMBATALAN UPACARA",
-                        //             'body' => "Pembatalan upacara ".$dataUpacaraku->nama_upacara." berhasil dilakukan, data upacara dapat dilihat pada menu Data Upacara",
-                        //             'status' => "new",
-                        //             'image' => "krama",
-                        //             'type' => "pemuput",
-                        //             'formated_created_at' => date('Y-m-d H:i:s'),
-                        //             'formated_updated_at' => date('Y-m-d H:i:s'),
-                        //         ],
-                        //         $pemuput
-                        //     );
 
                     }
                     // HAVE RESERVASTION
 
-                    $user = Auth::user();
                     NotificationHelper::sendNotification(
                         [
-                            'title' => "PERMOHONAN RESERVASI DIBUAT",
-                            'body' => "Permohonan reservasi kepada telah berhasil dilakukan, dimohon untuk menunggu konfirmasi reservasi.",
+                            'title' => "PEMBATALAN UPACARA",
+                            'body' => "Pembatalan upacara ".$dataUpacaraku->nama_upacara." berhasil dilakukan, data upacara dapat dilihat pada menu Data Upacara",
                             'status' => "new",
                             'image' => "/logo-eyajamana.png",
                             'type' => "krama",
+                            'image' => "krama",
                             'url' => ''.route('krama.manajemen-upacara.upacaraku.index').'',
                             'notifiable_id' => $user->id,
                             'formated_created_at' => date('Y-m-d H:i:s'),
@@ -452,7 +440,6 @@ class KramaUpacarakuController extends Controller
                         ],
                         $user
                     );
-
                     // END SEND NOTIFICATION
                     DB::commit();
                 }else{

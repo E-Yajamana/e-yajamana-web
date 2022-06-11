@@ -67,7 +67,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Penyelenggara </th>
-                                    <th>Jenis Upacara</th>
+                                    <th>Periode Upacara</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Status</th>
                                     <th>Tindakan</th>
@@ -78,8 +78,9 @@
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td style="width: 20%">{{$data->Upacaraku->User->Penduduk->nama}}</td>
-                                        <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td>
+                                        <td style="width: 20%">{{date('d F Y',strtotime($data->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($data->Upacaraku->tanggal_selesai))}}</td>
                                         <td>
+                                            <label>{{$data->Upacaraku->Upacara->nama_upacara}} | {{$data->Upacaraku->Upacara->kategori_upacara}} </label>
                                             @foreach ($data->DetailReservasi as $dataDetail)
                                                 <li >{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
                                             @endforeach
@@ -97,7 +98,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Penyelenggara </th>
-                                    <th>Jenis Upacara</th>
+                                    <th>Periode Upacara</th>
                                     <th>Tahapan Reservasi</th>
                                     <th>Status</th>
                                     <th>Tindakan</th>

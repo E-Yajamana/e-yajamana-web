@@ -199,7 +199,7 @@ class KramaReservasiController extends Controller
                             NotificationHelper::sendNotification(
                                 [
                                     'title' => "RESERVASI BARU",
-                                    'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
+                                    'body' => "Terdapat Krama yang mengajukan reservasi muput upacara, data reservasi dapat dilihat pada menu Reservasi Masuk",
                                     'status' => "new",
                                     'image' => "krama",
                                     'type' => "pemuput",
@@ -214,16 +214,17 @@ class KramaReservasiController extends Controller
                         case 'sanggar':
                             $dataUserSanggar = collect([]);
                             $dataSanggar = Sanggar::with(['User'])->whereHas('User')->findOrFail($request->id_relasi);
+                            $id_user_sanggar = $dataSanggar->User->pluck('id');
                             $dataUserSanggar->push(collect($dataSanggar->User));
                             $sanggar = (Arr::collapse($dataUserSanggar));
                             NotificationHelper::sendMultipleNotification(
                                 [
                                     'title' => "RESERVASI BARU",
-                                    'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
+                                    'body' => "Terdapat Krama yang mengajukan reservasi muput upacara, data reservasi dapat dilihat pada menu Reservasi Masuk",
                                     'status' => "new",
                                     'image' => "/logo-eyajamana.png",
                                     'type' => "sanggar",
-                                    'id_sanggar' => array($request->id_relasi),
+                                    'id_sanggar' => $id_user_sanggar,
                                     'formated_created_at' => date('Y-m-d H:i:s'),
                                     'formated_updated_at' => date('Y-m-d H:i:s'),
                                 ],

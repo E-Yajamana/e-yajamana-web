@@ -74,7 +74,7 @@
                                                 <th>Nama Tahapan</th>
                                                 <th class="text-center">Waktu Mulai - Waktu Selesai</th>
                                                 <th class='text-center'>Status</th>
-                                                @if ($dataReservasi->status == 'proses muput')
+                                                @if ($dataReservasi->status == 'proses muput' || $dataReservasi->status == 'selesai')
                                                     <th class="text-center">Bukti Muput</th>
                                                 @endif
                                             </tr>
@@ -91,32 +91,34 @@
                                                     <td class="d-flex justify-content-center text-center">
                                                         <div  @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'diterima') class=" bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:110px;">{{ucfirst($data->status)}}</div>
                                                     </td>
-                                                    @if ($dataReservasi->status == 'proses muput')
+                                                    @if ($dataReservasi->status == 'proses muput' || $dataReservasi->status == 'selesai')
                                                         @if ($data->Gambar()->count() != 0)
                                                             <td class="text-center">
-                                                                <a data-toggle="modal" data-target="#exampleModal" class="btn btn-secondary btn-sm" ><i class="fas fa-eye"></i></a>
+                                                                <a data-toggle="modal" data-target="#exampleModal-{{$data->id}}" class="btn btn-secondary btn-sm" ><i class="fas fa-eye"></i></a>
                                                             </td>
-                                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal fade" id="exampleModal-{{$data->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog" role="document">
                                                                     <div class="modal-content">
-                                                                        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                                                        <div id="carouselExampleIndicators{{$data->id}}" class="carousel slide" data-ride="carousel">
                                                                             <ol class="carousel-indicators">
-                                                                              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                                                              {{-- <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                                                              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> --}}
+                                                                                @foreach ($data->Gambar as $key=>$gambar)
+                                                                                    <li data-target="#carouselExampleIndicators{{$data->id}}" data-slide-to="{{$key}}" @if($key == 0) class="active" @endif ></li>
+                                                                                @endforeach
                                                                             </ol>
                                                                             <div class="carousel-inner">
-                                                                              <div class="carousel-item active">
-                                                                                <img class="d-block w-100" src="{{route('image.profile.user',2)}}" alt="First slide">
-                                                                              </div>
+                                                                                @foreach ($data->Gambar as $key=>$gambar)
+                                                                                    <div class="carousel-item @if ($key == 0) active @endif">
+                                                                                        <img class="d-block w-100" src="{{route('image.bukti-upacara',$gambar->id)}}" >
+                                                                                    </div>
+                                                                                @endforeach
                                                                             </div>
-                                                                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                                                                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                              <span class="sr-only">Sebelumnya</span>
+                                                                            <a class="carousel-control-prev" href="#carouselExampleIndicators{{$data->id}}" role="button" data-slide="prev">
+                                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                                                <span class="sr-only">Sebelumnya</span>
                                                                             </a>
-                                                                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                                                                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                              <span class="sr-only">Selanjutnya</span>
+                                                                            <a class="carousel-control-next" href="#carouselExampleIndicators{{$data->id}}" role="button" data-slide="next">
+                                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                                                <span class="sr-only">Selanjutnya</span>
                                                                             </a>
                                                                         </div>
                                                                     </div>
@@ -124,7 +126,7 @@
                                                             </div>
                                                         @else
                                                             <td class="text-center">
-                                                                <a onclick="viewImage({{$data->id}})" class="btn btn-secondary btn-sm" ><i class="fas fa-eye"></i></a>
+                                                                <a onclick="noHaveImage()" class="btn btn-secondary btn-sm" ><i class="fas fa-eye"></i></a>
                                                             </td>
                                                         @endif
                                                     @endif
@@ -228,7 +230,7 @@
                                             <i class="far fa-calendar-alt"></i>
                                         </span>
                                     </div>
-                                    <input disabled type="text" class="form-control" id="date" name="tanggal_tangkil" placeholder="Enter email" value="{{date('d F Y | H:i ',strtotime($dataReservasi->created_at))}}">
+                                    <input disabled type="text" class="form-control" id="date" name="tanggal_tangkil" placeholder="Enter email" value="{{date('d F Y | H:m ',strtotime($dataReservasi->created_at))}}">
                                 </div>
                             </div>
                         </div>
@@ -330,26 +332,29 @@
                 accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
             }).addTo(mymap);
 
-            var marker = new L.marker([dataUpacaraku.lat,dataUpacaraku.lng])
-                                    .bindPopup(dataUpacaraku.alamat_upacaraku)
-                                    .addTo(mymap);
+            var marker = new L.marker([dataUpacaraku.lat,dataUpacaraku.lng]).bindPopup(dataUpacaraku.alamat_upacaraku).addTo(mymap);
             marker.on('click', function() {
                 marker.openPopup();
             });
 
         });
     </script>
+@endpush
 
+@push('js')
     <script>
-
-        function viewImage(id)
+        function noHaveImage()
         {
-            console.log(id);
+            Swal.fire({
+                icon: 'info',
+                title: 'Pemberitahuan',
+                text: 'Tidak terdapat data Bukti Muput Upacara pada Tahapan tersebut.',
+            });
         }
     </script>
-
-
 @endpush
+
+
 
 
 

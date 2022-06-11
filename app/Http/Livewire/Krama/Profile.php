@@ -70,7 +70,11 @@ class Profile extends Component
         $notifUnRead = Auth::user()->unreadNotifications->toArray();
         $readNotif = Auth::user()->readNotifications->toArray();
         $notifUnRead = array_filter($notifUnRead, function ($var) {
-            return ($var['data']['type'] == 'krama');
+            if(array_key_exists('type',$var['data'])){
+                return ($var['data']['type'] == 'krama');
+            }else{
+                return $var;
+            }
         });
         $readNotif = array_filter($readNotif, function ($var) {
             if(array_key_exists('type',$var['data'])){

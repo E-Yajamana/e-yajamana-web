@@ -33,9 +33,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('pemuput-karya.manajemen-reservasi.index')}}">Data Reservasi Masuk</a></li>
-                    <li class="breadcrumb-item active">Detail</li>
+                        <li class="breadcrumb-item"><a href="{{route('sanggar.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('sanggar.manajemen-reservasi.index')}}">Data Reservasi Masuk</a></li>
+                        <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
             </div>
@@ -270,7 +270,7 @@
 
     <input id="jsonData" type="hidden" value='@json($dataReservasi)'>
 
-    @include('pages.pemuput-karya.manajemen-reservasi.modal-konfirmasi-reservasi')
+    @include('pages.sanggar.manajemen-reservasi.sanggar-modal-konfirmasi-reservasi')
 
 @endsection
 
@@ -405,8 +405,23 @@
                     $('select[name="status[]"] option:selected').each(function() {
                         status.push($(this).val());
                     });
-                    console.log(status)
-                    validasiInputStatus(status);
+                    Swal.fire({
+                        title: 'Pemberitahuan',
+                        text : 'Apakah anda yakin akan menyimpan perubahan status pada tahapan reservasi tersebut?',
+                        icon:'question',
+                        showDenyButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: `Terima`,
+                        denyButtonText: `Batal`,
+                        confirmButtonColor: '#3085d6',
+                        denyButtonColor : '#d33',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            validasiInputStatus(status);
+                        }
+                    })
+
+
                 }
             });
             $('#inputdata').validate({

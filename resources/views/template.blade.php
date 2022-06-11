@@ -1,7 +1,25 @@
+@push('css')
+    <script src="{{asset('base-template/dist/js/rating.js')}}"></script>
+@endpush
+
 <div class="container-fluid">
     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal"> Modal Testing </button>
 </div>
 
+<div class="row">
+    <div class="col-12 col-md-6" style="font-size: 2em;">
+        <h5>Normal example</h5>
+        <div id="review"></div>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <label for="starsInput">Stars</label>
+        <input type="text" readonly id="starsInput" class="form-control form-control-sm">
+        <div class="alert alert-primary mt-2">
+            Look in the developer console to see the event callback.
+        </div>
+    </div>
+</div>
 
  <!-- MODAL DETAIL POPUP USER -->
  <div class="modal fade" id="myModal" role="dialog">
@@ -74,9 +92,15 @@
     <script>
         function testing()
         {
-            // $("#favorit").removeClass('fas');
             $("#favorit").addClass('text-danger');
         }
+        $("#review").rating({
+            "value": 0,
+            "click": function (e) {
+                console.log(e);
+                $("#starsInput").val(e.stars);
+            }
+        });
     </script>
 @endpush
 

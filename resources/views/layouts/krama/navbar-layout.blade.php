@@ -13,7 +13,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Notifications Dropdown Menu -->
-        @livewire('krama.notif')
+        @livewire('notify')
 
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
