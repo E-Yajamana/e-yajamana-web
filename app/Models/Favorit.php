@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TbFavorit
- * 
+ *
  * @property int $id
  * @property int|null $id_pemuput_karya
  * @property int|null $id_sanggar
  * @property int|null $id_user
- * 
+ *
  * @property TbPemuputKarya|null $tb_pemuput_karya
  * @property TbSanggar|null $tb_sanggar
  * @property TbUserEyajamana|null $tb_user_eyajamana
