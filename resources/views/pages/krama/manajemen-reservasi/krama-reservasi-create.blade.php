@@ -771,6 +771,87 @@
             }
         }
         // FUNCTION KETIKA ADD RESERVASI
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        const favoritPemuput = [];
+        const favoritSanggar = [];
+        const griyaHaveFavorit = [];
+
+        function addFavorit(id,id_griya,tipe,button)
+        {
+            $(button).find("i").addClass("text-danger")
+            $(button).attr("onclick","removeFavorit("+id+","+id_griya+",'"+tipe+"',this)");
+            tipe == 'id_pemuput_karya' ? favoritPemuput.push(id) : favoritSanggar.push(id);
+            $.ajax({
+                url: "{{ route('ajax.set-favorit')}}",
+                type:'POST',
+                data: {
+                    id:id,
+                    tipe:tipe,
+                    "_token":"{{ csrf_token() }}"
+                },
+                success:function(response){
+                    griyaHaveFavorit.push(id_griya)
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                },
+                error: function(response, error){
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                }
+            });
+
+        }
+
+        function removeDuplicateArray(array,value)
+        {
+            const index = array.indexOf(value);
+            if (index > -1) {
+                array.splice(index, 1);
+            }
+            return array;
+        }
+
+
+        function removeFavorit(id,id_griya,tipe,button)
+        {
+            console.log(id_griya)
+            $(button).find("i").removeClass("text-danger");
+            $(button).attr("onclick","addFavorit("+id+","+id_griya+",'"+tipe+"',this)");
+            tipe == 'id_pemuput_karya' ? data = favoritPemuput : data = favoritSanggar;
+            favoritPemuput == removeDuplicateArray(data,id)
+            $.ajax({
+                url: "{{ route('ajax.set-favorit')}}",
+                type:'POST',
+                data: {
+                    id:id,
+                    tipe:tipe,
+                    "_token":"{{ csrf_token() }}"
+                },
+                success:function(response){
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                },
+                error: function(response, error){
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                }
+            });
+            griyaHaveFavorit == removeDuplicateArray(griyaHaveFavorit,id_griya)
+        }
+
 
         // FUNCTION TO VIEW MAPS AND MARKER
         $(document).ready(function(){
@@ -790,51 +871,33 @@
                 dataJsonSanggar = $('#dataSanggar').val();
                 dataSanggar = JSON.parse(dataJsonSanggar)
                 dataJsonPemuput = $('#dataJSONPemuput').val();
-                dataPemuputKarya = JSON.parse(dataJsonPemuput)
-                // console.log(dataPemuputKarya)
-                // console.log(dataSanggar)
+                dataPemuputKarya = JSON.parse(dataJsonPemuput);
+                dataPemuputKarya.forEach(element => {
+                    element.pemuput_karya.forEach(data =>{
+                        if(data.favorit_user.length != 0){
+                            favoritPemuput.push(data.id);
+                        }
+                        if(favoritPemuput.includes(data.id)){
+                            griyaHaveFavorit.push(data.id_griya)
+                        }
+                    });
+                })
 
-                // dataPemuputKarya.forEach(element => {
-                //     // var kabupaten,kecamatan,desa,banjar,favorit,tipe;
-                //     gaskanmarker(0,element);
-
-                //     // console.log(kabupaten == undefined);
-
-                //     // console.log(element);
-                //     // var icMarker = L.icon({
-                //     // iconUrl: "{{asset('base-template/dist/img/marker/sanggar.png')}}",
-                //     //     iconSize: [36, 40],
-                //     //     iconAnchor: [8 , 40],
-                //     //     popupAnchor: [12, -28],
-                //     // });
-
-                //     // var marker = new L.marker([element.lat, element.lng],{
-                //     //     icon: icMarker,
-                //     // }).bindPopup(element.nama_sanggar);
-
-                //     // marker.addTo(mymap);
-                //     // $( "#gaskantest" ).click(function() {
-                //     //     mymap.removeLayer(marker)
-                //     // });
-
-
-
-                // });
 
                 function createMarkerPemuput(kabupaten,kecamatan,desa_dinas,id_banjar_dinas,favorit,dataPemuputKarya)
                 {
                     var icMarker = L.icon({
-                    iconUrl: "{{asset('base-template/dist/img/marker/sanggar.png')}}",
+                        iconUrl: "{{asset('base-template/dist/img/marker/griya.png')}}",
                         iconSize: [36, 40],
                         iconAnchor: [8 , 40],
                         popupAnchor: [12, -28],
                     });
                     markerPemuput = [];
                     dataPemuputKarya.forEach(element => {
-                        console.log(element)
+
                         marker = new L.marker([element.lat, element.lng],{
                             icon: icMarker,
-                        }).bindPopup(element.nama_griya_rumah);
+                        });
                         marker.on('click', function() {
                             marker.openPopup();
                             $("#myModal").modal();
@@ -843,15 +906,14 @@
                             $("#alamat").html("Lokasi : "+element.alamat_griya_rumah);
                             $("#dataSulinggih").empty();
                             // SET MODAL DATA SULINGGIH DAN PEMUPUT KARYA
+                            let i =0;
                             element.pemuput_karya.forEach(data =>{
                                 if(favorit == 1 ){
-                                    if(data.favorit_user.length != 0){
-                                        var tanggal_diksha = moment(data.tanggal_diksha).format('DD MMMM YYYY')
-                                        $("#dataSulinggih").append("<div class='card shadow collapsed-card mt-3'><div class='card-header'><div class='user-block'><img class='img-circle' src='{{route('image.profile.user')}}/"+data.id_user+"' alt='User Image'><span class='username'><a class='ml-2' href='#'> "+data.nama_pemuput+"</a></span><span class='description'><div class='ml-2 '> "+data.user.email+"</div></span></div><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body'><div class='row '><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Tanggal Diksha   :</span></div><div class='col-5'><span style='font-size:80%' > "+tanggal_diksha+"</span></div><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Nomor Telepon :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user.nomor_telepon+"</span></div></div></div><div class='card-footer' style='display: none;'><button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getPemuput("+data.id+","+data.id_user+",'"+data.nama_pemuput+"','"+data.user.nomor_telepon+"','"+alamat+"','"+data.user.penduduk.nama_alias+"','"+tanggal_diksha+"','"+data.user.email+"')\">Reservasi</button></div></div>");
+                                    if(favoritPemuput.includes(data.id)){
+                                        appendDataPemuput(data, i++);
                                     }
                                 }else{
-                                    var tanggal_diksha = moment(data.tanggal_diksha).format('DD MMMM YYYY')
-                                    $("#dataSulinggih").append("<div class='card shadow collapsed-card mt-3'><div class='card-header'><div class='user-block'><img class='img-circle' src='{{route('image.profile.user')}}/"+data.id_user+"' alt='User Image'><span class='username'><a class='ml-2' href='#'> "+data.nama_pemuput+"</a></span><span class='description'><div class='ml-2 '> "+data.user.email+"</div></span></div><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body'><div class='row '><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Tanggal Diksha   :</span></div><div class='col-5'><span style='font-size:80%' > "+tanggal_diksha+"</span></div><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Nomor Telepon :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user.nomor_telepon+"</span></div></div></div><div class='card-footer' style='display: none;'><button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getPemuput("+data.id+","+data.id_user+",'"+data.nama_pemuput+"','"+data.user.nomor_telepon+"','"+alamat+"','"+data.user.penduduk.nama_alias+"','"+tanggal_diksha+"','"+data.user.email+"')\">Reservasi</button></div></div>");
+                                    appendDataPemuput(data, i++);
                                 }
                             });
                         });
@@ -863,7 +925,7 @@
 
                         if((kabupaten == 0 || kabupaten == dataKabupaten ) &&  (kecamatan == 0 || kecamatan == dataKecamatan ) && (desa_dinas == 0 || desa_dinas == dataDesa ) && (id_banjar_dinas == 0 || id_banjar_dinas == dataBanjar ) ){
                             if(favorit == 1 ){
-                                if(element.pemuput_karya_count){
+                                if(griyaHaveFavorit.includes(element.id)){
                                     markerPemuput.push(marker);
                                 }
                             }else{
@@ -877,6 +939,38 @@
                     pemuputMarker = L.layerGroup(markerPemuput);
                     mymap.addLayer(pemuputMarker)
                 }
+
+                function appendDataPemuput(data,key)
+                {
+                    console.log(data)
+                    var tanggal_diksha = moment(data.tanggal_diksha).format('DD MMMM YYYY')
+                    $("#dataSulinggih").append(
+                    '<div class="col-12" id="accordion">'+'<div class="card">'+'<div class="card-header">'+
+                    '<a class="d-block w-100" data-toggle="collapse" href="#collapseOne'+data.user.id+''+key+'">'+"<div class='user-block'>"+
+                    "<img class='img-circle mt-1' src='{{route('image.profile.user')}}/"+data.user.id+"' alt='User Image' style='height: 48px; width:  48px'>"+
+                    "<span class='username'><div class='btn btn-link p-0 ml-3' >"+data.nama_pemuput+"</div></span>"+
+                    "<span class='description'><div class='ml-3 '>"+data.user.email+" | <i class='fas fa-star text-warning'></i> 5</div></span>"+
+                    "<span class='description'> <div class='ml-3 '>Muput Upacara "+data.user.reservasi_count+"</div> </span>"+
+                    "</div>"+"</a>"+"<div class='card-tools'>"+
+                    (data.favorit_user.length != 0  || favoritPemuput.includes(data.id) ? "<button title='Tambahkan ke Favorit' onclick=\"removeFavorit("+data.id+","+data.id_griya+",  'id_pemuput_karya',this)\" type='button' class='btn btn-tool float-lg-right pt-3'><i id='favorit' class='fas fa-heart fa-sm text-danger'></i></button>" : "<button title='Tambahkan ke Favorit' onclick=\"addFavorit("+data.id+","+data.id_griya+",'id_pemuput_karya',this)\" type='button' class='btn btn-tool float-lg-right pt-3'><i id='favorit' class='fas fa-heart fa-sm'></i></button>")+
+                    "</div>"+"</div>"+
+                    '<div id="collapseOne'+data.user.id+''+key+'" class="collapse" data-parent="#accordion">'+
+                    '<div class="card-body">'+"<div class='row d-flex justify-content-center px-3'>"+'<div class="col-6">'+'<div class=" align-items-center">'+
+                    '<p class="text-xs mb-0"> <strong>Tanggal Diksha :</strong> '+tanggal_diksha+'</p>'+
+                    (data.user.penduduk.nama_alias == null || data.user.penduduk.nama_alias == '' ? '<p class="text-xs mb-0"> <strong> Nama Walaka : </strong>Belum Terdata</p>' : '<p class="text-xs mb-0"> <strong> Nama Walaka : </strong> '+data.user.penduduk.nama_alias +' </p>' )+
+                    '<p class="text-xs mb-0 d-flex"> <strong> Nomor Telepon :</strong> '+data.user.nomor_telepon+'</p>'+
+                    '</div>'+"</div>"+'<div class="col-6">'+'<div class=" align-items-center">'+
+                    '<p class="text-xs mb-0"> <strong> Tipe : </strong>'+data.tipe+'</p>'+
+                    (data.atribut_pemuput.nabe == 0 || data.atribut_pemuput.nabe == null ? '<p class="text-xs mb-0 d-flex"> <strong> Nama Nabe : </strong>Belum Terdata</p>' : '<p class="text-xs mb-0 "> <strong> Nama Nabe : </strong> </p><p class="text-xs m-0"> '+data.atribut_pemuput.nabe.nama_pemuput +'</p>' )+
+                    '<p class="text-xs mb-0"> <strong> Jenis Kelamin : </strong>'+data.user.penduduk.jenis_kelamin+'</p>'+
+                    '</div>'+'</div>'+'</div>'+'</div>'+"<div class='card-footer'>"+
+                    "<button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getPemuput("+data.id+","+data.id_user+",'"+data.nama_pemuput+"','"+data.user.nomor_telepon+"','"+alamat+"','"+data.user.penduduk.nama_alias+"','"+tanggal_diksha+"','"+data.user.email+"')\">Reservasi</button>"+
+                    "</div>"+'</div>'+'</div>'+'</div>'
+                    );
+
+                }
+
+
 
 
                 $("#searchFilter").click(function() {
@@ -904,45 +998,35 @@
                 createMarkerPemuput(0,0,0,0,0,dataPemuputKarya);
 
 
-
-
                 // dataSanggar.forEach(element => {
                 //     createMarkerSanggar(element);
                 // });
             // END INISIALISASI DATA
-            // console.log(Object.assign({}, dataPemuputKarya));
-
-            // dataPemuputKarya.then(function(data) {
-            //     console.log(data);
-            // });
-
-
-
 
 
             //  FUNCTION CREATE MAREKER SANGGAR
-            // function createMarkerSanggar(data){
-            //     console.log(data)
-            //     var icMarker = L.icon({
-            //         iconUrl: "{{asset('base-template/dist/img/marker/sanggar.png')}}",
-            //         iconSize: [36, 40],
-            //         iconAnchor: [8 , 40],
-            //         popupAnchor: [12, -28],
-            //     });
+            function createMarkerSanggar(data){
+                console.log(data)
+                var icMarker = L.icon({
+                    iconUrl: "{{asset('base-template/dist/img/marker/sanggar.png')}}",
+                    iconSize: [36, 40],
+                    iconAnchor: [8 , 40],
+                    popupAnchor: [12, -28],
+                });
 
-            //     var marker = new L.marker([data.lat, data.lng],{
-            //         icon: icMarker,
-            //     }).bindPopup(data.nama_sanggar).addTo(mymap);
+                var marker = new L.marker([data.lat, data.lng],{
+                    icon: icMarker,
+                }).bindPopup(data.nama_sanggar).addTo(mymap);
 
-            //     marker.on('click', function() {
-            //         marker.openPopup();
-            //         $("#myModal").modal();
-            //         $("#nama_griya").html(data.nama_sanggar);
-            //         $("#alamat").html("Lokasi : "+data.alamat_sanggar);
-            //         $("#dataSulinggih").empty();
-            //         $("#dataSulinggih").append("<div class='card shadow collapsed-card mt-3'><div class='card-header'><div class='user-block'><img class='img-circle' src='{{route('image.profile.user')}}/"+data.user[0].id+"' alt='User Image'><span class='username'><a class='ml-2' href='#'> "+data.nama_sanggar+"</a></span><span class='description'><div class='ml-2 '> "+data.user[0].email+"</div></span></div><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body'><div class='row '><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Pengelola Sanggar   :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user[0].penduduk.nama+"</span></div><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Nomor Telepon :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user[0].nomor_telepon+"</span></div></div></div><div class='card-footer' style='display: none;'><button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getSanggar("+data.id+","+data.id_user+",'"+data.nama_sanggar+"','"+data.user[0].penduduk.nama+"','"+data.user[0].email+"','"+data.user[0].nomor_telepon+"','"+data.alamat_sanggar+"')\">Reservasi</button></div></div>");
-            //     });
-            // }
+                marker.on('click', function() {
+                    marker.openPopup();
+                    $("#myModal").modal();
+                    $("#nama_griya").html(data.nama_sanggar);
+                    $("#alamat").html("Lokasi : "+data.alamat_sanggar);
+                    $("#dataSulinggih").empty();
+                    $("#dataSulinggih").append("<div class='card shadow collapsed-card mt-3'><div class='card-header'><div class='user-block'><img class='img-circle' src='{{route('image.profile.user')}}/"+data.user[0].id+"' alt='User Image'><span class='username'><a class='ml-2' href='#'> "+data.nama_sanggar+"</a></span><span class='description'><div class='ml-2 '> "+data.user[0].email+"</div></span></div><div class='card-tools'><button type='button' class='btn btn-tool' data-card-widget='collapse'><i class='fas fa-plus'></i></button></div></div><div class='card-body'><div class='row '><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Pengelola Sanggar   :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user[0].penduduk.nama+"</span></div><div class='col-7 d-flex justify-content-center align-items-center mb-2'><span style='font-size:80%' >Nomor Telepon :</span></div><div class='col-5'><span style='font-size:80%' > "+data.user[0].nomor_telepon+"</span></div></div></div><div class='card-footer' style='display: none;'><button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getSanggar("+data.id+","+data.id_user+",'"+data.nama_sanggar+"','"+data.user[0].penduduk.nama+"','"+data.user[0].email+"','"+data.user[0].nomor_telepon+"','"+data.alamat_sanggar+"')\">Reservasi</button></div></div>");
+                });
+            }
             // //  END FUNCTION CREATE MAREKER SANGGAR
 
 

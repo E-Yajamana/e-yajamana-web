@@ -115,24 +115,31 @@ class KramaReservasiController extends Controller
                 $dataUpacaraku = Upacaraku::with(['Upacara'])->findOrFail($request->id);
                 $dataUserReservasi = Reservasi::where('id_upacaraku',$request->id)->whereNotIn('status',['batal','selesai'])->whereTipe('pemuput_karya')->pluck('id_relasi')->toArray();
                 $reservasiSanggar = Reservasi::where('id_upacaraku',$request->id)->whereNotIn('status',['batal','selesai'])->whereTipe('sanggar')->pluck('id_sanggar')->toArray();
+                $queryFavorit = function ($queryFavorit) use ($user,$dataUserReservasi){
+                    $queryFavorit->where('id_user',$user->id)->whereNotIn('id_pemuput_karya',$dataUserReservasi);
+                };
+                $queryTotalReservasi = function ($queryTotalReservasi){
+                    $queryTotalReservasi->with(['Penduduk'])->withCount(['Reservasi'=>function (Builder $query){
+                        $query->where('status','selesai');
+                    }]);
+                };
+
                 array_push($dataUserReservasi, $user->id);
 
                 $dataSanggar = Sanggar::with('User.Penduduk')->whereHas('User.Penduduk')->where('status_konfirmasi_akun','disetujui')->whereNotIn('id',$reservasiSanggar)->get();
 
                 $dataPemuputKarya = GriyaRumah::query();
-                $queryFavorit = function ($queryFavorit) use ($user,$dataUserReservasi){
-                    $queryFavorit->where('id_user',$user->id)->whereNotIn('id_pemuput_karya',$dataUserReservasi);
-                };
 
-                $sulinggihQuery = function($sulinggihQuery) use ($dataUserReservasi,$queryFavorit  ){
-                    $sulinggihQuery->with(['AtributPemuput','User.Penduduk', 'FavoritUser'=>$queryFavorit])
+
+                $sulinggihQuery = function($sulinggihQuery) use ($dataUserReservasi,$queryFavorit,$queryTotalReservasi ){
+                    $sulinggihQuery->with(['AtributPemuput.Nabe','User'=>$queryTotalReservasi, 'FavoritUser'=>$queryFavorit])
                         ->where('status_konfirmasi_akun','disetujui')
                         ->whereNotIn('id_user',$dataUserReservasi);
                 };
                 $dataPemuputKarya->with([
                     'PemuputKarya' => $sulinggihQuery, 'BanjarDinas.DesaDinas.Kecamatan.Kabupaten'
-                    ])->whereHas('PemuputKarya',$sulinggihQuery)->withCount(['PemuputKarya' => function (Builder $qeury) use ($queryFavorit){
-                        $qeury->with(['FavoritUser'=>$queryFavorit])->whereHas('FavoritUser',$queryFavorit)->where('status_konfirmasi_akun','disetujui');
+                    ])->whereHas('PemuputKarya',$sulinggihQuery)->withCount(['PemuputKarya' => function (Builder $query) use ($queryFavorit){
+                        $query->with(['FavoritUser'=>$queryFavorit])->whereHas('FavoritUser',$queryFavorit)->where('status_konfirmasi_akun','disetujui');
                     }]);
                 $dataPemuputKarya = $dataPemuputKarya->get();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){

@@ -219,7 +219,6 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], fun
         Route::get('riwayat/detail/{id}', [RiwayatReservasiController::class, 'detail'])->name('pemuput-karya.manajemen-reservasi.riwayat.detail');
     });
 
-
     Route::prefix('muput-upacara')->group(function () {
         Route::get('konfimasi-tangkil/index', [KonfirmasiTangkilController::class, 'indexKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.index');
         Route::get('konfimasi-tangkil/detail/{id?}', [KonfirmasiTangkilController::class, 'detailKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail');
@@ -309,6 +308,7 @@ Route::prefix('ajax')->group(function () {
 
     Route::prefix('user')->group(function () {
         Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
+        Route::post('set-favorit', [AjaxController::class, 'setFavorit'])->name('ajax.set-favorit');
 
     });
 

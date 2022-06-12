@@ -61,6 +61,11 @@ class Sanggar extends Model
 		return $this->hasMany(Reservasi::class, 'id_sanggar','id');
 	}
 
+    public function FavoritUser()
+	{
+		return $this->belongsToMany(User::class, 'tb_favorit', 'id_sanggar', 'id_user');
+	}
+
     public function DesaDinas()
 	{
 		return $this->belongsTo(DesaDinas::class, 'id_desa_dinas','id');

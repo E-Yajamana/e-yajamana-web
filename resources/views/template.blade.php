@@ -1,4 +1,4 @@
-{{-- @push('css')
+@push('css')
     <script src="{{asset('base-template/dist/js/rating.js')}}"></script>
 @endpush
 
@@ -79,6 +79,53 @@
                             </div>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
+                                <div class='user-block'>
+                                    <img class='img-circle mt-1' src="{{route('image.profile.user',49)}}" alt='User Image' style="height: 48px; width:  48px">
+                                    <span class='username'>
+                                        <div class='btn btn-link p-0 ml-3' >I Made Rismawan Nugraha </div>
+                                    </span>
+                                    <span class='description'>
+                                        <div class='ml-3 '>rismawan@gmail.com | <i class="fas fa-star text-warning"></i> 0.0</div>
+                                    </span>
+                                    <span class='description'>
+                                        <div class='ml-3 '>Muput Upacara 40</div>
+                                    </span>
+                                </div>
+                            </a>
+                            <div class='card-tools'>
+                                <button title="Tambahkan ke Favorit"  type='button' onclick="testing()" class='btn btn-tool float-lg-right pt-3'>
+                                    <i id="favorit" class="fas fa-heart fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="collapseOne" class="collapse" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class='row d-flex justify-content-center px-3'>
+                                    <div class="col-6">
+                                        <div class=" align-items-center">
+                                            <p class="text-xs mb-0"> <strong>Tanggal Diksha :</strong> 28 Mei 2022</p>
+                                            <p class="text-xs mb-0"> <strong> Nama Walaka :</strong> Belum Terdata</p>
+                                            <p class="text-xs mb-0"> <strong> Nomor Telepon :</strong> 0812461238</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class=" align-items-center">
+                                            <p class="text-xs mb-0"> <strong> Tipe : </strong>Sulinggih</p>
+                                            <p class="text-xs mb-0"> <strong> Nama Nabe : </strong>Belum Terdata</p>
+                                            <p class="text-xs mb-0"> <strong> Jenis Kelamin : </strong>Perempuan</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer" style='display: none;'>
+                                <button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getPemuput("+data.id+","+data.id_user+",'"+data.nama_pemuput+"','"+data.user.nomor_telepon+"','"+alamat+"','"+data.user.penduduk.nama_alias+"','"+tanggal_diksha+"','"+data.user.email+"')\">Reservasi</button>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -105,4 +152,4 @@
 @endpush
 
 
- --}}
+
