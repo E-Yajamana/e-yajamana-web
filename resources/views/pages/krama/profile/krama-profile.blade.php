@@ -187,7 +187,7 @@ crossorigin=""></script>
                 <!-- RESERVASI RANGKUMAN -->
             </div>
 
-            @livewire('krama.profile')
+            @livewire('profile')
 
         </div>
     </div>

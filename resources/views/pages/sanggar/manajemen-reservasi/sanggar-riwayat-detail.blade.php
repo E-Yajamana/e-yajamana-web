@@ -1,4 +1,4 @@
-@extends('layouts.pemuput-karya.pemuput-karya-layout')
+@extends('layouts.sanggar.sanggar-layout')
 @section('tittle','Detail Riwayat Reservasi')
 
 @push('css')
@@ -26,8 +26,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.manajemen-reservasi.riwayat.index')}}">Data Riwayat Reservasi</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('sanggar.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('sanggar.manajemen-reservasi.riwayat.index')}}">Data Riwayat Reservasi</a></li>
                         <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>

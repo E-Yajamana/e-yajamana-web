@@ -17,7 +17,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('sanggar.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item active">Data Muput Upacara</li>
                     </ol>
                 </div>
@@ -56,7 +56,7 @@
                                         <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[0]->tanggal_mulai))}}</td>
                                         <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[0]->tanggal_selesai))}}</td>
                                         <td>
-                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[0]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a href="{{route('sanggar.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[0]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                             <a onclick="konfirmasiMuput({{$data->DetailReservasi[0]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                         </td>
                                     </tr>
@@ -66,7 +66,7 @@
                                             <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[$i]->tanggal_mulai))}}</td>
                                             <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[$i]->tanggal_selesai))}}</td>
                                             <td>
-                                                <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                <a href="{{route('sanggar.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                 <a onclick="konfirmasiMuput({{$data->DetailReservasi[$i]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                             </td>
                                         </tr>

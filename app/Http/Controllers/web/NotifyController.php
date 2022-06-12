@@ -34,6 +34,9 @@ class NotifyController extends Controller
 
         // MAIN LOGIC
             try {
+                User::whereIn('fcm_token_web',[$request->token])->update([
+                    'fcm_token_web' => null
+                ]);
                 $user = Auth::user();
                 User::findOrFail($user->id)->update([
                     'fcm_token_web'=>$request->token

@@ -18,7 +18,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.konfirmasi')}}" method="POST" id="konfirmasiData" enctype="multipart/form-data">
+            <form action="{{route('sanggar.muput-upacara.konfirmasi-muput.konfirmasi')}}" method="POST" id="konfirmasiData" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="modal-body">
@@ -58,7 +58,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="formAlasanPembatalan" action="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.batal')}}" method="POST">
+            <form id="formAlasanPembatalan" action="{{route('sanggar.muput-upacara.konfirmasi-muput.batal')}}" method="POST">
                 @csrf
                 @method('put')
                 <input type="hidden" id="idDetailReservasiBatal" class="d-none" value="" name="id_detail_reservasi">
@@ -68,7 +68,7 @@
                         <p class="text-xs">Reservasi yang sudah ditolak, tidak dapat diubah kembali. Masukan alasan penolakan untuk menginformasikan kembali kepada Krama.</p>
                     </div>
                     <div class="form-group px-2">
-                        <label>Alasan Balat Muput Upacara? <span class="text-danger">*</span></label>
+                        <label>Alasan Batal Muput Upacara? <span class="text-danger">*</span></label>
                         <select id="alasan_pembatalan" onchange="getVal()" name="alasan_pembatalan" class="select2bs4 form-control " style="width: 100%;">
                             <option disabled selected>Pilih Alasan</option>
                             <option value="Kondisi tidak memungkinkan untuk Muput">Kondisi tidak memungkinkan untuk Muput</option>

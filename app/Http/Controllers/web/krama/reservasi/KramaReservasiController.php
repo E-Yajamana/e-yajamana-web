@@ -69,7 +69,6 @@ class KramaReservasiController extends Controller
                             "tindakan" => $tindakan,
                         ]);
                     }
-
                 }
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 return redirect()->back()->with([
@@ -301,7 +300,8 @@ class KramaReservasiController extends Controller
                 $queryUpacaraku = function ($queryUpacaraku) use ($idUser){
                     $queryUpacaraku->with('Upacara','User')->whereIdKrama($idUser);
                 };
-                $dataReservasi = Reservasi::with(['Relasi.Penduduk','DetailReservasi.TahapanUpacara','Upacaraku'=> $queryUpacaraku])->whereHas('Relasi')->whereHas('Upacaraku',$queryUpacaraku)->whereHas('DetailReservasi.TahapanUpacara')->findOrFail($request->id);
+
+                $dataReservasi = Reservasi::with(['DetailReservasi.TahapanUpacara','Upacaraku'=> $queryUpacaraku])->whereHas('Upacaraku',$queryUpacaraku)->whereHas('DetailReservasi.TahapanUpacara')->findOrFail($request->id);
             }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
                 return \redirect()->back()->with([
                     'status' => 'fail',
@@ -656,4 +656,52 @@ class KramaReservasiController extends Controller
         // END RETURN
     }
     // AJAX DELETE RESERVASI
+
+    public function storeRating(Request $request)
+    {
+        // SECURITY
+            $validator = Validator::make($request->all(),[
+                'id_reservasi_ranting' => 'required|exists:tb_reservasi,id',
+                'rating' => 'required|max:1',
+            ],
+            [
+                'id_reservasi_ranting.required' => "ID Reservasi wajib diisi",
+                'id_reservasi_ranting.exists' => 'ID Reservasi tidak sesuai dengan di sistem',
+            ]);
+            if($validator->fails()){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Validation Error',
+                    'message' => 'Harap dicek kembali form input yang Anda masukan',
+                ]);
+            }
+        // END SECURITY
+        try{
+            DB::beginTransaction();
+            Reservasi::find($request->id_reservasi_ranting)->update([
+                'rating' => $request->rating,
+                'keterangan_rating' => $request->keterangan_rating,
+            ]);
+            DB::commit();
+        }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){
+            return redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Failed Sistem!',
+                'message' => 'Mohon hubungi developer untuk lebih lanjut!',
+            ]);
+        }
+        // MAIN LOGIC
+            return redirect()->route('krama.manajemen-reservasi.detail',$request->id_reservasi_ranting)->with([
+                'status' => 'success',
+                'icon' => 'success',
+                'title' => 'Berhasil Menambahkan Penilaian',
+                'message' => 'Berhasil menambahkan penilian, data penilaian dapat dilihat pada Detail Reservasi',
+            ]);
+        // END LOGIC
+
+    }
+
+
 }

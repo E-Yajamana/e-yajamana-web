@@ -22,8 +22,9 @@ class CreateTbReservasiTable extends Migration
             $table->enum('status', ['pending', 'proses tangkil', 'proses muput', 'selesai', 'batal', 'ditolak'])->nullable();
             $table->dateTime('tanggal_tangkil')->nullable();
             $table->text('keterangan')->nullable();
-            $table->timestamps();
             $table->boolean('rating')->nullable();
+            $table->text('keterangan_ranting')->nullable();
+            $table->timestamps();
         });
     }
 

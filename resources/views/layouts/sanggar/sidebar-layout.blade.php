@@ -79,7 +79,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-muput-upacara-konfirmasi-tangkil" href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}" class="nav-link p-2">
+                            <a id="side-manajemen-muput-upacara-konfirmasi-tangkil" href="{{route('sanggar.muput-upacara.konfirmasi-tangkil.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                                 <p>Konfirmasi Penguleman @yield('countTangkil')</p>
                             </a>
@@ -110,7 +110,7 @@
                             </a>
                         </li>
                         <li class="nav-item ml-3">
-                            <a id="side-manajemen-reservasi-riwayat" href="{{route('pemuput-karya.manajemen-reservasi.riwayat.index')}}" class="nav-link p-2">
+                            <a id="side-manajemen-reservasi-riwayat" href="{{route('sanggar.manajemen-reservasi.riwayat.index')}}" class="nav-link p-2">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Riwayat Reservasi</p>
                             </a>

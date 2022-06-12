@@ -1,5 +1,5 @@
-@extends('layouts.pemuput-karya.pemuput-karya-layout')
-@section('tittle','Reservasi Krama Masuk')
+@extends('layouts.sanggar.sanggar-layout')
+@section('tittle','Detail Reservasi Masuk')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -154,7 +154,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <form action="{{route('pemuput-karya.manajemen-reservasi.verifikasi.update')}}" method="POST" id="inputdata">
+                    <form action="{{route('sanggar.manajemen-reservasi.verifikasi.update')}}" method="POST" id="inputdata">
                         @csrf
                         @method('PUT')
                         <input class="d-none" name="id_reservasi" id="idReservasi" value="{{$dataReservasi->id}}" type="hidden">
@@ -379,7 +379,9 @@
                 });
             }else if(data.indexOf("diterima") !== -1){
                 if(data_reservasi.tanggal_tangkil == null){
-                    $("#modalInputTangkil").modal();
+                    // $("#modalInputTangkil").modal();
+                    $("#date").val(moment(data_reservasi.upacaraku.tanggal_mulai).subtract(1, 'days').format('DD MMMM YYYY H:mm'));
+                    $("#inputdata")[0].submit();
                 }else{
                     $("#inputdata")[0].submit();
                 }

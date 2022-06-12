@@ -2,11 +2,18 @@
     <div class="card card-primary card-outline card-outline-tabs">
         <div class="card-header border-bottom-0 p-2">
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link text-dark @if (!Session::has('notify')) active @endif" href="#dataDiri" data-toggle="tab">Data Diri</a></li>
-                <li class="nav-item"><a class="nav-link  text-dark" href="#akun" data-toggle="tab">Akun</a></li>
-                <li class="nav-item"><a class="nav-link text-dark" id="pemetaanTabs" href="#pemetaan" data-toggle="tab">Pemetaan Lokasi</a></li>
-                <li class="nav-item"><a class="nav-link @if (Session::has('notify')) {{session()->get('notify')}} @endif text-dark" href="#notifikasi" data-toggle="tab">Notifikasi</a></li>
-                <li class="nav-item"><a class="nav-link text-dark" href="#ubahPassword" data-toggle="tab">Ubah Password</a></li>
+                @if (Request::segment(1) === 'krama' || Request::segment(1) === 'pemuput-karya')
+                    <li class="nav-item"><a class="nav-link text-dark @if (!Session::has('notify')) active @endif" href="#dataDiri" data-toggle="tab">Data Diri</a></li>
+                    @if (Request::segment(1) === 'pemuput-karya')
+                        <li class="nav-item"><a class="nav-link text-dark" href="#dataSulinggih" data-toggle="tab">Data @if (Auth::user()->PemuputKarya->tipe === 'sulinggih')Sulinggih @else Pemangku @endif </a></li>
+                    @endif
+                    <li class="nav-item"><a class="nav-link  text-dark" href="#akun" data-toggle="tab">Akun</a></li>
+                    @if (Request::segment(1) === 'krama')
+                        <li class="nav-item"><a class="nav-link text-dark" id="pemetaanTabs" href="#pemetaan" data-toggle="tab">Pemetaan Lokasi</a></li>
+                    @endif
+                    <li class="nav-item"><a class="nav-link @if (Session::has('notify')) {{session()->get('notify')}} @endif text-dark" href="#notifikasi" data-toggle="tab">Notifikasi</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="#ubahPassword" data-toggle="tab">Ubah Password</a></li>
+                @endif
             </ul>
         </div>
         <div class="card-body">
@@ -15,14 +22,14 @@
                 <!---- DATA DIRI TABS ------>
                 <div class="tab-pane @if (!Session::has('notify')) active @endif" id="dataDiri">
                     <div class="ml-2 fs-4">
-                        <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Data Diri</label>
+                        <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Data Diri </label>
                         <p>Kelola data diri Anda agar lebih mudah mendapatkan informasimu</p>
                     </div>
                     <div class="dropdown-divider mb-3"></div>
                     <form id="formDataDiri">
                         <div class="px-3">
                             <div class="row">
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">NIK </label>
                                         <input disabled id="nik" type="text" class="form-control data-diri" id="exampleInputEmail1" placeholder="Enter email" value="{{Auth::user()->Penduduk->nik}}" >
@@ -30,7 +37,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nomor Induk Krama </label>
                                         <input disabled id="nomor_induk_krama" type="text" class="form-control data-diri" id="exampleInputEmail1" placeholder="Nomor Induk Krama" value="{{Auth::user()->Penduduk->nomor_induk_krama}}" >
@@ -39,14 +46,14 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nama Krama </label>
                                         <input id="nama" type="text" class="form-control data-diri" id="exampleInputEmail1" placeholder="Enter email" value="{{Auth::user()->Penduduk->nama}}" >
                                         <div class="text-sm text-danger text-start data-diri " id="nama_error"></div>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nama Alias </label>
                                         <input id="nama_alias" type="text" class="form-control data-diri" id="exampleInputEmail1" placeholder="Nama Alias" value="{{Auth::user()->Penduduk->nama_alias}}" >
@@ -55,14 +62,14 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Gelar Depan </label>
                                         <input id="gelar_depan" type="text" class="form-control data-diri" id="exampleInputEmail1" placeholder="Gelar Depan" value="{{Auth::user()->Penduduk->gelar_depan}}" >
                                         <div class="text-sm text-danger text-start data-diri " id=""></div>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Gelar Belakang </label>
                                         <input id="gelar_belakang" type="text" class="form-control data-diri" id="exampleInputEmail1" placeholder="Gelar Belakang" value="{{Auth::user()->Penduduk->gelar_belakang}}" >
@@ -71,14 +78,14 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Tempat Lahir </label>
                                         <input id="tempat_lahir" type="text" class="form-control data-diri" id="exampleInputEmail1" placeholder="Enter email"  value="{{Auth::user()->Penduduk->tempat_lahir}}">
                                         <div class="text-sm text-danger text-start data-diri " id="tempat_lahir_error"></div>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <label>Tanggal Lahir</label>
                                     <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
                                         <input id="tanggal_lahir" name="tanggal_tangkil" id="demo" type='text' class='form-control data-diri float-right' value="{{Auth::user()->Penduduk->tanggal_lahir}}">
@@ -92,7 +99,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Jenis Kelamin</label>
                                         <select id="jenis_kelamin" class="select2bs4 form-control data-diri" style="width: 100%;">
@@ -103,7 +110,7 @@
                                         <div class="text-sm text-danger text-start data-diri " id="jenis_kelamin_error"></div>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Golongan Darah</label>
                                         <select id="golongan_darah" class="select2bs4 form-control data-diri" style="width: 100%;">
@@ -118,7 +125,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Agama</label>
                                         <select id="agama" class="select2bs4 form-control data-diri" style="width: 100%;">
@@ -133,7 +140,7 @@
                                         <div class="text-sm text-danger text-start data-diri " id="agama_error"></div>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Status Perkawinan</label>
                                         <select id="status_perkawinan" class="select2bs4 form-control data-diri" style="width: 100%;">
@@ -148,7 +155,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Pendidikan</label>
                                         <select id="pendidikan" name="id_tahapan_upacara" class="select2bs4 form-control data-diri" style="width: 100%;">
@@ -168,7 +175,7 @@
                                         <div class="text-sm text-danger text-start data-diri " id="id_tahapan_upacara_error"></div>
                                     </div>
                                 </div>
-                                <div class="col">
+                                <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Pekerjaan</label>
                                         <select id="profesi" name="id_tahapan_upacara" class="select2bs4 form-control data-diri" style="width: 100%;">
@@ -195,6 +202,107 @@
                     </form>
                 </div>
                 <!---- DATA DIRI TABS ------>
+
+                <!---- PEMUPUT DATA ------>
+                @if (Request::segment(1) === 'pemuput-karya')
+                <div class="tab-pane" id="dataSulinggih">
+                    <div class="ml-2 fs-4">
+                        <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Data Sulinggih</label>
+                        <p>Kelola data pemuput karya Anda agar krama lebih mudah mendapatkan informasimu</p>
+                    </div>
+                    <form wire:submit.prevent="updateDataSulinggih" enctype="multipart/form-data">
+                    <div class="dropdown-divider mb-3"></div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nama Sulinggih </label>
+                                    <input wire:model="nama_sulinggih" type="text" class="form-control data-diri" id="nama_sulinggih" placeholder="Masukan Nama Sulinggih" value="{{Auth::user()->PemuputKarya->nama_pemuput}}" >
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nama @if (Auth::user()->Penduduk->jenis_kelamin == 'laki-laki')Istri @else Suami @endif</label>
+                                    <input disabled  type="text" class="form-control data-diri" id="nama_pasangan" placeholder="Nomor Istri" value="@isset(Auth::user()->PemuputKarya->Pasangan) {{Auth::user()->PemuputKarya->Pasangan->nama_pemuput}} @else Pasangan belum terdaftar disistem @endisset">
+                                </div>
+                            </div>
+                            <div class="col-12 @if (Auth::user()->PemuputKarya->tipe === 'sulinggih') col-sm-6 @endif">
+                                <div class="form-group">
+                                    <label>SK Sulinggih <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input @error('file') is-invalid @enderror" wire:model="photo" id="customFile">
+                                            <label class="custom-file-label " for="customFile"> Ganti SK Kesulinggihan</label>
+                                        </div>
+                                    </div>
+                                    <a class="p-0 text-xs btn btn-link" data-toggle="modal" data-target="#skSulinggih">Lihat SK Sulinggih</a>
+                                    <div class="modal fade" id="skSulinggih" tabindex="-1" role="dialog" aria-labelledby="skSulinggih" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div id="skSulinggih" class="carousel slide" data-ride="carousel">
+                                                    <ol class="carousel-indicators">
+                                                        <li data-target="#skSulinggih" data-slide-to="0"  class="active"></li>
+                                                    </ol>
+                                                    <div class="carousel-inner">
+                                                        <div class="carousel-item active">
+                                                            <img class="d-block w-100" src="{{route('image.sk-pemuput',Auth::user()->PemuputKarya->AtributPemuput->id)}}" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if (Auth::user()->PemuputKarya->tipe === 'sulinggih')
+                                <div class="col-12 col-sm-6">
+                                    <div class="form-group">
+                                        <label>Nabe Sulinggih</label>
+                                        <select class="select2bs4 form-control data-diri" style="width: 100%;">
+                                            <option selected disabled>Pilih Nabe Sulinggih</option>
+                                            @foreach ($nabe as $dataNabe)
+                                                <option @if (Auth::user()->PemuputKarya->AtributPemuput->id_nabe === $dataNabe->id) selected @endif value="{{$dataNabe->id}}">{{$dataNabe->nama_pemuput}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        <!---- DATA GRIYA ATAU PURI ------>
+                        {{-- <div class="dropdown-divider mb-3"></div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nama Griya </label>
+                                    <select wire:model="id_griya" class="select2bs4 form-control data-diri" style="width: 100%;">
+                                        <option selected value="2">Pilih Griya</option>
+                                        @foreach ($griya as $dataGriya)
+                                            <option @if (Auth::user()->PemuputKarya->AtributPemuput->id_nabe === $dataNabe->id) selected @endif value="{{$dataNabe->id}}">{{$dataGriya->nama_griya_rumah}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Alamat Lengkap Griya </label>
+                                    <input  type="text" class="form-control data-diri" id="nama_sulinggih" placeholder="Masukan Nama Sulinggih" value="{{Auth::user()->PemuputKarya->nama_pemuput}}" >
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Nama Sulinggih </label>
+                                    <input  type="text" class="form-control data-diri" id="nama_sulinggih" placeholder="Masukan Nama Sulinggih" value="{{Auth::user()->PemuputKarya->nama_pemuput}}" >
+                                </div>
+                            </div>
+                        </div>--}}
+                        <div class="form-group row">
+                            <div class="col-sm-12 text-end pr-4">
+                                <button type="submit" class="float-right btn btn-sm btn-outline-primary my-1">Simpan Data</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                @endif
+                <!---- PEMUPUT DATA ------>
 
                 <!---- AKUN TABS ------>
                 <div class="tab-pane" id="akun">
@@ -229,77 +337,79 @@
                 </div>
                 <!---- AKUN TABS ------>
 
-                <!---- PEMETAAN TABS ------>
-                <div class="tab-pane" id="pemetaan">
-                    <div class="ml-2 fs-4">
-                        <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Akun</label>
-                        <p>Kelola akun Anda agar lebih mudah untuk melakukan login</p>
-                    </div>
-                    <div class="dropdown-divider mb-3"></div>
-                    <div class="px-3">
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Provinsi </label>
-                                    <select id="provinsi" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
-                                        <option value="0" disabled selected>Pilih Provinsi</option>
+                @if (Request::segment(1) === 'krama')
+                    <!---- PEMETAAN TABS ------>
+                    <div class="tab-pane" id="pemetaan">
+                        <div class="ml-2 fs-4">
+                            <label class="fw-bold text-center d-grid text-lg mb-1">Kelola Akun</label>
+                            <p>Kelola akun Anda agar lebih mudah untuk melakukan login</p>
+                        </div>
+                        <div class="dropdown-divider mb-3"></div>
+                        <div class="px-3">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Provinsi </label>
+                                        <select id="provinsi" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                            <option value="0" disabled selected>Pilih Provinsi</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Kabupaten/Kota </label>
+                                        <select  name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
+                                            <option value="0" disabled selected>Pilih Kabupaten</option>
+                                        </select>
+                                        <p class="m-1 text-xs">(Pilih Provinsi terlebih dahulu)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Kecamatan </label>
+                                        <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                            <option value="0" disabled selected>Pilih Kecamatan</option>
+                                        </select>
+                                        <p class="m-1 text-xs">(Pilih Kabupaten terlebih dahulu)</p>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label>Desa Dinas</label>
+                                    <select id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
+                                        <option value="0" disabled selected>Pilih Desa Dinas</option>
                                     </select>
+                                    <p class="m-1 text-sm">(Pilih Kecamatan terlebih dahulu)</p>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Kabupaten/Kota </label>
-                                    <select  name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
-                                        <option value="0" disabled selected>Pilih Kabupaten</option>
-                                    </select>
-                                    <p class="m-1 text-xs">(Pilih Provinsi terlebih dahulu)</p>
+                            <div class="row my-2">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>Alamat</label>
+                                        <textarea name="alamat_upacaraku" class="form-control " rows="3" placeholder="Masukan Alamat Lengkap">{{Auth::user()->Penduduk->alamat}}</textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Kecamatan </label>
-                                    <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
-                                        <option value="0" disabled selected>Pilih Kecamatan</option>
-                                    </select>
-                                    <p class="m-1 text-xs">(Pilih Kabupaten terlebih dahulu)</p>
+                            <div id="gmaps" class="card shadow" style="height: 500px"></div>
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" value="{{old('lat')}}" readonly="readonly">
                                 </div>
-                            </div>
-                            <div class="col">
-                                <label>Desa Dinas</label>
-                                <select id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
-                                    <option value="0" disabled selected>Pilih Desa Dinas</option>
-                                </select>
-                                <p class="m-1 text-sm">(Pilih Kecamatan terlebih dahulu)</p>
-                            </div>
-                        </div>
-                        <div class="row my-2">
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label>Alamat</label>
-                                    <textarea name="alamat_upacaraku" class="form-control " rows="3" placeholder="Masukan Alamat Lengkap">{{Auth::user()->Penduduk->alamat}}</textarea>
+                                <div class="col">
+                                    <input name="lng" id="lng" type="text" aria-label="Last name" class="form-control ml" placeholder="Lang  @error('lng') is-invalid @enderror" value="{{old('lat')}}" readonly="readonly">
                                 </div>
                             </div>
                         </div>
-                        <div id="gmaps" class="card shadow" style="height: 500px"></div>
-                        <div class="row mb-4">
-                            <div class="col">
-                                <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" value="{{old('lat')}}" readonly="readonly">
-                            </div>
-                            <div class="col">
-                                <input name="lng" id="lng" type="text" aria-label="Last name" class="form-control ml" placeholder="Lang  @error('lng') is-invalid @enderror" value="{{old('lat')}}" readonly="readonly">
+                        <div class="dropdown-divider mt-2"></div>
+                        <div class="form-group row mt-3">
+                            <div class="col-sm-12 d-grid">
+                                <button type="submit" class="float-right btn btn-sm btn-outline-primary  my-1">Simpan Pemetaan Lokasi</button>
                             </div>
                         </div>
                     </div>
-                    <div class="dropdown-divider mt-2"></div>
-                    <div class="form-group row mt-3">
-                        <div class="col-sm-12 d-grid">
-                            <button type="submit" class="float-right btn btn-sm btn-outline-primary  my-1">Simpan Pemetaan Lokasi</button>
-                        </div>
-                    </div>
-                </div>
-                <!---- PEMETAAN TABS ------>
+                    <!---- PEMETAAN TABS ------>
+                @endif
 
                 <!---- NOTIFIKASI TABS ------>
                 <div class="tab-pane @if (Session::has('notify')) {{session()->get('notify')}} @endif" id="notifikasi">
@@ -333,7 +443,7 @@
                                                 </div>
                                                 <span class="text-xs text-primary my-4"><i class="fas fa-info-circle"></i> Informasi | {{date('d F Y | H:m',strtotime($data['created_at']))}}</span>
                                                 <p class="text-md mb-0 text-bold">{{$data['data']['title']}}</p>
-                                                <p class="text-xs mb-1">{{$data['data']['body']}}</p>
+                                                <p class="text-xs mb-1 col-12 col-md-6 pl-0">{{$data['data']['body']}}</p>
                                             </div>
                                         </div>
                                     @empty
@@ -369,7 +479,7 @@
                                                 </div>
                                                 <span class="text-xs text-primary my-4"><i class="fas fa-info-circle"></i> Informasi | {{date('d F Y | H:m',strtotime($data['created_at']))}}</span>
                                                 <p class="text-md mb-0 text-bold">{{$data['data']['title']}}</p>
-                                                <p class="text-xs mb-1 col-12 col-md-6">{{$data['data']['body']}}</p>
+                                                <p class="text-xs mb-1 col-12 col-md-6 pl-0">{{$data['data']['body']}}</p>
                                             </div>
                                         </div>
                                     @empty
@@ -443,6 +553,4 @@
         });
     });
 </script>
-
-
 @endpush
