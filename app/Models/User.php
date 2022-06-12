@@ -136,4 +136,14 @@ class User extends Authenticatable
         $id = session('id_sanggar');
         return Sanggar::with(['User.Penduduk'])->find($id);
     }
+
+    public function getLoginSanggarIdAttribute($value)
+    {
+        return $value;
+    }
+
+    public function setLoginSanggarIdAttribute(int $id_sanggar)
+    {
+        $this->attributes['login_sanggar_id'] = $id_sanggar;
+    }
 }

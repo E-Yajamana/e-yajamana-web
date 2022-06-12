@@ -45,7 +45,7 @@ class SulinggihMuputController extends Controller
                         'TahapanUpacara'
                     ])->where('status', '!=', 'selesai');
                 }
-            ])->where('id_relasi', $user->id)->findOrFail($id);
+            ])->findOrFail($id);
 
             $upacaraku = Upacaraku::with([
                 'User' => function ($userQuery) {

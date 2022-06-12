@@ -108,26 +108,26 @@ class KonfirmasiTangkilController extends Controller
         // END SECURITY
 
         // MAIN LOGIC
-            try{
-                $idUser = Auth::user()->id;
-                $dataReservasi = Reservasi::with(['DetailReservasi.TahapanUpacara','Upacaraku.User.Penduduk'])
-                    ->whereHas('DetailReservasi.TahapanUpacara')
-                    ->whereHas('Upacaraku.User.Penduduk')
-                    ->whereIdRelasiAndStatus($idUser,'proses tangkil')
-                    ->findOrFail($request->id);
-                $dataUpacara = Reservasi::with(['Relasi','DetailReservasi.TahapanUpacara'])
-                    ->whereIdUpacaraku($dataReservasi->id_upacaraku)
-                    ->whereNotIn('id',[$request->id])
-                    ->whereIn('status',['pending','proses tangkil'])
-                    ->get();
-            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
-                return \redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'error',
-                    'title' => 'Data Reservasi Tidak ditemukan!',
-                    'message' => 'Data Reservasi Tidak ditemukan , mohon untuk menghubungi developer sistem !',
-                ]);
-            }
+        try {
+            $idUser = Auth::user()->id;
+            $dataReservasi = Reservasi::with(['DetailReservasi.TahapanUpacara', 'Upacaraku.User.Penduduk'])
+                ->whereHas('DetailReservasi.TahapanUpacara')
+                ->whereHas('Upacaraku.User.Penduduk')
+                ->whereIdRelasiAndStatus($idUser, 'proses tangkil')
+                ->findOrFail($request->id);
+            $dataUpacara = Reservasi::with(['Relasi', 'DetailReservasi.TahapanUpacara'])
+                ->whereIdUpacaraku($dataReservasi->id_upacaraku)
+                ->whereNotIn('id', [$request->id])
+                ->whereIn('status', ['pending', 'proses tangkil'])
+                ->get();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return \redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Data Reservasi Tidak ditemukan!',
+                'message' => 'Data Reservasi Tidak ditemukan , mohon untuk menghubungi developer sistem !',
+            ]);
+        }
         // END LOGIC
 
         // RETURN
@@ -205,18 +205,18 @@ class KonfirmasiTangkilController extends Controller
             switch ($statusReservasi) {
                 case 'proses tangkil':
                     $title = "PERUBAHAN RESERVASI";
-                    $messagePemuput = "Perubahan Reservasi ID : ".$request->id_reservasi." berhasil dilakukan!,harap dicek kembali data Reservasi Anda!";
-                    $messageKrama = "Halo Krama Bali ! Reservasi anda dengan ID : ".$request->id_reservasi." terdapat perubahan data reservasi yang dilakukan oleh Pemuput Karya, mohon dicek kembali Reservasi kalian ya, jangan sampai kelewatan!.";
+                    $messagePemuput = "Perubahan Reservasi ID : " . $request->id_reservasi . " berhasil dilakukan!,harap dicek kembali data Reservasi Anda!";
+                    $messageKrama = "Halo Krama Bali ! Reservasi anda dengan ID : " . $request->id_reservasi . " terdapat perubahan data reservasi yang dilakukan oleh Pemuput Karya, mohon dicek kembali Reservasi kalian ya, jangan sampai kelewatan!.";
                     break;
                 case 'ditolak':
                     $title = "PEMBATALAN RESERVASI";
-                    $messagePemuput = "Pembatalan Reservasi dengan ID : ".$request->id_reservasi." berhasil dilakukan. anda dapat melihat semua data Reservasi menu Riwayat Reservasi";
-                    $messageKrama = "Halo Krama Bali ! ".$user->PemuputKarya->nama_pemuput. "  membatalkan Reservasi anda dengan ID : ".$request->id_reservasi." dengan alasan ".$request->alasan_penolakan[0].", mohon untuk mencari pemuput karya lainnya";
+                    $messagePemuput = "Pembatalan Reservasi dengan ID : " . $request->id_reservasi . " berhasil dilakukan. anda dapat melihat semua data Reservasi menu Riwayat Reservasi";
+                    $messageKrama = "Halo Krama Bali ! " . $user->PemuputKarya->nama_pemuput . "  membatalkan Reservasi anda dengan ID : " . $request->id_reservasi . " dengan alasan " . $request->alasan_penolakan[0] . ", mohon untuk mencari pemuput karya lainnya";
                     break;
                 case 'pending':
                     $title = "PERUBAHAN RESERVASI";
                     $messagePemuput = "Berhasil mengubah Reservasi. Mohon untuk segera mengkonfirmasi Reservasi Masuk Anda kembal!";
-                    $messageKrama = "Halo Krama Bali ! ".$user->PemuputKarya->nama_pemuput. "  mengubah Reservasi anda dengan ID : ".$request->id_reservasi." menjadi pending kembali , dimohon untuk menunggu konfirmasi kembali dari pihak Pemuput Karya!";
+                    $messageKrama = "Halo Krama Bali ! " . $user->PemuputKarya->nama_pemuput . "  mengubah Reservasi anda dengan ID : " . $request->id_reservasi . " menjadi pending kembali , dimohon untuk menunggu konfirmasi kembali dari pihak Pemuput Karya!";
                     break;
                 default:
             }
@@ -279,11 +279,13 @@ class KonfirmasiTangkilController extends Controller
     public function updateKonfirmasi(Request $request)
     {
         // SECURITY
-            $validator = Validator::make($request->all(),[
-                'id_reservasi' =>'required|exists:tb_reservasi,id',
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'id_reservasi' => 'required|exists:tb_reservasi,id',
                 // 'data_upacara' => "required|array|min:1",
                 // "data_upacara.*"  => "required",
-                'data_user_reservasi' =>'required|array',
+                'data_user_reservasi' => 'required|array',
                 "data_user_reservasi.*"  => "required",
             ],
             [
@@ -293,59 +295,84 @@ class KonfirmasiTangkilController extends Controller
                 // 'data_upacara.array' => "Data Upacara tidak lengkap",
                 'data_user_reservasi.required' => "Data Reservasi wajib diisi",
                 'data_user_reservasi.array' => "Data Reservasi tidak lengkap",
-            ]);
+            ]
+        );
 
-            if ($validator->fails()) {
-                return redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'error',
-                    'title' => 'Gagal memperbarui status!',
-                    'message' => 'Gagal memperbarui status, silakan periksa kembali form input anda!'
-                ])->withInput($request->all())->withErrors($validator->errors());
-            }
+        if ($validator->fails()) {
+            return redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Gagal memperbarui status!',
+                'message' => 'Gagal memperbarui status, silakan periksa kembali form input anda!'
+            ])->withInput($request->all())->withErrors($validator->errors());
+        }
         // END
 
         // MAIN LOGIC
-            try{
-                DB::beginTransaction();
-                $sulinggih = Auth::user();
+        try {
+            DB::beginTransaction();
+            $sulinggih = Auth::user();
 
-                // UPACARAKU BUAT TIDAK BISA DIEDIT AJA
-                $upacaraku = Upacaraku::findOrFail($request->data_upacara[0]['id']);
-                $krama = User::findOrFail($upacaraku->id_krama);
+            // UPACARAKU BUAT TIDAK BISA DIEDIT AJA
+            $upacaraku = Upacaraku::findOrFail($request->data_upacara[0]['id']);
+            $krama = User::findOrFail($upacaraku->id_krama);
 
-                // // UPACARA DATA UPDATE
-                // list($start,$end) = DateRangeHelper::parseDateRange($request->data_upacara[0]['daterange']);
-                // $upacaraku->update([
-                //     'nama_upacara'=>$request->data_upacara[0]['nama_upacara'],
-                //     'deskripsi_upacaraku'=>$request->data_upacara[0]['deskripsi_upacara'],
-                //     'tanggal_mulai'=>$start,
-                //     'tanggal_selesai'=>$end,
-                //     'status' => 'berlangsung'
-                // ]);
-                // UPACARA DATA UPDATE
+            // // UPACARA DATA UPDATE
+            // list($start,$end) = DateRangeHelper::parseDateRange($request->data_upacara[0]['daterange']);
+            // $upacaraku->update([
+            //     'nama_upacara'=>$request->data_upacara[0]['nama_upacara'],
+            //     'deskripsi_upacaraku'=>$request->data_upacara[0]['deskripsi_upacara'],
+            //     'tanggal_mulai'=>$start,
+            //     'tanggal_selesai'=>$end,
+            //     'status' => 'berlangsung'
+            // ]);
+            // UPACARA DATA UPDATE
 
-                // UPDATE DATA RESERVASI
-                $reservasi = Reservasi::whereIdUpacarakuAndIdRelasi($request->data_upacara[0]['id'], $sulinggih->id)
-                    ->findOrFail($request->id_reservasi)->update([
-                        'status' => 'proses muput'
-                    ]);
-                // UPDATE DATA RESERVASI
+            // UPDATE DATA RESERVASI
+            $reservasi = Reservasi::whereIdUpacarakuAndIdRelasi($request->data_upacara[0]['id'], $sulinggih->id)
+                ->findOrFail($request->id_reservasi)->update([
+                    'status' => 'proses muput'
+                ]);
+            // UPDATE DATA RESERVASI
 
-                // DETAIL RESERVASI
-                $dataDetailReservasi = [];
-                foreach ($request->data_user_reservasi as $key => $value) {
-                    list($start, $end) = DateRangeHelper::parseDateRangeTime($value['daterange']);
+            // DETAIL RESERVASI
+            $dataDetailReservasi = [];
+            foreach ($request->data_user_reservasi as $key => $value) {
+                list($start, $end) = DateRangeHelper::parseDateRangeTime($value['daterange']);
+                $dataDetailReservasi[] = [
+                    'id' => $value['id'],
+                    'tanggal_mulai' => $start,
+                    'tanggal_selesai' => $end,
+                    'keterangan' => $value['keterangan'],
+                    'status' => $value['status']
+                ];
+            }
+            // DETAIL RESERVASI
+
+
+            // UPDATE DATA RESERVASI PEMUPUT LAIN JIKA ADA
+            if ($request->data_detail_reservasi != null) {
+                $keteranganUbahPemuput = [];
+                foreach ($request->data_detail_reservasi as $data) {
+                    list($start, $end) = DateRangeHelper::parseDateRangeTime($data['date']);
                     $dataDetailReservasi[] = [
-                        'id' => $value['id'],
+                        'id' => $data['id'],
+                        'status' => 'pending',
                         'tanggal_mulai' => $start,
                         'tanggal_selesai' => $end,
-                        'keterangan' => $value['keterangan'],
-                        'status' => $value['status']
                     ];
+
+                    $keteranganUbahPemuput[] = [
+                        'id_relasi' => $sulinggih->id,
+                        'id_detail_reservasi' => $data['id'],
+                        'keterangan' => $data['keterangan'],
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ];
+
+                    $reservasiMaster[] = $data['id_reservasi'];
                 }
                 // DETAIL RESERVASI
-
 
                 // UPDATE DATA RESERVASI PEMUPUT LAIN JIKA ADA
                 if ($request->data_detail_reservasi != null) {
@@ -369,83 +396,58 @@ class KonfirmasiTangkilController extends Controller
 
                         $reservasiMaster[] = $data['id_reservasi'];
                     }
-                    // DETAIL RESERVASI
+                    KeteranganKonfirmasi::insert($keteranganUbahPemuput);
 
-                    // UPDATE DATA RESERVASI PEMUPUT LAIN JIKA ADA
-                    if($request->data_detail_reservasi != null){
-                        $keteranganUbahPemuput = [];
-                        foreach($request->data_detail_reservasi as $data){
-                            list($start,$end) = DateRangeHelper::parseDateRangeTime($data['date']);
-                            $dataDetailReservasi[] = [
-                                'id' => $data['id'],
-                                'status' => 'pending',
-                                'tanggal_mulai' => $start,
-                                'tanggal_selesai' => $end,
-                            ];
 
-                            $keteranganUbahPemuput[] = [
-                                'id_relasi' => $sulinggih->id,
-                                'id_detail_reservasi' => $data['id'],
-                                'keterangan' => $data['keterangan'],
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now(),
-                            ];
+                    $reservasis = Reservasi::whereIn('id', array_unique($reservasiMaster));
+                    $dataUserSanggar = collect([]);
+                    $dataUserPemuput = collect([]);
+                    $idDetailReservasi = collect([]);
 
-                            $reservasiMaster[] = $data['id_reservasi'];
+                    foreach ($reservasis->get() as $data) {
+                        if ($data->tipe == 'sanggar') {
+                            $sanggar = Sanggar::findOrFail($data->id_sanggar)->User;
+                            $id_sanggar[] = $data->id_sanggar;
+                            $dataUserSanggar->push($sanggar);
+                        } else {
+                            $user = array(User::find($data->id_relasi));
+                            $dataUserPemuput->push($user);
                         }
-                        KeteranganKonfirmasi::insert($keteranganUbahPemuput);
+                        $idDetailReservasi->push($data->DetailReservasi()->pluck('id'));
+                    }
+                    $sanggar = (Arr::collapse($dataUserSanggar));
+                    $pemuput = (Arr::collapse($dataUserPemuput));
 
-
-                        $reservasis = Reservasi::whereIn('id',array_unique($reservasiMaster));
-                        $dataUserSanggar = collect([]);
-                        $dataUserPemuput = collect([]);
-                        $idDetailReservasi = collect([]);
-
-                        foreach($reservasis->get() as $data){
-                            if($data->tipe == 'sanggar'){
-                                $sanggar = Sanggar::findOrFail($data->id_sanggar)->User;
-                                $id_sanggar[] = $data->id_sanggar;
-                                $dataUserSanggar->push($sanggar);
-                            }else{
-                                $user = array(User::find($data->id_relasi));
-                                $dataUserPemuput->push($user);
-
-                            }
-                            $idDetailReservasi->push($data->DetailReservasi()->pluck('id'));
-                        }
-                        $sanggar = (Arr::collapse($dataUserSanggar));
-                        $pemuput = (Arr::collapse($dataUserPemuput));
-
-                        if(!empty($pemuput)){
-                            NotificationHelper::sendMultipleNotification(
-                                [
-                                    'title' => "PERUBAHAN RESERVASI",
-                                    'body' => "Terdapat perubahan Reservasi dengan ID : ".$request->data_upacara[0]['nama_upacara']." yang dilakukan oleh ".$sulinggih->PemuputKarya->nama_pemuput."., untuk lebih jelasnya anda dapat melihat detail perubahan pada Data Reservasi tersebut!",
-                                    'status' => "new",
-                                    'image' => "pemuput",
-                                    'type' => "pemuput",
-                                    'formated_created_at' => date('Y-m-d H:i:s'),
-                                    'formated_updated_at' => date('Y-m-d H:i:s'),
-                                ],
-                                $pemuput
-                            );
-                        }
-                        if(!empty($sanggar)){
-                            NotificationHelper::sendMultipleNotification(
-                                [
-                                    'title' => "PERUBAHAN RESERVASI",
-                                    'body' => "Terdapat perubahan Reservasi pada Upacara Krama ".$request->data_upacara[0]['nama_upacara']." yang dilakukan oleh ".$sulinggih->PemuputKarya->nama_pemuput ."., untuk lebih jelasnya anda dapat melihat detail perubahan pada Data Reservasi tersebut!",
-                                    'status' => "new",
-                                    'image' => "krama",
-                                    'type' => "sanggar",
-                                    'id_sanggar' => $id_sanggar,
-                                    'formated_created_at' => date('Y-m-d H:i:s'),
-                                    'formated_updated_at' => date('Y-m-d H:i:s'),
-                                ],
-                                $sanggar
-                            );
-                        }
-                        $reservasis->update(['status'=>'pending','tanggal_tangkil'=>null]);
+                    if (!empty($pemuput)) {
+                        NotificationHelper::sendMultipleNotification(
+                            [
+                                'title' => "PERUBAHAN RESERVASI",
+                                'body' => "Terdapat perubahan Reservasi dengan ID : " . $request->data_upacara[0]['nama_upacara'] . " yang dilakukan oleh " . $sulinggih->PemuputKarya->nama_pemuput . "., untuk lebih jelasnya anda dapat melihat detail perubahan pada Data Reservasi tersebut!",
+                                'status' => "new",
+                                'image' => "pemuput",
+                                'type' => "pemuput",
+                                'formated_created_at' => date('Y-m-d H:i:s'),
+                                'formated_updated_at' => date('Y-m-d H:i:s'),
+                            ],
+                            $pemuput
+                        );
+                    }
+                    if (!empty($sanggar)) {
+                        NotificationHelper::sendMultipleNotification(
+                            [
+                                'title' => "PERUBAHAN RESERVASI",
+                                'body' => "Terdapat perubahan Reservasi pada Upacara Krama " . $request->data_upacara[0]['nama_upacara'] . " yang dilakukan oleh " . $sulinggih->PemuputKarya->nama_pemuput . "., untuk lebih jelasnya anda dapat melihat detail perubahan pada Data Reservasi tersebut!",
+                                'status' => "new",
+                                'image' => "krama",
+                                'type' => "sanggar",
+                                'id_sanggar' => $id_sanggar,
+                                'formated_created_at' => date('Y-m-d H:i:s'),
+                                'formated_updated_at' => date('Y-m-d H:i:s'),
+                            ],
+                            $sanggar
+                        );
+                    }
+                    $reservasis->update(['status' => 'pending', 'tanggal_tangkil' => null]);
 
                     $reservasis = Reservasi::whereIn('id', array_unique($reservasiMaster));
                     foreach ($reservasis as $reservasi) {
@@ -501,17 +503,17 @@ class KonfirmasiTangkilController extends Controller
                     $krama
                 );
                 // KRAMA NOTIF
-
-                DB::commit();
-            }catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                DB::rollBack();
-                return \redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'error',
-                    'title' => 'Data Reservasi Tidak ditemukan!',
-                    'message' => 'Data Reservasi Tidak ditemukan , mohon untuk menghubungi developer sistem !',
-                ]);
             }
+            DB::commit();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            DB::rollBack();
+            return \redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Data Reservasi Tidak ditemukan!',
+                'message' => 'Data Reservasi Tidak ditemukan , mohon untuk menghubungi developer sistem !',
+            ]);
+        }
         // END LOGIC
 
         // RETURN
@@ -559,49 +561,49 @@ class KonfirmasiTangkilController extends Controller
             $sulinggih = Auth::user();
             $krama = User::findOrFail($request->id_krama);
 
-                // UPDATE RESERVASI & DETAIL RESERVASI
-                $reservasi = Reservasi::whereIdRelasi($sulinggih->id)->whereStatus('proses tangkil')->findOrFail($request->id_reservasi);
-                $reservasi->update([
-                    'status' => 'ditolak',
-                    'keterangan' => $request->alasan_pembatalan
-                ]);
-                $reservasi->DetailReservasi()->update([
-                    'status' => 'ditolak',
-                    'keterangan' => $request->alasan_pembatalan
-                ]);
-                // UPDATE RESERVASI & DETAIL RESERVASI
+            // UPDATE RESERVASI & DETAIL RESERVASI
+            $reservasi = Reservasi::whereIdRelasi($sulinggih->id)->whereStatus('proses tangkil')->findOrFail($request->id_reservasi);
+            $reservasi->update([
+                'status' => 'ditolak',
+                'keterangan' => $request->alasan_pembatalan
+            ]);
+            $reservasi->DetailReservasi()->update([
+                'status' => 'ditolak',
+                'keterangan' => $request->alasan_pembatalan
+            ]);
+            // UPDATE RESERVASI & DETAIL RESERVASI
 
-                // SELF NOTIF
-                NotificationHelper::sendNotification(
-                    [
-                        'title' => "RESERVASI BATAL",
-                        'body' => "Halo Pemuput Karya !! berhasil membatalkan Reservasi, semua data Reservasi dapat dilihat pada menu Riwayat Reservasi",
-                        'status' => "new",
-                        'image' => "normal",
-                        'type' => "pemuput",
-                        'notifiable_id' => $sulinggih->id,
-                        'formated_created_at' => date('Y-m-d H:i:s'),
-                        'formated_updated_at' => date('Y-m-d H:i:s'),
-                    ],
-                    $sulinggih
-                );
-                // SELF NOTIF
+            // SELF NOTIF
+            NotificationHelper::sendNotification(
+                [
+                    'title' => "RESERVASI BATAL",
+                    'body' => "Halo Pemuput Karya !! berhasil membatalkan Reservasi, semua data Reservasi dapat dilihat pada menu Riwayat Reservasi",
+                    'status' => "new",
+                    'image' => "normal",
+                    'type' => "pemuput",
+                    'notifiable_id' => $sulinggih->id,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $sulinggih
+            );
+            // SELF NOTIF
 
-                // NOTIF KRAMA
-                NotificationHelper::sendNotification(
-                    [
-                        'title' => "PERUBAHAN RESERVASI",
-                        'body' => "Halo Krama Bali ! Reservasi dengan ID : ".$request->id_reservasi." telah ditolak oleh Pemuput Karya, dengan alasan ".$request->alasan_pembatalan.", mohon untuk mencari pemuput karya lainnya ",
-                        'status' => "new",
-                        'image' => "normal",
-                        'type' => "krama",
-                        'notifiable_id' => $krama->id,
-                        'formated_created_at' => date('Y-m-d H:i:s'),
-                        'formated_updated_at' => date('Y-m-d H:i:s'),
-                    ],
-                    $krama
-                );
-                // NOTIF KRAMA
+            // NOTIF KRAMA
+            NotificationHelper::sendNotification(
+                [
+                    'title' => "PERUBAHAN RESERVASI",
+                    'body' => "Halo Krama Bali ! Reservasi dengan ID : " . $request->id_reservasi . " telah ditolak oleh Pemuput Karya, dengan alasan " . $request->alasan_pembatalan . ", mohon untuk mencari pemuput karya lainnya ",
+                    'status' => "new",
+                    'image' => "normal",
+                    'type' => "krama",
+                    'notifiable_id' => $krama->id,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $krama
+            );
+            // NOTIF KRAMA
 
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {

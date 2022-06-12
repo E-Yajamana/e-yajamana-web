@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\DetailReservasi;
 use App\Models\Reservasi;
+use App\Models\Sanggar;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Mavinoo\Batch\BatchFacade;
@@ -50,7 +51,7 @@ class KramaReservasiController extends Controller
         $validator = Validator::make($request->all(), [
             'id_relasi' => 'required',
             'id_upacaraku' => 'required',
-            'tipe' => 'required',
+            'tipe' => 'required|in:sanggar,pemuput_karya',
             'detail_reservasi' => 'required|json',
         ]);
 
@@ -68,58 +69,94 @@ class KramaReservasiController extends Controller
         // MAIN LOGIC
         try {
             DB::beginTransaction();
-
-            $detailReservasi = json_decode($request->detail_reservasi);
-
-            $relasi = User::with(['PemuputKarya'])->findOrFail($request->id_relasi);
-
             $user = Auth::user();
 
-            $reservasi = Reservasi::create([
-                'id_relasi' => $request->id_relasi,
-                'id_upacaraku' => $request->id_upacaraku,
-                'tipe' => 'pemuput_karya',
-                'status' => 'pending'
-            ]);
-
             $detailReservasi = json_decode($request->detail_reservasi);
 
-            $insertArray = [];
+            if ($request->tipe == "pemuput_karya") {
+                $relasi = User::with(['PemuputKarya'])->findOrFail($request->id_relasi);
 
-            foreach ($detailReservasi->formDetailReservasis as $key => $value) {
-                $value = (array)$value;
-                $value['id_reservasi'] = $reservasi->id;
-                $value['status'] = 'pending';
-                $insertArray[] = $value;
+                $reservasi = Reservasi::create([
+                    'id_relasi' => $request->id_relasi,
+                    'id_upacaraku' => $request->id_upacaraku,
+                    'tipe' => $request->tipe,
+                    'status' => 'pending'
+                ]);
+
+                $detailReservasi = json_decode($request->detail_reservasi);
+
+                $insertArray = [];
+
+                foreach ($detailReservasi->formDetailReservasis as $key => $value) {
+                    $value = (array)$value;
+                    $value['id_reservasi'] = $reservasi->id;
+                    $value['status'] = 'pending';
+                    $insertArray[] = $value;
+                }
+
+                DetailReservasi::insert($insertArray);
+
+                NotificationHelper::sendNotification(
+                    [
+                        'title' => "RESERVASI BARU",
+                        'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
+                        'status' => "new",
+                        'image' => "krama",
+                        'notifiable_id' => $relasi->id,
+                        'formated_created_at' => date('Y-m-d H:i:s'),
+                        'formated_updated_at' => date('Y-m-d H:i:s'),
+                    ],
+                    $relasi
+                );
+
+                NotificationHelper::sendNotification(
+                    [
+                        'title' => "PERMOHONAN RESERVASI DIBUAT",
+                        'body' => "Permohonan reservasi kepada " . $relasi->PemuputKarya->nama_pemuput . " telah berhasil dilakukan, dimohon untuk menunggu konfirmasi dari pihak pemuput karya",
+                        'status' => "new",
+                        'image' => "sulinggih",
+                        'notifiable_id' => $user->id,
+                        'formated_created_at' => date('Y-m-d H:i:s'),
+                        'formated_updated_at' => date('Y-m-d H:i:s'),
+                    ],
+                    $user
+                );
+            } else {
+                $sanggar = Sanggar::findOrFail($request->id_relasi);
+
+                $reservasi = Reservasi::create([
+                    'id_sanggar' => $request->id_relasi,
+                    'id_upacaraku' => $request->id_upacaraku,
+                    'tipe' => $request->tipe,
+                    'status' => 'pending'
+                ]);
+
+                $detailReservasi = json_decode($request->detail_reservasi);
+
+                $insertArray = [];
+
+                foreach ($detailReservasi->formDetailReservasis as $key => $value) {
+                    $value = (array)$value;
+                    $value['id_reservasi'] = $reservasi->id;
+                    $value['status'] = 'pending';
+                    $insertArray[] = $value;
+                }
+
+                DetailReservasi::insert($insertArray);
+
+                NotificationHelper::sendNotification(
+                    [
+                        'title' => "PERMOHONAN RESERVASI DIBUAT",
+                        'body' => "Permohonan reservasi kepada " . $sanggar->nama_sanggar . " telah berhasil dilakukan, dimohon untuk menunggu konfirmasi dari pihak pemuput karya",
+                        'status' => "new",
+                        'image' => "sanggar",
+                        'notifiable_id' => $user->id,
+                        'formated_created_at' => date('Y-m-d H:i:s'),
+                        'formated_updated_at' => date('Y-m-d H:i:s'),
+                    ],
+                    $user
+                );
             }
-
-            DetailReservasi::insert($insertArray);
-
-            NotificationHelper::sendNotification(
-                [
-                    'title' => "RESERVASI BARU",
-                    'body' => "Terdapat krama yang mengajukan pemuputan karya, reservasi dapat dilihat pada menu Reservasi Masuk",
-                    'status' => "new",
-                    'image' => "krama",
-                    'notifiable_id' => $relasi->id,
-                    'formated_created_at' => date('Y-m-d H:i:s'),
-                    'formated_updated_at' => date('Y-m-d H:i:s'),
-                ],
-                $relasi
-            );
-
-            NotificationHelper::sendNotification(
-                [
-                    'title' => "PERMOHONAN RESERVASI DIBUAT",
-                    'body' => "Permohonan reservasi kepada " . $relasi->PemuputKarya->nama_pemuput . " telah berhasil dilakukan, dimohon untuk menunggu konfirmasi dari pihak pemuput karya",
-                    'status' => "new",
-                    'image' => "sulinggih",
-                    'notifiable_id' => $user->id,
-                    'formated_created_at' => date('Y-m-d H:i:s'),
-                    'formated_updated_at' => date('Y-m-d H:i:s'),
-                ],
-                $user
-            );
 
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
@@ -186,7 +223,8 @@ class KramaReservasiController extends Controller
                         'Penduduk',
                         'PemuputKarya'
                     ]);
-                }
+                },
+                'Sanggar'
             ])->findOrFail($id_reservasi);
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             return $err;

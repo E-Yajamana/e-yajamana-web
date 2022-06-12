@@ -235,7 +235,8 @@ class KramaUpacaraController extends Controller
                         },
                         'DetailReservasi' => function ($detailReservasiQuery) {
                             $detailReservasiQuery->with(['TahapanUpacara']);
-                        }
+                        },
+                        'Sanggar'
                     ]);
                 }
             ])

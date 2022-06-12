@@ -13,6 +13,8 @@ use App\Http\Controllers\api\krama\KramaUpacaraController;
 use App\Http\Controllers\api\location\LocationController;
 use App\Http\Controllers\api\NotificationController;
 use App\Http\Controllers\api\RegisController;
+use App\Http\Controllers\api\sanggar\SanggarDashboardController;
+use App\Http\Controllers\api\sanggar\SanggarReservasiController;
 use App\Http\Controllers\api\sulinggih\SulinggihDashboardController;
 use App\Http\Controllers\api\sulinggih\SulinggihMuputController;
 use App\Http\Controllers\api\sulinggih\SulinggihReservasiController;
@@ -128,7 +130,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // END
 
     // SULINGGIH
-    Route::prefix('sulinggih')->middleware(['ability:role:pemuput_karya'])->group(function () {
+    Route::prefix('sulinggih')->middleware(['ability:role:pemuput_karya,role:sanggar'])->group(function () {
         // SULINGGIH HOME FRAGMENT
         Route::get('home', [SulinggihDashboardController::class, 'index']);
         // END
@@ -150,6 +152,17 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('puput', [SulinggihMuputController::class, 'puputKarya']);
         // END
     });
+    // END
+
+    // SANGGAR
+    Route::prefix('sanggar')->middleware(['ability:role:sanggar'])->group(
+        function () {
+            Route::get('{id_sanggar}/home', [SanggarDashboardController::class, 'index']);
+
+            Route::post('reservasi', [SanggarReservasiController::class, 'index']);
+            Route::get('reservasi/detail/{id}', [SanggarReservasiController::class, 'show']);
+        }
+    );
     // END
 
     // SULINGGIH

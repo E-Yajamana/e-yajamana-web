@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Mail\LupaPasswordMail;
+use App\Models\Sanggar;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use Exception;
@@ -12,6 +13,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use PDOException;
 
@@ -45,6 +47,7 @@ class AuthController extends Controller
 
                 $user->update(['fcm_token_key' => $request->fcm_token_key]);
                 $penduduk = $user->Penduduk()->firstOrFail();
+                $sanggars = $user->Sanggar()->get();
                 $roles = $user->Role;
 
                 if ($roles->count() == 1 && $roles->first()->nama_role == "krama") {
@@ -72,6 +75,7 @@ class AuthController extends Controller
                             'token' => $token,
                             'user' => $user,
                             'penduduk' => $penduduk,
+                            'sanggars' => $sanggars,
                             'roles' => $roles
                         ]
                     ], 200);
@@ -98,7 +102,8 @@ class AuthController extends Controller
     {
         // SECURITY
         $validator = Validator::make($request->all(), [
-            'role' => 'required|exists:tb_role,nama_role'
+            'role' => 'required|exists:tb_role,nama_role',
+            'id_sanggar' => 'required_if:role,==,sanggar'
         ]);
 
         if ($validator->fails()) {
@@ -112,6 +117,7 @@ class AuthController extends Controller
 
         // MAIN LOGIC
         try {
+            session()->regenerate();
             $user = Auth::user();
 
             $role = $user->Role()->where('nama_role', $request->role)->firstOrFail();
@@ -124,7 +130,7 @@ class AuthController extends Controller
 
                     return response()->json([
                         'status' => 200,
-                        'message' => "Siccess update acceess token to krama",
+                        'message' => "Success update acceess token to krama",
                         'data' => (object)[
                             'user' => $user,
                             'penduduk' => $penduduk,
@@ -139,7 +145,7 @@ class AuthController extends Controller
 
                     return response()->json([
                         'status' => 200,
-                        'message' => "Siccess update acceess token to krama",
+                        'message' => "Success update acceess token to krama",
                         'data' => (object)[
                             'user' => $user,
                             'penduduk' => $penduduk,
@@ -148,12 +154,26 @@ class AuthController extends Controller
                         ]
                     ], 200);
                     break;
+                case "sanggar":
+                    $penduduk = $user->Penduduk()->firstOrFail();
+                    $sanggar = Sanggar::findOrFail($request->id_sanggar);
+                    return response()->json([
+                        'status' => 200,
+                        'message' => "Success update acceess token to sanggar",
+                        'data' => (object)[
+                            'user' => $user,
+                            'sanggar' => $sanggar,
+                            'penduduk' => $penduduk,
+                            'role' => $role
+                        ]
+                    ], 200);
+                    break;
                 case "admin":
                     $penduduk = $user->Penduduk()->firstOrFail();
 
                     return response()->json([
                         'status' => 200,
-                        'message' => "Siccess update acceess token to krama",
+                        'message' => "Success update acceess token to krama",
                         'data' => (object)[
                             'user' => $user,
                             'penduduk' => $penduduk,
@@ -169,6 +189,7 @@ class AuthController extends Controller
                 'data' => (object)[],
             ], 403);
         } catch (PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal Server Error',

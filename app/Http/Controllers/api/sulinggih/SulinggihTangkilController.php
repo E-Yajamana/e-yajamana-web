@@ -38,14 +38,13 @@ class SulinggihTangkilController extends Controller
 
         // MAIN LOGIC
         try {
-            $user = Auth::user();
             $reservasi = Reservasi::with([
                 'DetailReservasi' => function ($detailReservasiQuery) {
                     $detailReservasiQuery->with([
                         'TahapanUpacara'
                     ]);
                 }
-            ])->where('status', 'proses tangkil')->where('id_relasi', $user->id)->findOrFail($id);
+            ])->where('status', 'proses tangkil')->findOrFail($id);
 
             $dateNow = Carbon::now();
             $dateTangkil = Carbon::create($reservasi->tanggal_tangkil);
@@ -61,6 +60,7 @@ class SulinggihTangkilController extends Controller
                                 'PemuputKarya'
                             ]);
                         },
+                        'Sanggar',
                         'DetailReservasi' => function ($detailReservasiQuery) {
                             $detailReservasiQuery->with([
                                 'TahapanUpacara'
@@ -125,7 +125,7 @@ class SulinggihTangkilController extends Controller
 
             // RESERVASI SENDIRI
             $user = Auth::user();
-            $reservasi = Reservasi::where('id_relasi', $user->id)->findOrFail($request->id_reservasi);
+            $reservasi = Reservasi::findOrFail($request->id_reservasi);
             $reservasi->update(['status' => 'proses muput']);
 
             $array_tahapan = array_map(function ($object) {
@@ -156,6 +156,7 @@ class SulinggihTangkilController extends Controller
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             DB::rollBack();
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',

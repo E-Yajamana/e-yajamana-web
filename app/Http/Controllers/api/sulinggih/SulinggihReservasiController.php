@@ -120,6 +120,7 @@ class SulinggihReservasiController extends Controller
                 ->whereHas('Relasi')
                 ->findOrFail($id);
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',

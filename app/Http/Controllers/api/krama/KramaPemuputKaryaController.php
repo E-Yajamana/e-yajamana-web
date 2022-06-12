@@ -47,7 +47,16 @@ class KramaPemuputKaryaController extends Controller
             if ($request->status != null && $request->status != "") {
                 if ($request->status == 'sanggar') {
                     $griyaRumahs->where('id', -1);
-                    $sanggars->with(['User'])->whereHas('User');
+                    $sanggars->with([
+                        'User',
+                        'Reservasi' => function ($sanggarQuery) {
+                            $sanggarQuery->with([
+                                'DetailReservasi' => function ($detailReservasiQuery) {
+                                    $detailReservasiQuery->with('TahapanUpacara');
+                                }
+                            ]);
+                        }
+                    ])->whereHas('User');
                 } else {
                     $sanggars->where('id', -1);
 
@@ -90,7 +99,16 @@ class KramaPemuputKaryaController extends Controller
                     ])->whereHas('PemuputKarya', $sulinggihQuery);
                 }
             } else {
-                $sanggars->with(['User'])->whereHas('User');
+                $sanggars->with([
+                    'User',
+                    'Reservasi' => function ($sanggarQuery) {
+                        $sanggarQuery->with([
+                            'DetailReservasi' => function ($detailReservasiQuery) {
+                                $detailReservasiQuery->with('TahapanUpacara');
+                            }
+                        ]);
+                    }
+                ])->whereHas('User');
                 $sulinggihQuery = function ($sulinggihQuery) use ($request, $user) {
                     $sulinggihQuery
                         ->with([
