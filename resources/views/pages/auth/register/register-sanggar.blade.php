@@ -218,54 +218,69 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label>Provinsi <span class="text-danger">*</span></label>
-                                                <select name="provinsi" id="provinsi" class=" select2bs4 provinsi @error('provinsi') is-invalid @enderror" style="width: 100%;" value="{{old('provinsi')}}">
-                                                    <option value="0" disabled selected>BALI</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-sm-6">
                                             <div class="form-group">
                                                 <label>Kabupaten/Kota <span class="text-danger">*</span></label>
                                                 <select name="kabupaten" id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;" value="{{old('kabupaten')}}">
                                                     <option value="0" disabled selected>Pilih Kabupaten</option>
-                                                    @foreach ($dataKabupaten as $data)
+                                                    @foreach ($dataKabupaten->where('provinsi_id',51) as $data)
                                                         <option value="{{$data->id}}">{{$data->name}}</option>
                                                     @endforeach
                                                 </select>
+                                                {{-- <p class="m-1">(Pilih Provinsi terlebih dahulu)</p> --}}
                                                 @error('kabupaten')
-                                                <div class="invalid-feedback text-start">{{$errors->first('kabupaten') }}</div>
+                                                    <div class="invalid-feedback text-start">
+                                                        {{$errors->first('kabupaten') }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Kecamatan <span class="text-danger">*</span></label>
+                                                <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
+                                                    <option value="0" disabled selected>Pilih Kecamatan</option>
+                                                </select>
+                                                <p class="m-1 text-sm">(Pilih Kabupaten terlebih dahulu)</p>
+                                                @error('kecamatan')
+                                                    <div class="invalid-feedback text-start">
+                                                        {{$errors->first('kecamatan') }}
+                                                    </div>
                                                 @enderror
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group"><label>Kecamatan <span class="text-danger">*</span></label>
-                                                <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
-                                                    <option value="0" disabled selected>Pilih Kecamatan</option>
-                                                </select>
-                                                <p class="m-1 text-xs">(Pilih Kabupaten terlebih dahulu)</p>
-                                                @error('kecamatan')
-                                                    <div class="invalid-feedback text-start">{{$errors->first('kecamatan') }}</div>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-sm-6">
                                             <div class="form-group">
                                                 <label>Desa Dinas<span class="text-danger">*</span></label>
                                                 <select id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
                                                     <option value="0" disabled selected>Pilih Desa Dinas</option>
                                                 </select>
-                                                <p class="m-1 text-xs">(Pilih Kecamatan terlebih dahulu)</p>
+                                                <p class="m-1 text-sm">(Pilih Kecamatan terlebih dahulu)</p>
                                                 @error('id_desa')
-                                                    <div class="invalid-feedback text-start">{{$errors->first('id_desa') }}</div>
+                                                    <div class="invalid-feedback text-start">
+                                                        {{$errors->first('id_desa') }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <div class="form-group">
+                                                <label>Banjar Dinas <span class="text-danger">*</span></label>
+                                                <select id="id_banjar_dinas" name="id_banjar_dinas" class="form-control select2bs4 @error('id_banjar_dinas') is-invalid @enderror" style="width: 100%;">
+                                                    <option value="0" disabled selected>Pilih Banjar Dinas</option>
+                                                </select>
+                                                <p class="m-1 text-sm">(Pilih Desa Dinas terlebih dahulu)</p>
+                                                @error('id_banjar_dinas')
+                                                    <div class="invalid-feedback text-start">
+                                                        {{$errors->first('id_banjar_dinas') }}
+                                                    </div>
                                                 @enderror
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-group"><label>Pemetaan Lokasi Sanggar<span class="text-danger">*</span></label>

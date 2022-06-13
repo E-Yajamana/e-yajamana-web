@@ -57,11 +57,11 @@
                                             Sanggar <span class="badge bg-warning float-right">{{count($dataSanggar)}}</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    {{-- <li class="nav-item">
                                         <a id="serati-tabs" href="#serati-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="serati-table" aria-selected="false">
                                             Serati <span class="badge bg-warning float-right">{{count($dataSerati)}}</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                   </ul>
                             </div>
                         </div>
@@ -202,7 +202,7 @@
 
 
                             {{-- SERATI --}}
-                            <div class="tab-pane fade" id="serati-table" role="tabpanel" aria-labelledby="serati-tabs">
+                            {{-- <div class="tab-pane fade" id="serati-table" role="tabpanel" aria-labelledby="serati-tabs">
                                 <div class="card-body p-0">
                                     <div class="table-responsive mailbox-messages p-2">
                                         <table id="tb-serati" class="table table-hover mx-auto table-responsive-sm">
@@ -233,7 +233,7 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             {{-- SERATI --}}
 
                         </div>

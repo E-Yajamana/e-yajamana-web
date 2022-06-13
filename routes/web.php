@@ -219,7 +219,6 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], fun
         Route::get('riwayat/detail/{id}', [RiwayatReservasiController::class, 'detail'])->name('pemuput-karya.manajemen-reservasi.riwayat.detail');
     });
 
-
     Route::prefix('muput-upacara')->group(function () {
         Route::get('konfimasi-tangkil/index', [KonfirmasiTangkilController::class, 'indexKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.index');
         Route::get('konfimasi-tangkil/detail/{id?}', [KonfirmasiTangkilController::class, 'detailKonfirmasiTangkil'])->name('pemuput-karya.muput-upacara.konfirmasi-tangkil.detail');
@@ -288,7 +287,6 @@ Route::prefix('get-image')->group(function () {
 
 // SERVICE AJAX SISTEM
 Route::prefix('ajax')->group(function () {
-
     Route::get('desa/{id}', [LocationController::class, 'getDesaDinas']);
     Route::get('kabupaten/{id?}', [LocationController::class, 'getKabupaten']);
     Route::get('kecamatan/{id}', [LocationController::class, 'getKecamatan']);
@@ -302,6 +300,8 @@ Route::prefix('ajax')->group(function () {
     Route::prefix('reservasi')->group(function () {
         Route::get('keterangan/{id?}', [AjaxController::class, 'getKeteranganPergantian'])->name('ajax.get.keterangan-reservasi');
         Route::get('tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
+        Route::post('pemuput/jadwal', [AjaxController::class, 'jadwalReservasiPemuput'])->name('ajax.jadwal-reservasi-pemuput');
+        // Route::get('jadwal-reservasi', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
     });
 
     Route::get('data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
@@ -309,6 +309,7 @@ Route::prefix('ajax')->group(function () {
 
     Route::prefix('user')->group(function () {
         Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');
+        Route::post('set-favorit', [AjaxController::class, 'setFavorit'])->name('ajax.set-favorit');
 
     });
 

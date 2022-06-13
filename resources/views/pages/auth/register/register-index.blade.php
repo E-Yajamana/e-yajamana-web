@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <div class="container p-lg-4">
+    <div class="container p-lg-3">
         <div class="card card-primary p-lg-2">
             <div class="card-header bg-white text-center">
                 <img class="rounded mx-auto d-block" src="{{asset('base-template/dist/img/logo-01.png') }}" alt="sipandu logo" width="100" height="100">
@@ -14,9 +14,9 @@
                 <div class="text-center">
                     <p class="pb-2  fs-6 bold">Pilihlah jenis akun yang akan digunakanan :</p>
                 </div>
-
                 <div class="row justify-content-center p-2">
-                    <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
+
+                    <div class="col-12 col-sm-3" data-category="1" data-sort="white sample">
                         <a style="text-decoration: none;" href="{{route('auth.register.form.akun','krama')}}">
                             <div class="card p-2 shadow cursor" role="button">
                                 <label class="text-center m-0 p-1 text-dark">KRAMA BALI</label>
@@ -25,7 +25,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
+                    <div class="col-12 col-sm-3" data-category="1" data-sort="white sample">
                         <a style="text-decoration: none;" href="{{route('auth.register.form.akun','sulinggih')}}">
                             <div class="card p-2 shadow cursor" role="button">
                                 <label class="text-center m-0 p-1 text-dark">SULINGGIH</label>
@@ -34,7 +34,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
+                    <div class="col-12 col-sm-3" data-category="1" data-sort="white sample">
                         <a style="text-decoration: none;" href="{{route('auth.register.form.akun','sanggar')}}">
                             <div class="card p-2 shadow cursor" role="button">
                                 <label class="text-center m-0 p-1 text-dark">SANGGAR</label>
@@ -43,7 +43,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
+                    <div class="col-12 col-sm-3" data-category="1" data-sort="white sample">
                         <a style="text-decoration: none;" href="{{route('auth.register.form.akun','pemangku')}}">
                             <div class="card p-2 shadow cursor" role="button">
                                 <label class="text-center m-0 p-1 text-dark">PEMANGKU</label>
@@ -52,15 +52,14 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
+                    {{-- <div class="col-12 col-sm-4" data-category="1" data-sort="white sample">
                         <a style="text-decoration: none;" href="{{route('auth.register.form.akun','serati')}}">
                             <div class="card p-2 shadow cursor" role="button">
                                 <label class="text-center m-0 p-1 text-dark">SERATI</label>
                                 <img src="{{asset('base-template/dist/img/jenis-user/serati.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9" alt="white sample"/>
-                                {{-- <button class="btn btn-outline-primary" style="opacity:80%" onclick="stepper.next()">SERATI</button> --}}
                             </div>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="text-center mt-2 mb-2">

@@ -279,7 +279,7 @@ class RegisterController extends Controller
                 'nama_sanggar' => 'required|regex:/^[a-z,. 0-9, -]+$/i|min:5|max:50',
                 'alamat_sanggar' => "required|regex:/^[a-z,. 0-9]+$/i|min:3|max:100",
                 'file' => "required|image|mimes:png,jpg,jpeg|max:2500",
-                'id_desa' => 'required|exists:tb_m_desa_dinas,id',
+                'id_banjar_dinas' => 'required|exists:tb_m_banjar_dinas,id',
             ];
             $message = [
                 'nama_sanggar.required' => "Nama Sulinggih wajib diisi",
@@ -294,8 +294,8 @@ class RegisterController extends Controller
                 'file.image' => "Gambar harus berupa foto",
                 'file.mimes' => "Format gambar harus jpeg, png atau jpg",
                 'file.size' => "Gambar maksimal berukuran 2.5 Mb",
-                'id_desa.required' => "Lokasi Desa Dinas wajib diisi",
-                'id_desa.exists' => "Lokasi Desa Dinas tidak sesuai",
+                'id_banjar_dinas.required' => "Lokasi Banjar Dinas wajib diisi",
+                'id_banjar_dinas.exists' => "Lokasi Banjar Dinas tidak sesuai",
             ];
             // VALIDASI DEFAULT
 
@@ -373,7 +373,7 @@ class RegisterController extends Controller
                     $profileSanggar =  ImageHelper::moveImage($request->profile,'app/sanggar/profile/');
                 }
                 $sanggar = Sanggar::create([
-                    'id_desa_dinas'=>$request->id_desa,
+                    'id_banjar_dinas'=>$request->id_banjar_dinas,
                     'nama_sanggar'=>$request->nama_sanggar,
                     'alamat_sanggar'=>$request->alamat_sanggar,
                     'profile' =>$profileSanggar,

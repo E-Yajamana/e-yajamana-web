@@ -6,6 +6,7 @@ use App\DateRangeHelper;
 use App\Http\Controllers\Controller;
 use App\Models\DetailReservasi;
 use App\Models\GriyaRumah;
+use App\Models\Kabupaten;
 use App\Models\Reservasi;
 use App\Models\Sanggar;
 use App\Models\Upacaraku;
@@ -23,6 +24,7 @@ use ErrorException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use NotificationHelper;
+use Illuminate\Database\Eloquent\Builder;
 
 class KramaReservasiController extends Controller
 {
@@ -109,24 +111,44 @@ class KramaReservasiController extends Controller
         // MAIN LOGIC
             try{
                 $user = Auth::user();
+                $dataKabupaten = Kabupaten::whereProvinsiId(51)->get();
                 $dataUpacaraku = Upacaraku::with(['Upacara'])->findOrFail($request->id);
                 $dataUserReservasi = Reservasi::where('id_upacaraku',$request->id)->whereNotIn('status',['batal','selesai'])->whereTipe('pemuput_karya')->pluck('id_relasi')->toArray();
                 $reservasiSanggar = Reservasi::where('id_upacaraku',$request->id)->whereNotIn('status',['batal','selesai'])->whereTipe('sanggar')->pluck('id_sanggar')->toArray();
+                $queryFavorit = function ($queryFavorit) use ($user,$dataUserReservasi){
+                    $queryFavorit->where('id_user',$user->id)->whereNotIn('id_pemuput_karya',$dataUserReservasi);
+                };
+                $queryTotalReservasi = function ($queryTotalReservasi){
+                    $queryTotalReservasi->with(['Penduduk'])->withCount(['Reservasi'=>function (Builder $query){
+                        $query->where('status','selesai');
+                    }]);
+                };
+
                 array_push($dataUserReservasi, $user->id);
 
-                $dataSanggar = Sanggar::with('User.Penduduk')->whereHas('User.Penduduk')->where('status_konfirmasi_akun','disetujui')->whereNotIn('id',$reservasiSanggar)->get();
+                $dataSanggar = Sanggar::with(['User.Penduduk','BanjarDinas.DesaDinas.Kecamatan.Kabupaten','FavoritUser'])
+                    ->withCount(['Reservasi'=>function (Builder $query){
+                        $query->where('status','selesai');
+                    }])->whereHas('User.Penduduk')
+                    ->where('status_konfirmasi_akun','disetujui')
+                    ->whereNotIn('id',$reservasiSanggar)->get();
 
                 $dataPemuputKarya = GriyaRumah::query();
-                $sulinggihQuery = function($sulinggihQuery) use ($dataUserReservasi){
-                    $sulinggihQuery->with(['AtributPemuput','User.Penduduk'])->where('status_konfirmasi_akun','disetujui')->whereNotIn('id_user',$dataUserReservasi);
+
+                $sulinggihQuery = function($sulinggihQuery) use ($dataUserReservasi,$queryFavorit,$queryTotalReservasi ){
+                    $sulinggihQuery->with(['AtributPemuput.Nabe','User'=>$queryTotalReservasi, 'FavoritUser'=>$queryFavorit])
+                        ->where('status_konfirmasi_akun','disetujui')
+                        ->whereNotIn('id_user',$dataUserReservasi);
                 };
                 $dataPemuputKarya->with([
-                    'PemuputKarya' => $sulinggihQuery
-                    ])->whereHas('PemuputKarya',$sulinggihQuery);
+                    'PemuputKarya' => $sulinggihQuery, 'BanjarDinas.DesaDinas.Kecamatan.Kabupaten'
+                    ])->whereHas('PemuputKarya',$sulinggihQuery)->withCount(['PemuputKarya' => function (Builder $query) use ($queryFavorit){
+                        $query->with(['FavoritUser'=>$queryFavorit])->whereHas('FavoritUser',$queryFavorit)->where('status_konfirmasi_akun','disetujui');
+                    }]);
                 $dataPemuputKarya = $dataPemuputKarya->get();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 return redirect()->back()->with([
-                    'status' => 'fail',
+                'status' => 'fail',
                     'icon' => 'error',
                     'title' => 'Gagal Menemukan Data Reservasi !',
                     'message' => 'Data Reservasi Tidak ditemukan, mohon hubungi developer untuk lebih lanjut!',
@@ -135,7 +157,7 @@ class KramaReservasiController extends Controller
         // END LOGIC
 
         // RETRUN
-            return view('pages.krama.manajemen-reservasi.krama-reservasi-create',compact(['dataUpacaraku','dataPemuputKarya','dataSanggar']));
+            return view('pages.krama.manajemen-reservasi.krama-reservasi-create',compact(['dataUpacaraku','dataPemuputKarya','dataSanggar','dataKabupaten']));
         // END RETURN
     }
     // CRAETE RESERVASI KRAMA
