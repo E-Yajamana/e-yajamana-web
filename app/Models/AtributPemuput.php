@@ -7,6 +7,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,6 +42,17 @@ class AtributPemuput extends Model
 		'sk_pemuput',
 		'tanggal_diksha'
 	];
+
+	/**
+	 * Prepare a date for array / JSON serialization.
+	 *
+	 * @param  \DateTimeInterface  $date
+	 * @return string
+	 */
+	protected function serializeDate(DateTimeInterface $date)
+	{
+		return $date->format('Y-m-d H:i:s');
+	}
 
 	public function Nabe()
 	{

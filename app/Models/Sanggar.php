@@ -51,19 +51,18 @@ class Sanggar extends Model
 		'keterangan_konfirmasi_akun'
 	];
 
-    public function User()
-    {
-        return $this->belongsToMany(User::class,'tb_kepemilikan_sanggar','id_sanggar','id_user')->withTimestamps();
-    }
-
-    public function Reservasi()
+	public function User()
 	{
-		return $this->hasMany(Reservasi::class, 'id_sanggar','id');
+		return $this->belongsToMany(User::class, 'tb_kepemilikan_sanggar', 'id_sanggar', 'id_user')->withTimestamps();
 	}
 
-    public function DesaDinas()
+	public function Reservasi()
 	{
-		return $this->belongsTo(DesaDinas::class, 'id_desa_dinas','id');
+		return $this->hasMany(Reservasi::class, 'id_sanggar', 'id');
 	}
 
+	public function DesaDinas()
+	{
+		return $this->belongsTo(DesaDinas::class, 'id_desa_dinas', 'id');
+	}
 }

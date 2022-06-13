@@ -173,6 +173,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // DATA AKUN USER
         Route::get('dataakunuser/{status?}', [AdminDataAkunUserController::class, 'index']);
+        Route::get('dataakunuser/{tipe}/{id}/show', [AdminDataAkunUserController::class, 'show']);
         // END
 
         // MASTER DATA
