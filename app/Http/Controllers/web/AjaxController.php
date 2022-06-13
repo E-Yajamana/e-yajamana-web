@@ -87,8 +87,6 @@ class AjaxController extends Controller
         ],200);
     }
 
-
-    // NIK REGIS
     public function getDataPenduduk($nik)
     {
         // SECURITY
@@ -124,7 +122,7 @@ class AjaxController extends Controller
                             'status' => 409,
                             'icon' => 'warning',
                             'title' => 'Pemberitahuan',
-                            'message' => 'Anda tidak dapat mendaftar kembali, sistem mendeteksi anda sudah mempunyai akun dengan email : '.$penduduk->User->email,
+                            'message' => 'Anda tidak dapat mendaftar kembali, sistem mendeteksi anda sudah mempunyai akun dengan role Sanggar/Pemuput Karya dengan email : '.$penduduk->User->email ,
                             'footer' =>'<a href="'.route('auth.login').'">Halaman Login Sistem...!!</a>',
                         ];
                     }else{
@@ -217,7 +215,49 @@ class AjaxController extends Controller
     }
     // ADD FAV
 
+    // PEMUPUT JADWAL RESERVASI
+    public function jadwalReservasiPemuput(Request $request)
+    {
+        // SECURITY
+            $validator = Validator::make($request->all(), [
+                'tipe' => 'in:id_relasi,id_sanggar',
+            ]);
 
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Validation error',
+                    'data' => $validator->errors(),
+                ], 400);
+            }
+        // END
+
+        // MAIN LOGIC
+            try {
+                $queryDetailReservasi = function ($queryDetailReservasi){
+                    $queryDetailReservasi->with('TahapanUpacara')->whereNotIn('status',['ditolak','batal']);
+                };
+                $dataJadwalReservasi = Reservasi::with(['Upacaraku','DetailReservasi'=>$queryDetailReservasi])
+                    ->whereHas('DetailReservasi',$queryDetailReservasi)
+                    ->whereHas('Upacaraku')
+                    ->whereNotIn('status',['batal'])
+                    ->where($request->tipe,$request->id)->get();
+            }catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Internal Server Error',
+                    'data' => (object)[],
+                ], 500);
+            }
+        // END
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil mengambil data jadwal',
+            'data' => $dataJadwalReservasi
+        ],200);
+    }
+    // PEMUPUT JADWAL RESERVASI
 
 
 

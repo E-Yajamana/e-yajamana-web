@@ -126,10 +126,14 @@ class KramaReservasiController extends Controller
 
                 array_push($dataUserReservasi, $user->id);
 
-                $dataSanggar = Sanggar::with('User.Penduduk')->whereHas('User.Penduduk')->where('status_konfirmasi_akun','disetujui')->whereNotIn('id',$reservasiSanggar)->get();
+                $dataSanggar = Sanggar::with(['User.Penduduk','BanjarDinas.DesaDinas.Kecamatan.Kabupaten','FavoritUser'])
+                    ->withCount(['Reservasi'=>function (Builder $query){
+                        $query->where('status','selesai');
+                    }])->whereHas('User.Penduduk')
+                    ->where('status_konfirmasi_akun','disetujui')
+                    ->whereNotIn('id',$reservasiSanggar)->get();
 
                 $dataPemuputKarya = GriyaRumah::query();
-
 
                 $sulinggihQuery = function($sulinggihQuery) use ($dataUserReservasi,$queryFavorit,$queryTotalReservasi ){
                     $sulinggihQuery->with(['AtributPemuput.Nabe','User'=>$queryTotalReservasi, 'FavoritUser'=>$queryFavorit])

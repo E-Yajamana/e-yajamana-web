@@ -66,9 +66,9 @@ class Sanggar extends Model
 		return $this->belongsToMany(User::class, 'tb_favorit', 'id_sanggar', 'id_user');
 	}
 
-    public function DesaDinas()
+    public function BanjarDinas()
 	{
-		return $this->belongsTo(DesaDinas::class, 'id_desa_dinas','id');
+		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas','id');
 	}
 
 }

@@ -57,11 +57,11 @@
                                             Sanggar <span class="badge bg-warning float-right">{{count($dataSanggar)}}</span>
                                         </a>
                                     </li>
-                                    <li class="nav-item">
+                                    {{-- <li class="nav-item">
                                         <a class="nav-link" id="serati-tabs" data-toggle="pill" href="#serati-table" role="tab" aria-controls="serati-table" aria-selected="false">
                                             Serati <span class="badge bg-warning float-right">{{count($dataSerati)}}</span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                     <li class="nav-item">
                                         <a id="krama-tabs" href="#krama-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="krama-table" aria-selected="false">
                                             Krama Bali <span class="badge bg-warning float-right">{{count($dataKrama)}}</span>
@@ -113,10 +113,10 @@
                                                             @if ($data->status_konfirmasi_akun == 'pending')
                                                                 <a onclick="terimaPemuput({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                                 <a onclick="tolakPemuput({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times px-1"></i></a>
-                                                            @elseif ($data->status_konfirmasi_akun == 'disetujui')
+                                                            {{-- @elseif ($data->status_konfirmasi_akun == 'disetujui')
                                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                                 <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                            @else
+                                                            @else --}}
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -156,12 +156,12 @@
                                                             @if ($data->status_konfirmasi_akun == 'pending')
                                                                 <a onclick="verifikasiPemuputKarya({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                                 <a onclick="tolakPemuputKarya({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times px-1"></i></a>
-                                                            @elseif ($data->status_konfirmasi_akun == 'disetujui')
+                                                            {{-- @elseif ($data->status_konfirmasi_akun == 'disetujui')
                                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                                 <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                                             @else
                                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a> --}}
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -201,9 +201,9 @@
                                                             @if ($data->status_konfirmasi_akun == 'pending')
                                                                 <a onclick="verifikasiSanggar({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                                                 <a onclick="tolakSanggar({{$data->id}})" class="btn btn-danger btn-sm mx-1"><i class="fas fa-times"></i></a>
-                                                            @else
+                                                            {{-- @else
                                                                 <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a> --}}
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -216,7 +216,7 @@
                             {{-- SANGGAR --}}
 
                             {{-- SERATI --}}
-                            <div class="tab-pane fade" id="serati-table" role="tabpanel" aria-labelledby="serati-tabs">
+                            {{-- <div class="tab-pane fade" id="serati-table" role="tabpanel" aria-labelledby="serati-tabs">
                                 <div class="card-body p-0">
                                     <div class="table-responsive mailbox-messages p-2">
                                         <table id="tb-serati" class="table table-striped table-hover mx-auto table-responsive-sm">
@@ -249,7 +249,7 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             {{-- SERATI --}}
 
                             {{-- KRAMA --}}
@@ -275,8 +275,8 @@
                                                         <td>{{$data->Penduduk->alamat}}</td>
                                                         <td style="width: 15%">
                                                             <a href="{{route('admin.manajemen-akun.data-akun.krama.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                            {{-- <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a> --}}
                                                         </td>
                                                     </tr>
                                                 @endforeach

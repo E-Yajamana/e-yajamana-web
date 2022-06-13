@@ -1,4 +1,4 @@
-@push('css')
+{{-- @push('css')
     <script src="{{asset('base-template/dist/js/rating.js')}}"></script>
 @endpush
 
@@ -152,4 +152,4 @@
 @endpush
 
 
-
+ --}}
