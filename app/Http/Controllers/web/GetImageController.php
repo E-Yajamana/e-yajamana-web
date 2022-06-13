@@ -95,6 +95,43 @@ class GetImageController extends Controller
     }
     // SK KESULINGGIHAN
 
+    // SK SANGGAR
+    public function skSanggar($id)
+    {
+        // SECURITY
+            $validator = Validator::make(['id' =>$id],[
+                'id' => 'required|exists:tb_sanggar,id',
+            ]);
+
+            if($validator->fails()){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Mengambil Gambar',
+                    'message' => 'Gagal Mengambil Gambar, Terdapat kendala pada sistem !!',
+                ]);
+            }
+        // END SECURITY
+
+        // MAIN LOGIC
+            try{
+                $path = Sanggar::findOrFail($id)->sk_tanda_usaha;
+                if($path == null){
+                    $path = 'default.jpg';
+                }
+                return ImageHelper::getImage($path);
+            }catch(\Exception | ModelNotFoundException $err){
+                return redirect()->back()->with([
+                    'status' => 'fail',
+                    'icon' => 'error',
+                    'title' => 'Gagal Mengambil Gambar',
+                    'message' => 'Gagal Membuat Gambar, apabila diperlukan mohon hubungi developer sistem`',
+                ]);
+            }
+        // END LOGIC
+
+    }
+    // SK SANGGAR
 
     // UPACARA
     public function upacara($id)
@@ -242,8 +279,8 @@ class GetImageController extends Controller
                 ]);
             }
           // END LOGIC
-      }
-      // PROFILE
+    }
+    // PROFILE
 
 
 }

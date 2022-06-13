@@ -242,6 +242,13 @@ Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function 
     Route::get('dashboard', [SanggarDashboardController::class, 'index'])->name('sanggar.dashboard');
     Route::post('set-session', [SanggarController::class, 'setSession'])->name('sanggar.session')->withoutMiddleware('permission:sanggar');
 
+    Route::prefix('manajemen-sanggar')->group(function () {
+        Route::get('index', [SanggarController::class, 'index'])->name('manajemen-sanggar.index');
+        Route::put('update-data', [SanggarController::class, 'update'])->name('manajemen-sanggar.update');
+        Route::post('add-anggota', [SanggarController::class, 'store'])->name('manajemen-sanggar.store');
+        Route::delete('delete-anggota', [SanggarController::class, 'delete'])->name('manajemen-sanggar.delete');
+    });
+
     Route::prefix('manajemen-reservasi')->group(function () {
         Route::get('reservasi-masuk/index', [SanggarReservasiController::class, 'index'])->name('sanggar.manajemen-reservasi.index');
         Route::get('reservasi-masuk/detail/{id}', [SanggarReservasiController::class, 'detailReservasi'])->name('sanggar.manajemen-reservasi.detail');
@@ -282,6 +289,7 @@ Route::prefix('get-image')->group(function () {
         Route::get('profile/{id?}', [GetImageController::class, 'profile'])->name('image.profile.user');
         Route::get('profile/sanggar/{id?}', [GetImageController::class, 'profileSanggar'])->name('image.profile.sanggar');
         Route::get('sk-pemuput/{id?}', [GetImageController::class, 'skPemuput'])->name('image.sk-pemuput');
+        Route::get('sk-tanda-usaha/{id?}', [GetImageController::class, 'skSanggar'])->name('image.sk-sanggar');
     });
 });
 
