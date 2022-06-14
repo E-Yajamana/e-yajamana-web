@@ -54,8 +54,8 @@ class KramaController extends Controller
 
         NotificationHelper::sendNotification(
             [
-                'title' => "UPACARA DIBUAT",
-                'body' => "Upacara dengan nama telah berhasil dibuat, silahkan melakukan reservasi Pemuput Karya atau Sanggar untuk muput upacara adat",
+                'title' => "REMINDER UPACARA",
+                'body' => "Halo Krama, besok pada Tanggal 15 Juni 2022 terdapat jadwal tahapan upacara Piodalan yang akan diselenggarakan",
                 'status' => "new",
                 'image' => "/logo-eyajamana.png",
                 'type' => "krama",

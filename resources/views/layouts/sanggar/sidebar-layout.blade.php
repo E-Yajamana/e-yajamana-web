@@ -119,9 +119,8 @@
                         </li>
                     </ul>
                 </li>
-
                 @if(Auth::user()->pemilikSanggar()->pivot->jabatan == 1)
-                <li class="nav-header font-weight-bold pl-2" id="side-manajemen-sanggar">SANGGAR</li>
+                    <li class="nav-header font-weight-bold pl-2" id="side-manajemen-sanggar">SANGGAR</li>
                     <li class="nav-item">
                         <a href="{{route('manajemen-sanggar.index')}}" class="nav-link p-2">
                             <i class="mr-1 nav-icon fas fa-users"></i>
@@ -129,7 +128,6 @@
                         </a>
                     </li>
                 @endif
-
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

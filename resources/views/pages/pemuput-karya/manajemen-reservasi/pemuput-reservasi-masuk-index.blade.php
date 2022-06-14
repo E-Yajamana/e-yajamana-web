@@ -86,17 +86,16 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
+                            {{-- <tfoot>
                                 <tr>
                                     <th>No</th>
                                     <th>Penyelenggara </th>
-                                    {{-- <th>Jenis Upacara</th> --}}
                                     <th>Tahapan Reservasi</th>
                                     <th>Tanggal Upacara</th>
                                     <th class="text-center">Konfirmasi Sebelum</th>
                                     <th>Tindakan</th>
                                 </tr>
-                            </tfoot>
+                            </tfoot> --}}
                         </table>
                     </div>
                 </div>

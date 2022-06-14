@@ -259,6 +259,29 @@ class AjaxController extends Controller
     }
     // PEMUPUT JADWAL RESERVASI
 
+    // KRAMA JADWAL RESERVASI
+    public function jadwalReservasiKrama(Request $request)
+    {
+        // SECURITY
+            $validator = Validator::make($request->all(), [
+                'id' => 'exists:tb_user_eyajamana,id',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Validation error',
+                    'data' => $validator->errors(),
+                ], 400);
+            }
+        // END
+
+
+
+    }
+    // KRAMA JADWAL RESERVASI
+
+
 
 
 }
