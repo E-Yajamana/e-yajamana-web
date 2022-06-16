@@ -309,12 +309,10 @@ Route::prefix('ajax')->group(function () {
         Route::get('keterangan/{id?}', [AjaxController::class, 'getKeteranganPergantian'])->name('ajax.get.keterangan-reservasi');
         Route::get('tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
         Route::post('pemuput/jadwal', [AjaxController::class, 'jadwalReservasiPemuput'])->name('ajax.jadwal-reservasi-pemuput');
-        Route::post('krama/jadwal', [AjaxController::class, 'jadwalReservasiPemuput'])->name('ajax.jadwal-reservasi-pemuput');
-        // Route::get('jadwal-reservasi', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
+        Route::get('krama/jadwal/{id?}', [AjaxController::class, 'jadwalReservasiKrama'])->name('ajax.jadwal-reservasi-krama');
     });
 
     Route::get('data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
-
 
     Route::prefix('user')->group(function () {
         Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');

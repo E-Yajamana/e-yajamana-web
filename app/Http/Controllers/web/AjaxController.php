@@ -10,6 +10,7 @@ use App\Models\Reservasi;
 use App\Models\TahapanUpacara;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Upacara;
+use App\Models\Upacaraku;
 use App\Models\User;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -276,6 +277,31 @@ class AjaxController extends Controller
             }
         // END
 
+        // MAIN LOGIC
+            try {
+                $queryDetailReservasi = function ($queryDetailReservasi){
+                    $queryDetailReservasi->with('TahapanUpacara')->whereNotIn('status',['ditolak','batal']);
+                };
+                $dataJadwalReservasi = Upacaraku::with(['Reservasi.DetailReservasi' => $queryDetailReservasi])
+                    ->whereHas('Reservasi.DetailReservasi',$queryDetailReservasi)
+                    ->whereNotIn('status',['batal'])
+                    ->where('id_krama',$request->id)->get();
+            }catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Internal Server Error',
+                    'data' => (object)[],
+                ], 500);
+            }
+        // END
+
+        // RETURN
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil mengambil data jadwal',
+                'data' => $dataJadwalReservasi
+            ],200);
+        // END RETURN
 
 
     }

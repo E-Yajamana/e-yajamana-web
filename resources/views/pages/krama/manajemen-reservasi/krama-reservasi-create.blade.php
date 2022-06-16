@@ -98,7 +98,7 @@
                         <div class="bs-stepper-content p-0">
                             <!-- TAHAPAN AWAL -->
                                 <div id="logins-part" class="content" role="tabpanel" aria-labelledby="logins-part-trigger">
-                                    {{-- <div class="card tab-content">
+                                    <div class="card tab-content">
                                         <!-- /.card-header -->
                                         <div class="card-header">
                                             <div class="card-body box-profile align-content-center">
@@ -109,7 +109,7 @@
                                                 <p class="text-center mb-1 mt-1">{{$dataUpacaraku->Upacara->kategori_upacara}}</p>
                                             </div>
                                         </div>
-                                    </div> --}}
+                                    </div>
 
                                     <div class="card tab-content">
                                         <!-- /.card-header -->

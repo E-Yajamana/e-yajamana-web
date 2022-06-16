@@ -21,7 +21,6 @@ class KramaDashboardController extends Controller
         $user = Auth::user();
         $upacara = Upacara::all();
         $upacaraKrama = Upacaraku::with(['Upacara','Reservasi'])->withCount('Reservasi')->whereIdKrama($user->id);
-        // dd($upacaraKrama->get());
 
         $queryPemuputStatus = function($queryPemuputStatus){
             $queryPemuputStatus->where('status_konfirmasi_akun','disetujui');
@@ -44,11 +43,18 @@ class KramaDashboardController extends Controller
             $upacara->where('kategori_upacara','Bhuta Yadnya')->count(),
         ];
 
-        // dd($dataCountJenisYadnya);
-        // $incomingReservasi = Reservasi::
+        $queryDetailReservasi = function ($queryDetailReservasi){
+            $queryDetailReservasi->with('TahapanUpacara')->where('tanggal_mulai', '<=',Carbon::now()->startOfDay()->addHours(23))
+                ->where('tanggal_selesai', '>=', Carbon::now()->startOfDay())
+                ->where('status','diterima');
+        };
 
+        $dataJadwal = Upacaraku::with(['Reservasi.DetailReservasi' => $queryDetailReservasi, 'Reservasi.Relasi.PemuputKarya.GriyaRumah'])
+            ->whereHas('Reservasi.DetailReservasi',$queryDetailReservasi)
+            ->whereIdKrama($user->id)
+            ->get();
 
-        return view('pages.krama.dashboard', compact('dataCountJenisYadnya','countData','dataUpacaraKrama'));
+        return view('pages.krama.dashboard', compact('dataCountJenisYadnya','countData','dataUpacaraKrama','dataJadwal'));
     }
     // VIEW DASHBOARD
 

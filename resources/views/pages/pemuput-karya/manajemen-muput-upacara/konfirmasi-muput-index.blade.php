@@ -2,10 +2,24 @@
 @section('tittle','Data Muput Upacara')
 
 @push('css')
-    <!-- DataTables -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+
+    <!-- DataTablbase-template Plugins -->
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.js')}}"></script>
+    <script src="{{asset('dataTables.rowsGroup.js')}}"></script>
+
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/daterangepicker/daterangepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/datepicker/css/datepicker.css')}}">
 @endpush
+
 
 
 @section('content')
@@ -27,17 +41,109 @@
     </section>
 
     <div class="container-fluid">
-        <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
-            <div class="card-header my-auto">
-                <h3 class="card-title my-auto">List Data Muput Upacara Krama</h3>
+        <div class="card card-outline card-primary tab-content" id="v-pills-tabContent">
+            <div class="col-12" id="accordion">
+                <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
+                    <div class="card-header pl-1">
+                        <div class="col-6 mx-0">
+                            <h3 class="card-title text-dark">List Data Muput Upacara Krama</h3>
+                        </div>
+                        <div class="card-tools">
+                            <button title="Filter Data" class="btn btn btn-tool">
+                                <a data-toggle="collapse" href="#collapseOne">
+                                    FILTER
+                                    <i class="fas fa-filter"></i>
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </a>
+                <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="row">
+                                    <div class="col-12  col-sm-4">
+                                        <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                            <input id="filterTanggal" type='text' class='form-control float-right' placeholder="Pilih tanggal" value="">
+                                            <div class="input-group-prepend">
+                                                <button class="input-group-text btn" type="button"  id="removeTanggal" >
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                            <input id="filterBulan" type='text' class='form-control float-right' placeholder="Pilih bulan" value="">
+                                            <div class="input-group-prepend">
+                                                <button class="input-group-text btn" type="button"  id="removeBulan" >
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-4">
+                                        <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                                            <input id="filterTahun" type='text' class='form-control float-right' placeholder="Pilih tahun" value="">
+                                            <div class="input-group-prepend">
+                                                <button class="input-group-text btn" type="button"  id="removeTahun" >
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="card-header p-0"></div>
 
-            {{-- Start Data Table Sulinggih --}}
-            <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
-                <div class="card-body p-0">
-                    <div class="table-responsive mailbox-messages p-2">
-                        <table id="example2" class="table mx-auto table-responsive-sm">
-                            <thead >
+            <div class="card-body p-1">
+                <div class="table-responsive-sm table p-1">
+                    {{-- <table id="example2" class="table mx-auto table-responsive-sm">
+                        <thead >
+                            <th>No</th>
+                            <th>Penyelengara</th>
+                            <th>Alamat</th>
+                            <th>Tahapan Reservasi</th>
+                            <th>Waktu Mulai</th>
+                            <th>Waktu Selesai</th>
+                            <th>Tindakan</th>
+                        </thead>
+                        <tbody>
+                            @foreach ($dataReservasi as $index => $data )
+                                <tr>
+                                    <td rowspan="{{count($data->DetailReservasi)}}">{{$index+1}}</td>
+                                    <td style="width: 15%"  rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->User->Penduduk->nama}}</td>
+                                    <td style="width: 18%" rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->alamat_upacaraku}}</td>
+                                    <td class="pl-4">{{$data->DetailReservasi[0]->TahapanUpacara->nama_tahapan}}</td>
+                                    <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[0]->tanggal_mulai))}}</td>
+                                    <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[0]->tanggal_selesai))}}</td>
+                                    <td>
+                                        <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[0]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                        <a onclick="konfirmasiMuput({{$data->DetailReservasi[0]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                    </td>
+                                </tr>
+                                @for($i=1; $i < count($data->DetailReservasi); $i++ )
+                                    <tr>
+                                        <td>{{$data->DetailReservasi[$i]->TahapanUpacara->nama_tahapan}}</td>
+                                        <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[$i]->tanggal_mulai))}}</td>
+                                        <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[$i]->tanggal_selesai))}}</td>
+                                        <td>
+                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <a onclick="konfirmasiMuput({{$data->DetailReservasi[$i]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        </td>
+                                    </tr>
+                                @endfor
+                            @endforeach
+                        </tbody>
+                    </table> --}}
+                    <table id="curriculum-students-dataTable" class="table mx-auto table-responsive-sm">
+                        <thead>
+                            <tr>
                                 <th>No</th>
                                 <th>Penyelengara</th>
                                 <th>Alamat</th>
@@ -45,124 +151,186 @@
                                 <th>Waktu Mulai</th>
                                 <th>Waktu Selesai</th>
                                 <th>Tindakan</th>
-                            </thead>
-                            <tbody>
-                                @foreach ($dataReservasi as $index => $data )
-                                    <tr>
-                                        <td rowspan="{{count($data->DetailReservasi)}}">{{$index+1}}</td>
-                                        <td style="width: 15%"  rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->User->Penduduk->nama}}</td>
-                                        <td style="width: 18%" rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->alamat_upacaraku}}</td>
-                                        <td class="pl-4">{{$data->DetailReservasi[0]->TahapanUpacara->nama_tahapan}}</td>
-                                        <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[0]->tanggal_mulai))}}</td>
-                                        <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[0]->tanggal_selesai))}}</td>
-                                        <td>
-                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[0]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a onclick="konfirmasiMuput({{$data->DetailReservasi[0]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        </td>
-                                    </tr>
-                                    @for($i=1; $i < count($data->DetailReservasi); $i++ )
-                                        <tr>
-                                            <td>{{$data->DetailReservasi[$i]->TahapanUpacara->nama_tahapan}}</td>
-                                            <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[$i]->tanggal_mulai))}}</td>
-                                            <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[$i]->tanggal_selesai))}}</td>
-                                            <td>
-                                                <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                <a onclick="konfirmasiMuput({{$data->DetailReservasi[$i]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                            </td>
-                                        </tr>
-                                    @endfor
-                                @endforeach
-                            </tbody>
-                            <tfoot>
-                                <th>No</th>
-                                <th>Nama Upacara</th>
-                                <th>Penyelengara</th>
-                                <th>Tahapan Reservasi</th>
-                                <th>Waktu Mulai</th>
-                                <th>Waktu Selesai</th>
-                                <th>Tindakan</th>
-                            </tfoot>
-                        </table>
-                    </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            {{-- End Data Table Sulinggih --}}
-
         </div>
     </div>
+
+    @include('pages.pemuput-karya.manajemen-muput-upacara.modal-konfirmasi-muput')
 
 @endsection
 
 @push('js')
+<script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
+<script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
+<script src="{{asset('base-template/plugins/datepicker/js/bootstrap-datepicker.js')}}"></script>
+<script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#side-manajemen-muput-upacara').addClass('menu-open');
+        $('#side-manajemen-muput-upacara-konfirmasi-muput-upacara').addClass('active');
 
-    <!-- Bootstrabase-template-->
-    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- DataTablbase-template Plugins -->
-    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+        $('#filterTanggal').daterangepicker({
+            "singleDatePicker": true,
+            autoUpdateInput: false,
+            locale: {
+                format: 'DD MMMM YYYY',
+            },
+        });
+
+        $("#filterBulan").datepicker({
+            format: "MM yyyy",
+            viewMode: "months",
+            minViewMode: "months"
+        });
+
+        $("#filterTahun").datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years"
+        });
+    });
+</script>
+
+@endpush
+
+@push('js')
 
     <script>
-        $(function () {
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": true,
+        $(document).ready(function () {
+
+            const data = {!! json_encode($data) !!}
+            var table = $('#curriculum-students-dataTable').DataTable({
+                "aaData": data,
+                "ordering": false,
                 "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": true,
-                "responsive": true,
-                "oLanguage": {
-                    "sSearch": "Cari:",
-                    "sZeroRecords": "Data Tidak Ditemukan",
-                    "sSearchPlaceholder": "Cari data....",
-                },
+                "order": [[ 1, 'asc' ]],
                 "language": {
                     "paginate": {
                         "previous": 'Sebelumnya',
                         "next": 'Berikutnya'
                     },
                     "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
-                }
+                },
+                "oLanguage": {
+                    "sSearch": "Cari:",
+                    "sZeroRecords": "Data Tidak Ditemukan",
+                    "emptyTable": "Tidak Terdapat Data Akun Sulinggih",
+                    "sSearchPlaceholder": "Cari data....",
+                    "infoEmpty": "Menampilkan 0 Data",
+                    "lengthMenu":     "Show _MENU_ ",
+                    "infoFiltered": "(dari _MAX_ data)",
+                },
+                rowsGroup: [0,1,2],
+                "aoColumns": [
+                    {
+                        "data": "No",
+                        sDefaultContent: ""
+                    },
+                    {
+                        "data": "Penyelengara",
+                        sDefaultContent: ""
+                    },
+                    {
+                        "data": "Alamat",
+                        sDefaultContent: ""
+                    },
+                    {
+                        "data": "tahapanReservasi",
+                        sDefaultContent: ""
+                    },
+                    {
+                        "data": "waktuMulai",
+                        sDefaultContent: ""
+                    },
+                    {
+                        "data": "waktuSelesai",
+                        sDefaultContent: ""
+                    },
+                    {
+                        "data": "tindakan",
+                        sDefaultContent: ""
+                    },
+                ]
             });
-        });
-        $(function () {
-            bsCustomFileInput.init();
-        });
 
-    </script>
+            table.on('order.dt search.dt', function () {
+                table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1;
+                } );
+            }).draw();
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('#side-manajemen-muput-upacara').addClass('menu-open');
-            $('#side-manajemen-muput-upacara-konfirmasi-muput-upacara').addClass('active');
-        });
-    </script>
 
-@endpush
+            $.fn.DataTable.ext.search.push(
+                function( settings, data, dataIndex ) {
 
-@push('js')
-    <script>
-        function konfirmasiMuput(id){
-            Swal.fire({
-                title: 'Pemberitahuan',
-                text : 'Apakah anda ingin mengkonfirmasi tahapan reservasi tersebut?',
-                icon:'question',
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: `Terima`,
-                denyButtonText: `Batal`,
-                confirmButtonColor: '#3085d6',
-                denyButtonColor : '#d33',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $("#idDetailReservasi").val(id);
-                    $("#modalKonfirmasi").modal();
+                    var filterTanggal = '';
+                    var filterBulan = '';
+                    var filterTahun = '';
+
+                    const dbDateStart = moment(data[4],'DD MMM YYYY | H:m').format('YYYY-MM-DD');
+                    const dbDateEnd = moment(data[5],'DD MMM YYYY | H:m').format('YYYY-MM-DD');
+                    const dbMonthStart = moment(data[4],'DD MMM YYYY | H:m').format('MM-YYYY');
+                    const dbMonthEnd = moment(data[5],'DD MMM YYYY | H:m').format('MM-YYYY');
+                    const dbYearStart = moment(data[4],'DD MMM YYYY | H:m').format('YYYY');
+                    const dbYearEnd = moment(data[5],'DD MMM YYYY | H:m').format('YYYY');
+
+                    if($("#filterTanggal").val() !== ''){
+                        filterTanggal = moment($("#filterTanggal").val()).format('YYYY-MM-DD');
+                    }
+                    if($("#filterBulan").val() !== ''){
+                        filterBulan = moment($("#filterBulan").val()).format('MM-YYYY');
+                    }
+                    if($("#filterTahun").val() !== ''){
+                        filterTahun = moment($("#filterTahun").val()).format('YYYY');
+                    }
+
+                    if(
+                        (moment(filterTanggal).isBetween(dbDateStart, dbDateEnd, undefined, '[]') == true && moment(filterTanggal).isBetween(dbDateStart, dbDateEnd, undefined, '[]') || filterTanggal === '') &&
+                        ((filterBulan === dbMonthStart && filterBulan ===  dbMonthEnd) || (filterBulan === '' )) &&
+                        ((filterTahun === dbYearStart && filterTahun ===  dbYearEnd) || filterTahun === '')
+                    ){
+                        return true;
+                    }else{
+                        return false;
+                    }
+
                 }
-            })
-        }
+            );
+
+
+            $('#filterTanggal').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD MMMM YYYY'));
+                table.draw();
+            });
+
+            $('#filterBulan').change(function() {
+                table.draw();
+            });
+
+            $('#filterTahun').change(function() {
+                table.draw();
+            });
+
+            $('#removeTanggal').click(function(){
+                $('#filterTanggal').val('');
+                table.draw();
+            });
+
+            $('#removeBulan').click(function(){
+                $('#filterBulan').val('');
+                table.draw();
+            });
+
+            $('#removeTahun').click(function(){
+                $('#filterTahun').val('');
+                table.draw();
+            });
+        })
     </script>
 @endpush

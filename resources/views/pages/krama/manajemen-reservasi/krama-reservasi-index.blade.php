@@ -97,16 +97,6 @@
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Nama Upacara</th>
-                                                <th>Pemuput Upacara</th>
-                                                <th class='d-flex justify-content-center text-center'>Status Reservasi</th>
-                                                <th>Tahapan Reservasi</th>
-                                                <th>Tindakan</th>
-                                            </tr>
-                                        </tfoot>
                                     </table>
                                 </div>
                             </div>

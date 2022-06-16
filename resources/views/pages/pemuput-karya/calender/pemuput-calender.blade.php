@@ -48,36 +48,47 @@
     </script>
 
     <script>
-
+        let dataPemuputKarya,dataSanggar,dataUpacaraku;
         let blue,green,grey,yellow;
-        let idUser;
         blue = '#3c8dbc';
         green = '#00a65a';
         grey = '#808080';
         yellow = '#f39c12';
-        idUser = {{Auth::user()->id}}
 
-        $.ajax({
-                url: "{{route('ajax.get.data-tangkil')}}"+"/"+idUser,
-                type: "GET",
-                dataType: "json",
-                success:function(dataTangkil){
-                    // console.log(dataTangkil.data);
-                    var evetArray = [];
-                    var dataArray = {};
-                    var dataDetailArray = {};
-                    $.each(dataTangkil.data, function(key, dataReservasi){
-                        if(dataReservasi.status != 'proses tangkil'){
-                            dataArray.backgroundColor  = green,
-                            dataArray.borderColor = green,
+        // JADWAL PEMUPUT
+        function showJadwal(id,tipe)
+        {
+            $.ajax({
+                url: "{{ route('ajax.jadwal-reservasi-pemuput')}}",
+                type:'POST',
+                data: {
+                    id:id,
+                    tipe:tipe,
+                    "_token":"{{ csrf_token() }}"
+                },
+                success:function(response){
+                    var evetArray = []; // DATA KESELURUHAN
+                    var dataArray = {}; // DATA TANGKIL
+                    var dataDetailArray = {}; // DATA DETAIL RESERVASI
+                    $.each(response.data, function(key, dataReservasi){
+                        // console.log(data);
+                        if(dataReservasi.status == 'pending'){
+                            dataArray.backgroundColor  = grey,
+                            dataArray.borderColor = grey,
                             dataArray.extendedProps = {
-                                status : 'Selesai'
+                                status : 'Pending'
                             }
-                        }else{
+                        }else if(dataReservasi.status == 'proses tangkil'){
                             dataArray.backgroundColor = blue,
                             dataArray.borderColor = blue,
                             dataArray.extendedProps = {
                                 status : 'Akan Datang'
+                            }
+                        }else{
+                            dataArray.backgroundColor  = green,
+                            dataArray.borderColor = green,
+                            dataArray.extendedProps = {
+                                status : 'Selesai'
                             }
                         }
                         dataArray.title = "Tangkil Upacara "+dataReservasi.upacaraku.nama_upacara,
@@ -85,10 +96,8 @@
                         dataArray.allDay = false
                         evetArray.push({...dataArray});
                         $.each(dataReservasi.detail_reservasi, function(key, dataDetailReservasi){
-                            // console.log(new Date(dataDetailReservasi.tanggal_mulai));
-
                             if(dataDetailReservasi.status == 'pending'){
-                                dataDetailArray.backgroundColor  = grey, //Success (green)
+                                dataDetailArray.backgroundColor  = grey,
                                 dataDetailArray.borderColor = grey,
                                 dataDetailArray.extendedProps = {
                                     status : 'Pending'
@@ -105,22 +114,14 @@
                                 dataDetailArray.extendedProps = {
                                     status : 'Selesai'
                                 }
-                            }else{
-                                dataDetailArray.backgroundColor = blue,
-                                dataDetailArray.borderColor = blue,
-                                dataDetailArray.extendedProps = {
-                                    status : 'Akan Datang'
-                                }
                             }
                             dataDetailArray.title = "Muput Upacara "+dataDetailReservasi.tahapan_upacara.nama_tahapan,
-                            dataDetailArray.start = new Date (dataDetailReservasi.tanggal_mulai),
-                            dataDetailArray.end = new Date (dataDetailReservasi.tanggal_selesai),
+                            dataDetailArray.start = dataDetailReservasi.tanggal_mulai,
+                            dataDetailArray.end = dataDetailReservasi.tanggal_selesai,
                             dataDetailArray.allDay = false
                             evetArray.push({...dataDetailArray});
                         })
                     });
-                    console.log(evetArray)
-
                     var calendarEl = document.getElementById('calendar');
                     var calendar = new FullCalendar.Calendar(calendarEl, {
                         events: evetArray,
@@ -139,9 +140,11 @@
                     });
                     calendar.render();
                 }
-            })
+            });
+        }
+        // JADWAL PEMUPUT
 
-        // FUNCTION SHOW DATA SWEETALERT
+        // SHOW JADWAL DETAIL
         function alertDetail(title, start, end, status){
             let mulai = moment(start).format('DD MMMM YYYY | hh:mm A')
             let selesai = moment(end).format('DD MMMM YYYY | hh:mm A')
@@ -159,9 +162,9 @@
                     '</ul>'
             })
         }
-        // FUNCTION SHOW DATA SWEETALERT
+        // SHOW JADWAL DETAIL
 
-
+        showJadwal({{Auth::user()->id}},'id_relasi');
     </script>
 
 @endpush

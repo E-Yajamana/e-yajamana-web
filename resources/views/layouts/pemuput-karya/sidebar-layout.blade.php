@@ -54,7 +54,7 @@
                 </div>
 
                 <li class="nav-header font-weight-bold pl-2">DASHBOARD</li>
-                <li class="nav-item">
+                <li class="nav-item" id="side-dashboard">
                     <a href="{{route('pemuput-karya.dashboard')}}" class="nav-link p-2">
                         <i class="mr-1 nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
@@ -62,13 +62,13 @@
                 </li>
 
                 <li class="nav-header font-weight-bold pl-2">MENU UTAMA</li>
-
+{{--
                 <li id="" class="nav-item">
                     <a href="{{route('pemuput-karya.calender')}}" class="nav-link p-2" id="muput-calendar">
                         <i class="fa fa-calendar-alt nav-icon"></i>
                         <p>Jadwal Muput</p>
                     </a>
-                </li>
+                </li> --}}
 
 
                 <li id="side-manajemen-muput-upacara" class="nav-item">
