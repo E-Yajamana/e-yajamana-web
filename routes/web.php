@@ -176,6 +176,7 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
     Route::get('send/notif', [KramaController::class, 'sendNotif']);
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
+    Route::get('report', [KramaController::class, 'report'])->name('krama.report');
 
     Route::prefix('manajemen-upacara')->group(function () {
         Route::get('index', [KramaUpacarakuController::class, 'indexUpacaraku'])->name('krama.manajemen-upacara.upacaraku.index');

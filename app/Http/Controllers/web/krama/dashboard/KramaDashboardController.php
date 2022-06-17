@@ -35,12 +35,17 @@ class KramaDashboardController extends Controller
             'countReservasi' => $upacara->count(),
         ];
 
+
+        $countJenisUpacara = Upacara::select('kategori_upacara', DB::raw("COUNT('kategori_upacara') as count"))
+            ->groupBy('kategori_upacara')
+            ->get()->toArray();
+
         $dataCountJenisYadnya = [
             $upacara->where('kategori_upacara','Dewa Yadnya')->count(),
             $upacara->where('kategori_upacara','Pitra Yadnya')->count(),
             $upacara->where('kategori_upacara','Manusa Yadnya')->count(),
             $upacara->where('kategori_upacara','Rsi Yadnya')->count(),
-            $upacara->where('kategori_upacara','Bhuta Yadnya')->count(),
+            $upacara->where('kategori_upacara','Bhuta Ya    ya')->count(),
         ];
 
         $queryDetailReservasi = function ($queryDetailReservasi){
@@ -54,7 +59,7 @@ class KramaDashboardController extends Controller
             ->whereIdKrama($user->id)
             ->get();
 
-        return view('pages.krama.dashboard', compact('dataCountJenisYadnya','countData','dataUpacaraKrama','dataJadwal'));
+        return view('pages.krama.dashboard', compact('dataCountJenisYadnya','countData','dataUpacaraKrama','dataJadwal','countJenisUpacara'));
     }
     // VIEW DASHBOARD
 

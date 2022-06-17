@@ -240,16 +240,6 @@ crossorigin=""></script>
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="h-100 d-flex justify-content-center align-items-center ">
-                            <div class="media">
-                                <div class="media-body text-center mb-2 ">
-                                    <i class="fa-6x fas fa-calendar-alt text-secondary"></i>
-                                    <div class="d-flex justify-content-center mt-3">
-                                        <p class="text-lg text-center mt-1 w-75">Belum terdapat Reservasi..</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                     <div class="card-footer text-center">
                         <a href="{{route('krama.manajemen-reservasi.index')}}" class="uppercase">Lihat Semua Reservasi Krama</a>
@@ -260,6 +250,7 @@ crossorigin=""></script>
         <!-- BAGIAN 3 DASHBOARD-->
     </div>
 
+    <input id="apamen" value='@json($countJenisUpacara)' hidden type="hidden">
 
 
 @endsection
@@ -277,17 +268,22 @@ crossorigin=""></script>
 <script>
     $(function () {
         // NAMPILIN DI ID #donutChart
+
+        const obj = JSON.parse($("#apamen").val());
+        console.log(obj)
+        var label = [];
+        var dataLabel = [];
+
+        $.each(obj, function(key, data){
+            dataLabel.push(data.count);
+            label.push(data.kategori_upacara);
+        })
+
         var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
         var donutData = {
-            labels: [
-                'Dewa Yadnya',
-                'Pitra Yadnya',
-                'Manusa Yadnya',
-                'Rsi Yadnya',
-                'Bhuta Yadnya',
-            ],
+            labels: label,
             datasets: [{
-                data: [2,4,3,2,5],
+                data: dataLabel,
                 backgroundColor : ['#f56954', '#00c0ef', '#f39c12', '#3c8dbc', '#d2d6de'],
             }]
         }
@@ -300,6 +296,8 @@ crossorigin=""></script>
             data: donutData,
             options: donutOptions
         })
+        $('#side-dashboard').addClass('menu-open');
+
     })
 
 </script>

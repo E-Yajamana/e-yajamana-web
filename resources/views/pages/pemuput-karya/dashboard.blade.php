@@ -95,13 +95,15 @@
                     </div>
                     <div class="card-body">
                          <!-- Timelime example  -->
-                        <div class="row">
+                        <div class="row h-100">
                             <div class="col-md-12 mt-3">
-                                <div class="timeline">
-                                    <div class="time-label">
-                                        <span class=" bg-primary">{{date('d M Y')}}</span>
-                                    </div>
-                                    @foreach ($dataJadwal as $reservasi)
+                                <div class="@if ($dataJadwal->count() != 0) timeline @else h-100 @endif">
+                                    @if($dataJadwal->count() != 0)
+                                        <div class="time-label">
+                                            <span class="bg-info">{{date('d F Y')}}</span>
+                                        </div>
+                                    @endif
+                                    @forelse ($dataJadwal as $reservasi)
                                         @if (date('d M Y') === date('d M Y',strtotime($reservasi->tanggal_tangkil)))
                                             <div>
                                                 {{-- <i class="fas fa-angle-right "></i> --}}
@@ -128,10 +130,23 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                    @endforeach
-                                    <div>
-                                        <i class="fas fa-clock bg-gray"></i>
-                                    </div>
+                                    @empty
+                                        <div class="h-100 d-flex justify-content-center align-items-center ">
+                                            <div class="media">
+                                                <div class="media-body text-center mb-2 ">
+                                                    <i class="fa-4x bi-brightness-high-fill text-secondary"></i>
+                                                    <div class="d-flex justify-content-center">
+                                                        <p class="text-md text-center mt-1 w-75">Tidak ada jadwal muput pada Tanggal {{date('d M Y')}} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforelse
+                                    @if($dataJadwal->count() != 0)
+                                        <div>
+                                            <i class="fas fa-clock bg-gray"></i>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
