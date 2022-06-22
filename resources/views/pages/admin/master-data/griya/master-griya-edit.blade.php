@@ -228,12 +228,6 @@
     </script>
     <!-- Fungsi Boostrap & Library  -->
 
-    <!-- Fungsi Ajax Get Data  -->
-    <script language="javascript" type="text/javascript">
-
-    </script>
-    <!-- Fungsi Ajax Get Data  -->
-
     <!-- Maps Pemetaan  -->
     <script language="javascript" type="text/javascript">
         $(document).ready(function() {

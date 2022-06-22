@@ -19,24 +19,7 @@ crossorigin=""></script>
 
 @section('content')
     <div class="container-fluid">
-        @include('template')
-{{--
-        <div class="col-12" id="accordion">
-            <div class="card card-primary card-outline">
-                <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
-                    <div class="card-header">
-                        <h4 class="card-title w-100">
-                            1. Lorem ipsum dolor sit amet
-                        </h4>
-                    </div>
-                </a>
-                <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                    <div class="card-body">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                    </div>
-                </div>
-            </div>
-        </div> --}}
+        {{-- @include('template') --}}
 
         <!-- COUNT DATA -->
         <div class="row mt-2">
@@ -100,7 +83,7 @@ crossorigin=""></script>
 
         <!-- BAGIAN 2 DASHBOARD-->
         <div class="row">
-            <div class="col-12 col-sm-8">
+            <div class="col-12 col-sm-6">
                 <!-- HEADER DONUT CHART -->
                 <div class="card card-danger" style="height: 375px">
                     <div class="card-header">
@@ -123,7 +106,7 @@ crossorigin=""></script>
             </div>
 
             <!-- LIST UPACARA KRAMA-->
-            <div class="col-12 col-sm-4">
+            <div class="col-12 col-sm-6">
                 <div class="card" style="height: 375px">
                     <div class="card-header">
                         <h3 class="card-title">Upacara Krama</h3>
@@ -132,19 +115,22 @@ crossorigin=""></script>
                     <div class="card-body p-0">
                     <!-- /.card-header -->
                         @if (count($dataUpacaraKrama) != 0)
-                            <ul class="products-list product-list-in-card pl-2 pr-2">
+                            <ul class="products-list product-list-in-card pl-2 pr-2 direct-chat-messages">
                                 <!-- /.item -->
                                 @foreach ($dataUpacaraKrama as $data)
-                                    <li class="item">
+                                    <li class="item ">
                                         <div class="ml-3 product-info">
-                                            <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="product-title description ">{{$data->Upacara->kategori_upacara}} | {{Str::limit($data->nama_upacara, 15, $end='.......')}}
+                                            <a href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="product-title description ">{{$data->Upacara->kategori_upacara}} | {{Str::limit($data->nama_upacara, 25, $end='.......')}}
                                                 <span class="badge badge-secondary float-right">{{Str::ucfirst($data->status)}}</span>
                                             </a>
-                                            <span class="product-description">
-                                                {{$data->deskripsi_upacaraku}}
-                                            </span>
+                                            <div class="div">
+                                                <span class="product">
+                                                    {{$data->deskripsi_upacaraku}} yang akan diselenggarakan pada   Tanggal {{date('d F Y',strtotime($data->tanggal_mulai))}} samapi dengan Tanggal {{date('d F Y',strtotime($data->tanggal_selesai))}}
+                                                </span>
+                                            </div>
                                         </div>
                                     </li>
+
                                 @endforeach
                             </ul>
                         @else
@@ -169,13 +155,12 @@ crossorigin=""></script>
         </div>
         <!-- BAGIAN 2 DASHBOARD-->
 
-
         <!-- BAGIAN 3 DASHBOARD-->
         <div class="row">
-            <div class="col-12 col-sm-6">
-                <div class="card" style="height:683px">
+            <div class="col-12 col-sm-7">
+                <div class="card" style="height:724px">
                     <div class="card-header">
-                        <label class="card-title"  id="judulKalender">Jadwal Reservasi </label>
+                        <label class="card-title"  id="judulKalender">Kalender Reservasi </label>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-horizontal-sm list-unstyled mb-2">
@@ -187,10 +172,10 @@ crossorigin=""></script>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6">
-                <div class="card" style="height:683px">
+            <div class="col-12 col-sm-5">
+                <div class="card" style="height:724px">
                     <div class="card-header">
-                        <label class="card-title"  id="judulKalender"><i class="fas fa-bullhorn mr-2"></i></i>Reservasi Akan Datang </label>
+                        <label class="card-title"  id="judulKalender"><i class="fas fa-bullhorn mr-2"></i></i>Reservasi Hari ini </label>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                 <i class="fas fa-minus"></i>
@@ -199,39 +184,62 @@ crossorigin=""></script>
                     </div>
                     <div class="card-body">
                          <!-- Timelime example  -->
-                        <div class="row">
+                        <div class="row h-100">
                             <div class="col-md-12 mt-3">
-                                <div class="timeline">
-                                    <div class="time-label">
-                                        <span class="bg-info">3 Jan. 2014</span>
-                                    </div>
-                                    <div>
-                                        <i class="fas fa-user bg-primary"></i>
-                                        <div class="timeline-item">
-                                            <span class="time"><i class="fas fa-clock"></i> 27 mins ago</span>
-                                            <h3 class="timeline-header"><a href="#">Ida Pedande | </a> Muput upacara Mepandes</h3>
-                                            <div class="timeline-body">
-                                                Ida pedande muput upacara pada karya potong gigi yang dimulai pada jam 09:20 WITA berlangsung di
-                                                Perumahan Cemara Giri Graha
+                                <div class="@if ($dataJadwal->count() != 0) timeline @else h-100 @endif">
+                                    @if($dataJadwal->count() != 0)
+                                        <div class="time-label">
+                                            <span class="bg-info">{{date('d F Y')}}</span>
+                                        </div>
+                                    @endif
+                                    @forelse ($dataJadwal as $upacaraku)
+                                        @foreach ($upacaraku->Reservasi as $reservasi)
+                                            @if (date('d M Y') === date('d M Y',strtotime($reservasi->tanggal_tangkil)))
+                                                <div>
+                                                    <i class="fas fa-map-marker-alt bg-success"></i>
+                                                    <div class="timeline-item">
+                                                        <span class="time"><i class="fas fa-clock"></i>{{date('H:m',strtotime($reservasi->tanggal_tangkil))}}</span>
+                                                        <h3 class="timeline-header"><a href="#">Tangkil Griya {{$reservasi->Relasi->PemuputKarya->GriyaRumah->nama_griya_rumah}} | </a> {{$upacaraku->nama_upacara}}</h3>
+                                                        <div class="timeline-body">
+                                                            Halo Krama, terdapat jadwal Tangkil pada Jam {{date('H:m',strtotime($reservasi->tanggal_tangkil))}} ke {{$reservasi->Relasi->PemuputKarya->GriyaRumah->nama_griya_rumah}} untuk memastikan Reservasi yang anda lakukan.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            @foreach ( $reservasi->DetailReservasi as $detailReservasi )
+                                                <div>
+                                                    <i class="fas fa-user bg-primary"></i>
+                                                    <div class="timeline-item">
+                                                        <span class="time"><i class="fas fa-clock"></i>{{date('H:m',strtotime($detailReservasi->tanggal_mulai))}} </span>
+                                                        <h3 class="timeline-header"><a href="#">{{$reservasi->getRelasi()->nama}} | </a> {{$detailReservasi->TahapanUpacara->nama_tahapan}}</h3>
+                                                        <div class="timeline-body">
+                                                            {{$reservasi->getRelasi()->nama}} akan melakukan muput upacara pada karya {{$upacaraku->nama_upacara}} yang berlangsung di
+                                                            {{$upacaraku->alamat_upacaraku}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endforeach
+                                    @empty
+                                        <div class="h-100 d-flex justify-content-center align-items-center ">
+                                            <div class="media">
+                                                <div class="media-body text-center mb-2 ">
+                                                    <i class="fa-4x bi-brightness-high-fill text-secondary"></i>
+                                                    <div class="d-flex justify-content-center">
+                                                        <p class="text-md text-center mt-1 w-75">Belum terdapat reservasi pada Tanggal {{date('d M Y')}} </p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        <i class="fas fa-clock bg-gray"></i>
-                                    </div>
+                                    @endforelse
+                                    @if($dataJadwal->count() != 0)
+                                        <div>
+                                            <i class="fas fa-clock bg-gray"></i>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="h-100 d-flex justify-content-center align-items-center ">
-                            <div class="media">
-                                <div class="media-body text-center mb-2 ">
-                                    <i class="fa-6x fas fa-calendar-alt text-secondary"></i>
-                                    <div class="d-flex justify-content-center mt-3">
-                                        <p class="text-lg text-center mt-1 w-75">Belum terdapat Reservasi..</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                     <div class="card-footer text-center">
                         <a href="{{route('krama.manajemen-reservasi.index')}}" class="uppercase">Lihat Semua Reservasi Krama</a>
@@ -240,32 +248,9 @@ crossorigin=""></script>
             </div>
         </div>
         <!-- BAGIAN 3 DASHBOARD-->
-
-        <!-- BAGIAN 4 MAP-->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <label class="card-title"  id="judulKalender">Posisi Krama</label>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="gmaps" style="height: 450px"></div>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="#" class="uppercase">Lihat Detail Pemetaan</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- BAGIAN 4 MAP-->
-
     </div>
 
+    <input id="apamen" value='@json($countJenisUpacara)' hidden type="hidden">
 
 
 @endsection
@@ -280,75 +265,25 @@ crossorigin=""></script>
 <!-- daterangepicker -->
 <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
 
-<!-- Maps Pemetaan  -->
-<script language="javascript" type="text/javascript">
-    $(document).ready(function() {
-        //--------------START Deklarasi awal seperti icon pembuatan map-------------//
-       var mymap = L.map('gmaps').setView([-8.4517916, 115.1970086], 10);
-       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-           attribution: 'Maps E-Yajamana',
-           maxZoom: 18,
-           minZoom: 9,
-           id: 'mapbox/streets-v11',
-           tileSize: 512,
-           zoomOffset: -1,
-           accessToken: 'pk.eyJ1IjoibWFkZXJpc21hd2FuIiwiYSI6ImNrbGNqMzZ0dDBteHIyb21ydTRqNWQ4MXAifQ.YyTGDJLfKwwufNRVYUdvig'
-       }).addTo(mymap);
-
-       var curLocation = [0, 0];
-       if (curLocation[0] == 0 && curLocation[1] == 0) {
-           curLocation = [-8.4517916, 115.1970086];
-       }
-       var marker = new L.marker(curLocation, {
-           draggable: 'true'
-       });
-   })
-</script>
-<!-- Maps Pemetaan  -->
-
 <script>
     $(function () {
-
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            events: [{
-                title: 'All Day Event',
-                start: new Date(),
-                backgroundColor: '#808080 ', //red
-                borderColor: '#808080 ', //red
-                allDay: true
-            }],
-            headerToolbar: {
-                left: 'prev,next,today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            themeSystem : 'bootstrap',
-            height: 560,
-            eventClick: function(info) {
-                // console.log(info.event.extendedProps.status)
-                alertDetail(info.event.title,info.event.start,info.event.end,info.event.extendedProps.status);
-            }
-
-        });
-        calendar.render();
-
-
-        let dataCountJenisYadnya = $("#countJenisYadnya").val()
-        console.log(dataCountJenisYadnya)
-
         // NAMPILIN DI ID #donutChart
+
+        const obj = JSON.parse($("#apamen").val());
+        console.log(obj)
+        var label = [];
+        var dataLabel = [];
+
+        $.each(obj, function(key, data){
+            dataLabel.push(data.count);
+            label.push(data.kategori_upacara);
+        })
+
         var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
         var donutData = {
-            labels: [
-                'Dewa Yadnya',
-                'Pitra Yadnya',
-                'Manusa Yadnya',
-                'Rsi Yadnya',
-                'Bhuta Yadnya',
-            ],
+            labels: label,
             datasets: [{
-                data: dataCountJenisYadnya,
+                data: dataLabel,
                 backgroundColor : ['#f56954', '#00c0ef', '#f39c12', '#3c8dbc', '#d2d6de'],
             }]
         }
@@ -361,9 +296,129 @@ crossorigin=""></script>
             data: donutData,
             options: donutOptions
         })
+        $('#side-dashboard').addClass('menu-open');
+
     })
 
-    $('#side-dashboard').addClass('menu-open');
 </script>
 
 @endpush
+
+@push('js')
+<script>
+    const idUser = {{Auth::user()->id}}
+    const blue = '#3c8dbc';
+    const green = '#00a65a';
+    const grey = '#808080';
+    const yellow = '#f39c12';
+
+    showJadwal(idUser)
+
+    // JADWAL PEMUPUT
+    function showJadwal(id)
+    {
+        $.ajax({
+            url: "{{route('ajax.jadwal-reservasi-krama')}}"+"/"+id,
+            type:'GET',
+            success:function(response){
+                var evetArray = []; // DATA KESELURUHAN
+                var dataArray = {}; // DATA TANGKIL
+                var dataDetailArray = {}; // DATA DETAIL RESERVASI
+                $.each(response.data, function(key, dataUpacara){
+                    $.each(dataUpacara.reservasi, function(key, dataReservasi){
+                        if(dataReservasi.status == 'pending'){
+                            dataArray.backgroundColor  = grey,
+                            dataArray.borderColor = grey,
+                            dataArray.extendedProps = {
+                                status : 'Pending'
+                            }
+                        }else if(dataReservasi.status == 'proses tangkil'){
+                            dataArray.backgroundColor = blue,
+                            dataArray.borderColor = blue,
+                            dataArray.extendedProps = {
+                                status : 'Akan Datang'
+                            }
+                        }else{
+                            dataArray.backgroundColor  = green,
+                            dataArray.borderColor = green,
+                            dataArray.extendedProps = {
+                                status : 'Selesai'
+                            }
+                        }
+                        dataArray.title = "Tangkil Upacara "+dataUpacara.nama_upacara,
+                        dataArray.start = dataReservasi.tanggal_tangkil,
+                        dataArray.allDay = false
+                        evetArray.push({...dataArray});
+                        $.each(dataReservasi.detail_reservasi, function(key, dataDetailReservasi){
+                            if(dataDetailReservasi.status == 'pending'){
+                                dataDetailArray.backgroundColor  = grey,
+                                dataDetailArray.borderColor = grey,
+                                dataDetailArray.extendedProps = {
+                                    status : 'Pending'
+                                }
+                            }else if(dataDetailReservasi.status == 'diterima'){
+                                dataDetailArray.backgroundColor  = blue,
+                                dataDetailArray.borderColor = blue,
+                                dataDetailArray.extendedProps = {
+                                    status : 'Akan Datang'
+                                }
+                            }else if(dataDetailReservasi.status == 'selesai'){
+                                dataDetailArray.backgroundColor  = green,
+                                dataDetailArray.borderColor = green,
+                                dataDetailArray.extendedProps = {
+                                    status : 'Selesai'
+                                }
+                            }
+                            dataDetailArray.title = "Muput Upacara "+dataDetailReservasi.tahapan_upacara.nama_tahapan,
+                            dataDetailArray.start = dataDetailReservasi.tanggal_mulai,
+                            dataDetailArray.end = dataDetailReservasi.tanggal_selesai,
+                            dataDetailArray.allDay = false
+                            evetArray.push({...dataDetailArray});
+                        })
+                    })
+                });
+
+                var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    events: evetArray,
+                    headerToolbar: {
+                        left: 'prev,next,today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    themeSystem : 'bootstrap',
+                    height: 600,
+                    eventClick: function(info) {
+                        // console.log(info.event.extendedProps.status)
+                        alertDetail(info.event.title,info.event.start,info.event.end,info.event.extendedProps.status);
+                    }
+
+                });
+                calendar.render();
+            }
+        });
+    }
+    // JADWAL PEMUPUT
+
+    // SHOW JADWAL DETAIL
+    function alertDetail(title, start, end, status){
+        let mulai = moment(start).format('DD MMMM YYYY | hh:mm A')
+        let selesai = moment(end).format('DD MMMM YYYY | hh:mm A')
+        // console.log(selesai)
+        Swal.fire({
+            title: 'Info Detail Jadwal',
+            icon:'info',
+            html:
+                '<p>Berikut ini merupakan informasi detail Jadwal yang terdapat pada .</p>'+
+                '<ul class="text-left">'+
+                    '<li>Terdapat Jadwal   : '+title+' </li>'+
+                    (selesai != 'Invalid date' ? '<li>Waktu Tangkil     : '+mulai+' </li>' : '<li>Tanggal Mulai     : '+mulai+' </li>')+
+                    (selesai != 'Invalid date' ? '<li>Tanggal Selesai   : '+selesai+' </li>' : '')+
+                    '<li>Status  :  '+status+' </li>'+
+                '</ul>'
+        })
+    }
+    // SHOW JADWAL DETAIL
+</script>
+@endpush
+

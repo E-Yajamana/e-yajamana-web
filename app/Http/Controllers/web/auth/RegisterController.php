@@ -382,7 +382,7 @@ class RegisterController extends Controller
                     'lng'=>$request->lng,
                     'status_konfirmasi_akun'=>'pending'
                 ]);
-                $user->Sanggar()->attach($sanggar->id);
+                $user->Sanggar()->attach($sanggar->id,['jabatan'=>1]);
 
                 DB::commit();
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){

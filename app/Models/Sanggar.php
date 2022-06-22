@@ -34,13 +34,13 @@ class Sanggar extends Model
 	protected $table = 'tb_sanggar';
 
 	protected $casts = [
-		'id_desa' => 'int',
+		'id_banjar_dinas' => 'int',
 		'lat' => 'float',
 		'lng' => 'float'
 	];
 
 	protected $fillable = [
-		'id_desa_dinas',
+		'id_banjar_dinas',
 		'nama_sanggar',
 		'alamat_sanggar',
 		'sk_tanda_usaha',
@@ -53,21 +53,28 @@ class Sanggar extends Model
 
 	public function User()
 	{
+		return $this->belongsToMany(User::class, 'tb_kepemilikan_sanggar', 'id_sanggar', 'id_user')
+			->withPivot('jabatan')
+			->withTimestamps();
+	}
+
+	public function Reservasi()
+	{
 		return $this->belongsToMany(User::class, 'tb_kepemilikan_sanggar', 'id_sanggar', 'id_user')->withTimestamps();
 	}
 
 	public function Reservasi()
 	{
-		return $this->hasMany(Reservasi::class , 'id_sanggar', 'id');
+		return $this->hasMany(Reservasi::class, 'id_sanggar', 'id');
 	}
-    public function FavoritUser()
+	public function FavoritUser()
 	{
 		return $this->belongsToMany(User::class, 'tb_favorit', 'id_sanggar', 'id_user');
 	}
 
-    public function BanjarDinas()
+	public function BanjarDinas()
 	{
-		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas','id');
+		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas', 'id');
 	}
 
 	public function DesaDinas()

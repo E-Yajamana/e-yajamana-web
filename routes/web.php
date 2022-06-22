@@ -176,6 +176,7 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::get('dashboard', [KramaDashboardController::class, 'index'])->name('krama.dashboard');
     Route::get('send/notif', [KramaController::class, 'sendNotif']);
     Route::get('profile', [KramaController::class, 'profile'])->name('krama.profile');
+    Route::get('report', [KramaController::class, 'report'])->name('krama.report');
 
     Route::prefix('manajemen-upacara')->group(function () {
         Route::get('index', [KramaUpacarakuController::class, 'indexUpacaraku'])->name('krama.manajemen-upacara.upacaraku.index');
@@ -242,6 +243,13 @@ Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function 
     Route::get('dashboard', [SanggarDashboardController::class, 'index'])->name('sanggar.dashboard');
     Route::post('set-session', [SanggarController::class, 'setSession'])->name('sanggar.session')->withoutMiddleware('permission:sanggar');
 
+    Route::prefix('manajemen-sanggar')->group(function () {
+        Route::get('index', [SanggarController::class, 'index'])->name('manajemen-sanggar.index');
+        Route::put('update-data', [SanggarController::class, 'update'])->name('manajemen-sanggar.update');
+        Route::post('add-anggota', [SanggarController::class, 'store'])->name('manajemen-sanggar.store');
+        Route::delete('delete-anggota', [SanggarController::class, 'delete'])->name('manajemen-sanggar.delete');
+    });
+
     Route::prefix('manajemen-reservasi')->group(function () {
         Route::get('reservasi-masuk/index', [SanggarReservasiController::class, 'index'])->name('sanggar.manajemen-reservasi.index');
         Route::get('reservasi-masuk/detail/{id}', [SanggarReservasiController::class, 'detailReservasi'])->name('sanggar.manajemen-reservasi.detail');
@@ -282,6 +290,7 @@ Route::prefix('get-image')->group(function () {
         Route::get('profile/{id?}', [GetImageController::class, 'profile'])->name('image.profile.user');
         Route::get('profile/sanggar/{id?}', [GetImageController::class, 'profileSanggar'])->name('image.profile.sanggar');
         Route::get('sk-pemuput/{id?}', [GetImageController::class, 'skPemuput'])->name('image.sk-pemuput');
+        Route::get('sk-tanda-usaha/{id?}', [GetImageController::class, 'skSanggar'])->name('image.sk-sanggar');
     });
 });
 
@@ -301,11 +310,10 @@ Route::prefix('ajax')->group(function () {
         Route::get('keterangan/{id?}', [AjaxController::class, 'getKeteranganPergantian'])->name('ajax.get.keterangan-reservasi');
         Route::get('tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
         Route::post('pemuput/jadwal', [AjaxController::class, 'jadwalReservasiPemuput'])->name('ajax.jadwal-reservasi-pemuput');
-        // Route::get('jadwal-reservasi', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
+        Route::get('krama/jadwal/{id?}', [AjaxController::class, 'jadwalReservasiKrama'])->name('ajax.jadwal-reservasi-krama');
     });
 
     Route::get('data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
-
 
     Route::prefix('user')->group(function () {
         Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');

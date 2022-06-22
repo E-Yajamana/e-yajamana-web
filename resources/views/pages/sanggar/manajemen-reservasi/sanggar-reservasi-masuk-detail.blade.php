@@ -66,7 +66,7 @@
                                         <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->nama}}" disabled>
                                     </div>
                                     <div class="form-group">
-                                        <label></label>
+                                        <label>Alamat Krama</label>
                                         <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataReservasi->Upacaraku->User->Penduduk->alamat}}" disabled>
                                     </div>
                                 </div>

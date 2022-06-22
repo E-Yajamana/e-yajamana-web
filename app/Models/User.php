@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 use Session;
 use stdClass;
@@ -145,7 +146,9 @@ class User extends Authenticatable
 
     public function Sanggar()
     {
-        return $this->belongsToMany(Sanggar::class, 'tb_kepemilikan_sanggar', 'id_user', 'id_sanggar')->withTimestamps();
+        return $this->belongsToMany(Sanggar::class, 'tb_kepemilikan_sanggar', 'id_user', 'id_sanggar')
+            ->withPivot('jabatan')
+            ->withTimestamps();
     }
 
     public function sessionSanggar()
@@ -154,13 +157,8 @@ class User extends Authenticatable
         return Sanggar::with(['User.Penduduk'])->find($id);
     }
 
-    public function getLoginSanggarIdAttribute($value)
+    public function pemilikSanggar()
     {
-        return $value;
-    }
-
-    public function setLoginSanggarIdAttribute(int $id_sanggar)
-    {
-        $this->attributes['login_sanggar_id'] = $id_sanggar;
+        return $this->belongsToMany(Sanggar::class, 'tb_kepemilikan_sanggar', 'id_user', 'id_sanggar')->withTimestamps()->withPivot('jabatan')->find(session('id_sanggar'));
     }
 }

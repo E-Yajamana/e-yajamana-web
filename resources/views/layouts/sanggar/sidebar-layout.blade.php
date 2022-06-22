@@ -55,11 +55,13 @@
 
                 <li class="nav-header font-weight-bold pl-2">DASHBOARD</li>
                 <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link p-2">
+                    <a href="{{route('sanggar.dashboard')}}" class="nav-link p-2">
                         <i class="mr-1 nav-icon fas fa-tachometer-alt"></i>
-                        <p>Dashboard</p>
+                        <p>Dashboard </p>
                     </a>
                 </li>
+
+
 
                 <li class="nav-header font-weight-bold pl-2">MENU UTAMA</li>
 
@@ -117,32 +119,15 @@
                         </li>
                     </ul>
                 </li>
-
-                <li class="nav-header font-weight-bold pl-2">LAPORAN</li>
-                <li id="side-laporan" class="nav-item">
-                    <a href="#" class="nav-link p-2 ">
-                        <i class="fa fa-file-alt nav-icon mr-1"></i>
-                        <p>
-                            Laporan Sistem
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item ml-3">
-                            <a id="side-laporan-buku" href="" class="nav-link p-2">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Lap. Buku</p>
-                            </a>
-                        </li>
-                        <li class="nav-item ml-3">
-                            <a id="side-laporan-peminjaman" href="" class="nav-link p-2">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Lap. Peminjaman</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
+                @if(Auth::user()->pemilikSanggar()->pivot->jabatan == 1)
+                    <li class="nav-header font-weight-bold pl-2" id="side-manajemen-sanggar">SANGGAR</li>
+                    <li class="nav-item">
+                        <a href="{{route('manajemen-sanggar.index')}}" class="nav-link p-2">
+                            <i class="mr-1 nav-icon fas fa-users"></i>
+                            <p>Manajemen Sanggar</p>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
