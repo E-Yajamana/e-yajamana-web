@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+use App\Models\DetailReservasi;
 use App\Models\Favorit;
 use App\Models\KeteranganKonfirmasi;
 use App\Models\Penduduk;
@@ -18,6 +19,7 @@ use PDOException;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AjaxController extends Controller
 {
@@ -302,12 +304,57 @@ class AjaxController extends Controller
                 'data' => $dataJadwalReservasi
             ],200);
         // END RETURN
-
-
     }
     // KRAMA JADWAL RESERVASI
 
+    public function reportPemuput(Request $request)
+    {
+        // SECURITY
+            $validator = Validator::make($request->all(), [
+                'id' => 'required',
+                'tipe' => 'required|in:id_relasi,id_sanggar',
+                'tahun' => 'required'
+            ]);
 
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Validation error',
+                    'data' => $validator->errors(),
+                ], 400);
+            }
+        // END
 
+        // MAIN LOGIC
+             try {
+                $queryReservasi = function($queryReservasi) use ($request){
+                    $queryReservasi->where($request->tipe,$request->id)->whereNotIn('status',['batal']);
+                };
 
+                $queryDetailReservasi = DetailReservasi::with(['Reservasi.Upacaraku.User.Penduduk','TahapanUpacara.Upacara','Reservasi'=>$queryReservasi])->whereHas('Reservasi',$queryReservasi)->whereYear('tanggal_mulai',$request->tahun);
+                $detailReservasis = $queryDetailReservasi->orderBy('tanggal_mulai')->get();
+                $dataReportTransaksi = $queryDetailReservasi->select(DB::raw("COUNT('id') as jumlah"),DB::raw("MONTH(tanggal_mulai) bulan"))->groupby('bulan')->get();
+
+                $reportMonth = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+                foreach($dataReportTransaksi as $key => $data){
+                    Arr::set($reportMonth, $data->bulan-1, $data->jumlah);
+                }
+            }catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Internal Server Error',
+                    'data' => (object)[],
+                ], 500);
+            }
+        // END
+
+        // RETURN
+            return response()->json([
+                'status' => 200,
+                'message' => 'Berhasil mengambil data',
+                'data' => $reportMonth
+            ],200);
+        // END RETURN
+    }
 }

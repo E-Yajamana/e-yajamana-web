@@ -117,15 +117,13 @@
                     </ul>
                 </li>
 
-
                 <li class="nav-header font-weight-bold pl-2" >LAPORAN</li>
-                <li class="nav-item" id="side-dashboard">
-                    <a href="{{route('krama.dashboard')}}" class="nav-link p-2">
+                <li class="nav-item" id="side-report">
+                    <a href="{{route('krama.report')}}" class="nav-link p-2">
                         <i class="nav-icon mr-1 fas fa-book"></i>
                         <p>Laporan Krama</p>
                     </a>
                 </li>
-
 
             </ul>
         </nav>

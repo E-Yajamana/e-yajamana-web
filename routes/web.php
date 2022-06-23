@@ -209,6 +209,7 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], fun
     Route::get('profile', [PemuputKaryaController::class, 'profile'])->name('pemuput-karya.profile');
     Route::get('dashboard', [PemuputDashboardController::class, 'index'])->name('pemuput-karya.dashboard');
     Route::get('calender', [PemuputDashboardController::class, 'calenderIndex'])->name('pemuput-karya.calender');
+    Route::get('report', [PemuputKaryaController::class, 'report'])->name('pemuput-karya.report');
 
 
     Route::prefix('manajemen-reservasi')->group(function () {
@@ -311,9 +312,8 @@ Route::prefix('ajax')->group(function () {
         Route::get('tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
         Route::post('pemuput/jadwal', [AjaxController::class, 'jadwalReservasiPemuput'])->name('ajax.jadwal-reservasi-pemuput');
         Route::get('krama/jadwal/{id?}', [AjaxController::class, 'jadwalReservasiKrama'])->name('ajax.jadwal-reservasi-krama');
+        Route::post('pemuput/report', [AjaxController::class, 'reportPemuput'])->name('ajax.report.linechart');
     });
-
-    Route::get('data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
 
     Route::prefix('user')->group(function () {
         Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');

@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use NotificationHelper;
 
-use function PHPUnit\Framework\returnValue;
-
 class KramaController extends Controller
 {
     public function profile(Request $request)
@@ -47,6 +45,7 @@ class KramaController extends Controller
 
     public function report()
     {
+        return view('pages.krama.report');
     }
 
 
