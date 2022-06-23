@@ -1,0 +1,3 @@
+User::findOrFail(1)
+User::findOrFail(1);
+PemuputKarya::find(1)

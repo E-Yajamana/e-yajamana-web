@@ -174,6 +174,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // DATA AKUN USER
         Route::get('dataakunuser/{status?}', [AdminDataAkunUserController::class, 'index']);
         Route::get('dataakunuser/{tipe}/{id}/show', [AdminDataAkunUserController::class, 'show']);
+        Route::post('dataakunuser/update', [AdminDataAkunUserController::class, 'update']);
         // END
 
         // MASTER DATA

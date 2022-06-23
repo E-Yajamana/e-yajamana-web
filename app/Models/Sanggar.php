@@ -58,10 +58,10 @@ class Sanggar extends Model
 			->withTimestamps();
 	}
 
-	public function Reservasi()
-	{
-		return $this->belongsToMany(User::class, 'tb_kepemilikan_sanggar', 'id_sanggar', 'id_user')->withTimestamps();
-	}
+	// public function Reservasi()
+	// {
+	// 	return $this->belongsToMany(User::class, 'tb_kepemilikan_sanggar', 'id_sanggar', 'id_user')->withTimestamps();
+	// }
 
 	public function Reservasi()
 	{

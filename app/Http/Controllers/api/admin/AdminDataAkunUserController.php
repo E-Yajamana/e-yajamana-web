@@ -152,4 +152,51 @@ class AdminDataAkunUserController extends Controller
         ], 200);
         // END
     }
+
+    public function update(Request $request)
+    {
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|numeric',
+            'status' => 'required|in:disetujui,ditolak,pending',
+            'role' => 'required|in:pemuput_karya,sanggar'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation error',
+                'data' => $validator->errors(),
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            switch ($request->status) {
+                case "pemuput_karya":
+                    PemuputKarya::findOrFail($request->id)->update(['status_konfirmasi_akun' => $request->status]);
+                    break;
+                case "sanggar":
+                    Sanggar::findOrFail($request->id)->update(['status_konfirmasi_akun' => $request->status]);
+                    break;
+            }
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil memperbaharui konfirmasi akun',
+            'data' => (object)[],
+        ], 200);
+        // END
+    }
 }
