@@ -173,7 +173,7 @@ class AdminDataAkunUserController extends Controller
 
         // MAIN LOGIC
         try {
-            switch ($request->status) {
+            switch ($request->role) {
                 case "pemuput_karya":
                     PemuputKarya::findOrFail($request->id)->update(['status_konfirmasi_akun' => $request->status]);
                     break;

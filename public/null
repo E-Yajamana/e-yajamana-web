@@ -1,3 +1,12 @@
-User::findOrFail(1)
-User::findOrFail(1);
-PemuputKarya::find(1)
+PemuputKarya::findOrFail(55)->update(['status_konfirmasi_akun' => 'disetujui']);
+PemuputKarya::findOrFail(55)->update(['status_konfirmasi_akun' => 'disetujui']);
+PemuputKarya::findOrFail(55);
+PemuputKarya::findOrFail(63)->update(['status_konfirmasi_akun' => 'disetujui']);
+PemuputKarya::findOrFail(63);
+PemuputKarya::findOrFail(63)->update(['status_konfirmasi_akun' => 'ditolak']);
+PemuputKarya::findOrFail(63);
+PemuputKarya::findOrFail(55)->update(['status_konfirmasi_akun' => 'ditolak']);
+PemuputKarya::findOrFail(55);
+PemuputKarya::findOrFail(55);
+PemuputKarya::findOrFail(55);
+PemuputKarya::findOrFail(55);
