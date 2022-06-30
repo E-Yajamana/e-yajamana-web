@@ -151,6 +151,7 @@ class RegisController extends Controller
             'id_banjar_dinas' => 'required_without:id_griya|numeric',
             'lat' => 'required_without:id_griya',
             'lng' => 'required_without:id_griya',
+            'tipe' => 'required|in:pemangku,sulinggih',
         ]);
 
         if ($validator->fails()) {
@@ -168,17 +169,21 @@ class RegisController extends Controller
         try {
             DB::beginTransaction();
 
-            $penduduk = Penduduk::where('nik', $request->nik)->firstOrFail();
+            $penduduk = Penduduk::with(['User'])->where('nik', $request->nik)->firstOrFail();
 
-            $user = User::create([
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'id_penduduk' => $penduduk->id,
-                'nomor_telepon' => $request->notlp,
-                'role' => 'pemuput_karya',
-                'lat' => $request->lat,
-                'lng' => $request->lng,
-            ]);
+            if (!$penduduk->User) {
+                $user = User::create([
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'id_penduduk' => $penduduk->id,
+                    'nomor_telepon' => $request->notlp,
+                    'role' => 'pemuput_karya',
+                    'lat' => $request->lat,
+                    'lng' => $request->lng,
+                ]);
+            } else {
+                $user = $penduduk->User;
+            }
 
             $sulinggih = new PemuputKarya();
 
@@ -223,7 +228,7 @@ class RegisController extends Controller
 
             $sulinggih->id_user = $user->id;
             $sulinggih->nama_pemuput = $request->nama_sulinggih;
-            $sulinggih->tipe = 'sulinggih';
+            $sulinggih->tipe = $request->tipe;
             $sulinggih->status_konfirmasi_akun = 'pending';
 
             $sulinggih->save();

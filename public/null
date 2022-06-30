@@ -1,12 +1,89 @@
-PemuputKarya::findOrFail(55)->update(['status_konfirmasi_akun' => 'disetujui']);
-PemuputKarya::findOrFail(55)->update(['status_konfirmasi_akun' => 'disetujui']);
-PemuputKarya::findOrFail(55);
-PemuputKarya::findOrFail(63)->update(['status_konfirmasi_akun' => 'disetujui']);
-PemuputKarya::findOrFail(63);
-PemuputKarya::findOrFail(63)->update(['status_konfirmasi_akun' => 'ditolak']);
-PemuputKarya::findOrFail(63);
-PemuputKarya::findOrFail(55)->update(['status_konfirmasi_akun' => 'ditolak']);
-PemuputKarya::findOrFail(55);
-PemuputKarya::findOrFail(55);
-PemuputKarya::findOrFail(55);
-PemuputKarya::findOrFail(55);
+Penduduk::with(['User'])->findOrFail(55);
+use App\Models\Penduduk;
+Penduduk::with(['User'])->findOrFail(55);
+use App\Models\Penduduk;
+Penduduk::with(['User'])->findOrFail(1);
+use App\Models\Penduduk;
+$penduduk = Penduduk::with(['User'])->findOrFail(1);
+if($penduduk->User){
+	echo "oke";
+}
+use App\Models\Penduduk;
+$penduduk = Penduduk::with(['User'])->findOrFail(1);
+if($penduduk->Users){
+	echo "oke";
+}
+use App\Models\Penduduk;
+$penduduk = Penduduk::with(['User'])->findOrFail(1);
+if($penduduk->User){
+	echo "oke";
+}
+use App\Models\Penduduk;
+$penduduk = Penduduk::with(['User'])->findOrFail(1);
+if(!$penduduk->Users){
+	echo "oke";
+}
+use App\Models\Penduduk;
+$penduduk = Penduduk::with(['User'])->findOrFail(1);
+if(!$penduduk->Users){
+	echo "oke2";
+}
+use App\Models\Penduduk;
+Penduduk::findOrFail(1)->User;
+use App\Models\Penduduk;
+Penduduk::findOrFail(2)->User()->first();
+use App\Models\Penduduk;
+Penduduk::findOrFail(2)->User()->firstOrFail();
+use App\Models\Penduduk;
+Penduduk::findOrFail(2)->User()->firstOrFail();
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+PemuputKarya::findOrFail(1);
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+PemuputKarya::findOrFail(1)->User();
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+use App\Models\User;
+
+User::find(1)->PemuputKarya();
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+use App\Models\User;
+
+User::find(1)->PemuputKarya()->firstOrFail();
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+use App\Models\User;
+
+User::find(1)->PemuputKarya();
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+use App\Models\User;
+
+User::find(1)->PemuputKarya;
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+use App\Models\User;
+
+User::find(1);
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+use App\Models\User;
+
+User::find(1)->PemuputKarya;
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+use App\Models\User;
+
+User::find(1)->PemuputKarya()->where('status_konfirmasi_akun','disetujui');
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+use App\Models\User;
+
+User::find(1)->PemuputKarya()->where('status_konfirmasi_akun','disetujui')->firstOrFail();
+use App\Models\Penduduk;
+use App\Models\PemuputKarya;
+use App\Models\User;
+
+User::find(2)->PemuputKarya()->where('status_konfirmasi_akun','disetujui')->firstOrFail();

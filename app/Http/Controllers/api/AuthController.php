@@ -88,7 +88,7 @@ class AuthController extends Controller
                 ], 401);
             }
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-            return $err;
+            Auth::logout();
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal Server Error',
@@ -117,7 +117,6 @@ class AuthController extends Controller
 
         // MAIN LOGIC
         try {
-            session()->regenerate();
             $user = Auth::user();
 
             $role = $user->Role()->where('nama_role', $request->role)->firstOrFail();
@@ -141,7 +140,7 @@ class AuthController extends Controller
 
                 case "pemuput_karya":
                     $penduduk = $user->Penduduk()->firstOrFail();
-                    $sulinggih = $user->PemuputKarya()->firstOrFail();
+                    $sulinggih = $user->PemuputKarya()->where('status_konfirmasi_akun', 'disetujui')->firstOrFail();
 
                     return response()->json([
                         'status' => 200,
@@ -156,7 +155,7 @@ class AuthController extends Controller
                     break;
                 case "sanggar":
                     $penduduk = $user->Penduduk()->firstOrFail();
-                    $sanggar = Sanggar::findOrFail($request->id_sanggar);
+                    $sanggar = Sanggar::where('status_konfirmasi_akun', 'disetujui')->findOrFail($request->id_sanggar);
                     return response()->json([
                         'status' => 200,
                         'message' => "Success update acceess token to sanggar",
@@ -185,11 +184,10 @@ class AuthController extends Controller
         } catch (ModelNotFoundException $err) {
             return response()->json([
                 'status' => 403,
-                'message' => 'Bad Request',
+                'message' => 'Akun tidak sesuai atau belum disetujui oleh Admin',
                 'data' => (object)[],
             ], 403);
         } catch (PDOException | QueryException | \Throwable | \Exception $err) {
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal Server Error',
