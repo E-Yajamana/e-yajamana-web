@@ -37,7 +37,8 @@ Route::post('create/new/password', [AuthController::class, 'createNewPassword'])
 Route::prefix('register')->group(function () {
     Route::post('check/nik', [RegisController::class, 'checkNik']);
     Route::post('post/krama', [RegisController::class, 'postRegisterKrama']);
-    Route::post('post/sulinggih', [RegisController::class, 'postRegisterSulinggih']);
+    Route::post('post/sulinggih', [RegisController::class, 'postRegisterPemuputKarya']);
+    Route::post('post/sanggar', [RegisController::class, 'postRegisterSanggar']);
 
     Route::get('get/sulinggih', [RegisController::class, 'getAllSulinggih']);
     Route::get('get/griya', [RegisController::class, 'getAllGriya']);

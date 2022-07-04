@@ -46,8 +46,9 @@ class AuthController extends Controller
                 $user->tokens()->where('tokenable_id', $user->id)->delete();
 
                 $user->update(['fcm_token_key' => $request->fcm_token_key]);
-                $penduduk = $user->Penduduk()->firstOrFail();
+                $penduduk = $user->Penduduk;
                 $sanggars = $user->Sanggar()->get();
+                $pemuput_karya = $user->PemuputKarya;
                 $roles = $user->Role;
 
                 if ($roles->count() == 1 && $roles->first()->nama_role == "krama") {
@@ -76,6 +77,7 @@ class AuthController extends Controller
                             'user' => $user,
                             'penduduk' => $penduduk,
                             'sanggars' => $sanggars,
+                            'pemuput_karya' => $pemuput_karya,
                             'roles' => $roles
                         ]
                     ], 200);

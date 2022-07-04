@@ -8,6 +8,7 @@ use App\Models\AtributPemuput;
 use App\Models\GriyaRumah;
 use App\Models\PemuputKarya;
 use App\Models\Penduduk;
+use App\Models\Sanggar;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -39,7 +40,13 @@ class RegisController extends Controller
 
         // MAIN LOGIC
         try {
-            $penduduk = Penduduk::with(['User'])->where('nik', $request->nik)->firstOrFail();
+            $penduduk = Penduduk::with([
+                'User' => function ($userQuery) {
+                    $userQuery->with([
+                        'PemuputKarya',
+                    ]);
+                },
+            ])->where('nik', $request->nik)->firstOrFail();
         } catch (ModelNotFoundException | PDOException $err) {
             return response()->json([
                 'status' => 403,
@@ -129,7 +136,7 @@ class RegisController extends Controller
         // END
     }
 
-    public function postRegisterSulinggih(Request $request)
+    public function postRegisterPemuputKarya(Request $request)
     {
         // SECURITY
         $validator = Validator::make($request->all(), [
@@ -252,6 +259,81 @@ class RegisController extends Controller
                 'penduduk' => $penduduk,
                 'user' => $user,
                 'sulinggih' => $sulinggih
+            ],
+        ], 200);
+        // END
+    }
+
+    public function postRegisterSanggar(Request $request)
+    {
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'id_banjar_dinas' => 'required|numeric',
+            'nama_sanggar' => 'required',
+            'alamat_sanggar' => 'required',
+            'sk_tanda_usaha' => 'nullable|mimes:pdf,jpg,png',
+            'profile' => 'nullable|mimes:pdf,jpg,png',
+            'lat_sanggar' => 'required',
+            'lng_sanggar' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Validation Error',
+                'data' => $validator->errors(),
+            ], 403);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            DB::beginTransaction();
+
+            $penduduk = Penduduk::with(['User'])->where('nik', $request->nik)->firstOrFail();
+            if (!$penduduk->User) {
+                $user = User::create([
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'id_penduduk' => $penduduk->id,
+                    'nomor_telepon' => $request->notlp,
+                    'lat' => $request->lat,
+                    'lng' => $request->lng,
+                ]);
+            } else {
+                $user = $penduduk->User;
+            }
+
+            $newSanggar = [];
+            if ($request->hasFile('sk_tanda_usaha')) {
+                $folder = 'app/sanggar/sk_tanda_usaha/';
+                $newSanggar['sk_tanda_usaha'] =  ImageHelper::moveImage($request->sk_tanda_usaha, $folder);
+            }
+            if ($request->hasFile('profile')) {
+                $folder = 'app/sanggar/profile/';
+                $newSanggar['profile'] =  ImageHelper::moveImage($request->profile, $folder);
+            }
+            $newSanggar['id_banjar_dinas'] = $request->id_banjar_dinas;
+            $newSanggar['nama_sanggar'] = $request->nama_sanggar;
+            $newSanggar['alamat_sanggar'] = $request->alamat_sanggar;
+            $newSanggar['lat'] = $request->lat_sanggar;
+            $newSanggar['lng'] = $request->lng_sanggar;
+            $newSanggar['status_konfirmasi_akun'] = 'pending';
+
+            $sanggar = Sanggar::create($newSanggar);
+            $user->Sanggar()->attach($sanggar->id, ['jabatan' => 1]);
+            DB::commit();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            DB::rollBack();
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil membuat data Sanggar',
+            'data' => [
+                'sanggar' => $sanggar
             ],
         ], 200);
         // END
