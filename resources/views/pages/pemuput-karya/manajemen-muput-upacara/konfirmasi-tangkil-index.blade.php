@@ -10,11 +10,6 @@
 
 @endpush
 
-@section('countTangkil')
-    {{-- {{$dataReservasi->where('tanggal')}}
-    <span class="badge badge-primary right">{{count($count)}}</span> --}}
-@endsection
-
 @section('content')
     <section class="content-header">
         <div class="container-fluid border-bottom">

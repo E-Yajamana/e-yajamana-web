@@ -16,7 +16,7 @@ class CreateTbUserEyajamanaTable extends Migration
         Schema::create('tb_user_eyajamana', function (Blueprint $table) {
             $table->integer('id', true);
             $table->unsignedBigInteger('id_penduduk')->nullable()->index('id_penduduk');
-            $table->string('email', 100);
+            $table->string('email', 100)->unique('email');
             $table->string('password', 255);
             $table->string('nomor_telepon', 15);
             $table->string('user_profile', 200)->nullable();

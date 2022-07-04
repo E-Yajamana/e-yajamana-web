@@ -422,32 +422,23 @@
                 type: "GET",
                 dataType: "json",
                 success: function (response) {
-                    if(response.role.includes(3)){
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Pemberitahuan',
-                            text: 'Anda tidak dapat mendaftar kembali, sistem mendeteksi anda sudah mempunyai akun dengan email : '+ response.data.user.email,
-                            footer:  '<a href="{{route('auth.login')}}">Halaman Login Sistem...!!</a>'
-                        });
+                    if (response.data.user != null) {
+                        setDataAkun(response.data,true)
+                        $("#id_user").val(response.data.user.id)
                     }else{
-                        if (response.data.user != null) {
-                            setDataAkun(response.data,true)
-                            $("#id_user").val(response.data.user.id)
-                        }else{
-                            $("#id_penduduk").val(response.data.id)
-                            $("#id_user").val('')
-                            setDataAkun('',false)
-                        }
-                        $("#nama_walaka").prop('disabled', true);
-                        $('#nama_walaka').val(response.data.nama_alias);
-                        $('#buttonFormNIK').empty();
-                        $('#buttonFormNIK').append('<button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>')
-                        Swal.fire({
-                            icon: response.icon,
-                            title: response.title,
-                            text: response.message,
-                        });
+                        $("#id_penduduk").val(response.data.id)
+                        $("#id_user").val('')
+                        setDataAkun('',false)
                     }
+                    $("#nama_walaka").prop('disabled', true);
+                    $('#nama_walaka').val(response.data.nama_alias);
+                    $('#buttonFormNIK').empty();
+                    $('#buttonFormNIK').append('<button id="submitToRangkuman" onclick="stepper.next()" type="button" class="btn btn-primary float-sm-right">Selanjutnya</button>')
+                    Swal.fire({
+                        icon: response.icon,
+                        title: response.title,
+                        text: response.message,
+                    });
                 },
                 error: function(response, error){
                     console.log(response)

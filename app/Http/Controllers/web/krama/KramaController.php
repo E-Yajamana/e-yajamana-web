@@ -39,7 +39,7 @@ class KramaController extends Controller
             'jumlahTolak' =>$reservasiKrama->where('status','batal')->count() ,
         ];
 
-        return view('pages.krama.profile.krama-profile',compact('rangkumanUpacara','rangkumanReservasi','dataNotifikasi'));
+        return view('pages.krama.profile.krama-profile',compact('rangkumanUpacara','rangkumanReservasi'));
     }
 
 

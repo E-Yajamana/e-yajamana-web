@@ -110,7 +110,7 @@
                                                     <td class="d-flex text-center">
                                                         <span @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'berlangsung') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif style="border-radius: 5px; width:100px;">{{Str::ucfirst($data->status)}}</span>
                                                     </td>
-                                                    <td>{{date('d F Y',strtotime($data->tanggal_mulai))}} - {{date('d F Y',strtotime($data->tanggal_selesai))}} </td>
+                                                    <td>{{date('d M Y',strtotime($data->tanggal_mulai))}} - {{date('d M Y',strtotime($data->tanggal_selesai))}} </td>
                                                     <td class="text-center">
                                                         <a title="Detail Upacara" href="{{route('krama.manajemen-upacara.upacaraku.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                         @if ($data->status == 'pending')

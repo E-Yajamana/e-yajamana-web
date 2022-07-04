@@ -133,21 +133,13 @@ class TbUserRolesTableSeeder extends Seeder
             ),
             14 => 
             array (
-                'id' => 53,
-                'id_user' => 51,
-                'id_role' => 3,
-                'created_at' => '2022-05-05 08:27:53',
-                'updated_at' => '2022-05-05 08:27:53',
-            ),
-            15 => 
-            array (
                 'id' => 54,
                 'id_user' => 60,
                 'id_role' => 2,
                 'created_at' => '2022-05-05 09:47:22',
                 'updated_at' => '2022-05-05 09:47:22',
             ),
-            16 => 
+            15 => 
             array (
                 'id' => 55,
                 'id_user' => 60,
@@ -155,7 +147,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-05 09:47:22',
                 'updated_at' => '2022-05-05 09:47:22',
             ),
-            17 => 
+            16 => 
             array (
                 'id' => 56,
                 'id_user' => 61,
@@ -163,7 +155,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-05 09:48:20',
                 'updated_at' => '2022-05-05 09:48:20',
             ),
-            18 => 
+            17 => 
             array (
                 'id' => 57,
                 'id_user' => 61,
@@ -171,7 +163,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-05 09:48:20',
                 'updated_at' => '2022-05-05 09:48:20',
             ),
-            19 => 
+            18 => 
             array (
                 'id' => 58,
                 'id_user' => 62,
@@ -179,7 +171,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-06 04:18:02',
                 'updated_at' => '2022-05-06 04:18:02',
             ),
-            20 => 
+            19 => 
             array (
                 'id' => 59,
                 'id_user' => 62,
@@ -187,7 +179,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-06 04:18:02',
                 'updated_at' => '2022-05-06 04:18:02',
             ),
-            21 => 
+            20 => 
             array (
                 'id' => 61,
                 'id_user' => 63,
@@ -195,7 +187,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-06 22:54:31',
                 'updated_at' => '2022-05-06 22:54:31',
             ),
-            22 => 
+            21 => 
             array (
                 'id' => 65,
                 'id_user' => 63,
@@ -203,7 +195,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-07 06:05:31',
                 'updated_at' => '2022-05-07 06:05:31',
             ),
-            23 => 
+            22 => 
             array (
                 'id' => 66,
                 'id_user' => 62,
@@ -211,7 +203,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-07 06:52:45',
                 'updated_at' => '2022-05-07 06:52:45',
             ),
-            24 => 
+            23 => 
             array (
                 'id' => 67,
                 'id_user' => 64,
@@ -219,7 +211,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-07 06:53:29',
                 'updated_at' => '2022-05-07 06:53:29',
             ),
-            25 => 
+            24 => 
             array (
                 'id' => 68,
                 'id_user' => 64,
@@ -227,7 +219,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-07 06:53:29',
                 'updated_at' => '2022-05-07 06:53:29',
             ),
-            26 => 
+            25 => 
             array (
                 'id' => 69,
                 'id_user' => 64,
@@ -235,7 +227,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-07 12:01:34',
                 'updated_at' => '2022-05-07 12:01:34',
             ),
-            27 => 
+            26 => 
             array (
                 'id' => 70,
                 'id_user' => 65,
@@ -243,7 +235,7 @@ class TbUserRolesTableSeeder extends Seeder
                 'created_at' => '2022-05-07 14:03:06',
                 'updated_at' => '2022-05-07 14:03:06',
             ),
-            28 => 
+            27 => 
             array (
                 'id' => 71,
                 'id_user' => 65,

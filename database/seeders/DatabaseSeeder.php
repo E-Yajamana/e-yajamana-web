@@ -19,8 +19,6 @@ class DatabaseSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
 
-        Upacaraku::truncate();
-
         $this->call(TbUpacaraTableSeeder::class);
         $this->call(TbGriyaRumahTableSeeder::class);
         $this->call(TbTahapanUpacaraTableSeeder::class);

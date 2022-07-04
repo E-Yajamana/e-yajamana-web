@@ -17,6 +17,7 @@ class CreateTbKepemilikanSanggarTable extends Migration
             $table->integer('id', true);
             $table->integer('id_sanggar')->index('id_sanggar');
             $table->integer('id_user')->index('id_user');
+            $table->integer('jabatan')->nullable();
             $table->timestamps();
         });
     }

@@ -34,19 +34,18 @@
 <div class=" container-fluid">
     <div class="row">
         <div class="col-12 col-sm-6">
-            <div class="card" style="height: 440px">
+            <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="form-group row mb-0">
-                                <label for="inputEmail3" class="col-sm-5 col-form-label">Grafik Reservasi</label>
-                                <div class="input-group date col-6" id="reservationdatetime" data-target-input="nearest">
-                                    <input id="dateTahunGrafik" type='text' class='form-control form-control-sm float-right' placeholder="Pilih tahun" value="2022">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12 d-flex">
+                                <label for="inputEmail3" class="m-0 pt-1">Grafik Reservasi Tahun</label>
+                                <div class="input-group date col-2 w-25" id="reservationdatetime" data-target-input="nearest">
+                                    <input id="dateTahunGrafik" type='text' style="width: 50px" class='form-control form-control-sm d-flex float-right align-self-end align-items-end w-25' placeholder="Pilih tahun" value="2022">
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="card-body">
                     <canvas id="myChart"></canvas>
@@ -55,9 +54,9 @@
         </div>
 
         <div class="col-12 col-sm-6">
-            <div class="card" style="height: 440px">
+            <div class="card">
                 <div class="card-header">
-                    <label class="mb-0">Jenis Yadnya yang paling banyak diReservasi</label>
+                    <label class=" m-0 pt-1">Jenis Yadnya yang paling banyak diReservasi</label>
                 </div>
                 <div class="card-body">
                     <canvas id="barChart"></canvas>

@@ -484,14 +484,13 @@
             $('#side-tambah-upacara').addClass('active');
         });
 
-        console.log(moment(Date ()).add(1, 'M').format('DD MMMM YYYY'))
 
         $('#daterange').daterangepicker({
             // dateLimit: { days: 7 },
-            "minDate": moment(Date ()).add(1, 'D').format('DD MMMM YYYY'),
-            "maxDate": moment(Date ()).add(2, 'Y').format('DD MMMM YYYY'),
+            "minDate": moment(Date ()).add(1, 'D').format('DD MMM YYYY'),
+            "maxDate": moment(Date ()).add(2, 'Y').format('DD MMM YYYY'),
             locale: {
-                format: 'DD MMMM YYYY',
+                format: 'DD MMM YYYY',
             },
             drops: "up",
         });

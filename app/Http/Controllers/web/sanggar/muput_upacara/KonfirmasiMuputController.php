@@ -8,6 +8,7 @@ use App\Models\DetailReservasi;
 use App\Models\Reservasi;
 use App\Models\Upacaraku;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -29,8 +30,28 @@ class KonfirmasiMuputController extends Controller
         $queryDetailReservasi = function ($queryDetailReservasi) {
             $queryDetailReservasi->with('TahapanUpacara')->whereStatus('diterima')->whereHas('TahapanUpacara');
         };
-        $dataReservasi = Reservasi::with(['Upacaraku.User.Penduduk', 'Upacaraku.Upacara', 'DetailReservasi' => $queryDetailReservasi])->whereHas('DetailReservasi', $queryDetailReservasi)->whereIdSanggarAndStatus($sanggar->id, 'proses muput')->get();
-        return view('pages.sanggar.manajemen-muput.konfirmasi-muput-index', compact('dataReservasi'));
+        $dataReservasi = Reservasi::with(['Upacaraku.User.Penduduk', 'Upacaraku.Upacara', 'DetailReservasi' => $queryDetailReservasi])
+            ->whereHas('DetailReservasi', $queryDetailReservasi)
+            ->whereIdSanggarAndStatus($sanggar->id, 'proses muput')
+            ->get();
+
+        $data = [];
+        foreach($dataReservasi as $index => $reservasi){
+            foreach ($reservasi->DetailReservasi as $key => $detailReservasi) {
+                $data[] = ((array)[
+                    "No" => $index+1,
+                    "Penyelengara" => $reservasi->Upacaraku->User->Penduduk->nama,
+                    "Alamat" => $reservasi->Upacaraku->alamat_upacaraku,
+                    "tahapanReservasi" => $detailReservasi->TahapanUpacara->nama_tahapan,
+                    "waktuMulai" => Carbon::parse($detailReservasi->tanggal_mulai)->format('d M Y | H:m' ),
+                    "waktuSelesai" => Carbon::parse($detailReservasi->tanggal_selesai)->format('d M Y | H:m' ),
+                    "tindakan" =>  '<a href="'.route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$detailReservasi->id).'" class="btn btn-info btn-sm "><i class="fas fa-eye"></i></a><a onclick="konfirmasiMuput('.$detailReservasi->id.','.$reservasi->Upacaraku->id.')" class="btn btn-primary btn-sm mx-1"><i class="fas fa-check"></i></a><a onclick="batalMuput('.$detailReservasi->id.','.$reservasi->Upacaraku->id.')" class="btn btn-danger btn-sm "><i class="fas fa-times"></i></a>'
+                ]);
+
+            }
+        }
+
+        return view('pages.sanggar.manajemen-muput.konfirmasi-muput-index', compact('data'));
     }
     // MUPUT UPACARA INDEX
 

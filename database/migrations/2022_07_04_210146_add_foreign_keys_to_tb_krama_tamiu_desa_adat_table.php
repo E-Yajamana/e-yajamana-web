@@ -14,9 +14,9 @@ class AddForeignKeysToTbKramaTamiuDesaAdatTable extends Migration
     public function up()
     {
         Schema::table('tb_krama_tamiu_desa_adat', function (Blueprint $table) {
-            $table->foreign(['banjar_dinas_id'], 'tb_krama_tamiu_desa_adat_ibfk_3')->references(['id'])->on('tb_m_banjar_dinas');
             $table->foreign(['penduduk_id'], 'tb_krama_tamiu_desa_adat_ibfk_2')->references(['id'])->on('tb_penduduk');
             $table->foreign(['banjar_adat_id'], 'tb_krama_tamiu_desa_adat_ibfk_1')->references(['id'])->on('tb_m_banjar_adat');
+            $table->foreign(['banjar_dinas_id'], 'tb_krama_tamiu_desa_adat_ibfk_3')->references(['id'])->on('tb_m_banjar_dinas');
         });
     }
 
@@ -28,9 +28,9 @@ class AddForeignKeysToTbKramaTamiuDesaAdatTable extends Migration
     public function down()
     {
         Schema::table('tb_krama_tamiu_desa_adat', function (Blueprint $table) {
-            $table->dropForeign('tb_krama_tamiu_desa_adat_ibfk_3');
             $table->dropForeign('tb_krama_tamiu_desa_adat_ibfk_2');
             $table->dropForeign('tb_krama_tamiu_desa_adat_ibfk_1');
+            $table->dropForeign('tb_krama_tamiu_desa_adat_ibfk_3');
         });
     }
 }

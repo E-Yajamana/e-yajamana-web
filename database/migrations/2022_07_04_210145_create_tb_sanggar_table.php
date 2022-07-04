@@ -15,7 +15,7 @@ class CreateTbSanggarTable extends Migration
     {
         Schema::create('tb_sanggar', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->char('id_desa_dinas', 10)->nullable()->index('id_desa_dinas');
+            $table->unsignedInteger('id_banjar_dinas')->nullable()->index('id_banjar_dinas');
             $table->string('nama_sanggar', 100)->nullable();
             $table->text('alamat_sanggar')->nullable();
             $table->string('sk_tanda_usaha', 255)->nullable();

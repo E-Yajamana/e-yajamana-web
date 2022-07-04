@@ -292,13 +292,13 @@
 
         $('#reservationtime').daterangepicker({
             "autoApply": true,
-            "minDate": moment(Date ()).add(1, 'D').format('DD MMMM YYYY'),
-            "maxDate": moment(Date ()).add(2, 'Y').format('DD MMMM YYYY'),
-            startDate: moment(parseData.tanggal_mulai).format('DD MMMM YYYY'),
-            endDate:moment(parseData.tanggal_selesai).format('DD MMMM YYYY'),
+            "minDate": moment(Date ()).add(1, 'D').format('DD MMM YYYY'),
+            "maxDate": moment(Date ()).add(2, 'Y').format('DD MMM YYYY'),
+            startDate: moment(parseData.tanggal_mulai).format('DD MMM YYYY'),
+            endDate:moment(parseData.tanggal_selesai).format('DD MMM YYYY'),
             disabled: true,
             locale: {
-                format: 'DD MMMM YYYY',
+                format: 'DD MMM YYYY',
             },
             drops: "up",
         });

@@ -138,13 +138,13 @@
         "oLanguage": {
             "sSearch": "Cari:",
             "sZeroRecords": "Data Tidak Ditemukan",
-            "emptyTable": "Tidak Terdapat Data Akun Sulinggih",
+            "emptyTable": "Tidak Terdapat Data Reservasi",
             "sSearchPlaceholder": "Cari data....",
             "infoEmpty": "Menampilkan 0 Data",
             "lengthMenu":     "Show _MENU_ ",
             "infoFiltered": "(dari _MAX_ data)",
         },
-        rowsGroup: [0],
+        rowsGroup: [0,1],
         "aoColumns": [
             {
                 "data": "No",

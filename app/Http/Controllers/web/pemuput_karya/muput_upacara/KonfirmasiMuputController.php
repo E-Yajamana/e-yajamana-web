@@ -29,7 +29,10 @@ class KonfirmasiMuputController extends Controller
         $queryDetailReservasi = function ($queryDetailReservasi) {
             $queryDetailReservasi->with('TahapanUpacara')->whereStatus('diterima')->whereHas('TahapanUpacara');
         };
-        $dataReservasi = Reservasi::with(['Upacaraku.User.Penduduk', 'Upacaraku.Upacara', 'DetailReservasi' => $queryDetailReservasi])->whereHas('DetailReservasi', $queryDetailReservasi)->whereIdRelasiAndStatus($sulinggih->id, 'proses muput')->get();
+        $dataReservasi = Reservasi::with(['Upacaraku.User.Penduduk', 'Upacaraku.Upacara', 'DetailReservasi' => $queryDetailReservasi])
+            ->whereHas('DetailReservasi', $queryDetailReservasi)
+            ->whereIdRelasiAndStatus($sulinggih->id, 'proses muput')
+            ->get();
 
         $data = [];
         foreach($dataReservasi as $index => $reservasi){

@@ -5,12 +5,10 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/daterangepicker/daterangepicker.css')}}">
 @endpush
 
-@section('countTangkil')
-    {{-- {{$dataReservasi->where('tanggal')}}
-    <span class="badge badge-primary right">{{count($count)}}</span> --}}
-@endsection
 
 @section('content')
     <section class="content-header">
@@ -21,7 +19,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('sanggar.dashboard')}}">Dashboard</a></li>
                         <li class="breadcrumb-item active">Data Penguleman Krama</li>
                     </ol>
                 </div>
@@ -34,6 +32,18 @@
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
                 <h3 class="card-title my-auto">List Data Kedatangan Krama </h3>
+                <div class=" card-tools">
+                    <div class="form-group px-2">
+                        <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                            <input id="dateFilter" type='text' class='form-control float-right' placeholder="Pilih tanggal" value="" onchange="filterData()">
+                            <div class="input-group-prepend">
+                                <button class="input-group-text btn" type="button"  id="removeFilter" >
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {{-- Start Data Table Sulinggih --}}
@@ -105,9 +115,10 @@
 
     <!-- daterangepicker -->
     <script src="{{asset('base-template/plugins/moment/moment.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/daterangepicker/daterangepicker.js')}}"></script>
 
-    <script>
-        $(function () {
+    <script type="text/javascript">
+        $(document).ready(function(){
             $('#example2').DataTable({
                 "paging": true,
                 "lengthChange": true,
@@ -129,25 +140,49 @@
                     "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
                 }
             });
-        });
-    </script>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
             $('#side-manajemen-muput-upacara').addClass('menu-open');
             $('#side-manajemen-muput-upacara-konfirmasi-tangkil').addClass('active');
+
+             // Custom filtering function which will search data in column four between two values
+            $.fn.dataTable.ext.search.push(
+                function( settings, data, dataIndex ) {
+                    var dateUser;
+                    var date = moment(data[3],"DD MMMM YYYY | H:i").format('DD-MM-YYYY');
+                    if($("#dateFilter").val() !== ''){
+                        dateUser =  moment($("#dateFilter").val()).format('DD-MM-YYYY');
+                    }else{
+                        dateUser = '';
+                    }
+
+                    if( dateUser === date || dateUser === '' || dateUser === null )
+                    {
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }
+            );
+
+            $('#dateFilter').daterangepicker({
+                "singleDatePicker": true,
+                autoUpdateInput: false,
+                // "maxDate": moment(Date ()).format('DD MMMM YYYY H:mm'),
+                locale: {
+                    format: 'DD MMMM YYYY',
+                },
+            });
+
+            $('#dateFilter').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD MMMM YYYY'));
+                table.draw();
+            });
+
+            $('#removeFilter').click(function(){
+                $('#dateFilter').val('');
+                table.draw();
+            })
+
         });
     </script>
 @endpush
-
-{{-- @push('js')
-    <script type="text/javascript">
-        function cekTanggalTangkil(tanggal_tangkil){
-            Swal.fire({
-                icon: 'info',
-                title: 'Pemberitahuan',
-                text: 'Anda baru dapat mengakses fitur tersebut pada tanggal '+moment(tanggal_tangkil).format('DD MMMM YYYY') ,
-            });
-        }
-    </script>
-@endpush --}}

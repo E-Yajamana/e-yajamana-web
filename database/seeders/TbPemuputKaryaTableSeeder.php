@@ -66,7 +66,7 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'id' => 54,
                 'id_user' => 49,
                 'id_griya' => 14,
-                'id_pasangan' => 19,
+                'id_pasangan' => NULL,
                 'id_atribut' => 1,
                 'nama_pemuput' => 'Ida Pedande watu',
                 'status_konfirmasi_akun' => 'disetujui',
@@ -106,7 +106,7 @@ class TbPemuputKaryaTableSeeder extends Seeder
             6 => 
             array (
                 'id' => 60,
-                'id_user' => 51,
+                'id_user' => 61,
                 'id_griya' => 7,
                 'id_pasangan' => NULL,
                 'id_atribut' => 9,
@@ -164,7 +164,7 @@ class TbPemuputKaryaTableSeeder extends Seeder
                 'id' => 66,
                 'id_user' => 63,
                 'id_griya' => 2,
-                'id_pasangan' => 5,
+                'id_pasangan' => NULL,
                 'id_atribut' => 1,
                 'nama_pemuput' => 'Testung',
                 'status_konfirmasi_akun' => 'pending',

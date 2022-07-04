@@ -419,9 +419,6 @@ class KramaUpacarakuController extends Controller
                                 $pemuput
                             );
                         }
-
-
-
                     }
                     // HAVE RESERVASTION
 

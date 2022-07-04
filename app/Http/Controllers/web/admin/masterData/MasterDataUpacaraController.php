@@ -169,7 +169,6 @@ class MasterDataUpacaraController extends Controller
                 {
                     $filenameTahapan = null;
                     if(array_key_exists('foto_tahapan',$data)){
-                        dd($request->all());
                         $folder = 'app/admin/master-data/upacara/tahapan/';
                         $filenameTahapan =  ImageHelper::moveImage($data['foto_tahapan'],$folder);
                     }
@@ -558,7 +557,7 @@ class MasterDataUpacaraController extends Controller
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Berhasil Mengubah Tahapan Upacara',
-                'message' => 'Data Tahapan Upacara berhasil terhapus dari sistem'
+                'message' => 'Data Tahapan Upacara berhasil diubah dari sistem'
             ]);
         // END RETURN
 
