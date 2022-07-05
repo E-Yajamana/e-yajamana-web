@@ -80,4 +80,7 @@ class DetailReservasi extends Model
 	{
 		return $this->hasMany(Gambar::class, 'id_detail_reservarsi');
 	}
+
+
+
 }

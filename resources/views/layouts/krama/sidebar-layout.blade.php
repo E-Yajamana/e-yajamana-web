@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-2">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link text-decoration-none mt-1">
+    <a href="{{route('krama.dashboard')}}" class="brand-link text-decoration-none mt-1">
         <img src="{{asset('base-template/dist/img/logo-01.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light fw-bold">E-Yajamana</span>
     </a>
@@ -16,17 +16,25 @@
                     <a href="#" class="nav-link mb-2">
                         <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
                         <p>
-                            Krama Bali
+                            Krama
                             <i class="fas fa-angle-left right mt-2"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <li class="nav-item ml-3">
+                            <a id="side-switch" onclick="switchAccount()" class="nav-link">
+                                <i class="far fa-circle nav-icon mr-1"></i>
+                                <p>Switch Account</p>
+                            </a>
+                        </li>
+
                         <li class="nav-item ml-3">
                             <a id="side-profile" href="{{route('krama.profile')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon mr-1"></i>
                                 <p>Profile</p>
                             </a>
                         </li>
+
                         <li class="nav-item ml-3">
                             <a href="{{route('auth.logout')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon mr-1"></i>
@@ -108,21 +116,25 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="pages/gallery.html" class="nav-link p-2">
-                        <i class="far bi-geo-alt-fill nav-icon mr-1"></i>
-                        <p>Lokasi Pemuput Karya</p>
+
+                {{--<li class="nav-header font-weight-bold pl-2" >LAPORAN</li>
+                <li class="nav-item" id="side-report">
+                    <a href="{{route('krama.report')}}" class="nav-link p-2">
+                        <i class="nav-icon mr-1 fas fa-book"></i>
+                        <p>Laporan Krama</p>
                     </a>
-                </li>
+                </li> --}}
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
+
     <!-- /.sidebar -->
 </aside>
-<input id="jsonDataKrama" type="hidden" value='@json(Auth::user()->Krama->Upacaraku)'>
+<input id="countReservasi" type="hidden" value='{{count(Auth::user()->Upacaraku)}}'>
 
-@if (count(Auth::user()->Krama->Upacaraku) != 0)
+@if (count(Auth::user()->Upacaraku->whereNotIn('status',['batal','selesai'])) != 0)
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -139,7 +151,7 @@
                         <label>Pilih Upacara yang akan direservasi <span class="text-danger">*</span></label>
                         <select id="jenis_upacara" name="id_upacara" class="form-control select2bs4" style="width: 100%;">
                             <option value="0" disabled selected>Pilih Upacara</option>
-                            @foreach (Auth::user()->Krama->Upacaraku as $data)
+                            @foreach (Auth::user()->Upacaraku->whereNotIn('status',['batal','selesai']) as $data)
                                 <option value="{{$data->id}}">{{$data->nama_upacara}}</option>
                             @endforeach
                         </select>
@@ -155,6 +167,7 @@
     </div>
 @endif
 
+@include('layouts.modal-switch-account')
 
 @push('js')
     <!-- Select2 -->
@@ -162,10 +175,8 @@
 
     <script>
         function addReservasi(){
-            let dataJSON = $('#jsonDataKrama').val();
-            dataKramaUpacaraku = JSON.parse(dataJSON);
-            console.log(dataKramaUpacaraku.length)
-            if(dataKramaUpacaraku.length != 0){
+            let countReservasi = $('#countReservasi').val();
+            if(countReservasi != 0){
                 $('#exampleModalCenter').modal();
             }else{
                 Swal.fire({
@@ -181,6 +192,5 @@
             var data = $("#jenis_upacara").val();
             location.href = "{{route('krama.manajemen-reservasi.create')}}/"+data;
         }
-
     </script>
 @endpush

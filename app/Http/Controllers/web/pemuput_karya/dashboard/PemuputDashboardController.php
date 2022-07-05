@@ -4,10 +4,14 @@ namespace App\Http\Controllers\web\pemuput_karya\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\ImageHelper;
+use App\Models\DetailReservasi;
+use App\Models\Reservasi;
 use App\Models\Sulinggih;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Expectation;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,43 +20,32 @@ class PemuputDashboardController extends Controller
     // VIEW DASHBOARD PEMUPUT KARYA
     public function index(Request $requests)
     {
-        return view('pages.pemuput-karya.dashboard');
+        $requests->session()->forget('id_sanggar');
+        $user = Auth::user();
+        $reservasi = Reservasi::whereIdRelasi($user->id)->get();
+        $countData = [
+            'countMuput' => $reservasi->where('status','proses muput')->count(),
+            'countTangkil' => $reservasi->where('status','proses tangkil')->count(),
+            'countReservasiMasuk' => $reservasi->where('status','pending')->count(),
+            'countReservasi' => $reservasi->count(),
+        ];
+        $queryDetailReservasi = function ($queryDetailReservasi){
+            $queryDetailReservasi->where('tanggal_mulai', '<=',Carbon::now()->startOfDay()->addHours(23))
+                ->where('tanggal_selesai', '>=', Carbon::now()->startOfDay())
+                ->where('status','diterima');
+        };
+
+        $dataJadwal = Reservasi::with(['Upacaraku.User.Penduduk','Upacaraku.Upacara','DetailReservasi'=>$queryDetailReservasi])
+            ->whereHas('DetailReservasi',$queryDetailReservasi)
+            ->whereTipe('pemuput_karya')
+            ->whereStatus('proses muput')
+            ->whereIdRelasi($user->id)
+            ->get();
+
+        return view('pages.pemuput-karya.dashboard',compact('countData','dataJadwal'));
     }
     // VIEW DASHBOARD PEMUPUT KARYA
 
-    // GET IMAGE PROFILE SULINGGIH
-     public function getProfilePemuput(Request $request)
-     {
-         // SECURITY
-             $validator = Validator::make(['id' =>$request->id],[
-                 'id' => 'required|exists:tb_user_eyajamana,id',
-             ]);
-
-             if($validator->fails()){
-                 return redirect()->back()->with([
-                     'status' => 'fail',
-                     'icon' => 'error',
-                     'title' => 'Gagal Mengambil Gambar',
-                     'message' => 'Gagal Mengambil Gambar, Terdapat kendala pada sistem !!',
-                 ]);
-             }
-         // END SECURITY
-
-         // MAIN LOGIC
-             try{
-                 $path = User::findOrFail($request->id)->user_profile;
-                 return ImageHelper::getImage($path);
-             }catch(Expectation | ModelNotFoundException $err){
-                 return redirect()->back()->with([
-                     'status' => 'fail',
-                     'icon' => 'error',
-                     'title' => 'Gagal Mengambil Gambar',
-                     'message' => 'Gagal Membuat Gambar, apabila diperlukan mohon hubungi developer sistem`',
-                 ]);
-             }
-         // END LOGIC
-     }
-    // GET IMAGE PROFILE SULINGGIH
 
     public function calenderIndex(Request $request)
     {

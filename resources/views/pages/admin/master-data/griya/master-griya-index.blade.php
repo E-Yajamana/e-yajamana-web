@@ -1,5 +1,5 @@
 @extends('layouts.admin.admin-layout')
-@section('tittle','Data Lokais Griya')
+@section('tittle','Data Lokasi Griya / Puri')
 
 @push('css')
     <!-- DataTables -->
@@ -13,12 +13,12 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Master Data Lokasi Griya</h1>
+                    <h1>Master Data Lokasi Griya & Puri</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">E-Yajamana</a></li>
-                    <li class="breadcrumb-item active">Data Griya</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Data Griya & Puri</li>
                     </ol>
                 </div>
             </div>
@@ -35,10 +35,10 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6">
-                                    <h3 class="card-title">List Data Griya E-Yajamana</h3>
+                                    <h3 class="card-title">List Data Griya & Puri</h3>
                                 </div>
                                 <div class="col-6">
-                                    <a class="btn btn-primary float-right" href="{{route('admin.master-data.griya.create')}}"><i class="fa fa-plus"></i> Tambah</a>
+                                    <a title="Tambah Data" class="btn btn-primary float-right" href="{{route('admin.master-data.griya.create')}}"><i class="fa fa-plus"></i> Tambah</a>
                                 </div>
                             </div>
                         </div>
@@ -48,9 +48,9 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Griya</th>
-                                        <th>Alamat Griya</th>
-                                        <th>Lokasi Desa Adat</th>
+                                        <th>Nama Griya / Puri</th>
+                                        <th>Alamat Griya / Puri</th>
+                                        <th>Lokasi Desa Dinas</th>
                                         <th>Tindakan</th>
                                     </tr>
                                 </thead>
@@ -62,9 +62,9 @@
                                             <td>{{$data->alamat_griya_rumah}}</td>
                                             <td>{{$data->BanjarDinas->nama_banjar_dinas}}</td>
                                             <td>
-                                                <a href="{{route('admin.master-data.griya.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                <a href="{{route('admin.master-data.griya.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                                <a title="Detail Data" href="{{route('admin.master-data.griya.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                <a title="Ubah Data" href="{{route('admin.master-data.griya.edit',$data->id)}}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                <a title="Hapus Data" onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                             </td>
                                             <form id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.griya.delete')}}" method="post">
                                                 @csrf
@@ -77,9 +77,9 @@
                                 <tfoot>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nama Griya</th>
-                                        <th>Alamat Griya</th>
-                                        <th>Lokasi Desa Adat</th>
+                                        <th>Nama Griya / Puri</th>
+                                        <th>Alamat Griya / Puri</th>
+                                        <th>Lokasi Desa Dinas</th>
                                         <th>Tindakan</th>
                                     </tr>
                                 </tfoot>

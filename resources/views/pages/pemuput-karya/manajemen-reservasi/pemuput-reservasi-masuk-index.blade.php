@@ -1,5 +1,5 @@
-@extends('layouts.sulinggih.sulinggih-layout')
-@section('tittle','Reservasi Krama Masuk')
+@extends('layouts.pemuput-karya.pemuput-karya-layout')
+@section('tittle','Reservasi Masuk')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -32,8 +32,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Data Reservasi</li>
+                        <li class="breadcrumb-item"><a href="{{route('pemuput-karya.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Data Reservasi Masuk</li>
                     </ol>
                 </div>
             </div>
@@ -44,8 +44,7 @@
     <div class="container-fluid">
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
-                <h3 class="card-title my-auto">List Data Reservasi Krama</h3>
-                @include('pages.pemuput-karya.manajemen-reservasi.modal-verifikasi-all')
+                <h3 class="card-title my-auto">Pengajuan Reservasi Krama</h3>
             </div>
             {{-- Start Data Table Sulinggih --}}
             <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
@@ -57,9 +56,9 @@
                                     <th>No</th>
                                     <th>Penyelenggara </th>
                                     {{-- <th>Jenis Upacara</th> --}}
-                                    <th>Lokasi Upacara</th>
-                                    <th>Tanggal Upacara</th>
+                                    <th>Alamat Upacara</th>
                                     <th>Tahapan Reservasi</th>
+                                    <th class="text-center">Konfirmasi Sebelum</th>
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
@@ -67,44 +66,35 @@
                                 @foreach ($dataReservasi as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td style="width: 15%">{{$data->Upacaraku->Krama->User->Penduduk->nama}}</td>
+                                        <td style="width: 15%">{{$data->Upacaraku->User->Penduduk->nama}}</td>
                                         {{-- <td>{{$data->Upacaraku->Upacara->nama_upacara}}</td> --}}
                                         <td style="width: 20%">{{$data->Upacaraku->alamat_upacaraku}}</td>
-                                        <td>{{date('d M Y',strtotime($data->Upacaraku->tanggal_mulai))}} - {{date('d M Y',strtotime($data->Upacaraku->tanggal_selesai))}}</td>
                                         <td>
+                                            <label>{{$data->Upacaraku->Upacara->nama_upacara}}</label>
                                             @foreach ($data->DetailReservasi as $dataDetail)
                                                 <li>{{$dataDetail->TahapanUpacara->nama_tahapan}}</li>
-                                                <input type="hidden"  name="id_tahapan_reservasi_{{$data->id}}[]" value="{{$dataDetail->id}}" >
                                             @endforeach
                                         </td>
-                                        <td>
-                                            <a href="{{route('pemuput-karya.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a onclick="konfirmasiReservasi({{$data->id}},'{{$data->tanggal_tangkil}}','{{$data->Upacaraku->tanggal_mulai}}')" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                        <td style="width: 12%" class="text-center">
+                                            <small class="mt-2 badge badge-danger" id="date{{$data->id}}"><i class="fas fa-clock"></i> {{date('d F Y, H:m',strtotime($data->Upacaraku->tanggal_mulai))}}</small>
+                                        </td>
+                                        <td style="width: 15%">
+                                            <a href="{{route('pemuput-karya.manajemen-reservasi.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                                            <a onclick="konfirmasiReservasi({{$data->id}},'{{$data->Upacaraku->tanggal_mulai}}')" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
                                             <a onclick="tolakReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Penyelenggara </th>
-                                    {{-- <th>Jenis Upacara</th> --}}
-                                    <th>Lokasi Upacara</th>
-                                    <th>Tanggal Upacara</th>
-                                    <th>Tahapan Reservasi</th>
-                                    <th>Tindakan</th>
-                                </tr>
-                            </tfoot>
                         </table>
-
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+
+    @include('pages.pemuput-karya.manajemen-reservasi.modal-konfirmasi-reservasi')
+
 @endsection
 
 @push('js')
@@ -128,6 +118,10 @@
 
     <!-- Tempusdominus Bootstrap 4 -->
     <script src="{{asset('base-template/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+
+    <!-- jquery-validation -->
+    <script src="{{asset('base-template/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/jquery-validation/additional-methods.min.js')}}"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
@@ -168,19 +162,5 @@
             theme: 'bootstrap4'
         })
 
-        $('#reservationdatetime').datetimepicker({
-
-            format: 'DD MMMM YYYY h:mm A',
-            date: new Date(),
-            icons: {
-                time: 'far fa-clock'
-            }
-        });
-
     </script>
 @endpush
-
-
-
-
-

@@ -91,13 +91,18 @@ Route::middleware('auth:sanctum')->group(function () {
     // END
 
     // KRAMA
-    Route::prefix('krama')->middleware(['ability:role:krama_bali'])->group(function () {
+    Route::prefix('krama')->middleware(['ability:role:krama'])->group(function () {
         // KRAMA HOME FRAGMENT
         Route::get('home', [KramaDashboardController::class, 'index']);
         // END
 
+        // KRAMA FAVORIT
+        Route::post('favorit', [KramaPemuputKaryaController::class, 'setFavorite']);
+        // END
+
         // KRAMA PROFILE FRAGMENT
         Route::get('profile', [KramaProfileController::class, 'index']);
+        Route::get('detail/profile', [KramaProfileController::class, 'detail']);
         // END
 
         // KRAMA UPCARA
@@ -105,12 +110,17 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('show', [KramaUpacaraController::class, 'index']);
             Route::post('create', [KramaUpacaraController::class, 'store']);
             Route::get('detail/{id_upacara?}', [KramaUpacaraController::class, 'show']);
+            Route::post('delete/{id_upacara?}', [KramaUpacaraController::class, 'destroy']);
         });
         // END
 
         // KRAMA RESERVASI
         Route::prefix('reservasi')->group(function () {
             Route::post('store', [KramaReservasiController::class, 'store']);
+            Route::post('batal', [KramaReservasiController::class, 'destroy']);
+            Route::post('update', [KramaReservasiController::class, 'update']);
+            Route::get('show/{id_reservasi?}', [KramaReservasiController::class, 'show']);
+            Route::post('rating', [KramaReservasiController::class, 'setRating']);
         });
         // END
 
@@ -118,7 +128,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // END
 
     // SULINGGIH
-    Route::prefix('sulinggih')->middleware(['ability:role:sulinggih'])->group(function () {
+    Route::prefix('sulinggih')->middleware(['ability:role:pemuput_karya'])->group(function () {
         // SULINGGIH HOME FRAGMENT
         Route::get('home', [SulinggihDashboardController::class, 'index']);
         // END
@@ -126,6 +136,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // SULINGGIH RESERVASI FRAGMENT
         Route::post('reservasi', [SulinggihReservasiController::class, 'index']);
         Route::post('reservasi/update', [SulinggihReservasiController::class, 'update']);
+        Route::post('reservasi/tolak', [SulinggihReservasiController::class, 'tolakReservasi']);
         Route::get('reservasi/detail/{id_reservasi}', [SulinggihReservasiController::class, 'show']);
         // END
 
@@ -175,6 +186,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // LOGOUT
     Route::post('logout', [AuthController::class, 'logoutUser']);
+    // END
+
+    // ASK NEW ROLE
+    Route::post('asknewrole', [AuthController::class, 'askForTokenRole']);
     // END
 
 });

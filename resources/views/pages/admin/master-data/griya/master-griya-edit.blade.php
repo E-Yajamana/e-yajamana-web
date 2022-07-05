@@ -1,5 +1,5 @@
 @extends('layouts.admin.admin-layout')
-@section('tittle','Tambah Data Upacara')
+@section('tittle','Ubah Data Griya / Puri')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -21,13 +21,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Data {{$dataGriya->nama_griya_rumah}}</h1>
+                    <h1>Ubah Data {{$dataGriya->nama_griya_rumah}}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Data Griya</a></li>
-                        <li class="breadcrumb-item active">Edit</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.griya.index')}}">Data Griya & Puri</a></li>
+                        <li class="breadcrumb-item active">Ubah</li>
                     </ol>
                 </div>
             </div>
@@ -42,12 +42,12 @@
                     @csrf
                     <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
-                            <h3 class="card-title my-auto">Form Tambah Data Upacara</h3>
+                            <h3 class="card-title my-auto">Form Ubah Data</h3>
                         </div>
                         <input class="d-none" hidden name="id" value="{{$dataGriya->id}}">
                         <div class="card-body p-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Nama Griya <span class="text-danger">*</span></label>
+                                <label for="exampleInputEmail1">Nama Griya / Puri <span class="text-danger">*</span></label>
                                 <input type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{$dataGriya->nama_griya_rumah}}">
                                 @error('nama_griya')
                                     <div class="invalid-feedback text-start">
@@ -55,17 +55,6 @@
                                     </div>
                                 @enderror
                             </div>
-                            {{-- <div class="form-group">
-                                <label>Provinsi <span class="text-danger">*</span></label>
-                                <select disabled class="form-control select2bs4  @error('penerbit') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
-                                    <option disabled selected value="Bali">BALI</option>
-                                </select>
-                                @error('penerbit')
-                                    <div class="invalid-feedback text-start">
-                                        {{$errors->first('penerbit') }}
-                                    </div>
-                                @enderror
-                            </div> --}}
                             <div class="form-group">
                                 <label>Kabupaten/Kota <span class="text-danger">*</span></label>
                                 <select id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
@@ -146,7 +135,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Alamat Lengkap Griya <span class="text-danger">*</span></label>
+                                <label>Alamat Lengkap Griya / Puri <span class="text-danger">*</span></label>
                                 <textarea name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya" value="" >{{ $dataGriya->alamat_griya_rumah }}</textarea>
                                 @error('alamat_griya')
                                     <div class="invalid-feedback text-start">
@@ -155,7 +144,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Pemetaan Lokasi Griya</label>
+                                <label>Pemetaan Lokasi Griya / Puri</label>
                                 <div class="input-group mb-3">
                                     <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" readonly="readonly" value="{{ $dataGriya->lat }}">
                                     @error('lat')
@@ -238,69 +227,6 @@
 
     </script>
     <!-- Fungsi Boostrap & Library  -->
-
-    <!-- Fungsi Ajax Get Data  -->
-    <script language="javascript" type="text/javascript">
-        $('#kabupaten').on('change', function() {
-            var kabupatenID = $(this).val();
-            if(kabupatenID){
-                $.ajax({
-                       url: '/ajax/kecamatan/'+kabupatenID,
-                       type: "GET",
-                       data : {"_token":"{{ csrf_token() }}"},
-                       dataType: "json",
-                       success:function(dataKecamatan)
-                        {
-                            console.log(kabupatenID);
-                            console.log(dataKecamatan.data.kecamatans);
-
-                            if(dataKecamatan.data.kecamatans){
-                                $('#kecamatan').empty();
-                                $('#desa_dinas').empty();
-                                $('#kecamatan').append('<option value="0" disabled selected>Pilih Kecamatan</option>');
-                                $.each(dataKecamatan.data.kecamatans, function(key, data){
-                                    $('#kecamatan').append('<option value="'+ data.id_kecamatan +'">' + data.name+ '</option>');
-                                });
-                            }else{
-                                $('#course').empty();
-                            }
-                        }
-                    })
-            }else{
-                $('#course').empty();
-            }
-        })
-
-        $('#kecamatan').on('change', function() {
-            var kecamatanID = $(this).val();
-            if(kecamatanID){
-                $.ajax({
-                       url: '/ajax/desa/'+kecamatanID,
-                       type: "GET",
-                       data : {"_token":"{{ csrf_token() }}"},
-                       dataType: "json",
-                       success:function(dataDesa)
-                        {
-                            console.log(kecamatanID);
-                            console.log(dataDesa.data.desas);
-
-                            if(dataDesa.data.desas){
-                                $('#desa_dinas').empty();
-                                $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
-                                $.each(dataDesa.data.desas, function(key, data){
-                                    $('#desa_dinas').append('<option value="'+ data.id_desa +'">' + data.name+ '</option>');
-                                });
-                            }else{
-                                $('#course').empty();
-                            }
-                        }
-                    })
-            }else{
-                $('#course').empty();
-            }
-        })
-    </script>
-    <!-- Fungsi Ajax Get Data  -->
 
     <!-- Maps Pemetaan  -->
     <script language="javascript" type="text/javascript">

@@ -58,7 +58,7 @@ class SulinggihTangkilController extends Controller
                         'Relasi' => function ($relasiQuery) {
                             $relasiQuery->with([
                                 'Penduduk',
-                                'Sulinggih'
+                                'PemuputKarya'
                             ]);
                         },
                         'DetailReservasi' => function ($detailReservasiQuery) {
@@ -68,13 +68,9 @@ class SulinggihTangkilController extends Controller
                         }
                     ])->where('id', '!=', $reservasi->id);
                 },
-                'Krama' => function ($kramaQuery) {
-                    $kramaQuery->with([
-                        'User' => function ($userQuery) {
-                            $userQuery->with([
-                                'Penduduk'
-                            ]);
-                        }
+                'User' => function ($userQuery) {
+                    $userQuery->with([
+                        'Penduduk'
                     ]);
                 }
             ])->where('id', $reservasi->id_upacaraku)->firstOrFail();

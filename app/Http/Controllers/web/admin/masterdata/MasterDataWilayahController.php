@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web\admin\masterdata;
 
 use App\Http\Controllers\Controller;
+use App\Models\BanjarDinas;
 use App\Models\DesaAdat;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
@@ -30,9 +31,9 @@ class MasterDataWilayahController extends Controller
         return view('pages.admin.master-data.wilayah.desa',compact('dataDesa'));
     }
 
-    public function indexDesaAdat(Request $request)
+    public function indexBanjar(Request $request)
     {
-        $desaAdat = DesaAdat::all();
-        return view('pages.admin.master-data.wilayah.desa-adat',compact('desaAdat'));
+        $banjarDinas = BanjarDinas::with(['DesaDinas','DesaAdat'])->get();
+        return view('pages.admin.master-data.wilayah.desa-adat',compact('banjarDinas'));
     }
 }

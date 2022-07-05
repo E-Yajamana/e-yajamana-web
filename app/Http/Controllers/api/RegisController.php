@@ -4,10 +4,10 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\ImageHelper;
+use App\Models\AtributPemuput;
 use App\Models\GriyaRumah;
-use App\Models\Krama;
+use App\Models\PemuputKarya;
 use App\Models\Penduduk;
-use App\Models\Sulinggih;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -39,8 +39,14 @@ class RegisController extends Controller
 
         // MAIN LOGIC
         try {
-            $penduduk = Penduduk::where('nik', $request->nik)->firstOrFail();
-        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            $penduduk = Penduduk::with(['User'])->where('nik', $request->nik)->firstOrFail();
+        } catch (ModelNotFoundException | PDOException $err) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Bad Request Exception',
+                'data' => (object)[],
+            ], 403);
+        } catch (QueryException | \Throwable | \Exception $err) {
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
@@ -54,7 +60,7 @@ class RegisController extends Controller
             'status' => 200,
             'message' => 'Berhasil mengechek data penduduk terintegrasi SIKEDAT',
             'data' => [
-                'penduduk' => $penduduk
+                'penduduk' => $penduduk,
             ],
         ], 200);
         // END
@@ -95,10 +101,7 @@ class RegisController extends Controller
                 'password' => Hash::make($request->password),
                 'id_penduduk' => $penduduk->id,
                 'nomor_telepon' => $request->notlp,
-                'role' => 'krama_bali'
-            ]);
-            $krama = Krama::create([
-                'id_user' => $user->id,
+                'role' => 'krama_bali',
                 'lat' => $request->lat,
                 'lng' => $request->lng
             ]);
@@ -120,8 +123,7 @@ class RegisController extends Controller
             'message' => 'Berhasil create krama baru',
             'data' => [
                 'penduduk' => $penduduk,
-                'user' => $user,
-                'krama' => $krama
+                'user' => $user
             ],
         ], 200);
         // END
@@ -142,7 +144,7 @@ class RegisController extends Controller
             'id_nabe' => 'nullable|numeric',
             'nama_nabe' => 'required_without:id_nabe|max:30',
             'tanggal_diksha' => 'required|date',
-            'file_sk' => 'required|mimes:pdf,jpg,png',
+            'file_sk' => 'nullable|mimes:pdf,jpg,png',
             'id_griya' => 'required',
             'nama_griya' => 'required_without:id_griya|max:30',
             'alamat_griya' => 'required_without:id_griya|max:30',
@@ -173,20 +175,35 @@ class RegisController extends Controller
                 'password' => Hash::make($request->password),
                 'id_penduduk' => $penduduk->id,
                 'nomor_telepon' => $request->notlp,
-                'role' => 'krama_bali',
+                'role' => 'pemuput_karya',
+                'lat' => $request->lat,
+                'lng' => $request->lng,
             ]);
 
-            $sulinggih = new sulinggih();
-
-            if ($request->id_nabe == null || $request->id_nabe == 0) {
-                $sulinggih->nama_nabe = $request->nama_nabe;
-            } else {
-                $sulinggih->id_nabe = $request->id_nabe;
-            }
+            $sulinggih = new PemuputKarya();
 
             if ($request->id_pasangan == null || $request->id_pasangan == 0) {
-                $sulinggih->nama_pasangan = $request->nama_pasangan;
+                $filename = null;
+                if ($request->hasFile('file_sk')) {
+                    $folder = 'app/sulinggih/sk/';
+                    $filename =  ImageHelper::moveImage($request->file_sk, $folder);
+                }
+
+                $atributePemuput = new AtributPemuput();
+
+                if ($request->id_nabe != null && $request->id_nabe != 0) {
+                    $atributePemuput->id_nabe = $request->id_nabe;
+                }
+
+                $atributePemuput->sk_pemuput = $filename;
+                $atributePemuput->tanggal_diksha = $request->tanggal_diksha;
+                $atributePemuput->save();
+
+                $sulinggih->id_atribut = $atributePemuput->id;
             } else {
+                $pasanganPemuput = PemuputKarya::findOrFail($request->id_pasangan);
+
+                $sulinggih->id_atribut = $pasanganPemuput->id_atribut;
                 $sulinggih->id_pasangan = $request->id_pasangan;
             }
 
@@ -204,19 +221,9 @@ class RegisController extends Controller
                 $sulinggih->id_griya = $request->id_griya;
             }
 
-            $filename = null;
-            if ($request->hasFile('file_sk')) {
-                $folder = 'app/sulinggih/sk/';
-                $filename =  ImageHelper::moveImage($request->file_sk, $folder);
-            }
-
             $sulinggih->id_user = $user->id;
-            $sulinggih->nama_walaka = $request->nama_walaka;
-            $sulinggih->nama_sulinggih = $request->nama_sulinggih;
-            $sulinggih->tanggal_diksha = $request->tanggal_diksha;
-            $sulinggih->status = 'sulinggih';
-            $sulinggih->tanggal_diksha = $request->tanggal_diksha;
-            $sulinggih->sk_kesulinggihan = $filename;
+            $sulinggih->nama_pemuput = $request->nama_sulinggih;
+            $sulinggih->tipe = 'sulinggih';
             $sulinggih->status_konfirmasi_akun = 'pending';
 
             $sulinggih->save();
@@ -224,7 +231,6 @@ class RegisController extends Controller
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             DB::rollBack();
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
@@ -250,7 +256,7 @@ class RegisController extends Controller
     {
         // MAIN LOGIC
         try {
-            $sulinggihs = Sulinggih::all();
+            $pemuputKaryas = PemuputKarya::with(['AtributPemuput'])->get();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             return response()->json([
                 'status' => 500,
@@ -265,7 +271,7 @@ class RegisController extends Controller
             'status' => 200,
             'message' => 'Berhasil mengambil data sulinggih',
             'data' => [
-                'sulinggihs' => $sulinggihs
+                'sulinggihs' => $pemuputKaryas
             ],
         ], 200);
         // END

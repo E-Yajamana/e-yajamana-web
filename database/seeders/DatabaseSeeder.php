@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Krama;
 use App\Models\TahapanUpacara;
 use App\Models\Upacara;
 use App\Models\Upacaraku;
@@ -20,18 +19,12 @@ class DatabaseSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
 
-        Upacaraku::truncate();
-        Krama::truncate();
-
         $this->call(TbUpacaraTableSeeder::class);
-        $this->call(TbKramaTableSeeder::class);
         $this->call(TbGriyaRumahTableSeeder::class);
         $this->call(TbTahapanUpacaraTableSeeder::class);
         $this->call(TbUpacarakuTableSeeder::class);
-        $this->call(TbSulinggihTableSeeder::class);
         $this->call(TbSanggarTableSeeder::class);
         $this->call(TbSeratiTableSeeder::class);
-        $this->call(TbReservasiTableSeeder::class);
 
         $this->call(TbMProvinsiTableSeeder::class);
         $this->call(TbMKabupatenTableSeeder::class);
@@ -48,9 +41,22 @@ class DatabaseSeeder extends Seeder
         $this->call(TbMProfesiTableSeeder::class);
         $this->call(TbMPendidikanTableSeeder::class);
         $this->call(TbUserEyajamanaTableSeeder::class);
+
+        $this->call(NotificationsTableSeeder::class);
+        $this->call(TbRoleTableSeeder::class);
+        $this->call(TbUserRolesTableSeeder::class);
+        $this->call(TbKepemilikanSanggarTableSeeder::class);
+        $this->call(TbPemuputKaryaTableSeeder::class);
+        $this->call(TbAtributPemuputTableSeeder::class);
+        $this->call(TbDetailReservasiTableSeeder::class);
+        $this->call(TbReservasiTableSeeder::class);
+        $this->call(TbGambarTableSeeder::class);
+        $this->call(TbKeteranganKonfirmasiTableSeeder::class);
+
         Schema::enableForeignKeyConstraints();
 
-        $this->call(TbDetailReservasiTableSeeder::class);
-        $this->call(NotificationsTableSeeder::class);
+
+
+
     }
 }

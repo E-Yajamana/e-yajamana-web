@@ -103,21 +103,14 @@ class SulinggihReservasiController extends Controller
                         'Upacara' => function ($upacaraQuery) {
                             $upacaraQuery->with('TahapanUpacara');
                         },
-                        'Krama' => function ($kramaQuery) {
-                            $kramaQuery->with([
-                                'User' => function ($userQuery) {
-                                    $userQuery->with(['Penduduk']);
-                                }
-                            ])->whereHas('User', function ($userQuery) {
-                                $userQuery->with(['Penduduk']);
-                            });
-                        }
-                    ])
-                        ->whereHas('Krama')
-                        ->whereHas('Upacara');
+                        'User' => function ($userQuery) {
+                            $userQuery->with(['Penduduk']);
+                        },
+                    ])->whereHas('User')->whereHas('Upacara');
                 },
                 'Relasi' => function ($relasiQuery) {
-                    $relasiQuery->where('id', Auth::user()->id);
+                    $relasiQuery->with(['PemuputKarya'])
+                        ->where('id', Auth::user()->id);
                 },
                 'DetailReservasi' => function ($detailReservasiQuery) {
                     $detailReservasiQuery->with('TahapanUpacara');
@@ -127,7 +120,6 @@ class SulinggihReservasiController extends Controller
                 ->whereHas('Relasi')
                 ->findOrFail($id);
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
@@ -154,6 +146,7 @@ class SulinggihReservasiController extends Controller
         $validator = Validator::make($request->all(), [
             'id_reservasi' => 'required',
             'detail_reservasi' => 'required|json',
+            'tanggal_tangkil' => 'nullable'
         ]);
 
         if ($validator->fails()) {
@@ -189,7 +182,7 @@ class SulinggihReservasiController extends Controller
                     break;
                 }
 
-                if ($value['status'] == 'ditolak') {
+                if ($value['status'] == 'ditolak' && $status != 'diterima') {
                     $ditolak += 1;
                     if ($ditolak == count($array_detail_reservasi)) {
                         $status = 'batal';
@@ -197,19 +190,27 @@ class SulinggihReservasiController extends Controller
                     }
                 }
 
-                if ($value['status'] == 'pending') {
-                    $status = 'pending';
-                }
+                // if ($value['status'] == 'pending') {
+                //     $status = 'pending';
+                // }
             }
 
-            if (!Reservasi::findOrFail($request->id_reservasi)->update(['status' => $status])) {
+            $reservasi = Reservasi::with(['Upacaraku'])->whereHas('Upacaraku')->findOrFail($request->id_reservasi);
+            $reservasi->update(['tanggal_tangkil' => $request->tanggal_tangkil]);
+
+            if (!$reservasi->update(['status' => $status])) {
                 throw new Exception("Gagal update reservasi");
+            }
+
+            if ($reservasi->upacaraku->status != 'batal' && $reservasi->upacaraku->status != 'selesai') {
+                $reservasi->Upacaraku->update(['status' => 'berlangsung']);
             }
 
             // END
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             DB::rollback();
+            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
@@ -224,6 +225,49 @@ class SulinggihReservasiController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Berhasil memperbaharui data reservasi',
+            'data' => (object)[],
+        ], 200);
+        // END
+    }
+
+    public function tolakReservasi(Request $request)
+    {
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'id_reservasi' => 'required|numeric',
+            'keterangan' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 40,
+                'message' => 'Validation Error',
+                'data' => $validator->errors(),
+            ], 40);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            DB::beginTransaction();
+            Reservasi::findOrFail($request->id_reservasi)->update(['status' => 'ditolak']);
+            DetailReservasi::where('id_reservasi', $request->id_reservasi)->update(['status' => 'ditolak']);
+            DB::commit();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            DB::rollBack();
+            return $err;
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil menolak reservasi',
             'data' => (object)[],
         ], 200);
         // END

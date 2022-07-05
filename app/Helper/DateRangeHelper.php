@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\File;
 
 class DateRangeHelper
 {
-
+    // UPACARAKU
     public static function parseDateRange($dateRange)
     {
         $parseDate = Str::of($dateRange)->explode(' - ');
@@ -19,17 +19,19 @@ class DateRangeHelper
         return [$startDate, $endDate];
     }
 
+    // DETAIL RESERVASI
     public static function parseDateRangeTime($dateRange)
     {
         $parseDate = Str::of($dateRange)->explode(' - ');
-        $startDate = Carbon::createFromFormat('d M Y g:i A', $parseDate[0])->format('Y-m-d H:i:s');
-        $endDate = Carbon::createFromFormat('d M Y g:i A', $parseDate[1])->format('Y-m-d H:i:s');
+        $startDate = Carbon::createFromFormat('d M Y H:i', $parseDate[0])->format('Y-m-d H:i:s');
+        $endDate = Carbon::createFromFormat('d M Y H:i', $parseDate[1])->format('Y-m-d H:i:s');
         return [$startDate, $endDate];
     }
 
+    // TANGGAL TANGKIL
     public static function parseSingleDate($date)
     {
-        $startDate = Carbon::createFromFormat('d M Y g:i A', $date)->format('Y-m-d H:i:s');
+        $startDate = Carbon::createFromFormat('d M Y H:i', $date)->format('Y-m-d H:i:s');
         return $startDate;
     }
 

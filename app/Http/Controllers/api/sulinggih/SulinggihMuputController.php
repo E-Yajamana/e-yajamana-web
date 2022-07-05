@@ -48,13 +48,9 @@ class SulinggihMuputController extends Controller
             ])->where('id_relasi', $user->id)->findOrFail($id);
 
             $upacaraku = Upacaraku::with([
-                'Krama' => function ($kramaQuery) {
-                    $kramaQuery->with([
-                        'User' => function ($userQuery) {
-                            $userQuery->with([
-                                'Penduduk'
-                            ]);
-                        }
+                'User' => function ($userQuery) {
+                    $userQuery->with([
+                        'Penduduk'
                     ]);
                 }
             ])->where('id', $reservasi->id_upacaraku)->firstOrFail();

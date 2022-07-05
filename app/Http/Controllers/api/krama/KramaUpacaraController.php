@@ -11,9 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use PDOException;
-use Illuminate\Support\Facades\Input;
 use NotificationHelper;
-use Symfony\Component\Console\Input\Input as InputInput;
 
 class KramaUpacaraController extends Controller
 {
@@ -44,7 +42,7 @@ class KramaUpacaraController extends Controller
 
             $user = Auth::user();
 
-            $upacarakus = Upacaraku::query()->with(['Upacara'])->whereHas('Upacara')->where('id_krama', $user->Krama->id);
+            $upacarakus = Upacaraku::query()->with(['Upacara'])->whereHas('Upacara')->where('id_krama', $user->id);
 
             if ($request->nama != null || $request->nama != "") {
                 $upacarakus->where('nama_upacara', 'LIKE', '%' . $request->nama . '%');
@@ -139,7 +137,7 @@ class KramaUpacaraController extends Controller
             Upacaraku::create([
                 'id_banjar_dinas' => $request->id_banjar_dinas,
                 'id_upacara' => $request->id_upacara,
-                'id_krama' => $user->krama->id,
+                'id_krama' => $user->id,
                 'nama_upacara' => $request->nama_upacara,
                 'alamat_upacaraku' => $request->lokasi,
                 'tanggal_mulai' => $request->tanggal_mulai,
@@ -233,7 +231,7 @@ class KramaUpacaraController extends Controller
                 'Reservasi' => function ($reservasiQuery) {
                     $reservasiQuery->with([
                         'Relasi' => function ($relasiQuery) {
-                            $relasiQuery->with(['Sanggar', 'Sulinggih']);
+                            $relasiQuery->with(['PemuputKarya']);
                         },
                         'DetailReservasi' => function ($detailReservasiQuery) {
                             $detailReservasiQuery->with(['TahapanUpacara']);
@@ -245,7 +243,6 @@ class KramaUpacaraController extends Controller
                 ->whereHas('BanjarDinas')
                 ->findOrFail($id_upacara);
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
@@ -296,6 +293,52 @@ class KramaUpacaraController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // SECURITY
+        $validator = Validator::make(['id' => $id], [
+            'id' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation Error',
+                'data' => $validator->fails(),
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            $reservasiQuery = function ($reservasiQuery) {
+                $reservasiQuery->where('status', '!=', 'proses tangkil')->orWhere('status', '!=', 'proses muput')->orWhere('status', '!=', 'selesai');
+            };
+
+            $upacara = Upacaraku::with([
+                'Reservasi' => $reservasiQuery
+            ])->whereHas('Reservasi', $reservasiQuery)->findOrFail($id);
+
+            $upacara->delete();
+        } catch (ModelNotFoundException | PDOException | QueryException $err) {
+            return response()->json([
+                'status' => 403,
+                'message' => 'Server message',
+                'data' => (object)[],
+            ], 403);
+        } catch (\Throwable | \Exception $err) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil menghapus data upacara',
+            'data' => (object)[],
+        ], 200);
+        // END
     }
 }

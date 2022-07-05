@@ -42,7 +42,7 @@ class TbUpacaraTableSeeder extends Seeder
             2 => 
             array (
                 'id' => 3,
-                'nama_upacara' => 'Piodalan Ring Pura',
+                'nama_upacara' => 'Piodalan',
                 'kategori_upacara' => 'Dewa Yadnya',
                 'deskripsi_upacara' => 'Piodalan yang utamanya sebagai kelompok upacara Dewa Yadnya ini merupakan upacara yang ditujukan kehadapan Ida Sang Hyang Widhi Waça dengan segala manifestasinya yang pujawalinya dipimpin oleh seorang pemangku di tempat suci masing-masing.',
                 'image' => NULL,
@@ -80,6 +80,26 @@ Melalui upacara Atma Wedana ini yang diawali dengan dilaksanakannya upacara ngan
                 'image' => 'app/admin/master-data/upacara/1644653528-screen-0jpg.jpg',
                 'created_at' => '2022-02-12 16:12:08',
                 'updated_at' => '2022-02-12 16:12:08',
+            ),
+            6 => 
+            array (
+                'id' => 8,
+                'nama_upacara' => 'Pawintenan ',
+                'kategori_upacara' => 'Rsi Yadnya',
+                'deskripsi_upacara' => 'Upacara Pawintenan berasal dari kata “mawi” dan “inten”. Mawi yang berasal dari bahasa Kawi yang berarti bersinar, dan Inten yang berarti intan atau permata. Dengan demikian, maka orang yang sudah mawinten diibaratkan sebagai permata yang berkilauan karena lahir batinnya sudah disucikan. Proses penyucian ini penting dalam pengangkatan Pemangku dikarenakan sebagai pelayan Ida Sang Hyang Widhi sekaligus pelayan masyarkat, seorang Pemangku harus bertanggung jawab atas kesucian Pura yang diemongnya.',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            7 => 
+            array (
+                'id' => 9,
+                'nama_upacara' => 'Pediksan',
+                'kategori_upacara' => 'Rsi Yadnya',
+            'deskripsi_upacara' => 'Diksa (atau juga disebut dengan "divya jnyana") adalah upacara untuk dapat menerima sinar suci ilmu pengetahuan yang berfungsi untuk melenyapkan kegelapan pikiran agar mencapai kesempurnaan yang merupakan salah satu bagian dari saptangga dharma yaitu dengan cara menjalankan upacara inisiasi agar dapat menunggalkan diri dengan Tuhan.',
+                'image' => NULL,
+                'created_at' => NULL,
+                'updated_at' => NULL,
             ),
         ));
         

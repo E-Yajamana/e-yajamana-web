@@ -18,7 +18,7 @@ class AdminDataAkunUserController extends Controller
         $validator = Validator::make([
             'status' => $status
         ], [
-            'status' => 'nullable|in:sulinggih,pemangku,sanggar,serati,krama,semua'
+            'status' => 'nullable|in:sulinggih,pemangku,sanggar,serati,krama'
         ]);
 
         if ($validator->fails()) {
@@ -29,71 +29,20 @@ class AdminDataAkunUserController extends Controller
             ], 400);
         }
         // END
-        $userQuery = User::query()->where('role', '!=', 'admin');
-        // MAIN LOGIC
-        switch ($status) {
-            case "sulinggih":
-                $userSistems = $userQuery->with([
-                    "Penduduk",
-                    "Sulinggih" => function ($sulinggihQuery) {
-                        $sulinggihQuery->where('status_konfirmasi_akun', 'disetujui');
-                    },
-                ])->where('role', 'sulinggih')->get();
-                break;
-            case "pemangku":
-                $userSistems = $userQuery->with([
-                    "Penduduk",
-                    "Sulinggih" => function ($sulinggihQuery) {
-                        $sulinggihQuery->where('status_konfirmasi_akun', 'disetujui');
-                    },
-                ])->where('role', 'pemangku')->whereHas('Penduduk')->get();
-                break;
-            case "sanggar":
-                $userSistems = $userQuery->with([
-                    "Penduduk",
-                    "Sanggar" => function ($sanggarQuery) {
-                        $sanggarQuery->where('status_konfirmasi_akun', 'disetujui');
-                    },
-                ])->where('role', 'sanggar')->whereHas("Penduduk")->get();
-                break;
-            case "serati":
-                $userSistems = $userQuery->with([
-                    "Penduduk",
-                    "Serati" => function ($sanggarQuery) {
-                        $sanggarQuery->where('status_konfirmasi_akun', 'disetujui');
-                    }
-                ])->where('role', 'serati')->whereHas("Penduduk")->get();
-                break;
-            case "krama":
-                $userSistems = $userQuery->with([
-                    "Penduduk",
-                    "Krama"
-                ])->where('role', 'krama_bali')->whereHas("Penduduk")->get();
-                break;
-            default:
-                $userSistems = $userQuery->with([
-                    "Penduduk",
-                    "Sulinggih" => function ($sulinggihQuery) {
-                        $sulinggihQuery->where('status_konfirmasi_akun', 'disetujui');
-                    },
-                    "Sanggar" => function ($sanggarQuery) {
-                        $sanggarQuery->where('status_konfirmasi_akun', 'disetujui');
-                    },
-                    "Serati" => function ($sanggarQuery) {
-                        $sanggarQuery->where('status_konfirmasi_akun', 'disetujui');
-                    },
-                    "Krama"
-                ])->whereHas("Penduduk")->get();
-                break;
-        }
-        // END
+
+        $userQuery = User::with([
+            'Penduduk',
+            'Role' => function ($roleQuery) {
+                $roleQuery->where('nama_role', '!=', 'admin');
+            }
+        ])->whereHas('Penduduk')->get();
 
         // RETURN
         return response()->json([
             'status' => 200,
             'message' => 'Berhasil mengambil data akun user',
             'data' => [
-                'users' => $userSistems
+                'users' => $userQuery
             ],
         ], 200);
         // END
