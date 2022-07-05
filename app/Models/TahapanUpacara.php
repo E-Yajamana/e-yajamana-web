@@ -23,4 +23,9 @@ class TahapanUpacara extends Model
         return $this->belongsTo(Upacara::class,'id_upacara','id');
     }
 
+    public function DetailReservasi()
+	{
+		return $this->hasMany(DetailReservasi::class, 'id_tahapan_upacara');
+	}
+
 }

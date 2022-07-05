@@ -36,30 +36,24 @@ class GriyaRumah extends Model
 	protected $casts = [
 		'lat' => 'float',
 		'lng' => 'float',
-		'id_desa_adat' => 'int'
+		'id_banjar_dinas' => 'int'
 	];
 
 	protected $fillable = [
 		'nama_griya_rumah',
 		'alamat_griya_rumah',
+		'id_banjar_dinas',
 		'lat',
 		'lng',
-		'id_desa_adat',
-		'id_desa'
 	];
 
-	public function DesaAdat()
+	public function BanjarDinas()
 	{
-		return $this->belongsTo(DesaAdat::class, 'id_desa_adat','desadat_id');
+		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas', 'id');
 	}
 
-	public function Desa()
+	public function PemuputKarya()
 	{
-		return $this->belongsTo(Desa::class, 'id_desa','id_desa');
-	}
-
-	public function Sulinggih()
-	{
-		return $this->hasMany(Sulinggih::class, 'id_griya','id');
+		return $this->hasMany(PemuputKarya::class, 'id_griya','id');
 	}
 }

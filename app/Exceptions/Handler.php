@@ -2,9 +2,8 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -36,8 +35,22 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        $this->registerErrorViewPaths();
+        
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            if( $request->is('api/*')){
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Page Not Found',
+                    'data' => (Object)[],
+                ],404);
+            }else{
+                return response()->view('errors.404');
+            }
         });
     }
 }

@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use DateTimeInterface;
+use stdClass;
 
 /**
  * Class TbReservasi
@@ -37,7 +38,9 @@ class Reservasi extends Model
 
 	protected $casts = [
 		'id_relasi' => 'int',
-		'id_upacaraku' => 'int'
+		'id_upacaraku' => 'int',
+		'id_sanggar' => 'int'
+
 	];
 
 	protected $dates = [
@@ -46,14 +49,17 @@ class Reservasi extends Model
 
 	protected $fillable = [
 		'id_relasi',
+		'id_sanggar',
 		'id_upacaraku',
-		'tipe',
 		'status',
+		'tipe',
 		'tanggal_tangkil',
-		'desc'
+		'keterangan',
+		'rating',
+		'keterangan_rating'
 	];
 
-		/**
+	/**
 	 * Prepare a date for array / JSON serialization.
 	 *
 	 * @param  \DateTimeInterface  $date
@@ -64,28 +70,44 @@ class Reservasi extends Model
 		return $date->format('Y-m-d H:i:s');
 	}
 
-    public function Sanggar()
-	{
-		return $this->belongsTo(Sanggar::class, 'id_relasi','id');
-	}
-
-	public function Sulinggih()
-	{
-		return $this->belongsTo(Sulinggih::class, 'id_relasi','id');
-	}
-
 	public function Upacaraku()
 	{
-		return $this->belongsTo(Upacaraku::class, 'id_upacaraku','id');
+		return $this->belongsTo(Upacaraku::class, 'id_upacaraku', 'id');
 	}
 
 	public function DetailReservasi()
 	{
-		return $this->hasMany(DetailReservasi::class, 'id_reservasi','id');
+		return $this->hasMany(DetailReservasi::class, 'id_reservasi', 'id');
 	}
 
-	// public function tb_gambars()
-	// {
-	// 	return $this->hasMany(TbGambar::class, 'id_reservarsi');
-	// }
+	public function Relasi()
+	{
+		return $this->belongsTo(User::class, 'id_relasi');
+	}
+
+	public function Sanggar()
+	{
+		return $this->belongsTo(Sanggar::class, 'id_sanggar');
+	}
+
+	public function getRelasi()
+	{
+		switch ($this->tipe) {
+			case 'pemuput_karya':
+				$relasi =  $this->belongsTo(User::class, 'id_relasi')->first();
+				$dataObj = new stdClass;
+				$dataObj->nama = $relasi->PemuputKarya->nama_pemuput;
+				return $dataObj;
+				break;
+			case 'sanggar':
+				$relasi =  $this->belongsTo(Sanggar::class, 'id_sanggar')->first();
+				$dataObj = new stdClass;
+				$dataObj->nama = $relasi->nama_sanggar;
+				return $dataObj;
+				break;
+			default:
+				return null;
+				break;
+		}
+	}
 }

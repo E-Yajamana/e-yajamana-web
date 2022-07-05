@@ -12,33 +12,33 @@ use PDOException;
 
 class KramaDashboardController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         // MAIN LOGIC
-            try{
-                $user = Auth::user();
-                $krama = $user->Krama()->first();
-                $upacarakus = $krama->Upacaraku()->with(['Upacara'])->get();
-
-            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return response()->json([
-                        'status' => 500,
-                        'message' => 'Internal Server Error',
-                        'data' => (Object)[],
-                ],500);
-            }
+        try {
+            $user = Auth::user();
+            $penduduk = $user->Penduduk()->firstOrFail();
+            $upacarakus = $user->Upacaraku()->with(['Upacara'])->get();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
 
         // END
 
         // RETURN
-            return response()->json([
-                    'status' => 200,
-                    'message' => 'Success Mengambil Data Home Krama',
-                    'data' => [
-                        "user" => $user,
-                        "krama" => $krama,
-                        "upacarakus" => $upacarakus
-                    ],
-            ],200);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success Mengambil Data Home Krama',
+            'data' => [
+                "user" => $user,
+                "penduduk" => $penduduk,
+                "upacarakus" => $upacarakus
+            ],
+        ], 200);
         // END
     }
 }

@@ -56,10 +56,9 @@ class Upacaraku extends Model
 	];
 
 	protected $fillable = [
+		'id_banjar_dinas',
 		'id_upacara',
 		'id_krama',
-		'id_desa',
-		'id_desa_adat',
 		'nama_upacara',
 		'alamat_upacaraku',
 		'tanggal_mulai',
@@ -81,9 +80,9 @@ class Upacaraku extends Model
 		return $date->format('Y-m-d H:i:s');
 	}
 
-	public function Krama()
+	public function User()
 	{
-		return $this->belongsTo(Krama::class, 'id_krama');
+		return $this->belongsTo(User::class, 'id_krama');
 	}
 
 	public function Upacara()
@@ -91,14 +90,10 @@ class Upacaraku extends Model
 		return $this->belongsTo(Upacara::class, 'id_upacara','id');
 	}
 
-	public function Desa()
-	{
-		return $this->belongsTo(Desa::class, 'id_desa','id_desa');
-	}
 
-	public function DesaAdat()
+	public function BanjarDinas()
 	{
-		return $this->belongsTo(DesaAdat::class, 'id_desa_adat','desadat_id');
+		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas');
 	}
 
 	public function Reservasi()

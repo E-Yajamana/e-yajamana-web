@@ -7,17 +7,15 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TbSanggar
- * 
+ *
  * @property int $id
- * @property int $id_user
- * @property string $id_desa
- * @property int $id_desa_adat
+ * @property int|null $id_banjar_dinas
  * @property string|null $nama_sanggar
- * @property string|null $nama_pengelola
  * @property string|null $alamat_sanggar
  * @property string|null $sk_tanda_usaha
  * @property float|null $lat
@@ -26,10 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $keterangan_konfirmasi_akun
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * 
- * @property TbUser $tb_user
- * @property TbDesa $tb_desa
- * @property TbDesaadat $tb_desaadat
+ *
+ * @property Collection|TbKepemilikanSanggar[] $tb_kepemilikan_sanggars
  *
  * @package App\Models
  */
@@ -38,44 +34,44 @@ class Sanggar extends Model
 	protected $table = 'tb_sanggar';
 
 	protected $casts = [
-		'id_user' => 'int',
-		'id_desa_adat' => 'int',
+		'id_banjar_dinas' => 'int',
 		'lat' => 'float',
 		'lng' => 'float'
 	];
 
 	protected $fillable = [
-		'id_user',
-		'id_desa',
-		'id_desa_adat',
+		'id_banjar_dinas',
 		'nama_sanggar',
-		'nama_pengelola',
 		'alamat_sanggar',
 		'sk_tanda_usaha',
+		'profile',
 		'lat',
 		'lng',
 		'status_konfirmasi_akun',
 		'keterangan_konfirmasi_akun'
 	];
 
-	public function User()
+    public function User()
     {
-        return $this->belongsTo(User::class,'id_user','id');
+        return $this->belongsToMany(User::class,'tb_kepemilikan_sanggar','id_sanggar','id_user')
+            ->withPivot('jabatan')
+            ->withTimestamps();
+
     }
-
-    public function Desa()
-	{
-		return $this->belongsTo(Desa::class, 'id_desa','id_desa');
-	}
-
-	public function DesaAdat()
-	{
-		return $this->belongsTo(DesaAdat::class, 'id_desa_adat','desadat_id');
-	}
 
     public function Reservasi()
 	{
-		return $this->hasMany(Reservasi::class, 'id_relasi','id');
+		return $this->hasMany(Reservasi::class, 'id_sanggar','id');
+	}
+
+    public function FavoritUser()
+	{
+		return $this->belongsToMany(User::class, 'tb_favorit', 'id_sanggar', 'id_user');
+	}
+
+    public function BanjarDinas()
+	{
+		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas','id');
 	}
 
 }

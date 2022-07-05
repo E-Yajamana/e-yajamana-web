@@ -17,7 +17,7 @@ class YadnyaController extends Controller
             $validator = Validator::make(['jenis_yadnya' => $jenis_yadnya],[
                 'jenis_yadnya' => 'required',
             ]);
-            
+
             if($validator->fails()){
                 return response()->json([
                         'status' => 400,
@@ -26,7 +26,7 @@ class YadnyaController extends Controller
                 ],400);
             }
         // END
-        
+
         // MAIN LOGIC
             try{
 
@@ -41,7 +41,7 @@ class YadnyaController extends Controller
                 ],500);
             }
         // END
-        
+
         // RETURN
             return response()->json([
                     'status' => 200,

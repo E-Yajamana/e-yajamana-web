@@ -17,8 +17,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Data Kabupaten</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Data Kabupaten</li>
                     </ol>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6">
-                                    <h3 class="card-title">Data Kabupaten Sistem E-Yajamana</h3>
+                                    <h3 class="card-title">List Data Kabupaten</h3>
                                 </div>
                                 {{-- <div class="col-6">
                                     <button class="btn btn-primary float-right" type="button"  data-toggle="modal" data-target="#modal-default"><i class="fa fa-plus"></i> Tambah</button>
@@ -57,7 +57,7 @@
                                     @foreach ($dataKabupaten as $data)
                                         <tr>
                                             <td>{{$loop->iteration}}</td>
-                                            <td>{{$data->id_kabupaten}}</td>
+                                            <td>{{$data->id}}</td>
                                             <td>{{$data->name}}</td>
                                             <td>{{$data->Provinsi->name}}</td>
                                         </tr>

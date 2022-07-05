@@ -46,6 +46,7 @@ class DetailReservasi extends Model
 		'id_tahapan_upacara',
 		'tanggal_mulai',
 		'tanggal_selesai',
+		'keterangan',
 		'status'
 	];
 
@@ -62,11 +63,24 @@ class DetailReservasi extends Model
 
 	public function Reservasi()
 	{
-		return $this->belongsTo(Reservasi::class, 'id_reservasi','id');
+		return $this->belongsTo(Reservasi::class, 'id_reservasi', 'id');
 	}
 
 	public function TahapanUpacara()
 	{
-		return $this->belongsTo(TahapanUpacara::class, 'id_tahapan_upacara','id');
+		return $this->belongsTo(TahapanUpacara::class, 'id_tahapan_upacara', 'id');
 	}
+
+	public function KeteranganKonfirmasi()
+	{
+		return $this->hasMany(KeteranganKonfirmasi::class, 'id_detail_reservasi');
+	}
+
+    public function Gambar()
+	{
+		return $this->hasMany(Gambar::class, 'id_detail_reservarsi');
+	}
+
+
+
 }

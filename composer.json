@@ -12,6 +12,7 @@
         "laravel/sanctum": "^2.13",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.8",
+        "mavinoo/laravel-batch": "^2.3",
         "orangehill/iseed": "^3.0"
     },
     "require-dev": {
@@ -32,7 +33,9 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helper/ImageHelper.php"
+            "app/Helper/ImageHelper.php",
+            "app/Helper/DateRangeHelper.php",
+            "app/Helper/NotificationHelper.php"
         ]
     },
     "autoload-dev": {

@@ -12,7 +12,10 @@
             font-family: Nunito !important;
         }
     </style>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('base-template/plugins/fontawesome-free/css/all.min.css')}}">
@@ -23,6 +26,7 @@
 
     <script src="{{asset('base-template\dist\js\sweetalert2.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('base-template\dist\css\sweetalert2.min.css')}}">
+    <link rel="icon" type="image/png" href="{{ asset('base-template/dist/img/logo-01.png') }}">
 
 
     @stack('css')
@@ -49,9 +53,6 @@
     <script src="{{asset('base-template/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('base-template/dist/js/adminlte.js')}}"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <script src="{{asset('base-template\dist\js\sweetalert2.all.min.js')}}"></script>
 
     <script>
@@ -66,6 +67,77 @@
 
 
     @stack('js')
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyAwDQm7M6h2Jm30yZ2VzyI1uPgW3ZeLfrI",
+            authDomain: "e-yajamana.firebaseapp.com",
+            projectId: "e-yajamana",
+            storageBucket: "e-yajamana.appspot.com",
+            messagingSenderId: "521034262423",
+            appId: "1:521034262423:web:6c9e5f7fdc80bf77a846d2",
+            measurementId: "G-93GDMX9QYD"
+
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+
+        function startFCM() {
+            messaging
+                .requestPermission()
+                .then(function () {
+                    return messaging.getToken()
+                })
+                .then(function (response) {
+                    console.log(response)
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: "{{route('notification.save-token')}}",
+                        type: 'PATCH',
+                        data: {
+                            token: response,
+                        },
+                        dataType: "JSON",
+                        success: function (response) {
+                            console.log(response)
+                        },
+                        error: function (error) {
+                            console.log(error)
+                        },
+                    });
+                    // console.log(response)
+                }).catch(function (error) {
+                    alert(error);
+                });
+        }
+
+        startFCM();
+
+
+        messaging.onMessage(function (payload) {
+            console.log(payload)
+            const title = payload.data.title;
+            const options = {
+                body: payload.data.body,
+                icon: '/logo-eyajamana.png',
+            };
+            new Notification(title, options);
+        });
+
+
+
+
+    </script>
 
 </body>
 </html>

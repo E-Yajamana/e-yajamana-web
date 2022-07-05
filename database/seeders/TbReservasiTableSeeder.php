@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TbReservasiTableSeeder extends Seeder
 {
@@ -15,43 +14,73 @@ class TbReservasiTableSeeder extends Seeder
      */
     public function run()
     {
+        
 
-
-        DB::table('tb_reservasi')->delete();
-
-        DB::table('tb_reservasi')->insert(array (
-            0 =>
+        \DB::table('tb_reservasi')->delete();
+        
+        \DB::table('tb_reservasi')->insert(array (
+            0 => 
             array (
-                'id' => 9,
-                'id_relasi' => 1,
+                'id' => 1,
+                'id_relasi' => 49,
+                'id_sanggar' => NULL,
                 'id_upacaraku' => 1,
-                'tipe' => 'sulinggih_pemangku',
-                'status' => 'selesai',
-                'tgl_tangkil' => '2021-10-20',
-                'desc' => 'Resevarsi buat anak saya',
+                'tipe' => 'pemuput_karya',
+                'status' => 'pending',
+                'tanggal_tangkil' => NULL,
+                'keterangan' => NULL,
+                'created_at' => '2022-07-04 21:54:10',
+                'updated_at' => '2022-07-04 21:54:10',
+                'rating' => NULL,
+                'keterangan_rating' => NULL,
             ),
-            1 =>
+            1 => 
             array (
-                'id' => 10,
+                'id' => 2,
                 'id_relasi' => 2,
+                'id_sanggar' => NULL,
                 'id_upacaraku' => 1,
-                'tipe' => 'sulinggih_pemangku',
-                'status' => 'in progress',
-                'tgl_tangkil' => '2021-10-22',
-                'desc' => 'teseavrsi 2',
+                'tipe' => 'pemuput_karya',
+                'status' => 'pending',
+                'tanggal_tangkil' => NULL,
+                'keterangan' => NULL,
+                'created_at' => '2022-07-04 22:14:37',
+                'updated_at' => '2022-07-04 22:14:37',
+                'rating' => NULL,
+                'keterangan_rating' => NULL,
             ),
-            2 =>
+            2 => 
             array (
-                'id' => 11,
-                'id_relasi' => 1,
+                'id' => 3,
+                'id_relasi' => NULL,
+                'id_sanggar' => 10,
+                'id_upacaraku' => 1,
+                'tipe' => 'sanggar',
+                'status' => 'pending',
+                'tanggal_tangkil' => NULL,
+                'keterangan' => NULL,
+                'created_at' => '2022-07-04 22:16:01',
+                'updated_at' => '2022-07-04 22:16:01',
+                'rating' => NULL,
+                'keterangan_rating' => NULL,
+            ),
+            3 => 
+            array (
+                'id' => 4,
+                'id_relasi' => 2,
+                'id_sanggar' => NULL,
                 'id_upacaraku' => 2,
-                'tipe' => 'sulinggih_pemangku',
-                'status' => 'sedang berlangsung',
-                'tgl_tangkil' => '2021-10-15',
-                'desc' => 'Resevarsi Krama 2 Pemangku',
+                'tipe' => 'pemuput_karya',
+                'status' => 'pending',
+                'tanggal_tangkil' => NULL,
+                'keterangan' => NULL,
+                'created_at' => '2022-07-04 23:26:24',
+                'updated_at' => '2022-07-04 23:26:24',
+                'rating' => NULL,
+                'keterangan_rating' => NULL,
             ),
         ));
-
-
+        
+        
     }
 }

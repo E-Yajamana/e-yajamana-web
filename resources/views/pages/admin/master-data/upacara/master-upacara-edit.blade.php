@@ -17,14 +17,14 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Data Upacara</h1>
+                    <h1>Ubah Data Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.detail',$dataUpacara->id)}}">{{$dataUpacara->nama_upacara}}</a></li>
-                    <li class="breadcrumb-item active">Edit</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.detail',$dataUpacara->id)}}">{{$dataUpacara->nama_upacara}}</a></li>
+                        <li class="breadcrumb-item active">Ubah</li>
                     </ol>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     @csrf
                     <div class="card tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
-                            <h3 class="card-title my-auto">Form Edit Data Upacara</h3>
+                            <h3 class="card-title my-auto">Form Ubah Data Upacara</h3>
                         </div>
                         <div class="card-body p-4">
                             <input class="d-none" type="hidden" name="id" value="{{$dataUpacara->id}}">
@@ -98,15 +98,16 @@
                     <div class="card-header my-auto">
                         <div class="row">
                             <div class="col-6">
-                                <h3 class="card-title my-auto">Rentetan Upacara</h3>
+                                <label class="card-title my-auto">Rentetan Upacara</label>
                             </div>
-                            <div class="col-6">
+                            {{-- <div class="col-6">
                                 <a data-toggle="modal" data-target="#exampleModal" class="btn btn-primary float-right"><i class="fa fa-plus"></i> Tambah</a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <div class="card-body">
                         <table id="example2" class="table table-bordered table-hover ">
+                            <input id="id_upacara" value="{{$dataUpacara->id}}" type="hidden" class="d-none">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -117,18 +118,18 @@
                                     <th>Tindakan</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="dataTahapan">
                                 @foreach ($dataUpacara->TahapanUpacara as $data)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td>{{$data->nama_tahapan}}</td>
                                         <td style="width: 25%;">{{$data->deskripsi_tahapan}}</td>
                                         <td>{{$data->status_tahapan}}</td>
-                                        <td style="width: 20%;height: 10%" ><img style="width: 100%;height: 150px" src="{{route('get-image.tahapan-upacara',$data->id)}}" class="img-fluid pad img-thumbnail"  alt="Responsive image"></td>
+                                        <td style="width: 20%;height: 10%" ><img style="width: 100%;height: 150px" src="{{route('image.tahapan-upacara',$data->id)}}" class="img-fluid pad img-thumbnail"  alt="Responsive image"></td>
                                         <td>
-                                            <a href="{{route('admin.master-data.upacara.tahapan.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <button type="button" onclick="editTahapan({{$data->id}},'{{$data->nama_tahapan}}','{{$data->deskripsi_tahapan}}','{{$data->status_tahapan}}','{{$data->image}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
-                                            <a onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                            <a title="Detail Data" href="{{route('admin.master-data.upacara.tahapan.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                            <button title="Ubah Data" type="button" onclick="editTahapan({{$data->id}},'{{$data->nama_tahapan}}','{{$data->deskripsi_tahapan}}','{{$data->status_tahapan}}','{{$data->image}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></button>
+                                            <a title="Hapus Data" onclick="deleteData({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                         </td>
                                         <form hidden id="{{"delete-".$data->id}}" class="d-none" action="{{route('admin.master-data.upacara.tahapan.delete')}}" method="post">
                                             @csrf
@@ -140,11 +141,11 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 mb-4">
-                        <a href="{{route('admin.master-data.upacara.detail',$dataUpacara->id)}}" class="btn btn-secondary">Kembali</a>
-                        <button onclick="simpanData()" class="btn btn-primary float-right ml-2">Simpan Data</button>
+                    <div class="card-footer">
+                        <div class="col-md-12 my-2">
+                            <a href="{{route('admin.master-data.upacara.detail',$dataUpacara->id)}}" class="btn btn-secondary">Kembali</a>
+                            <button onclick="simpanData()" class="btn btn-primary float-right ml-2">Simpan Data</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,7 +156,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Edit Tahapan Upacara</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Form Ubah Tahapan Upacara</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -166,7 +167,7 @@
                         @method('PUT')
                         <input id="id_tahapan" name="id" value="" type="hidden" class="d-none">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Tahpan Upacara<span class="text-danger">*</span></label>
+                            <label for="exampleInputEmail1">Nama Tahapan Upacara<span class="text-danger">*</span></label>
                             <input id="nama_tahapan" type="text" name="nama_tahapan" class="form-control @error('nama_tahapan') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{old('nama_tahapan')}}">
                             @error('nama_tahapan')
                                 <div class="invalid-feedback text-start">
@@ -292,13 +293,41 @@
             </div>
         </div>
     </div>
-
-
 @endsection
 
-@push('js')
 
+@push('js')
+    <!-- Bootstrabase-template-->
+    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- DataTablbase-template Plugins -->
+    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+    <!-- Select2 -->
+    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+
+    <!-- Fungsi Boostrap & Library  -->
     <script type="text/javascript">
+        $('#side-master-data').addClass('menu-open');
+        $('#side-upacara').addClass('active');
+
+        $(function () {
+            bsCustomFileInput.init();
+        });
+
+    </script>
+    <!-- Fungsi Boostrap & Library  -->
+
+@endpush
+
+@push('js')
+    <script type="text/javascript">
+        let id = $("#id_upacara").val();
+
+
         function simpanData(){
             $("#simpanData").submit();
         }
@@ -329,61 +358,30 @@
 
                     }
                 })
-            }
+        }
 
-    </script>
-
-    <!-- Data Table Atribut -->
-    <script>
-        $(function () {
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-                "oLanguage": {
-                    "sSearch": "Cari:",
-                    "sZeroRecords": "Data Tidak Ditemukan",
-                    "sSearchPlaceholder": "Cari data....",
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "oLanguage": {
+                "sSearch": "Cari:",
+                "sZeroRecords": "Data Tidak Ditemukan",
+                "sSearchPlaceholder": "Cari data....",
+            },
+            "language": {
+                "paginate": {
+                    "previous": 'Sebelumnya',
+                    "next": 'Berikutnya'
                 },
-                "language": {
-                    "paginate": {
-                        "previous": 'Sebelumnya',
-                        "next": 'Berikutnya'
-                    },
-                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
-                }
-            });
-        });
-    </script>
-@endpush
-
-@push('js')
-    <!-- Fungsi Boostrap & Library  -->
-    <script type="text/javascript">
-        $('#side-master-data').addClass('menu-open');
-        $('#side-upacara').addClass('active');
-
-
-        $(function () {
-            bsCustomFileInput.init();
+                "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+            }
         });
 
-    </script>
-    <!-- Fungsi Boostrap & Library  -->
 
-    <!-- Bootstrabase-template-->
-    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- DataTablbase-template Plugins -->
-    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <!-- Select2 -->
-    <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+    </script>
 @endpush

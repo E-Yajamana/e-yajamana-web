@@ -14,5 +14,9 @@
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14"
+    },
+    "dependencies": {
+        "chart.js": "^3.8.0",
+        "fullcalendar": "^5.10.1"
     }
 }

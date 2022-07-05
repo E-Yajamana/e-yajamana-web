@@ -7,13 +7,14 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Detail Tahapan Upacara</h1>
+                    <h1>Detail Tahapan Upacara</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">E-Yajamana</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
-                    <li class="breadcrumb-item active">Data Detail Upacara</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.index')}}">Data Upacara</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.upacara.detail',$dataTahapan->Upacara->id)}}">{{$dataTahapan->Upacara->nama_upacara}}</a></li>
+                        <li class="breadcrumb-item active">Detail Tahapan</li>
                     </ol>
                 </div>
             </div>
@@ -39,7 +40,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-sm-6" style="width: ">
-                                <img src="" style="height: 400px; width:100%" class=" d-flex img-fluid pad img-thumbnail"  alt="Responsive image">
+                                <img src="{{route('image.tahapan-upacara',$dataTahapan->id)}}" style="height: 400px; width:100%" class=" d-flex img-fluid pad img-thumbnail"  alt="Responsive image">
                             </div>
                             <div class="col-12 col-sm-6 justify-content-center align-items-center d-flex">
                                 <div class=" text-center px-lg-4">
@@ -54,11 +55,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row px-3">
-                        <div class="col-md-12 mb-4">
+                    <div class="card-footer">
+                        <div class="col-md-12 my-2">
                             <a href="{{route('admin.master-data.upacara.detail',$dataTahapan->id_upacara)}}" class="btn btn-secondary">Kembali</a>
                             <a onclick="deleteData({{$dataTahapan->id}})" class="btn btn-danger float-right ml-2">Hapus Tahapan Upacara</a>
-                            <button onclick="editTahapan({{$dataTahapan->id}},'{{$dataTahapan->nama_tahapan}}','{{$dataTahapan->deskripsi_tahapan}}','{{$dataTahapan->status_tahapan}}','{{$dataTahapan->image}}')" class="btn btn-info float-right mr-2">Edit Data Tahapan<a>
+                            <button onclick="editTahapan({{$dataTahapan->id}},'{{$dataTahapan->nama_tahapan}}','{{$dataTahapan->deskripsi_tahapan}}','{{$dataTahapan->status_tahapan}}','{{$dataTahapan->image}}')" class="btn btn-info float-right mr-2">Ubah Data Tahapan<a>
                         </div>
                     </div>
                 </div>
@@ -75,7 +76,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Form Edit Tahapan Upacara</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Form Ubah Tahapan Upacara</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -86,7 +87,7 @@
                         @method('PUT')
                         <input id="id_tahapan" name="id" value="" type="hidden" class="d-none">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Tahpan Upacara<span class="text-danger">*</span></label>
+                            <label for="exampleInputEmail1">Nama Tahapan Upacara<span class="text-danger">*</span></label>
                             <input id="nama_tahapan" type="text" name="nama_tahapan" class="form-control @error('nama_tahapan') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{old('nama_tahapan')}}">
                             @error('nama_tahapan')
                                 <div class="invalid-feedback text-start">

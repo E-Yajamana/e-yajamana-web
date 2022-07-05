@@ -17,8 +17,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Data Desa Dinas</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Data Desa Dinas</li>
                     </ol>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6">
-                                    <h3 class="card-title">Data Desa Sistem E-Yajamana</h3>
+                                    <h3 class="card-title">List Data Desa Dinas</h3>
                                 </div>
                             </div>
                         </div>
@@ -54,10 +54,10 @@
                                     <?php $i=1; ?>
                                     @foreach ($dataDesa as $data)
                                         @foreach ($data->Kecamatan as $kecamatan)
-                                            @foreach ($kecamatan->Desa as $desa)
+                                            @foreach ($kecamatan->DesaDinas as $desa)
                                                 <tr>
                                                     <td>{{$i}}</td>
-                                                    <td>{{$desa->id_desa}}</td>
+                                                    <td>{{$desa->id}}</td>
                                                     <td>{{$desa->name}}</td>
                                                     <td>{{$kecamatan->name}}</td>
                                                 </tr>

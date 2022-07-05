@@ -1,5 +1,5 @@
 @extends('layouts.admin.admin-layout')
-@section('tittle','Tambah Data Upacara')
+@section('tittle','Ubah Data Griya / Puri')
 
 @push('css')
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
@@ -21,13 +21,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Edit Data {{$dataGriya->nama_griya_rumah}}</h1>
+                    <h1>Ubah Data {{$dataGriya->nama_griya_rumah}}</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Data Griya</a></li>
-                        <li class="breadcrumb-item active">Edit</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.master-data.griya.index')}}">Data Griya & Puri</a></li>
+                        <li class="breadcrumb-item active">Ubah</li>
                     </ol>
                 </div>
             </div>
@@ -42,12 +42,12 @@
                     @csrf
                     <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
                         <div class="card-header my-auto">
-                            <h3 class="card-title my-auto">Form Tambah Data Upacara</h3>
+                            <h3 class="card-title my-auto">Form Ubah Data</h3>
                         </div>
                         <input class="d-none" hidden name="id" value="{{$dataGriya->id}}">
                         <div class="card-body p-4">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Nama Griya <span class="text-danger">*</span></label>
+                                <label for="exampleInputEmail1">Nama Griya / Puri <span class="text-danger">*</span></label>
                                 <input type="text" name="nama_griya" class="form-control @error('nama_griya') is-invalid @enderror" id="exampleInputEmail1" placeholder="Masukan Nama Griya" value="{{$dataGriya->nama_griya_rumah}}">
                                 @error('nama_griya')
                                     <div class="invalid-feedback text-start">
@@ -55,29 +55,19 @@
                                     </div>
                                 @enderror
                             </div>
-                            {{-- <div class="form-group">
-                                <label>Provinsi <span class="text-danger">*</span></label>
-                                <select disabled class="form-control select2bs4  @error('penerbit') is-invalid @enderror" style="width: 100%;" aria-placeholder="Pilihlah Program Studi">
-                                    <option disabled selected value="Bali">BALI</option>
-                                </select>
-                                @error('penerbit')
-                                    <div class="invalid-feedback text-start">
-                                        {{$errors->first('penerbit') }}
-                                    </div>
-                                @enderror
-                            </div> --}}
                             <div class="form-group">
                                 <label>Kabupaten/Kota <span class="text-danger">*</span></label>
                                 <select id="kabupaten" class="form-control select2bs4 kabupaten @error('kabupaten') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Kabupaten</option>
-                                    @foreach ($dataKabupaten->where('id_provinsi',51) as $data)
-                                        @if ($dataGriya->Desa->Kecamatan->Kabupaten->id_kabupaten == $data->id_kabupaten)
+                                    @foreach ($dataKabupaten->where('provinsi_id',51) as $data)
+                                        @if ($dataGriya->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->id == $data->id)
                                             <option selected value="{{$data->id_kabupaten}}">{{$data->name}}</option>
                                         @else
                                             <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
                                         @endif
                                     @endforeach
                                 </select>
+                                {{-- <p class="m-1 text-sm">(Pilih Desa Dinas terlebih dahulu)</p> --}}
                                 @error('kabupaten')
                                     <div class="invalid-feedback text-start">
                                         {{$errors->first('kabupaten') }}
@@ -89,15 +79,16 @@
                                     <label>Kecamatan <span class="text-danger">*</span></label>
                                     <select id="kecamatan" class="form-control select2bs4 @error('kecamatan') is-invalid @enderror" style="width: 100%;">
                                         <option value="0" disabled selected>Pilih Kecamatan</option>
-                                        <option selected value="{{$dataGriya->Desa->Kecamatan->id_kecamatan}}">{{$dataGriya->Desa->Kecamatan->name}}</option>
-                                        @foreach ($dataKecamatan->where('id_kabupaten',$dataGriya->Desa->Kecamatan->Kabupaten->id_kabupaten) as $data)
-                                            @if ($data->id_kabupaten == $dataGriya->Desa->Kecamatan->Kabupaten->id_kabupaten)
-                                                <option selected value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                        <option selected value="{{$dataGriya->BanjarDinas->DesaDinas->Kecamatan->id}}">{{$dataGriya->BanjarDinas->DesaDinas->Kecamatan->name}}</option>
+                                        @foreach ($dataKecamatan->where('kabupaten_id',$dataGriya->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->id) as $data)
+                                            @if ($data->id == $dataGriya->BanjarDinas->DesaDinas->Kecamatan->id)
+                                                <option selected value="{{$data->id}}">{{$data->name}}</option>
                                             @else
-                                                <option value="{{$data->id_kabupaten}}">{{$data->name}}</option>
+                                                <option value="{{$data->id}}">{{$data->name}}</option>
                                             @endif
                                         @endforeach
                                     </select>
+                                    <p class="m-1 text-sm">(Pilih Kabupaten terlebih dahulu)</p>
                                     @error('kecamatan')
                                         <div class="invalid-feedback text-start">
                                             {{$errors->first('kecamatan') }}
@@ -109,14 +100,15 @@
                                 <label>Desa Dinas<span class="text-danger">*</span></label>
                                 <select id="desa_dinas" name="id_desa" class="form-control select2bs4 @error('id_desa') is-invalid @enderror" style="width: 100%;">
                                     <option value="0" disabled selected>Pilih Desa Dinas</option>
-                                    @foreach ($dataDesa->where('id_kecamatan',$dataGriya->Desa->Kecamatan->id_kecamatan) as $data)
-                                        @if ($data->id_desa == $dataGriya->Desa->id_desa)
-                                            <option selected value="{{$data->id_desa}}">{{$data->name}}</option>
+                                    @foreach ($dataDesa->where('kecamatan_id',$dataGriya->BanjarDinas->DesaDinas->Kecamatan->id) as $data)
+                                        @if ($data->id == $dataGriya->BanjarDinas->DesaDinas->id)
+                                            <option selected value="{{$data->id}}">{{$data->name}}</option>
                                         @else
-                                            <option value="{{$data->id_desa}}">{{$data->name}}</option>
+                                            <option value="{{$data->id}}">{{$data->name}}</option>
                                         @endif
                                     @endforeach
                                 </select>
+                                <p class="m-1 text-sm">(Pilih Kecamatan terlebih dahulu)</p>
                                 @error('id_desa')
                                     <div class="invalid-feedback text-start">
                                         {{$errors->first('id_desa') }}
@@ -124,25 +116,26 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Desa Adat <span class="text-danger">*</span></label>
-                                <select id="id_desa_adat" name="id_desa_adat" class="form-control select2bs4 @error('id_desa_adat') is-invalid @enderror" style="width: 100%;">
-                                    <option value="0" disabled selected>Pilih Desa Adat</option>
-                                    @foreach ($dataDesaAdat as $data)
-                                        @if ($dataGriya->id_desa_adat == $data->desadat_id)
-                                            <option selected value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
+                                <label>Banjar Dinas <span class="text-danger">*</span></label>
+                                <select id="id_banjar_dinas" name="id_banjar_dinas" class="form-control select2bs4 @error('id_banjar_dinas') is-invalid @enderror" style="width: 100%;">
+                                    <option value="0" disabled selected>Pilih Banjar Dinas</option>
+                                    @foreach ($dataBanjarDinas->where('id',$dataGriya->BanjarDinas->id) as $data)
+                                        @if ($data->id == $dataGriya->BanjarDinas->id)
+                                            <option selected value="{{$data->id}}">{{$data->nama_banjar_dinas}}</option>
                                         @else
-                                            <option value="{{$data->desadat_id}}">{{$data->desadat_nama}}</option>
+                                            <option value="{{$data->id}}">{{$data->nama_banjar_dinas}}</option>
                                         @endif
                                     @endforeach
                                 </select>
-                                @error('id_desa_adat')
+                                <p class="m-1 text-sm">(Pilih Desa Dinas terlebih dahulu)</p>
+                                @error('id_banjar_dinas')
                                     <div class="invalid-feedback text-start">
-                                        {{$errors->first('desa_adat') }}
+                                        {{$errors->first('id_banjar_dinas') }}
                                     </div>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Alamat Lengkap Griya <span class="text-danger">*</span></label>
+                                <label>Alamat Lengkap Griya / Puri <span class="text-danger">*</span></label>
                                 <textarea name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="3" placeholder="Masukan Alamat Lengkap Griya" value="" >{{ $dataGriya->alamat_griya_rumah }}</textarea>
                                 @error('alamat_griya')
                                     <div class="invalid-feedback text-start">
@@ -151,7 +144,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Pemetaan Lokasi Griya</label>
+                                <label>Pemetaan Lokasi Griya / Puri</label>
                                 <div class="input-group mb-3">
                                     <input name="lat" id="lat" type="text" aria-label="First name" class="form-control mr-1 @error('lat') is-invalid @enderror" placeholder="Lat" readonly="readonly" value="{{ $dataGriya->lat }}">
                                     @error('lat')
@@ -209,6 +202,8 @@
     <!-- Select2 -->
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/bs-custom-file-input/bs-custom-file-input.min.js')}}"></script>
+    <!-- Ajax Get Data Wilayah -->
+    <script src="{{asset('base-template/dist/js/pages/ajax-get-wilayah.js')}}"></script>
 
     <!-- Fungsi Boostrap & Library  -->
     <script type="text/javascript">
@@ -232,69 +227,6 @@
 
     </script>
     <!-- Fungsi Boostrap & Library  -->
-
-    <!-- Fungsi Ajax Get Data  -->
-    <script language="javascript" type="text/javascript">
-        $('#kabupaten').on('change', function() {
-            var kabupatenID = $(this).val();
-            if(kabupatenID){
-                $.ajax({
-                       url: '/ajax/kecamatan/'+kabupatenID,
-                       type: "GET",
-                       data : {"_token":"{{ csrf_token() }}"},
-                       dataType: "json",
-                       success:function(dataKecamatan)
-                        {
-                            console.log(kabupatenID);
-                            console.log(dataKecamatan.data.kecamatans);
-
-                            if(dataKecamatan.data.kecamatans){
-                                $('#kecamatan').empty();
-                                $('#desa_dinas').empty();
-                                $('#kecamatan').append('<option value="0" disabled selected>Pilih Kecamatan</option>');
-                                $.each(dataKecamatan.data.kecamatans, function(key, data){
-                                    $('#kecamatan').append('<option value="'+ data.id_kecamatan +'">' + data.name+ '</option>');
-                                });
-                            }else{
-                                $('#course').empty();
-                            }
-                        }
-                    })
-            }else{
-                $('#course').empty();
-            }
-        })
-
-        $('#kecamatan').on('change', function() {
-            var kecamatanID = $(this).val();
-            if(kecamatanID){
-                $.ajax({
-                       url: '/ajax/desa/'+kecamatanID,
-                       type: "GET",
-                       data : {"_token":"{{ csrf_token() }}"},
-                       dataType: "json",
-                       success:function(dataDesa)
-                        {
-                            console.log(kecamatanID);
-                            console.log(dataDesa.data.desas);
-
-                            if(dataDesa.data.desas){
-                                $('#desa_dinas').empty();
-                                $('#desa_dinas').append('<option value="0" disabled selected>Pilih Desa Dinas</option>');
-                                $.each(dataDesa.data.desas, function(key, data){
-                                    $('#desa_dinas').append('<option value="'+ data.id_desa +'">' + data.name+ '</option>');
-                                });
-                            }else{
-                                $('#course').empty();
-                            }
-                        }
-                    })
-            }else{
-                $('#course').empty();
-            }
-        })
-    </script>
-    <!-- Fungsi Ajax Get Data  -->
 
     <!-- Maps Pemetaan  -->
     <script language="javascript" type="text/javascript">

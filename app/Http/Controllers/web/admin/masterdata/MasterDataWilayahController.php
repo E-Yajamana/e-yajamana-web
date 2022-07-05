@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\web\admin\masterdata;
 
 use App\Http\Controllers\Controller;
+use App\Models\BanjarDinas;
 use App\Models\DesaAdat;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
@@ -14,26 +15,25 @@ class MasterDataWilayahController extends Controller
 
     public function indexKabupaten(Request $request)
     {
-        $dataKabupaten = Kabupaten::where('id_provinsi',51)->get();
+        $dataKabupaten = Kabupaten::where('provinsi_id',51)->get();
         return view('pages.admin.master-data.wilayah.kabupaten',compact('dataKabupaten'));
     }
 
     public function indexKecamatan(Request $request)
     {
-        $dataKecamatan = Kabupaten::where('id_provinsi',51)->with('Kecamatan')->get();
+        $dataKecamatan = Kabupaten::where('provinsi_id',51)->with('Kecamatan')->get();
         return view('pages.admin.master-data.wilayah.kecamatan',compact('dataKecamatan'));
     }
 
     public function indexDesaDinas(Request $request)
     {
-        $dataDesa = Kabupaten::where('id_provinsi',51)->with('Kecamatan')->get();
+        $dataDesa = Kabupaten::where('provinsi_id',51)->with('Kecamatan.DesaDinas')->get();
         return view('pages.admin.master-data.wilayah.desa',compact('dataDesa'));
     }
 
-
-    public function indexDesaAdat(Request $request)
+    public function indexBanjar(Request $request)
     {
-        $desaAdat = DesaAdat::all();
-        return view('pages.admin.master-data.wilayah.desa-adat',compact('desaAdat'));
+        $banjarDinas = BanjarDinas::with(['DesaDinas','DesaAdat'])->get();
+        return view('pages.admin.master-data.wilayah.desa-adat',compact('banjarDinas'));
     }
 }
