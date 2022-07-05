@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('base-template/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
 
+    <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('base-template/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+
+
+
 @endpush
 
 @section('content')
@@ -157,6 +163,9 @@
     <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
     <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 
+
+
+
     <!-- SCRIPT FILTERING DATATABLES -->
     <script type="text/javascript">
         var jenisYadnya,statusUpacara,dataUpacara;
@@ -168,8 +177,12 @@
         });
 
         var table = $('#example2').DataTable({
+
             "ordering": false,
             "searching": true,
+            "buttons": [
+                'pdf'
+            ],
             "order": [[ 1, 'asc' ]],
             "oLanguage": {
                 "sSearch": "Cari:",

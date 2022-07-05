@@ -88,7 +88,6 @@ class PemuputKaryaController extends Controller
         }
 
         return view('pages.pemuput-karya.report',compact('reportJenisYadnya','reportMonth','detailReservasis'));
-
     }
 
 }

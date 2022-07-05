@@ -51,7 +51,7 @@
                                                 <i class="far fa-calendar-alt"></i>
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control float-right" id="reservation" disabled value="{{date('d F Y  h:i A',strtotime($dataDetailReservasi->tanggal_mulai))}} - {{date('d F Y  h:i A   ',strtotime($dataDetailReservasi->tanggal_selesai))}}">
+                                        <input type="text" class="form-control float-right" id="reservation" disabled value="{{date('d M Y  H:i',strtotime($dataDetailReservasi->tanggal_mulai))}} - {{date('d M Y  H:i   ',strtotime($dataDetailReservasi->tanggal_selesai))}}">
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-md-12">
-                        <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.index')}}" class="btn btn-secondary">Kembali</a>
+                        <a href="{{route('sanggar.muput-upacara.konfirmasi-muput.index')}}" class="btn btn-secondary">Kembali</a>
                         <button onclick="konfirmasiMuput({{$dataDetailReservasi->id}},{{$dataDetailReservasi->Reservasi->id_upacaraku}})" type="button" class="btn btn-primary float-right ml-2 m-1">Konfirmasi Muput</button>
                         <button onclick="batalMuput({{$dataDetailReservasi->id}},{{$dataDetailReservasi->Reservasi->id_upacaraku}})" type="button" class="btn btn-danger float-right ml-2 m-1">Batal Muput</button>
                     </div>

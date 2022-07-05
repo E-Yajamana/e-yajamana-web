@@ -172,6 +172,7 @@ class KramaReservasiController extends Controller
                 'tipe' => 'required|in:pemuput_karya,sanggar',
                 'data_detail.*.idTahapan' => 'required',
                 'data_detail.*.tanggal' => 'required',
+                'data_detail' => 'required|array'
             ],
             [
                 'id_relasi.required' => "ID Relasi wajib diisi",
@@ -604,7 +605,7 @@ class KramaReservasiController extends Controller
                 return response()->json([
                     'status' => 400,
                     'icon' => 'error',
-                    'message' => 'Gagal Menambahkan data reservasi',
+                    'message' => 'Gagal Menghapus data Tahapan reservasi',
                     'error' => $validator->errors()
                 ],400);
             }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\web\sanggar;
 
 use App\Http\Controllers\Controller;
 use App\ImageHelper;
+use App\Models\DetailReservasi;
 use App\Models\Kabupaten;
 use App\Models\Sanggar;
 use App\Models\User;
@@ -13,7 +14,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Arr;
 use PDOException;
+
 
 
 
@@ -37,7 +40,8 @@ class SanggarController extends Controller
     public function index()
     {
         $dataSanggar = Sanggar::with(["BanjarDinas.DesaDinas.Kecamatan.Kabupaten",'User.Penduduk'])->findOrFail(session('id_sanggar'));
-        $anggotaSanggar = $dataSanggar->User->pluck('id');
+        $anggotaSanggar = $dataSanggar->User->pluck('id')->toArray();
+        array_push($anggotaSanggar,"1");
         $dataKrama = User::with('Penduduk')->whereNotIn('id',$anggotaSanggar)->get();
         $dataKabupaten = Kabupaten::whereProvinsiId(51)->get();
         return view('pages.sanggar.manajemen-sanggar.index',compact(['dataSanggar','dataKabupaten','dataKrama']));
@@ -188,15 +192,46 @@ class SanggarController extends Controller
 
     }
 
+    public function report()
+    {
+        $user = Auth::user();
+        $idSanggar = session('id_sanggar');
+        $queryReservasi = function($queryReservasi) use ($idSanggar){
+            $queryReservasi->where('id_sanggar',$idSanggar)->whereNotIn('status',['batal']);
+        };
 
+        $queryDetailReservasi = DetailReservasi::with(['Reservasi.Upacaraku.User.Penduduk','TahapanUpacara.Upacara','Reservasi'=>$queryReservasi])->whereHas('Reservasi',$queryReservasi)->whereYear('tanggal_mulai',2022);
+        $detailReservasis = $queryDetailReservasi->orderBy('tanggal_mulai')->get();
+        $dataReportTransaksi = $queryDetailReservasi->select(DB::raw("COUNT('id') as jumlah"),DB::raw("MONTH(tanggal_mulai) bulan"))->groupby('bulan')->get();
 
+        $dataReportJenisYadnya = DB::table('tb_detail_reservasi')
+                ->join('tb_reservasi', function($join) use ($idSanggar){
+                    $join->on('tb_detail_reservasi.id_reservasi','=','tb_reservasi.id')
+                    ->where('id_sanggar',$idSanggar);
+                })->join('tb_tahapan_upacara', 'tb_detail_reservasi.id_tahapan_upacara', '=', 'tb_tahapan_upacara.id')
+                ->join('tb_upacara', 'tb_tahapan_upacara.id_upacara', '=', 'tb_upacara.id')
+                ->select(DB::raw("COUNT('id') as jumlah"),'tb_upacara.kategori_upacara')
+                ->groupBy('kategori_upacara')
+                ->get();
 
+        $reportJenisYadnya = [
+            'Dewa Yadnya' => 0,
+            'Pitra Yadnya' => 0,
+            'Rsi Yadnya' => 0,
+            'Manusa Yadnya' => 0,
+            'Bhuta Yadnya' => 0,
+        ];
+        foreach($dataReportJenisYadnya as $key => $data){
+            $reportJenisYadnya[$data->kategori_upacara] = $data->jumlah;
+        }
 
+        $reportMonth = [0,0,0,0,0,0,0,0,0,0,0,0];
 
+        foreach($dataReportTransaksi as $key => $data){
+            Arr::set($reportMonth, $data->bulan-1, $data->jumlah);
+        }
 
-
-
-
-
+        return view('pages.sanggar.report',compact('reportJenisYadnya','reportMonth','detailReservasis'));
+    }
 
 }

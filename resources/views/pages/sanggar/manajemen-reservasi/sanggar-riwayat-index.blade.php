@@ -55,7 +55,7 @@
                                 <ul class="nav nav-pills" id="filterStatus">
                                     <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Semua</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Pending</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Tangkil</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Penguleman </a></li>
                                     <li class="nav-item"><a class="nav-link" href="#activity" data-toggle="tab">Proses Muput</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Selesai</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Batal</a></li>
@@ -129,7 +129,7 @@
                                             @endforeach
                                         </td>
                                         <td class="text-center">
-                                            <div  @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'proses tangkil' || $data->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:110px;">{{ucfirst($data->status)}}</div>
+                                            <div  @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'proses tangkil' || $data->status == 'proses muput') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; @if ($data->status == 'proses tangkil') width:150px; @else width:110px; @endif">@if($data->status == 'proses tangkil')Proses Penguleman @else{{ucfirst($data->status)}}@endif</div>
                                         </td>
                                         <td>
                                             <a href="{{route('sanggar.manajemen-reservasi.riwayat.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
@@ -218,6 +218,9 @@
                     }
                     if($('#filterStatus li').find('a.active').text() !== ''){
                         status = $('#filterStatus li').find('a.active').text();
+                        console.log(dbStatus)
+                        console.log(status)
+
                     }
 
                     if(

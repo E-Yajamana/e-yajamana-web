@@ -45,7 +45,7 @@ class KonfirmasiMuputController extends Controller
                     "tahapanReservasi" => $detailReservasi->TahapanUpacara->nama_tahapan,
                     "waktuMulai" => Carbon::parse($detailReservasi->tanggal_mulai)->format('d M Y | H:m' ),
                     "waktuSelesai" => Carbon::parse($detailReservasi->tanggal_selesai)->format('d M Y | H:m' ),
-                    "tindakan" =>  '<a href="'.route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$detailReservasi->id).'" class="btn btn-info btn-sm "><i class="fas fa-eye"></i></a><a onclick="konfirmasiMuput('.$detailReservasi->id.','.$reservasi->Upacaraku->id.')" class="btn btn-primary btn-sm mx-1"><i class="fas fa-check"></i></a><a onclick="batalMuput('.$detailReservasi->id.','.$reservasi->Upacaraku->id.')" class="btn btn-danger btn-sm "><i class="fas fa-times"></i></a>'
+                    "tindakan" =>  '<a href="'.route('sanggar.muput-upacara.konfirmasi-muput.detail',$detailReservasi->id).'" class="btn btn-info btn-sm "><i class="fas fa-eye"></i></a><a onclick="konfirmasiMuput('.$detailReservasi->id.','.$reservasi->Upacaraku->id.')" class="btn btn-primary btn-sm mx-1"><i class="fas fa-check"></i></a><a onclick="batalMuput('.$detailReservasi->id.','.$reservasi->Upacaraku->id.')" class="btn btn-danger btn-sm "><i class="fas fa-times"></i></a>'
                 ]);
 
             }
@@ -240,13 +240,14 @@ class KonfirmasiMuputController extends Controller
             try{
                 DB::beginTransaction();
                 $sanggar = Auth::user()->sessionSanggar();
+
                 $detailReservasi = DetailReservasi::findOrFail($request->id_detail_reservasi);
                 $lastReservation = DetailReservasi::whereIdReservasi($detailReservasi->id_reservasi)->whereIn('status',['diterima'])->count();
                 $upacaraku = Upacaraku::findOrFail($request->id_upacaraku);
                 $krama = User::findOrFail($upacaraku->id_krama);
                 if($lastReservation <= 1){
                     $reservasi = Reservasi::findOrFail($detailReservasi->id_reservasi);
-                    $countReservasi = Reservasi::whereIdUpacaraku($reservasi->id_upacaraku)->whereIn('status',['pending','proses tagnkil','proses muput'])->count();
+                    $countReservasi = Reservasi::whereIdUpacaraku($reservasi->id_upacaraku)->whereIn('status',['pending','proses tangkil','proses muput'])->count();
                     if($countReservasi <= 1){
                         $upacaraku->update(['status','selesai']);
                     }
@@ -271,7 +272,7 @@ class KonfirmasiMuputController extends Controller
                         'status' => "new",
                         'image' => "/logo-eyajamana.png",
                         'type' => "sanggar",
-                        'id_sanggar' =>array($sanggar->id),
+                        'id_sanggar' =>array($id_user_sanggar),
                         'formated_created_at' => date('Y-m-d H:i:s'),
                         'formated_updated_at' => date('Y-m-d H:i:s'),
                     ],

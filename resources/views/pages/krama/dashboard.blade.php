@@ -125,7 +125,7 @@ crossorigin=""></script>
                                             </a>
                                             <div class="div">
                                                 <span class="product">
-                                                    {{$data->deskripsi_upacaraku}} yang akan diselenggarakan pada   Tanggal {{date('d F Y',strtotime($data->tanggal_mulai))}} samapi dengan Tanggal {{date('d F Y',strtotime($data->tanggal_selesai))}}
+                                                    {{$data->deskripsi_upacaraku}} yang akan diselenggarakan pada   Tanggal {{date('d F Y',strtotime($data->tanggal_mulai))}} sampai dengan Tanggal {{date('d F Y',strtotime($data->tanggal_selesai))}}
                                                 </span>
                                             </div>
                                         </div>

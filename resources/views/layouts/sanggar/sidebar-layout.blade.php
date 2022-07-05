@@ -26,12 +26,12 @@
                                 <p>Switch Account</p>
                             </a>
                         </li>
-                        <li class="nav-item ml-3">
+                        {{-- <li class="nav-item ml-3">
                             <a href="{{route('pemuput-karya.profile')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Profile</p>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item ml-3">
                             <a  href="{{route('auth.logout')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -64,14 +64,6 @@
 
 
                 <li class="nav-header font-weight-bold pl-2">MENU UTAMA</li>
-
-                <li id="" class="nav-item">
-                    <a href="{{route('pemuput-karya.calender')}}" class="nav-link p-2" id="muput-calendar">
-                        <i class="fa fa-calendar-alt nav-icon"></i>
-                        <p>Jadwal Muput</p>
-                    </a>
-                </li>
-
 
                 <li id="side-manajemen-muput-upacara" class="nav-item">
                     <a href="#" class="nav-link p-2">
@@ -120,14 +112,23 @@
                     </ul>
                 </li>
                 @if(Auth::user()->pemilikSanggar()->pivot->jabatan == 1)
-                    <li class="nav-header font-weight-bold pl-2" id="side-manajemen-sanggar">SANGGAR</li>
-                    <li class="nav-item">
-                        <a href="{{route('manajemen-sanggar.index')}}" class="nav-link p-2">
+                    <li class="nav-header font-weight-bold pl-2" >SANGGAR</li>
+                    <li id="side-manajemen-sanggar" class="nav-item">
+                        <a  href="{{route('manajemen-sanggar.index')}}" class="nav-link p-2">
                             <i class="mr-1 nav-icon fas fa-users"></i>
                             <p>Manajemen Sanggar</p>
                         </a>
                     </li>
                 @endif
+
+                <li class="nav-header font-weight-bold pl-2" >LAPORAN</li>
+                <li class="nav-item" id="side-report">
+                    <a href="{{route('sanggar.report')}}" class="nav-link p-2">
+                        <i class="nav-icon mr-1 fas fa-book"></i>
+                        <p>Laporan Transaksi</p>
+                    </a>
+                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

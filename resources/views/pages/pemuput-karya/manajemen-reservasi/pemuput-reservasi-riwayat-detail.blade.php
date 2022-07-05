@@ -54,10 +54,38 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label>Mengajukan Reservasi Pada Tanggal :</label>
+                                <label>Mengajukan Reservasi pada Tanggal :</label>
                                 <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{date('d F Y, H:m A',strtotime($dataReservasi->created_at))}}">
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="align-content-center">
+                                @if ($dataReservasi->status == 'batal' || $dataReservasi->status == 'ditolak' )
+                                    <div class="d-flex justify-content-center text-center">
+                                        <strong> Alasan Pembatalan </strong>: {{$dataReservasi->keterangan}}
+                                    </div>
+                                @endif
+                                @isset($dataReservasi->rating)
+                                    @isset($dataReservasi->keterangan_rating)
+                                        <div class="justify-content-center w-50 mx-auto text-center">
+                                            <strong> Review </strong> :  {{$dataReservasi->keterangan_rating}}
+                                        </div>
+                                    @endisset
+                                    <div class="text-center">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $dataReservasi->rating)
+                                                <i class="fas fa-star text-warning "></i>
+                                            @else
+                                                <i class="fas fa-star "></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                @endisset
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>

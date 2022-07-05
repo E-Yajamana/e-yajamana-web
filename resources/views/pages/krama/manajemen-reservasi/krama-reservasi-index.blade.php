@@ -108,6 +108,9 @@
 
     </section>
     <input type="hidden" class="d-none" id="data" value='@json($data)'>
+
+    @include('pages.krama.manajemen-reservasi.modal-batal-reservasi')
+
 @endsection
 
 @push('js')

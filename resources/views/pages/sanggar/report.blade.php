@@ -1,4 +1,4 @@
-@extends('layouts.pemuput-karya.pemuput-karya-layout')
+@extends('layouts.sanggar.sanggar-layout')
 @section('tittle','Laporan Transaksi')
 
 @push('css')

@@ -22,7 +22,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 1,
-                'id_penduduk' => NULL,
+                'id_penduduk' => 1,
                 'email' => 'admin@gmail.com',
                 'password' => '$2y$10$aDN8y/nNpe9DHte0VIVu/ensr4.Aw91vLA4z1XqlnEnZSW/AeeOEm',
                 'nomor_telepon' => '087851423695',

@@ -60,14 +60,14 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label class="mb-2">Tanggal Tangkil Krama</label>
+                                        <label class="mb-2">Tanggal Penguleman Krama</label>
                                         <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">
                                                     <i class="far fa-calendar-alt"></i>
                                                 </span>
                                             </div>
-                                            <input disabled type="text" class="form-control" id="date" name="tanggal_tangkil" placeholder="Enter email" value="{{date('d F Y | H:i ',strtotime($dataReservasi->tanggal_tangkil))}}">
+                                            <input disabled type="text" class="form-control" id="date" name="tanggal_tangkil" placeholder="Enter email" value="{{date('d M Y | H:i ',strtotime($dataReservasi->tanggal_tangkil))}}">
                                         </div>
                                     </div>
                                 </div>
@@ -276,7 +276,7 @@
                                     <div class="card-footer">
                                         <div class="row">
                                             <div class="col-md-12 my-1 px-4">
-                                                <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-tangkil.index')}}" class="btn btn-secondary">Kembali</a>
+                                                <a href="{{route('sanggar.muput-upacara.konfirmasi-tangkil.index')}}" class="btn btn-secondary">Kembali</a>
                                                 <button onclick="konfirmasiReservasi()" type="button" class="btn m-1 btn-primary float-right ml-2">Konfimasi</button>
                                                 <button onclick="batalTangkil({{$dataReservasi->id}},{{$dataReservasi->Upacaraku->id_krama}})" type="button" class="btn m-1 btn-danger float-right ml-2">Batal</button>
                                             </div>
@@ -426,11 +426,12 @@
          // SET UP DATE UPACARA
          $('#dateUpacara').daterangepicker({
             timePicker: true,
-            startDate: moment(tanggal_mulai).format('DD MMMM YYYY'),
-            endDate:moment(tanggal_selesai).format('DD MMMM YYYY'),
-            "minDate": moment(Date ()).format('DD MMMM YYYY'),
+            timePicker24Hour: true,
+            startDate: moment(tanggal_mulai).format('DD MMM YYYY'),
+            endDate:moment(tanggal_selesai).format('DD MMM YYYY'),
+            "minDate": moment(Date ()).format('DD MMM YYYY'),
             locale: {
-                format: 'DD MMMM YYYY',
+                format: 'DD MMM YYYY',
             },
             drops: "up",
         });

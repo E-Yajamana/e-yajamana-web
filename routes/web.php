@@ -243,6 +243,8 @@ Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function 
     Route::get('', [SanggarController::class, 'testing']);
     Route::get('dashboard', [SanggarDashboardController::class, 'index'])->name('sanggar.dashboard');
     Route::post('set-session', [SanggarController::class, 'setSession'])->name('sanggar.session')->withoutMiddleware('permission:sanggar');
+    Route::get('report', [SanggarController::class, 'report'])->name('sanggar.report');
+
 
     Route::prefix('manajemen-sanggar')->group(function () {
         Route::get('index', [SanggarController::class, 'index'])->name('manajemen-sanggar.index');
@@ -270,7 +272,7 @@ Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function 
         Route::get('konfimasi-muput/index', [SanggarKonfirmasiMuput::class, 'index'])->name('sanggar.muput-upacara.konfirmasi-muput.index');
         Route::get('konfimasi-muput/detail/{id?}', [SanggarKonfirmasiMuput::class, 'detail'])->name('sanggar.muput-upacara.konfirmasi-muput.detail');
         Route::put('konfimasi-muput/konfirmasi', [SanggarKonfirmasiMuput::class, 'konfirmasiMuput'])->name('sanggar.muput-upacara.konfirmasi-muput.konfirmasi');
-        Route::put('konfimasi-muput/batal', [KonfirmasiMuputController::class, 'batalMuput'])->name('sanggar.muput-upacara.konfirmasi-muput.batal');
+        Route::put('konfimasi-muput/batal', [SanggarKonfirmasiMuput::class, 'batalMuput'])->name('sanggar.muput-upacara.konfirmasi-muput.batal');
 
     });
 });

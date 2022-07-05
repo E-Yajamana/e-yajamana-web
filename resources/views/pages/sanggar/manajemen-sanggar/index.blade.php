@@ -320,8 +320,7 @@
         $('#mySelect2').select2('data');
 
         $(document).ready(function(){
-            $('#side-master-data').addClass('menu-open');
-            $('#side-griya').addClass('active');
+            $('#side-manajemen-sanggar').addClass('menu-open');
         });
 
         $('.select2').select2()
