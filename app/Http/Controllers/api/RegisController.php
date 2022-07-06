@@ -111,7 +111,7 @@ class RegisController extends Controller
                 'role' => 'krama_bali',
                 'lat' => $request->lat,
                 'lng' => $request->lng
-            ]);
+            ])->Role()->attach([2]);
 
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
@@ -143,7 +143,7 @@ class RegisController extends Controller
             'nik' => 'required|numeric',
             'notlp' => 'required|numeric',
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'nullable',
             'nama_walaka' => 'required',
             'nama_sulinggih' => 'required',
             'id_pasangan' => 'nullable|numeric',
@@ -187,7 +187,7 @@ class RegisController extends Controller
                     'role' => 'pemuput_karya',
                     'lat' => $request->lat,
                     'lng' => $request->lng,
-                ]);
+                ])->Role()->attach([2]);
             } else {
                 $user = $penduduk->User;
             }
@@ -239,7 +239,7 @@ class RegisController extends Controller
             $sulinggih->status_konfirmasi_akun = 'pending';
 
             $sulinggih->save();
-
+            $user->Role()->attach([3]);
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             DB::rollBack();
@@ -300,8 +300,14 @@ class RegisController extends Controller
                     'lat' => $request->lat,
                     'lng' => $request->lng,
                 ]);
+                $user->Role()->attach([2, 4]);
             } else {
                 $user = $penduduk->User;
+                $hasRole = $user->Role()->pluck('id_role')->toArray();
+                $existsRole = in_array(5, $hasRole);
+                if (!$existsRole) {
+                    $user->Role()->attach(5);
+                }
             }
 
             $newSanggar = [];
