@@ -55,7 +55,42 @@ class KramaReservasiController extends Controller
             'detail_reservasi' => 'required|json',
         ]);
 
-        if ($validator->fails()) {
+                DB::beginTransaction();
+
+                $reservasi = Reservasi::create([
+                                'id_relasi' => $request->id_relasi,
+                                'id_upacaraku' => $request->id_upacaraku,
+                                'tipe' => $request->tipe,
+                                'status' => 'pending'
+                            ]);
+
+                $detailReservasi = json_decode($request->detail_reservasi);
+
+                $insertArray = [];
+
+                foreach ($detailReservasi->formDetailReservasis as $key => $value) {
+                    $value = (array)$value;
+                    $value['id_reservasi'] = $reservasi->id;
+                    $value['status'] = 'pending';
+                    $insertArray[] = $value;
+                }
+
+                DetailReservasi::insert($insertArray);
+
+                DB::commit();
+
+            }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+
+                DB::rollback();
+                return response()->json([
+                        'status' => 500,
+                        'message' => 'Internal server error',
+                        'data' => (Object)[],
+                ],500);
+            }
+        // END
+
+        // RETURN
             return response()->json([
                 'status' => 400,
                 'message' => 'Validataion error',

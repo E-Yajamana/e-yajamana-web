@@ -699,8 +699,8 @@
 
         // FUNCTION SHOW DATA SWEETALERT
         function alertDetail(title, start, end, status){
-            let mulai = moment(start).format('DD MMMM YYYY | HH:mm')
-            let selesai = moment(end).format('DD MMMM YYYY | HH:mm')
+            let mulai = moment(start).format('DD MMM YYYY | HH:mm')
+            let selesai = moment(end).format('DD MMM YYYY | HH:mm')
             // console.log(selesai)
             Swal.fire({
                 title: 'Info Detail Jadwal',
@@ -732,6 +732,7 @@
 
         // FUNCTION GET DATA PEMUPUT YANG DIPILIH
         function getPemuput(id,id_user,nama,tlpn,alamat,namaWalaka,tgldiksha,email){
+            console.log(alamat)
             showJadwal(id_user,'id_relasi');
             namaPemuput = nama;
             jenisPemuput = 'Pemuput Karya'
@@ -759,15 +760,15 @@
                     autoUpdateInput: true,
                     timePicker: true,
                     timePicker24Hour: true,
-                    "startDate": moment(dataUpacara.tanggal_mulai).format('DD MMMM YYYY'),
-                    "endDate":  moment(dataUpacara.tanggal_selesai).format('DD MMMM YYYY'),
-                    minDate: moment(dataUpacara.tanggal_mulai).format('DD MMMM YYYY'),
-                    maxDate: moment(dataUpacara.tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMMM YYYY H:mm'),
+                    "startDate": moment(dataUpacara.tanggal_mulai).format('DD MMM YYYY'),
+                    "endDate":  moment(dataUpacara.tanggal_selesai).format('DD MMM YYYY'),
+                    minDate: moment(dataUpacara.tanggal_mulai).format('DD MMM YYYY'),
+                    maxDate: moment(dataUpacara.tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMM YYYY H:mm'),
                     time: {
                         enabled: true
                     },
                     locale: {
-                        format: 'DD MMMM YYYY H:mm',
+                        format: 'DD MMM YYYY H:mm',
                         cancelLabel: 'Clear'
                     },
                     drops: "up",
@@ -1031,7 +1032,7 @@
 
             function appendDataPemuput(data,key)
             {
-                var tanggal_diksha = moment(data.tanggal_diksha).format('DD MMMM YYYY')
+                var tanggal_diksha = moment(data.tanggal_diksha).format('DD MMM YYYY')
                 $("#dataSulinggih").append(
                 '<div class="col-12" id="accordion">'+'<div class="card">'+'<div class="card-header">'+
                 '<a class="d-block w-100" data-toggle="collapse" href="#collapseOne'+data.user.id+''+key+'">'+"<div class='user-block'>"+
@@ -1052,7 +1053,7 @@
                 (data.atribut_pemuput.nabe == 0 || data.atribut_pemuput.nabe == null ? '<p class="text-xs mb-0 d-flex"> <strong> Nama Nabe : </strong>Belum Terdata</p>' : '<p class="text-xs mb-0 "> <strong> Nama Nabe : </strong> </p><p class="text-xs m-0"> '+data.atribut_pemuput.nabe.nama_pemuput +'</p>' )+
                 '<p class="text-xs mb-0"> <strong> Jenis Kelamin : </strong>'+data.user.penduduk.jenis_kelamin+'</p>'+
                 '</div>'+'</div>'+'</div>'+'</div>'+"<div class='card-footer'>"+
-                "<button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getPemuput("+data.id+","+data.id_user+",'"+data.nama_pemuput+"','"+data.user.nomor_telepon+"','"+alamat+"','"+data.user.penduduk.nama_alias+"','"+tanggal_diksha+"','"+data.user.email+"')\">Reservasi</button>"+
+                "<button type='button' class='btn btn btn-primary btn-sm float-lg-right' data-toggle='modal' onclick=\"getPemuput("+data.id+","+data.id_user+",'"+data.nama_pemuput+"','"+data.user.nomor_telepon+"','"+data.user.penduduk.alamat+"','"+data.user.penduduk.nama_alias+"','"+tanggal_diksha+"','"+data.user.email+"')\">Reservasi</button>"+
                 "</div>"+'</div>'+'</div>'+'</div>'
                 );
 

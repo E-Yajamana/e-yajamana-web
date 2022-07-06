@@ -44,7 +44,7 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label>Status Reservasi :</label>
-                                <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" disabled   value="{{ucwords($dataReservasi->status)}}">
+                                <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" disabled value="@if($dataReservasi->status == 'proses tangkil')Proses Penguleman @else{{ucfirst($dataReservasi->status)}}@endif">
                                 @error('data_upacara[0][nama_upacara]')
                                     <div class="invalid-feedback text-start">
                                         {{ $errors->first('data_upacara[0][nama_upacara]') }}
@@ -55,16 +55,41 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label>Mengajukan Reservasi Pada Tanggal :</label>
-                                <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{date('d F Y, H:m A',strtotime($dataReservasi->created_at))}}">
+                                <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{date('d M Y, H:m',strtotime($dataReservasi->created_at))}}">
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="align-content-center">
+                                @if ($dataReservasi->status == 'batal' || $dataReservasi->status == 'ditolak' )
+                                    <div class="d-flex justify-content-center text-center">
+                                        <strong> Alasan Pembatalan </strong>: {{$dataReservasi->keterangan}}
+                                    </div>
+                                @endif
+                                @isset($dataReservasi->rating)
+                                    @isset($dataReservasi->keterangan_rating)
+                                        <div class="justify-content-center w-50 mx-auto text-center">
+                                            <strong> Review </strong> :  {{$dataReservasi->keterangan_rating}}
+                                        </div>
+                                    @endisset
+                                    <div class="text-center">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $dataReservasi->rating)
+                                                <i class="fas fa-star text-warning "></i>
+                                            @else
+                                                <i class="fas fa-star "></i>
+                                            @endif
+                                        @endfor
+                                    </div>
+                                @endisset
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-12">
-
                             <div class='card'>
                                 <div class='card-body'>
                                     <table class='table-responsive-sm table' id="example2">
@@ -85,8 +110,8 @@
                                                     <td style='width: 7%'>{{$loop->iteration}}</td>
                                                     <td style='width: 18%'>{{$data->TahapanUpacara->nama_tahapan}}</td>
                                                     <td class="text-center">
-                                                        {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}
-                                                        <p>{{date('H:m A',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('H:m A',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
+                                                        {{date('d M Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d M Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}
+                                                        <p>{{date('H:m',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('H:m',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
                                                     </td>
                                                     <td class="d-flex justify-content-center text-center">
                                                         <div  @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'diterima') class=" bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:110px;">{{ucfirst($data->status)}}</div>
@@ -180,7 +205,7 @@
                                                             <i class="far fa-calendar-alt"></i>
                                                         </span>
                                                     </div>
-                                                    <input  disabled name="data_upacara[0][daterange]"  id="dateUpacara" type='text' class='form-control float-right' value='{{date('d F Y ',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y ',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}'>
+                                                    <input  disabled name="data_upacara[0][daterange]"  id="dateUpacara" type='text' class='form-control float-right' value='{{date('d M Y ',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d M Y ',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}'>
                                                     @error('data_upacara[0][daterange]')
                                                         <div class="invalid-feedback text-start">
                                                             {{ $errors->first('data_upacara[0][daterange]') }}
@@ -230,7 +255,7 @@
                                             <i class="far fa-calendar-alt"></i>
                                         </span>
                                     </div>
-                                    <input disabled type="text" class="form-control" id="date" name="tanggal_tangkil" placeholder="Enter email" value="{{date('d F Y | H:m ',strtotime($dataReservasi->created_at))}}">
+                                    <input disabled type="text" class="form-control" id="date" name="tanggal_tangkil" placeholder="Enter email" value="{{date('d M Y | H:m ',strtotime($dataReservasi->created_at))}}">
                                 </div>
                             </div>
                         </div>
@@ -267,7 +292,7 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-md-12 my-1 px-2">
-                            <a href="{{route('pemuput-karya.manajemen-reservasi.riwayat.index')}}" class="btn btn-secondary">Kembali</a>
+                            <a href="{{route('sanggar.manajemen-reservasi.riwayat.index')}}" class="btn btn-secondary">Kembali</a>
                         </div>
                     </div>
                 </div>

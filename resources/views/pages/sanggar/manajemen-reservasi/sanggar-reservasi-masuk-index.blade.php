@@ -44,7 +44,7 @@
     <div class="container-fluid">
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
-                <h3 class="card-title my-auto">List Data Reservasi Krama</h3>
+                <h3 class="card-title my-auto">Pengajuan Reservasi Krama</h3>
             </div>
             {{-- Start Data Table Sulinggih --}}
             <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">

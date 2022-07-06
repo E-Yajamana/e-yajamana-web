@@ -14,7 +14,7 @@ class AddForeignKeysToTbSanggarTable extends Migration
     public function up()
     {
         Schema::table('tb_sanggar', function (Blueprint $table) {
-            $table->foreign(['id_desa_dinas'], 'tb_sanggar_ibfk_1')->references(['id'])->on('tb_m_desa_dinas');
+            $table->foreign(['id_banjar_dinas'], 'tb_sanggar_ibfk_1')->references(['id'])->on('tb_m_banjar_dinas');
         });
     }
 

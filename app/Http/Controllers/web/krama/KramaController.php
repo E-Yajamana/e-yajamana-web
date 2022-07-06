@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use NotificationHelper;
 
-use function PHPUnit\Framework\returnValue;
-
 class KramaController extends Controller
 {
     public function profile(Request $request)
@@ -41,12 +39,13 @@ class KramaController extends Controller
             'jumlahTolak' =>$reservasiKrama->where('status','batal')->count() ,
         ];
 
-        return view('pages.krama.profile.krama-profile',compact('rangkumanUpacara','rangkumanReservasi','dataNotifikasi'));
+        return view('pages.krama.profile.krama-profile',compact('rangkumanUpacara','rangkumanReservasi'));
     }
 
 
     public function report()
     {
+        return view('pages.krama.report');
     }
 
 

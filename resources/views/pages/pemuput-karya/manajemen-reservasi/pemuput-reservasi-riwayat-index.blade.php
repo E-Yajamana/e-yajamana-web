@@ -138,16 +138,6 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            {{-- <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Penyelenggara </th>
-                                    <th>Periode Upacara</th>
-                                    <th>Tahapan Reservasi</th>
-                                    <th>Status</th>
-                                    <th>Tindakan</th>
-                                </tr>
-                            </tfoot> --}}
                         </table>
                     </div>
                 </div>
@@ -156,22 +146,18 @@
 
         </div>
     </div>
-
-
-
-
 @endsection
 
 @push('js')
 
-    <!-- Bootstrabase-template-->
-    <script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- DataTablbase-template Plugins -->
-    <script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+<!-- Bootstrabase-template-->
+<script src="{{asset('base-template/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<!-- DataTablbase-template Plugins -->
+<script src="{{asset('base-template/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('base-template/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('base-template/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('base-template/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('base-template/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
 
 <script type="text/javascript">
         $(document).ready(function(){

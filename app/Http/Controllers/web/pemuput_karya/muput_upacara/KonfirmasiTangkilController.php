@@ -318,6 +318,28 @@ class KonfirmasiTangkilController extends Controller
 
             // // UPACARA DATA UPDATE
             // list($start,$end) = DateRangeHelper::parseDateRange($request->data_upacara[0]['daterange']);
+            $upacaraku->update([
+                // 'nama_upacara'=>$request->data_upacara[0]['nama_upacara'],
+                // 'deskripsi_upacaraku'=>$request->data_upacara[0]['deskripsi_upacara'],
+                // 'tanggal_mulai'=>$start,
+                // 'tanggal_selesai'=>$end,
+                'status' => 'berlangsung'
+            ]);
+            // UPACARA DATA UPDATE
+
+            // UPDATE DATA RESERVASI
+            $reservasi = Reservasi::whereIdUpacarakuAndIdRelasi($request->data_upacara[0]['id'], $sulinggih->id)
+                ->findOrFail($request->id_reservasi)->update([
+                    'status' => 'proses muput'
+                ]);
+            // UPDATE DATA RESERVASI
+
+            // UPACARAKU BUAT TIDAK BISA DIEDIT AJA
+            $upacaraku = Upacaraku::findOrFail($request->data_upacara[0]['id']);
+            $krama = User::findOrFail($upacaraku->id_krama);
+
+            // // UPACARA DATA UPDATE
+            // list($start,$end) = DateRangeHelper::parseDateRange($request->data_upacara[0]['daterange']);
             // $upacaraku->update([
             //     'nama_upacara'=>$request->data_upacara[0]['nama_upacara'],
             //     'deskripsi_upacaraku'=>$request->data_upacara[0]['deskripsi_upacara'],

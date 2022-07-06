@@ -103,44 +103,6 @@
 
             <div class="card-body p-1">
                 <div class="table-responsive-sm table p-1">
-                    {{-- <table id="example2" class="table mx-auto table-responsive-sm">
-                        <thead >
-                            <th>No</th>
-                            <th>Penyelengara</th>
-                            <th>Alamat</th>
-                            <th>Tahapan Reservasi</th>
-                            <th>Waktu Mulai</th>
-                            <th>Waktu Selesai</th>
-                            <th>Tindakan</th>
-                        </thead>
-                        <tbody>
-                            @foreach ($dataReservasi as $index => $data )
-                                <tr>
-                                    <td rowspan="{{count($data->DetailReservasi)}}">{{$index+1}}</td>
-                                    <td style="width: 15%"  rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->User->Penduduk->nama}}</td>
-                                    <td style="width: 18%" rowspan="{{count($data->DetailReservasi)}}">{{$data->Upacaraku->alamat_upacaraku}}</td>
-                                    <td class="pl-4">{{$data->DetailReservasi[0]->TahapanUpacara->nama_tahapan}}</td>
-                                    <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[0]->tanggal_mulai))}}</td>
-                                    <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[0]->tanggal_selesai))}}</td>
-                                    <td>
-                                        <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[0]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                        <a onclick="konfirmasiMuput({{$data->DetailReservasi[0]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                    </td>
-                                </tr>
-                                @for($i=1; $i < count($data->DetailReservasi); $i++ )
-                                    <tr>
-                                        <td>{{$data->DetailReservasi[$i]->TahapanUpacara->nama_tahapan}}</td>
-                                        <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[$i]->tanggal_mulai))}}</td>
-                                        <td>{{date('d F Y | H:m',strtotime($data->DetailReservasi[$i]->tanggal_selesai))}}</td>
-                                        <td>
-                                            <a href="{{route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$data->DetailReservasi[$i]->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                            <a onclick="konfirmasiMuput({{$data->DetailReservasi[$i]->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                        </td>
-                                    </tr>
-                                @endfor
-                            @endforeach
-                        </tbody>
-                    </table> --}}
                     <table id="curriculum-students-dataTable" class="table mx-auto table-responsive-sm">
                         <thead>
                             <tr>

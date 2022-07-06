@@ -47,7 +47,7 @@
         <div class="container-fluid">
             <div class="callout callout-info container-fluid">
                 <h5><i class="fas fa-info"></i> Catatan:</h5>
-                Pemuput Upacara dapat melakukan perubahan semua Data Reservasi, baik itu Reservasinya sendiri maupun Reservasi Pemuput Karya lain yang berstatus Proses Tangkil.
+                Pemuput Karya dapat melakukan perubahan semua Data Reservasi, baik itu Reservasinya sendiri maupun Reservasi Pemuput Karya lain yang berstatus Proses Tangkil.
             </div>
             <div class="row">
                 <!--- DATA DETAIL KRAMA PEMESANAN --->
@@ -484,6 +484,7 @@
         dataUpacara = (JSON.parse(jsonDataUpacara));
         dataReservasi = (JSON.parse(jsonDataReservasi));
 
+
         let tanggal_mulai = dataReservasi.upacaraku.tanggal_mulai;
         let tanggal_selesai = dataReservasi.upacaraku.tanggal_selesai;
 
@@ -491,11 +492,11 @@
          // SET UP DATE UPACARA
          $('#dateUpacara').daterangepicker({
             timePicker: true,
-            startDate: moment(tanggal_mulai).format('DD MMMM YYYY'),
-            endDate:moment(tanggal_selesai).format('DD MMMM YYYY'),
-            "minDate": moment(Date ()).format('DD MMMM YYYY'),
+            startDate: moment(tanggal_mulai).format('DD MMM YYYY'),
+            endDate:moment(tanggal_selesai).format('DD MMM YYYY'),
+            "minDate": moment(Date ()).format('DD MMM YYYY'),
             locale: {
-                format: 'DD MMMM YYYY',
+                format: 'DD MMM YYYY',
             },
             drops: "up",
         });
@@ -506,12 +507,12 @@
             $('#dateUser-'+data.id).daterangepicker({
                 timePicker: true,
                 timePicker24Hour: true,
-                startDate: moment(data.tanggal_mulai).format('DD MMMM YYYY H:mm'),
-                endDate:moment(data.tanggal_selesai).format('DD MMMM YYYY H:mm'),
-                minDate: moment(tanggal_mulai).format('DD MMMM YYYY H:mm'),
-                maxDate: moment(tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMMM YYYY H:mm'),
+                startDate: moment(data.tanggal_mulai).format('DD MMM YYYY H:mm'),
+                endDate:moment(data.tanggal_selesai).format('DD MMM YYYY H:mm'),
+                minDate: moment(tanggal_mulai).format('DD MMM YYYY H:mm'),
+                maxDate: moment(tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMM YYYY H:mm'),
                 locale: {
-                    format: 'DD MMMM YYYY H:mm',
+                    format: 'DD MMM YYYY H:mm',
                 },
                 drops: "up",
             },function(start, end) {
@@ -527,12 +528,12 @@
                 $('#datePemuput-'+data_detail_reservasi.id).daterangepicker({
                     timePicker: true,
                     timePicker24Hour: true,
-                    startDate: moment(data_detail_reservasi.tanggal_mulai).format('DD MMMM YYYY H:mm'),
-                    endDate:moment(data_detail_reservasi.tanggal_selesai).format('DD MMMM YYYY H:mm'),
-                    minDate: moment(tanggal_mulai).format('DD MMMM YYYY H:mm'),
-                    maxDate: moment(tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMMM YYYY H:mm'),
+                    startDate: moment(data_detail_reservasi.tanggal_mulai).format('DD MMM YYYY H:mm'),
+                    endDate:moment(data_detail_reservasi.tanggal_selesai).format('DD MMM YYYY H:mm'),
+                    minDate: moment(tanggal_mulai).format('DD MMM YYYY H:mm'),
+                    maxDate: moment(tanggal_selesai).add(23,'hours').add(59,'minutes').format('DD MMM YYYY H:mm'),
                     locale: {
-                        format: 'DD MMMM YYYY H:mm',
+                        format: 'DD MMM YYYY H:mm',
                     },
                     drops: "up",
                 },function(start, end) {

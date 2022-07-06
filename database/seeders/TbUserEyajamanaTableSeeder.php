@@ -14,15 +14,15 @@ class TbUserEyajamanaTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('tb_user_eyajamana')->delete();
-        
+
         \DB::table('tb_user_eyajamana')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 1,
-                'id_penduduk' => NULL,
+                'id_penduduk' => 1,
                 'email' => 'admin@gmail.com',
                 'password' => '$2y$10$aDN8y/nNpe9DHte0VIVu/ensr4.Aw91vLA4z1XqlnEnZSW/AeeOEm',
                 'nomor_telepon' => '087851423695',
@@ -35,7 +35,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 14:53:02',
                 'updated_at' => '2022-05-24 14:21:36',
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 2,
                 'id_penduduk' => 3,
@@ -51,7 +51,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 14:53:54',
                 'updated_at' => '2022-05-20 12:35:34',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 3,
                 'id_penduduk' => 23,
@@ -67,7 +67,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 14:54:47',
                 'updated_at' => '2022-05-24 14:32:37',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 4,
                 'id_penduduk' => 2,
@@ -83,7 +83,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 14:55:37',
                 'updated_at' => '2022-01-18 14:55:39',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 6,
                 'id_penduduk' => 45,
@@ -99,7 +99,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-01-18 14:57:25',
                 'updated_at' => '2022-05-20 12:31:17',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 16,
                 'id_penduduk' => 15,
@@ -115,23 +115,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-03-07 09:00:45',
                 'updated_at' => '2022-03-07 09:00:45',
             ),
-            6 => 
-            array (
-                'id' => 22,
-                'id_penduduk' => 15,
-                'email' => 'rismawan1234@gmail.com',
-                'password' => '$2y$10$F8bkfLK3/PHBKD4Mxfs6I.G1zJXdPpupUh8OgWJTAu0OzmVePIWA6',
-                'nomor_telepon' => '12312312313213',
-                'user_profile' => 'app/default/profile/user.jpg',
-                'json_token_lupa_password' => NULL,
-                'fcm_token_key' => NULL,
-                'fcm_token_web' => NULL,
-                'lat' => NULL,
-                'lng' => NULL,
-                'created_at' => '2022-03-07 10:03:11',
-                'updated_at' => '2022-03-07 10:03:11',
-            ),
-            7 => 
+            7 =>
             array (
                 'id' => 49,
                 'id_penduduk' => 5,
@@ -147,7 +131,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2022-05-11 21:09:00',
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 50,
                 'id_penduduk' => 14,
@@ -163,7 +147,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 51,
                 'id_penduduk' => 7,
@@ -179,7 +163,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-05-22 11:57:39',
                 'updated_at' => '2022-05-24 08:58:48',
             ),
-            10 => 
+            10 =>
             array (
                 'id' => 58,
                 'id_penduduk' => 21,
@@ -195,7 +179,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-04-29 08:08:25',
                 'updated_at' => '2022-04-29 08:08:25',
             ),
-            11 => 
+            11 =>
             array (
                 'id' => 60,
                 'id_penduduk' => 11,
@@ -211,7 +195,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-05-05 09:47:22',
                 'updated_at' => '2022-05-05 09:47:22',
             ),
-            12 => 
+            12 =>
             array (
                 'id' => 61,
                 'id_penduduk' => 8,
@@ -227,7 +211,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-05-05 09:48:20',
                 'updated_at' => '2022-05-05 09:48:20',
             ),
-            13 => 
+            13 =>
             array (
                 'id' => 62,
                 'id_penduduk' => 19,
@@ -243,7 +227,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-05-06 04:18:02',
                 'updated_at' => '2022-05-06 04:18:02',
             ),
-            14 => 
+            14 =>
             array (
                 'id' => 63,
                 'id_penduduk' => 12,
@@ -259,7 +243,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-05-06 22:54:31',
                 'updated_at' => '2022-05-06 22:54:31',
             ),
-            15 => 
+            15 =>
             array (
                 'id' => 64,
                 'id_penduduk' => 1,
@@ -275,7 +259,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'created_at' => '2022-05-07 06:53:29',
                 'updated_at' => '2022-05-07 06:53:29',
             ),
-            16 => 
+            16 =>
             array (
                 'id' => 65,
                 'id_penduduk' => 6,
@@ -292,7 +276,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-24 14:32:01',
             ),
         ));
-        
-        
+
+
     }
 }

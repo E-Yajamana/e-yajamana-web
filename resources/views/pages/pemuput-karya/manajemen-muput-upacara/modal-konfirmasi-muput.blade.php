@@ -68,7 +68,7 @@
                         <p class="text-xs">Reservasi yang sudah ditolak, tidak dapat diubah kembali. Masukan alasan penolakan untuk menginformasikan kembali kepada Krama.</p>
                     </div>
                     <div class="form-group px-2">
-                        <label>Alasan Balat Muput Upacara? <span class="text-danger">*</span></label>
+                        <label>Alasan Batal Muput Upacara? <span class="text-danger">*</span></label>
                         <select id="alasan_pembatalan" onchange="getVal()" name="alasan_pembatalan" class="select2bs4 form-control " style="width: 100%;">
                             <option disabled selected>Pilih Alasan</option>
                             <option value="Kondisi tidak memungkinkan untuk Muput">Kondisi tidak memungkinkan untuk Muput</option>

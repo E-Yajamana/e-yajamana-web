@@ -42,7 +42,7 @@
                         <img class="profile-user-img img-fluid img-circle" src="{{route('image.profile.user',2)}}" alt="User profile picture">
                     </div>
                     <h3 class="text-center bold mb-0 ">{{$dataReservasi->getRelasi()->nama}}</h3>
-                    <p class="text-center mb-0" ><strong> Tanggal Upacara</strong>: {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d F Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
+                    <p class="text-center mb-0" ><strong> Tanggal Upacara</strong>: {{date('d M Y',strtotime($dataReservasi->Upacaraku->tanggal_mulai))}} - {{date('d M Y',strtotime($dataReservasi->Upacaraku->tanggal_selesai))}}</p>
                     @if ($dataReservasi->status == 'batal' || $dataReservasi->status == 'ditolak' )
                         <div class="d-flex justify-content-center text-center">
                             <strong> Alasan Pembatalan </strong>: {{$dataReservasi->keterangan}}
@@ -130,8 +130,8 @@
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
                                     <td>{{$data->TahapanUpacara->nama_tahapan}}</td>
-                                    <td>{{date('d F Y',strtotime($data->tanggal_mulai))}}</td>
-                                    <td>{{date('d F Y',strtotime($data->tanggal_selesai))}}</td>
+                                    <td>{{date('d M Y',strtotime($data->tanggal_mulai))}}</td>
+                                    <td>{{date('d M Y',strtotime($data->tanggal_selesai))}}</td>
                                     <td class="d-flex justify-content-center text-center">
                                         <span @if ($data->status == 'pending') class="bg-secondary btn-sm" @elseif ($data->status == 'diterima') class="bg-primary btn-sm" @elseif ($data->status == 'selesai') class="bg-success btn-sm"  @elseif ($data->status == 'ditolak' || $data->status == 'batal' ) class="bg-danger btn-sm" @else class="bg-info btn-sm" @endif style="border-radius: 5px; width:110px;">{{Str::ucfirst($data->status)}}</span>
                                     </td>
@@ -139,7 +139,7 @@
                                         @if ($data->status == 'pending' || $data->status == 'diterima')
                                             <td class="text-center">
                                                 <a onclick="updateData({{$data->id}},{{$data->TahapanUpacara->id}},'{{$data->TahapanUpacara->nama_tahapan}}','{{$data->tanggal_mulai}}','{{$data->tanggal_selesai}}','{{$data->status}}')" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                <button onclick="batalReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
+                                                <button onclick="batalTahapanReservasi({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times"></i></button>
                                             </td>
                                         @else
                                             <td class="text-center"></td>
@@ -164,7 +164,8 @@
                     </div>
                     <div class="col-6 my-2">
                         @if ($dataReservasi->status == 'pending' || $dataReservasi->status == 'proses tangkil')
-                            <button id="addTahapanReservasi" onclick="modalAdd()" type="button" class="btn btn-primary float-right" align-self="end">Tambah Reservasi</button>
+                            <button id="addTahapanReservasi" onclick="modalAdd()" type="button" class="btn btn-primary float-right mx-2" align-self="end">Tambah Tahapan</button>
+                            <button id="addTahapanReservasi" onclick="batalReservasi({{$dataReservasi->id}})" type="button" class="btn btn-danger float-right" align-self="end">Batalkan Reservasi</button>
                         @endif
                         @if(!isset($dataReservasi->rating) && $dataReservasi->status == 'selesai')
                             <button  data-toggle="modal" data-target="#modalRanting" type="button" class="btn btn-primary float-right" align-self="end">
@@ -178,6 +179,7 @@
     </div>
     <input type="hidden" class="d-none" id="tanggal_mulai" value="{{$dataReservasi->Upacaraku->tanggal_mulai}}">
     <input type="hidden" class="d-none" id="tangagl_selesai" value="{{$dataReservasi->Upacaraku->tanggal_selesai}}">
+    @include('pages.krama.manajemen-reservasi.modal-batal-reservasi')
 
     {{-- modal --}}
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -251,7 +253,7 @@
                         </div>
                         <div class="form-group px-2">
                             <label>Alasan Membatalkan Tahpan Reservasi? <span class="text-danger">*</span></label>
-                            <select id="alasan_pembatalan" name="alasan_pembatalan" class="select2bs4 form-control " style="width: 100%;">
+                            <select id="alasan_pembatalan_tahapan" class="select2bs4 form-control " style="width: 100%;">
                                  <option disabled selected>Pilih Alasan</option>
                                  <option value="Ingin mencari Pemuput Karya lainnya">Sudah mendapatkan Pemuput Karya Lainnya</option>
                                  <option value="Ingin melakukan pencarian Pemuput Karya secara Offline">Ingin melakukan pencarian Pemuput Karya secara Offline</option>
@@ -281,7 +283,6 @@
                     <form action="{{route('krama.store.rating')}}" method="POST">
                         @csrf
                         @method('PUT')
-                        <input type="hidden" id="idTahapanReservasi" class="d-none" >
                         <div class="modal-body">
                             <div class="callout callout-info mx-1">
                                 <p class="text-xs">Berikan penilaian terhadap pemuput karya, agar krama lain juga dapat mengetahui hasil muput pemuput karya</p>
@@ -363,28 +364,29 @@
         $('#reservationtime').daterangepicker({
             autoUpdateInput: true,
             timePicker: true,
-            "startDate": moment(tanggalMulai).format('DD MMMM YYYY'),
-            "endDate":  moment(tanggalSelesai).format('DD MMMM YYYY'),
-            minDate: moment(tanggalMulai).format('DD MMMM YYYY'),
-            maxDate: moment(tanggalSelesai).format('DD MMMM YYYY'),
+            timePicker24Hour: true,
+            "startDate": moment(tanggalMulai).format('DD MMM YYYY'),
+            "endDate":  moment(tanggalSelesai).format('DD MMM YYYY'),
+            minDate: moment(tanggalMulai).format('DD MMM YYYY'),
+            maxDate: moment(tanggalSelesai).add(23,'hours').add(59,'minutes').format('DD MMM YYYY H:mm'),
             locale: {
-                format: 'DD MMMM YYYY hh:mm A',
+                format: 'DD MMM YYYY H:mm',
                 cancelLabel: 'Clear'
             },
             drops: "up",
         })
 
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
+        // const Toast = Swal.mixin({
+        //     toast: true,
+        //     position: 'top-end',
+        //     showConfirmButton: false,
+        //     timer: 3000,
+        //     timerProgressBar: true,
+        //     didOpen: (toast) => {
+        //         toast.addEventListener('mouseenter', Swal.stopTimer)
+        //         toast.addEventListener('mouseleave', Swal.resumeTimer)
+        //     }
+        // })
     </script>
 @endpush
 
@@ -407,12 +409,13 @@
             $(".update-data").remove()
             $('#reservationtime').daterangepicker({
                 timePicker: true,
-                minDate: moment(tanggalMulai).format('DD MMMM YYYY'),
-                maxDate: moment(tanggalSelesai).format('DD MMMM YYYY'),
-                startDate: moment(start).format('DD MMMM YYYY hh:mm A'),
-                endDate:moment(end).format('DD MMMM YYYY hh:mm A'),
+                timePicker24Hour: true,
+                minDate: moment(tanggalMulai).format('DD MMM YYYY'),
+                maxDate: moment(tanggalSelesai).add(23,'hours').add(59,'minutes').format('DD MMM YYYY H:mm'),
+                startDate: moment(start).format('DD MMM YYYY HH:mm'),
+                endDate:moment(end).format('DD MMM YYYY H:mm'),
                 locale: {
-                    format: 'DD MMMM YYYY hh:mm A',
+                    format: 'DD MMM YYYY H:mm',
                 },
                 drops: "up",
             });
@@ -574,7 +577,7 @@
         function ajaxDeleteData(){
             let id_reservasi = $('#id_reservasi').val();
             let id_tahapan_reservasi = $('#idTahapanReservasi').val();
-            let alasan_pembatalan = $('#alasan_pembatalan').val();
+            let alasan_pembatalan = $('#alasan_pembatalan_tahapan').val();
 
             $.ajax({
                 url: "{{ route('krama.manajemen-reservasi.ajax.delete')}}",
@@ -672,8 +675,8 @@
                 '<tr>'+
                 '<td>'+no+'</td>'+
                 '<td>'+nama_tahapan+'</td>'+
-                '<td>'+moment(tanggal_mulai).format('DD MMMM YYYY')+'</td>'+
-                '<td>'+moment(tanggal_selesai).format('DD MMMM YYYY')+'</td>'+
+                '<td>'+moment(tanggal_mulai).format('DD MMM YYYY')+'</td>'+
+                '<td>'+moment(tanggal_selesai).format('DD MMM YYYY')+'</td>'+
                 '<td class="d-flex justify-content-center text-center"><span '+
                 (status == 'pending' ? 'class="bg-secondary btn-sm"' : '')+
                 (status == 'diterima' ? 'class="bg-primary btn-sm"' : '')+
@@ -696,7 +699,7 @@
 
 @push('js')
     <script>
-        function batalReservasi(id){
+        function batalTahapanReservasi(id){
             Swal.fire({
                 title: 'Peringatan',
                 text : 'Apakah anda yakin akan membatalkan tahapan reservasi tersebut?',

@@ -209,6 +209,7 @@ Route::group(['prefix'=>'pemuput-karya','middleware'=>'permission:pemuput'], fun
     Route::get('profile', [PemuputKaryaController::class, 'profile'])->name('pemuput-karya.profile');
     Route::get('dashboard', [PemuputDashboardController::class, 'index'])->name('pemuput-karya.dashboard');
     Route::get('calender', [PemuputDashboardController::class, 'calenderIndex'])->name('pemuput-karya.calender');
+    Route::get('report', [PemuputKaryaController::class, 'report'])->name('pemuput-karya.report');
 
 
     Route::prefix('manajemen-reservasi')->group(function () {
@@ -242,6 +243,8 @@ Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function 
     Route::get('', [SanggarController::class, 'testing']);
     Route::get('dashboard', [SanggarDashboardController::class, 'index'])->name('sanggar.dashboard');
     Route::post('set-session', [SanggarController::class, 'setSession'])->name('sanggar.session')->withoutMiddleware('permission:sanggar');
+    Route::get('report', [SanggarController::class, 'report'])->name('sanggar.report');
+
 
     Route::prefix('manajemen-sanggar')->group(function () {
         Route::get('index', [SanggarController::class, 'index'])->name('manajemen-sanggar.index');
@@ -269,7 +272,7 @@ Route::group(['prefix'=>'sanggar','middleware'=>'permission:sanggar'], function 
         Route::get('konfimasi-muput/index', [SanggarKonfirmasiMuput::class, 'index'])->name('sanggar.muput-upacara.konfirmasi-muput.index');
         Route::get('konfimasi-muput/detail/{id?}', [SanggarKonfirmasiMuput::class, 'detail'])->name('sanggar.muput-upacara.konfirmasi-muput.detail');
         Route::put('konfimasi-muput/konfirmasi', [SanggarKonfirmasiMuput::class, 'konfirmasiMuput'])->name('sanggar.muput-upacara.konfirmasi-muput.konfirmasi');
-        Route::put('konfimasi-muput/batal', [KonfirmasiMuputController::class, 'batalMuput'])->name('sanggar.muput-upacara.konfirmasi-muput.batal');
+        Route::put('konfimasi-muput/batal', [SanggarKonfirmasiMuput::class, 'batalMuput'])->name('sanggar.muput-upacara.konfirmasi-muput.batal');
 
     });
 });
@@ -311,9 +314,8 @@ Route::prefix('ajax')->group(function () {
         Route::get('tahapan-reservasi/{id?}', [AjaxController::class, 'getDataTahapanReservasi'])->name('ajax.get.tahapan-reservasi');
         Route::post('pemuput/jadwal', [AjaxController::class, 'jadwalReservasiPemuput'])->name('ajax.jadwal-reservasi-pemuput');
         Route::get('krama/jadwal/{id?}', [AjaxController::class, 'jadwalReservasiKrama'])->name('ajax.jadwal-reservasi-krama');
+        Route::post('pemuput/report', [AjaxController::class, 'reportPemuput'])->name('ajax.report.linechart');
     });
-
-    Route::get('data-tangkil/{id?}', [AjaxController::class, 'getDataTangkilPemuputKarya'])->name('ajax.get.data-tangkil');
 
     Route::prefix('user')->group(function () {
         Route::get('penduduk/{nik?}', [AjaxController::class, 'getDataPenduduk'])->name('ajax.get.data-penduduk');

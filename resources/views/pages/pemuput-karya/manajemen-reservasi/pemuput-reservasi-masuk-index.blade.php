@@ -44,7 +44,7 @@
     <div class="container-fluid">
         <div class="card card-primary card-outline tab-content" id="v-pills-tabContent">
             <div class="card-header my-auto">
-                <h3 class="card-title my-auto">List Data Reservasi Krama</h3>
+                <h3 class="card-title my-auto">Pengajuan Reservasi Krama</h3>
             </div>
             {{-- Start Data Table Sulinggih --}}
             <div class="tab-pane fade show active" id="sulinggih-table" role="tabpanel" aria-labelledby="sulinggih-tabs">
@@ -86,16 +86,6 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            {{-- <tfoot>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Penyelenggara </th>
-                                    <th>Tahapan Reservasi</th>
-                                    <th>Tanggal Upacara</th>
-                                    <th class="text-center">Konfirmasi Sebelum</th>
-                                    <th>Tindakan</th>
-                                </tr>
-                            </tfoot> --}}
                         </table>
                     </div>
                 </div>
@@ -171,14 +161,6 @@
         $('.select2bs4').select2({
             theme: 'bootstrap4'
         })
-
-        $('#reservationdatetime').datetimepicker({
-            format: 'DD MMMM YYYY h:mm A',
-            date: new Date(),
-            icons: {
-                time: 'far fa-clock'
-            }
-        });
 
     </script>
 @endpush

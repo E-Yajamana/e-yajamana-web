@@ -1,4 +1,4 @@
- <!-- /.content -->
+<!-- /.content -->
  <div class="modal fade" id="modalPembatalan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content ">
@@ -14,7 +14,7 @@
                 <input type="hidden" id="idReservasi" class="d-none" value="" name="id">
                 <div class="modal-body">
                     <div class="callout callout-info mx-1">
-                        <p class="text-xs">Pembatalan reservasi yang telah dibuat butuh alasan untuk menginformasikan kembali Pemuput Karya.</p>
+                        <p class="text-xs">Pembatalan reservasi yang telah dibuat butuh alasan untuk menginformasikan kembali Pemuput Karya atau Sanggar.</p>
                     </div>
                     <div class="form-group px-2">
                         <label>Alasan Membatalkan Reservasi? <span class="text-danger">*</span></label>
