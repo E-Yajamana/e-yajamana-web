@@ -55,7 +55,8 @@ class PemuputKarya extends Model
 		'nama_pemuput',
 		'tipe',
 		'status_konfirmasi_akun',
-		'keterangan_konfirmasi_akun'
+		'keterangan_konfirmasi_akun',
+        'rating'
 	];
 
 	protected function serializeDate(DateTimeInterface $date)

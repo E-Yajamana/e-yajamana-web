@@ -103,7 +103,7 @@
                                             <span class="bg-info">{{date('d F Y')}}</span>
                                         </div>
                                     @endif
-                                    @forelse ($dataJadwal as $reservasi)
+                                    @forelse ($dataJadwal as $key  => $reservasi)
                                         @if (date('d M Y') === date('d M Y',strtotime($reservasi->tanggal_tangkil)))
                                             <div>
                                                 {{-- <i class="fas fa-angle-right "></i> --}}

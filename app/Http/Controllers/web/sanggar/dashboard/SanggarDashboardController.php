@@ -30,7 +30,7 @@ class SanggarDashboardController extends Controller
         $dataJadwal = Reservasi::with(['Upacaraku.User.Penduduk','Upacaraku.Upacara','DetailReservasi'=>$queryDetailReservasi])
             ->whereHas('DetailReservasi',$queryDetailReservasi)
             ->whereTipe('sanggar')
-            ->whereStatus('proses muput')
+            ->whereIn('status',['proses tangkil','proses muput'])
             ->whereIdSanggar($id_sanggar)
             ->get();
 

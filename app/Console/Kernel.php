@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
     ];
 
     /**
@@ -25,6 +24,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('validasi:reservasi')->everyMinute();
+        $schedule->command('reminder:tangkil')->everyMinute();
+        $schedule->command('reminder:muput')->everyMinute();
+        $schedule->command('calculation:ranting')->everyMinute();
+        $schedule->command('make:reminder')->everyMinute();
+
     }
 
     /**

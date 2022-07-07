@@ -47,7 +47,8 @@ class DetailReservasi extends Model
 		'tanggal_mulai',
 		'tanggal_selesai',
 		'keterangan',
-		'status'
+		'status',
+        'reminded'
 	];
 
 	/**

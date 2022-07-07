@@ -4,7 +4,9 @@ namespace App\Http\Controllers\web\admin\dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\GriyaRumah;
+use App\Models\PemuputKarya;
 use App\Models\Reservasi;
+use App\Models\Sanggar;
 use App\Models\Upacara;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,7 +24,6 @@ class AdminDashboardController extends Controller
             'countReservasiUser' => Reservasi::all()->count(),
         ];
 
-
         $countJenisYadnya = [
             $upacara->where('kategori_upacara','Manusa Yadnya')->count(),
             $upacara->where('kategori_upacara','Pitra Yadnya')->count(),
@@ -31,6 +32,13 @@ class AdminDashboardController extends Controller
             $upacara->where('kategori_upacara','Bhuta Yadnya')->count(),
         ];
 
-        return view('pages.admin.dashboard', compact('countData','countJenisYadnya'));
+        $countJenisUser = [
+            'Krama' => User::get()->count(),
+            'Sulinggih' => PemuputKarya::whereTipe('sulinggih')->get()->count(),
+            'Pemangku' => PemuputKarya::whereTipe('pemangku')->get()->count(),
+            'Sanggar' => Sanggar::get()->count(),
+        ];
+
+        return view('pages.admin.dashboard', compact('countData','countJenisYadnya','countJenisUser'));
     }
 }

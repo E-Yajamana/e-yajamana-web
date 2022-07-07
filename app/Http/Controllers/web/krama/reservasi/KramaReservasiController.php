@@ -31,12 +31,13 @@ class KramaReservasiController extends Controller
     // INDEX RESERVASI KRAMA
     public function indexReservasi(Request $request)
     {
+
         // MAIN LOGIC
             try{
                 $idKrama = Auth::user()->id;
-                $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi.DetailReservasi','Reservasi.Relasi'=>function($query){
-                    $query->with(['PemuputKarya','Sanggar']);
-                }])->whereHas('Reservasi.DetailReservasi')->whereHas('Reservasi.Relasi')->where('id_krama',$idKrama)->get();
+                $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi.DetailReservasi','Reservasi.Relasi.PemuputKarya','Reservasi'])
+                    ->whereHas('Reservasi.DetailReservasi')
+                    ->where('id_krama',$idKrama)->get();
 
                 $data = [];
                 foreach($dataUpacaraku as $index=>$upacara){
@@ -72,6 +73,7 @@ class KramaReservasiController extends Controller
                         ]);
                     }
                 }
+
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 return redirect()->back()->with([
                     'status' => 'fail',
