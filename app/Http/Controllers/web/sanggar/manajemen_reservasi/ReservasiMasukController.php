@@ -192,12 +192,12 @@ class ReservasiMasukController extends Controller
                 case 'proses tangkil':
                     $title = "RESERVASI DITERIMA";
                     $messagePemuput = "Konfirmasi Reservasi berhasil dilakukan, data Reservasi yang diterima dapat dilihat pada menu Konfirmasi Penguleman";
-                    $messageKrama = "Halo Krama Bali ! Reservasi anda dengan ID : ".$request->id_reservasi." telah diterima oleh ".$sanggar->nama_sanggar.", harap datang ke Sanggar sebelum  tanggal : ".$request->tanggal_tangkil." untuk berdiskusi lebih lanjut dan membawa Penguleman.";
+                    $messageKrama = "Halo Krama ! Reservasi anda telah diterima oleh ".$sanggar->nama_sanggar.", harap datang ke Sanggar sebelum  tanggal : ".$request->tanggal_tangkil." untuk berdiskusi lebih lanjut dan membawa Penguleman.";
                     break;
                 case 'ditolak':
                     $title = "RESERVASI DITOLAK";
                     $messagePemuput = "Berhasil menolak Reservasi. anda dapat melihat semua data Reservasi yang masuk pada menu Riwayat Reservasi";
-                    $messageKrama = "Halo Krama Bali ! Reservasi anda dengan ID : ".$request->id_reservasi." telah ditolak oleh ".$sanggar->nama_sanggar.", mohon untuk mencari sanggar lainnya";
+                    $messageKrama = "Halo Krama ! Reservasi anda telah ditolak oleh ".$sanggar->nama_sanggar.", mohon untuk mencari sanggar lainnya";
                     break;
                 default:
             }

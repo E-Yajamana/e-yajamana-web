@@ -59,11 +59,12 @@ class validasiReservasi extends Command
             $idDetailReservasi->push($data->DetailReservasi()->pluck('id'));
             if($data->Relasi != null){
                 $pemuput = $data->Relasi;
-                $body = "Reservasi Anda pada ".$pemuput->PemuputKarya->nama_pemuput." telah dibatalkan, karena Pemuput tidak menanggapi Reservasi";
+                $body = "Reservasi Anda pada ".$pemuput->PemuputKarya->nama_pemuput." telah otomatis dibatalkan, karena Pemuput tidak menanggapi reservasi anda";
+                $type = 'pemuput_karya';
             }else{
                 $pemuput = $data->Sanggar->User[0];
-                $jenis = 'Sanggar';
-                $body = "Reservasi Anda pada ".$data->Sanggar->nama_sanggar." telah dibatalkan, karena Sanggar tidak menanggapi Reservasi";
+                $type = 'sanggar';
+                $body = "Reservasi Anda pada ".$data->Sanggar->nama_sanggar." telah otomatis dibatalkan, karena Sanggar tidak menanggapi reservasi anda";
             }
 
             NotificationHelper::sendNotification(
@@ -86,7 +87,7 @@ class validasiReservasi extends Command
                     'body' =>"Reservasi yang diajukan oleh ".$data->Upacaraku->User->Penduduk->nama." telah dibatalakan secara otomatis, karena sudah melewati batas konfirmasi!!",
                     'status' => "new",
                     'image' => "krama",
-                    'type' => "pemuput",
+                    'type' => $type,
                     'notifiable_id' => $pemuput->id,
                     'formated_created_at' => date('Y-m-d H:i:s'),
                     'formated_updated_at' => date('Y-m-d H:i:s'),

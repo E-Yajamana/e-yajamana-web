@@ -19,6 +19,7 @@ class CreateTbDetailReservasiTable extends Migration
             $table->integer('id_tahapan_upacara')->index('id_tahapan_upacara');
             $table->dateTime('tanggal_mulai')->nullable();
             $table->dateTime('tanggal_selesai')->nullable();
+            $table->date('reminded')->nullable();
             $table->enum('status', ['diterima', 'ditolak', 'pending', 'selesai', 'batal'])->nullable();
             $table->text('keterangan')->nullable();
             $table->timestamps();

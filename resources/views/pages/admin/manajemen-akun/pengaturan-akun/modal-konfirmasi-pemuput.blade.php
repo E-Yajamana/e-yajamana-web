@@ -65,7 +65,7 @@
         {
             Swal.fire({
                 title: 'Verifikasi',
-                text : 'Apakah anda yakin akan mengkonfirmasi akun Pemuput Karya tersebut?',
+                text : 'Apakah Anda yakin akan mengkonfirmasi Akun Pemuput Karya tersebut?',
                 icon:'question',
                 showDenyButton: true,
                 showCancelButton: false,

@@ -50,7 +50,7 @@
             <div class="col-md-12">
                 <div class="callout callout-info container-fluid">
                     <h5><i class="fas fa-info"></i> Catatan:</h5>
-                     Pembuatan Upacara yang dilakukan dari jauh hari, akan semakin baik untuk proses Reservasi kedepannya..!!!
+                     Pembuatan upacara yang dilakukan dari jauh hari, akan semakin baik untuk proses reservasi kedepannya..!!!
                 </div>
                 <div class="card card-default">
                     <div class="card-header">
@@ -196,7 +196,7 @@
                                                             @endif
                                                         @endforeach
                                                     </select>
-                                                    <p class="m-1 text-sm">(Pilih List Kabupaten Bali)</p>
+                                                    <p class="m-1 text-sm">(Pilih Daftar Kabupaten)</p>
                                                     @error('kabupaten')
                                                         <div class="invalid-feedback text-start">
                                                             {{$errors->first('kabupaten') }}

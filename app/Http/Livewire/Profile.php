@@ -27,12 +27,6 @@ class Profile extends Component
         $this->nabe = PemuputKarya::whereTipe('sulinggih')->get();
     }
 
-    public function updateDataSulinggih()
-    {
-        dd($this->nama_sulinggih);
-    }
-
-
     public function deleteNotif($id)
     {
         // SECURITY
@@ -42,7 +36,7 @@ class Profile extends Component
             if($validator->fails()){
                 $this->dispatchBrowserEvent('swal:modal', [
                     'icon' => 'error',
-                    'title' => 'Gagal menghapus Notification',
+                    'title' => 'Gagal menghapus notifikasi',
                 ]);
             }
         // END SECURITY
@@ -51,7 +45,7 @@ class Profile extends Component
         Notification::findOrFail($id)->delete();
         $this->dispatchBrowserEvent('swal:modal', [
             'icon' => 'success',
-            'title' => 'Berhasil menghapus Notification',
+            'title' => 'Berhasil menghapus notifikasi',
         ]);
     }
 
@@ -64,7 +58,7 @@ class Profile extends Component
             if($validator->fails()){
                 $this->dispatchBrowserEvent('swal:modal', [
                     'icon' => 'error',
-                    'title' => 'Gagal menghapus Notification',
+                    'title' => 'Gagal menghapus notifikasi',
                 ]);
             }
         // END SECURITY
@@ -78,7 +72,7 @@ class Profile extends Component
 
         $this->dispatchBrowserEvent('swal:modal', [
             'icon' => 'success',
-            'title' => 'Berhasil membaca Notification',
+            'title' => 'Berhasil membaca notifikasi',
         ]);
     }
 

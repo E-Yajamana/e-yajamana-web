@@ -50,10 +50,12 @@ class reminderTangkil extends Command
                     $pemuput = $data->Relasi;
                     $body = "Hallo, Pengingat bahwa besok terdapat Krama akan Tangkil Ke Griya ".$data->Relasi->PemuputKarya->GriyaRumah->nama_griya_rumah;
                     $bodyKrama = "Hallo Krama, Pengingat bahwa besok terdapat jadwal Tangkil ke ".$data->Relasi->PemuputKarya->GriyaRumah->nama_griya_rumah;
+                    $type = "pemuput_karya";
                 }else{
                     $pemuput = $data->Sanggar->User[0];
                     $body = "Hallo, Pengingat bahwa besok terdapat Krama akan membawa Penguleman lokasi Sanggar";
                     $bodyKrama = "Hallo Krama, Pengingat bahwa besok terdapat jadwal Penguleman ke Sanggar ".$data->Sanggar->nama_sanggar;
+                    $type = "sanggar";
                 }
 
                 NotificationHelper::sendNotification(
@@ -76,7 +78,7 @@ class reminderTangkil extends Command
                         'body' =>$body,
                         'status' => "new",
                         'image' => "krama",
-                        'type' => "krama",
+                        'type' =>  $type,
                         'notifiable_id' => $data->Upacaraku->User->id,
                         'formated_created_at' => date('Y-m-d H:i:s'),
                         'formated_updated_at' => date('Y-m-d H:i:s'),

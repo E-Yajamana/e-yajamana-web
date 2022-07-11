@@ -470,8 +470,8 @@ class RegisterController extends Controller
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Gagal Menambahkan Data Akun Sanggar',
-                    'message' => 'Gagal menambahkan data akun Sanggar, apabila diperlukan mohon hubungi developer sistem`',
+                    'title' => 'Gagal Menambahkan Data Akun Krama',
+                    'message' => 'Gagal menambahkan data akun Krama, apabila diperlukan mohon hubungi developer sistem`',
                 ]);
             }
         //END MAIN LOGIC
@@ -480,8 +480,8 @@ class RegisterController extends Controller
             return redirect()->route('auth.login')->with([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Berhasil Membuat Akun Krama Bali',
-                'message' => 'Berhasil membuat akun Krama Bali, anda dapat Login untuk masuk ke sistem E-Yajamana',
+                'title' => 'Berhasil Membuat Akun Krama ',
+                'message' => 'Berhasil membuat akun Krama, anda dapat Login untuk masuk ke sistem E-Yajamana',
             ]);
         // END LOGIC
 
@@ -497,10 +497,10 @@ class RegisterController extends Controller
                 'nama_pemuput' => 'required|regex:/^[a-z,. 0-9, -]+$/i|min:5|max:50',
             ];
             $message = [
-                'nama_pemuput.required' => "Nama Sulinggih wajib diisi",
-                'nama_pemuput.regex' => "Format Nama Sulinggih tidak sesuai",
-                'nama_pemuput.min' => "Nama Sulinggih minimal berjumlah 5 karakter",
-                'nama_pemuput.max' => "Nama Sulinggih maksimal berjumlah 50 karakter",
+                'nama_pemuput.required' => "Nama Pemangku wajib diisi",
+                'nama_pemuput.regex' => "Format Nama Pemangku tidak sesuai",
+                'nama_pemuput.min' => "Nama Pemangku minimal berjumlah 5 karakter",
+                'nama_pemuput.max' => "Nama Pemangku maksimal berjumlah 50 karakter",
             ];
             // VALIDASI DEFAULT
 

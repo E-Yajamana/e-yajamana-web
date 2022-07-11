@@ -14,7 +14,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li id="side-pengaturan-akun" class="user-panel nav-item">
                     <a href="#" class="nav-link mb-2">
-                        <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
+                        <img src="{{route('image.profile.user',Auth::user()->id)}}" class="img-circle elevation-2 mr-2 mb-1" style="height: 30px" alt="User Image">
                         <p>
                             Krama
                             <i class="fas fa-angle-left right mt-2"></i>
@@ -132,7 +132,7 @@
 
     <!-- /.sidebar -->
 </aside>
-<input id="countReservasi" type="hidden" value='{{count(Auth::user()->Upacaraku)}}'>
+<input id="countReservasi" type="hidden" value='{{count(Auth::user()->Upacaraku->whereNotIn('status',['batal','selesai']))}}'>
 
 @if (count(Auth::user()->Upacaraku->whereNotIn('status',['batal','selesai'])) != 0)
     <!-- Modal -->

@@ -187,7 +187,7 @@
                                 <div class="col-6">
                                     <label class="card-title my-auto">Reservasi Upacara</label>
                                 </div>
-                                @if ($dataUpacaraku->status != 'batal')
+                                @if ($dataUpacaraku->status != 'batal' && $dataUpacaraku->status != 'selesai' )
                                     <div class="col-6">
                                         <a class="btn-sm btn-primary float-right" href="{{route('krama.manajemen-reservasi.create',$dataUpacaraku->id)}}"><i class="fa fa-plus"></i> Buat Reservasi</a>
                                     </div>

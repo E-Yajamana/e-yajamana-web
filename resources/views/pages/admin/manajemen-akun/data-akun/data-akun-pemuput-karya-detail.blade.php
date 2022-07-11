@@ -61,7 +61,7 @@
                 <div @if ($dataPemuput->tipe == 'sulinggih') class="col-12 col-md-6" @endif class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Data Akun User</h3>
+                            <h3 class="card-title">Data Akun</h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
@@ -73,7 +73,7 @@
                                 <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataPemuput->User->nomor_telepon}}">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Mendaftar Pada Tanggal</label>
+                                <label for="exampleInputEmail1">Mendaftar pada tanggal</label>
                                 <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" disabled value="{{date('d F Y',strtotime($dataPemuput->User->created_at))}}">
                             </div>
                         </div>
@@ -176,7 +176,7 @@
                             @endif
                             <div class="form-group">
                                 <label for="exampleInputEmail1"> @if ($dataPemuput->tipe == 'sulinggih') Nama Walaka @else Nama Pemangku @endif</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataPemuput->User->Penduduk->nama_asli}}" disabled>
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataPemuput->User->Penduduk->nama}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Tempat/Tanggal Lahir</label>
@@ -219,8 +219,8 @@
                     </div>
                     <div class="float-lg-right">
                         @if ($dataPemuput->status_konfirmasi_akun == 'pending')
-                            <button onclick="verifikasiPemuputKarya({{$dataPemuput->id}})" type="button" class="btn btn-primary btn-sm ">Setujui</button>
-                            <button class="btn btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-default">Tolak</button>
+                            <button onclick="terimaPemuput({{$dataPemuput->id}})" type="button" class="btn btn-primary btn-sm ">Setujui</button>
+                            <button onclick="tolakPemuput({{$dataPemuput->id}})" class="btn btn btn-danger btn-sm">Tolak</button>
                         @endif
                     </div>
                 </div>

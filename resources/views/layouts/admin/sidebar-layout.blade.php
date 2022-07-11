@@ -39,7 +39,7 @@
 
                 <li class="nav-header font-weight-bold" >DASHBOARD</li>
                 <li class="nav-item" id="side-dashboard">
-                    <a href="pages/gallery.html" class="nav-link">
+                    <a href="{{route('admin.dashboard')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>

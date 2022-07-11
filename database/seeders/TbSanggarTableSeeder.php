@@ -14,19 +14,19 @@ class TbSanggarTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('tb_sanggar')->delete();
-        
+
         \DB::table('tb_sanggar')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 5,
                 'id_banjar_dinas' => 12,
                 'nama_sanggar' => 'Sanngar Bali Warini',
                 'alamat_sanggar' => 'Buana sari no 14',
                 'sk_tanda_usaha' => 'app/default/tanda_usaha.jpg',
-                'profile' => NULL,
+                'profile' => 'app/sanggar/profile/logo1.jpg',
                 'lat' => '-8.646906000000000000',
                 'lng' => '115.145921000000000000',
                 'status_konfirmasi_akun' => 'disetujui',
@@ -34,7 +34,7 @@ class TbSanggarTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 6,
                 'id_banjar_dinas' => 19,
@@ -49,7 +49,7 @@ class TbSanggarTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => '2022-06-13 20:03:40',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 9,
                 'id_banjar_dinas' => 21,
@@ -64,7 +64,7 @@ class TbSanggarTableSeeder extends Seeder
                 'created_at' => '2022-05-07 11:58:39',
                 'updated_at' => '2022-06-28 14:29:33',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 10,
                 'id_banjar_dinas' => 11,
@@ -79,14 +79,14 @@ class TbSanggarTableSeeder extends Seeder
                 'created_at' => '2022-05-07 14:03:06',
                 'updated_at' => '2022-05-08 07:49:39',
             ),
-            4 => 
+            4 =>
             array (
                 'id' => 11,
                 'id_banjar_dinas' => 14,
                 'nama_sanggar' => 'Sanggar Seni Dalung',
                 'alamat_sanggar' => 'Cemara giri no 14',
                 'sk_tanda_usaha' => 'app/sanggar/sk_tanda_usaha/1655085973-screen-0jpg.jpg',
-                'profile' => 'app/sanggar/profile/1655085973-unnamedpng.png',
+                'profile' => 'app/sanggar/profile/logo2.jpg',
                 'lat' => '-8.306623685431822000',
                 'lng' => '114.635467529296890000',
                 'status_konfirmasi_akun' => 'disetujui',
@@ -94,7 +94,7 @@ class TbSanggarTableSeeder extends Seeder
                 'created_at' => '2022-06-13 10:06:13',
                 'updated_at' => '2022-06-28 14:29:37',
             ),
-            5 => 
+            5 =>
             array (
                 'id' => 12,
                 'id_banjar_dinas' => 16,
@@ -109,14 +109,14 @@ class TbSanggarTableSeeder extends Seeder
                 'created_at' => '2022-06-13 21:04:05',
                 'updated_at' => '2022-06-29 14:32:46',
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 13,
                 'id_banjar_dinas' => 16,
                 'nama_sanggar' => 'test',
                 'alamat_sanggar' => 'test',
                 'sk_tanda_usaha' => 'app/sanggar/sk_tanda_usaha/1656654057-tempfilejpg.jpg',
-                'profile' => NULL,
+                'profile' => 'app/sanggar/profile/logo3.png',
                 'lat' => '-8.615612736589748000',
                 'lng' => '115.232848115265370000',
                 'status_konfirmasi_akun' => 'pending',
@@ -124,7 +124,7 @@ class TbSanggarTableSeeder extends Seeder
                 'created_at' => '2022-07-01 13:40:57',
                 'updated_at' => '2022-07-01 13:40:57',
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 14,
                 'id_banjar_dinas' => 16,
@@ -139,7 +139,7 @@ class TbSanggarTableSeeder extends Seeder
                 'created_at' => '2022-07-01 13:47:17',
                 'updated_at' => '2022-07-01 13:47:17',
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 15,
                 'id_banjar_dinas' => 16,
@@ -154,7 +154,7 @@ class TbSanggarTableSeeder extends Seeder
                 'created_at' => '2022-07-01 13:48:56',
                 'updated_at' => '2022-07-01 13:48:56',
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 16,
                 'id_banjar_dinas' => 16,
@@ -170,7 +170,7 @@ class TbSanggarTableSeeder extends Seeder
                 'updated_at' => '2022-07-01 13:50:58',
             ),
         ));
-        
-        
+
+
     }
 }

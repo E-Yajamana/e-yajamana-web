@@ -47,11 +47,11 @@ class DataAkunController extends Controller
         return view('pages.admin.manajemen-akun.data-akun.data-akun-serati-detail',compact('dataSerati'));
     }
 
-    // public function detailKrama(Request $request)
-    // {
-    //     $dataKrama = Krama::with(['User.Penduduk'])->findOrFail($request->id);
-    //     return view('pages.admin.manajemen-akun.data-akun.data-akun-krama-detail',compact('dataKrama'));
-    // }
+    public function detailKrama(Request $request)
+    {
+        $dataKrama = User::with(['Penduduk'])->findOrFail($request->id);
+        return view('pages.admin.manajemen-akun.data-akun.data-akun-krama-detail',compact('dataKrama'));
+    }
 
 
 }

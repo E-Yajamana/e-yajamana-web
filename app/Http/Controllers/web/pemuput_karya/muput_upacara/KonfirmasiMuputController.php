@@ -65,8 +65,8 @@ class KonfirmasiMuputController extends Controller
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Tahapan Reservasi Tidak Ditemukan !',
-                    'message' => 'Tahapan Reservasi tidak ditemukan, pilihlah data dengan benar !',
+                    'title' => 'Data Detail Tidak Ditemukan !',
+                    'message' => 'Data Detail tidak ditemukan, pilihlah data dengan benar !',
                 ]);
             }
         // END SECURITY
@@ -156,7 +156,7 @@ class KonfirmasiMuputController extends Controller
             NotificationHelper::sendNotification(
                 [
                     'title' => 'MUPUT UPACARA SELESAI',
-                    'body' => 'Halo '.$sulinggih->PemuputKarya->nama_pemuput.", Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." berhasil dilakukan!",
+                    'body' => 'Halo '.$sulinggih->PemuputKarya->nama_pemuput.", Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." berhasil diselesaikan!",
                     'status' => "new",
                     'image' => "normal",
                     'type' => "pemuput",
@@ -170,7 +170,7 @@ class KonfirmasiMuputController extends Controller
             NotificationHelper::sendNotification(
                 [
                     'title' =>"MUPUT UPACARA SELESAI",
-                    'body' => "Halo Krama Bali !!, ".$sulinggih->PemuputKarya->nama_pemuput." sudah menyelesaikan Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." ! ",
+                    'body' => "Halo Krama!, ".$sulinggih->PemuputKarya->nama_pemuput." sudah menyelesaikan Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." ! ",
                     'status' => "new",
                     'image' => "normal",
                     'type' => "krama",
@@ -198,7 +198,7 @@ class KonfirmasiMuputController extends Controller
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Berhasil menyelesaikan muput upacara!',
-                'message' => 'Data konfirmasi muput dapat dilihat pada menu muput upacara, anda dapat melihat pembaruan data pada sistem',
+                'message' => 'Data Berhasil menyelesaikan muput upacara, Anda dapat melihat pembaruan data pada sistem',
             ]);
         //END
 
@@ -263,7 +263,7 @@ class KonfirmasiMuputController extends Controller
                 NotificationHelper::sendNotification(
                     [
                         'title' =>"PEMBATALAN MUPUT UPACARA",
-                        'body' => "Halo Krama Bali !!, ".$sulinggih->PemuputKarya->nama_pemuput." membatalkan tahapan Upacara ".$detailReservasi->TahapanUpacara->nama_tahapan." dengan alasan pembatalan : ".$request->alasan_pembatalan,
+                        'body' => "Halo Krama!!, ".$sulinggih->PemuputKarya->nama_pemuput." membatalkan tahapan Upacara ".$detailReservasi->TahapanUpacara->nama_tahapan." dengan alasan pembatalan : ".$request->alasan_pembatalan,
                         'status' => "new",
                         'image' => "normal",
                         'notifiable_id' => $krama->id,
@@ -290,7 +290,7 @@ class KonfirmasiMuputController extends Controller
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Muput Upacara dibatalkan!',
-                'message' => 'Data Reservasi muput dapat dilihat pada menu muput upacara, anda dapat melihat pembaruan data pada sistem',
+                'message' => 'Muput Upacara berhasil dibatalkan, anda dapat melihat pembaruan data pada sistem',
             ]);
         //END
     }

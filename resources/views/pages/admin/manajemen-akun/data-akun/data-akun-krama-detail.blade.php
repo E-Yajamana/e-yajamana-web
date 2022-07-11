@@ -20,13 +20,13 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Detail Akun Krama Bali</h1>
+                    <h1>Detail Akun</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Data Akun User</a></li>
-                        <li class="breadcrumb-item active">Detail Akun User</li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('admin.manajemen-akun.data-akun.index')}}">Data Akun</a></li>
+                        <li class="breadcrumb-item active">Detail</li>
                     </ol>
                 </div>
             </div>
@@ -41,10 +41,10 @@
                     <div class="card card-info card-outline">
                         <div class="card-body box-profile m-2">
                             <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle" src="{{route('get-image.profile.pemuput-karya',$dataKrama->User->id)}}" alt="User profile picture">
+                                <img class="profile-user-img img-fluid img-circle" src="{{route('image.profile.user',$dataKrama->id)}}" alt="User profile picture">
                             </div>
-                            <h3 class="profile-username text-center mb-0 mt-2">{{$dataKrama->User->Penduduk->nama}}</h3>
-                            <p class="text-muted text-center mb-0">Krama Bali</p>
+                            <h3 class="profile-username text-center mb-0 mt-2">{{$dataKrama->Penduduk->nama}}</h3>
+                            <p class="text-muted text-center mb-0">Krama</p>
                         </div>
                     </div>
                 </div>
@@ -58,27 +58,27 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Data Akun User</h3>
+                            <h3 class="card-title">Data Akun</h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataKrama->User->email}}" disabled>
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataKrama->email}}" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Nomor Telepon</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataKrama->User->nomor_telepon}}">
+                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataKrama->nomor_telepon}}">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Mendaftar Pada Tanggal</label>
-                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" disabled value="{{date('d F Y',strtotime($dataKrama->User->created_at))}}">
+                                <label for="exampleInputEmail1">Mendaftar pada tanggal</label>
+                                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" disabled value="{{date('d F Y',strtotime($dataKrama->created_at))}}">
                             </div>
                         </div>
                     </div>
 
                     <div class="card card-default">
                         <div class="card-header">
-                            <h3 class="card-title">Data Krama Bali</h3>
+                            <h3 class="card-title">Data Krama </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
@@ -93,37 +93,37 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">NIK</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataKrama->User->Penduduk->nik}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataKrama->Penduduk->nik}}" disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nama Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataKrama->User->Penduduk->nama}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataKrama->Penduduk->nama}}" disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Jenis Kelamin</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pendidikan" disabled value="{{$dataKrama->User->Penduduk->jenis_kelamin}}">
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pendidikan" disabled value="{{$dataKrama->Penduduk->jenis_kelamin}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Pendidikan</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pendidikan" disabled value="{{$dataKrama->User->Penduduk->Pendidikan->jenjang_pendidikan}}">
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pendidikan" disabled value="{{$dataKrama->Penduduk->Pendidikan->jenjang_pendidikan}}">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nomor Induk Krama</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataKrama->User->Penduduk->nomor_induk_krama}}" disabled>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" value="{{$dataKrama->Penduduk->nomor_induk_krama}}" disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Tempat/Tanggal Lahir</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataKrama->User->Penduduk->tempat_lahir}}, {{date('d F Y',strtotime($dataKrama->User->Penduduk->tanggal_lahir))}}">
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataKrama->Penduduk->tempat_lahir}}, {{date('d F Y',strtotime($dataKrama->Penduduk->tanggal_lahir))}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Golongan Darah</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pendidikan" disabled value="{{$dataKrama->User->Penduduk->golongan_darah}}">
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pendidikan" disabled value="{{$dataKrama->Penduduk->golongan_darah}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Pekerjaan</label>
-                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password"disabled value="{{$dataKrama->User->Penduduk->Profesi->profesi}}">
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password"disabled value="{{$dataKrama->Penduduk->Profesi->profesi}}">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -131,7 +131,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group mt-4">
-                                        <textarea disabled name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="4" placeholder="Masukan Alamat Lengkap Griya" >{{$dataKrama->User->Penduduk->alamat}} </textarea>
+                                        <textarea disabled name="alamat_griya" class="form-control  @error('alamat_griya') is-invalid @enderror" rows="4" placeholder="Masukan Alamat Lengkap Griya" >{{$dataKrama->Penduduk->alamat}} </textarea>
                                     </div>
                                 </div>
                             </div>
@@ -140,23 +140,14 @@
                             <div class="float-lg-left">
                                 <a href="{{route('admin.manajemen-akun.data-akun.index')}}" class="btn btn-secondary btn-sm">Kembali</a>
                             </div>
-                            <div class="float-lg-right">
-                                <button onclick="verifikasiPemuputKarya({{$dataKrama->id}})" type="button" class="btn btn-danger btn-sm  mx-1">Hapus Data</button>
-                                <button class="btn btn btn-primary btn-sm mx-1" data-toggle="modal" data-target="#modal-default">Edit Data</button>
-                            </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
     </section>
 
     <input id="dataLokasi" type="hidden" class="d-none" value='@json($dataKrama)'>
-
-
-
 
 @endsection
 

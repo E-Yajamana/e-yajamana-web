@@ -85,7 +85,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
+                            {{-- <tfoot>
                                 <tr>
                                     <th>No</th>
                                     <th>Penyelenggara </th>
@@ -94,7 +94,7 @@
                                     <th class="text-center">Konfirmasi Sebelum</th>
                                     <th>Tindakan</th>
                                 </tr>
-                            </tfoot>
+                            </tfoot> --}}
                         </table>
                     </div>
                 </div>

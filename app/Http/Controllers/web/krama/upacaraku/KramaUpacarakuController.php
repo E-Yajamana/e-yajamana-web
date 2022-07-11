@@ -88,8 +88,8 @@ class KramaUpacarakuController extends Controller
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Gagal Menambahkan Data Upacaraku',
-                    'message' => 'Gagal Menambahkan Data Upacaraku, silakan periksa kembali form input anda!'
+                    'title' => 'Gagal Menambahkan Data Upacara Krama ',
+                    'message' => 'Gagal Menambahkan Data Upacara Krama, silakan periksa kembali form input anda!'
                 ])->withInput($request->all())->withErrors($validator->errors());
             }
         // END
@@ -147,8 +147,8 @@ class KramaUpacarakuController extends Controller
             return redirect()->route('krama.manajemen-upacara.upacaraku.index')->with([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Berhasil Menambhakan Upacara   ',
-                'message' => 'Upacara berhasil dibuat,anda dapat mereservais pemuput upacara pada upacara anda!',
+                'title' => 'Berhasil Menambhakan Upacara Krama',
+                'message' => 'Upacara Krama berhasil dibuat, sekarang Anda dapat mereservasi pemuput karya pada upacara!',
             ]);
         //END
     }

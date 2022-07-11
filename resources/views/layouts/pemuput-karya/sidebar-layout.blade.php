@@ -122,7 +122,7 @@
                 <li class="nav-item" id="side-report">
                     <a href="{{route('pemuput-karya.report')}}" class="nav-link p-2">
                         <i class="nav-icon mr-1 fas fa-book"></i>
-                        <p>Laporan Transaksi</p>
+                        <p>Laporan </p>
                     </a>
                 </li>
 

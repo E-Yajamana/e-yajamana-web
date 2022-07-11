@@ -52,12 +52,14 @@ class reminderMuput extends Command
             $title ="REMINDER H-1 MUPUT UPACARA";
             if($detailreservasi->Reservasi->tipe == 'pemuput_karya'){
                 $pemuput = $detailreservasi->Reservasi->Relasi;
-                $bodyKrama = "Hallo Krama, mengingatkan kembali bahwa besok terdapat jadwal muput upacara pada tahapan ".$detailreservasi->TahapanUpacara->nama_tahapan." oleh ".$pemuput->nama_pemuput;
+                $bodyKrama = "Halo Krama, mengingatkan kembali bahwa besok terdapat jadwal muput upacara pada tahapan ".$detailreservasi->TahapanUpacara->nama_tahapan." oleh pemuput ".$pemuput->nama_pemuput;
+                $type = "pemuput_karya";
             }else{
                 $pemuput = $detailreservasi->Reservasi->Sanggar->User[0];
-                $bodyKrama = "Hallo Krama, mengingatkan kembali bahwa besok terdapat jadwal muput upacara pada tahapan ".$detailreservasi->TahapanUpacara->nama_tahapan." oleh ".$pemuput->nama_sanggar;
+                $bodyKrama = "Halo Krama, mengingatkan kembali bahwa besok terdapat jadwal muput upacara pada tahapan ".$detailreservasi->TahapanUpacara->nama_tahapan." oleh sanggar ".$pemuput->nama_sanggar;
+                $type = "sanggar";
             }
-            $body = "Hallo, mengingatkan kembali bahwa besok terdapat jadwal muput upacara pada tahapan ".$detailreservasi->TahapanUpacara->nama_tahapan;
+            $body = "Halo, mengingatkan kembali bahwa besok terdapat jadwal muput upacara pada tahapan ".$detailreservasi->TahapanUpacara->nama_tahapan;
 
             NotificationHelper::sendNotification(
                 [
@@ -79,7 +81,7 @@ class reminderMuput extends Command
                     'body' =>$body,
                     'status' => "new",
                     'image' => "krama",
-                    'type' => "krama",
+                    'type' => $type,
                     'notifiable_id' => $pemuput->id,
                     'formated_created_at' => date('Y-m-d H:i:s'),
                     'formated_updated_at' => date('Y-m-d H:i:s'),
