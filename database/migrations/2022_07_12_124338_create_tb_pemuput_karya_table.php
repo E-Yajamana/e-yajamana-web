@@ -23,6 +23,7 @@ class CreateTbPemuputKaryaTable extends Migration
             $table->enum('status_konfirmasi_akun', ['pending', 'disetujui', 'ditolak'])->nullable();
             $table->text('keterangan_konfirmasi_akun')->nullable();
             $table->enum('tipe', ['pemangku', 'sulinggih'])->nullable();
+            $table->float('rating', 5, 1)->nullable();
             $table->timestamps();
         });
     }

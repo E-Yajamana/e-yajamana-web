@@ -53,6 +53,11 @@
                             <div class="justify-content-center w-50 mx-auto text-center">
                                 <strong> Review </strong> :  {{$dataReservasi->keterangan_rating}}
                             </div>
+                            @if($dataReservasi->anonim == 1)
+                                <div class="justify-content-center w-50 mx-auto text-center">
+                                    <strong>[ Ulasan Anonim ] </strong>
+                                </div>
+                            @endif
                         @endisset
                         <div class="text-center">
                             @for ($i = 1; $i <= 5; $i++)
@@ -289,13 +294,13 @@
                             </div>
                             <div class="form-group px-2">
                                 <label>Bagaimana penilaian reservasi yang dilakukan? <span class="text-danger">*</span></label>
-                                <div class="col-12 col-md-6" style="font-size: 2em;">
+                                <div class="col-12 col-md-6 p-0" style="font-size: 2em;">
                                     <div id="review"></div>
                                 </div>
                             </div>
                             <input value="" name="rating" type="hidden" class="d-none" id="starsInput">
                             <input value="{{$dataReservasi->id}}" name="id_reservasi_ranting" type="hidden" class="d-none">
-                            <div class="form-group  px-2">
+                            <div class="form-group px-2">
                                 <label>Berikan ulasan terhadap pemuput.</label>
                                 <textarea name="keterangan_rating" class="form-control  @error('keterangan_rating') is-invalid @enderror" rows="3" placeholder="Masukan Ulasan krama">{{ old('keterangan_rating') }}</textarea>
                                 @error('keterangan_rating')
@@ -303,6 +308,12 @@
                                         {{$errors->first('keterangan_rating') }}
                                     </div>
                                 @enderror
+                            </div>
+                            <div class="form-group px-2">
+                                <div class="custom-control custom-switch">
+                                  <input type="checkbox" name="anonim" class="custom-control-input" id="customSwitch1">
+                                  <label class="custom-control-label" for="customSwitch1">Sembunyikan penilaian saya (anonim)</label>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">

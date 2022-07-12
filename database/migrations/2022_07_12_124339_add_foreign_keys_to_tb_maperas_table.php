@@ -14,9 +14,9 @@ class AddForeignKeysToTbMaperasTable extends Migration
     public function up()
     {
         Schema::table('tb_maperas', function (Blueprint $table) {
-            $table->foreign(['keluarga_lama_id'], 'tb_maperas_ibfk_1')->references(['id'])->on('tb_keluarga_krama');
             $table->foreign(['penduduk_id'], 'tb_maperas_ibfk_3')->references(['id'])->on('tb_penduduk');
             $table->foreign(['keluarga_baru_id'], 'tb_maperas_ibfk_2')->references(['id'])->on('tb_keluarga_krama');
+            $table->foreign(['keluarga_lama_id'], 'tb_maperas_ibfk_1')->references(['id'])->on('tb_keluarga_krama');
         });
     }
 
@@ -28,9 +28,9 @@ class AddForeignKeysToTbMaperasTable extends Migration
     public function down()
     {
         Schema::table('tb_maperas', function (Blueprint $table) {
-            $table->dropForeign('tb_maperas_ibfk_1');
             $table->dropForeign('tb_maperas_ibfk_3');
             $table->dropForeign('tb_maperas_ibfk_2');
+            $table->dropForeign('tb_maperas_ibfk_1');
         });
     }
 }

@@ -14,8 +14,8 @@ class AddForeignKeysToTbUserRolesTable extends Migration
     public function up()
     {
         Schema::table('tb_user_roles', function (Blueprint $table) {
-            $table->foreign(['id_user'], 'tb_user_roles_ibfk_1')->references(['id'])->on('tb_user_eyajamana');
             $table->foreign(['id_role'], 'tb_user_roles_ibfk_2')->references(['id'])->on('tb_role');
+            $table->foreign(['id_user'], 'tb_user_roles_ibfk_1')->references(['id'])->on('tb_user_eyajamana');
         });
     }
 
@@ -27,8 +27,8 @@ class AddForeignKeysToTbUserRolesTable extends Migration
     public function down()
     {
         Schema::table('tb_user_roles', function (Blueprint $table) {
-            $table->dropForeign('tb_user_roles_ibfk_1');
             $table->dropForeign('tb_user_roles_ibfk_2');
+            $table->dropForeign('tb_user_roles_ibfk_1');
         });
     }
 }

@@ -95,6 +95,12 @@
                             </a>
                         </li>
                         <li class="nav-item ml-3">
+                            <a id="side-service" href="{{route('admin.master-data.service-sanggar')}}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Jenis Service Sanggar</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
                             <a id="side-kabupaten" href="{{route('admin.master-data.kabupaten.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Kabupaten</p>

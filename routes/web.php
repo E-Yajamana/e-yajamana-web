@@ -6,6 +6,7 @@ use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
 use App\Http\Controllers\web\admin\manajemen_akun\DataAkunController;
 use App\Http\Controllers\web\admin\manajemen_akun\ManajemenAkunController;
 use App\Http\Controllers\web\admin\masterData\MasteDataGriyaController;
+use App\Http\Controllers\web\admin\masterData\MasterDataLayananController;
 use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
 use App\Http\Controllers\web\admin\masterdata\MasterDataWilayahController;
 use App\Http\Controllers\web\AjaxController;
@@ -111,9 +112,17 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
                 Route::delete('delete', [MasterDataUpacaraController::class, 'deleteTahapanUpacara'])->name('admin.master-data.upacara.tahapan.delete');
                 Route::get('detail/{id?}', [MasterDataUpacaraController::class, 'detailTahapanUpacara'])->name('admin.master-data.upacara.tahapan.detail');
             });
-
         });
         // MASTER DATA UPACARA ADMIN
+
+        Route::prefix('sanggar')->group(function () {
+            Route::get('index', [MasterDataLayananController::class, 'index'])->name('admin.master-data.service-sanggar');
+            Route::post('store', [MasterDataLayananController::class, 'storeOrUpdate'])->name('admin.master-data.service-sanggar.store-or-update');
+            Route::delete('delete', [MasterDataLayananController::class, 'delete'])->name('admin.master-data.service-sanggar.delete');
+
+        });
+
+
 
         // MASTER DATA GRIYA
         Route::prefix('griya')->group(function () {

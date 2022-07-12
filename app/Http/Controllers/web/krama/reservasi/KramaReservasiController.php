@@ -698,15 +698,22 @@ class KramaReservasiController extends Controller
                     'status' => 'fail',
                     'icon' => 'error',
                     'title' => 'Validation Error',
-                    'message' => 'Harap dicek kembali form input yang Anda masukan',
+                    'message' => 'Harap dicek kembali form penilaian yang Anda masukan',
                 ]);
             }
         // END SECURITY
         try{
             DB::beginTransaction();
+            if($request->anonim != null){
+                $anonim = 1;
+            }else{
+                $anonim = 0;
+            }
+
             Reservasi::find($request->id_reservasi_ranting)->update([
                 'rating' => $request->rating,
                 'keterangan_rating' => $request->keterangan_rating,
+                'anonim' => $anonim
             ]);
             DB::commit();
         }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){

@@ -14,8 +14,8 @@ class AddForeignKeysToTbDetailKeluargaBesarTable extends Migration
     public function up()
     {
         Schema::table('tb_detail_keluarga_besar', function (Blueprint $table) {
-            $table->foreign(['id_keluarga_krama'], 'tb_detail_keluarga_besar_ibfk_1')->references(['id'])->on('tb_keluarga_krama');
             $table->foreign(['id_keluarga_besar'], 'tb_detail_keluarga_besar_ibfk_2')->references(['id'])->on('tb_keluarga_besar');
+            $table->foreign(['id_keluarga_krama'], 'tb_detail_keluarga_besar_ibfk_1')->references(['id'])->on('tb_keluarga_krama');
         });
     }
 
@@ -27,8 +27,8 @@ class AddForeignKeysToTbDetailKeluargaBesarTable extends Migration
     public function down()
     {
         Schema::table('tb_detail_keluarga_besar', function (Blueprint $table) {
-            $table->dropForeign('tb_detail_keluarga_besar_ibfk_1');
             $table->dropForeign('tb_detail_keluarga_besar_ibfk_2');
+            $table->dropForeign('tb_detail_keluarga_besar_ibfk_1');
         });
     }
 }

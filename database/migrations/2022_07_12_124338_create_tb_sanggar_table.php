@@ -25,6 +25,7 @@ class CreateTbSanggarTable extends Migration
             $table->enum('status_konfirmasi_akun', ['pending', 'disetujui', 'ditolak'])->nullable();
             $table->text('keterangan_konfirmasi_akun')->nullable();
             $table->timestamps();
+            $table->float('rating', 5, 1)->nullable();
         });
     }
 

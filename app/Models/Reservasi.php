@@ -56,7 +56,8 @@ class Reservasi extends Model
 		'tanggal_tangkil',
 		'keterangan',
 		'rating',
-		'keterangan_rating'
+		'keterangan_rating',
+        'anonim'
 	];
 
 	/**
