@@ -16,6 +16,7 @@ use App\Http\Controllers\web\auth\RegisterController;
 use App\Http\Controllers\web\GetImageController;
 use App\Http\Controllers\web\krama\dashboard\KramaDashboardController;
 use App\Http\Controllers\web\krama\KramaController;
+use App\Http\Controllers\web\krama\pemuput\KramaDaftarController;
 use App\Http\Controllers\web\krama\reservasi\KramaReservasiController;
 use App\Http\Controllers\web\krama\upacaraku\KramaUpacarakuController;
 use App\Http\Controllers\web\NotifyController;
@@ -115,14 +116,14 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
         });
         // MASTER DATA UPACARA ADMIN
 
-        Route::prefix('sanggar')->group(function () {
+        // MASTER SERVICE SANGGAR
+        Route::prefix('service-sanggar')->group(function () {
             Route::get('index', [MasterDataLayananController::class, 'index'])->name('admin.master-data.service-sanggar');
             Route::post('store', [MasterDataLayananController::class, 'storeOrUpdate'])->name('admin.master-data.service-sanggar.store-or-update');
             Route::delete('delete', [MasterDataLayananController::class, 'delete'])->name('admin.master-data.service-sanggar.delete');
 
         });
-
-
+        // MASTER SERVICE SANGGAR
 
         // MASTER DATA GRIYA
         Route::prefix('griya')->group(function () {
@@ -208,6 +209,15 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
         Route::put('ajax/update', [KramaReservasiController::class, 'ajaxUpdateReservasi'])->name('krama.manajemen-reservasi.ajax.update');
         Route::put('ajax/delete', [KramaReservasiController::class, 'ajaxDeleteReservasi'])->name('krama.manajemen-reservasi.ajax.delete');
     });
+
+    Route::prefix('daftar-pemuput')->group(function () {
+        Route::get('index', [KramaDaftarController::class, 'index'])->name('krama.daftar-pemuput');
+        Route::get('detail-pemuput/{id?}', [KramaDaftarController::class, 'detailPemuput'])->name('krama.daftar-pemuput.detail-pemuput');
+
+    });
+
+
+
 
     Route::put('store/rating', [KramaReservasiController::class, 'storeRating'])->name('krama.store.rating');
 });

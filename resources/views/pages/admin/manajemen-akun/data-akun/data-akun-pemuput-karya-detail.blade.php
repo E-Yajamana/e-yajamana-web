@@ -225,6 +225,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </section>
     @include('pages.admin.manajemen-akun.pengaturan-akun.modal-konfirmasi-pemuput')
 

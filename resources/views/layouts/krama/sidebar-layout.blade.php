@@ -45,7 +45,7 @@
                 </li>
 
                  <!-- SidebarSearch Form -->
-                 <div class="form-inline m-0 mt-3">
+                <div class="form-inline m-0 mt-3">
                     <div class="input-group" data-widget="sidebar-search">
                     <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
                     <div class="input-group-append">
@@ -117,13 +117,13 @@
                     </ul>
                 </li>
 
-                {{--<li class="nav-header font-weight-bold pl-2" >LAPORAN</li>
-                <li class="nav-item" id="side-report">
-                    <a href="{{route('krama.report')}}" class="nav-link p-2">
-                        <i class="nav-icon mr-1 fas fa-book"></i>
-                        <p>Laporan Krama</p>
+                <li class="nav-header font-weight-bold pl-2">PEMUPUT UPACARA</li>
+                <li class="nav-item" id="side-daftar-pemuput">
+                    <a href="{{route('krama.daftar-pemuput')}}" class="nav-link p-2">
+                        <i class="nav-icon mr-1 fas fa-users"></i>
+                        <p>Daftar Pemuput</p>
                     </a>
-                </li> --}}
+                </li>
 
             </ul>
         </nav>

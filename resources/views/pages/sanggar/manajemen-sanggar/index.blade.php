@@ -120,6 +120,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Service Sanggar</label>
+                                <div class="select2-primary">
+                                    <select class="select2" multiple="multiple" name="service[]" data-placeholder="Pilih Service Sanggar" data-dropdown-css-class="select2-primary" style="width: 100%;">
+                                            @foreach ($dataSanggar->Service as $serviceSanggar)
+                                                <option value="{{$serviceSanggar->id}}" selected>{{$serviceSanggar->nama_service}}</option>
+                                            @endforeach
+                                            @foreach ($services as $service)
+                                                <option value="{{$service->id}}">{{$service->nama_service}}</option>
+                                            @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-header p-0"></div>
