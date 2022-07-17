@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Deskripsi Service <span class="text-danger">*</span></label>
-                                    <textarea id="deskripsi_service" name="deskripsi_service"  class="form-control @error('deskripsi_service') is-invalid @enderror" rows="3" placeholder="Masukan deskripsi_service Service" ></textarea>
+                                    <textarea id="deskripsi_service" name="deskripsi_service"  class="form-control @error('deskripsi_service') is-invalid @enderror" rows="3" placeholder="Masukan deskripsi service" ></textarea>
                                     @error('deskripsi_service')
                                         <div class="invalid-feedback text-start">
                                             {{$errors->first('deskripsi_service') }}
@@ -173,6 +173,9 @@
 <script>
     function create()
     {
+        $('#id').val();
+        $('#nama_service').val();
+        $('#deskripsi_service').val();
         $('#btn').text('Buat Service');
         $('#exampleModalLabel').text('Form Tambah Service Sanggar');
         $('#exampleModal').modal('show');

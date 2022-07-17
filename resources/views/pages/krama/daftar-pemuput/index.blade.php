@@ -26,7 +26,7 @@
 
     <div class=" container-fluid">
         <div class="row">
-            <div class="col-12 p-0">
+            {{-- <div class="col-12 p-0">
                 <div class="card">
                     <div class="col-12" id="accordion">
                         <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class=" col-12 p-0">
                 <div class="card shadow">
@@ -80,8 +80,9 @@
                                             </div>
                                         </div>
                                         <div class="btn-group btn-group-sm m-1">
-                                            <a href="{{route('krama.daftar-pemuput.detail-pemuput',$pemuput->PemuputKarya->id)}}" class="btn btn-secondary bg-white"><i class="fas fa-eye"></i></a>
-                                            <a href="" class="btn btn-secondary bg-white"><i class="fas fa-calendar-alt"></i></a>
+                                            <button @if (in_array($pemuput->PemuputKarya->id, $favPemuput)) onclick='removeFavorit({{$pemuput->PemuputKarya->id}},"id_pemuput_karya",this)'  @else  onclick="addFavorit({{$pemuput->PemuputKarya->id}},'id_pemuput_karya',this)" @endif  title="Favorit" class="btn btn-secondary bg-white"><i class="fas fa-heart @if (in_array($pemuput->PemuputKarya->id, $favPemuput)) text-danger @endif "></i></button>
+                                            <a title="Detail" href="{{route('krama.daftar-pemuput.detail-pemuput',$pemuput->PemuputKarya->id)}}" class="btn btn-secondary bg-white"><i class="fas fa-eye"></i></a>
+                                            <a @if (count(Auth::user()->Upacaraku->whereNotIn('status',['batal','selesai'])) != 0)  href="{{route('krama.daftar-pemuput.reservasi.create',['pemuput_karya',$pemuput->id])}}" @else  onclick="alertReservasi()" @endif title="Reservasi" class="btn btn-secondary bg-white"><i class="fas fa-calendar-alt"></i></a>
                                         </div>
                                     </div>
                                 </div>
@@ -102,18 +103,16 @@
                                             </div>
                                         </div>
                                         <div class="btn-group btn-group-sm m-1">
-                                            <a href="" class="btn btn-secondary bg-white"><i class="fas fa-eye"></i></a>
-                                            <a href="" class="btn btn-secondary bg-white"><i class="fas fa-calendar-alt"></i></a>
+                                            <button @if (in_array($sanggar->id, $favSanggar)) onclick='removeFavorit({{$sanggar->id}},"id_sanggar",this)'  @else  onclick="addFavorit({{$sanggar->id}},'id_sanggar',this)" @endif title="Favorit" class="btn btn-secondary bg-white"><i class="fas fa-heart @if (in_array($sanggar->id, $favSanggar)) text-danger @endif "></i></button>
+                                            <a title="Detail" href="{{route('krama.daftar-pemuput.detail-sanggar',$sanggar->id)}}" class="btn btn-secondary bg-white"><i class="fas fa-eye"></i></a>
+                                            <a @if (count(Auth::user()->Upacaraku->whereNotIn('status',['batal','selesai'])) != 0)  href="{{route('krama.daftar-pemuput.reservasi.create',['sanggar',$sanggar->id])}}" @else  onclick="alertReservasi()" @endif title="Reservasi" href="" class="btn btn-secondary bg-white"><i class="fas fa-calendar-alt"></i></a>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
-
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -123,5 +122,76 @@
     <script src="{{asset('base-template/plugins/select2/js/select2.full.min.js')}}"></script>
     <script>
         $('#side-daftar-pemuput').addClass('menu-open');
+
+        function alertReservasi()
+        {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Gagal menambahkan reservasi...',
+                text: 'untuk menambahkan reservasi, anda diminta untuk membuat sebauh upacara terlebih dahulu.. !!',
+                footer: '<a href="{{route('krama.manajemen-upacara.upacaraku.create')}}">Buat upacara?</a>'
+            })
+        }
+
     </script>
 @endpush
+
+@push('js')
+    <script>
+        function addFavorit(id,tipe,button)
+        {
+            $(button).find("i").addClass("text-danger")
+            $(button).attr("onclick","removeFavorit("+id+",'"+tipe+"',this)");
+            $.ajax({
+                url: "{{ route('ajax.set-favorit')}}",
+                type:'POST',
+                data: {
+                    id:id,
+                    tipe:tipe,
+                    "_token":"{{ csrf_token() }}"
+                },
+                success:function(response){
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                },
+                error: function(response, error){
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                }
+            });
+        }
+
+        function removeFavorit(id,tipe,button)
+        {
+            $(button).find("i").removeClass("text-danger");
+            $(button).attr("onclick","addFavorit("+id+",'"+tipe+"',this)");
+
+            $.ajax({
+                url: "{{ route('ajax.set-favorit')}}",
+                type:'POST',
+                data: {
+                    id:id,
+                    tipe:tipe,
+                    "_token":"{{ csrf_token() }}"
+                },
+                success:function(response){
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                },
+                error: function(response, error){
+                    Toast.fire({
+                        icon: response.icon,
+                        title: response.title
+                    })
+                }
+            });
+        }
+    </script>
+@endpush
+

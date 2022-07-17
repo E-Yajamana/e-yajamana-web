@@ -35,6 +35,7 @@ use App\Http\Controllers\web\sanggar\muput_upacara\SanggarKonfirmasiPenguleman;
 use App\Http\Controllers\web\sanggar\SanggarController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Livewire\Krama\CreateReservasi;
+use App\Http\Livewire\Reservasi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -213,6 +214,9 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
     Route::prefix('daftar-pemuput')->group(function () {
         Route::get('index', [KramaDaftarController::class, 'index'])->name('krama.daftar-pemuput');
         Route::get('detail-pemuput/{id?}', [KramaDaftarController::class, 'detailPemuput'])->name('krama.daftar-pemuput.detail-pemuput');
+        Route::get('detail-sanggar/{id?}', [KramaDaftarController::class, 'detailSanggar'])->name('krama.daftar-pemuput.detail-sanggar');
+        Route::get('reservasi/{tipe}/{id}', [KramaDaftarController::class, 'createReservasi'])->name('krama.daftar-pemuput.reservasi.create');
+        // Route::get('reservasi/{tipe}/{id}', Reservasi::class)->name('krama.daftar-pemuput.reservasi.create');
 
     });
 

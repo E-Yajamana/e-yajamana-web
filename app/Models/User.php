@@ -127,6 +127,12 @@ class User extends Authenticatable
         return $this->belongsToMany(PemuputKarya::class, 'tb_favorit', 'id_user', 'id_pemuput_karya');
     }
 
+    public function FavoritSanggar()
+    {
+        return $this->belongsToMany(Sanggar::class, 'tb_favorit', 'id_user', 'id_sanggar');
+    }
+
+
     public function Sanggar()
     {
         return $this->belongsToMany(Sanggar::class, 'tb_kepemilikan_sanggar', 'id_user', 'id_sanggar')
