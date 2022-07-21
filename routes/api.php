@@ -4,6 +4,7 @@ use App\Http\Controllers\api\admin\AdminDashboardController;
 use App\Http\Controllers\Api\admin\AdminDataAkunUserController;
 use App\Http\Controllers\api\admin\GriyaRumahController;
 use App\Http\Controllers\api\admin\PengaturanAkunController;
+use App\Http\Controllers\api\admin\UpacaraController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\krama\KramaDashboardController;
 use App\Http\Controllers\api\krama\KramaPemuputKaryaController;
@@ -181,6 +182,13 @@ Route::middleware('auth:sanctum')->group(function () {
         // MASTER DATA
         Route::prefix('masterdata')->group(function () {
             Route::get('griyarumah/{nama?}/{idBanjarDinas?}', [GriyaRumahController::class, 'index']);
+            Route::get('upacara/{yadnya?}', [UpacaraController::class, 'index']);
+            Route::post('upacara/store', [UpacaraController::class, 'store']);
+            Route::get('upacara/{id?}/detail', [UpacaraController::class, 'show']);
+            Route::post('upacara/{id?}/update', [UpacaraController::class, 'update']);
+            Route::post('upacara/{id?}/delete', [UpacaraController::class, 'delete']);
+            Route::post('tahapan-upacara/create', [UpacaraController::class, 'createTahapan']);
+            Route::post('tahapan-upacara/{id_tahapan?}/delete', [UpacaraController::class, 'deleteTahapan']);
         });
         // END
 
