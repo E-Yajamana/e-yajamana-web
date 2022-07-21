@@ -39,7 +39,7 @@
 
                 <li class="nav-header font-weight-bold" >DASHBOARD</li>
                 <li class="nav-item" id="side-dashboard">
-                    <a href="pages/gallery.html" class="nav-link">
+                    <a href="{{route('admin.dashboard')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
@@ -92,6 +92,12 @@
                             <a id="side-griya" href="{{route('admin.master-data.griya.index')}}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Lokasi Griya & Puri</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3">
+                            <a id="side-service" href="{{route('admin.master-data.service-sanggar')}}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Jenis Service Sanggar</p>
                             </a>
                         </li>
                         <li class="nav-item ml-3">

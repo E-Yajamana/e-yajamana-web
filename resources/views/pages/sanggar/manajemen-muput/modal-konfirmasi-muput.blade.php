@@ -79,7 +79,7 @@
                     <div id="alasanLainnya" class="px-2"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-block btn-light btn-lg px-2 text-md">Batalkan Reservasi</button>
+                    <button type="submit" class="btn btn-block btn-light btn-lg px-2 text-md">Batal</button>
                 </div>
             </form>
         </div>

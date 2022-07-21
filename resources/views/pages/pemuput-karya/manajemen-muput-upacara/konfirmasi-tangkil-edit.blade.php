@@ -207,7 +207,7 @@
                                     <div class="card-body px-lg-4 mt-1" id="">
                                         <div class="callout callout-info container-fluid mb-4">
                                             <h5><i class="fas fa-info"></i> Catatan:</h5>
-                                            <p class=" text-md">Pemuput Upacara dapat melakukan perubahan semua Data Reservasi, baik itu Reservasinya sendiri maupun Reservasi Pemuput Karya lain yang berstatus Proses Tangkil atau Pending.</p>
+                                            <p class=" text-md">Pemuput Upacara dapat melakukan perubahan semua data Reservasi, baik itu Reservasinya sendiri maupun Reservasi Pemuput Karya lain yang berstatus Proses Tangkil atau Pending.</p>
                                         </div>
 
                                         {{-- Reservasi Sulinggih --}}

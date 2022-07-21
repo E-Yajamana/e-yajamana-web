@@ -56,7 +56,8 @@ class Reservasi extends Model
 		'tanggal_tangkil',
 		'keterangan',
 		'rating',
-		'keterangan_rating'
+		'keterangan_rating',
+		'anonim'
 	];
 
 	/**
@@ -108,6 +109,18 @@ class Reservasi extends Model
 			default:
 				return null;
 				break;
+		}
+	}
+
+	public function isDetailReservasiDone()
+	{
+		$detailReservasiTotal = $this->DetailReservasi()->count();
+		$detailReservasiDone = $this->DetailReservasi()->whereIn('status', ['ditolak', 'selesai', 'batal'])->count();
+
+		if ($detailReservasiTotal == $detailReservasiDone) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

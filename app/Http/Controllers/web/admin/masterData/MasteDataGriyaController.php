@@ -103,12 +103,10 @@ class MasteDataGriyaController extends Controller
             return redirect()->route('admin.master-data.griya.index')->with([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Lokasi Griya Berhasil Dibuat',
-                'message' => 'Lokasi Griya berhasil dibuat, sekarang data griya dapat digunakan',
+                'title' => 'Lokasi Griya atau Puri Berhasil Dibuat',
+                'message' => 'Lokasi Griya atau Puri berhasil dibuat, sekarang data griya dapat digunakan',
             ]);
         //END
-
-
 
     }
     // END STORE INPUT DATABASE LOKASI GRIYA
@@ -139,7 +137,7 @@ class MasteDataGriyaController extends Controller
                     'status' => 'fail',
                     'icon' => 'error',
                     'title' => 'Sistem Gagal Menemukan Data Griya !',
-                    'message' => 'sistem gagal menemukan Data Griya, mohon untuk menghubungi developer sistem !',
+                    'message' => 'sistem gagal menemukan Data Griya atau Puri, mohon untuk menghubungi developer sistem !',
                 ]);
             }
         // END MAIN LOGIC & RETURN
@@ -159,8 +157,8 @@ class MasteDataGriyaController extends Controller
                 return redirect()->route('admin.master-data.griya.index')->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Data Griya Tidak Ditemukan !',
-                    'message' => 'Data griya tidak ditemukan, pilihlah data dengan benar !',
+                    'title' => 'Data Griya atau Puri Tidak Ditemukan !',
+                    'message' => 'Data Griya atau Puri tidak ditemukan, pilihlah data dengan benar !',
                 ]);
             }
         // END SECURITY
@@ -177,8 +175,8 @@ class MasteDataGriyaController extends Controller
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Sistem Gagal Menemukan Data Griya !',
-                    'message' => 'sistem gagal menemukan Data Griya, mohon untuk menghubungi developer sistem !',
+                    'title' => 'Sistem Gagal Menemukan Data Griya atau Puri !',
+                    'message' => 'sistem gagal menemukan Data Griya atau Puri, mohon untuk menghubungi developer sistem !',
                 ]);
             }
         // END MAIN LOGIC & RETURN
@@ -224,8 +222,8 @@ class MasteDataGriyaController extends Controller
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Gagal Update Data Griya',
-                    'message' => 'Gagal melakukan update data Griya, silakan periksa kembali form input anda!'
+                    'title' => 'Gagal Update Data Griya atau Puri',
+                    'message' => 'Gagal melakukan update data Griya atau Puri, silakan periksa kembali form input anda!'
                 ])->withInput($request->all())->withErrors($validator->errors());
             }
         // END
@@ -246,8 +244,8 @@ class MasteDataGriyaController extends Controller
                 return redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Gagal Menambahkan Data Griya',
-                    'message' => 'Gagal menambahkan data griya, apabila diperlukan mohon hubungi developer sistem`',
+                    'title' => 'Gagal Menambahkan Data Griya atau Puri',
+                    'message' => 'Gagal menambahkan data Griya atau Puri, apabila diperlukan mohon hubungi developer sistem`',
                 ]);
             }
         // END LOGIC
@@ -256,8 +254,8 @@ class MasteDataGriyaController extends Controller
             return redirect()->route('admin.master-data.griya.index')->with([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Lokasi Griya Berhasil Dibuat',
-                'message' => 'Lokasi Griya berhasil dibuat, sekarang data griya dapat digunakan',
+                'title' => 'Lokasi Griya atau Puri Berhasil Diperbarui',
+                'message' => 'Lokasi Griya atau Puri berhasil diperbarui, sekarang data griya dapat digunakan',
             ]);
         //END
     }
@@ -310,8 +308,8 @@ class MasteDataGriyaController extends Controller
              return redirect()->back()->with([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Berhasil Menghapus Data Lokasi Griya',
-                'message' => 'Data Griya berhasil terhapus dari sistem'
+                'title' => 'Berhasil Menghapus Data Lokasi Griya atau Puri',
+                'message' => 'Data Griya atau Puri berhasil terhapus dari sistem'
             ]);
         // END RETURN
 

@@ -29,7 +29,9 @@ class Role extends Model
 
     public function User()
     {
-        return $this->belongsToMany(User::class,'tb_user_roles','id_role','id_user')->withTimestamps();
+        return $this->belongsToMany(User::class,'tb_user_roles','id_role','id_user')
+            ->withPivot('jabatan')
+            ->withTimestamps();
     }
 
 }

@@ -14,7 +14,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li id="side-pengaturan-akun" class="user-panel nav-item">
                     <a href="#" class="nav-link mb-2">
-                        <img src="{{asset('base-template/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2 mr-2 mb-1" alt="User Image">
+                        <img src="{{route('image.profile.user',Auth::user()->id)}}" class="img-circle elevation-2 mr-2 mb-1" style="height: 30px" alt="User Image">
                         <p>
                             Krama
                             <i class="fas fa-angle-left right mt-2"></i>
@@ -45,7 +45,7 @@
                 </li>
 
                  <!-- SidebarSearch Form -->
-                 <div class="form-inline m-0 mt-3">
+                <div class="form-inline m-0 mt-3">
                     <div class="input-group" data-widget="sidebar-search">
                     <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
                     <div class="input-group-append">
@@ -117,13 +117,13 @@
                     </ul>
                 </li>
 
-                {{--<li class="nav-header font-weight-bold pl-2" >LAPORAN</li>
-                <li class="nav-item" id="side-report">
-                    <a href="{{route('krama.report')}}" class="nav-link p-2">
-                        <i class="nav-icon mr-1 fas fa-book"></i>
-                        <p>Laporan Krama</p>
+                <li class="nav-header font-weight-bold pl-2">PEMUPUT UPACARA</li>
+                <li class="nav-item" id="side-daftar-pemuput">
+                    <a href="{{route('krama.daftar-pemuput')}}" class="nav-link p-2">
+                        <i class="nav-icon mr-1 fas fa-users"></i>
+                        <p>Daftar Pemuput</p>
                     </a>
-                </li> --}}
+                </li>
 
             </ul>
         </nav>
@@ -132,7 +132,7 @@
 
     <!-- /.sidebar -->
 </aside>
-<input id="countReservasi" type="hidden" value='{{count(Auth::user()->Upacaraku)}}'>
+<input id="countReservasi" type="hidden" value='{{count(Auth::user()->Upacaraku->whereNotIn('status',['batal','selesai']))}}'>
 
 @if (count(Auth::user()->Upacaraku->whereNotIn('status',['batal','selesai'])) != 0)
     <!-- Modal -->

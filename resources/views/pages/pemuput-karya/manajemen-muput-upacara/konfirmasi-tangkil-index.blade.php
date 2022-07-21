@@ -83,7 +83,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                            <tfoot>
+                            {{-- <tfoot>
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Krama </th>
@@ -92,7 +92,7 @@
                                     <th>Tahapan Reservasi</th>
                                     <th>Tindakan</th>
                                 </tr>
-                            </tfoot>
+                            </tfoot> --}}
                         </table>
                     </div>
                 </div>

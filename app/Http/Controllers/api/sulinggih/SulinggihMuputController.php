@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PDOException;
+use NotificationHelper;
+use App\Models\DetailReservasi;
+use App\Models\User;
 
 class SulinggihMuputController extends Controller
 {
@@ -43,7 +46,7 @@ class SulinggihMuputController extends Controller
                 'DetailReservasi' => function ($detailReservasiQuery) {
                     $detailReservasiQuery->with([
                         'TahapanUpacara'
-                    ])->where('status', '!=', 'selesai');
+                    ])->where('status', 'diterima');
                 }
             ])->findOrFail($id);
 
@@ -115,18 +118,27 @@ class SulinggihMuputController extends Controller
             $detailReservasi->update(['status' => 'selesai']);
             $detailReservasi->Gambar()->create(['image' => $path]);
 
-            $totalDetailReservasi = $reservasi->DetailReservasi->count();
-            $countSelesai = 0;
-
-            foreach ($reservasi->DetailReservasi as $key => $value) {
-                if ($value->status == 'selesai') {
-                    $countSelesai += 1;
-                }
+            $isReservasiSelesai = $detailReservasi->Reservasi->isDetailReservasiDone();
+            if ($isReservasiSelesai) {
+                $detailReservasi->Reservasi->Update(['status' => 'selesai']);
+            }
+            $isUpacarakuSelesai = $detailReservasi->Reservasi->Upacaraku->isReservasiDone();
+            if ($isUpacarakuSelesai) {
+                $detailReservasi->Reservasi->Upacaraku->Update(['status' => 'selesai']);
             }
 
-            if ($countSelesai == $totalDetailReservasi) {
-                $reservasi->update(['status' => 'selesai']);
-            }
+            // $totalDetailReservasi = $reservasi->DetailReservasi->count();
+            // $countSelesai = 0;
+
+            // foreach ($reservasi->DetailReservasi as $key => $value) {
+            //     if ($value->status == 'selesai') {
+            //         $countSelesai += 1;
+            //     }
+            // }
+
+            // if ($countSelesai == $totalDetailReservasi) {
+            //     $reservasi->update(['status' => 'selesai']);
+            // }
 
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
@@ -144,6 +156,61 @@ class SulinggihMuputController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Berhasil puput tahapan upacara',
+            'data' => (object)[],
+        ], 200);
+        // END
+    }
+
+    public function batalMuput(Request $request)
+    {
+        // SECURITY
+        $validator = Validator::make($request->all(), [
+            'id_detail_reservasi' => 'required|exists:tb_detail_reservasi,id',
+            'alasan_pembatalan' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Validation Error',
+                'data' => $validator->errors(),
+            ], 400);
+        }
+        // END
+
+        // MAIN LOGIC
+        try {
+            DB::beginTransaction();
+            $detailReservasi = DetailReservasi::with(['Reservasi.Upacaraku'])
+                ->whereHas('Reservasi', function ($reservasiQuery) {
+                    $reservasiQuery->whereHas('Upacaraku');
+                })->findOrFail($request->id_detail_reservasi);
+            $detailReservasi->update([
+                'status' => 'batal',
+                'keterangan' => $request->alasan_pembatalan
+            ]);
+            $isReservasiSelesai = $detailReservasi->Reservasi->isDetailReservasiDone();
+            if ($isReservasiSelesai) {
+                $detailReservasi->Reservasi->Update(['status' => 'selesai']);
+            }
+            $isUpacarakuSelesai = $detailReservasi->Reservasi->Upacaraku->isReservasiDone();
+            if ($isUpacarakuSelesai) {
+                $detailReservasi->Reservasi->Upacaraku->Update(['status' => 'selesai']);
+            }
+            DB::commit();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Internal Server Error',
+                'data' => (object)[],
+            ], 500);
+        }
+        // END
+
+        // RETURN
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil membatalkan muput upacara',
             'data' => (object)[],
         ], 200);
         // END

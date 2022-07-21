@@ -22,7 +22,22 @@
         <div class="container-fluid border-bottom mt-2">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Detail Riwayat Reservasi</h1>
+                    <div class="d-flex">
+                        <h1>Detail Riwayat Reservasi  @if($dataReservasi->rating != null && $dataReservasi->anonim == 0) | @endif </h1>
+                        @if ($dataReservasi->anonim == 0)
+                            @isset($dataReservasi->rating)
+                                <div class="text-center m-2">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        @if ($i <= $dataReservasi->rating)
+                                            <i class="fas fa-star text-warning fa-lg"></i>
+                                        @else
+                                            <i class="fas fa-star fa-lg"></i>
+                                        @endif
+                                    @endfor
+                                </div>
+                            @endisset
+                        @endif
+                    </div>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -37,7 +52,6 @@
 
     <section class="content">
         <div class="container-fluid">
-
             <div class="card">
                 <div class="card-header my-auto">
                     <div class="row">
@@ -55,34 +69,33 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label>Mengajukan Reservasi pada Tanggal :</label>
-                                <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{date('d F Y, H:m A',strtotime($dataReservasi->created_at))}}">
+                                <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{date('d F Y, H:m ',strtotime($dataReservasi->created_at))}}">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="align-content-center">
-                                @if ($dataReservasi->status == 'batal' || $dataReservasi->status == 'ditolak' )
-                                    <div class="d-flex justify-content-center text-center">
-                                        <strong> Alasan Pembatalan </strong>: {{$dataReservasi->keterangan}}
-                                    </div>
-                                @endif
-                                @isset($dataReservasi->rating)
-                                    @isset($dataReservasi->keterangan_rating)
-                                        <div class="justify-content-center w-50 mx-auto text-center">
-                                            <strong> Review </strong> :  {{$dataReservasi->keterangan_rating}}
+                                @if($dataReservasi->anonim == 0)
+                                    @if ($dataReservasi->status == 'batal' || $dataReservasi->status == 'ditolak' )
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Alasan Pembatalan</label>
+                                                <input type="text"  class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataReservasi->keterangan}}">
+                                            </div>
                                         </div>
-                                    @endisset
-                                    <div class="text-center">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            @if ($i <= $dataReservasi->rating)
-                                                <i class="fas fa-star text-warning "></i>
-                                            @else
-                                                <i class="fas fa-star "></i>
-                                            @endif
-                                        @endfor
-                                    </div>
-                                @endisset
+                                    @endif
+                                    @if ($dataReservasi->anonim == 0)
+                                        @isset($dataReservasi->rating)
+                                            @isset($dataReservasi->keterangan_rating)
+                                                    <div class="form-group">
+                                                        <label>Ulasan Krama:</label>
+                                                        <input type="text"  class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" disabled value=" {{$dataReservasi->keterangan_rating}}">
+                                                    </div>
+                                            @endisset
+                                        @endisset
+                                    @endif
+                                @endif
                             </div>
                         </div>
 

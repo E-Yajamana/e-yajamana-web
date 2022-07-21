@@ -170,8 +170,8 @@ class SanggarKonfirmasiPenguleman extends Controller
                 // KRAMA NOTIF
                 NotificationHelper::sendNotification(
                     [
-                        'title' => "TANGKIL BERHASIL DILAKUKAN",
-                        'body' => "Halo Krama Bali !! Reservasi dengan ID : " . $request->id_reservasi . ", terkonfirmasi sudah selesai melakukan penguleman ke sanggar.",
+                        'title' => "PENGULEMAN BERHASIL DILAKUKAN",
+                        'body' => "Halo Krama !! Anda berhasil melakukan Penguleman ke sanggar.",
                         'status' => "new",
                         'image' => "normal",
                         'notifiable_id' => $krama->id,
@@ -278,7 +278,7 @@ class SanggarKonfirmasiPenguleman extends Controller
             NotificationHelper::sendNotification(
                 [
                     'title' => "PERUBAHAN RESERVASI",
-                    'body' => "Halo Krama Bali ! Reservasi dengan ID : ".$request->id_reservasi." telah ditolak oleh Pemuput Karya, dengan alasan ".$request->alasan_pembatalan.", mohon untuk mencari pemuput karya lainnya ",
+                    'body' => "Halo Krama Bali ! Reservasi telah ditolak oleh Sanggar, dengan alasan ".$request->alasan_pembatalan.", mohon untuk mencari sanggar lainnya ",
                     'status' => "new",
                     'image' => "normal",
                     'type' => "krama",
@@ -306,7 +306,7 @@ class SanggarKonfirmasiPenguleman extends Controller
              'status' => 'success',
              'icon' => 'success',
              'title' => 'Berhasil meperbarui status!',
-             'message' => 'Data Tanggkil Krama berhasil diperbarui, Anda dapat melihat pembaruan data pada Menu Muput Upoacara',
+             'message' => 'Data Penguleman Krama berhasil diperbarui, Anda dapat melihat pembaruan data pada Menu Muput Upoacara',
          ]);
          //END
      }

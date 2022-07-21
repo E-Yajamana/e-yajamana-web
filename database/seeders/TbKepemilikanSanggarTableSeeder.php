@@ -14,12 +14,12 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         \DB::table('tb_kepemilikan_sanggar')->delete();
-        
+
         \DB::table('tb_kepemilikan_sanggar')->insert(array (
-            0 => 
+            0 =>
             array (
                 'id' => 6,
                 'id_sanggar' => 5,
@@ -28,7 +28,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            1 => 
+            1 =>
             array (
                 'id' => 9,
                 'id_sanggar' => 9,
@@ -37,7 +37,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => '2022-05-07 11:58:39',
                 'updated_at' => '2022-05-07 11:58:39',
             ),
-            2 => 
+            2 =>
             array (
                 'id' => 10,
                 'id_sanggar' => 10,
@@ -46,7 +46,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => '2022-05-07 14:03:06',
                 'updated_at' => '2022-05-07 14:03:06',
             ),
-            3 => 
+            3 =>
             array (
                 'id' => 12,
                 'id_sanggar' => 10,
@@ -55,16 +55,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
-            4 => 
-            array (
-                'id' => 13,
-                'id_sanggar' => 10,
-                'id_user' => 51,
-                'jabatan' => NULL,
-                'created_at' => NULL,
-                'updated_at' => NULL,
-            ),
-            5 => 
+            5 =>
             array (
                 'id' => 14,
                 'id_sanggar' => 11,
@@ -73,7 +64,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => '2022-06-13 10:06:13',
                 'updated_at' => '2022-06-13 10:06:13',
             ),
-            6 => 
+            6 =>
             array (
                 'id' => 17,
                 'id_sanggar' => 6,
@@ -82,7 +73,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => '2022-06-13 18:43:29',
                 'updated_at' => '2022-06-13 18:43:29',
             ),
-            7 => 
+            7 =>
             array (
                 'id' => 18,
                 'id_sanggar' => 6,
@@ -91,7 +82,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => '2022-06-13 18:57:32',
                 'updated_at' => NULL,
             ),
-            8 => 
+            8 =>
             array (
                 'id' => 19,
                 'id_sanggar' => 12,
@@ -100,7 +91,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => '2022-06-13 21:04:05',
                 'updated_at' => '2022-06-13 21:04:05',
             ),
-            9 => 
+            9 =>
             array (
                 'id' => 20,
                 'id_sanggar' => 10,
@@ -109,7 +100,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => '2022-06-13 21:07:08',
                 'updated_at' => '2022-06-13 21:07:08',
             ),
-            10 => 
+            10 =>
             array (
                 'id' => 21,
                 'id_sanggar' => 13,
@@ -118,7 +109,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => '2022-07-01 13:40:57',
                 'updated_at' => '2022-07-01 13:40:57',
             ),
-            11 => 
+            11 =>
             array (
                 'id' => 22,
                 'id_sanggar' => 14,
@@ -127,7 +118,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => '2022-07-01 13:47:17',
                 'updated_at' => '2022-07-01 13:47:17',
             ),
-            12 => 
+            12 =>
             array (
                 'id' => 23,
                 'id_sanggar' => 15,
@@ -136,7 +127,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'created_at' => '2022-07-01 13:48:56',
                 'updated_at' => '2022-07-01 13:48:56',
             ),
-            13 => 
+            13 =>
             array (
                 'id' => 24,
                 'id_sanggar' => 16,
@@ -146,7 +137,7 @@ class TbKepemilikanSanggarTableSeeder extends Seeder
                 'updated_at' => '2022-07-01 13:50:58',
             ),
         ));
-        
-        
+
+
     }
 }

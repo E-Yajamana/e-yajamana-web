@@ -142,7 +142,7 @@ class KramaUpacaraController extends Controller
                 'alamat_upacaraku' => $request->lokasi,
                 'tanggal_mulai' => $request->tanggal_mulai,
                 'tanggal_selesai' => $request->tanggal_selesai,
-                'deskripsi_upacaraku' => $request->desckripsi_upacaraku,
+                'deskripsi_upacaraku' => $request->deskripsi_upacaraku,
                 'status' => 'pending',
                 'lat' => $request->lat,
                 'lng' => $request->lng,

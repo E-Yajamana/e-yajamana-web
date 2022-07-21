@@ -7,6 +7,7 @@ use App\ImageHelper;
 use App\Models\DetailReservasi;
 use App\Models\Kabupaten;
 use App\Models\Sanggar;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,8 +17,6 @@ use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
 use PDOException;
-
-
 
 
 class SanggarController extends Controller
@@ -39,12 +38,18 @@ class SanggarController extends Controller
 
     public function index()
     {
-        $dataSanggar = Sanggar::with(["BanjarDinas.DesaDinas.Kecamatan.Kabupaten",'User.Penduduk'])->findOrFail(session('id_sanggar'));
+        $dataSanggar = Sanggar::with(["BanjarDinas.DesaDinas.Kecamatan.Kabupaten",'User.Penduduk','Service'])->findOrFail(session('id_sanggar'));
+
         $anggotaSanggar = $dataSanggar->User->pluck('id')->toArray();
         array_push($anggotaSanggar,"1");
         $dataKrama = User::with('Penduduk')->whereNotIn('id',$anggotaSanggar)->get();
         $dataKabupaten = Kabupaten::whereProvinsiId(51)->get();
-        return view('pages.sanggar.manajemen-sanggar.index',compact(['dataSanggar','dataKabupaten','dataKrama']));
+
+        $serviceSanggar = $dataSanggar->Service->pluck('id')->toArray();
+
+        $services = Service::whereNotIn('id',$serviceSanggar)->get();
+
+        return view('pages.sanggar.manajemen-sanggar.index',compact(['dataSanggar','dataKabupaten','dataKrama','services']));
     }
 
     public function store(Request $request)
@@ -150,9 +155,12 @@ class SanggarController extends Controller
 
         // MAIN LOGIC
             try {
+                DB::beginTransaction();
                 $sanggar = Sanggar::findOrFail(session('id_sanggar'));
+                $services = $sanggar;
                 $imageProfile = $sanggar->profile;
                 $imageSkUsaha = $sanggar->sk_tanda_usaha;
+                $services->Service()->sync($request->service);
 
                 if($request->image_profile != null){
                     $folder = 'app/sanggar/profile/';
@@ -171,6 +179,7 @@ class SanggarController extends Controller
                     'lat'=> $request->lat,
                     'lng'=> $request->lng,
                 ]);
+                DB::commit();
             } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
                 DB::rollBack();
                 return redirect()->back()->with([

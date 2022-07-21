@@ -709,7 +709,7 @@
                     '<p>Berikut ini merupakan informasi detail Jadwal yang terdapat pada '+jenisPemuput+' '+namaPemuput+'.</p>'+
                     '<ul class="text-left">'+
                         '<li>Terdapat Jadwal   : '+title+' </li>'+
-                        (selesai != 'Invalid date' ? '<li>Waktu Tangkil     : '+mulai+' </li>' : '<li>Tanggal Mulai     : '+mulai+' </li>')+
+                        (selesai == 'Invalid date' ? '<li>Waktu Tangkil     : '+mulai+' </li>' : '<li>Tanggal Mulai     : '+mulai+' </li>')+
                         (selesai != 'Invalid date' ? '<li>Tanggal Selesai   : '+selesai+' </li>' : '')+
                         '<li>Status  :  '+status+' </li>'+
                     '</ul>'
@@ -1010,12 +1010,13 @@
 
             function appendDataSanggar(data)
             {
+                const rating = data.rating == null ? 0 : data.rating;
                 $("#dataSulinggih").append(
                 '<div class="col-12" id="accordion">'+'<div class="card">'+'<div class="card-header">'+
                 '<a class="d-block w-100" data-toggle="collapse" href="#collapseOne'+data.id+'5">'+"<div class='user-block'>"+
                 "<img class='img-circle mt-1' src='{{route('image.profile.sanggar')}}/"+data.id+"' alt='User Image' style='height: 48px; width:  48px'>"+
                 "<span class='username'><div class='btn btn-link p-0 ml-3' >"+data.nama_sanggar+"</div></span>"+
-                "<span class='description'><div class='ml-3 '>"+data.user[0].email+" | <i class='fas fa-star text-warning'></i> 5</div></span>"+
+                "<span class='description'><div class='ml-3 '>"+data.user[0].email+" | <i class='fas fa-star text-warning'></i> "+rating+"</div></span>"+
                 "<span class='description'> <div class='ml-3 '>Muput Upacara : "+data.reservasi_count+"</div> </span>"+
                 "</div>"+"</a>"+"<div class='card-tools'>"+
                 (favoritSanggar.includes(data.id) ? "<button title='Tambahkan ke Favorit' onclick=\"removeFavorit("+data.id+",0,'id_sanggar',this)\" type='button' class='btn btn-tool float-lg-right pt-3'><i id='favorit' class='fas fa-heart fa-sm text-danger'></i></button>" : "<button title='Tambahkan ke Favorit' onclick=\"addFavorit("+data.id+",0,'id_sanggar',this)\" type='button' class='btn btn-tool float-lg-right pt-3'><i id='favorit' class='fas fa-heart fa-sm'></i></button>")+
@@ -1032,13 +1033,14 @@
 
             function appendDataPemuput(data,key)
             {
+                const rating = data.rating == null ? 0 : data.rating;
                 var tanggal_diksha = moment(data.tanggal_diksha).format('DD MMM YYYY')
                 $("#dataSulinggih").append(
                 '<div class="col-12" id="accordion">'+'<div class="card">'+'<div class="card-header">'+
                 '<a class="d-block w-100" data-toggle="collapse" href="#collapseOne'+data.user.id+''+key+'">'+"<div class='user-block'>"+
                 "<img class='img-circle mt-1' src='{{route('image.profile.user')}}/"+data.user.id+"' alt='User Image' style='height: 48px; width:  48px'>"+
                 "<span class='username'><div class='btn btn-link p-0 ml-3' >"+data.nama_pemuput+"</div></span>"+
-                "<span class='description'><div class='ml-3 '>"+data.user.email+" | <i class='fas fa-star text-warning'></i> 5</div></span>"+
+                "<span class='description'><div class='ml-3 '>"+data.user.email+" | <i class='fas fa-star text-warning'></i> "+rating+"</div></span>"+
                 "<span class='description'> <div class='ml-3 '>Muput Upacara : "+data.user.reservasi_count+"</div> </span>"+
                 "</div>"+"</a>"+"<div class='card-tools'>"+
                 ( favoritPemuput.includes(data.id) ? "<button title='Tambahkan ke Favorit' onclick=\"removeFavorit("+data.id+","+data.id_griya+",  'id_pemuput_karya',this)\" type='button' class='btn btn-tool float-lg-right pt-3'><i id='favorit' class='fas fa-heart fa-sm text-danger'></i></button>" : "<button title='Tambahkan ke Favorit' onclick=\"addFavorit("+data.id+","+data.id_griya+",'id_pemuput_karya',this)\" type='button' class='btn btn-tool float-lg-right pt-3'><i id='favorit' class='fas fa-heart fa-sm'></i></button>")+

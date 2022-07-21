@@ -143,7 +143,6 @@ class AuthController extends Controller
                 case "pemuput_karya":
                     $penduduk = $user->Penduduk()->firstOrFail();
                     $sulinggih = $user->PemuputKarya()->where('status_konfirmasi_akun', 'disetujui')->firstOrFail();
-
                     return response()->json([
                         'status' => 200,
                         'message' => "Success update acceess token to krama",

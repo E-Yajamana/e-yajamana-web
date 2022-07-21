@@ -18,9 +18,9 @@ class TbUserEyajamanaTableSeeder extends Seeder
 
         \DB::table('tb_user_eyajamana')->delete();
 
-        \DB::table('tb_user_eyajamana')->insert(array (
+        \DB::table('tb_user_eyajamana')->insert(array(
             0 =>
-            array (
+            array(
                 'id' => 1,
                 'id_penduduk' => 1,
                 'email' => 'admin@gmail.com',
@@ -36,13 +36,13 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-24 14:21:36',
             ),
             1 =>
-            array (
+            array(
                 'id' => 2,
                 'id_penduduk' => 3,
                 'email' => 'sulinggih@gmail.com',
                 'password' => '$2y$10$xkljavxyQ9xirivMWUw9hulUB5Dx2mX43o0UxnoPDVT1hKX7FoKya',
                 'nomor_telepon' => '087221423695',
-                'user_profile' => 'storage/krama_profile/alin.jpg',
+                'user_profile' => 'app/default/profile/profile1.jpg',
                 'json_token_lupa_password' => NULL,
                 'fcm_token_key' => 'f2wKL9iaRQKX30buWd37B-:APA91bHO0VV0ciQMQFHemCdLYlTtxgJz0khMBbOfk3qFuY6XCkB9g1okeJqQJSkAOMW-T2CSgNWUNS8S_yxs3Bw5gEb70aZWM7Ds5vSgFF7cQC7EqF6qmNCO0KrkCMq-Ubl7WNN48bnf',
                 'fcm_token_web' => 'cyAumeE-EkSP0c226Ll6Ba:APA91bHYmzzklrLj5h_34uJIyNZ_n9XLhnc5tLeeEcVoG_8FQk7MZZaU1-qCedgp9OkvGo2wyRVDbWi8-bxXBtzGFKk_JOmeFjDjb3vcTI8ynrlGLVm-rtTSp54G5h1Yeuvot8p3K0x0',
@@ -52,7 +52,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-20 12:35:34',
             ),
             2 =>
-            array (
+            array(
                 'id' => 3,
                 'id_penduduk' => 23,
                 'email' => 'pemangku@gmail.com',
@@ -68,7 +68,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-24 14:32:37',
             ),
             3 =>
-            array (
+            array(
                 'id' => 4,
                 'id_penduduk' => 2,
                 'email' => 'sanggar1@gmail.com',
@@ -84,11 +84,11 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-01-18 14:55:39',
             ),
             4 =>
-            array (
+            array(
                 'id' => 6,
                 'id_penduduk' => 45,
                 'email' => 'alingotama14@gmail.com',
-                'password' => '$2y$10$6IWqs974AF55uW/UeqVqZ.CWYihCHtk.gDc6lSu/RTFKg8TS1mxHK',
+                'password' => '$2y$10$Wcx5t/ZYiztHy58QXv0mHemCISGAG3PoQx.eFID31vgJuj9pffJUO',
                 'nomor_telepon' => '081924124989',
                 'user_profile' => 'storage/krama_profile/alin.jpg',
                 'json_token_lupa_password' => NULL,
@@ -100,7 +100,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-20 12:31:17',
             ),
             5 =>
-            array (
+            array(
                 'id' => 16,
                 'id_penduduk' => 15,
                 'email' => 'alingotama1412@gmail.com',
@@ -116,7 +116,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-03-07 09:00:45',
             ),
             7 =>
-            array (
+            array(
                 'id' => 49,
                 'id_penduduk' => 5,
                 'email' => 'rismawan@gmail.com',
@@ -132,7 +132,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-11 21:09:00',
             ),
             8 =>
-            array (
+            array(
                 'id' => 50,
                 'id_penduduk' => 14,
                 'email' => 'sanggar2@gmail.com',
@@ -148,7 +148,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => NULL,
             ),
             9 =>
-            array (
+            array(
                 'id' => 51,
                 'id_penduduk' => 7,
                 'email' => 'krama@gmail.com',
@@ -164,13 +164,13 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-24 08:58:48',
             ),
             10 =>
-            array (
+            array(
                 'id' => 58,
                 'id_penduduk' => 21,
                 'email' => 'nabe@gmail.com',
                 'password' => '$2y$10$5jb0bEmt2Cu5DUirzq3Z9u/Mz3yKBB1EdkrM8QapD8cy75lNLsJCu',
                 'nomor_telepon' => '08124124712471',
-                'user_profile' => 'app/default/profile/user.jpg',
+                'user_profile' => 'app/default/profile/profile2.jpg',
                 'json_token_lupa_password' => NULL,
                 'fcm_token_key' => NULL,
                 'fcm_token_web' => NULL,
@@ -180,7 +180,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-04-29 08:08:25',
             ),
             11 =>
-            array (
+            array(
                 'id' => 60,
                 'id_penduduk' => 11,
                 'email' => 'testingsulinggih@gmail.com',
@@ -196,13 +196,13 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-05 09:47:22',
             ),
             12 =>
-            array (
+            array(
                 'id' => 61,
                 'id_penduduk' => 8,
                 'email' => 'pasangan@gmail.com',
                 'password' => '$2y$10$LZ5xbFcOsGfxlxZg71NkKOdJFxUpHbuKXRWELGHfmGEBrl6.9IbHu',
                 'nomor_telepon' => '01284984198491',
-                'user_profile' => 'app/default/profile/user.jpg',
+                'user_profile' => 'app/default/profile/profile4.jpg',
                 'json_token_lupa_password' => NULL,
                 'fcm_token_key' => NULL,
                 'fcm_token_web' => NULL,
@@ -212,7 +212,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-05 09:48:20',
             ),
             13 =>
-            array (
+            array(
                 'id' => 62,
                 'id_penduduk' => 19,
                 'email' => 'rismawantugas@gmail.com',
@@ -228,7 +228,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-06 04:18:02',
             ),
             14 =>
-            array (
+            array(
                 'id' => 63,
                 'id_penduduk' => 12,
                 'email' => 'dota@gmail.com',
@@ -244,7 +244,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-06 22:54:31',
             ),
             15 =>
-            array (
+            array(
                 'id' => 64,
                 'id_penduduk' => 1,
                 'email' => 'rismawan1234@gmail.com',
@@ -260,7 +260,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-07 06:53:29',
             ),
             16 =>
-            array (
+            array(
                 'id' => 65,
                 'id_penduduk' => 6,
                 'email' => 'sanggar@gmail.com',
@@ -276,7 +276,5 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'updated_at' => '2022-05-24 14:32:01',
             ),
         ));
-
-
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\web\admin\dashboard\AdminDashboardController;
 use App\Http\Controllers\web\admin\manajemen_akun\DataAkunController;
 use App\Http\Controllers\web\admin\manajemen_akun\ManajemenAkunController;
 use App\Http\Controllers\web\admin\masterData\MasteDataGriyaController;
+use App\Http\Controllers\web\admin\masterData\MasterDataLayananController;
 use App\Http\Controllers\web\admin\masterData\MasterDataUpacaraController;
 use App\Http\Controllers\web\admin\masterdata\MasterDataWilayahController;
 use App\Http\Controllers\web\AjaxController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\web\auth\RegisterController;
 use App\Http\Controllers\web\GetImageController;
 use App\Http\Controllers\web\krama\dashboard\KramaDashboardController;
 use App\Http\Controllers\web\krama\KramaController;
+use App\Http\Controllers\web\krama\pemuput\KramaDaftarController;
 use App\Http\Controllers\web\krama\reservasi\KramaReservasiController;
 use App\Http\Controllers\web\krama\upacaraku\KramaUpacarakuController;
 use App\Http\Controllers\web\NotifyController;
@@ -33,6 +35,7 @@ use App\Http\Controllers\web\sanggar\muput_upacara\SanggarKonfirmasiPenguleman;
 use App\Http\Controllers\web\sanggar\SanggarController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Livewire\Krama\CreateReservasi;
+use App\Http\Livewire\Reservasi;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -111,9 +114,17 @@ Route::group(['prefix'=>'admin','middleware'=>'permission:admin'], function () {
                 Route::delete('delete', [MasterDataUpacaraController::class, 'deleteTahapanUpacara'])->name('admin.master-data.upacara.tahapan.delete');
                 Route::get('detail/{id?}', [MasterDataUpacaraController::class, 'detailTahapanUpacara'])->name('admin.master-data.upacara.tahapan.detail');
             });
-
         });
         // MASTER DATA UPACARA ADMIN
+
+        // MASTER SERVICE SANGGAR
+        Route::prefix('service-sanggar')->group(function () {
+            Route::get('index', [MasterDataLayananController::class, 'index'])->name('admin.master-data.service-sanggar');
+            Route::post('store', [MasterDataLayananController::class, 'storeOrUpdate'])->name('admin.master-data.service-sanggar.store-or-update');
+            Route::delete('delete', [MasterDataLayananController::class, 'delete'])->name('admin.master-data.service-sanggar.delete');
+
+        });
+        // MASTER SERVICE SANGGAR
 
         // MASTER DATA GRIYA
         Route::prefix('griya')->group(function () {
@@ -199,6 +210,18 @@ Route::group(['prefix'=>'krama','middleware'=>'permission:krama'], function () {
         Route::put('ajax/update', [KramaReservasiController::class, 'ajaxUpdateReservasi'])->name('krama.manajemen-reservasi.ajax.update');
         Route::put('ajax/delete', [KramaReservasiController::class, 'ajaxDeleteReservasi'])->name('krama.manajemen-reservasi.ajax.delete');
     });
+
+    Route::prefix('daftar-pemuput')->group(function () {
+        Route::get('index', [KramaDaftarController::class, 'index'])->name('krama.daftar-pemuput');
+        Route::get('detail-pemuput/{id?}', [KramaDaftarController::class, 'detailPemuput'])->name('krama.daftar-pemuput.detail-pemuput');
+        Route::get('detail-sanggar/{id?}', [KramaDaftarController::class, 'detailSanggar'])->name('krama.daftar-pemuput.detail-sanggar');
+        Route::get('reservasi/{tipe}/{id}', [KramaDaftarController::class, 'createReservasi'])->name('krama.daftar-pemuput.reservasi.create');
+        // Route::get('reservasi/{tipe}/{id}', Reservasi::class)->name('krama.daftar-pemuput.reservasi.create');
+
+    });
+
+
+
 
     Route::put('store/rating', [KramaReservasiController::class, 'storeRating'])->name('krama.store.rating');
 });

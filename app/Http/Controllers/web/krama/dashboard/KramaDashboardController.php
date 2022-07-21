@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class KramaDashboardController extends Controller
 {
-    // VIEW DASHBOARD
     public function index(Request $request)
     {
         $request->session()->forget('id_sanggar');

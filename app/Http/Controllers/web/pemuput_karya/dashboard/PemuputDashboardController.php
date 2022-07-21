@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Expectation;
 use Illuminate\Support\Facades\Validator;
+use NotificationHelper;
 
 class PemuputDashboardController extends Controller
 {
@@ -36,9 +37,9 @@ class PemuputDashboardController extends Controller
         };
 
         $dataJadwal = Reservasi::with(['Upacaraku.User.Penduduk','Upacaraku.Upacara','DetailReservasi'=>$queryDetailReservasi])
-            ->whereHas('DetailReservasi',$queryDetailReservasi)
             ->whereTipe('pemuput_karya')
-            ->whereStatus('proses muput')
+            // ->whereHas('DetailReservasi',)
+            ->whereIn('status',['proses tangkil','proses muput'])
             ->whereIdRelasi($user->id)
             ->get();
 

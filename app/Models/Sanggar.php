@@ -77,8 +77,8 @@ class Sanggar extends Model
 		return $this->belongsTo(BanjarDinas::class, 'id_banjar_dinas', 'id');
 	}
 
-	public function DesaDinas()
+	public function Service()
 	{
-		return $this->belongsTo(DesaDinas::class, 'id_desa_dinas', 'id');
+		return $this->belongsToMany(Service::class, 'tb_service_sanggar', 'id_sanggar', 'id_service')->withTimestamps();
 	}
 }

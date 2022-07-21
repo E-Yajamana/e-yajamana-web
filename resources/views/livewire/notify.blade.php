@@ -7,7 +7,7 @@
             @endif
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-item dropdown-header">Notifications</span>
+            <span class="dropdown-item dropdown-header">Notifikasi</span>
             <div class="dropdown-divider"></div>
             <div  @if (!$dataNotif->isEmpty() && $dataNotif->count() > 2 )  class="direct-chat-messages p-0" style="height: 340px"  @endif >
                 @forelse ($dataNotif as $notif)

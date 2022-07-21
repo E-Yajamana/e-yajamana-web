@@ -413,6 +413,7 @@ class KramaReservasiController extends Controller
         // SECURITY
         $validator = Validator::make($request->all(), [
             'rating' => 'required|numeric',
+            'keterangan_rating' => 'nullable',
             'id' => 'required|numeric'
         ]);
 
@@ -427,7 +428,10 @@ class KramaReservasiController extends Controller
 
         // MAIN LOGIC
         try {
-            Reservasi::findOrFail($request->id)->update(['rating' => $request->rating]);
+            Reservasi::findOrFail($request->id)->update([
+                'rating' => $request->rating,
+                'keterangan_rating' => $request->keterangan_rating
+            ]);
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             return response()->json([
                 'status' => 500,

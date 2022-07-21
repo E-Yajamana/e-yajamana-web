@@ -91,7 +91,7 @@
             <div class="col-12 col-sm-6">
                 <div class="card" style="height:724px">
                     <div class="card-header">
-                        <label class="card-title"  id="judulKalender"><i class="fas fa-bullhorn mr-2"></i></i>Reservasi Akan Datang </label>
+                        <label class="card-title"  id="judulKalender"><i class="fas fa-bullhorn mr-2"></i></i>Reservasi akan datang </label>
                     </div>
                     <div class="card-body">
                          <!-- Timelime example  -->
@@ -284,7 +284,7 @@
                 '<p>Berikut ini merupakan informasi detail Jadwal yang terdapat pada .</p>'+
                 '<ul class="text-left">'+
                     '<li>Terdapat Jadwal   : '+title+' </li>'+
-                    (selesai != 'Invalid date' ? '<li>Waktu Tangkil     : '+mulai+' </li>' : '<li>Tanggal Mulai     : '+mulai+' </li>')+
+                    (selesai == 'Invalid date' ? '<li>Waktu Tangkil     : '+mulai+' </li>' : '<li>Tanggal Mulai     : '+mulai+' </li>')+
                     (selesai != 'Invalid date' ? '<li>Tanggal Selesai   : '+selesai+' </li>' : '')+
                     '<li>Status  :  '+status+' </li>'+
                 '</ul>'

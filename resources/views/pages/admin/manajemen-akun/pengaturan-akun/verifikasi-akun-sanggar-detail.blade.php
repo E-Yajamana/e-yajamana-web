@@ -57,7 +57,7 @@
                                         <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataSanggar->User[0]->nomor_telepon}}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Mendaftar Pada Tanggal</label>
+                                        <label for="exampleInputEmail1">Mendaftar pada tanggal</label>
                                         <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" disabled value="{{date('d F Y',strtotime($dataSanggar->created_at))}}">
                                     </div>
                                 </div>
@@ -129,7 +129,7 @@
                         <div class="col-12">
                             <div class="mt-2" id="gmaps" style="height: 330px;"></div>
                             <div class="form-group mt-4">
-                                <textarea disabled name="alamat_griya" class="form-control" rows="5" placeholder="Masukan Alamat Lengkap Griya" >{{$dataSanggar->alamat_sanggar}}, Desa {{Str::ucfirst(Str::lower($dataSanggar->DesaDinas->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataSanggar->DesaDinas->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataSanggar->DesaDinas->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataSanggar->DesaDinas->Kecamatan->Kabupaten->Provinsi->name))}}</textarea>
+                                <textarea disabled name="alamat_griya" class="form-control" rows="5" placeholder="Masukan Alamat Lengkap Griya" >{{$dataSanggar->alamat_sanggar}}, Desa {{Str::ucfirst(Str::lower($dataSanggar->BanjarDinas->DesaDinas->name))}}, Kecamatan {{Str::ucfirst(Str::lower($dataSanggar->BanjarDinas->DesaDinas->Kecamatan->name))}}, Kabupaten {{Str::ucfirst(Str::lower($dataSanggar->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->name))}}, Provinsi {{Str::ucfirst(Str::lower($dataSanggar->BanjarDinas->DesaDinas->Kecamatan->Kabupaten->Provinsi->name))}}</textarea>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">

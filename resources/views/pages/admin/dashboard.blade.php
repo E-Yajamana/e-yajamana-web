@@ -4,8 +4,6 @@
 @push('css')
     <!-- Bootstrap Icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.1/font/bootstrap-icons.css">
-
-
 @endpush
 
 @section('content')
@@ -116,7 +114,6 @@
                 <!-- /.card -->
             </div>
         </div>
-        <input type="hidden" id="jenisYadnya" value="@json($countJenisYadnya)">
     </section>
 
 @endsection
@@ -128,9 +125,7 @@
         $('#side-dashboard').addClass('menu-open');
         $(function () {
 
-            // let article = `{{ json_encode($countJenisYadnya) }}`;
-            let data = $('#jenisYadnya').val()
-            console.log(data)
+            const arrayDonutChart = {!! json_encode($countJenisYadnya) !!}
 
             // NAMPILIN DI ID #donutChart
             var donutChartCanvas = $('#jenisYadnyaDiagram').get(0).getContext('2d')
@@ -143,7 +138,7 @@
                     'Bhuta Yadnya',
                 ],
                 datasets: [{
-                    data: data,
+                    data: arrayDonutChart,
                     backgroundColor : ['#f56954', '#00c0ef', '#f39c12', '#3c8dbc', '#d2d6de','#d2d6de'],
                 }]
             }
@@ -157,30 +152,59 @@
                 options: donutOptions
             })
 
-            // NAMPILIN DI ID #donutChart
-            var donutChartCanvas = $('#jenisUserDiagram').get(0).getContext('2d')
-            var donutData = {
-                labels: [
-                    'Dewa Yadnya',
-                    'Pitra Yadnya',
-                    'Manusa Yadnya',
-                    'Rsi Yadnya',
-                    'Bhuta Yadnya',
-                ],
+
+            const arrayBarChart = {!! json_encode($countJenisUser) !!}
+
+            var labelBarChart = [];
+            var dataBarChart = [];
+
+            $.each(arrayBarChart, function(key, jumlah){
+                labelBarChart.push(key)
+                dataBarChart.push(jumlah)
+            });
+
+            const configBarChart = {
+                labels: labelBarChart,
                 datasets: [{
-                    data: [2,3,4,5,6],
-                    backgroundColor : ['#f56954', '#00c0ef', '#f39c12', '#3c8dbc', '#d2d6de'],
+                    label: 'Jenis User',
+                    data: dataBarChart,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                    ],
+                    borderWidth: 1
                 }]
-            }
-            var donutOptions     = {
-            maintainAspectRatio : false,
-            responsive : true,
-            }
-            new Chart(donutChartCanvas, {
-                type: 'doughnut',
-                data: donutData,
-                options: donutOptions
-            })
+            };
+
+            const barChart = new Chart(
+                document.getElementById('jenisUserDiagram'),
+                {
+                    type: 'bar',
+                    data: configBarChart,
+                    responsive : true,
+                    options: {
+                        scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                    }
+                }
+            );
         })
 
     </script>

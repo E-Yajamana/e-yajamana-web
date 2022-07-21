@@ -152,6 +152,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // SULINGGIH KONFIRMASI MUPUT
         Route::get('muput/detail/{id_reservasi}', [SulinggihMuputController::class, 'getDetailMuput']);
         Route::post('puput', [SulinggihMuputController::class, 'puputKarya']);
+        Route::post('batal/puput', [SulinggihMuputController::class, 'batalMuput']);
         // END
     });
     // END

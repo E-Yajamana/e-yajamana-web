@@ -13,9 +13,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        //
-    ];
+    protected $commands = [];
 
     /**
      * Define the application's command schedule.
@@ -25,13 +23,18 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Masukkan Kode Anda Disini
-        $schedule->call(function () {
+        // $schedule->command('inspire')->hourly();
 
-            //Pengecekan apakah cronjob berhasil atau tidak
-            //Mencatat info log 
-            Log::info('Cronjob Success');
-        })->everyTwoMinutes();
+        $schedule->command('validasi:reservasi')->everyMinute();
+        $schedule->command('reminder:tangkil')->everyMinute();
+        $schedule->command('reminder:muput')->everyMinute();
+        $schedule->command('calculation:ranting')->everyMinute();
+        $schedule->command('make:reminder')->everyMinute();
+        $schedule->command('make:reminder')->dailyAt('05:00');
+        $schedule->command('validasi:reservasi')->dailyAt('05:00');
+        $schedule->command('reminder:tangkil')->dailyAt('05:00');
+        $schedule->command('reminder:muput')->dailyAt('05:00');
+        $schedule->command('calculation:ranting')->everyThreeMinutes();
     }
 
     /**

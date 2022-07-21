@@ -1,5 +1,5 @@
 @extends('layouts.admin.admin-layout')
-@section('tittle','List Data Akun')
+@section('tittle','Daftar Akun')
 
 @push('css')
     <!-- DataTables -->
@@ -15,12 +15,12 @@
         <div class="container-fluid border-bottom">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Data Akun E-Yajamana</h1>
+                    <h1>Daftar Akun E-Yajamana</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Data Akun</li>
+                        <li class="breadcrumb-item active">Daftar Akun</li>
                     </ol>
                 </div>
             </div>
@@ -57,14 +57,9 @@
                                             Sanggar <span class="badge bg-warning float-right">{{count($dataSanggar)}}</span>
                                         </a>
                                     </li>
-                                    {{-- <li class="nav-item">
-                                        <a class="nav-link" id="serati-tabs" data-toggle="pill" href="#serati-table" role="tab" aria-controls="serati-table" aria-selected="false">
-                                            Serati <span class="badge bg-warning float-right">{{count($dataSerati)}}</span>
-                                        </a>
-                                    </li> --}}
                                     <li class="nav-item">
                                         <a id="krama-tabs" href="#krama-table" class="nav-link" data-toggle="pill" role="tab" aria-controls="krama-table" aria-selected="false">
-                                            Krama Bali <span class="badge bg-warning float-right">{{count($dataKrama)}}</span>
+                                            Krama <span class="badge bg-warning float-right">{{count($dataKrama)}}</span>
                                         </a>
                                     </li>
                                   </ul>
@@ -77,11 +72,8 @@
                             <div class="card-header my-auto">
                                 <div class="row">
                                     <div class="col-6">
-                                        <h3 class="card-title my-auto">List Data Akun</h3>
+                                        <h3 class="card-title my-auto"> Data Akun</h3>
                                     </div>
-                                    {{-- <div class="col-6">
-                                        <a class="btn btn-primary float-right" href=""><i class="fa fa-plus"></i> Tambah</a>
-                                    </div> --}}
                                 </div>
                             </div>
 
@@ -109,14 +101,10 @@
                                                             <div  @if ($data->status_konfirmasi_akun == 'pending') class="bg-secondary btn-sm" @elseif ($data->status_konfirmasi_akun == 'ditolak') class="bg-danger btn-sm" @elseif ($data->status_konfirmasi_akun == 'disetujui') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:90px;">{{ucfirst($data->status_konfirmasi_akun)}}</div>
                                                         </td>
                                                         <td>
-                                                            <a href="{{route('admin.manajemen-akun.data-akun.pemuput-karya.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                                                            <a title="Detail" href="{{route('admin.manajemen-akun.data-akun.pemuput-karya.detail',$data->id)}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
                                                             @if ($data->status_konfirmasi_akun == 'pending')
-                                                                <a onclick="terimaPemuput({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
-                                                                <a onclick="tolakPemuput({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times px-1"></i></a>
-                                                            {{-- @elseif ($data->status_konfirmasi_akun == 'disetujui')
-                                                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                                <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                            @else --}}
+                                                                <a title="Terima" onclick="terimaPemuput({{$data->id}})" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></a>
+                                                                <a title="Tolak" onclick="tolakPemuput({{$data->id}})" class="btn btn-danger btn-sm"><i class="fas fa-times px-1"></i></a>
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -214,43 +202,6 @@
                                 </div>
                             </div>
                             {{-- SANGGAR --}}
-
-                            {{-- SERATI --}}
-                            {{-- <div class="tab-pane fade" id="serati-table" role="tabpanel" aria-labelledby="serati-tabs">
-                                <div class="card-body p-0">
-                                    <div class="table-responsive mailbox-messages p-2">
-                                        <table id="tb-serati" class="table table-striped table-hover mx-auto table-responsive-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Nama Serati</th>
-                                                    <th>Alamat Serati</th>
-                                                    <th>Status</th>
-                                                    <th>Tindakan</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($dataSerati as $data)
-                                                    <tr>
-                                                        <td>{{$loop->iteration}}</td>
-                                                        <td>{{$data->nama_serati}}</td>
-                                                        <td>{{$data->User->Penduduk->alamat}}</td>
-                                                        <td class="text-center">
-                                                            <div  @if ($data->status_konfirmasi_akun == 'pending') class="bg-secondary btn-sm" @elseif ($data->status_konfirmasi_akun == 'ditolak') class="bg-danger btn-sm" @elseif ($data->status_konfirmasi_akun == 'disetujui') class="bg-success btn-sm" @else class="bg-danger btn-sm" @endif  style="border-radius: 5px; width:90px;">{{ucfirst($data->status_konfirmasi_akun)}}</div>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{route('admin.manajemen-akun.data-akun.serati.detail',$data->id)}}}" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
-                                                            <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                            <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            {{-- SERATI --}}
 
                             {{-- KRAMA --}}
                             <div class="tab-pane fade" id="krama-table" role="tabpanel" aria-labelledby="krama-tabs">

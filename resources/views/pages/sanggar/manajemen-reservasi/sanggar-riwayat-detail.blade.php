@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label>Mengajukan Reservasi Pada Tanggal :</label>
+                                <label>Mengajukan Reservasi pada Tanggal :</label>
                                 <input type="text" name="data_upacara[0][nama_upacara]" class="form-control @error('data_upacara[0][nama_upacara]') is-invalid @enderror" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{date('d M Y, H:m',strtotime($dataReservasi->created_at))}}">
                             </div>
                         </div>

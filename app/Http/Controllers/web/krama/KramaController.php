@@ -5,8 +5,11 @@ namespace App\Http\Controllers\web\krama;
 use App\Http\Controllers\Controller;
 use App\Models\Kecamatan;
 use App\Models\Notification;
+use App\Models\PemuputKarya;
 use App\Models\Reservasi;
+use App\Models\Sanggar;
 use App\Models\Upacaraku;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,31 +50,5 @@ class KramaController extends Controller
     {
         return view('pages.krama.report');
     }
-
-
-
-    public function sendNotif(Request $request)
-    {
-        $user = Auth::user();
-
-        NotificationHelper::sendNotification(
-            [
-                'title' => "REMINDER UPACARA",
-                'body' => "Halo Krama, besok pada Tanggal 15 Juni 2022 terdapat jadwal tahapan upacara Piodalan yang akan diselenggarakan",
-                'status' => "new",
-                'image' => "/logo-eyajamana.png",
-                'type' => "krama",
-                'url' => ''.route('krama.manajemen-upacara.upacaraku.index').'',
-                'notifiable_id' => $user->id,
-                'formated_created_at' => date('Y-m-d H:i:s'),
-                'formated_updated_at' => date('Y-m-d H:i:s'),
-            ],
-            $user
-        );
-
-        return redirect()->route('krama.profile');
-    }
-
-
 
 }

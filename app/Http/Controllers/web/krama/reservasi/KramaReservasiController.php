@@ -31,12 +31,13 @@ class KramaReservasiController extends Controller
     // INDEX RESERVASI KRAMA
     public function indexReservasi(Request $request)
     {
+
         // MAIN LOGIC
             try{
                 $idKrama = Auth::user()->id;
-                $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi.DetailReservasi','Reservasi.Relasi'=>function($query){
-                    $query->with(['PemuputKarya','Sanggar']);
-                }])->whereHas('Reservasi.DetailReservasi')->whereHas('Reservasi.Relasi')->where('id_krama',$idKrama)->get();
+                $dataUpacaraku = Upacaraku::with(['Upacara','Reservasi.DetailReservasi','Reservasi.Relasi.PemuputKarya','Reservasi'])
+                    ->whereHas('Reservasi.DetailReservasi')
+                    ->where('id_krama',$idKrama)->get();
 
                 $data = [];
                 foreach($dataUpacaraku as $index=>$upacara){
@@ -72,6 +73,7 @@ class KramaReservasiController extends Controller
                         ]);
                     }
                 }
+
             }catch(ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err){
                 return redirect()->back()->with([
                     'status' => 'fail',
@@ -190,6 +192,7 @@ class KramaReservasiController extends Controller
                 ])->withInput($request->all())->withErrors($validator->errors());
             }
         // END SECURITY
+
 
         // MAIN LOGIC
             try{
@@ -630,7 +633,7 @@ class KramaReservasiController extends Controller
                         NotificationHelper::sendNotification(
                             [
                                 'title' => "PEMBATALAN RESERVASI",
-                                'body' => "Pembatalan Reservasi dengan ID : ".$request->id_reservasi." kepada Pemuput Karya ".$relasi->PemuputKarya->nama_pemuput." berhasil dilakukan.",
+                                'body' => "Pembatalan Reservasi dengan kepada Pemuput Karya ".$relasi->PemuputKarya->nama_pemuput." berhasil dilakukan.",
                                 'status' => "new",
                                 'image' => "normal",
                                 'notifiable_id' => $user->id,
@@ -696,15 +699,22 @@ class KramaReservasiController extends Controller
                     'status' => 'fail',
                     'icon' => 'error',
                     'title' => 'Validation Error',
-                    'message' => 'Harap dicek kembali form input yang Anda masukan',
+                    'message' => 'Harap dicek kembali form penilaian yang Anda masukan',
                 ]);
             }
         // END SECURITY
         try{
             DB::beginTransaction();
+            if($request->anonim != null){
+                $anonim = 1;
+            }else{
+                $anonim = 0;
+            }
+
             Reservasi::find($request->id_reservasi_ranting)->update([
                 'rating' => $request->rating,
                 'keterangan_rating' => $request->keterangan_rating,
+                'anonim' => $anonim
             ]);
             DB::commit();
         }catch(ModelNotFoundException | PDOException | QueryException | ErrorException | \Throwable | \Exception $err){

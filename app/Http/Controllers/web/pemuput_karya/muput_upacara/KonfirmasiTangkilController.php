@@ -204,18 +204,18 @@ class KonfirmasiTangkilController extends Controller
             switch ($statusReservasi) {
                 case 'proses tangkil':
                     $title = "PERUBAHAN RESERVASI";
-                    $messagePemuput = "Perubahan Reservasi ID : " . $request->id_reservasi . " berhasil dilakukan!,harap dicek kembali data Reservasi Anda!";
-                    $messageKrama = "Halo Krama Bali ! Reservasi anda dengan ID : " . $request->id_reservasi . " terdapat perubahan data reservasi yang dilakukan oleh Pemuput Karya, mohon dicek kembali Reservasi kalian ya, jangan sampai kelewatan!.";
+                    $messagePemuput = "Perubahan Reservasi berhasil dilakukan!,harap dicek kembali data Reservasi Anda!";
+                    $messageKrama = "Halo Krama ! Reservasi anda dengan terdapat perubahan data reservasi yang dilakukan oleh Pemuput Karya, mohon dicek kembali Reservasi kalian ya, jangan sampai kelewatan!.";
                     break;
                 case 'ditolak':
                     $title = "PEMBATALAN RESERVASI";
                     $messagePemuput = "Pembatalan Reservasi dengan ID : " . $request->id_reservasi . " berhasil dilakukan. anda dapat melihat semua data Reservasi menu Riwayat Reservasi";
-                    $messageKrama = "Halo Krama Bali ! " . $user->PemuputKarya->nama_pemuput . "  membatalkan Reservasi anda dengan ID : " . $request->id_reservasi . " dengan alasan " . $request->alasan_penolakan[0] . ", mohon untuk mencari pemuput karya lainnya";
+                    $messageKrama = "Halo Krama ! " . $user->PemuputKarya->nama_pemuput . "  membatalkan Reservasi dengan alasan " . $request->alasan_penolakan[0] . ", mohon untuk mencari pemuput karya lainnya";
                     break;
                 case 'pending':
                     $title = "PERUBAHAN RESERVASI";
                     $messagePemuput = "Berhasil mengubah Reservasi. Mohon untuk segera mengkonfirmasi Reservasi Masuk Anda kembal!";
-                    $messageKrama = "Halo Krama Bali ! " . $user->PemuputKarya->nama_pemuput . "  mengubah Reservasi anda dengan ID : " . $request->id_reservasi . " menjadi pending kembali , dimohon untuk menunggu konfirmasi kembali dari pihak Pemuput Karya!";
+                    $messageKrama = "Halo Krama ! " . $user->PemuputKarya->nama_pemuput . "  mengubah Reservasi anda menjadi pending kembali , dimohon untuk menunggu konfirmasi kembali dari pihak Pemuput Karya!";
                     break;
                 default:
             }
@@ -443,7 +443,7 @@ class KonfirmasiTangkilController extends Controller
                         NotificationHelper::sendMultipleNotification(
                             [
                                 'title' => "PERUBAHAN RESERVASI",
-                                'body' => "Terdapat perubahan Reservasi dengan ID : " . $request->data_upacara[0]['nama_upacara'] . " yang dilakukan oleh " . $sulinggih->PemuputKarya->nama_pemuput . "., untuk lebih jelasnya anda dapat melihat detail perubahan pada Data Reservasi tersebut!",
+                                'body' => "Terdapat perubahan Reservasi dengan pada " . $request->data_upacara[0]['nama_upacara'] . " yang dilakukan oleh " . $sulinggih->PemuputKarya->nama_pemuput . "., untuk lebih jelasnya anda dapat melihat detail perubahan pada Data Reservasi tersebut!",
                                 'status' => "new",
                                 'image' => "pemuput",
                                 'type' => "pemuput",
@@ -496,7 +496,7 @@ class KonfirmasiTangkilController extends Controller
                 NotificationHelper::sendNotification(
                     [
                         'title' => "TANGKIL BERHASIL DILAKUKAN",
-                        'body' => "Halo Krama Bali !! Reservasi dengan ID : " . $request->id_reservasi . ", sudah berhasil melakukan Tangkil ke Griya, untuk proses selanjutnya, menunggu Pemuput Karya melakukan Muput Upacara pada masing-masing tahapan",
+                        'body' => "Halo Krama !! telah berhasil melakukan Tangkil ke Griya, untuk proses selanjutnya, menunggu Pemuput Karya melakukan Muput Upacara pada masing-masing tahapan",
                         'status' => "new",
                         'image' => "normal",
                         'notifiable_id' => $krama->id,
@@ -607,7 +607,7 @@ class KonfirmasiTangkilController extends Controller
             NotificationHelper::sendNotification(
                 [
                     'title' => "PERUBAHAN RESERVASI",
-                    'body' => "Halo Krama Bali ! Reservasi dengan ID : " . $request->id_reservasi . " telah ditolak oleh Pemuput Karya, dengan alasan " . $request->alasan_pembatalan . ", mohon untuk mencari pemuput karya lainnya ",
+                    'body' => "Halo Krama ! Reservasi telah ditolak oleh Pemuput Karya, dengan alasan " . $request->alasan_pembatalan . ", mohon untuk mencari pemuput karya lainnya ",
                     'status' => "new",
                     'image' => "normal",
                     'type' => "krama",

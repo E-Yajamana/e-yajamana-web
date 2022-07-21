@@ -35,18 +35,17 @@ class KonfirmasiMuputController extends Controller
             ->get();
 
         $data = [];
-        foreach($dataReservasi as $index => $reservasi){
+        foreach ($dataReservasi as $index => $reservasi) {
             foreach ($reservasi->DetailReservasi as $key => $detailReservasi) {
                 $data[] = ((array)[
-                    "No" => $index+1,
+                    "No" => $index + 1,
                     "Penyelengara" => $reservasi->Upacaraku->User->Penduduk->nama,
                     "Alamat" => $reservasi->Upacaraku->alamat_upacaraku,
                     "tahapanReservasi" => $detailReservasi->TahapanUpacara->nama_tahapan,
-                    "waktuMulai" => Carbon::parse($detailReservasi->tanggal_mulai)->format('d M Y | H:m' ),
-                    "waktuSelesai" => Carbon::parse($detailReservasi->tanggal_selesai)->format('d M Y | H:m' ),
-                    "tindakan" =>  '<a href="'.route('pemuput-karya.muput-upacara.konfirmasi-muput.detail',$detailReservasi->id).'" class="btn btn-info btn-sm "><i class="fas fa-eye"></i></a><a onclick="konfirmasiMuput('.$detailReservasi->id.','.$reservasi->Upacaraku->id.')" class="btn btn-primary btn-sm mx-1"><i class="fas fa-check"></i></a><a onclick="batalMuput('.$detailReservasi->id.','.$reservasi->Upacaraku->id.')" class="btn btn-danger btn-sm "><i class="fas fa-times"></i></a>'
+                    "waktuMulai" => Carbon::parse($detailReservasi->tanggal_mulai)->format('d M Y | H:m'),
+                    "waktuSelesai" => Carbon::parse($detailReservasi->tanggal_selesai)->format('d M Y | H:m'),
+                    "tindakan" =>  '<a href="' . route('pemuput-karya.muput-upacara.konfirmasi-muput.detail', $detailReservasi->id) . '" class="btn btn-info btn-sm "><i class="fas fa-eye"></i></a><a onclick="konfirmasiMuput(' . $detailReservasi->id . ',' . $reservasi->Upacaraku->id . ')" class="btn btn-primary btn-sm mx-1"><i class="fas fa-check"></i></a><a onclick="batalMuput(' . $detailReservasi->id . ',' . $reservasi->Upacaraku->id . ')" class="btn btn-danger btn-sm "><i class="fas fa-times"></i></a>'
                 ]);
-
             }
         }
         return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-muput-index', compact('data'));
@@ -57,39 +56,39 @@ class KonfirmasiMuputController extends Controller
     public function detail(Request $request)
     {
         // SECURITY
-            $validator = Validator::make(['id' => $request->id], [
-                'id' => 'required|exists:tb_detail_reservasi,id',
-            ]);
+        $validator = Validator::make(['id' => $request->id], [
+            'id' => 'required|exists:tb_detail_reservasi,id',
+        ]);
 
-            if ($validator->fails()) {
-                return redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'error',
-                    'title' => 'Tahapan Reservasi Tidak Ditemukan !',
-                    'message' => 'Tahapan Reservasi tidak ditemukan, pilihlah data dengan benar !',
-                ]);
-            }
+        if ($validator->fails()) {
+            return redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Data Detail Tidak Ditemukan !',
+                'message' => 'Data Detail tidak ditemukan, pilihlah data dengan benar !',
+            ]);
+        }
         // END SECURITY
 
         // MAIN LOGIC
-            try{
-                $sulinggih = Auth::user();
-                $queryReservasi = function ($queryReservasi) use ($sulinggih){
-                    $queryReservasi->with('Upacaraku')->whereHas('Upacaraku')->where('id_relasi',$sulinggih->id);
-                };
-                $dataDetailReservasi = DetailReservasi::with(['Reservasi' => $queryReservasi, 'TahapanUpacara'])->whereHas('TahapanUpacara')->whereHas('Reservasi')->whereStatus('diterima')->findOrFail($request->id);
-            }catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return \redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'error',
-                    'title' => 'Internal server error  !',
-                    'message' => 'Data detail muput upacara tidak tersedia, mohon untuk menghubungi developer sistem !',
-                ]);
-            }
+        try {
+            $sulinggih = Auth::user();
+            $queryReservasi = function ($queryReservasi) use ($sulinggih) {
+                $queryReservasi->with('Upacaraku')->whereHas('Upacaraku')->where('id_relasi', $sulinggih->id);
+            };
+            $dataDetailReservasi = DetailReservasi::with(['Reservasi' => $queryReservasi, 'TahapanUpacara'])->whereHas('TahapanUpacara')->whereHas('Reservasi')->whereStatus('diterima')->findOrFail($request->id);
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return \redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Internal server error  !',
+                'message' => 'Data detail muput upacara tidak tersedia, mohon untuk menghubungi developer sistem !',
+            ]);
+        }
         // END LOGIC
 
         // RETURN
-            return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-muput-detail', compact('dataDetailReservasi'));
+        return view('pages.pemuput-karya.manajemen-muput-upacara.konfirmasi-muput-detail', compact('dataDetailReservasi'));
         // END RETURN
     }
     // DETAIL UPACARA
@@ -98,7 +97,8 @@ class KonfirmasiMuputController extends Controller
     public function konfirmasiMuput(Request $request)
     {
         // SECURITY
-        $validator = Validator::make($request->all(),
+        $validator = Validator::make(
+            $request->all(),
             [
                 'id_detail_reservasi' => 'required|exists:tb_detail_reservasi,id',
                 'id_upacaraku' => 'required|exists:tb_upacaraku,id',
@@ -131,10 +131,10 @@ class KonfirmasiMuputController extends Controller
             $sulinggih = Auth::user();
             $detailReservasi = DetailReservasi::with(['Reservasi'])->findOrFail($request->id_detail_reservasi);
 
-            if($request->file != null){
-                foreach($request->file as $data){
+            if ($request->file != null) {
+                foreach ($request->file as $data) {
                     $folder = 'app/sulinggih/bukti-muput/upacara/';
-                    $filename[] = ['image'=>ImageHelper::moveImage($data, $folder)];
+                    $filename[] = ['image' => ImageHelper::moveImage($data, $folder)];
                 }
                 $detailReservasi->Gambar()->createMany($filename);
             }
@@ -143,7 +143,7 @@ class KonfirmasiMuputController extends Controller
 
             $detailReservasi->update(['status' => 'selesai']);
             $countDetailReservasi = DetailReservasi::whereIdReservasi($detailReservasi->id_reservasi)->whereIn('status', ['diterima'])->count();
-            $jumlahReservasi = Reservasi::whereIdUpacaraku($detailReservasi->Reservasi->id_upacaraku)->whereIn('status', ['pending','proses tangkil', 'proses muput'])->whereNotIn('id', [$detailReservasi->id_reservasi])->count();
+            $jumlahReservasi = Reservasi::whereIdUpacaraku($detailReservasi->Reservasi->id_upacaraku)->whereIn('status', ['pending', 'proses tangkil', 'proses muput'])->whereNotIn('id', [$detailReservasi->id_reservasi])->count();
             if ($countDetailReservasi == 0) {
                 Reservasi::findOrFail($detailReservasi->id_reservasi)->update(['status' => 'selesai']);
             }
@@ -156,7 +156,7 @@ class KonfirmasiMuputController extends Controller
             NotificationHelper::sendNotification(
                 [
                     'title' => 'MUPUT UPACARA SELESAI',
-                    'body' => 'Halo '.$sulinggih->PemuputKarya->nama_pemuput.", Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." berhasil dilakukan!",
+                    'body' => 'Halo ' . $sulinggih->PemuputKarya->nama_pemuput . ", Muput Upacara pada tahapan " . $detailReservasi->TahapanUpacara->nama_tahapan . " berhasil diselesaikan!",
                     'status' => "new",
                     'image' => "normal",
                     'type' => "pemuput",
@@ -169,8 +169,8 @@ class KonfirmasiMuputController extends Controller
 
             NotificationHelper::sendNotification(
                 [
-                    'title' =>"MUPUT UPACARA SELESAI",
-                    'body' => "Halo Krama Bali !!, ".$sulinggih->PemuputKarya->nama_pemuput." sudah menyelesaikan Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." ! ",
+                    'title' => "MUPUT UPACARA SELESAI",
+                    'body' => "Halo Krama!, " . $sulinggih->PemuputKarya->nama_pemuput . " sudah menyelesaikan Muput Upacara pada tahapan " . $detailReservasi->TahapanUpacara->nama_tahapan . " ! ",
                     'status' => "new",
                     'image' => "normal",
                     'type' => "krama",
@@ -194,12 +194,12 @@ class KonfirmasiMuputController extends Controller
         // END LOGIC
 
         // RETURN
-            return redirect()->route('pemuput-karya.muput-upacara.konfirmasi-muput.index')->with([
-                'status' => 'success',
-                'icon' => 'success',
-                'title' => 'Berhasil menyelesaikan muput upacara!',
-                'message' => 'Data konfirmasi muput dapat dilihat pada menu muput upacara, anda dapat melihat pembaruan data pada sistem',
-            ]);
+        return redirect()->route('pemuput-karya.muput-upacara.konfirmasi-muput.index')->with([
+            'status' => 'success',
+            'icon' => 'success',
+            'title' => 'Berhasil menyelesaikan muput upacara!',
+            'message' => 'Data Berhasil menyelesaikan muput upacara, Anda dapat melihat pembaruan data pada sistem',
+        ]);
         //END
 
     }
@@ -209,89 +209,89 @@ class KonfirmasiMuputController extends Controller
     public function batalMuput(Request $request)
     {
         // SECURITY
-            $validator = Validator::make($request->all(), [
-                'id_detail_reservasi' => 'required|exists:tb_detail_reservasi,id',
-                'id_upacaraku' => 'required|exists:tb_upacaraku,id',
-                'alasan_pembatalan' => 'required',
-            ]);
+        $validator = Validator::make($request->all(), [
+            'id_detail_reservasi' => 'required|exists:tb_detail_reservasi,id',
+            'id_upacaraku' => 'required|exists:tb_upacaraku,id',
+            'alasan_pembatalan' => 'required',
+        ]);
 
-            if ($validator->fails()) {
-                return redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'error',
-                    'title' => 'Tahapan Reservasi Tidak Ditemukan !',
-                    'message' => 'Tahapan Reservasi tidak ditemukan, pilihlah data dengan benar !',
-                ]);
-            }
+        if ($validator->fails()) {
+            return redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Tahapan Reservasi Tidak Ditemukan !',
+                'message' => 'Tahapan Reservasi tidak ditemukan, pilihlah data dengan benar !',
+            ]);
+        }
         // END SECURITY
 
         // MAIN LOGIC
-            try{
-                DB::beginTransaction();
-                $sulinggih = Auth::user();
-                $detailReservasi = DetailReservasi::findOrFail($request->id_detail_reservasi);
-                $lastReservation = DetailReservasi::whereIdReservasi($detailReservasi->id_reservasi)->whereIn('status',['diterima'])->count();
-                $upacaraku = Upacaraku::findOrFail($request->id_upacaraku);
-                $krama = User::findOrFail($upacaraku->id_krama);
-                if($lastReservation <= 1){
-                    $reservasi = Reservasi::findOrFail($detailReservasi->id_reservasi);
-                    $countReservasi = Reservasi::whereIdUpacaraku($reservasi->id_upacaraku)->whereIn('status',['pending','proses tagnkil','proses muput'])->count();
-                    if($countReservasi <= 1){
-                        $upacaraku->update(['status','selesai']);
-                    }
-                    $reservasi->update(['status'=>'selesai']);
+        try {
+            DB::beginTransaction();
+            $sulinggih = Auth::user();
+            $detailReservasi = DetailReservasi::findOrFail($request->id_detail_reservasi);
+            $lastReservation = DetailReservasi::whereIdReservasi($detailReservasi->id_reservasi)->whereIn('status', ['diterima'])->count();
+            $upacaraku = Upacaraku::findOrFail($request->id_upacaraku);
+            $krama = User::findOrFail($upacaraku->id_krama);
+            if ($lastReservation <= 1) {
+                $reservasi = Reservasi::findOrFail($detailReservasi->id_reservasi);
+                $countReservasi = Reservasi::whereIdUpacaraku($reservasi->id_upacaraku)->whereIn('status', ['pending', 'proses tagnkil', 'proses muput'])->count();
+                if ($countReservasi <= 1) {
+                    $upacaraku->update(['status', 'selesai']);
                 }
-                $detailReservasi->update([
-                    'status'=>'batal',
-                    'keterangan'=>$request->alasan_pembatalan,
-                ]);
-
-                // NOTIFICATION
-                NotificationHelper::sendNotification(
-                    [
-                        'title' => 'BATAL MUPUT UPACARA',
-                        'body' => 'Halo '.$sulinggih->PemuputKarya->nama_pemuput." !!, pembatalan muput upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." berhasil dilakukan!",
-                        'status' => "new",
-                        'image' => "normal",
-                        'notifiable_id' => $sulinggih->id,
-                        'formated_created_at' => date('Y-m-d H:i:s'),
-                        'formated_updated_at' => date('Y-m-d H:i:s'),
-                    ],
-                    $sulinggih
-                );
-
-                NotificationHelper::sendNotification(
-                    [
-                        'title' =>"PEMBATALAN MUPUT UPACARA",
-                        'body' => "Halo Krama Bali !!, ".$sulinggih->PemuputKarya->nama_pemuput." membatalkan tahapan Upacara ".$detailReservasi->TahapanUpacara->nama_tahapan." dengan alasan pembatalan : ".$request->alasan_pembatalan,
-                        'status' => "new",
-                        'image' => "normal",
-                        'notifiable_id' => $krama->id,
-                        'formated_created_at' => date('Y-m-d H:i:s'),
-                        'formated_updated_at' => date('Y-m-d H:i:s'),
-                    ],
-                    $krama
-                );
-                // NOTIFICATION
-
-                DB::commit();
-            }catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-                return \redirect()->back()->with([
-                    'status' => 'fail',
-                    'icon' => 'error',
-                    'title' => 'Internal server error  !',
-                    'message' => 'Data detail muput upacara tidak tersedia, mohon untuk menghubungi developer sistem !',
-                ]);
+                $reservasi->update(['status' => 'selesai']);
             }
+            $detailReservasi->update([
+                'status' => 'batal',
+                'keterangan' => $request->alasan_pembatalan,
+            ]);
+
+            // NOTIFICATION
+            NotificationHelper::sendNotification(
+                [
+                    'title' => 'BATAL MUPUT UPACARA',
+                    'body' => 'Halo ' . $sulinggih->PemuputKarya->nama_pemuput . " !!, pembatalan muput upacara pada tahapan " . $detailReservasi->TahapanUpacara->nama_tahapan . " berhasil dilakukan!",
+                    'status' => "new",
+                    'image' => "normal",
+                    'notifiable_id' => $sulinggih->id,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $sulinggih
+            );
+
+            NotificationHelper::sendNotification(
+                [
+                    'title' => "PEMBATALAN MUPUT UPACARA",
+                    'body' => "Halo Krama!!, " . $sulinggih->PemuputKarya->nama_pemuput . " membatalkan tahapan Upacara " . $detailReservasi->TahapanUpacara->nama_tahapan . " dengan alasan pembatalan : " . $request->alasan_pembatalan,
+                    'status' => "new",
+                    'image' => "normal",
+                    'notifiable_id' => $krama->id,
+                    'formated_created_at' => date('Y-m-d H:i:s'),
+                    'formated_updated_at' => date('Y-m-d H:i:s'),
+                ],
+                $krama
+            );
+            // NOTIFICATION
+
+            DB::commit();
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return \redirect()->back()->with([
+                'status' => 'fail',
+                'icon' => 'error',
+                'title' => 'Internal server error  !',
+                'message' => 'Data detail muput upacara tidak tersedia, mohon untuk menghubungi developer sistem !',
+            ]);
+        }
         // END LOGIC
 
         // RETURN
-            return redirect()->route('pemuput-karya.muput-upacara.konfirmasi-muput.index')->with([
-                'status' => 'success',
-                'icon' => 'success',
-                'title' => 'Muput Upacara dibatalkan!',
-                'message' => 'Data Reservasi muput dapat dilihat pada menu muput upacara, anda dapat melihat pembaruan data pada sistem',
-            ]);
+        return redirect()->route('pemuput-karya.muput-upacara.konfirmasi-muput.index')->with([
+            'status' => 'success',
+            'icon' => 'success',
+            'title' => 'Muput Upacara dibatalkan!',
+            'message' => 'Muput Upacara berhasil dibatalkan, anda dapat melihat pembaruan data pada sistem',
+        ]);
         //END
     }
     // BATAL MUPUT UPACARA

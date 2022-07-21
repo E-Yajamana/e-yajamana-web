@@ -209,7 +209,7 @@ class MasterDataUpacaraController extends Controller
                     'status' => 'fail',
                     'icon' => 'error',
                     'title' => 'Data Upacara Tidak Ditemukan !',
-                    'message' => 'Data griya tidak ditemukan, pilihlah data dengan benar !',
+                    'message' => 'Data Upacara tidak ditemukan, pilihlah data dengan benar !',
                 ]);
             }
         // END SECURITY
@@ -221,8 +221,8 @@ class MasterDataUpacaraController extends Controller
                 return \redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Sistem Gagal Menemukan Data Griya !',
-                    'message' => 'sistem gagal menemukan Data Griya, mohon untuk menghubungi developer sistem !',
+                    'title' => 'Sistem Gagal Menemukan Upacara !',
+                    'message' => 'sistem gagal menemukan Upacara, mohon untuk menghubungi developer sistem !',
                 ]);
             }
         // END MAIN LOGIC
@@ -258,8 +258,8 @@ class MasterDataUpacaraController extends Controller
                 return \redirect()->back()->with([
                     'status' => 'fail',
                     'icon' => 'error',
-                    'title' => 'Sistem Gagal Menemukan Data Griya !',
-                    'message' => 'sistem gagal menemukan Data Griya, mohon untuk menghubungi developer sistem !',
+                    'title' => 'Sistem Gagal Menemukan Data Upacara !',
+                    'message' => 'sistem gagal menemukan Data Upacara, mohon untuk menghubungi developer sistem !',
                 ]);
             }
         // END MAIN LOGIC
@@ -471,8 +471,8 @@ class MasterDataUpacaraController extends Controller
             return response()->json([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Berhasil Mengubah Tahapan Upacara',
-                'message' => 'Data Tahapan Upacara berhasil terhapus dari sistem',
+                'title' => 'Berhasil Menambahkan Tahapan Upacara',
+                'message' => 'Data Tahapan Upacara berhasil ditambahkan dari sistem',
                 'data' => $upacara
             ],200);
         // END RETURN

@@ -19,7 +19,7 @@
                     <div class="col-12 col-sm-3" data-category="1" data-sort="white sample">
                         <a style="text-decoration: none;" href="{{route('auth.register.form.akun','krama')}}">
                             <div class="card p-2 shadow cursor" role="button">
-                                <label class="text-center m-0 p-1 text-dark">KRAMA BALI</label>
+                                <label class="text-center m-0 p-1 text-dark">KRAMA</label>
                                 <img src="{{asset('base-template/dist/img/jenis-user/kramabali.jpg')}}" style="height:190px; object-fit:cover; opacity : 0.9 " alt="white sample"/>
                                 {{-- <button class="btn btn-outline-primary " style="opacity:80%" onclick="stepper.next()">KRAMA BALI</button> --}}
                             </div>

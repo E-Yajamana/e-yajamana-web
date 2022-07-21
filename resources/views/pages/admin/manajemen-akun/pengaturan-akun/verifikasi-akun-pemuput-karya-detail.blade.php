@@ -45,7 +45,7 @@
                 <div @if ($dataPemuput->tipe == 'sulinggih') class="col-12 col-md-6" @endif class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Data Akun User</h3>
+                            <h3 class="card-title">Data Akun</h3>
                         </div>
                         <div class="card-body">
                             <div class="form-group">
@@ -57,7 +57,7 @@
                                 <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter email" disabled value="{{$dataPemuput->User->nomor_telepon}}">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Mendaftar Pada Tanggal</label>
+                                <label for="exampleInputEmail1">Mendaftar pada tanggal</label>
                                 <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password" disabled value="{{date('d F Y',strtotime($dataPemuput->created_at))}}">
                             </div>
                         </div>

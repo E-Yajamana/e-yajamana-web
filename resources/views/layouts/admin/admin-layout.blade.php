@@ -30,6 +30,8 @@
 
 
     @stack('css')
+    @livewireStyles
+
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
@@ -67,8 +69,7 @@
 
 
     @stack('js')
-
-
+    @livewireScripts
 
     <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase.js"></script>
 

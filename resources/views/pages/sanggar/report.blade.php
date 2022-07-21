@@ -1,5 +1,5 @@
 @extends('layouts.sanggar.sanggar-layout')
-@section('tittle','Laporan Transaksi')
+@section('tittle','Laporan')
 
 @push('css')
 
@@ -18,7 +18,7 @@
     <div class="container-fluid border-bottom">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Laporan Transaksi</h1>
+                <h1>Laporan</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -56,7 +56,7 @@
         <div class="col-12 col-sm-6">
             <div class="card">
                 <div class="card-header">
-                    <label class=" m-0 pt-1">Jenis Yadnya yang paling banyak diReservasi</label>
+                    <label class=" m-0 pt-1">Jenis Yadnya</label>
                 </div>
                 <div class="card-body">
                     <canvas id="barChart"></canvas>

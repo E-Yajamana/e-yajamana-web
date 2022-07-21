@@ -164,8 +164,8 @@ class KonfirmasiMuputController extends Controller
              // NOTIFICATION
              NotificationHelper::sendMultipleNotification(
                  [
-                     'title' => "JADWAL MUPUT",
-                     'body' => "Halo !! Terdapat jadwal reservasi baru yang harus dilakukan. Untuk lebih lanjut dapat dilihat pada menu Konfirmasi Muput!",
+                     'title' => "MUPUT UPACARA SELESAI",
+                     'body' => "Halo Sanggar !! Muput Upacara pada tahapan ".$detailReservasi->TahapanUpacara->nama_tahapan." berhasil dilakukan!",
                      'status' => "new",
                      'image' => "/logo-eyajamana.png",
                      'type' => "sanggar",
@@ -208,7 +208,7 @@ class KonfirmasiMuputController extends Controller
                  'status' => 'success',
                  'icon' => 'success',
                  'title' => 'Berhasil menyelesaikan muput upacara!',
-                 'message' => 'Data konfirmasi muput dapat dilihat pada menu muput upacara, anda dapat melihat pembaruan data pada sistem',
+                 'message' => 'Berhasil menyelesaikan muput upacara, anda dapat melihat pembaruan data pada sistem',
              ]);
          //END
 
@@ -267,8 +267,8 @@ class KonfirmasiMuputController extends Controller
                 // NOTIFICATION
                 NotificationHelper::sendMultipleNotification(
                     [
-                        'title' => "JADWAL MUPUT",
-                        'body' => "Halo !! Terdapat jadwal reservasi baru yang harus dilakukan. Untuk lebih lanjut dapat dilihat pada menu Konfirmasi Muput!",
+                        'title' => "PEMBATALAN MUPUT UPACARA",
+                        'body' => "Halo !! Anda berhasil membatalkan muput upacara!",
                         'status' => "new",
                         'image' => "/logo-eyajamana.png",
                         'type' => "sanggar",
@@ -309,7 +309,7 @@ class KonfirmasiMuputController extends Controller
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Muput Upacara dibatalkan!',
-                'message' => 'Data Reservasi muput dapat dilihat pada menu muput upacara, anda dapat melihat pembaruan data pada sistem',
+                'message' => 'Daftar Muput Upacara yang baru dapat dilihat pada menu muput upacara, anda dapat melihat pembaruan data pada sistem',
             ]);
         //END
     }

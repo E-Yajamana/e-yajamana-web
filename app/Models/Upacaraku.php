@@ -87,7 +87,7 @@ class Upacaraku extends Model
 
 	public function Upacara()
 	{
-		return $this->belongsTo(Upacara::class, 'id_upacara','id');
+		return $this->belongsTo(Upacara::class, 'id_upacara', 'id');
 	}
 
 
@@ -98,6 +98,18 @@ class Upacaraku extends Model
 
 	public function Reservasi()
 	{
-		return $this->hasMany(Reservasi::class, 'id_upacaraku','id');
+		return $this->hasMany(Reservasi::class, 'id_upacaraku', 'id');
+	}
+
+	public function isReservasiDone()
+	{
+		$reservasiTotal = $this->Reservasi()->count();
+		$reservasiDone = $this->Reservasi()->whereIn('status', ['ditolak', 'selesai', 'batal'])->count();
+
+		if ($reservasiDone == $reservasiTotal) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

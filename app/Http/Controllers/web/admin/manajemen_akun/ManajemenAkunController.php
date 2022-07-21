@@ -44,7 +44,7 @@ class ManajemenAkunController extends Controller
                 'status' => 'fail',
                 'icon' => 'error',
                 'title' => 'Data Sulinggih Tidak Ditemukan',
-                'message' => 'Data sulinggih tidak dapat ditemukan di dalam sistem',
+                'message' => 'Data pemuput karya tidak dapat ditemukan di dalam sistem',
             ]);
         }
         // END
@@ -62,7 +62,7 @@ class ManajemenAkunController extends Controller
                 'status' => 'fail',
                 'icon' => 'error',
                 'title' => 'Data Sulinggih Tidak Ditemukan',
-                'message' => 'Data Sulinggih tidak ditemukan di dalam sistem',
+                'message' => 'Data pemuput karya tidak ditemukan di dalam sistem',
             ]);
         }
         // END
@@ -143,7 +143,7 @@ class ManajemenAkunController extends Controller
                 'status' => 'success',
                 'icon' => 'success',
                 'title' => 'Data Akun Pemuput Karya Berhasil Diperbarui',
-                'message' => 'Data Akun Pemuput Karya Berhasil Diperbarui, cek kembali data akun ',
+                'message' => 'Data Akun Pemuput Karya berhasil diperbarui, data dapat dilihat pada menu Daftar Akun',
             ]);
         // END RETURN
 
@@ -172,7 +172,7 @@ class ManajemenAkunController extends Controller
 
         // MAIN LOGIC
             try{
-                $dataSanggar = Sanggar::with(['User.Penduduk','DesaDinas.Kecamatan.Kabupaten'])
+                $dataSanggar = Sanggar::with(['User.Penduduk','BanjarDinas.DesaDinas.Kecamatan.Kabupaten'])
                 ->whereHas('User.Penduduk')
                 ->whereStatusKonfirmasiAkun('pending')
                 ->findOrFail($id);
@@ -220,7 +220,7 @@ class ManajemenAkunController extends Controller
                     'status' => 'fail',
                     'icon' => 'error',
                     'title' => 'Validasi Error!',
-                    'message' => 'Data Pemuput Karya tidak ditemukan, pilihlah data dengan benar !',
+                    'message' => 'Data Sanggar tidak ditemukan, pilihlah data dengan benar !',
                 ]);
             }
         // END SECURITY
@@ -262,8 +262,8 @@ class ManajemenAkunController extends Controller
             return redirect()->route('admin.manajemen-akun.verifikasi.index')->with([
                 'status' => 'success',
                 'icon' => 'success',
-                'title' => 'Data Akun Sanggar Berhasil Diperbarui',
-                'message' => 'Data Akun Sanggar Berhasil Diperbarui, cek kembali data akun ',
+                'title' => 'Berhasil Mengkonfirmasi Akun',
+                'message' => 'Berhasil Mengkonfirmasi Akun Sanggar, cek kembali data akun ',
             ]);
         // END RETURN
 
