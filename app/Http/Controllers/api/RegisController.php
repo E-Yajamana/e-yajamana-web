@@ -15,8 +15,11 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PDOException;
+
+use function PHPUnit\Framework\isNull;
 
 class RegisController extends Controller
 {
@@ -175,10 +178,8 @@ class RegisController extends Controller
         // MAIN LOGIC
         try {
             DB::beginTransaction();
-
-            $penduduk = Penduduk::with(['User'])->where('nik', $request->nik)->firstOrFail();
-
-            if (!$penduduk->User) {
+            $penduduk = Penduduk::where('nik', $request->nik)->firstOrFail();
+            if ($penduduk->User()->count() == 0) {
                 $user = User::create([
                     'email' => $request->email,
                     'password' => Hash::make($request->password),
@@ -187,7 +188,8 @@ class RegisController extends Controller
                     'role' => 'pemuput_karya',
                     'lat' => $request->lat,
                     'lng' => $request->lng,
-                ])->Role()->attach([2]);
+                ]);
+                $user->Role()->attach([2]);
             } else {
                 $user = $penduduk->User;
             }
@@ -197,8 +199,7 @@ class RegisController extends Controller
             if ($request->id_pasangan == null || $request->id_pasangan == 0) {
                 $filename = null;
                 if ($request->hasFile('file_sk')) {
-                    $folder = 'app/sulinggih/sk/';
-                    $filename =  ImageHelper::moveImage($request->file_sk, $folder);
+                    $filename = 'storage/admin/sk/pemupuat_karya/' . basename(Storage::putFile('public/admin/sk/pemupuat_karya/', $request->file('file_sk')));
                 }
 
                 $atributePemuput = new AtributPemuput();
@@ -242,6 +243,7 @@ class RegisController extends Controller
             $user->Role()->attach([3]);
             DB::commit();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+            return $err;
             DB::rollBack();
             return response()->json([
                 'status' => 500,

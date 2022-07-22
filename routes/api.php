@@ -15,9 +15,11 @@ use App\Http\Controllers\api\location\LocationController;
 use App\Http\Controllers\api\NotificationController;
 use App\Http\Controllers\api\RegisController;
 use App\Http\Controllers\api\sanggar\SanggarDashboardController;
+use App\Http\Controllers\api\sanggar\SanggarProfileController;
 use App\Http\Controllers\api\sanggar\SanggarReservasiController;
 use App\Http\Controllers\api\sulinggih\SulinggihDashboardController;
 use App\Http\Controllers\api\sulinggih\SulinggihMuputController;
+use App\Http\Controllers\api\sulinggih\SulinggihProfileController;
 use App\Http\Controllers\api\sulinggih\SulinggihReservasiController;
 use App\Http\Controllers\api\sulinggih\SulinggihTangkilController;
 use App\Http\Controllers\api\yadnya\YadnyaController;
@@ -135,6 +137,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('sulinggih')->middleware(['ability:role:pemuput_karya,role:sanggar'])->group(function () {
         // SULINGGIH HOME FRAGMENT
         Route::get('home', [SulinggihDashboardController::class, 'index']);
+        Route::get('profile', [SulinggihProfileController::class, 'index']);
         // END
 
         // SULINGGIH RESERVASI FRAGMENT
@@ -161,6 +164,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('sanggar')->middleware(['ability:role:sanggar'])->group(
         function () {
             Route::get('{id_sanggar}/home', [SanggarDashboardController::class, 'index']);
+            Route::get('detail/{id_sanggar?}/profile', [SanggarProfileController::class, 'index']);
 
             Route::post('reservasi', [SanggarReservasiController::class, 'index']);
             Route::get('reservasi/detail/{id}', [SanggarReservasiController::class, 'show']);

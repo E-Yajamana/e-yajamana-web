@@ -1,21 +1,9 @@
-use App\Models\Penduduk;
-use App\Models\PemuputKarya;
-use App\Models\User;
-use App\Models\Reservasi;
-
-$reservasi = Reservasi::findOrFail(108);
-use App\Models\Penduduk;
-use App\Models\PemuputKarya;
-use App\Models\User;
-use App\Models\Reservasi;
-
-$reservasi = Reservasi::findOrFail(108);
-$reservasi->update(['status' => 'pending']);
-use App\Models\Penduduk;
-use App\Models\PemuputKarya;
-use App\Models\User;
-use App\Models\Reservasi;
-
-$reservasi = Reservasi::findOrFail(108);
-$reservasi->update(['status' => 'pending']);
-echo $reservasi;
+Reservasi::whereHas('Upacaraku', function ($upacaraQuery) use ($user) {
+                $upacaraQuery->where('id_krama', 86);
+            })->get()
+Reservasi::whereHas('Upacaraku', function ($upacaraQuery) use ($user) {
+                $upacaraQuery->where('id_krama', 86);
+            })->get();
+Reservasi::whereHas('Upacaraku', function ($upacaraQuery) use ($user) {
+                $upacaraQuery->where('id_krama', 86);
+            })->count();

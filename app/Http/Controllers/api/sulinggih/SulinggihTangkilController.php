@@ -125,7 +125,7 @@ class SulinggihTangkilController extends Controller
 
             // RESERVASI SENDIRI
             $user = Auth::user();
-            $reservasi = Reservasi::findOrFail($request->id_reservasi);
+            $reservasi = Reservasi::with('Upacaraku')->findOrFail($request->id_reservasi);
             $reservasi->update(['status' => 'proses muput']);
 
             $array_tahapan = array_map(function ($object) {

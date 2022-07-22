@@ -166,7 +166,6 @@ class KramaPemuputKaryaController extends Controller
             $griyaRumahResult = $griyaRumahs->get();
             $sanggarsResult = $sanggars->get();
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
-            return $err;
             return response()->json([
                 'status' => 500,
                 'message' => 'Internal server error',
