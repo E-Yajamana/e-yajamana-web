@@ -187,6 +187,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // MASTER DATA
         Route::prefix('masterdata')->group(function () {
             Route::get('griyarumah/{nama?}/{idBanjarDinas?}', [GriyaRumahController::class, 'index']);
+            Route::get('griyarumah/{nama?}/{idBanjarDinas?}', [GriyaRumahController::class, 'index']);
             Route::get('upacara/{yadnya?}', [UpacaraController::class, 'index']);
             Route::post('upacara/store', [UpacaraController::class, 'store']);
             Route::get('upacara/{id?}/detail', [UpacaraController::class, 'show']);

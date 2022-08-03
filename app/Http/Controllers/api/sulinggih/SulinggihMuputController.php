@@ -120,28 +120,15 @@ class SulinggihMuputController extends Controller
 
             $isReservasiSelesai = $detailReservasi->Reservasi->isDetailReservasiDone();
             if ($isReservasiSelesai) {
-                $detailReservasi->Reservasi->Update(['status' => 'selesai']);
+                // $detailReservasi->Reservasi->Update(['status' => 'selesai']);
             }
             $isUpacarakuSelesai = $detailReservasi->Reservasi->Upacaraku->isReservasiDone();
             if ($isUpacarakuSelesai) {
                 $detailReservasi->Reservasi->Upacaraku->Update(['status' => 'selesai']);
             }
 
-            // $totalDetailReservasi = $reservasi->DetailReservasi->count();
-            // $countSelesai = 0;
-
-            // foreach ($reservasi->DetailReservasi as $key => $value) {
-            //     if ($value->status == 'selesai') {
-            //         $countSelesai += 1;
-            //     }
-            // }
-
-            // if ($countSelesai == $totalDetailReservasi) {
-            //     $reservasi->update(['status' => 'selesai']);
-            // }
-
             DB::commit();
-        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
+        } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | Exception $err) {
             DB::rollBack();
             return $err;
             return response()->json([

@@ -367,6 +367,10 @@ class KramaReservasiController extends Controller
 
             BatchFacade::update(new DetailReservasi(), $array_detail_reservasi, 'id');
 
+            if ($reservasi->Upacaraku->isReservasiDone()) {
+                $reservasi->Upacaraku->Update(['status' => 'selesai']);
+            }
+
             $result = NotificationHelper::sendNotification(
                 [
                     'title' => "Reservasi Dibatalkan",
@@ -428,10 +432,23 @@ class KramaReservasiController extends Controller
 
         // MAIN LOGIC
         try {
-            Reservasi::findOrFail($request->id)->update([
-                'rating' => $request->rating,
-                'keterangan_rating' => $request->keterangan_rating
-            ]);
+            $reservasi = Reservasi::findOrFail($request->id);
+            if ($reservasi->isDetailReservasiDone()) {
+                $reservasi->update([
+                    'rating' => $request->rating,
+                    'keterangan_rating' => $request->keterangan_rating,
+                    'status' => 'selesai',
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Terdapat tahapan yang belum selesai',
+                    'data' => (object)[],
+                ], 500);
+            }
+            if ($reservasi->Upacaraku->isReservasiDone()) {
+                $reservasi->Upacaraku->Update(['status' => 'selesai']);
+            }
         } catch (ModelNotFoundException | PDOException | QueryException | \Throwable | \Exception $err) {
             return response()->json([
                 'status' => 500,

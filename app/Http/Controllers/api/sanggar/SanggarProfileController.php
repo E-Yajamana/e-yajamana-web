@@ -46,7 +46,7 @@ class SanggarProfileController extends Controller
             };
 
             $reservasis = Reservasi::with(['Upacaraku' => $reservasiQuery, 'DetailReservasi'])
-                ->whereHas('Upacaraku', $reservasiQuery)->where('id_sanggar', $id_sanggar)->get();
+                ->whereHas('Upacaraku', $reservasiQuery)->where('id_sanggar', $id_sanggar)->get(); 
 
             $total_reservasi = Reservasi::where('id_sanggar', $sanggar->id)->count();
             $total_reservasi_selesai = Reservasi::where('id_sanggar', $sanggar->id)->where('status', 'selesai')->count();
