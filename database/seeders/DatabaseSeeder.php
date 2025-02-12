@@ -28,11 +28,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(TbMProvinsiTableSeeder::class);
         $this->call(TbMKabupatenTableSeeder::class);
-        $this->call(TbMKecamatanTableSeeder::class);
-        $this->call(TbMDesaDinasTableSeeder::class);
+        // $this->call(TbMKecamatanTableSeeder::class);
+        // $this->call(TbMDesaDinasTableSeeder::class);
         $this->call(TbMBanjarDinasTableSeeder::class);
         $this->call(TbMBanjarAdatTableSeeder::class);
-        $this->call(TbMDesaAdatTableSeeder::class);
+        // $this->call(TbMDesaAdatTableSeeder::class);
         $this->call(TbKramaMipilDesaAdatTableSeeder::class);
         $this->call(TbKramaTamiuDesaAdatTableSeeder::class);
         $this->call(TbTamiuDesaAdatTableSeeder::class);
@@ -52,6 +52,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TbReservasiTableSeeder::class);
         $this->call(TbGambarTableSeeder::class);
         $this->call(TbKeteranganKonfirmasiTableSeeder::class);
+        $this->call(TbUserEyajamanaTableSeeder::class);
 
         Schema::enableForeignKeyConstraints();
 

@@ -24,7 +24,7 @@ class TbUserEyajamanaTableSeeder extends Seeder
                 'id' => 1,
                 'id_penduduk' => 1,
                 'email' => 'admin@gmail.com',
-                'password' => '$2y$10$aDN8y/nNpe9DHte0VIVu/ensr4.Aw91vLA4z1XqlnEnZSW/AeeOEm',
+                'password' => '$2y$10$GG/XhcffUtacOiiFthQeSOTOQ29P3gmlHXLotZzcPUqBFJ2SmuCOi', //secret 
                 'nomor_telepon' => '087851423695',
                 'user_profile' => 'app/default/profile/user.jpg',
                 'json_token_lupa_password' => NULL,
